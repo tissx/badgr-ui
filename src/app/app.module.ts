@@ -1,7 +1,9 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
-import { Angulartics2, Angulartics2GoogleAnalytics, Angulartics2Module } from "angulartics2";
+import { Angulartics2, Angulartics2Module } from "angulartics2";
+import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
+
 
 import { AppComponent } from "./app.component";
 import { BadgrCommonModule, COMMON_IMPORTS } from "./common/badgr-common.module";
@@ -96,7 +98,7 @@ const ROUTE_CONFIG: Routes = [
 		...COMMON_IMPORTS,
 		BrowserModule,
 		RouterModule.forRoot(ROUTE_CONFIG),
-		Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
+		Angulartics2Module.forRoot([Angulartics2GoogleTagManager]),
 		BadgrCommonModule.forRoot(),
 		BrowserAnimationsModule
 	],
@@ -109,7 +111,7 @@ const ROUTE_CONFIG: Routes = [
 	],
 	providers: [
 		Angulartics2,
-		Angulartics2GoogleAnalytics,
+		Angulartics2GoogleTagManager,
 		RecipientBadgeApiService,
 		{provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy}
 	]
