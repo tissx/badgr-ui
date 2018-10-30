@@ -79,27 +79,22 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	}
 
 	get expirationDateRelative(): Date | undefined {
-		let date_ = new Date();
-		let delta = this.expirationDurationValue;
-		if (delta) {
+		let relativeDate = new Date();
+		if (this.expirationDurationValue) {
 			switch (this.expirationDurationUnit) {
 				case 'days':
-					date_.setDate(date_.getDate()+delta)
-					return new Date(date_)
+					relativeDate.setDate(relativeDate.getDate()+this.expirationDurationValue)
+					return new Date(relativeDate)
 				case 'months':
-					date_.setMonth(date_.getMonth()+delta)
-					return new Date(date_)
+					relativeDate.setMonth(relativeDate.getMonth()+this.expirationDurationValue)
+					return new Date(relativeDate)
 				case 'weeks':
-					date_.setDate(date_.getDate()+(delta*7))
-					return new Date(date_)
+					relativeDate.setDate(relativeDate.getDate()+(this.expirationDurationValue*7))
+					return new Date(relativeDate)
 				case 'years':
-					date_.setFullYear(date_.getFullYear()+delta)
-					return new Date(date_)
-				default:
-					return undefined
+					relativeDate.setFullYear(relativeDate.getFullYear()+this.expirationDurationValue)
+					return new Date(relativeDate)
 			}
-		} else {
-			return undefined
 		}
 	}
 	
