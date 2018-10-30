@@ -144,6 +144,9 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 								<tr *ngFor="let instance of instanceResults">
 									<th scope="row" class="l-wordwrap">
 										{{ instance.recipientIdentifier }}
+										<span *ngIf="instance.mostRelevantStatus" class="status status-{{instance.mostRelevantStatus}} u-margin-right1x">
+											{{instance.mostRelevantStatus}}
+										</span> 
 									</th>
 									<td><time [date]="instance.issuedOn" format="mediumDate"></time></td>
 									<td class="table-x-minwidthtablet-400">

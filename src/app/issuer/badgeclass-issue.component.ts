@@ -203,6 +203,42 @@ import * as sanitizeHtml from "sanitize-html";
 					        (click)="evidenceEnabled = false"
 					>Remove</button>
 				</div>
+
+				<!-- Expiration -->
+				<div class="l-formsection wrap wrap-well" 
+				     role="group" 
+				     aria-labelledby="heading-expiration"
+				     *ngIf="expirationEnabled"
+				>
+					<h3 class="l-formsection-x-legend title title-ruled" id="heading-expiration">Expiration Date</h3>
+					<div class="l-formsection-x-container">
+						<div class="l-formsection-x-help">
+							<h4 class="title title-bordered" id="heading-expirationhelp">Badge Expiration</h4>
+							<p class="text text-small">
+								This Badge is set to expire. You can edit the expiration date or remove this section if you don't want this award to expire.
+							</p>
+							<a class="button button-tertiaryghost" 
+							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918" 
+							   aria-labelledby="heading-expirationhelp"
+							   target="_blank"
+							>Learn More</a>
+						</div>
+						
+						<div *ngIf="badge_class.expirationDateRelative" class="l-formsection-x-inputs">
+							Expiration date: <strong>{{badge_class.expirationDateRelative}}</strong>
+						</div>
+
+						<div *ngIf="!badge_class.expirationDateRelative" class="l-formsection-x-inputs">
+							TODO: Date picker.
+						</div>
+
+					</div>
+					<button class="l-formsection-x-remove formsectionremove"
+					        type="button" 
+					        aria-labelledby="formsection"
+					        (click)="expirationEnabled = false"
+					>Remove</button>
+				</div>
 				
 				<!-- Add Optional Details -->
 				<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
@@ -221,6 +257,12 @@ import * as sanitizeHtml from "sanitize-html";
 								        [disabled]="evidenceEnabled"
 								        (click)="enableEvidence()">
 									<span class="squareiconcard-x-container">Evidence</span>
+								</button>
+								<button class="squareiconcard squareiconcard-expiration" 
+								        type="button"
+								        [disabled]="expirationEnabled"
+								        (click)="toggleExpiration()">
+									<span class="squareiconcard-x-container">Expiration</span>
 								</button>
 							</div>
 						</div>
@@ -277,6 +319,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addArray("evidence_items", typedGroup()
 			.addControl("narrative", "")
 			.addControl("evidence_url", "")
+			.addControl("expiration", "")
 		);
 
 	badge_class: BadgeClass;
@@ -293,6 +336,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	evidenceEnabled = false;
 	narrativeEnabled = false;
+	expirationEnabled = false;
+	expiresOn = new Date();
 
 	constructor(
 		protected title: Title,
@@ -317,6 +362,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				this.badgeSlug
 			).then((badge_class) => {
 				this.badge_class = badge_class;
+				console.log(badge_class);
+				if (badge_class.expirationDurationUnit && badge_class.expirationDurationValue) {
+					this.expirationEnabled = true;
+				}
 				this.title.setTitle("Award Badge - " + badge_class.name + " - Badgr");
 			});
 		});
@@ -340,6 +389,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		if (this.issueForm.controls.evidence_items.length < 1) {
 			this.addEvidence();
 		}
+	}
+
+	toggleExpiration() {
+		this.expirationEnabled = !this.expirationEnabled;
 	}
 
 	addEvidence() {

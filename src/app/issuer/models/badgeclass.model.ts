@@ -77,6 +77,31 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	set expirationDurationValue(expirationDurationValue: number | undefined){
 		this.apiModel.expiration_duration_value = expirationDurationValue;
 	}
+
+	get expirationDateRelative(): Date | undefined {
+		let date_ = new Date();
+		let delta = this.expirationDurationValue;
+		if (delta) {
+			switch (this.expirationDurationUnit) {
+				case 'days':
+					date_.setDate(date_.getDate()+delta)
+					return new Date(date_)
+				case 'months':
+					date_.setMonth(date_.getMonth()+delta)
+					return new Date(date_)
+				case 'weeks':
+					date_.setDate(date_.getDate()+(delta*7))
+					return new Date(date_)
+				case 'years':
+					date_.setFullYear(date_.getFullYear()+delta)
+					return new Date(date_)
+				default:
+					return undefined
+			}
+		} else {
+			return undefined
+		}
+	}
 	
 
 	get issuerSlug(): string {
