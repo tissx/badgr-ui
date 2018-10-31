@@ -210,7 +210,7 @@ import * as sanitizeHtml from "sanitize-html";
 				     aria-labelledby="heading-expiration"
 				     *ngIf="expirationEnabled"
 				>
-					<h3 class="l-formsection-x-legend title title-ruled" id="heading-expiration">Expiration Date</h3>
+					<h3 class="l-formsection-x-legend title title-ruled" id="heading-expiration">Badge Expiration</h3>
 					<div class="l-formsection-x-container">
 						<div class="l-formsection-x-help">
 							<h4 class="title title-bordered" id="heading-expirationhelp">Badge Expiration</h4>
@@ -229,7 +229,10 @@ import * as sanitizeHtml from "sanitize-html";
 						</div>
 
 						<div *ngIf="!badge_class.expirationDateRelative" class="l-formsection-x-inputs">
-							TODO: Date picker.
+						<div class="formfield">
+							<label for="expiration">Expires on</label>
+							<input type="date" id="expiration" name="expiresOn" />
+						</div>
 						</div>
 
 					</div>
