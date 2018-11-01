@@ -36,12 +36,12 @@ import { EventsService } from "../common/services/events.service";
 				</nav>
 				<div class="heading">
 					<div class="heading-x-imageLarge">
-						<div class="badge badge-flat">
+						<div class="badge badge-flat u-grid">
 							<img [loaded-src]="badge.image"
 							     [loading-src]="badgeLoadingImageUrl"
 							     [error-src]="badgeFailedImageUrl"
 						   width="200" />
-						   <div class="u-margin-v2x status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">
+						   <div class="u-margin-auto status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">
 								{{badge.mostRelevantStatus}}
 							</div>
 						</div>

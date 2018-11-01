@@ -93,10 +93,10 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 										</span>
 										<span class="stack-x-text">
 											<span class="stack-x-title">
-												{{ entry.badge.badgeClass.name }}
-												<span *ngIf="entry.badge.mostRelevantStatus" class="status status-{{entry.badge.mostRelevantStatus}}">
+												<span *ngIf="entry.badge.mostRelevantStatus" class="u-margin-right1x status status-{{entry.badge.mostRelevantStatus}}">
 													{{entry.badge.mostRelevantStatus}}
-												</span> 
+												</span> 	
+												{{ entry.badge.badgeClass.name }}
 											</span>
 										</span>
 										

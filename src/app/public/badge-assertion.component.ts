@@ -56,11 +56,12 @@ import { saveAs } from "file-saver";
 					<div class="heading">
 						<!-- Badge Assertion Image -->
 						<div class="heading-x-imageLarge">
-							<div class="badge badge-flat">
+							<div class="badge badge-flat u-grid">
 								<img [loaded-src]="assertion.image"
 								     [loading-src]="badgeLoadingImageUrl"
 								     [error-src]="badgeFailedImageUrl"
-								     width="200" />
+									 width="200" />
+									 <div class="status status-expired u-margin-auto">Expired</div>
 							</div>
 						</div>
 	
@@ -74,7 +75,7 @@ import { saveAs } from "file-saver";
 									<img [loaded-src]="issuer.image"
 									     [loading-src]="issuerImagePlacholderUrl"
 									     [error-src]="issuerImagePlacholderUrl"
-									     width="80" />
+										 width="80" />
 								</div>
 								<div class="stack-x-text">
 									<h2>{{ issuer.name }}</h2>
