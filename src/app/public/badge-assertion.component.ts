@@ -296,20 +296,27 @@ export class PublicBadgeAssertionComponent {
 		return url;
 	}
 
-	generateFileName(assertion) {
-		return `${assertion.badge.name} - ${assertion.recipient.identity}`
+	generateFileName(assertion, fileExtension): string {
+		return `${assertion.badge.name} - ${assertion.recipient.identity}${fileExtension}`
 	}
 
-	openSaveDialog(assertion) {
+	openSaveDialog(assertion): void {
 		const xhr = new XMLHttpRequest();
 		xhr.open("GET", assertion.image, true);
 		xhr.responseType = "blob";
 		xhr.onload = (e) => {
 			if (xhr.status == 200) {
-				let name = this.generateFileName(assertion);
-				saveAs( xhr.response, name);
+				let fileExtension = this.mimeToExtension(xhr.response.type);
+				let name = this.generateFileName(assertion, fileExtension);
+				saveAs(xhr.response, name);
 			}
 		};
 		xhr.send();
+	}
+
+	mimeToExtension(mimeType: string): string {
+		if (mimeType.indexOf('svg') != -1) return ".svg"
+		if (mimeType.indexOf('png') != -1) return ".png"
+		return ""
 	}
 }
