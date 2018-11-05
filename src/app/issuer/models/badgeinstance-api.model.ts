@@ -52,6 +52,7 @@ export interface ApiBadgeInstance {
 	recipient_type?: string
 	revoked: boolean
 	revocation_reason?: string
+	expires?: string
 
 	evidence_items?: ApiBadgeInstanceEvidenceItem[]
 
