@@ -78,9 +78,9 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 		this.apiModel.expires.amount = amount;
 	}
 
-	get expirationDateRelative(): Date | undefined {
+	expirationDateRelative(issuedOn?: Date): Date | undefined {
 		if (this.expiresAmount) {
-			let ret = new Date();
+			let ret = issuedOn || new Date();
 			switch (this.expiresDuration) {
 				case 'days': ret.setDate(ret.getDate() + this.expiresAmount); break;
 				case 'months': ret.setMonth(ret.getMonth() + this.expiresAmount); break;

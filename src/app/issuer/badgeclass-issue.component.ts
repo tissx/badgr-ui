@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import {
 	FormBuilder, FormControl, Validators
 } from "@angular/forms";
+import { DatePipe } from '@angular/common';
 import {  ActivatedRoute , Router} from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { SessionService } from "../common/services/session.service";
@@ -224,14 +225,13 @@ import * as sanitizeHtml from "sanitize-html";
 							>Learn More</a>
 						</div>
 						
-						<div *ngIf="badge_class.expirationDateRelative" class="l-formsection-x-inputs">
-							Expiration date: <strong>{{badge_class.expirationDateRelative}}</strong>
-						</div>
-
-						<div *ngIf="!badge_class.expirationDateRelative" class="l-formsection-x-inputs">
+						<div class="l-formsection-x-inputs">
 						<div class="formfield">
-							<label for="expiration">Expires on</label>
-							<input type="date" id="expiration" name="expiresOn" />
+								<bg-formfield-text
+									fieldType="date"
+									[control]="issueForm.untypedControls.expires"
+									ariaLabel="Expires on"
+								></bg-formfield-text>
 						</div>
 						</div>
 
@@ -310,6 +310,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	issuer: Issuer;
 	issueForm = typedGroup()
+		.addControl("expires", "")
 		.addControl("recipient_type", "email" as RecipientIdentifierType, [ Validators.required ], control => {
 			control.untypedControl.valueChanges.subscribe(() => {
 				this.issueForm.controls.recipient_identifier.untypedControl.updateValueAndValidity()
@@ -340,7 +341,6 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	evidenceEnabled = false;
 	narrativeEnabled = false;
 	expirationEnabled = false;
-	expiresOn = new Date();
 
 	constructor(
 		protected title: Title,
@@ -365,13 +365,20 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				this.badgeSlug
 			).then((badge_class) => {
 				this.badge_class = badge_class;
-				console.log(badge_class);
 				if (badge_class.expiresDuration && badge_class.expiresAmount) {
 					this.expirationEnabled = true;
 				}
+				this.issueForm.untypedControls.expires.setValue(this.defaultExpiration);
+
 				this.title.setTitle("Award Badge - " + badge_class.name + " - Badgr");
 			});
 		});
+	}
+
+	get defaultExpiration(): string {
+		if (this.badge_class && this.badge_class.expiresDuration && this.badge_class.expiresAmount) {
+			return new DatePipe("en-US").transform(this.badge_class.expirationDateRelative(), 'yyyy-MM-dd');
+		}
 	}
 
 	get issuerSlug() {
@@ -417,6 +424,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		} : undefined;
 
+		let expires = formState.expires ? `${formState.expires}T00:00` : undefined;
+
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
 			this.badgeSlug,
@@ -428,7 +437,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				narrative: this.narrativeEnabled ? formState.narrative : "",
 				create_notification: formState.notify_earner,
 				evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
-				extensions: extensions
+				extensions: extensions,
+				expires: expires,
 			}
 		).then(() => this.badge_class.update())
 			.then(() => {

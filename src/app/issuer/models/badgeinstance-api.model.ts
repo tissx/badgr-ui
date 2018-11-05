@@ -35,6 +35,7 @@ export interface ApiBadgeInstanceForCreation {
 	create_notification?: boolean
 	evidence_items?: ApiBadgeInstanceEvidenceItem[]
 	extensions?: object
+	expires?: string
 }
 
 export type RecipientIdentifierType = 'email' | 'openBadgeId' | 'telephone' | 'url';
