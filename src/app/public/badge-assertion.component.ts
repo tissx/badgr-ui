@@ -61,7 +61,7 @@ import { saveAs } from "file-saver";
 								     [loading-src]="badgeLoadingImageUrl"
 								     [error-src]="badgeFailedImageUrl"
 									 width="200" />
-									 <div class="status status-expired u-margin-auto">Expired</div>
+									 <div *ngIf="assertion.expires && isExpired" class="status status-expired u-margin-auto">Expired</div>
 							</div>
 						</div>
 	
