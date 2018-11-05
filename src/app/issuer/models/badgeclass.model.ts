@@ -1,4 +1,4 @@
-import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, DurationUnitsType } from './badgeclass-api.model';
+import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, BadgeClassExpiresDuration } from './badgeclass-api.model';
 import { IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
@@ -65,36 +65,29 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 		this.apiModel.tags = tags;
 	}
 
-	get expirationDurationUnit(): DurationUnitsType | undefined {
-		return this.apiModel.expiration_duration_unit;
+	get expiresDuration(): BadgeClassExpiresDuration | undefined {
+		return this.apiModel.expires.duration;
 	}
-	set expirationDurationUnit(expirationDurationUnit: DurationUnitsType | undefined){
-		this.apiModel.expiration_duration_unit = expirationDurationUnit;
+	set expiresDuration(duration: BadgeClassExpiresDuration | undefined){
+		this.apiModel.expires.duration = duration;
 	}
-	get expirationDurationValue(): number | undefined {
-		return this.apiModel.expiration_duration_value;
+	get expiresAmount(): number | undefined {
+		return this.apiModel.expires.amount;
 	}
-	set expirationDurationValue(expirationDurationValue: number | undefined){
-		this.apiModel.expiration_duration_value = expirationDurationValue;
+	set expiresAmount(amount: number | undefined){
+		this.apiModel.expires.amount = amount;
 	}
 
 	get expirationDateRelative(): Date | undefined {
-		let relativeDate = new Date();
-		if (this.expirationDurationValue) {
-			switch (this.expirationDurationUnit) {
-				case 'days':
-					relativeDate.setDate(relativeDate.getDate()+this.expirationDurationValue)
-					return new Date(relativeDate)
-				case 'months':
-					relativeDate.setMonth(relativeDate.getMonth()+this.expirationDurationValue)
-					return new Date(relativeDate)
-				case 'weeks':
-					relativeDate.setDate(relativeDate.getDate()+(this.expirationDurationValue*7))
-					return new Date(relativeDate)
-				case 'years':
-					relativeDate.setFullYear(relativeDate.getFullYear()+this.expirationDurationValue)
-					return new Date(relativeDate)
+		if (this.expiresAmount) {
+			let ret = new Date();
+			switch (this.expiresDuration) {
+				case 'days': ret.setDate(ret.getDate() + this.expiresAmount); break;
+				case 'months': ret.setMonth(ret.getMonth() + this.expiresAmount); break;
+				case 'weeks': ret.setDate(ret.getDate() + this.expiresAmount*7); break;
+				case 'years': ret.setFullYear(ret.getFullYear() + this.expiresAmount); break;
 			}
+			return new Date(ret);
 		}
 	}
 	

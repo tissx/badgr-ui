@@ -9,7 +9,7 @@ import { SessionService } from "../common/services/session.service";
 import { MessageService } from "../common/services/message.service";
 import { Issuer } from "./models/issuer.model";
 
-import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, DurationUnitsType } from './models/badgeclass-api.model';
+import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, BadgeClassExpiresDuration } from './models/badgeclass-api.model';
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { markControlsDirty } from "../common/util/form-util";
@@ -280,11 +280,11 @@ import { BadgeClass } from "./models/badgeclass.model";
 						<div class="formfield">
 							<label>How long is this award valid?</label>
 							<div class="l-formtwoup">
-								<bg-formfield-text [control]="badgeClassForm.controls.expiration_duration_value"
+								<bg-formfield-text [control]="badgeClassForm.controls.expires_amount"
 								></bg-formfield-text>
-								<bg-formfield-select ariaLabel="Select Duration Unit"
-								                     [control]="badgeClassForm.controls.expiration_duration_unit"
-								                     [optionMap]="durationUnitsMap"
+								<bg-formfield-select ariaLabel="Select Duration"
+								                     [control]="badgeClassForm.controls.expires_duration"
+								                     [optionMap]="durationOptions"
 								></bg-formfield-select>
 							</div>
 						</div>
@@ -422,8 +422,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_criteria_url: [''],
 			badge_criteria_text: [''],
 			alignments: fb.array([]),
-			expiration_duration_value: [null],
-			expiration_duration_unit: [""]
+			expires_amount: [undefined],
+			expires_duration: [undefined]
 		} as BasicBadgeForm<any[], FormArray>, {
 				validator: this.criteriaRequired
 			});
@@ -444,8 +444,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_description: [badgeClass.description, Validators.required],
 			badge_criteria_url: [badgeClass.criteria_url],
 			badge_criteria_text: [badgeClass.criteria_text],
-			expiration_duration_value: [badgeClass.expirationDurationValue],
-			expiration_duration_unit: [badgeClass.expirationDurationUnit],
+			expires_amount: [badgeClass.expiresAmount],
+			expires_duration: [badgeClass.expiresDuration],
 			alignments: this.fb.array(this.badgeClass.alignments.map(alignment => this.fb.group({
 				target_name: [alignment.target_name, Validators.required],
 				target_url: [alignment.target_url, Validators.compose([Validators.required, UrlValidator.validUrl])],
@@ -462,6 +462,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 		this.tagsEnabled = this.tags.size > 0;
 		this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
+		this.expirationEnabled = this.badgeClass.expiresDuration && this.badgeClass.expiresAmount>0;
 	}
 
 	ngOnInit() {
@@ -510,7 +511,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	expirationEnabled = false;
 
 
-	durationUnitsMap: {[key in DurationUnitsType]: string} = {
+	durationOptions: {[key in BadgeClassExpiresDuration]: string} = {
 		days: "Days",
 		weeks: "Weeks",
 		months: "Months",
@@ -614,8 +615,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.existingBadgeClass.criteria_url = formState.badge_criteria_url;
 			this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
 			this.existingBadgeClass.tags = this.tagsEnabled ? Array.from(this.tags) : [];
-			this.existingBadgeClass.expirationDurationUnit = formState.expiration_duration_unit as DurationUnitsType;
-			this.existingBadgeClass.expirationDurationValue = parseInt(formState.expiration_duration_value) || undefined;
+			this.existingBadgeClass.expiresDuration = formState.expires_duration as BadgeClassExpiresDuration;
+			this.existingBadgeClass.expiresAmount = parseInt(formState.expires_amount) || undefined;
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
 			const badgeClassData = {
@@ -626,8 +627,10 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				criteria_url: formState.badge_criteria_url,
 				tags: this.tagsEnabled ? Array.from(this.tags) : [],
 				alignment: this.alignmentsEnabled ? formState.alignments : [],
-				expiration_duration_unit: formState.expiration_duration_unit as DurationUnitsType,
-				expiration_duration_value: parseInt(formState.expiration_duration_value) || undefined
+				expires: {
+					duration: formState.expires_duration as BadgeClassExpiresDuration,
+					amount: parseInt(formState.expires_amount) || undefined
+				}
 			} as ApiBadgeClassForCreation;
 
 			this.savePromise = this.badgeClassManager.createBadgeClass(this.issuerSlug, badgeClassData);
@@ -673,6 +676,6 @@ interface BasicBadgeForm<BasicType, AlignmentsType> {
 	badge_criteria_url: BasicType;
 	badge_criteria_text: BasicType;
 	alignments: AlignmentsType;
-	expiration_duration_value: BasicType;
-	expiration_duration_unit: BasicType;
+	expires_amount: BasicType;
+	expires_duration: BasicType;
 }

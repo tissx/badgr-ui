@@ -6,7 +6,7 @@ export type BadgeClassUrl = string;
 export type BadgeClassSqlId = number;
 export interface BadgeClassRef extends ApiEntityRef {}
 
-export type DurationUnitsType = "days" | "weeks" | "months" | "years";
+export type BadgeClassExpiresDuration = "days" | "weeks" | "months" | "years";
 
 export interface ApiBadgeClassJsonld {
 	'@context': string
@@ -30,8 +30,7 @@ export interface ApiBadgeClassForCreation {
 	
 	tags?: string[];
 	alignment?: ApiBadgeClassAlignment[];
-	expiration_duration_unit?: DurationUnitsType
-	expiration_duration_value?: number
+	expires?: ApiBadgeClassExpiration;
 }
 
 export interface ApiBadgeClassAlignment {
@@ -42,6 +41,10 @@ export interface ApiBadgeClassAlignment {
 	target_code?: string;
 }
 
+export interface ApiBadgeClassExpiration {
+	amount: number;
+	duration: BadgeClassExpiresDuration;
+}
 
 
 export interface ApiBadgeClass extends ApiBadgeClassForCreation {

@@ -366,7 +366,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			).then((badge_class) => {
 				this.badge_class = badge_class;
 				console.log(badge_class);
-				if (badge_class.expirationDurationUnit && badge_class.expirationDurationValue) {
+				if (badge_class.expiresDuration && badge_class.expiresAmount) {
 					this.expirationEnabled = true;
 				}
 				this.title.setTitle("Award Badge - " + badge_class.name + " - Badgr");
