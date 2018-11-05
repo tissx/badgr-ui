@@ -61,8 +61,13 @@ import { EventsService } from "../common/services/events.service";
 								<small>{{ issuerBadgeCount }}</small>
 							</div>
 						</a>
+
+						<p *ngIf="badge.expiresDate && isExpired" class="heading-x-meta-callout">
+							Expired on <time [date]="badge.expiresDate" format="mediumDate"></time>
+						</p>
 						<p><small>Awarded <time [date]="badge?.issueDate" format="mediumDate"></time> to {{ badge.recipientEmail }}</small></p>
-						<p *ngIf="badge.expiresDate"><small>Expires <time [date]="badge?.expiresDate" format="mediumDate"></time></small></p>
+						<p *ngIf="badge.expiresDate && !isExpired"><small>Expires <time [date]="badge?.expiresDate" format="mediumDate"></time></small></p>
+
 						<p style="font-size: 16px">{{ badge.badgeClass.description }}</p>
 
 						<!-- criteria -->
@@ -242,6 +247,10 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 			),
 			() => {}
 		);
+	}
+
+	get isExpired() {
+		return (this.badge && this.badge.expiresDate && this.badge.expiresDate < new Date());
 	}
 
 	manageCollections() {

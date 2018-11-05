@@ -83,7 +83,7 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	get narrative(): string { return this.apiModel.narrative }
 	get evidence_items(): any[] { return this.apiModel.evidence_items }
 
-	get expiresDate(): Date { return this._expiresDate ? this._expiresDate : (this._expiresDate = this.apiModel.expires && new Date(this.apiModel.expires) || null) }
+	get expiresDate(): Date { return this._expiresDate ? this._expiresDate : (this._expiresDate = this.apiModel.json.expires && new Date(this.apiModel.json.expires) || null) }
 
 	get shareUrl(): string { return this.apiModel.shareUrl }
 
