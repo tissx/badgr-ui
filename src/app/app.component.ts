@@ -135,8 +135,10 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 	`
 })
 export class AppComponent implements OnInit, AfterViewInit {
+	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	isUnsupportedBrowser: boolean = false;
+	launchpoints: ApiExternalToolLaunchpoint[];
 
 	copyrightYear = new Date().getFullYear();
 
@@ -203,7 +205,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
 			});
+
+			this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
+				this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
+			})
 		}
+
 
 		if (this.embedService.isEmbedded) {
 			// Enable the embedded indicator class on the body
@@ -216,10 +223,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 				this.isUnsupportedBrowser = true;
 			}
 		}
-	}
-
-	get launchpoints(): ApiExternalToolLaunchpoint[] {
-		return this.externalToolsManager.loadedToolLaunchpoints("navigation_external_launch");
 	}
 
 	dismissUnsupportedBrowserMessage() {
