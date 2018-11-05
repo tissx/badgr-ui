@@ -27,7 +27,7 @@ export interface ApiBadgeClassForCreation {
 	description: string
 	criteria_url: string
 	criteria_text: string
-	
+
 	tags?: string[];
 	alignment?: ApiBadgeClassAlignment[];
 	expires?: ApiBadgeClassExpiration;
@@ -59,6 +59,4 @@ export interface ApiBadgeClass extends ApiBadgeClassForCreation {
 	created_by: string
 
 	json: ApiBadgeClassJsonld
-
-
 }
