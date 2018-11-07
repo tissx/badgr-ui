@@ -225,14 +225,27 @@ import * as sanitizeHtml from "sanitize-html";
 							>Learn More</a>
 						</div>
 						
+						
 						<div class="l-formsection-x-inputs">
-						<div class="formfield">
+						
+						<div *ngIf="!defaultExpiration || expirationDateEditable" class="formfield">
 								<bg-formfield-text
+									label="Expiration Date:"
 									fieldType="date"
 									[control]="issueForm.untypedControls.expires"
 									ariaLabel="Expires on"
 								></bg-formfield-text>
 						</div>
+						<div *ngIf="defaultExpiration && !expirationDateEditable" class="heading heading-small">
+							<div class="heading-x-text">
+								<label class="label-formfield" for="date">Expiration Date:</label>
+									<h1>
+										{{defaultExpiration|date}}
+										<button class="heading-x-edit" type="button" tabindex="0" (click)="expirationDateEditable = true">Edit</button>
+									</h1>
+							</div>
+						</div>
+						
 						</div>
 
 					</div>
@@ -307,6 +320,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			return null;
 		}
 	};
+
+	expirationDateEditable: boolean = false;
 
 	issuer: Issuer;
 	issueForm = typedGroup()
