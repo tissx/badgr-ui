@@ -427,7 +427,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_criteria_text: [''],
 			alignments: fb.array([]),
 			expires_amount: [undefined],
-			expires_duration: [undefined]
+			expires_duration: ['']
 		} as BasicBadgeForm<any[], FormArray>, {
 				validator: this.criteriaRequired
 			});
@@ -449,7 +449,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_criteria_url: [badgeClass.criteria_url],
 			badge_criteria_text: [badgeClass.criteria_text],
 			expires_amount: [badgeClass.expiresAmount],
-			expires_duration: [badgeClass.expiresDuration],
+			expires_duration: [badgeClass.expiresDuration || ""],
 			alignments: this.fb.array(this.badgeClass.alignments.map(alignment => this.fb.group({
 				target_name: [alignment.target_name, Validators.required],
 				target_url: [alignment.target_url, Validators.compose([Validators.required, UrlValidator.validUrl])],
