@@ -278,17 +278,21 @@ import { BadgeClass } from "./models/badgeclass.model";
 					<div class="l-formsection-x-inputs">
 	
 						<div class="formfield">
-							<label>How long is this award valid?</label>
-							<div class="l-formtwoup">
-								<bg-formfield-text [control]="badgeClassForm.controls.expires_amount"
-								></bg-formfield-text>
-								<bg-formfield-select ariaLabel="Select Duration"
-								                     [control]="badgeClassForm.controls.expires_duration"
-								                     [optionMap]="durationOptions"
-								></bg-formfield-select>
-							</div>
+							<fieldset>
+								<legend class="u-margin-bottom2x text text-quiet">How long is this award valid?</legend>
+								<div class="l-formtwoup">
+									<bg-formfield-text [control]="badgeClassForm.controls.expires_amount"
+													label="Amount"
+									></bg-formfield-text>
+									<bg-formfield-select ariaLabel="Select Duration"
+														[control]="badgeClassForm.controls.expires_duration"
+														label="Duration"
+														[placeholder]="'Select a duration'"
+														[optionMap]="durationOptions"
+									></bg-formfield-select>
+								</div>
+							</fieldset>
 						</div>
-
 					</div>
 				</div>
 				<button class="l-formsection-x-remove formsectionremove" 
