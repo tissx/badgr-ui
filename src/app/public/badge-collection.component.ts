@@ -56,9 +56,16 @@ import { routerLinkForUrl } from "./public.component";
 						<div *ngFor="let badge of collection.badges">
 							<article class="card card-largeimage">
 								<a class="card-x-main" [href]="getBadgeUrl(badge)">
+									<div class="card-x-label status status-expired" 
+									*ngIf="isExpired(badge.expires)">
+										expired
+									</div>
 									<div class="card-x-image">
 										<div class="badge badge-flat">
-											<img [alt]="badge.badge.name + 'Badge'" [src]="badge.image" width="80">
+											<img [alt]="badge.badge.name + 'Badge'" 
+												 [src]="badge.image" 
+												 [ngStyle]="isExpired(badge.expires) && {'filter':'grayscale(1)'}"
+												 width="80">
 										</div>
 									</div>
 									<div class="card-x-text">
@@ -101,6 +108,10 @@ export class PublicBadgeCollectionComponent {
 
 	getBadgeUrl(badge) {
 		return badge.hostedUrl ? badge.hostedUrl : badge.id;
+	}
+
+	isExpired(date: string): boolean {
+		return date && (new Date(Date.parse(date)) < new Date())
 	}
 
 	get collection(): PublicApiBadgeCollectionWithBadgeClassAndIssuer { return this.collectionHashParam.value }

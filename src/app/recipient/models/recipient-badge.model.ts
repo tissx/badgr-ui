@@ -89,6 +89,8 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 
 	get isNew(): boolean { return this.apiModel.acceptance === "Unaccepted" }
 	
+	get isExpired(): boolean { return this.mostRelevantStatus === "expired" }
+	
 	get mostRelevantStatus(): BadgeMostRelevantStatusType | null {
 		if (this.expiresDate && this.expiresDate < new Date()) {
 			return "expired"

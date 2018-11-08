@@ -39,8 +39,10 @@ import { EventsService } from "../common/services/events.service";
 						<div class="badge badge-flat u-grid">
 							<img [loaded-src]="badge.image"
 							     [loading-src]="badgeLoadingImageUrl"
-							     [error-src]="badgeFailedImageUrl"
-						   width="200" />
+								 [error-src]="badgeFailedImageUrl"
+								 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
+								 width="200" 
+						    />
 						   <div class="u-margin-auto status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">
 								{{badge.mostRelevantStatus}}
 							</div>

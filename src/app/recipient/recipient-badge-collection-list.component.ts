@@ -55,7 +55,8 @@ import { shareCollectionDialogOptionsFor } from "./recipient-badge-collection-de
 						          <img [loaded-src]="entry.badge?.image"
 						               [loading-src]="badgeLoadingImageUrl"
 						               [error-src]="badgeFailedImageUrl"
-						               alt="{{ entry.badge?.badgeClass.name }} Image"
+													 alt="{{ entry.badge?.badgeClass.name }} Image"
+													 [ngStyle]="entry.badge?.isExpired && {'filter':'grayscale(1)'}"
 						               width="40" />
 					          </div>
 					        </li>

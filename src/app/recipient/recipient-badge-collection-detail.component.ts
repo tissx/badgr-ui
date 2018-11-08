@@ -88,7 +88,8 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 										<span class="stack-x-image">
 											<img [loaded-src]="entry.badge.image"
 											     [loading-src]="badgeLoadingImageUrl"
-											     [error-src]="badgeFailedImageUrl"
+												 [error-src]="badgeFailedImageUrl"
+												 [ngStyle]="entry.badge.isExpired && {'filter':'grayscale(1)'}"
 											     width="40" />
 										</span>
 										<span class="stack-x-text">

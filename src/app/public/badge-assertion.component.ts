@@ -59,7 +59,8 @@ import { saveAs } from "file-saver";
 							<div class="badge badge-flat u-grid">
 								<img [loaded-src]="assertion.image"
 								     [loading-src]="badgeLoadingImageUrl"
-								     [error-src]="badgeFailedImageUrl"
+									 [error-src]="badgeFailedImageUrl"
+									 [ngStyle]="isExpired && {'filter':'grayscale(1)'}"
 									 width="200" />
 									 <div *ngIf="assertion.expires && isExpired" class="status status-expired u-margin-auto">Expired</div>
 							</div>

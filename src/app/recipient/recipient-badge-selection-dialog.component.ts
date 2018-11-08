@@ -102,7 +102,12 @@ export interface RecipientBadgeSelectionDialogSettings {
 										<td>
 											<label htmlFor="badge-check-{{ badge.slug }}"
 														 class="table-x-badge">
-												<img src="{{ badge.image }}" width="40" height="40" alt="{{ badge.badgeClass.name }}">
+												<img src="{{ badge.image }}" 
+													 width="40" 
+													 height="40" 
+													 alt="{{ badge.badgeClass.name }}"
+													 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
+												>
 											</label>
 										</td>
 										<td class="table-x-span">
@@ -149,7 +154,12 @@ export interface RecipientBadgeSelectionDialogSettings {
 									<td>
 										<label htmlFor="badge-check-{{ badgeResult.badge.slug }}"
 													 class="table-x-badge">
-											<img [src]="badgeResult.badge.image" width="40" height="40" alt="{{ badgeResult.badge.badgeClass.name }}">
+											<img [src]="badgeResult.badge.image" 
+												 width="40" 
+												 height="40" 
+												 alt="{{ badgeResult.badge.badgeClass.name }}"
+												 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}"
+												 >
 										</label>
 									</td>
 									
