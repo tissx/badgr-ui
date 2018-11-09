@@ -9,75 +9,34 @@ export class SharingService {
 		private recipientBadgeApiService: RecipientBadgeApiService
 	) {}
 
-	shareWithFacebook(
-		objectType: SharedObjectType,
-		objectIdUrl: string,
-		shareUrl: string
-	) {
-		this.reportShare(objectType, objectIdUrl, "Facebook", shareUrl);
-
-		window.open(
-			`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-			"_blank",
-			"width=550,height=274"
-		);
-	}
-
-	shareWithLinkedIn(
+	shareWithProvider(
+		shareServiceType: ShareServiceType,
 		objectType: SharedObjectType,
 		objectIdUrl: string,
 		shareUrl: string,
-		shareTitle: string,
-		shareSummary: string,
-		shareEndpoint: ShareEndPoint
 	) {
+		this.reportShare(objectType, objectIdUrl, shareServiceType, shareUrl); // analytics report
 
-		this.reportShare(objectType, objectIdUrl, "LinkedIn", shareUrl);
+		const provider_features = {
+			"Facebook": "width=550,height=274",
+			"LinkedIn": "width=550,height=448",
+			"Twitter": "width=550,height=274",
+		};
 
-		const LINKEDIN_CERTIFICATION_ID = '0_Rh2Ig_U-uUIRE_d6IyGdbo9HEb-oOcx3oQEeI3UsCrYgZ6NMdJoZbvNeJ5QKSAKeaSgvthvZk7wTBMS3S-m0L6A6mLjErM6PJiwMkk6nYZylU7__75hCVwJdOTZCAkdv';
+		let promise;
+		if (objectType == "BadgeInstance") {
+			promise = this.recipientBadgeApiService.getBadgeShareUrlForProvider(objectIdUrl, shareServiceType);
+		}
+		else if (objectType == "BadgeCollection") {
+			promise = this.recipientBadgeApiService.getCollectionShareUrlForProvider(objectIdUrl, shareServiceType);
+		}
 
-		// Default window location is sharing an article
-		let windowLocation = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareTitle)}&summary=${encodeURIComponent(shareSummary)}&source=Badgr`;
-
-		// TODO: Reimplement if LinkedIn ever decide to play nice. - Ethan 4/5/2017
-		/*if (shareEndpoint === 'certification'){
-			windowLocation = `https://www.linkedin.com/profile/add?_ed=${encodeURIComponent(LINKEDIN_CERTIFICATION_ID)}&pfCertificationName=${encodeURIComponent(shareTitle)}&pfCertificationUrl=${encodeURIComponent(shareUrl)}`;
-		}*/
-
-		window.open(
-			windowLocation,
-			"_blank",
-			"width=550,height=448"
-		);
-	}
-
-	shareWithTwitter(
-		objectType: SharedObjectType,
-		objectIdUrl: string,
-		shareUrl: string
-	) {
-		this.reportShare(objectType, objectIdUrl, "Twitter", shareUrl);
-
-		window.open(
-			`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareUrl)}%20I%20earned%20a%20badge%20via%20Badgr.`,
-			"_blank",
-			"width=550,height=274"
-		);
-	}
-
-	shareWithPinterest(
-		objectType: SharedObjectType,
-		objectIdUrl: string,
-		shareUrl: string,
-		imageUrl: string,
-		summary?: string
-	) {
-		this.reportShare(objectType, objectIdUrl, "Pinterest", shareUrl);
-		
-		window.open(
-			`http://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&media=${encodeURIComponent(imageUrl)}&description=${encodeURIComponent(summary)}`,
-			"_blank"
-		);
+		//open window with share url retrieved from server
+		promise.then(
+			(url) => {
+				window.open(url, "_blank", provider_features[shareServiceType]);
+			},
+		)
 	}
 
 	private reportShare(
@@ -93,12 +52,6 @@ export class SharingService {
 				label: "Share of " + objectIdUrl + " to " + serviceType
 			}
 		});
-		if (objectType == "BadgeInstance") {
-			this.recipientBadgeApiService.getBadgeShareUrlForProvider(objectIdUrl, serviceType);
-		} else
-		if (objectType == "BadgeCollection") {
-			this.recipientBadgeApiService.getCollectionShareUrlForProvider(objectIdUrl, serviceType);
-		}
 	}
 }
 
