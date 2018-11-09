@@ -24,10 +24,11 @@ Below are the base values (variables) that are used through the user interface.
 
 Variable Name | Value
 ------------- | -----
-`var(--color-primary)` | <p style="background: #c30a28; color: #fff; padding: 1em; border-radius: 3px;">`#c30a28`</p>
-`$color--primary-light` | <p style="background: #f7e1e5; color: #000; padding: 1em; border-radius: 3px;">`#f7e1e5`</p>
+`var(--color-primary)` | <p style="background: #b5445b; color: #fff; padding: 1em; border-radius: 3px;">`#b5445b`</p>
+`var(--color-primary-hover)` | <p style="background: #D33B5B; color: #fff; padding: 1em; border-radius: 3px;">`#D33B5B`</p>
+`var(--color-primary-light)` | <p style="background: #f5dfe3; color: #000; padding: 1em; border-radius: 3px;">`#f7e1e5`</p>
 `var(--color-secondary)` | <p style="background: #05012c; color: #fff; padding: 1em; border-radius: 3px;">`#05012c`</p>
-`$var(--color-tertiary)` | <p style="background: #ffb500; color: #fff; padding: 1em; border-radius: 3px;">`#ffb500`</p>
+`var(--color-tertiary)` | <p style="background: #ffb500; color: #fff; padding: 1em; border-radius: 3px;">`#ffb500`</p>
 `var(--color-quaternary)` | <p style="background: #93ab23; color: #fff; padding: 1em; border-radius: 3px;">`#93ab23`</p>
 `var(--color-light1)` | <p style="background: #fff; color: #000; padding: 1em; border-radius: 3px;">`#fff`</p>
 `var(--color-light2)` | <p style="background: #fcfcfc; color: #000; padding: 1em; border-radius: 3px;">`#fcfcfc`</p>
