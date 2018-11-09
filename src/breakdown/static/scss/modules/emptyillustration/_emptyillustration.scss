@@ -13,7 +13,7 @@
 }
 
 .emptyillustration {
-  color: $color-secondary;
+  color: var(--color-secondary);
   font-size: $font-size-large2;
   font-weight: bold;
   padding-bottom: $gridspacing * 20;

@@ -35,7 +35,7 @@ Markup:
     animation: pathway-x-move $transition-duration $transition-easing forwards;
     background-color: $color-light1;
     border: 1px dashed $color-primary;
-    box-shadow: 0 0 $gridspacing * 3 0 rgba($color-primary, .2);
+    box-shadow: 0 0 $gridspacing * 3 0 var(--color-primary-a2);
     box-sizing: border-box;
     color: $color-primary;
     font-size: $font-size-small1;
@@ -141,7 +141,7 @@ Markup:
 .pathway-root {
 
   > .pathway {
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     overflow: hidden;
     position: relative;
 

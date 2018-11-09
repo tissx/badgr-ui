@@ -1,8 +1,8 @@
 .formmessage {
   align-items: center;
   background-color: $color-secondary;
-  border-radius: $border-radius;
-  box-shadow: 0 4px 5px 0 rgba($color-secondary, .12), 0 0 4px 0 rgba($color-secondary, .12);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 5px 0 var(--color-secondary-a12), 0 0 4px 0 var(--color-secondary-a12);
   box-sizing: border-box;
   color: $color-light1;
   display: flex;

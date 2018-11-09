@@ -2,7 +2,7 @@
   display: block;
 
   .formimage-x-title {
-    color: $color-dark1;
+    color: var(--color-dark1);
     font-size: $font-size-small2;
     font-weight: bold;
     justify-content: space-between;
@@ -10,7 +10,7 @@
     text-transform: uppercase;
 
     span {
-      color: $color-dark2;
+      color: var(--color-dark2);
     }
 
     a {
@@ -20,7 +20,7 @@
     }
 
     button {
-      color: $color-dark2;
+      color: var(--color-dark2);
       font-size: $font-size-small1;
     }
 
@@ -32,8 +32,8 @@
 
   label {
     align-items: center;
-    border: 1px dashed $color-dark3;
-    border-radius: $border-radius;
+    border: 1px dashed var(--color-dark3);
+    border-radius: var(--border-radius);
     box-sizing: border-box;
     cursor: pointer;
     display: flex;
@@ -43,7 +43,7 @@
 
     &:hover,
     &:focus {
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
       border-style: solid;
     }
   }
@@ -57,7 +57,7 @@
 
   &.formimage-is-dragging {
     label {
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
       border-style: solid;
     }
   }
@@ -95,7 +95,7 @@
     font-size: $font-size-small1;
 
     span {
-      color: $color-primary;
+      color: var(--color-primary);
       font-weight: bold;
     }
 

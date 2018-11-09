@@ -1,5 +1,5 @@
 .connectionadd {
-  color: $color-primary;
+  color: var(--color-primary);
   display: block;
   font-size: $font-size-small1;
   height: 24px;
@@ -9,8 +9,8 @@
 
   &::after {
     background: url('#{$base-path}images/connectionadd.svg') center center no-repeat;
-    border-radius: $border-radius;
-    box-shadow: 0 0 0 1px $color-primary inset;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 0 1px var(--color-primary) inset;
     box-sizing: border-box;
     content: '';
     display: block;

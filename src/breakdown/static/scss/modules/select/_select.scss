@@ -26,7 +26,7 @@ Markup:
     appearance: none;
     background: url('#{$base-path}images/select.svg') calc(100% - #{$gridspacing}) center no-repeat;
     border: 1px solid $color-dark4;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     box-sizing: border-box;
     cursor: pointer;
     display: block;
@@ -67,7 +67,7 @@ Markup:
   select {
     background: url('#{$base-path}images/select-secondary.svg') right center no-repeat;
     border: 0;
-    color: rgba($color-secondary, .54);
+    color: var(--color-secondary-a54);
     font-size: $font-size-small1;
     padding-left: 0;
     padding-right: $gridspacing + 10px;
@@ -81,7 +81,7 @@ Markup:
     appearance: none;
     background: url('#{$base-path}images/select-import.svg') calc(100% - 10px) center no-repeat;
     background-color: white;
-    color: $color-primary;
+    color: var(--color-primary);
     font-weight: bold;
     padding: $gridspacing;
     min-width: 115px;

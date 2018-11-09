@@ -114,7 +114,7 @@
       white-space: pre-line;
 
       a {
-        color: $color-primary;
+        color: var(--color-primary);
       }
 
     }
@@ -181,7 +181,7 @@
 
   .heading-x-edit {
     background: url('#{$base-path}images/heading-edit.svg') left center no-repeat;
-    color: rgba($color-secondary, .38);
+    color: var(--color-secondary-a38);
     display: inline-block;
     font-size: $font-size-small1;
     font-weight: bold;
@@ -202,11 +202,11 @@
   }
 
   .heading-x-meta {
-    color: rgba($color-secondary, .38);
+    color: var(--color-secondary-a38);
   }
 
   .heading-x-meta-callout {
-    color: $color-primary;
+    color: var(--color-primary);
     font-weight: bold;
   }
 

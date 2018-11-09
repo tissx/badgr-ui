@@ -1,6 +1,6 @@
 .footer {
-  border-top: $border;
-  color: $color-dark2;
+  border-top: var(--border);
+  color: var(--color-dark2);
   font-size: $font-size-small1;
   line-height: 1.5;
   padding-bottom: $gridspacing * 3;
@@ -12,12 +12,12 @@
   }
 
   a {
-    color: $color-dark2;
+    color: var(--color-dark2);
     transition: color $transition-duration $transition-easing;
 
     &:hover,
     &:active {
-      color: $color-primary;
+      color: var(--color-primary);
     }
 
   }
@@ -31,7 +31,7 @@
   }
 
   > a {
-    color: $color-dark3;
+    color: var(--color-dark3);
     font-weight: bold;
     text-transform: uppercase;
   }
@@ -54,7 +54,7 @@
         position: relative;
 
         &::after {
-          background-color: $color-dark3;
+          background-color: var(--color-dark3);
           content: '';
           display: block;
           height: 100%;

@@ -1,8 +1,8 @@
 .card {
   align-items: stretch;
-  background-color: $color-light1;
-  border: $border;
-  border-radius: $border-radius;
+  background-color: var(--color-light1);
+  border: var(--border);
+  border-radius: var(--border-radius);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -24,7 +24,7 @@
   }
 
   .card-x-main {
-    color: $color-dark1;
+    color: var(--color-dark1);
     display: flex;
     flex: 1 0 auto;
     overflow-wrap: break-word;
@@ -38,14 +38,14 @@
     }
 
     h1 {
-      color: $color-primary;
+      color: var(--color-primary);
       font-size: $font-size;
       overflow: hidden; // Required to prevent overflow in Firefox, IE, and Edge
       text-overflow: ellipsis; // Required to prevent overflow in Firefox, IE, and Edge
     }
 
     small {
-      color: $color-dark2;
+      color: var(--color-dark2);
       display: block;
     }
 
@@ -100,9 +100,9 @@
 
   .card-x-more {
     align-items: center;
-    background-color: $color-dark4;
+    background-color: var(--color-dark4);
     border-radius: 100%;
-    color: $color-dark2;
+    color: var(--color-dark2);
     display: flex;
     flex-direction: column;
     font-size: $font-size-small2;
@@ -129,7 +129,7 @@
 
     time,
     small {
-      color: $color-dark2;
+      color: var(--color-dark2);
     }
 
   }
@@ -137,7 +137,7 @@
   .card-x-add {
     align-items: center;
     box-sizing: border-box;
-    color: $color-primary;
+    color: var(--color-primary);
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -167,7 +167,7 @@
   }
 
   &:hover {
-    box-shadow: 0 4px 4px 0 $color-dark4, 0 0 2px 0 $color-dark4;
+    box-shadow: 0 4px 4px 0 var(--color-dark4), 0 0 2px 0 var(--color-dark4);
   }
 
 }
@@ -235,7 +235,7 @@
     .card-x-main {
 
       h1 {
-        color: $color-primary;
+        color: var(--color-primary);
         font-size: $font-size-large2;
       }
 

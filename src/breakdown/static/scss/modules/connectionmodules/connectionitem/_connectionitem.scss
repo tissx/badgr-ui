@@ -1,6 +1,6 @@
 .connectionitem {
-  background-color: $color-primary;
-  border-radius: $border-radius;
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius);
   display: flex;
   font-size: $font-size-small2;
   font-weight: bold;
@@ -9,7 +9,7 @@
   padding-left: $gridspacing;
 
   a {
-    color: $color-light1;
+    color: var(--color-light1);
     display: block;
   }
 

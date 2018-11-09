@@ -3,7 +3,7 @@
 
   > button {
     background: url('#{$base-path}images/menumore.svg') center center no-repeat;
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     color: transparent;
     display: block;
     height: 28px;
@@ -13,7 +13,7 @@
     width: $menumorewidth;
 
     &:hover {
-      box-shadow: 0 0 0 1px $color-dark4 inset;
+      box-shadow: 0 0 0 1px var(--color-dark4) inset;
     }
 
     &[disabled] {

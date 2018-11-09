@@ -1,17 +1,17 @@
 .title {
-  color: $color-secondary;
+  color: var(--color-secondary);
   font-size: $font-size-large2;
   font-weight: 600;
   line-height: 1;
 
   span {
-    color: $color-dark2;
+    color: var(--color-dark2);
     font-size: $font-size-small1;
     font-weight: normal;
   }
 
   .title-x-linebreak {
-    color: $color-secondary;
+    color: var(--color-secondary);
     font-size: $font-size-large2;
     font-weight: bold;
   }
@@ -23,7 +23,7 @@
     }
 
     &.title-x-linebreak {
-      color: $color-secondary;
+      color: var(--color-secondary);
       font-size: $font-size;
       line-height: $line-height-large2;
       font-weight: bold;
@@ -46,7 +46,7 @@
 }
 
 .title-bordered {
-  border-left: $gridspacing solid $color-quaternary;
+  border-left: $gridspacing solid var(--color-quaternary);
   font-size: $font-size-large1;
   font-weight: bold;
   line-height: $line-height-large2;
@@ -59,7 +59,7 @@
 
 .title-ruled,
 .title-ruledadd {
-  border-bottom: 1px solid $color-dark4;
+  border-bottom: 1px solid var(--color-dark4);
   font-size: $font-size;
   font-weight: bold;
   line-height: $line-height-large3;
@@ -103,13 +103,13 @@
 }
 
 .title-small-2x {
-  color: $color-dark2;
+  color: var(--color-dark2);
   font-size: $font-size-small1;
   font-weight: 600;
 }
 
 .title-small-3x {
-  color: $color-secondary;
+  color: var(--color-secondary);
   font-size: $font-size-small2;
   text-transform: uppercase;
 }

@@ -1,7 +1,7 @@
 .tab {
-  background-color: $color-light1;
-  border-bottom: 1px solid $color-dark4;
-  color: $color-dark2;
+  background-color: var(--color-light1);
+  border-bottom: 1px solid var(--color-dark4);
+  color: var(--color-dark2);
   font-size: $font-size;
   letter-spacing: .5px;
   line-height: $line-height-large1;
@@ -15,7 +15,7 @@
   }
 
   &::after {
-    background-color: $color-quaternary;
+    background-color: var(--color-quaternary);
     bottom: 0;
     content: '';
     display: block;
@@ -36,19 +36,19 @@
   &:hover {
 
     &::after {
-      background-color: $color-dark4;
+      background-color: var(--color-dark4);
       opacity: 1;
     }
 
   }
 
   &[disabled] {
-    color: $color-dark4;
+    color: var(--color-dark4);
     pointer-events: none;
   }
 
   &.tab-is-active {
-    color: $color-secondary;
+    color: var(--color-secondary);
     font-weight: bold;
 
     &::after {

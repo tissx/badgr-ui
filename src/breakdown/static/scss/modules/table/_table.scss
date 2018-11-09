@@ -1,6 +1,6 @@
 .table {
   border-collapse: collapse;
-  border-radius: $border-radius;
+  border-radius: var(--border-radius);
   box-shadow: 0 0 0 1px $color-dark4 inset;
   display: table;
   overflow: hidden;
@@ -46,7 +46,7 @@
     .table-x-td,
     th,
     .table-x-th {
-      border-top: $border;
+      border-top: var(--border);
       box-sizing: border-box;
       height: 65px;
       padding: $gridspacing $gridspacing * 2;
@@ -120,14 +120,14 @@
     td,
     .table-x-td {
       background-color: $color-dark4;
-      box-shadow: rgba($color-secondary, .12) 0 -1px 0 0 inset;
+      box-shadow: var(--color-secondary-a12) 0 -1px 0 0 inset;
 
       &:first-child {
-        box-shadow: rgba($color-secondary, .12) 1px -1px 0 0 inset;
+        box-shadow: var(--color-secondary-a12) 1px -1px 0 0 inset;
       }
 
       &:last-child {
-        box-shadow: rgba($color-secondary, .12) -1px -1px 0 0 inset;;
+        box-shadow: var(--color-secondary-a12) -1px -1px 0 0 inset;;
       }
 
     }

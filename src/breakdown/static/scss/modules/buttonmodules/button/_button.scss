@@ -1,6 +1,6 @@
 .button {
-  background-color: $color-primary;
-  border-radius: $border-radius;
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius);
   box-sizing: border-box;
   color: $color-light1;
   cursor: pointer;
@@ -38,18 +38,18 @@
   }
 
   &:not(.button-is-disabled):active:focus {
-    background-color: map-get($states, error);
-    box-shadow: 0 1px 3px 0 rgba($color-dark5, .5) inset;
+    background-color: var(--color-primary-hover);
+    box-shadow: 0 1px 3px 0 var(--color-dark5-a5) inset;
   }
 
   &:not(.button-is-disabled):hover {
-    background-color: map-get($states, error);
+    background-color: var(--color-primary-hover);
     border-color: transparent;
   }
 
   &:not(.button-is-disabled):focus {
-    background-color: map-get($states, error);
-    box-shadow: 0 0 0 1px $color-light1 inset, 0 0 4px 1px map-get($states, error);
+    background-color: var(--color-primary-hover);
+    box-shadow: 0 0 0 1px $color-light1 inset, 0 0 4px 1px var(--color-primary-hover);
   }
 
   &.button-is-disabled {
@@ -70,7 +70,7 @@
 }
 
 .button-major {
-  background-color: $color-primary;
+  background-color: var(--color-primary);
   color: $color-light1;
   font-size: $font-size;
   padding-bottom: $gridspacing * 2;
@@ -80,34 +80,34 @@
 .button-primaryghost {
   background-color: transparent;
   border-color: transparent;
-  color: $color-primary;
+  color: var(--color-primary);
   padding-left: $gridspacing;
   padding-right: $gridspacing;
 
   .button-x-loading {
 
     &::after {
-      border-color: $color-primary;
+      border-color: var(--color-primary);
       border-right-color: transparent;
     }
 
   }
 
   &:not(.button-is-disabled):active:focus {
-    background-color: $color-primary-light;
+    background-color: var(--color-primary)-light;
     box-shadow: none;
-    color: $color-primary;
+    color: var(--color-primary);
   }
 
   &:not(.button-is-disabled):focus {
     background-color: transparent;
-    color: $color-primary;
+    color: var(--color-primary);
   }
 
   &:not(.button-is-disabled):hover {
     background-color: transparent;
-    box-shadow: 0 0 0 1px $color-primary inset;
-    color: $color-primary;
+    box-shadow: 0 0 0 1px var(--color-primary) inset;
+    color: var(--color-primary);
   }
 
 }
@@ -127,7 +127,7 @@
 
   &:not(.button-is-disabled):active:focus {
     background: $color-light3;
-    box-shadow: 0 0 0 1px $color-light4 inset, inset 0 1px 3px 0 rgba($color-dark5, .5);
+    box-shadow: 0 0 0 1px $color-light4 inset, inset 0 1px 3px 0 var(--color-dark5-a5);
   }
 
   &:not(.button-is-disabled):hover {
@@ -149,7 +149,7 @@
   padding-right: $gridspacing;
 
   &:not(.button-is-disabled):active:focus {
-    background-color: rgba($color-secondary, .12);
+    background-color: var(--color-secondary-a12);
     box-shadow: none;
     color: $color-dark3;
   }
@@ -161,7 +161,7 @@
   }
 
   &:not(.button-is-disabled):focus {
-    background-color: rgba($color-secondary, .12);
+    background-color: var(--color-secondary-a12);
     color: $color-dark3;
   }
 
@@ -183,7 +183,7 @@
 
   &:not(.button-is-disabled):active:focus {
     background-color: $color-dark2;
-    box-shadow: inset 0 1px 3px 0 rgba($color-secondary, .3) inset;
+    box-shadow: inset 0 1px 3px 0 var(--color-secondary-a3) inset;
     color: $color-dark4;
   }
 

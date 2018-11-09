@@ -10,7 +10,7 @@
 
   .formcheckbox-x-text {
     align-items: flex-start;
-    color: $color-secondary;
+    color: var(--color-secondary);
     cursor: pointer;
     display: flex;
     font-size: $font-size-small2;
@@ -20,9 +20,9 @@
       padding-left: 3px;
     }
     &::before {
-      background: center center no-repeat $color-light1;
-      border: 1px solid $color-dark4;
-      border-radius: $border-radius;
+      background: center center no-repeat var(--color-light1);
+      border: 1px solid var(--color-dark4);
+      border-radius: var(--border-radius);
       content: '';
       display: block;
       height: 16px;
@@ -34,27 +34,27 @@
     }
 
     &:hover::before {
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
     }
 
   }
 
   .formcheckbox-x-text-sharebadge {
-    color: $color-dark2;
+    color: var(--color-dark2);
     font-size: $font-size-small1;
     line-height: $line-height;
   }
 
   input:focus + .formcheckbox-x-text::before {
-    border-color: $color-secondary;
+    border-color: var(--color-secondary);
   }
 
   input:checked + .formcheckbox-x-text {
 
     &::before {
-      background-color: $color-secondary;
+      background-color: var(--color-secondary);
       background-image: url('#{$base-path}images/formcheckbox-checked.svg');
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
     }
 
   }

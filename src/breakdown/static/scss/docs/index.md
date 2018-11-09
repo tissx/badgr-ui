@@ -24,20 +24,20 @@ Below are the base values (variables) that are used through the user interface.
 
 Variable Name | Value
 ------------- | -----
-`$color-primary` | <p style="background: #c30a28; color: #fff; padding: 1em; border-radius: 3px;">`#c30a28`</p>
+`var(--color-primary)` | <p style="background: #c30a28; color: #fff; padding: 1em; border-radius: 3px;">`#c30a28`</p>
 `$color--primary-light` | <p style="background: #f7e1e5; color: #000; padding: 1em; border-radius: 3px;">`#f7e1e5`</p>
-`$color-secondary` | <p style="background: #05012c; color: #fff; padding: 1em; border-radius: 3px;">`#05012c`</p>
-`$$color-tertiary` | <p style="background: #ffb500; color: #fff; padding: 1em; border-radius: 3px;">`#ffb500`</p>
-`$color-quaternary` | <p style="background: #93ab23; color: #fff; padding: 1em; border-radius: 3px;">`#93ab23`</p>
-`$color-light1` | <p style="background: #fff; color: #000; padding: 1em; border-radius: 3px;">`#fff`</p>
-`$color-light2` | <p style="background: #fcfcfc; color: #000; padding: 1em; border-radius: 3px;">`#fcfcfc`</p>
-`$color-light3` | <p style="background: #f7f7f7; color: #000; padding: 1em; border-radius: 3px;">`#f7f7f7`</p>
-`$color-light4` | <p style="background: #efefef; color: #000; padding: 1em; border-radius: 3px;">`#efefef`</p>
-`$color-dark1` | <p style="background: #252247; color: #fff; padding: 1em; border-radius: 3px;">`#252247`</p>
-`$color-dark2` | <p style="background: #78768d; color: #fff; padding: 1em; border-radius: 3px;">`#78768d`</p>
-`$color-dark3` | <p style="background: #a09eaf; color: #fff; padding: 1em; border-radius: 3px;">`#a09eaf`</p>
-`$color-dark4` | <p style="background: #e1e0e5; color: #000; padding: 1em; border-radius: 3px;">`#e1e0e5`</p>
-`$color-dark5` | <p style="background: #000; color: #fff; padding: 1em; border-radius: 3px;">`#000`</p>
+`var(--color-secondary)` | <p style="background: #05012c; color: #fff; padding: 1em; border-radius: 3px;">`#05012c`</p>
+`$var(--color-tertiary)` | <p style="background: #ffb500; color: #fff; padding: 1em; border-radius: 3px;">`#ffb500`</p>
+`var(--color-quaternary)` | <p style="background: #93ab23; color: #fff; padding: 1em; border-radius: 3px;">`#93ab23`</p>
+`var(--color-light1)` | <p style="background: #fff; color: #000; padding: 1em; border-radius: 3px;">`#fff`</p>
+`var(--color-light2)` | <p style="background: #fcfcfc; color: #000; padding: 1em; border-radius: 3px;">`#fcfcfc`</p>
+`var(--color-light3)` | <p style="background: #f7f7f7; color: #000; padding: 1em; border-radius: 3px;">`#f7f7f7`</p>
+`var(--color-light4)` | <p style="background: #efefef; color: #000; padding: 1em; border-radius: 3px;">`#efefef`</p>
+`var(--color-dark1)` | <p style="background: #252247; color: #fff; padding: 1em; border-radius: 3px;">`#252247`</p>
+`var(--color-dark2)` | <p style="background: #78768d; color: #fff; padding: 1em; border-radius: 3px;">`#78768d`</p>
+`var(--color-dark3)` | <p style="background: #a09eaf; color: #fff; padding: 1em; border-radius: 3px;">`#a09eaf`</p>
+`var(--color-dark4)` | <p style="background: #e1e0e5; color: #000; padding: 1em; border-radius: 3px;">`#e1e0e5`</p>
+`var(--color-dark5)` | <p style="background: #000; color: #fff; padding: 1em; border-radius: 3px;">`#000`</p>
 
 ## Colors (States)
 
@@ -113,7 +113,7 @@ Variable Name | Value
 
 Variable Name | Value
 ------------- | -----
-`$border-radius` | 4px
+`var(--border-radius)` | 4px
 
 ## Z-index
 

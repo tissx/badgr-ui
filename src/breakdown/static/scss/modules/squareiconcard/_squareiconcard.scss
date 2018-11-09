@@ -5,9 +5,9 @@ $squareiconcard-submodules:
   'tags';
 
 .squareiconcard {
-  background-color: $color-light1;
-  border-radius: $border-radius;
-  box-shadow: 0 0 0 3px $color-dark4 inset;
+  background-color: var(--color-light1);
+  border-radius: var(--border-radius);
+  box-shadow: 0 0 0 3px var(--color-dark4) inset;
   display: inline-block;
   min-width: 256px;
   outline: none;
@@ -17,7 +17,7 @@ $squareiconcard-submodules:
 
   .squareiconcard-x-container {
     align-items: center;
-    color: $color-dark2;
+    color: var(--color-dark2);
     display: flex;
     font-weight: bold;
     line-height: $line-height-large2;
@@ -38,11 +38,11 @@ $squareiconcard-submodules:
   }
 
   &[disabled] {
-    box-shadow: 0 0 0 3px $color-light4 inset;
+    box-shadow: 0 0 0 3px var(--color-light4) inset;
     pointer-events: none;
 
     .squareiconcard-x-container {
-      color: $color-dark4;
+      color: var(--color-dark4);
 
       &::before {
         opacity: .2;
@@ -53,12 +53,12 @@ $squareiconcard-submodules:
   }
 
   &:active:focus {
-    box-shadow: 0 0 0 3px $color-dark4 inset;
+    box-shadow: 0 0 0 3px var(--color-dark4) inset;
   }
 
   &:focus {
-    box-shadow: 0 0 0 3px $color-dark4 inset,
-                0 0 8px 0 $color-quaternary;
+    box-shadow: 0 0 0 3px var(--color-dark4) inset,
+                0 0 8px 0 var(--color-quaternary);
   }
 
   @media (min-width: $media-tablet) {

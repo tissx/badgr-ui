@@ -1,5 +1,6 @@
-$color-primary: #c30a28;
-$color-primary-light: #f7e1e5;
+$color-primary: #b5445b;
+$color-primary-hover: #D33B5B;
+$color-primary-light: #f5dfe3;
 $color-secondary: #05012c;
 $color-tertiary: #ffb500;
 $color-quaternary: #93ab23;
@@ -12,24 +13,19 @@ $color-dark2: #6c6b80;
 $color-dark3: #a09eaf;
 $color-dark4: #e1e0e5;
 $color-dark5: #000;
-
-$color-badgeButton-light: #f5dfe3;
+$color-error:#f01f31;
 
 $states: (
-  error: #f01f31,
+  error: $color-error,
   pending: $color-tertiary,
   success: $color-quaternary
 );
 
 // Layout
 // Shared between various modules
-
 $gridspacing: 8px;
-
 $headerheight: 78px;
-
 $menumorewidth: 29px;
-
 $maxheight-dialog: calc(100vh - #{$gridspacing * 6});
 
 // Breakpoints
@@ -39,18 +35,12 @@ $media-desktop: 1024px;
 $media-tablet: 768px;
 $media-mobile: 320px;
 
+// Z indexes
 $z-index-low: 1;
 $z-index-med: 2;
 $z-index-high: 3;
 $z-index-highest: 5;
 
-// Borders
-
-$border: 1px solid $color-dark4;
-$border-radius: 4px;
-
-$box-shadow: 0 1px $gridspacing / 2 0 rgba($color-dark1, .3);
-$box-shadow-secondary: 0 0 $gridspacing * 2 0 rgba($color-dark1, .18), 0  $gridspacing 0 rgba($color-dark1, .24);
 
 // Fonts & Typography
 
@@ -132,140 +122,57 @@ $transition-duration: 250ms;
 $transition-easing: ease-out;
 
 
-// Mixins
+:root {
+  // Backwards compatibility
+  // TODO: once theming is updated, replace these sass vars with actual values
+  --color-primary: $color-primary;
+  --color-primary-hover: $color-primary-hover;
+  --color-primary-light: $color-primary-light;
+  --color-secondary: $color-secondary;
+  --color-tertiary: $color-tertiary;
+  --color-quaternary: $color-quaternary;
+  --color-light1: $color-light1;
+  --color-light2: $color-light2;
+  --color-light3: $color-light3;
+  --color-light4: $color-light4;
+  --color-dark1: $color-dark1;
+  --color-dark2: $color-dark2;
+  --color-dark3: $color-dark3;
+  --color-dark4: $color-dark4;
+  --color-dark5: $color-dark5;
+  --color-error: $color-error;
 
-// Container
-// Shared with .header and .l-containerhorizontal
-@mixin container {
+  // HACK: Replace these with javascript based on the parent color
+  //So,  --color-secondary-a12 is --color-secondary with alpha .12
+  // #0F0 converts to 0, 255, 0
+  --color-secondary-a12: rgba($color-secondary, .12);;
+  --color-dark1-a5: rgba($color-dark1, .5);
+  --color-secondary-a38: rgba($color-secondary, .38);
+  --color-secondary-a8: rgba($color-secondary, .8);
+  --color-dark5-a5: rgba($color-dark5, .5);
+  --color-secondary-a3: rgba($color-secondary, .3);
+  --color-light1-a12: rgba($color-light1, .12);
+  --color-primary-a2: rgba($color-primary, .2);
+  --color-secondary-a54:rgba($color-secondary, .54);
 
-  @media (min-width: $media-desktop + $gridspacing * 8) {
-    padding-left: calc(50vw - #{$media-desktop / 2});
-    padding-right: calc(50vw - #{$media-desktop / 2});
-  }
-
-}
-
-// Dropdown
-// TODO Why are there two?
-@mixin dropdown {
-  background: $color-light3;
-  border-radius: $border-radius;
-  box-shadow: $box-shadow;
-}
-
-@mixin dropdown {
-  background-color: $color-light1;
-  border-radius: $border-radius;
-  box-shadow: 0 4px 5px 0 rgba($color-secondary, .12), 0 0 4px 0 rgba($color-secondary, .12);
-  position: absolute;
-  top: calc(100% + #{$gridspacing * 2});
-  width: 160px;
-
-  &::before {
-    background-color: $color-light1;
-    box-shadow: .5px .5px 1px 0 $color-dark4; // Best guess
-    content: '';
-    height: $gridspacing * 2;
-    position: absolute;
-    right: $gridspacing * 2;
-    top: -$gridspacing;
-    transform: rotate(-135deg);
-    width: $gridspacing * 2;
-    z-index: $z-index-low;
-  }
-}
-
-// New Label
-@mixin newlabel {
-  background-color: map-get($states, pending);
-  border-radius: $border-radius;
-  color: $color-light1;
-  font-size: $font-size-small2;
-  font-weight: bold;
-  line-height: 1;
-  padding: 5px 10px;
-  text-transform: uppercase;
-}
-
-// FormField Label
-@mixin label-formfield {
-  align-items: center;
-  color: $color-dark2;
-  display: flex;
-  font-size: $font-size-small2;
-  font-weight: bold;
-  justify-content: space-between;
-  letter-spacing: .5px;
-  margin-bottom: $gridspacing;
-  text-shadow: 1px 1px 1px rgba($color-light1, .5);
-  text-transform: uppercase;
-}
-
-
-// Pesudo Base
-// Common for ::before and ::after
-@mixin pseudobase {
-  content: '';
-  display: block;
-}
-
-// Spinner
-@mixin spinner {
-  @include pseudobase;
-  animation: rotate .75s linear infinite forwards;
-  border: 1px solid $color-quaternary;
-  border-radius: 50%;
-  border-right-color: transparent;
-  box-sizing: border-box;
-}
-
-// Wrap
-@mixin wrap {
-  margin: 0 auto;
-  max-width: 1080px;
-  padding: 0 20px;
-}
-
-// Keyframes
-
-// Rotate
-@keyframes rotate {
-
-  0% {
-    transform: rotate(0);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-
-}
-
-// Fade
-@keyframes fade {
-
-  0% {
-    opacity: .4;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: .4;
-  }
-
-}
-
-@keyframes fadein {
-
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-
+  --border: 1px solid var(--color-dark4);
+  --border-radius: 4px;
+  --box-shadow: 0 1px 4 0 var(--color-dark1-a3);
+  
+  // TODO: reference var(--font-family) instead of $font-family
+  --font-family: $font-family;
+  --font-size-small2: $font-size-small2;
+  --font-size-small1: $font-size-small1;
+  --font-size: $font-size;
+  --font-size-large1: $font-size-large1;
+  --font-size-large2: $font-size-large2;
+  --font-size-large3: $font-size-large3;
+  --line-height-small1: $line-height-small1;
+  --line-height: $line-height;
+  --line-height-large1: $line-height-large1;
+  --line-height-large2: $line-height-large2;
+  --line-height-large3: $line-height-large3;
+  --line-height-large4: $line-height-large4;
+  --transition-duration: $transition-duration;
+  --transition-easing: $transition-easing;
 }

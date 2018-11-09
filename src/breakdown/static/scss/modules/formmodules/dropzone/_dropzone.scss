@@ -1,9 +1,9 @@
 .dropzone {
   align-items: center;
-  border: 2px dashed $color-dark4;
+  border: 2px dashed var(--color-dark4);
   box-sizing: border-box;
   cursor: pointer;
-  color: $color-dark1;
+  color: var(--color-dark1);
   display: flex;
   flex-direction: column;
   font-size: $font-size-small1;
@@ -31,16 +31,16 @@
   &:hover,
   &:focus,
   &.is-active {
-    border-color: $color-primary-light;
+    border-color: var(--color-primary)-light;
     box-shadow: none;
-    color: $color-dark1;
+    color: var(--color-dark1);
   }
 
 }
 
 .dropzone-alt1 {
-  background-color: $color-light1;
-  border-radius: $border-radius;
+  background-color: var(--color-light1);
+  border-radius: var(--border-radius);
   height: 160px;
   min-height: 0;
   padding: 0;
@@ -55,7 +55,7 @@
   }
 
   .dropzone-x-text {
-    color: $color-dark2;
+    color: var(--color-dark2);
     font-size: $font-size-small2;
     margin-bottom: $gridspacing * 2;
     order: 1;
@@ -63,7 +63,7 @@
   }
 
   &:hover, &.dropzone-is-dragging {
-    border-color: $color-quaternary;
+    border-color: var(--color-quaternary);
 
     &::before {
       background-image: url('#{$base-path}images/dropzone-alt1-hover.svg');

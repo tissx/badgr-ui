@@ -1,5 +1,5 @@
 .menu {
-  background-color: $color-secondary;
+  background-color: var(--color-secondary);
   box-sizing: border-box;
   min-height: 100vh;
   padding-top: $gridspacing * 4;

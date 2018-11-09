@@ -8,8 +8,8 @@
   user-select: none;
 
   &::before {
-    background: center center no-repeat $color-dark2;
-    border-radius: $border-radius;
+    background: center center no-repeat var(--color-dark2);
+    border-radius: var(--border-radius);
     content: '';
     display: block;
     height: 18px;
@@ -22,7 +22,7 @@
   &:active:focus {
 
     &::before {
-      background-color: $color-secondary;
+      background-color: var(--color-secondary);
     }
 
   }
@@ -30,7 +30,7 @@
   &:hover {
 
     &::before {
-      background-color: $color-dark1;
+      background-color: var(--color-dark1);
     }
 
   }
@@ -38,17 +38,17 @@
   &:focus {
 
     &::before {
-      box-shadow: 0 0 4px 1px $color-quaternary;
+      box-shadow: 0 0 4px 1px var(--color-quaternary);
     }
 
   }
 
   &[disabled] {
-    color: $color-light4;
+    color: var(--color-light4);
     pointer-events: none;
 
     &::before {
-      background-color: $color-light4;
+      background-color: var(--color-light4);
     }
 
   }

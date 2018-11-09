@@ -11,7 +11,7 @@
   .tooltip-x-content {
     background-color: $color-light1;
     border-radius: 6px;
-    box-shadow: 0 0 6px 0 rgba($color-dark1, .5);
+    box-shadow: 0 0 6px 0 var(--color-dark1-a5);
     box-sizing: border-box;
     font-size: $font-size;
     line-height: $line-height-large1;
@@ -79,7 +79,7 @@
 
     &::after {
       background-color: $color-light1;
-      box-shadow: 0 0 6px 0 rgba($color-dark1, .5);
+      box-shadow: 0 0 6px 0 var(--color-dark1-a5);
       content: '';
       display: block;
       height: $gridspacing * 3;

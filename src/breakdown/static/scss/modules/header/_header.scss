@@ -1,8 +1,8 @@
 .header {
   align-items: center;
-  background-color: $color-light1;
-  border-bottom: $border;
-  box-shadow: 0 2px 0 0 $color-dark4;
+  background-color: var(--color-light1);
+  border-bottom: var(--border);
+  box-shadow: 0 2px 0 0 var(--color-dark4);
   box-sizing: border-box;
   display: flex;
   height: $headerheight;

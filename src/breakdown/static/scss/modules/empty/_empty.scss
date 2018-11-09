@@ -1,6 +1,6 @@
 .empty {
-  border-top: $border;
-  color: rgba($color-secondary, .38);
+  border-top: var(--border);
+  color: var(--color-secondary-a38);
   font-size: $font-size-small1;
   line-height: $line-height-large2;
   padding-top: $gridspacing * 2;

@@ -1,6 +1,6 @@
 .connecteditem {
-  background: $color-primary;
-  color: $color-light1;
+  background: var(--color-primary);
+  color: var(--color-light1);
   display: block;
   padding: $gridspacing * 2 $gridspacing * 4 + 24px $gridspacing * 2 $gridspacing * 2;
 
@@ -19,7 +19,7 @@
   }
 
   &:hover {
-    color: $color-light1;
+    color: var(--color-light1);
   }
 
 }

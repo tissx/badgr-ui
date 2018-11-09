@@ -1,7 +1,7 @@
 .pathwaydetail {
 
-  background-color: $color-light1;
-  box-shadow: 0 0 0 1px $color-dark4 inset;
+  background-color: var(--color-light1);
+  box-shadow: 0 0 0 1px var(--color-dark4) inset;
   padding: $gridspacing * 2;
   position: relative;
 
@@ -67,14 +67,14 @@
     }
 
     p {
-      color: $color-secondary;
+      color: var(--color-secondary);
       font-size: $font-size-small2;
       line-height: $line-height;
       margin-bottom: $gridspacing * 2;
     }
 
     .pathwaydetail-x-children {
-      color: $color-dark3;
+      color: var(--color-dark3);
       font-size: $font-size-small1;
       height: 24px;
       line-height: 24px;
@@ -122,7 +122,7 @@
   }
 
   .pathwaydetail-x-or {
-    color: $color-dark3;
+    color: var(--color-dark3);
     font-size: $font-size-small1;
   }
 
@@ -161,7 +161,7 @@
 
   .pathway-x-required{
     align-items: center;
-    color: $color-dark2;
+    color: var(--color-dark2);
     display: flex;
 
     &::before {

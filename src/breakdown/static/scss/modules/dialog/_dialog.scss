@@ -1,6 +1,6 @@
 @mixin backdrop {
   animation: fadein $transition-duration $transition-easing forwards;
-  background: rgba($color-secondary, .8);
+  background: var(--color-secondary-a8);
   height: 100vh;
   left: 0;
   opacity: 0;
@@ -13,7 +13,7 @@
 .dialog {
   background: $color-light1;
   border: 0;
-  box-shadow: 0 4px 4px 0 rgba($color-secondary, .12), 0 0 2px 0 rgba($color-secondary, .12);
+  box-shadow: 0 4px 4px 0 var(--color-secondary-a12), 0 0 2px 0 var(--color-secondary-a12);
   color: $color-dark1;
   height: 100vh;
   left: 0;
@@ -84,7 +84,7 @@
   }
 
   @media (min-width: $media-tablet) {
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     height: auto;
     left: 50%;
     max-height: $maxheight-dialog;

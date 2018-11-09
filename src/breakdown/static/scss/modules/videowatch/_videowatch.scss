@@ -1,6 +1,6 @@
 .videowatch {
   background: url('#{$base-path}images/videowatch.svg') left center no-repeat;
-  color: $color-primary;
+  color: var(--color-primary);
   font-size: $font-size-small1;
   height: 27px;
   line-height: 27px;

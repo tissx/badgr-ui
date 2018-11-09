@@ -1,6 +1,6 @@
 .badgeButton {
-  background-color: $color-light1;
-  border: 1px solid $color-dark4;
+  background-color: var(--color-light1);
+  border: 1px solid var(--color-dark4);
   border-radius: 0px;
   color: black;
   display: block;
@@ -62,8 +62,8 @@
   }
 
   &.badgeButton-is-selected {
-    background-color: $color-badgeButton-light;
-    color: $color-primary;
+    background-color: var(--color-primary-light);
+    color: var(--color-primary);
   }
 
   @media (min-width: $media-tablet) {

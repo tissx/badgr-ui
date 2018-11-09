@@ -15,8 +15,8 @@
       transition: color $transition-duration $transition-easing;
 
       > span:first-child {
-        background: $color-light1;
-        border: .0625em solid $color-dark3;
+        background: var(--color-light1);
+        border: .0625em solid var(--color-dark3);
         border-radius: 1em;
         display: inline-block;
         height: .875em;
@@ -31,8 +31,8 @@
       &:hover {
 
         > span:first-child {
-          background: $color-light4;
-          border: 1px solid $color-dark2;
+          background: var(--color-light4);
+          border: 1px solid var(--color-dark2);
         }
 
       }
@@ -42,12 +42,12 @@
     &[disabled] {
 
       + label {
-        color: $color-dark4;
+        color: var(--color-dark4);
         pointer-events: none;
 
         > span:first-child {
-          background: $color-light2;
-          border: 1px solid $color-dark4;
+          background: var(--color-light2);
+          border: 1px solid var(--color-dark4);
         }
 
       }
@@ -60,12 +60,12 @@
   input[type=radio]:checked:focus {
 
     + label > span:first-child {
-      background: $color-primary;
-      border: .0625em solid $color-primary;
+      background: var(--color-primary);
+      border: .0625em solid var(--color-primary);
 
       > span {
-        background: $color-light1;
-        border: .0625em solid $color-primary;
+        background: var(--color-light1);
+        border: .0625em solid var(--color-primary);
         border-radius: 1em;
         display: block;
         height: .5em;
@@ -80,9 +80,9 @@
   input[type=radio]:focus {
 
     + label > span:first-child {
-      background: $color-light1;
-      border: .0625em solid $color-dark2;
-      box-shadow: 0 0 4px 1px $color-quaternary;
+      background: var(--color-light1);
+      border: .0625em solid var(--color-dark2);
+      box-shadow: 0 0 4px 1px var(--color-quaternary);
     }
 
   }
