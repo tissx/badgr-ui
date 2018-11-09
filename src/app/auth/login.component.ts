@@ -16,6 +16,7 @@ import { FormFieldText } from "../common/components/formfield-text";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
 
 
 @Component({
@@ -181,6 +182,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		private queryParams: QueryParametersService,
 		public oAuthManager: OAuthManager,
 		private externalToolsManager: ExternalToolsManager,
+		private profileManager: UserProfileManager,
 		router: Router,
 		route: ActivatedRoute
 	) {
@@ -274,12 +276,23 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		this.loginFinished = this.sessionService.login(credential)
 			.then(
 				() => {
-					if (this.oAuthManager.isAuthorizationInProgress) {
-						this.router.navigate([ '/auth/oauth2/authorize' ]);
-					} else {
-						this.externalToolsManager.externaltoolsList.updateIfLoaded();
-						this.router.navigate([ 'recipient' ]);
-					}
+					this.profileManager.userProfilePromise.then((profile) => {
+						// fetch user profile and emails to check if they are verified
+						profile.emails.updateList().then(() => {
+							if (profile.isVerified) {
+								if (this.oAuthManager.isAuthorizationInProgress) {
+									this.router.navigate([ '/auth/oauth2/authorize' ]);
+								} else {
+									this.externalToolsManager.externaltoolsList.updateIfLoaded();
+									this.router.navigate([ 'recipient' ]);
+								}
+							} else {
+								this.router.navigate([ 'signup/success', { email: profile.emails.entities[0].email } ]);
+							}
+
+						})
+					});
+
 				},
 				error => this.messageService.reportHandledError(
 					"Login failed. Please check your email and password and try again.",
