@@ -86,9 +86,13 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							>View external Criteria</a>
 						</div>
 
-						<p class="heading-x-meta">
+						<div class="heading-x-meta">
 							Created On: <time [date]="badgeClass.createdAt" format="MM/dd/y"></time>
-						</p>
+						</div>
+						<div class="heading-x-meta" *ngIf="badgeClass.expiresAmount">
+							Expires After: {{badgeClass.expiresAmount}} {{badgeClass.expiresDuration}}
+						</div>
+						
 
 						<section>
 							<h1>Description</h1>
