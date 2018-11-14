@@ -15,12 +15,6 @@ $color-dark4: #e1e0e5;
 $color-dark5: #000;
 $color-error:#f01f31;
 
-$states: (
-  error: $color-error,
-  pending: $color-tertiary,
-  success: $color-quaternary
-);
-
 // Layout
 // Shared between various modules
 $gridspacing: 8px;
@@ -141,6 +135,8 @@ $transition-easing: ease-out;
   --color-dark4: $color-dark4;
   --color-dark5: $color-dark5;
   --color-error: $color-error;
+  --color-pending: $color-tertiary;
+  --color-success: $color-quaternary;
 
   // Update values based on related color
   --color-secondary-a12: rgba($color-secondary, .12);;
@@ -170,7 +166,6 @@ $transition-easing: ease-out;
   --line-height-large2: $line-height-large2;
   --line-height-large3: $line-height-large3;
   --line-height-large4: $line-height-large4;
-  
 }
 
 // Mixins
@@ -212,7 +207,7 @@ $transition-easing: ease-out;
 
 // New Label
 @mixin newlabel {
-  background-color: map-get($states, pending);
+  background-color: var(--color-pending);
   border-radius: var(--border-radius);
   color: var(--color-light1);
   font-size: var(--font-size-small2);

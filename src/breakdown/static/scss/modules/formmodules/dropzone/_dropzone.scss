@@ -85,14 +85,14 @@
   }
 
   &.dropzone-is-error {
-    border-color: map-get($states, error);
+    border-color: var(--color-error);
 
     &::before {
       background-image: url('#{$base-path}images/dropzone-alt1-error.svg');
     }
 
     .dropzone-x-text {
-      color: map-get($states, error);
+      color: var(--color-error);
     }
 
   }

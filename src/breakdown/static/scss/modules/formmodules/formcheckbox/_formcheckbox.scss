@@ -66,10 +66,10 @@
 
   &.formcheckbox-is-error {
     .formcheckbox-x-text::before {
-      border-color: map-get($states, error);
+      border-color: var(--color-error);
     }
     .formcheckbox-x-errortext{
-      color: map-get($states, error);
+      color: var(--color-error);
       align-items: center;
       display: flex;
       font-size: var(--font-size-small2);

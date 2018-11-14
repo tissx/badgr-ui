@@ -41,7 +41,7 @@
   }
 
   &.formmessage-is-error {
-    background-color: map-get($states, error);
+    background-color: var(--color-error);
   }
 
 }

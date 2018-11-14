@@ -14,10 +14,16 @@ Default - Not used
 .state {
   font-weight: 600;
 
-  @each $state, $color in $states {
-    &.state-is-#{$state} {
-      color: $color;
-    }
+  &.state-is-error {
+    color:var(--color-error);;
+  }
+
+  &.state-is-pending {
+    color: var(--color-pending);
+  }
+
+  &.state-is-success {
+    color: var(--color-success);
   }
 
 }
@@ -31,11 +37,16 @@ Default - Not used
   padding: 5px;
   text-transform: uppercase;
 
-  @each $state, $color in $states {
-    &.state-is-#{$state} {
-      background-color: $color;
-      color: var(--color-light1);
-    }
+  &.state-is-error {
+    color:var(--color-error);;
+  }
+
+  &.state-is-pending {
+    color: var(--color-pending);
+  }
+
+  &.state-is-success {
+    color: var(--color-success);
   }
 
 }

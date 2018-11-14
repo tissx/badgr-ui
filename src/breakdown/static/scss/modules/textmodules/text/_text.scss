@@ -7,7 +7,7 @@
   }
 
   &.text-is-error {
-    color: map-get($states, error);
+    color: var(--color-error);
     font-size: var(--font-size-small2);
     margin-top: $gridspacing;
     transition: opacity 125ms ease-out;

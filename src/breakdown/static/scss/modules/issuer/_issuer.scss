@@ -27,7 +27,7 @@
   }
 
   strong {
-    color: map-get($states, success);
+    color: var(--color-success);
     font-weight: bold;
   }
 

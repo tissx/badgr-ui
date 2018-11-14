@@ -81,7 +81,7 @@
   &:checked + label {
 
     &::before {
-      background-color: $color-tertiary;
+      background-color: var(--color-tertiary);
     }
 
     &::after {

@@ -111,7 +111,7 @@
   }
 
   .formfield-x-error {
-    color: map-get($states, error);
+    color: var(--color-error);
     display: none;
     font-size: var(--font-size-small2);
     font-weight: bold;
@@ -152,18 +152,18 @@
 
     > label,
     .formfield-x-label {
-      color: map-get($states, error);
+      color: var(--color-error);
     }
 
     > input,
     > select,
     > textarea {
-      border-color: map-get($states, error);
-      color: map-get($states, error);
+      border-color: var(--color-error);
+      color: var(--color-error);
 
       &:hover:not([readonly]):not([disabled]),
       &:focus:not([readonly]):not([disabled]) {
-        border-color: map-get($states, error);
+        border-color: var(--color-error);
       }
 
     }

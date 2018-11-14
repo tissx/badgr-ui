@@ -50,7 +50,7 @@
 
   &.formimage-is-error {
     label {
-      border-color: map-get($states, error);
+      border-color: var(--color-error);
       border-style: solid;
     }
   }
@@ -86,7 +86,7 @@
   }
 
   .formimage-x-error {
-    color: map-get($states, error);
+    color: var(--color-error);
     font-size: var(--font-size-small2);
     margin-top: $gridspacing;
   }
