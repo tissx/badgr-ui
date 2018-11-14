@@ -282,7 +282,7 @@ import { BadgeClass } from "./models/badgeclass.model";
 								<legend class="u-margin-bottom2x text text-quiet">How long is this award valid?</legend>
 								<div class="l-formtwoup">
 									<bg-formfield-text [control]="expirationForm.controls.expires_amount"
-													label="Amount"
+													label="Number"
 									></bg-formfield-text>
 									<bg-formfield-select ariaLabel="Select Duration"
 														[control]="expirationForm.controls.expires_duration"
