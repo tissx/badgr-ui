@@ -114,4 +114,5 @@ export interface PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer {
 
 	sourceUrl?: string;
 	hostedUrl?: string;
+	expires?: string;
 }

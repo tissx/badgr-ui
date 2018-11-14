@@ -88,12 +88,19 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 										<span class="stack-x-image">
 											<img [loaded-src]="entry.badge.image"
 											     [loading-src]="badgeLoadingImageUrl"
-											     [error-src]="badgeFailedImageUrl"
+												 [error-src]="badgeFailedImageUrl"
+												 [ngStyle]="entry.badge.isExpired && {'filter':'grayscale(1)'}"
 											     width="40" />
 										</span>
 										<span class="stack-x-text">
-											<span class="stack-x-title">{{ entry.badge.badgeClass.name }}</span>
+											<span class="stack-x-title">
+												<span *ngIf="entry.badge.mostRelevantStatus" class="u-margin-right1x status status-{{entry.badge.mostRelevantStatus}}">
+													{{entry.badge.mostRelevantStatus}}
+												</span> 	
+												{{ entry.badge.badgeClass.name }}
+											</span>
 										</span>
+										
 									</a>
 								</th>
 								<td class="hidden hidden-is-desktop" >{{ entry.badge.badgeClass.issuer.name }}</td>

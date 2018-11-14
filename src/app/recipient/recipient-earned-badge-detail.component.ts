@@ -36,11 +36,16 @@ import { EventsService } from "../common/services/events.service";
 				</nav>
 				<div class="heading">
 					<div class="heading-x-imageLarge">
-						<div class="badge badge-flat">
+						<div class="badge badge-flat u-grid">
 							<img [loaded-src]="badge.image"
 							     [loading-src]="badgeLoadingImageUrl"
-							     [error-src]="badgeFailedImageUrl"
-				           width="200" />
+								 [error-src]="badgeFailedImageUrl"
+								 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
+								 width="200" 
+						    />
+						   <div class="u-margin-auto status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">
+								{{badge.mostRelevantStatus}}
+							</div>
 						</div>
 					</div>
 					<div class="heading-x-text">
@@ -51,14 +56,19 @@ import { EventsService } from "../common/services/events.service";
 								<img [loaded-src]="badge.badgeClass?.issuer?.image"
 	                 [loading-src]="issuerImagePlacholderUrl"
 	                 [error-src]="issuerImagePlacholderUrl"
-	                 width="80" />
+					 width="80" />
 							</div>
 							<div class="stack-x-text">
 								<h2>{{ badge.badgeClass.issuer.name }}</h2>
 								<small>{{ issuerBadgeCount }}</small>
 							</div>
 						</a>
+
+						<p *ngIf="badge.expiresDate && isExpired" class="heading-x-meta-callout">
+							Expired on <time [date]="badge.expiresDate" format="mediumDate"></time>
+						</p>
 						<p><small>Awarded <time [date]="badge?.issueDate" format="mediumDate"></time> to {{ badge.recipientEmail }}</small></p>
+						<p *ngIf="badge.expiresDate && !isExpired"><small>Expires <time [date]="badge?.expiresDate" format="mediumDate"></time></small></p>
 
 						<p style="font-size: 16px">{{ badge.badgeClass.description }}</p>
 
@@ -239,6 +249,10 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 			),
 			() => {}
 		);
+	}
+
+	get isExpired() {
+		return (this.badge && this.badge.expiresDate && this.badge.expiresDate < new Date());
 	}
 
 	manageCollections() {

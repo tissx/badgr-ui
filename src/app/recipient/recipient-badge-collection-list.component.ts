@@ -35,12 +35,13 @@ import { shareCollectionDialogOptionsFor } from "./recipient-badge-collection-de
 		  </header>
 
 			<ng-template [bgAwaitPromises]="[ collectionListLoaded ]">
+				<!--  Empty state - collection has not badges -->
 				<article *ngIf="badgeCollections.length == 0" class="emptyillustration l-containervertical">
 					<h1>You have no Collections</h1>
 					<div>Collections are a way to organize badges you've earned to share them together.</div>
 					<img [src]="noCollectionsImageUrl" alt="Illustration description">
 				</article>
-
+				<!--  Collection of Badges -->
 				<div *ngIf="badgeCollections.length > 0" class="l-containerhorizontal l-containervertical l-gridthree wrap">
 					<div *ngFor="let collection of badgeCollections">
 						<article class="card card-collection">
@@ -54,7 +55,8 @@ import { shareCollectionDialogOptionsFor } from "./recipient-badge-collection-de
 						          <img [loaded-src]="entry.badge?.image"
 						               [loading-src]="badgeLoadingImageUrl"
 						               [error-src]="badgeFailedImageUrl"
-						               alt="{{ entry.badge?.badgeClass.name }} Image"
+													 alt="{{ entry.badge?.badgeClass.name }} Image"
+													 [ngStyle]="entry.badge?.isExpired && {'filter':'grayscale(1)'}"
 						               width="40" />
 					          </div>
 					        </li>

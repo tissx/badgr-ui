@@ -25,6 +25,7 @@ import { TelephoneValidator } from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
 import { FormFieldTextInputType } from '../common/components/formfield-text';
 import * as sanitizeHtml from "sanitize-html";
+import {DateValidator} from "../common/validators/date.validator";
 
 
 @Component({
@@ -203,6 +204,58 @@ import * as sanitizeHtml from "sanitize-html";
 					        (click)="evidenceEnabled = false"
 					>Remove</button>
 				</div>
+
+				<!-- Expiration -->
+				<div class="l-formsection wrap wrap-well" 
+				     role="group" 
+				     aria-labelledby="heading-expiration"
+				     *ngIf="expirationEnabled"
+				>
+					<h3 class="l-formsection-x-legend title title-ruled" id="heading-expiration">Badge Expiration</h3>
+					<div class="l-formsection-x-container">
+						<div class="l-formsection-x-help">
+							<h4 class="title title-bordered" id="heading-expirationhelp">Badge Expiration</h4>
+							<p class="text text-small">
+								This Badge is set to expire. You can edit the expiration date or remove this section if you don't want this award to expire.
+							</p>
+							<a class="button button-tertiaryghost" 
+							   href="https://support.badgr.io/pages/viewpage.action?pageId=2981918" 
+							   aria-labelledby="heading-expirationhelp"
+							   target="_blank"
+							>Learn More</a>
+						</div>
+						
+						
+						<div class="l-formsection-x-inputs">
+						
+						<div *ngIf="!defaultExpiration || expirationDateEditable" class="formfield">
+								<bg-formfield-text
+									label="Expiration date"
+									fieldType="date"
+									[control]="issueForm.untypedControls.expires"
+									ariaLabel="Expiration date"
+									[errorMessage]="'Please enter a date in the format YYYY/mm/dd'"
+								></bg-formfield-text>
+						</div>
+						<div *ngIf="defaultExpiration && !expirationDateEditable" class="heading heading-small">
+							<div class="heading-x-text">
+								<label class="label-formfield" for="date">Expiration Date:</label>
+									<h1>
+										{{defaultExpiration|date}}
+										<button class="heading-x-edit" type="button" tabindex="0" (click)="expirationDateEditable = true">Edit</button>
+									</h1>
+							</div>
+						</div>
+						
+						</div>
+
+					</div>
+					<button class="l-formsection-x-remove formsectionremove"
+					        type="button" 
+					        aria-labelledby="formsection"
+					        (click)="expirationEnabled = false"
+					>Remove</button>
+				</div>
 				
 				<!-- Add Optional Details -->
 				<div class="l-formsection l-formsection-span wrap wrap-well" role="group" aria-labelledby="heading-addoptionaldetails">
@@ -221,6 +274,12 @@ import * as sanitizeHtml from "sanitize-html";
 								        [disabled]="evidenceEnabled"
 								        (click)="enableEvidence()">
 									<span class="squareiconcard-x-container">Evidence</span>
+								</button>
+								<button class="squareiconcard squareiconcard-expiration" 
+								        type="button"
+								        [disabled]="expirationEnabled"
+								        (click)="toggleExpiration()">
+									<span class="squareiconcard-x-container">Expiration</span>
 								</button>
 							</div>
 						</div>
@@ -262,9 +321,19 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			return null;
 		}
 	};
+	expirationValidator: (control: FormControl) => ValidationResult = (control) => {
+		if (this.expirationEnabled) {
+			return Validators.compose([Validators.required, DateValidator.validDate])(control)
+		} else {
+			return null;
+		}
+	};
+
+	expirationDateEditable: boolean = false;
 
 	issuer: Issuer;
 	issueForm = typedGroup()
+		.addControl("expires", "", this.expirationValidator)
 		.addControl("recipient_type", "email" as RecipientIdentifierType, [ Validators.required ], control => {
 			control.untypedControl.valueChanges.subscribe(() => {
 				this.issueForm.controls.recipient_identifier.untypedControl.updateValueAndValidity()
@@ -277,6 +346,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addArray("evidence_items", typedGroup()
 			.addControl("narrative", "")
 			.addControl("evidence_url", "")
+			.addControl("expiration", "")
 		);
 
 	badge_class: BadgeClass;
@@ -293,6 +363,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	evidenceEnabled = false;
 	narrativeEnabled = false;
+	expirationEnabled = false;
 
 	constructor(
 		protected title: Title,
@@ -317,9 +388,20 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				this.badgeSlug
 			).then((badge_class) => {
 				this.badge_class = badge_class;
+				if (badge_class.expiresDuration && badge_class.expiresAmount) {
+					this.expirationEnabled = true;
+				}
+				this.issueForm.untypedControls.expires.setValue(this.defaultExpiration);
+
 				this.title.setTitle("Award Badge - " + badge_class.name + " - Badgr");
 			});
 		});
+	}
+
+	get defaultExpiration(): string {
+		if (this.badge_class && this.badge_class.expiresDuration && this.badge_class.expiresAmount) {
+			return this.badge_class.expirationDateRelative().toISOString().replace(/T.*/,'')
+		}
 	}
 
 	get issuerSlug() {
@@ -342,6 +424,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 	}
 
+	toggleExpiration() {
+		this.expirationEnabled = !this.expirationEnabled;
+	}
+
 	addEvidence() {
 		this.issueForm.controls.evidence_items.addFromTemplate();
 	}
@@ -361,6 +447,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		} : undefined;
 
+		let expires = (this.expirationEnabled && formState.expires) ? new Date(formState.expires).toISOString() : undefined;
+
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
 			this.badgeSlug,
@@ -372,7 +460,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				narrative: this.narrativeEnabled ? formState.narrative : "",
 				create_notification: formState.notify_earner,
 				evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
-				extensions: extensions
+				extensions: extensions,
+				expires: expires,
 			}
 		).then(() => this.badge_class.update())
 			.then(() => {

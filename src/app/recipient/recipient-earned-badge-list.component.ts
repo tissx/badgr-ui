@@ -82,12 +82,16 @@ type BadgeDispay = "grid" | "list" ;
 										<div *ngFor="let badgeResult of badgeResults">
 											<article class="card card-largeimage">
 												<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
-													<p class="card-x-label" *ngIf="badgeResult.badge.isNew">New</p>
+													<div class="card-x-label status status-{{badgeResult.badge.mostRelevantStatus}}" *ngIf="badgeResult.badge.mostRelevantStatus">
+														{{badgeResult.badge.mostRelevantStatus}}
+													</div>
 													<div class="card-x-image">
 														<img [loaded-src]="badgeResult.badge.image"
 														     [loading-src]="badgeLoadingImageUrl"
-														     [error-src]="badgeFailedImageUrl" 
-														     width="80">
+															 [error-src]="badgeFailedImageUrl" 
+															 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}"
+															 width="80"
+														/>
 													</div>
 													<div class="card-x-text">
 														<h1>{{ badgeResult.badge.badgeClass.name }}</h1>
@@ -116,13 +120,15 @@ type BadgeDispay = "grid" | "list" ;
 											<div *ngFor="let badge of issuerGroup.badges">
 												<article class="card card-largeimage">
 													<a class="card-x-main" [routerLink]="['../earned-badge', badge.slug]">
-														<p class="card-x-label" *ngIf="badge.isNew">New</p>
+														<div class="card-x-label status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">{{badge.mostRelevantStatus}}</div>
 														<div class="card-x-image">
 															<div class="badge badge-flat">
 																<img [loaded-src]="badge.image"
 																     [loading-src]="badgeLoadingImageUrl"
-																     [error-src]="badgeFailedImageUrl"
-						                         width="80" />
+																	 [error-src]="badgeFailedImageUrl"
+																	 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
+																	 width="80" 
+																/>
 															</div>
 														</div>
 														<div class="card-x-text">
@@ -171,10 +177,14 @@ type BadgeDispay = "grid" | "list" ;
 													<span class="stack-x-image">
 														<img [loaded-src]="badge.image"
 														     [loading-src]="badgeLoadingImageUrl"
-														     [error-src]="badgeFailedImageUrl"
-					                       width="40" />
+															 [error-src]="badgeFailedImageUrl"
+															 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
+														     width="40" 
+														/>
 													</span>
-													<span *ngIf="badge.isNew" class="stack-x-new">New</span> 
+													<span *ngIf="badge.mostRelevantStatus" class="status status-{{badge.mostRelevantStatus}} u-margin-right1x">
+														{{badge.mostRelevantStatus}}
+													</span> 
 													<span class="stack-x-text">
 														<span class="stack-x-title">{{ badge.badgeClass.name }}</span>
 													</span>
