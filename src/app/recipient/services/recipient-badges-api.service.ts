@@ -47,16 +47,17 @@ export class RecipientBadgeApiService extends BaseHttpApiService {
 	}
 
 	getBadgeShareUrlForProvider(objectIdUrl, shareServiceType): Promise<string> {
+		let id_url = objectIdUrl.replace(/.*\//, '');
 		return this
-			.get(`/v1/earner/share/badge/${objectIdUrl}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
-			.then(r => r.json())
+			.get(`/v1/earner/share/badge/${id_url}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
+			.then(r => r.json().url)
 	}
 
 	getCollectionShareUrlForProvider(objectIdUrl, shareServiceType): Promise<string> {
-		let id_url = objectIdUrl.replace('badgr:badge-collection/','');
+		let id_url = objectIdUrl.replace(/.*\//, '')
 		return this
 			.get(`/v1/earner/share/collection/${id_url}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
-			.then(r => r.json())
+			.then(r => r.json().url)
 	}
 }
 

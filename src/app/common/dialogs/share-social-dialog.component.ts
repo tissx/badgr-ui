@@ -116,28 +116,28 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					<div *ngIf="displayShareServiceType('Facebook')">
 						<button class="buttonauth buttonauth-facebook"
 						        type="button"
-						        (click)="openFacebookWindow()"
+						        (click)="openShareWindow('Facebook')"
 						>Facebook
 						</button>
 					</div>
 					<div *ngIf="displayShareServiceType('LinkedIn')">
 						<button class="buttonauth buttonauth-linkedin_oauth2"
 						        type="button"
-						        (click)="openLinkedInWindow()"
+						        (click)="openShareWindow('LinkedIn')"
 						>LinkedIn
 						</button>
 					</div>
 					<div *ngIf="displayShareServiceType('Twitter')">
 						<button class="buttonauth buttonauth-twitter"
 						        type="button"
-						        (click)="openTwitterWindow()"
+						        (click)="openShareWindow('Twitter')"
 						>Twitter
 						</button>
 					</div>
 					<div *ngIf="displayShareServiceType('Pinterest')">
 						<button class="buttonauth buttonauth-pinterest"
 						        type="button"
-						        (click)="openPinterestWindow()"
+						        (click)="openShareWindow('Pinterest')"
 						>
 						</button>
 					</div>
@@ -170,8 +170,8 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
 						</label>
 						
-						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox">
-							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeBadgeClassName" (ngModelChange)="updatePreview()">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox1">
+							<input name="form-checkbox" id="form-checkbox1" type="checkbox" [(ngModel)]="includeBadgeClassName" (ngModelChange)="updatePreview()">
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
 						</label>
 
@@ -276,41 +276,12 @@ export class ShareSocialDialog extends BaseDialog {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Share Window API
-
-	openFacebookWindow() {
-		this.sharingService.shareWithFacebook(
+	openShareWindow(shareServiceType: ShareServiceType) {
+		this.sharingService.shareWithProvider(
+			shareServiceType,
 			this.options.shareObjectType,
 			this.options.shareIdUrl,
 			this.currentShareUrl
-		);
-	}
-
-	openLinkedInWindow() {
-		this.sharingService.shareWithLinkedIn(
-			this.options.shareObjectType,
-			this.options.shareIdUrl,
-			this.currentShareUrl,
-			this.options.shareTitle,
-			this.options.shareSummary,
-			this.options.shareEndpoint
-		);
-	}
-
-	openTwitterWindow() {
-		this.sharingService.shareWithTwitter(
-			this.options.shareObjectType,
-			this.options.shareIdUrl,
-			this.currentShareUrl
-		);
-	}
-
-	openPinterestWindow() {
-		this.sharingService.shareWithPinterest(
-			this.options.shareObjectType,
-			this.options.shareIdUrl,
-			this.currentShareUrl,
-			this.options.imageUrl,
-			this.options.shareTitle,
 		);
 	}
 
