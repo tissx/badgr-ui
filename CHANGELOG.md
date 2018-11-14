@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.19.3] - 2018-11-14
+ - Implement password security requirements - require password to change password
+ - Update copy around password security requirements
+ - support ?authCode one time token exchange instead of ?authToken
+ - Validate/sanitize recipient name extension entry on Issue form
+
 
 ## [2.18.1] - 2018-10-04
  - The Badgr logo in navigation now links to info redirect
