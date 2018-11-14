@@ -1,4 +1,7 @@
-import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, BadgeClassExpiresDuration } from './badgeclass-api.model';
+import {
+	BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, BadgeClassExpiresDuration,
+	ApiBadgeClassExpiration
+} from './badgeclass-api.model';
 import { IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
@@ -66,15 +69,21 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	}
 
 	get expiresDuration(): BadgeClassExpiresDuration | undefined {
-		return this.apiModel.expires.duration;
+		return this.apiModel.expires ? this.apiModel.expires.duration : undefined;
 	}
 	set expiresDuration(duration: BadgeClassExpiresDuration | undefined){
+		if (!this.apiModel.expires) {
+			this.apiModel.expires = {} as ApiBadgeClassExpiration
+		}
 		this.apiModel.expires.duration = duration;
 	}
 	get expiresAmount(): number | undefined {
-		return this.apiModel.expires.amount;
+		return this.apiModel.expires ? this.apiModel.expires.amount : undefined;
 	}
 	set expiresAmount(amount: number | undefined){
+		if (!this.apiModel.expires) {
+			this.apiModel.expires = {} as ApiBadgeClassExpiration
+		}
 		this.apiModel.expires.amount = amount;
 	}
 	clearExpires():void {

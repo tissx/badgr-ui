@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import {
 	FormBuilder, FormControl, Validators
 } from "@angular/forms";
-import { DatePipe } from '@angular/common';
 import {  ActivatedRoute , Router} from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { SessionService } from "../common/services/session.service";
@@ -26,6 +25,7 @@ import { TelephoneValidator } from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
 import { FormFieldTextInputType } from '../common/components/formfield-text';
 import * as sanitizeHtml from "sanitize-html";
+import {DateValidator} from "../common/validators/date.validator";
 
 
 @Component({
@@ -230,10 +230,11 @@ import * as sanitizeHtml from "sanitize-html";
 						
 						<div *ngIf="!defaultExpiration || expirationDateEditable" class="formfield">
 								<bg-formfield-text
-									label="Expiration Date:"
+									label="Expiration date"
 									fieldType="date"
 									[control]="issueForm.untypedControls.expires"
-									ariaLabel="Expires on"
+									ariaLabel="Expiration date"
+									[errorMessage]="'Please enter a date in the format YYYY/mm/dd'"
 								></bg-formfield-text>
 						</div>
 						<div *ngIf="defaultExpiration && !expirationDateEditable" class="heading heading-small">
@@ -320,12 +321,19 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			return null;
 		}
 	};
+	expirationValidator: (control: FormControl) => ValidationResult = (control) => {
+		if (this.expirationEnabled) {
+			return Validators.compose([Validators.required, DateValidator.validDate])(control)
+		} else {
+			return null;
+		}
+	};
 
 	expirationDateEditable: boolean = false;
 
 	issuer: Issuer;
 	issueForm = typedGroup()
-		.addControl("expires", "")
+		.addControl("expires", "", this.expirationValidator)
 		.addControl("recipient_type", "email" as RecipientIdentifierType, [ Validators.required ], control => {
 			control.untypedControl.valueChanges.subscribe(() => {
 				this.issueForm.controls.recipient_identifier.untypedControl.updateValueAndValidity()
@@ -392,7 +400,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	get defaultExpiration(): string {
 		if (this.badge_class && this.badge_class.expiresDuration && this.badge_class.expiresAmount) {
-			return new DatePipe("en-US").transform(this.badge_class.expirationDateRelative(), 'yyyy-MM-dd');
+			return this.badge_class.expirationDateRelative().toISOString().replace(/T.*/,'')
 		}
 	}
 
@@ -439,7 +447,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		} : undefined;
 
-		let expires = (this.expirationEnabled && formState.expires) ? `${formState.expires}T00:00` : undefined;
+		let expires = (this.expirationEnabled && formState.expires) ? new Date(formState.expires).toISOString() : undefined;
 
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
