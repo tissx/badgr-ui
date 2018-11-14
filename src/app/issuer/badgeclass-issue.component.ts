@@ -439,7 +439,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		} : undefined;
 
-		let expires = formState.expires ? `${formState.expires}T00:00` : undefined;
+		let expires = (this.expirationEnabled && formState.expires) ? `${formState.expires}T00:00` : undefined;
 
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
