@@ -172,3 +172,135 @@ $transition-easing: ease-out;
   --line-height-large4: $line-height-large4;
   
 }
+
+// Mixins
+
+// Container
+// Shared with .header and .l-containerhorizontal
+@mixin container {
+
+  @media (min-width: $media-desktop + $gridspacing * 8) {
+    padding-left: calc(50vw - #{$media-desktop / 2});
+    padding-right: calc(50vw - #{$media-desktop / 2});
+  }
+
+}
+
+// Dropdown
+
+@mixin dropdown {
+  background-color: var(--color-light1);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 5px 0 var(--color-secondary-a12), 0 0 4px 0 var(--color-secondary-a12);
+  position: absolute;
+  top: calc(100% + #{$gridspacing * 2});
+  width: 160px;
+
+  &::before {
+    background-color: var(--color-light1);
+    box-shadow: .5px .5px 1px 0 var(--color-dark4); // Best guess
+    content: '';
+    height: $gridspacing * 2;
+    position: absolute;
+    right: $gridspacing * 2;
+    top: -$gridspacing;
+    transform: rotate(-135deg);
+    width: $gridspacing * 2;
+    z-index: $z-index-low;
+  }
+}
+
+// New Label
+@mixin newlabel {
+  background-color: map-get($states, pending);
+  border-radius: var(--border-radius);
+  color: var(--color-light1);
+  font-size: var(--font-size-small2);
+  font-weight: bold;
+  line-height: 1;
+  padding: 5px 10px;
+  text-transform: uppercase;
+}
+
+// FormField Label
+@mixin label-formfield {
+  align-items: center;
+  color: var(--color-dark2);
+  display: flex;
+  font-size: var(--font-size-small2);
+  font-weight: bold;
+  justify-content: space-between;
+  letter-spacing: .5px;
+  margin-bottom: $gridspacing;
+  text-shadow: 1px 1px 1px var(--color-light1-a5);
+  text-transform: uppercase;
+}
+
+
+// Pesudo Base
+// Common for ::before and ::after
+@mixin pseudobase {
+  content: '';
+  display: block;
+}
+
+// Spinner
+@mixin spinner {
+  @include pseudobase;
+  animation: rotate .75s linear infinite forwards;
+  border: 1px solid var(--color-quaternary);
+  border-radius: 50%;
+  border-right-color: transparent;
+  box-sizing: border-box;
+}
+
+// Wrap
+@mixin wrap {
+  margin: 0 auto;
+  max-width: 1080px;
+  padding: 0 20px;
+}
+
+// Keyframes
+
+// Rotate
+@keyframes rotate {
+
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+
+}
+
+// Fade
+@keyframes fade {
+
+  0% {
+    opacity: .4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .4;
+  }
+
+}
+
+@keyframes fadein {
+
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+
+}
