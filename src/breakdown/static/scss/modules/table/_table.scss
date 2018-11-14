@@ -1,7 +1,7 @@
 .table {
   border-collapse: collapse;
   border-radius: var(--border-radius);
-  box-shadow: 0 0 0 1px $color-dark4 inset;
+  box-shadow: 0 0 0 1px var(--color-dark4) inset;
   display: table;
   overflow: hidden;
   text-align: left;
@@ -21,9 +21,9 @@
 
     th,
     .table-x-th {
-      background-color: $color-secondary;
+      background-color: var(--color-secondary);
       box-sizing: border-box;
-      font-size: $font-size-small2;
+      font-size: var(--font-size-small2);
       font-weight: bold;
       height: 48px;
       padding: $gridspacing * 2;
@@ -33,7 +33,7 @@
 
     th:not(.table-x-hidetext),
     .table-x-th:not(.table-x-hidetext) {
-      color: $color-light1;
+      color: var(--color-light1);
     }
 
   }
@@ -59,7 +59,7 @@
 
     td,
     .table-x-td {
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       white-space: nowrap;
     }
 
@@ -98,15 +98,15 @@
   }
 
   .table-x-date {
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     white-space: nowrap;
   }
 
   .table-x-inlineheader {
-    background-color: $color-dark4;
+    background-color: var(--color-dark4);
     border: 0;
-    color: $color-secondary;
-    font-size: $font-size;
+    color: var(--color-secondary);
+    font-size: var(--font-size);
     height: auto;
     line-height: $line-height-large2;
     padding-bottom: $gridspacing;
@@ -119,7 +119,7 @@
     .table-x-th,
     td,
     .table-x-td {
-      background-color: $color-dark4;
+      background-color: var(--color-dark4);
       box-shadow: var(--color-secondary-a12) 0 -1px 0 0 inset;
 
       &:first-child {
@@ -229,14 +229,14 @@
 }
 
 .table-import {
-  color: $color-dark2;
+  color: var(--color-dark2);
   max-width: 1024px;
   min-width: 736px;
 
   tbody{
 
     tr:first-of-type {
-      background: $color-dark4;
+      background: var(--color-dark4);
 
       td {
         color: black;
@@ -256,7 +256,7 @@
 
 // TODO: Needs example component
 .table-issues {
-  color: $color-dark2;
+  color: var(--color-dark2);
   max-width: 1024px;
   min-width: 736px;
 
@@ -275,7 +275,7 @@
     tr {
 
       td {
-        color: $color-dark5;
+        color: var(--color-dark5);
         font-size: 12px;
         font-weight: bold;
         height: 50px;
@@ -304,7 +304,7 @@
   }
 
   .table-issues-x-confirmationText {
-    color: $color-dark2;
+    color: var(--color-dark2);
     font-weight: normal;
   }
 

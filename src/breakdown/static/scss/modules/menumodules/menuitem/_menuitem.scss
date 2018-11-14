@@ -6,7 +6,7 @@
     appearance: none;
     box-sizing: border-box;
     display: block;
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     font-weight: bold;
     text-decoration: none;
     text-transform: uppercase;
@@ -33,7 +33,7 @@
     a,
     button {
       border-top: 1px solid var(--color-light1-a12);
-      color: $color-light1;
+      color: var(--color-light1);
       padding: $gridspacing * 2;
       text-align: left;
       width: 100%;
@@ -59,7 +59,7 @@
 
       > a,
       > button {
-        background-color: $color-light1;
+        background-color: var(--color-light1);
         border-top: var(--border);
         color: var(--color-primary);
       }
@@ -130,13 +130,13 @@
   @media (max-width: #{$media-tablet - 1px}) {
 
     > a {
-      background-color: $color-light3;
+      background-color: var(--color-light3);
       border-top: var(--border);
       color: var(--color-primary);
 
       &:hover {
         background-color: var(--color-primary);
-        color: $color-light1;
+        color: var(--color-light1);
       }
 
       &:active {
@@ -157,7 +157,7 @@
       &:hover {
         background-color: var(--color-primary);
         border-top-color: transparent;
-        color: $color-light1;
+        color: var(--color-light1);
       }
 
       &:active {

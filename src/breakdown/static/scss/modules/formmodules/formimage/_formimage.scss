@@ -3,7 +3,7 @@
 
   .formimage-x-title {
     color: var(--color-dark1);
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     font-weight: bold;
     justify-content: space-between;
     margin-bottom: $gridspacing;
@@ -14,14 +14,14 @@
     }
 
     a {
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       font-weight: normal;
       text-transform: none;
     }
 
     button {
       color: var(--color-dark2);
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
     }
 
   }
@@ -87,12 +87,12 @@
 
   .formimage-x-error {
     color: map-get($states, error);
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     margin-top: $gridspacing;
   }
 
   .formimage-x-label {
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
 
     span {
       color: var(--color-primary);

@@ -54,7 +54,7 @@ The font-stack determines a preferred set of fonts to display to the user.
 
 Variable Name | Value
 ------------- | -----
-`$font-family` | `Open Sans`, `sans-serif`
+`var(--font-family)` | `Open Sans`, `sans-serif`
 
 ## Font Sizes
 
@@ -62,12 +62,12 @@ Default values for all text appearing within modules.
 
 Variable Name | Value
 ------------- | -----
-`$font-size-small2` | <p style="font-size: 12px">12px</p>
-`$font-size-small1` | <p style="font-size: 14px">14px</p>
+`var(--font-size-small2)` | <p style="font-size: 12px">12px</p>
+`var(--font-size-small1)` | <p style="font-size: 14px">14px</p>
 `$font-size` | <p style="font-size: 16px">16px</p>
-`$font-size-large1` | <p style="font-size: 18px">18px</p>
-`$font-size-large2` | <p style="font-size: 24px">24px</p>
-`$font-size-large3` | <p style="font-size: 42px">42px</p>
+`var(--font-size-large1)` | <p style="font-size: 18px">18px</p>
+`var(--font-size-large2)` | <p style="font-size: 24px">24px</p>
+`var(--font-size-large3)` | <p style="font-size: 42px">42px</p>
 
 ## Line Heights
 

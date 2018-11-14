@@ -5,7 +5,7 @@
   box-sizing: border-box;
   color: var(--color-dark1);
   display: flex;
-  font-size: $font-size-small1;
+  font-size: var(--font-size-small1);
   min-height: 130px;
   padding: $gridspacing * 3;
   position: relative;

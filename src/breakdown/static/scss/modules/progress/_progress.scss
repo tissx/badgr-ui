@@ -8,7 +8,7 @@
   h4,
   h5,
   h6 {
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     font-weight: bold;
     line-height: $line-height;
     margin-right: $gridspacing * 2;

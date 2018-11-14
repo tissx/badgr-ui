@@ -142,9 +142,7 @@ $transition-easing: ease-out;
   --color-dark5: $color-dark5;
   --color-error: $color-error;
 
-  // HACK: Replace these with javascript based on the parent color
-  //So,  --color-secondary-a12 is --color-secondary with alpha .12
-  // #0F0 converts to 0, 255, 0
+  // Update values based on related color
   --color-secondary-a12: rgba($color-secondary, .12);;
   --color-dark1-a5: rgba($color-dark1, .5);
   --color-secondary-a38: rgba($color-secondary, .38);
@@ -159,7 +157,6 @@ $transition-easing: ease-out;
   --border-radius: 4px;
   --box-shadow: 0 1px 4 0 var(--color-dark1-a3);
   
-  // TODO: reference var(--font-family) instead of $font-family
   --font-family: $font-family;
   --font-size-small2: $font-size-small2;
   --font-size-small1: $font-size-small1;
@@ -173,6 +170,5 @@ $transition-easing: ease-out;
   --line-height-large2: $line-height-large2;
   --line-height-large3: $line-height-large3;
   --line-height-large4: $line-height-large4;
-  --transition-duration: $transition-duration;
-  --transition-easing: $transition-easing;
+  
 }

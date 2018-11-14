@@ -60,7 +60,7 @@
     }
 
     h1 {
-      font-size: $font-size;
+      font-size: var(--font-size);
       line-height: $line-height-large2;
       margin-bottom: $gridspacing;
       padding-right: $menumorewidth + $gridspacing * 2;
@@ -68,14 +68,14 @@
 
     p {
       color: var(--color-secondary);
-      font-size: $font-size-small2;
+      font-size: var(--font-size-small2);
       line-height: $line-height;
       margin-bottom: $gridspacing * 2;
     }
 
     .pathwaydetail-x-children {
       color: var(--color-dark3);
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       height: 24px;
       line-height: 24px;
       margin-top: $gridspacing * 2;
@@ -123,7 +123,7 @@
 
   .pathwaydetail-x-or {
     color: var(--color-dark3);
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
   }
 
   @media (min-width: $media-tablet) {
@@ -135,7 +135,7 @@
     .pathwaydetail-x-text {
 
       p {
-        font-size: $font-size-small1;
+        font-size: var(--font-size-small1);
         line-height: $line-height-large2;
         white-space: pre-wrap;
       }

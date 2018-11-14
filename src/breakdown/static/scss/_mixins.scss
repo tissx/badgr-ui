@@ -40,7 +40,7 @@
   background-color: map-get($states, pending);
   border-radius: var(--border-radius);
   color: var(--color-light1);
-  font-size: $font-size-small2;
+  font-size: var(--font-size-small2);
   font-weight: bold;
   line-height: 1;
   padding: 5px 10px;
@@ -52,7 +52,7 @@
   align-items: center;
   color: var(--color-dark2);
   display: flex;
-  font-size: $font-size-small2;
+  font-size: var(--font-size-small2);
   font-weight: bold;
   justify-content: space-between;
   letter-spacing: .5px;

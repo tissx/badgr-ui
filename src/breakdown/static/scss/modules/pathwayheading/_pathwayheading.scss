@@ -11,7 +11,7 @@
   }
 
   p {
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     line-height: $line-height-large2;
   }
 
@@ -21,7 +21,7 @@
 
   .pathwayheading-x-or {
     color: var(--color-dark3);
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     line-height: 1;
   }
 

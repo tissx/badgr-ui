@@ -9,8 +9,8 @@ select {
   appearance: none;
   -webkit-appearance: none;
   color: var(--color-dark1);
-  font-family: $font-family;
-  font-size: $font-size;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
 }
 
 html,
@@ -59,8 +59,8 @@ app {
 body {
   background: var(--color-light2);
   color: var(--color-dark1);
-  font-family: $font-family;
-  font-size: $font-size;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -71,8 +71,8 @@ button {
   border: 0;
   color: var(--color-dark1);
   cursor: pointer;
-  font-family: $font-family;
-  font-size: $font-size;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   line-height: 1;
   margin: 0;
   padding: 0;

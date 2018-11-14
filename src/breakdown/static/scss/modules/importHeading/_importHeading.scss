@@ -1,6 +1,6 @@
 .importHeading {
   padding-bottom: $gridspacing * 2;
-  font-size: $font-size-small1;
+  font-size: var(--font-size-small1);
   line-height: $line-height-large1;
 
   h1,

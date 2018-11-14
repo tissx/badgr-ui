@@ -7,10 +7,10 @@
 
   > span {
     align-items: center;
-    background-color: $color-secondary;
+    background-color: var(--color-secondary);
     bottom: 0;
     box-sizing: border-box;
-    color: $color-light1;
+    color: var(--color-light1);
     display: flex;
     font-weight: bold;
     height: 30px;

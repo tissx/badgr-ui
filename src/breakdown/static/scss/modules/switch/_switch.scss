@@ -3,10 +3,10 @@
 
   + label {
     align-items: center;
-    color: $color-dark2;
+    color: var(--color-dark2);
     cursor: pointer;
     display: flex;
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     line-height: 15px;
     position: relative;
     user-select: none;
@@ -18,7 +18,7 @@
     }
 
     &::before {
-      background-color: $color-secondary;
+      background-color: var(--color-secondary);
       border-radius: 500px; // Pill shape
       height: 15px;
       margin-right: $gridspacing;
@@ -27,7 +27,7 @@
     }
 
     &::after {
-      background-color: $color-light1;
+      background-color: var(--color-light1);
       border-radius: 13px;
       box-shadow: 0 3px 1px 0 var(--color-dark1-a5), 0 2px 2px 0 var(--color-dark1-a10), 0 3px 3px 0 var(--color-dark1-a5);
       height: 13px;

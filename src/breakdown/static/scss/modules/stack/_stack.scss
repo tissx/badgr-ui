@@ -27,7 +27,7 @@
   small {
     color: var(--color-dark2);
     display: block;
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     line-height: $line-height;
   }
 
@@ -58,7 +58,7 @@
   h6,
   .stack-x-title {
     color: var(--color-secondary);
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     line-height: $line-height;
   }
 

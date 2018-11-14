@@ -11,14 +11,14 @@
     }
 
     a {
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       font-weight: normal;
       text-transform: none;
     }
 
     button {
       color: var(--color-dark2);
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
     }
 
   }
@@ -32,7 +32,7 @@
     border-radius: var(--border-radius);
     box-sizing: border-box;
     display: block;
-    font-size: $font-size; // Anything less than 16px will cause automatic zooming on Safari for iOS
+    font-size: var(--font-size); // Anything less than 16px will cause automatic zooming on Safari for iOS
     line-height: $line-height-large1;
     min-width: 150px; // Needed for tables that have expanding th rows
     outline: none;
@@ -72,7 +72,7 @@
     background-position: calc(100% - #{$gridspacing * 2}) center;
     background-repeat: no-repeat;
     color: var(--color-secondary);
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     letter-spacing: 0.58;
     padding-right: $gridspacing * 4;
 
@@ -106,14 +106,14 @@
   }
 
   .formfield-x-description {
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     margin-bottom: $gridspacing;
   }
 
   .formfield-x-error {
     color: map-get($states, error);
     display: none;
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     font-weight: bold;
     margin-top: $gridspacing;
     transition: opacity $transition-duration / 2 $transition-easing;

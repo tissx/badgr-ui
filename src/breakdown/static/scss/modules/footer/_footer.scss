@@ -1,7 +1,7 @@
 .footer {
   border-top: var(--border);
   color: var(--color-dark2);
-  font-size: $font-size-small1;
+  font-size: var(--font-size-small1);
   line-height: 1.5;
   padding-bottom: $gridspacing * 3;
   padding-top: $gridspacing * 3;

@@ -11,7 +11,7 @@
     box-sizing: border-box;
     color: var(--color-primary);
     display: block;
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     font-weight: bold;
     line-height: 1.42;
     padding: $gridspacing;

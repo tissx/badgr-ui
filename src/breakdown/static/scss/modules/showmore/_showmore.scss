@@ -8,7 +8,7 @@ $carat: 'images/menuitem-desktop.svg';
   > .showmore-x-button {
     color: var(--color-dark2);
     text-decoration: none;
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     font-weight: bold;
     transition: box-shadow $transition-duration $transition-easing;
     text-align: center;

@@ -13,7 +13,7 @@
     color: var(--color-secondary);
     cursor: pointer;
     display: flex;
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     line-height: $line-height-small1;
     transition: color $transition-duration $transition-easing;
     a {
@@ -41,7 +41,7 @@
 
   .formcheckbox-x-text-sharebadge {
     color: var(--color-dark2);
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     line-height: $line-height;
   }
 
@@ -72,7 +72,7 @@
       color: map-get($states, error);
       align-items: center;
       display: flex;
-      font-size: $font-size-small2;
+      font-size: var(--font-size-small2);
       transition: color $transition-duration $transition-easing;
       margin-left: 25px;
       margin-top: $gridspacing;
