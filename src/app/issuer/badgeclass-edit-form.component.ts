@@ -281,11 +281,11 @@ import { BadgeClass } from "./models/badgeclass.model";
 							<fieldset>
 								<legend class="u-margin-bottom2x text text-quiet">How long is this award valid?</legend>
 								<div class="l-formtwoup">
-									<bg-formfield-text [control]="badgeClassForm.controls.expires_amount"
+									<bg-formfield-text [control]="expirationForm.controls.expires_amount"
 													label="Amount"
 									></bg-formfield-text>
 									<bg-formfield-select ariaLabel="Select Duration"
-														[control]="badgeClassForm.controls.expires_duration"
+														[control]="expirationForm.controls.expires_duration"
 														label="Duration"
 														[placeholder]="'Select a duration'"
 														[optionMap]="durationOptions"
@@ -426,8 +426,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_criteria_url: [''],
 			badge_criteria_text: [''],
 			alignments: fb.array([]),
-			expires_amount: [undefined],
-			expires_duration: ['']
 		} as BasicBadgeForm<any[], FormArray>, {
 				validator: this.criteriaRequired
 			});
@@ -448,8 +446,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			badge_description: [badgeClass.description, Validators.required],
 			badge_criteria_url: [badgeClass.criteria_url],
 			badge_criteria_text: [badgeClass.criteria_text],
-			expires_amount: [badgeClass.expiresAmount],
-			expires_duration: [badgeClass.expiresDuration || ""],
 			alignments: this.fb.array(this.badgeClass.alignments.map(alignment => this.fb.group({
 				target_name: [alignment.target_name, Validators.required],
 				target_url: [alignment.target_url, Validators.compose([Validators.required, UrlValidator.validUrl])],
@@ -466,7 +462,9 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 		this.tagsEnabled = this.tags.size > 0;
 		this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
-		this.expirationEnabled = this.badgeClass.expiresDuration && this.badgeClass.expiresAmount>0;
+		if (badgeClass.expiresAmount && badgeClass.expiresDuration) {
+			this.enableExpiration();
+		}
 	}
 
 	ngOnInit() {
@@ -513,6 +511,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Expiration
 	expirationEnabled = false;
+	expirationForm: FormGroup = undefined;
 
 
 	durationOptions: {[key in BadgeClassExpiresDuration]: string} = {
@@ -523,14 +522,19 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	enableExpiration() {
+		const initialAmount = this.badgeClass ? this.badgeClass.expiresAmount : "";
+		const initialDuration = this.badgeClass ? this.badgeClass.expiresDuration || "" : "";
+
 		this.expirationEnabled = true;
+		this.expirationForm = this.fb.group({
+			expires_amount: [initialAmount, Validators.compose([Validators.required, this.positiveInteger])],
+			expires_duration: [initialDuration, Validators.required],
+		});
 	}
 
 	disableExpiration() {
 		this.expirationEnabled = false;
-	}
-	get expiration() {
-		return this.badgeClassForm.controls["expiration"] as FormControl;
+		this.expirationForm = undefined;
 	}
 
 
@@ -611,6 +615,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	async onSubmit(formState: BasicBadgeForm<string, ApiBadgeClassAlignment[]>) {
+		const expirationState = this.expirationEnabled ? this.expirationForm.value : undefined;
+
 		if (this.existingBadgeClass) {
 			this.existingBadgeClass.name = formState.badge_name;
 			this.existingBadgeClass.description = formState.badge_description;
@@ -619,11 +625,16 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.existingBadgeClass.criteria_url = formState.badge_criteria_url;
 			this.existingBadgeClass.alignments = this.alignmentsEnabled ? formState.alignments : [];
 			this.existingBadgeClass.tags = this.tagsEnabled ? Array.from(this.tags) : [];
-			this.existingBadgeClass.expiresDuration = formState.expires_duration as BadgeClassExpiresDuration;
-			this.existingBadgeClass.expiresAmount = parseInt(formState.expires_amount) || undefined;
+			if (this.expirationEnabled) {
+				this.existingBadgeClass.expiresDuration = expirationState.expires_duration as BadgeClassExpiresDuration;
+				this.existingBadgeClass.expiresAmount = parseInt(expirationState.expires_amount);
+			} else {
+				this.existingBadgeClass.clearExpires();
+			}
+
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
-			const badgeClassData = {
+			let badgeClassData = {
 				name: formState.badge_name,
 				description: formState.badge_description,
 				image: formState.badge_image,
@@ -631,11 +642,14 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 				criteria_url: formState.badge_criteria_url,
 				tags: this.tagsEnabled ? Array.from(this.tags) : [],
 				alignment: this.alignmentsEnabled ? formState.alignments : [],
-				expires: {
-					duration: formState.expires_duration as BadgeClassExpiresDuration,
-					amount: parseInt(formState.expires_amount) || undefined
-				}
 			} as ApiBadgeClassForCreation;
+			if (this.expirationEnabled) {
+				badgeClassData.expires = {
+					duration: expirationState.expires_duration as BadgeClassExpiresDuration,
+					amount: parseInt(expirationState.expires_amount)
+				}
+			}
+
 
 			this.savePromise = this.badgeClassManager.createBadgeClass(this.issuerSlug, badgeClassData);
 		}
@@ -644,10 +658,20 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 
 	submitClicked(ev: Event) {
+		let valid = true;
+
 		if (!this.badgeClassForm.valid) {
+			valid = false;
 			ev.preventDefault();
 			markControlsDirty(this.badgeClassForm);
+		}
+		if (this.expirationEnabled && !this.expirationForm.valid) {
+			valid = false;
+			ev.preventDefault();
+			markControlsDirty(this.expirationForm);
+		}
 
+		if (!valid) {
 			// fire on next cycle, otherwise the immediate click event will dismiss the formmessage before its viewed
 			setTimeout(() => {
 				window.scrollTo(0, 0);
@@ -662,6 +686,13 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	generateRandomImage() {
 		this.badgeStudio.generateRandom().then(imageUrl => this.imageField.useDataUrl(imageUrl, "Auto-generated image"))
+	}
+
+	positiveInteger(control: AbstractControl) {
+		const val = parseInt(control.value);
+		if (isNaN(val) || val < 1) {
+			return {"expires_amount": "Must be a positive integer"}
+		}
 	}
 }
 
@@ -680,6 +711,5 @@ interface BasicBadgeForm<BasicType, AlignmentsType> {
 	badge_criteria_url: BasicType;
 	badge_criteria_text: BasicType;
 	alignments: AlignmentsType;
-	expires_amount: BasicType;
-	expires_duration: BasicType;
 }
+
