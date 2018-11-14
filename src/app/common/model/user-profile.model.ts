@@ -48,6 +48,10 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 		}
 	}
 
+	get isVerified(): boolean {
+		return this.emails.entities.filter(x => x.verified).length > 0
+	}
+
 	get firstName() { return this.apiModel.first_name }
 	set firstName(firstName: string) { this.apiModel.first_name = firstName }
 
