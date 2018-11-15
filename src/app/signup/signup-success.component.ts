@@ -17,11 +17,11 @@ import {SystemConfigService} from "../common/services/config.service";
 	
 				<!-- Title Message -->
 				<h3 class="l-auth-x-title title title-bold" id="heading-form">Verify Your Email Address</h3>
-				<p class="l-auth-x-text text text-quiet">Welcome to {{configService.thm['serviceName'] || "Badgr"}}!</p>
+				<p class="l-auth-x-text text text-quiet">Welcome to {{ service }}!</p>
 				<p class="l-auth-x-text text text-quiet">
 					We have sent a verification email to <strong>{{ email }}</strong>. Follow the link provided to finalize the signup
 					process. if you do not receive it within a few minutes, check your Spam or Junk email folders. If you
-					still can’t locate the email, please <a [href]="'mailto:'+(configService.helpConfig ? configService.helpConfig.email || 'help@badgr.io' : 'help@badgr.io')">contact us</a>.
+					still can’t locate the email, please <a [href]="helpEmailUrl">contact us</a>.
 				</p>
 			</div>
 		</main>
@@ -45,5 +45,12 @@ export class SignupSuccessComponent implements OnInit {
 		this.sessionService.logout();
 
 		this.email = this.routeParams.snapshot.params[ 'email' ];
+	}
+
+	get helpEmailUrl() {
+		return `mailto:${this.configService.helpConfig ? this.configService.helpConfig.email || 'help@badgr.io' : 'help@badgr.io'}`;
+	}
+	get service() {
+		return this.configService.thm['serviceName'] || "Badgr"
 	}
 }
