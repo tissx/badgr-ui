@@ -17,6 +17,7 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
 import { EventsService } from "../common/services/events.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'recipient-earned-badge-detail',
@@ -208,6 +209,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		private messageService: MessageService,
 		private eventService: EventsService,
 		private dialogService: CommonDialogsService,
+		private configService: SystemConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);
@@ -285,7 +287,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	}
 
 	private updateData(){
-		this.title.setTitle("Backpack - Badgr - " + this.badge.badgeClass.name);
+		this.title.setTitle(`Backpack - ${this.badge.badgeClass.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.badge.markAccepted();
 
@@ -356,13 +358,13 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 		],
 
 		versionInfoTitle: "We Support Open Badges v2.0!",
-		versionInfoBody: "Badgr is testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.",
+		versionInfoBody: "We are testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.",
 
 
 		embedOptions: [
 			{
 				label: "Card",
-				embedTitle: "Badgr Badge: " + options.badgeClassName,
+				embedTitle: "Badge: " + options.badgeClassName,
 				embedType: "iframe",
 				embedSize: { width: 330, height: 186 },
 				embedVersion: 1,
@@ -373,7 +375,7 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 
 			{
 				label: "Badge",
-				embedTitle: "Badgr Badge: " + options.badgeClassName,
+				embedTitle: "Badge: " + options.badgeClassName,
 				embedType: "image",
 				embedSize: { width: 128, height: 128},
 				embedVersion: 1,

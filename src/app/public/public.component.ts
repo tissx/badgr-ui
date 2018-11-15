@@ -26,9 +26,6 @@ import { SystemConfigService } from "../common/services/config.service";
 })
 export class PublicComponent extends BaseRoutableComponent implements OnInit {
 
-
-	get currentTheme() { return this.configService.currentTheme }
-
 	constructor(
 		private title: Title,
 		router: Router,
@@ -36,7 +33,7 @@ export class PublicComponent extends BaseRoutableComponent implements OnInit {
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle("Public - Badgr");
+		title.setTitle(`Public - ${this.configService.thm['serviceName'] || "Badgr"}`);
 	}
 
 	ngOnInit() {

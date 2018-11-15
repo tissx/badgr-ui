@@ -10,6 +10,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
 import { RecipientGroup } from "./models/recipientgroup.model";
 import { EmailValidator } from "../common/validators/email.validator";
+import {SystemConfigService} from "../common/services/config.service";
 
 //import "rxjs/add/observable/combineLatest";
 //import "rxjs/add/operator/first";
@@ -294,12 +295,13 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 		protected issuerManager: IssuerManager,
 		protected route: ActivatedRoute,
 		protected router: Router,
+		protected configService: SystemConfigService,
 		protected title: Title
 	)
 	{
 		super(router, route, loginService);
 
-		title.setTitle("Recipient Group CSV upload - Badgr");
+		title.setTitle(`Recipient Group CSV upload - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.activateViewState("instructions");
 

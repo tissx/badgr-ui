@@ -17,6 +17,7 @@ import { EmailValidator } from "../common/validators/email.validator";
 import { RecipientSelectionDialog } from "./recipient-selection-dialog.component";
 import { jsonCopy } from "../common/util/deep-assign";
 import { markControlsDirty } from "../common/util/form-util";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'recipientGroup-detail',
@@ -257,11 +258,12 @@ export class RecipientGroupDetailComponent extends BaseAuthenticatedRoutableComp
 		protected formBuilder: FormBuilder,
 		protected recipientGroupManager: RecipientGroupManager,
 		protected issuerManager: IssuerManager,
+		protected configService: SystemConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("Recipient Group Detail - Badgr");
+		title.setTitle(`Recipient Group Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
 			issuer => this.issuer = issuer,

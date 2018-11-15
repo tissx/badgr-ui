@@ -11,6 +11,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { ApiUserProfile } from "../common/model/user-profile-api.model";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfile } from "../common/model/user-profile.model";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	template: `
@@ -87,10 +88,11 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 		protected title: Title,
 		protected messageService: MessageService,
 		protected profileManager: UserProfileManager,
+		protected configService: SystemConfigService,
 		protected dialogService: CommonDialogsService
 ) {
 		super(router, route, sessionService);
-		title.setTitle("Profile - Edit - Badgr");
+		title.setTitle(`Profile - Edit - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.profileLoaded = profileManager.userProfilePromise.then(
 			profile => this.profile = profile,

@@ -19,6 +19,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { CommonEntityManager } from "../entity-manager/common-entity-manager.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'issuer-edit',
@@ -123,10 +124,11 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 		protected formBuilder: FormBuilder,
 		protected title: Title,
 		protected messageService: MessageService,
+		protected configService: SystemConfigService,
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);
-		title.setTitle("Edit Issuer - Badgr");
+		title.setTitle(`Edit Issuer - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
 
@@ -172,7 +174,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 				this.editControls.issuer_url.setValue(this.issuer.websiteUrl, { emitEvent: false });
 				this.editControls.issuer_image.setValue(this.issuer.image, { emitEvent: false });
 
-				this.title.setTitle("Issuer - " + this.issuer.name + " - Badgr");
+				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 				/*this.badgesLoaded = new Promise((resolve, reject) => {
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(

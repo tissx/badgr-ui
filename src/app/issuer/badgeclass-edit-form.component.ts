@@ -19,6 +19,7 @@ import { BadgrApiFailure } from "../common/services/api-failure";
 import { UrlValidator } from "../common/validators/url.validator";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgeClass } from "./models/badgeclass.model";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -407,11 +408,13 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
+		private configService: SystemConfigService,
 		protected badgeClassManager: BadgeClassManager,
+
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Create Badge Class");
+		title.setTitle(`Create Badge Class - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.badgeClassForm = fb.group({
 			badge_name: [

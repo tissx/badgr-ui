@@ -15,6 +15,7 @@ import { ApiRecipientBadgeIssuer } from "./models/recipient-badge-api.model";
 import { RecipientBadgeInstance } from "./models/recipient-badge.model";
 import { badgeShareDialogOptionsFor } from "./recipient-earned-badge-detail.component";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -39,7 +40,7 @@ type BadgeDispay = "grid" | "list" ;
 				<article class="emptyillustration l-containervertical" *ngIf="allBadges.length == 0">
 					<h1>You have no badges</h1>
 					  <div>
-					    Collect and share digital badges you've earned from Badgr or any Open Badges issuer.
+					    Collect and share digital badges you've earned from {{configService.thm.serviceName || "Badgr"}} or any Open Badges issuer.
 					    <a href="https://openbadges.org" target="_blank">Learn more</a> about Open Badges
 					  </div>
 					<img [src]="noBadgesImageUrl" alt="Illustration description">
@@ -266,11 +267,12 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		private dialogService: CommonDialogsService,
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
+		private configService: SystemConfigService,
 		private profileManager: UserProfileManager
 	) {
 		super(router, route, sessionService);
 
-		title.setTitle("Backpack - Badgr");
+		title.setTitle(`Backpack - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));

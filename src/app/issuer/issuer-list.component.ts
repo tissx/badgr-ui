@@ -9,6 +9,7 @@ import { Issuer } from "./models/issuer.model";
 import { BadgeClass } from "./models/badgeclass.model";
 import { Title } from "@angular/platform-browser";
 import { preloadImageURL } from "../common/util/file-util";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -104,13 +105,14 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
+		protected configService: SystemConfigService,
 		protected badgeClassService: BadgeClassManager,
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute
 	) {
 		super(router, route, loginService);
-		title.setTitle("Issuers - Badgr");
+		title.setTitle(`Issuers - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		// subscribe to issuer and badge class changes
 		this.issuersLoaded = new Promise((resolve, reject) => {

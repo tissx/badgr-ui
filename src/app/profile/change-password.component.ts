@@ -9,6 +9,7 @@ import { markControlsDirty } from "../common/util/form-util";
 import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfile } from "../common/model/user-profile.model";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -98,11 +99,12 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 		private profileManager: UserProfileManager,
 		route: ActivatedRoute,
 		router: Router,
+		protected configService: SystemConfigService,
 		private _messageService: MessageService
 	) {
 		super(router, route);
 
-		title.setTitle("Change Password - Badgr");
+		title.setTitle(`Change Password - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.profileManager.userProfilePromise
 			.then(profile => this.profile = profile);

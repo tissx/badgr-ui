@@ -18,6 +18,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -160,10 +161,11 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
 		protected profileManager: UserProfileManager,
+		protected configService: SystemConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
-		title.setTitle("Manage Issuer Staff - Badgr");
+		title.setTitle(`Manage Issuer Staff - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug)

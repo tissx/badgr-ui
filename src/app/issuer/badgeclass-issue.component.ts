@@ -26,6 +26,7 @@ import {EventsService} from "../common/services/events.service";
 import { FormFieldTextInputType } from '../common/components/formfield-text';
 import * as sanitizeHtml from "sanitize-html";
 import {DateValidator} from "../common/validators/date.validator";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -373,12 +374,13 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		protected badgeClassManager: BadgeClassManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
 		protected dialogService: CommonDialogsService,
+		protected configService: SystemConfigService,
 		sessionService: SessionService,
 		router: Router,
 		route: ActivatedRoute
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Award Badge - Badgr");
+		title.setTitle(`Award Badge - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then((issuer) => {
 			this.issuer = issuer;
@@ -393,7 +395,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				}
 				this.issueForm.untypedControls.expires.setValue(this.defaultExpiration);
 
-				this.title.setTitle("Award Badge - " + badge_class.name + " - Badgr");
+				this.title.setTitle(`Award Badge - ${badge_class.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 			});
 		});
 	}

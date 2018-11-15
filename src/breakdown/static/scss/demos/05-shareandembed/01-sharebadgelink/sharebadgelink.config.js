@@ -22,7 +22,7 @@ module.exports = {
       text: 'v2.0'
     },
     textBodyContext: {
-      text: 'Badgr is testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.'
+      text: 'We are testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.'
     },
     textTitleContext: {
       text: '<strong>We Support Open Badges v2.0!</strong>'

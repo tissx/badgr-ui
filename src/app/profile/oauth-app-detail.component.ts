@@ -8,6 +8,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 import { OAuth2AppAuthorization } from "../common/model/oauth.model";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { flatten } from "../common/util/array-reducers";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -93,16 +94,17 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 		private title: Title,
 		private messageService: MessageService,
 		private oAuthManager: OAuthManager,
+		protected configService: SystemConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
-		title.setTitle("App Integrations - Badgr");
+		title.setTitle(`App Integrations - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.appPromise = oAuthManager.authorizedApps.loadedPromise.then(
 			list => {
 				this.app = list.entityForUrl(this.appId);
 				this.appTokens = list.entities.filter(t => t.clientId == this.app.clientId);
-				title.setTitle(`App - ${this.app.name} - Badgr`);
+				title.setTitle(`App - ${this.app.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 			}
 		);
 	}

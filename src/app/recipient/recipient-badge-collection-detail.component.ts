@@ -11,6 +11,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { SessionService } from "../common/services/session.service";
 import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
 import { addQueryParamsToUrl } from "../common/util/url-util";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -141,11 +142,12 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager,
+		private configService: SystemConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("Collections - Badgr");
+		title.setTitle(`Collections - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.collectionLoadedPromise = Promise.all([
 				this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,
@@ -263,7 +265,7 @@ export function shareCollectionDialogOptionsFor(collection: RecipientBadgeCollec
 		embedOptions: [
 			{
 				label: "Card",
-				embedTitle: "Badgr Badge Collection: " + collection.name,
+				embedTitle: "Badge Collection: " + collection.name,
 				embedType: "iframe",
 				embedSize: { width: 330, height: 186 },
 				embedVersion: 1,
