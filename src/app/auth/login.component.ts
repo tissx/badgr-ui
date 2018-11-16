@@ -29,7 +29,10 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 				<!-- Non-OAuth Welcome Message -->
 				<ng-template [ngIf]="! oAuthManager.currentAuthorization">
 					<ng-template [ngIf]="! verifiedName">
-						<h3 class="l-auth-x-title title title-bold" id="heading-form">{{ thm.welcomeMessage || "Welcome to Badgr"}}</h3>
+						<markdown-display id="heading-form" 
+						                  [value]="thm.welcomeMessage || '## Welcome to Badgr'" 
+						                  [login]="true"
+						></markdown-display>
 						<p class="l-auth-x-text text text-quiet" *ngIf="sessionService.enabledExternalAuthProviders.length">
 							Choose your sign in method to get started.
 						</p>
@@ -38,10 +41,11 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 							Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
-					<ng-template [ngIf]="verifiedName">
+					<ng-template [ngIf]="verifiedName">					
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, {{ thm.welcomeMessage || "Welcome to Badgr" }}
+							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr" }}
 						</h3>
+
 						<p class="l-auth-x-text text text-quiet">
 							Your email address, {{ verifiedEmail }}, has been verified. Enter your password below to get started.
 						</p>
