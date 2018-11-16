@@ -127,7 +127,7 @@ import {SystemConfigService} from "../common/services/config.service";
 			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
 	
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
-				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown.  Uou may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier..</p>
+				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown. You may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier..</p>
 	
 				<input type="text"
 				       class="search l-childrenhorizontal-x-offset"
