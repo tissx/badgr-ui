@@ -11,13 +11,39 @@
   z-index: $z-index-high;
 
   .header-x-menu {
-    background: url('#{$base-path}images/header-menu.svg') center center no-repeat;
+    // background: url('#{$base-path}images/header-menu.svg') center center no-repeat;
+    position: relative;
     color: transparent;
     display: block;
     height: 24px;
     overflow: hidden;
     user-select: none;
+    z-index: $z-index-high;
+    
     width: 24px;
+    height: 24px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      background: $color-primary;
+      width: 24px;
+      height: 3px;
+      z-index: 100;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 0px;
+      border-bottom: 3px solid $color-primary;
+      border-top: 3px solid $color-primary;
+      width: 24px;
+      height: 3px;
+      z-index: 100;
+    }
   }
 
   @media (min-width: $media-tablet) {
