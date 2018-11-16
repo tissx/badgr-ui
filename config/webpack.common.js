@@ -145,7 +145,7 @@ function webpackCommonConfiguration(basePath, themes, includeHtml, headConfig)
                             attrs: 'img:src source:srcset bg-formfield-image:placeholderImage img:loading-src img:error-src img:loaded-src link:href'
                         }
                     }],
-                    exclude: [basePath+'src/index.html']
+                    exclude: [/src\/index.html/]
                 },
 
 
