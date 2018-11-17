@@ -261,7 +261,7 @@ export class PathwayDetailComponent extends BaseAuthenticatedRoutableComponent i
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("Pathway Detail - Badgr");
+		title.setTitle(`Pathway Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.pathwayLoaded = this.pathwayManager
 			.pathwaySummaryFor(this.issuerSlug, this.pathwaySlug)

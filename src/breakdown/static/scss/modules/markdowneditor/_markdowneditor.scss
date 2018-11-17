@@ -3,7 +3,7 @@
   position: relative;
   line-height: $line-height-large1;
 
-  .markdowneditor-x-editor{
+  .markdowneditor-x-editor {
     textarea {
       min-height: 144px;
     }
@@ -18,9 +18,9 @@
   }
 
   .markdowneditor-x-tabbar {
-    display:flex;
+    display: flex;
     height: 36px;
-    justify-content:flex-end;
+    justify-content: flex-end;
     margin-bottom: 40px;
     margin-top: -1px;
     position: absolute;
@@ -45,7 +45,7 @@
         user-select: none;
         width: 26px;
 
-        &::before{
+        &::before {
           display: inline-block;
           background-image: url('#{$base-path}images/markdown-mark-solid.svg');
           background-repeat: no-repeat;
@@ -54,7 +54,7 @@
           height: 16px;
           padding-right: $gridspacing;
           position: relative;
-          top:2px;
+          top: 2px;
           width: 26px;
         }
       }
@@ -79,7 +79,7 @@
 
   .markdowneditor-x-writebutton {
     border-radius: 0 0 0 4px;
-    left:15px;
+    left: 15px;
   }
 
   .markdowneditor-x-previewbutton {
@@ -100,26 +100,32 @@
     em {
       font-style: italic !important;
     }
+
     ul {
       list-style-type: disc !important;
       list-style-position: inside !important;
     }
+
     ol {
       list-style-type: decimal !important;
       list-style-position: inside !important;
     }
-    ul ul, ol ul {
+
+    ul ul,
+    ol ul {
       list-style-type: circle !important;
       list-style-position: inside !important;
       margin-left: 15px !important;
     }
-    ol ol, ul ol {
+
+    ol ol,
+    ul ol {
       list-style-type: lower-latin !important;
       list-style-position: inside !important;
       margin-left: 15px !important;
     }
 
-    @mixin baseh{
+    @mixin baseh {
       display: block !important;
       font-weight: bold !important;
       margin-left: 0 !important;
@@ -133,29 +139,34 @@
       margin-top: 0.67em !important;
       margin-bottom: 0.67em !important;
     }
+
     h2 {
       @include baseh;
       font-size: 1.5em !important;
       margin-top: 0.83em !important;
       margin-bottom: 0.83em !important;
     }
+
     h3 {
       @include baseh;
       font-size: 1.17em !important;
       margin-top: 1em !important;
       margin-bottom: 1em !important;
     }
+
     h4 {
       @include baseh;
       margin-top: 1.33em !important;
       margin-bottom: 1.33em !important;
     }
+
     h5 {
       @include baseh;
       font-size: .83em !important;
       margin-top: 1.67em !important;
       margin-bottom: 1.67em !important;
     }
+
     h6 {
       @include baseh;
       font-size: .67em !important;
@@ -182,6 +193,29 @@
 
     }
 
+  }
+
+}
+
+.markdowneditor-login {
+  padding-bottom: 0px;
+
+  p {
+    margin-bottom: 8px;
+  }
+
+  .markdowneditor-x-display {
+    h1 {
+      line-height: 1.2em
+    }
+    ul {
+      list-style-position: outside !important;
+      margin-left: 18px;
+
+      li {
+        margin-bottom: 8px;
+      }
+    }
   }
 
 }

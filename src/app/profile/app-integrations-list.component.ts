@@ -11,6 +11,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { OAuth2AppAuthorization } from "../common/model/oauth.model";
 import { groupIntoObject } from "../common/util/array-reducers";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 
@@ -37,7 +38,7 @@ import { groupIntoObject } from "../common/util/array-reducers";
 
 			<div class="l-containerhorizontal l-containervertical l-containervertical-small l-childrenvertical wrap"
 			     *bgAwaitPromises="[ appIntegrationsSet.loadedPromise ]">
-				<p class="text text-quiet">You've authorized access to your Badgr account for the apps and sites listed below.</p>
+				<p class="text text-quiet">You've authorized access to your {{configService.thm['serviceName'] || "Badgr"}} account for the apps and sites listed below.</p>
 
 				<div class="l-gridthree">
 					<!-- Custom Integrations -->
@@ -72,7 +73,7 @@ import { groupIntoObject } from "../common/util/array-reducers";
 								</div>
 								<div class="card-x-text">
 									<h1 id="appCardTitle-{{ app.entityId }}">{{ app.name }}</h1>
-									<p>This application has been granted permission to sign you in using your Badgr account.</p>
+									<p>This application has been granted permission to sign you in using your {{configService.thm['serviceName'] || "Badgr"}} account.</p>
 								</div>
 							</a>
 							<div class="card-x-actions">
@@ -99,11 +100,12 @@ export class AppIntegrationListComponent extends BaseAuthenticatedRoutableCompon
 		private messageService: MessageService,
 		private appIntegrationManager: AppIntegrationManager,
 		private oAuthManager: OAuthManager,
+		protected configService: SystemConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("App Integrations - Badgr");
+		title.setTitle(`App Integrations - ${this.configService.thm['serviceName'] || "Badgr"}`);
 	}
 
 	get appIntegrationsSet() {

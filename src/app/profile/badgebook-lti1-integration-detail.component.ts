@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Title } from "@angular/platform-browser";
 import { MessageService } from "../common/services/message.service";
 import { AppIntegrationManager } from "./services/app-integration-manager.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -128,9 +129,10 @@ export class BadgebookLti1DetailComponent extends AppIntegrationDetailComponent<
 		router: Router,
 		title: Title,
 		messageService: MessageService,
-		appIntegrationManager: AppIntegrationManager
+		appIntegrationManager: AppIntegrationManager,
+		configService: SystemConfigService
 	) {
-		super(loginService, route, router, title, messageService, appIntegrationManager);
+		super(loginService, route, router, title, messageService, appIntegrationManager, configService);
 	}
 }
 

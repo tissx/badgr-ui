@@ -165,10 +165,10 @@ export abstract class BaseHttpApiService {
 		if (response && response.status < 200 || response.status >= 300) {
 			if (response.status === 401 || response.status === 403) {
 				this.sessionService.logout();
-				window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to Badgr to continue.")}`);
+				window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
 			}
 			else if (response.status === 0) {
-				this.messageService.reportFatalError(`Badgr Server Unavailable`);
+				this.messageService.reportFatalError(`Server Unavailable`);
 			}
 			else {
 				throw new BadgrApiError(

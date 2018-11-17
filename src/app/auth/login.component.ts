@@ -29,7 +29,10 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 				<!-- Non-OAuth Welcome Message -->
 				<ng-template [ngIf]="! oAuthManager.currentAuthorization">
 					<ng-template [ngIf]="! verifiedName">
-						<h3 class="l-auth-x-title title title-bold" id="heading-form">{{ currentTheme.welcomeMessage }}</h3>
+						<markdown-display id="heading-form" 
+						                  [value]="thm.welcomeMessage || '## Welcome to Badgr'" 
+						                  [login]="true"
+						></markdown-display>
 						<p class="l-auth-x-text text text-quiet" *ngIf="sessionService.enabledExternalAuthProviders.length">
 							Choose your sign in method to get started.
 						</p>
@@ -38,10 +41,11 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 							Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
-					<ng-template [ngIf]="verifiedName">
+					<ng-template [ngIf]="verifiedName">					
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, {{ currentTheme.welcomeMessage }}
+							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr" }}
 						</h3>
+
 						<p class="l-auth-x-text text text-quiet">
 							Your email address, {{ verifiedEmail }}, has been verified. Enter your password below to get started.
 						</p>
@@ -54,21 +58,21 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 	
 					<ng-template [ngIf]="! verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							Sign in to your {{ currentTheme.serviceName }} Account
+							Sign in to your {{ thm.serviceName || "Badgr" }} Account
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
 							The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ currentTheme.serviceName }} account.
-							Not using {{ currentTheme.serviceName }}? <a [routerLink]="['/signup']">Create an account</a>!
+							sign you in using your {{ thm.serviceName || "Badgr" }} account.
+							Not using {{ thm.serviceName || "Badgr"}}? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
 					<ng-template [ngIf]="verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, welcome to {{ currentTheme.serviceName }}!
+							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr"}}!
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
 							The application  <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ currentTheme.serviceName }} account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
+							sign you in using your {{ thm.serviceName || "Badgr"}} account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
 							password below to continue.
 						</p>
 					</ng-template>
@@ -171,7 +175,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	initFinished: Promise<any> = new Promise(() => {});
 	loginFinished: Promise<any>;
 
-	get currentTheme() { return this.configService.currentTheme }
+	get thm() { return this.configService.thm }
 
 	constructor(
 		private fb: FormBuilder,
@@ -187,9 +191,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		let serviceName: string;
-		serviceName = this.configService.currentTheme.serviceName;
-		title.setTitle("Login - " + serviceName);
+		title.setTitle(`Login - ${this.configService.thm['serviceName'] || "Badgr"}`);
 		this.handleQueryParamCases();
 	}
 

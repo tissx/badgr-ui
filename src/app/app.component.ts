@@ -37,10 +37,10 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 	template: `
 		<header class="header l-containerhorizontal" *ngIf="showAppChrome">
 
-			<a class="logo" [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : currentTheme.alternateLandingUrl || '/'">
+			<a class="logo" [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : thm.alternateLandingUrl || '/'">
 				<picture>
-					<source media="(min-width: 640px)" [srcset]="currentTheme.logoImg.desktop">
-					<img [src]="currentTheme.logoImg.small" alt="Badgr logo">
+					<source media="(min-width: 640px)" [srcset]="logoDesktop">
+					<img [src]="logoSmall" alt="Logo">
 				</picture>
 			</a>
 
@@ -53,7 +53,7 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 		
 		<div *ngIf="isUnsupportedBrowser" class="l-formmessage formmessage formmessage-is-{{status}}"
 		     [class.formmessage-is-active]="isUnsupportedBrowser">
-		    <p>The Browser you are using isn’t fully supported. Badgr may not display correctly and some features may not be accessible or function properly.</p>
+		    <p>The Browser you are using isn’t fully supported. It may not display correctly and some features may not be accessible or function properly.</p>
 		    <button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
 		</div>
 
@@ -74,16 +74,15 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
 				<ul>
-					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
-					<li *ngIf="currentTheme.providedBy">
-						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
+					<li *ngIf="thm.showPoweredByBadgr === undefined || thm.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
+					<li *ngIf="thm.providedBy">
+						Provided by <a href="{{ thm.providedBy.url}}"target="_blank">{{ thm.providedBy.name }}</a>
 					</li>
 					
-					<li><a [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'" target="_blank">Terms of Service</a></li>
-					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy Policy</a></li>
+					<li><a [href]="thm.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
+					<li><a [href]="thm.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy Policy</a></li>
 				</ul>
-				<!--<a href="{{ apiBaseUrl }}/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">API documentation</a>-->
-				<a href="https://support.badgr.io/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">Documentation</a>
+				<a href="https://support.badgr.io/docs/" *ngIf="thm.showApiDocsLink === undefined || thm.showApiDocsLink" target="_blank">Documentation</a>
 			</div>
 		</footer>
 
@@ -119,10 +118,10 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 							</li>
 						</ul>
 					</li>
-					<li class="menuitem" *ngIf="currentTheme.customMenu">
-						<button>{{ currentTheme.customMenu.label }}</button>
+					<li class="menuitem" *ngIf="thm.customMenu">
+						<button>{{ thm.customMenu.label }}</button>
 						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let item of currentTheme.customMenu.items">
+							<li class="menuitem menuitem-secondary" *ngFor="let item of thm.customMenu.items">
 								<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
 						</ul>
 					</li>
@@ -166,7 +165,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return ! this.embedService.isEmbedded;
 	}
 
-	get currentTheme() { return this.configService.currentTheme }
+	get thm() { return this.configService.thm }
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
@@ -291,4 +290,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 			this.newTermsDialog
 		);
 	}
+
+	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
+	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
+	get logoSmall() { return this.thm['logoImg'] ? this.thm['logoImg']['small'] : this.defaultLogoSmall }
+	get logoDesktop() { return this.thm['logoImg'] ? this.thm['logoImg']['desktop'] : this.defaultLogoDesktop }
 }

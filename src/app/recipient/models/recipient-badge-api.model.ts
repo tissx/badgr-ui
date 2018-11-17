@@ -74,6 +74,7 @@ export interface ApiRecipientBadgeInstanceJson {
 	image: string
 	evidence?: string
 	narrative?: string
+	expires?: string
 }
 
 export interface ApiRecipientBadgeIssuer {

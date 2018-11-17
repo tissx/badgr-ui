@@ -9,6 +9,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgeClass } from "./models/badgeclass.model";
 import { Issuer } from "./models/issuer.model";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 export interface TransformedImportData {
@@ -111,6 +112,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 		protected messageService: MessageService,
 		protected router: Router,
 		protected route: ActivatedRoute,
+		protected configService: SystemConfigService,
 		protected title: Title
 	)
 	{
@@ -125,7 +127,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 				this.badgeSlug
 			).then((badge_class) => {
 				this.badge_class = badge_class;
-				this.title.setTitle("Bulk Award Badge - " + badge_class.name + " - Badgr");
+				this.title.setTitle(`Bulk Award Badge - ${badge_class.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 			});
 		})
 	}

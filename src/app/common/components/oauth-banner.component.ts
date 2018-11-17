@@ -13,7 +13,7 @@ import { OAuthManager } from "../services/oauth-manager.service";
 			<div><img [src]="appInfo.image"
 			          alt="{{ appInfo.name }} Logo"
 			          height="72"></div>
-			<div><img [src]="authLinkBadgrLogoSrc" height="72" alt="Badgr Logo"></div>
+			<div><img [src]="authLinkBadgrLogoSrc" height="72" alt="Logo"></div>
 		</ng-template>
 	`
 })

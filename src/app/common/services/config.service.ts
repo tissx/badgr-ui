@@ -128,7 +128,5 @@ export class SystemConfigService {
 		return this.getConfig(config => config.assertionVerifyUrl)
 	}
 
-	get currentTheme() {
-		return window["badgrTheme"];
-	}
+	get thm() { return window["THM"] || {} }
 }

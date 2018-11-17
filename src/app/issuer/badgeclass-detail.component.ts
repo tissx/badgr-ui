@@ -23,6 +23,7 @@ import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-
 import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
 import {badgeShareDialogOptions} from "../recipient/recipient-earned-badge-detail.component";
 import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -86,9 +87,13 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							>View external Criteria</a>
 						</div>
 
-						<p class="heading-x-meta">
+						<div class="heading-x-meta">
 							Created On: <time [date]="badgeClass.createdAt" format="MM/dd/y"></time>
-						</p>
+						</div>
+						<div class="heading-x-meta" *ngIf="badgeClass.expiresAmount">
+							Expires After: {{badgeClass.expiresAmount}} {{badgeClass.expiresDuration}}
+						</div>
+						
 
 						<section>
 							<h1>Description</h1>
@@ -122,7 +127,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 			<div class="l-containerhorizontal l-containervertical l-childrenvertical">
 	
 				<h2 class="title title-is-smallmobile">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
-				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown.  Uou may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier..</p>
+				<p *ngIf="showAssertionCount">{{instanceResults.length}} awards shown. You may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier.</p>
 	
 				<input type="text"
 				       class="search l-childrenhorizontal-x-offset"
@@ -143,6 +148,7 @@ import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.co
 							<tbody>
 								<tr *ngFor="let instance of instanceResults">
 									<th scope="row" class="l-wordwrap">
+										<span *ngIf="instance.isExpired" class="status status-expired u-margin-right1x">expired</span> 
 										{{ instance.recipientIdentifier }}
 									</th>
 									<td><time [date]="instance.issuedOn" format="mediumDate"></time></td>
@@ -235,6 +241,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		route: ActivatedRoute,
 		protected dialogService: CommonDialogsService,
 		private eventService: EventsService,
+		protected configService: SystemConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, sessionService);
@@ -245,7 +252,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		).then(
 			badge => {
 				this.badgeClass = badge;
-				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - Badgr`);
+				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 				this.loadInstances();
 			},
 			error => this.messageService.reportLoadingError(`Cannot find badge ${this.issuerSlug} / ${this.badgeSlug}`,

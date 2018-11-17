@@ -5,7 +5,9 @@ import { Component, Input, } from "@angular/core";
 	host: {
 	},
 	template: `
-		<div class="markdowneditor">	
+		<div class="markdowneditor"
+		     [class.markdowneditor-login]="login"
+		>	
 			<div class="markdowneditor-x-display"
 				[innerHTML]="value | MarkdownToHtml : {  
 					gfm: false,
@@ -22,5 +24,6 @@ import { Component, Input, } from "@angular/core";
 })
 export class MarkdownDisplay {
 	@Input() value: string;
+	@Input() login = false;
 	constructor() { }
 }

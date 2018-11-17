@@ -24,14 +24,14 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 				<!-- Title Message -->
 				<h3 class="l-auth-x-title title title-bold" id="heading-form">
-					Create a {{ currentTheme.serviceName }} Account
+					Create a {{ thm.serviceName || "Badgr" }} Account
 				</h3>
 				<p class="l-auth-x-text text text-quiet" *ngIf="! oAuthManager.currentAuthorization">
 					Already have an account? <a [routerLink]="['/auth/login']">Sign in</a>.
 				</p>
 				<p class="l-auth-x-text text text-quiet" *ngIf="oAuthManager.currentAuthorization">
 					The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to sign 
-					you in using {{ currentTheme.serviceName }}.
+					you in using {{ thm.serviceName || "Badgr"}}.
 					Already have an account? <a [routerLink]="['/login']">Sign in</a>!
 				</p>
 				
@@ -68,7 +68,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 					<!-- Signup Controls -->
 					<fieldset role="group" aria-labelledby="heading-badgrsignup2">
-						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with {{ currentTheme.serviceName }} by providing your information</legend>
+						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with {{ thm.serviceName || "Badgr"}} by providing your information</legend>
 						
 						<bg-formfield-text [control]="signupForm.controls.username"
 										   [label]="'Email'"
@@ -103,13 +103,13 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 
 					<label [class.formcheckbox-is-error]="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox  l-marginBottom-2x" for="terms">
 						<input name="terms" id="terms" type="checkbox" [formControl]="signupForm.controls.agreedTermsService">
-						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'">Terms of Service</a>.</span>
+						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="thm.termsOfServiceLink || 'https://badgr.org/missing-terms'">Terms of Service</a>.</span>
 						<span *ngIf="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
 					</label>
 					
 					<label class="formcheckbox" for="news" *ngIf="showMarketingOptIn">
 						<input name="news" id="news" type="checkbox" [formControl]="signupForm.controls.marketingOptIn">
-						<span class="formcheckbox-x-text">Yes! I would like to receive email updates about products &amp; services, upcoming webinars, news and events from Badgr.</span>
+						<span class="formcheckbox-x-text">Yes! I would like to receive email updates about products &amp; services, upcoming webinars, news and events from {{configService.thm['serviceName'] || "Badgr"}}.</span>
 					</label>
 
 					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-right">
@@ -140,7 +140,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 
 	agreedTermsService: boolean = false;
 
-	get currentTheme() { return this.configService.currentTheme }
+	get thm() { return this.configService.thm }
 
 	constructor(
 		fb: FormBuilder,
@@ -154,9 +154,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		let serviceName: string;
-		serviceName = this.configService.currentTheme.serviceName;
-		title.setTitle("Login - " + serviceName);
+		title.setTitle(`Signup - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.passwordGroup = fb.group({
 				'password': [ '', Validators.compose([ Validators.required, passwordValidator ]) ],
@@ -236,7 +234,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	}
 
 	get showMarketingOptIn() {
-		return !!!this.currentTheme.hideMarketingOptIn;
+		return !!!this.thm['hideMarketingOptIn'];
 	}
 }
 

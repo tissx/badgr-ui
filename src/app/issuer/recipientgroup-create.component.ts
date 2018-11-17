@@ -10,6 +10,7 @@ import { ApiRecipientGroupForCreation } from "./models/recipientgroup-api.model"
 import { Issuer } from "./models/issuer.model";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { markControlsDirty } from "../common/util/form-util";
+import {SystemConfigService} from "../common/services/config.service";
 
 /**
  * Defines the fields in the form for this component. Can be used for type checking any type that exposes a property
@@ -103,11 +104,12 @@ export class RecipientGroupCreateComponent extends BaseAuthenticatedRoutableComp
 		protected title: Title,
 		protected formBuilder: FormBuilder,
 		protected recipientGroupManager: RecipientGroupManager,
+		protected configService: SystemConfigService,
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("Create RecipientGroup - Badgr");
+		title.setTitle(`Create RecipientGroup - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.recipientGroupForm = formBuilder.group({
 			recipientGroup_name:  [ '',

@@ -78,7 +78,7 @@ import {SystemConfigService} from "../common/services/config.service";
 		        
 					<label [class.formcheckbox-is-error]="issuerForm.controls.agreedTerms.dirty && !issuerForm.controls.agreedTerms.valid" class="formcheckbox  l-marginBottom-2x" for="terms">
 						<input name="terms" id="terms" type="checkbox" [formControl]="issuerForm.controls.agreedTerms">
-						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="currentTheme.dataProcessorTermsLink ? currentTheme.dataProcessorTermsLink : 'https://badgr.com/en-us/data-processing.html'">Data Processor Addendum</a>.</span>
+						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="dataProcessorUrl">Data Processor Addendum</a>.</span>
 						<span *ngIf="issuerForm.controls.agreedTerms.dirty && !issuerForm.controls.agreedTerms.valid" class="formcheckbox-x-errortext">Please read and agree to the Data Processor Addendum if you want to continue.</span>
 					</label>
 		
@@ -111,13 +111,11 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	addIssuerFinished: Promise<any>;
 	emailsLoaded: Promise<any>;
 
-	get currentTheme() { return this.configService.currentTheme }
-
 	constructor(
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
-		private configService: SystemConfigService,
+		protected configService: SystemConfigService,
 		protected profileManager: UserProfileManager,
 		protected formBuilder: FormBuilder,
 		protected title: Title,
@@ -125,7 +123,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);
-		title.setTitle("Create Issuer - Badgr");
+		title.setTitle(`Create Issuer - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.issuerForm = formBuilder.group({
 			'issuer_name': [
@@ -208,5 +206,9 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	urlBlurred(ev) {
 		var control: FormControl = <FormControl>this.issuerForm.controls[ 'issuer_url' ];
 		UrlValidator.addMissingHttpToControl(control);
+	}
+
+	get dataProcessorUrl() {
+		return this.configService.thm['dataProcessorTermsLink'] || 'https://badgr.com/en-us/data-processing.html';
 	}
 }
