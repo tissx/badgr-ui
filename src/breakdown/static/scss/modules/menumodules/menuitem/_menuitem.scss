@@ -55,11 +55,6 @@
     }
 
     button {
-      // background-image: url('#{$base-path}images/menuitem.svg');
-      // background-position: calc(100% - #{$gridspacing * 2}) center;
-      // background-repeat: no-repeat;
-      // HELLO
-      
       cursor: pointer;
       padding-right: $gridspacing * 4 + 12px;
       position: relative;
@@ -75,10 +70,6 @@
         background-color: $color-light1;
         border-top: $border;
         color: $color-primary;
-      }
-
-      button {
-        // background-image: url('#{$base-path}images/menuitem-hover.svg');
       }
 
     }
@@ -110,9 +101,6 @@
     }
 
     > button {
-      // background-image: url('#{$base-path}images/menuitem-desktop.svg');
-      // background-position: calc(100% - #{$gridspacing}) center;
-      // background-repeat: no-repeat;
       padding-right: 8px + $gridspacing * 2;
     }
 
