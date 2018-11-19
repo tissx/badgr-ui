@@ -15,6 +15,22 @@
                 color $transition-duration / 2 $transition-easing;
   }
 
+  button {
+    position: relative;
+
+    &::after {
+      content: '';
+      transform: rotate(45deg);
+      height: 5px;
+      width: 5px;
+      border-right: 3px solid $color-primary;
+      border-bottom: 3px solid $color-primary;
+      display: inline-block;
+      margin-left: 16px;
+      margin-bottom: 3px;
+    }
+  }
+
   ul {
     display: none;
     z-index: $z-index-high;
@@ -29,7 +45,6 @@
   }
 
   @media (max-width: #{$media-tablet - 1px}) {
-
     a,
     button {
       border-top: 1px solid rgba($color-light1, .12);
@@ -40,16 +55,9 @@
     }
 
     button {
-      background-image: url('#{$base-path}images/menuitem.svg');
-      background-position: calc(100% - #{$gridspacing * 2}) center;
-      background-repeat: no-repeat;
       cursor: pointer;
       padding-right: $gridspacing * 4 + 12px;
       position: relative;
-
-      &:hover {
-        background-image: url('#{$base-path}images/menuitem-hover.svg');
-      }
 
     }
 
@@ -62,10 +70,6 @@
         background-color: $color-light1;
         border-top: $border;
         color: $color-primary;
-      }
-
-      button {
-        background-image: url('#{$base-path}images/menuitem-hover.svg');
       }
 
     }
@@ -97,9 +101,6 @@
     }
 
     > button {
-      background-image: url('#{$base-path}images/menuitem-desktop.svg');
-      background-position: calc(100% - #{$gridspacing}) center;
-      background-repeat: no-repeat;
       padding-right: 8px + $gridspacing * 2;
     }
 
