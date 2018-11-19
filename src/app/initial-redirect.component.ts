@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { Angulartics2GoogleAnalytics } from "angulartics2";
+import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
 import { Angulartics2 } from "angulartics2";
 
 import { MessageService } from "./common/services/message.service";
