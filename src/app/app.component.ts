@@ -13,7 +13,7 @@ import { EventsService } from "./common/services/events.service";
 import { OAuthManager } from "./common/services/oauth-manager.service";
 import { EmbedService } from "./common/services/embed.service";
 import { InitialLoadingIndicatorService } from "./common/services/initial-loading-indicator.service";
-import { Angulartics2GoogleAnalytics } from "angulartics2";
+import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
 
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
@@ -197,7 +197,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private queryParams: QueryParametersService,
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
-		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics   // required for angulartics to work
+		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager   // required for angulartics to work
 
 	) {
 		messageService.useRouter(router);
@@ -269,9 +269,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 				a.async = 1;
 				a.src = g;
 				m.parentNode.insertBefore(a, m)
-			})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+			})(window, document, 'script', '//www.googletagmanager.com/gtag/js', 'gtag');
 
-			window[ "ga" ]('create', this.configService.googleAnalyticsConfig.trackingId, 'auto');
+			window[ "gtag" ]('config', this.configService.googleAnalyticsConfig.trackingId);
 		}
 	}
 
