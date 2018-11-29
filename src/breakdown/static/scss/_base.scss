@@ -100,6 +100,7 @@ $transition-easing: ease-out;
 
 
 :root {
+  
   --color-primary: #b5445b;
   --color-primary-hover: #D33B5B;
   --color-primary-light: #f5dfe3;
@@ -118,6 +119,14 @@ $transition-easing: ease-out;
   --color-error:#f01f31;
   --color-pending: #ffb500;
   --color-success: #93ab23;
+  
+  --logo-width: auto;
+  --logo-height: 48px;
+  --color-title: var(--color-secondary);
+  --color-heading-h1: var(--color-dark2);
+  --authlink-display: flex;
+  --button-secondary-border: none;
+  --button-secondary-background: var(--color-light4);
 
   // Update values based on related color
   --color-secondary-a12: rgba(2%, 0.4%, 17.3%, .12);
