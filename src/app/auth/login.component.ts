@@ -296,10 +296,23 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					});
 
 				},
-				error => this.messageService.reportHandledError(
-					"Login failed. Please check your email and password and try again.",
-					error
-				)
+				(error) => {
+					const body = error.json();
+					let msg = "Login failed. Please check your email and password and try again.";
+					if (body['error'] == 'login attempts throttled') {
+						if (body['expires']) {
+							if (body['expires'] > 60) {
+								msg = `Too many login attempts. Try again in ${Math.ceil(body['expires'] / 60)} minutes.`;
+							} else {
+								msg = `Too many login attempts. Try again in ${body['expires']} seconds.`
+							}
+						}
+						else {
+							msg = "Too many login attempts. Please wait and try again."
+						}
+					}
+					this.messageService.reportHandledError(msg, error);
+				}
 			)
 			.then(() => this.loginFinished = null);
 	}
