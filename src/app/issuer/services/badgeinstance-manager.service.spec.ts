@@ -16,7 +16,7 @@ import { expectRequestAndRespondWith } from "../../common/util/mock-response-uti
 import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
 import { BadgeInstance } from "../models/badgeinstance.model";
 import { verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../../common/app-config.service";
 import { SessionService } from "../../common/services/session.service";
 import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
 import { BadgeInstanceApiService } from "./badgeinstance-api.service";
@@ -28,7 +28,7 @@ describe('BadgeInstanceManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,

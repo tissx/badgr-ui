@@ -13,7 +13,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgeClass } from "./models/badgeclass.model";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -62,7 +62,7 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
 		protected badgeClassManager: BadgeClassManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, sessionService);

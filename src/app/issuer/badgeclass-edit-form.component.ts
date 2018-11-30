@@ -19,7 +19,7 @@ import { BadgrApiFailure } from "../common/services/api-failure";
 import { UrlValidator } from "../common/validators/url.validator";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgeClass } from "./models/badgeclass.model";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -408,7 +408,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		protected badgeClassManager: BadgeClassManager,
 
 		protected dialogService: CommonDialogsService

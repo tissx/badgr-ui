@@ -10,7 +10,7 @@ import { UserProfileApiService } from "../services/user-profile-api.service";
 import { SessionService } from "../services/session.service";
 import { BaseRequestOptions, Http } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
-import { SystemConfigService } from "../services/config.service";
+import { AppConfigService } from "../app-config.service";
 import { EventsService } from "../services/events.service";
 
 
@@ -18,7 +18,7 @@ describe('UserProfile', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,

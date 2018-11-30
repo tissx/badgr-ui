@@ -17,7 +17,7 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
 import { EventsService } from "../common/services/events.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'recipient-earned-badge-detail',
@@ -209,7 +209,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		private messageService: MessageService,
 		private eventService: EventsService,
 		private dialogService: CommonDialogsService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);

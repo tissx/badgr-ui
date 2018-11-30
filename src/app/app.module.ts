@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import {APP_INITIALIZER, NgModule} from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 
 import { Angulartics2, Angulartics2Module } from "angulartics2";
@@ -17,6 +17,7 @@ import { ProfileModule } from "./profile/profile.module";
 import { AuthModule } from "./auth/auth.module";
 import { AuthGuard } from "./common/guards/auth.guard";
 import {RecipientBadgeApiService} from "./recipient/services/recipient-badges-api.service";
+import {AppConfigService} from "./common/app-config.service";
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
@@ -93,6 +94,10 @@ const ROUTE_CONFIG: Routes = [
 	},
 ];
 
+export const appInitializerFn = (configService: AppConfigService) => {
+	return () => configService.loadRemoteConfig()
+};
+
 @NgModule({
 	imports: [
 		...COMMON_IMPORTS,
@@ -113,7 +118,13 @@ const ROUTE_CONFIG: Routes = [
 		Angulartics2,
 		Angulartics2GoogleTagManager,
 		RecipientBadgeApiService,
-		{provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy}
+		{provide: RouteReuseStrategy, useClass: BadgrRouteReuseStrategy},
+		{
+			provide: APP_INITIALIZER,
+			useFactory: appInitializerFn,
+			multi: true,
+			deps: [ AppConfigService ]
+		}
 	]
 })
 export class AppModule { }

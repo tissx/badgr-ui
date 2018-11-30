@@ -13,7 +13,7 @@ import { preloadImageURL } from "../common/util/file-util";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { FormFieldSelectOption } from "../common/components/formfield-select";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'issuer-create',
@@ -115,7 +115,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected profileManager: UserProfileManager,
 		protected formBuilder: FormBuilder,
 		protected title: Title,

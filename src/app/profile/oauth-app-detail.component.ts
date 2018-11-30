@@ -8,7 +8,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 import { OAuth2AppAuthorization } from "../common/model/oauth.model";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { flatten } from "../common/util/array-reducers";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -94,7 +94,7 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 		private title: Title,
 		private messageService: MessageService,
 		private oAuthManager: OAuthManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);

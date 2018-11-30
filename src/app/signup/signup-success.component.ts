@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, } from "@angular/router";
 import { SessionService } from "../common/services/session.service";
 import { Title } from "@angular/platform-browser";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -34,7 +34,7 @@ export class SignupSuccessComponent implements OnInit {
 		private routeParams: ActivatedRoute,
 		private title: Title,
 		private sessionService: SessionService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private router: Router
 	) {
 		title.setTitle(`Verification - ${this.configService.thm['serviceName'] || "Badgr"}`);

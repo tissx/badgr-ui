@@ -14,7 +14,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { Issuer } from "./models/issuer.model";
 import { FormMessageComponent } from "../common/components/form-message.component";
 import { markControlsDirty } from "../common/util/form-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 /**
  * Defines the fields in the form for this component. Can be used for type checking any type that exposes a property
@@ -114,7 +114,7 @@ export class PathwayCreateComponent extends BaseAuthenticatedRoutableComponent i
 		protected title: Title,
 		protected formBuilder: FormBuilder,
 		protected pathwayManager: PathwayManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);

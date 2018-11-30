@@ -1,4 +1,4 @@
-
+import {} from 'jasmine';
 import { $, protractor, browser, element, by } from "protractor";
 
 class SignupPage {

@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Observable";
 import "../../rxjs-operators";
 
 import { UserCredential } from "../model/user-credential.type";
-import { SystemConfigService } from "./config.service";
+import { AppConfigService } from "../app-config.service";
 import { MessageService } from "./message.service";
 import { BaseHttpApiService } from "./base-http-api.service";
 import { SocialAccountProviderInfo, socialAccountProviderInfos } from "../model/user-profile-api.model";
@@ -34,7 +34,7 @@ export class SessionService {
 
 	constructor(
 		private http: Http,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private messageService: MessageService,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;

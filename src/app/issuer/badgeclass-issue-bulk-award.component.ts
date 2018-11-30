@@ -9,7 +9,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgeClass } from "./models/badgeclass.model";
 import { Issuer } from "./models/issuer.model";
 import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 export interface TransformedImportData {
@@ -112,7 +112,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 		protected messageService: MessageService,
 		protected router: Router,
 		protected route: ActivatedRoute,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected title: Title
 	)
 	{

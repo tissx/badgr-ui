@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SessionService } from "./session.service";
 import { Http } from "@angular/http";
-import { SystemConfigService } from "./config.service";
+import { AppConfigService } from "../app-config.service";
 import { MessageService } from "./message.service";
 import { BaseHttpApiService } from "./base-http-api.service";
 import {
@@ -15,7 +15,7 @@ export class OAuthApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
 		protected http: Http,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		super(loginService, http, configService, messageService);

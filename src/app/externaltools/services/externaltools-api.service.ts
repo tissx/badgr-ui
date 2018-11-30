@@ -2,7 +2,7 @@ import {Http} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {BaseHttpApiService} from "../../common/services/base-http-api.service";
 import {SessionService} from "../../common/services/session.service";
-import {SystemConfigService} from "../../common/services/config.service";
+import {AppConfigService} from "../../common/app-config.service";
 import {MessageService} from "../../common/services/message.service";
 import {
 	ApiExternalTool, ApiExternalToolLaunchInfo,
@@ -15,7 +15,7 @@ export class ExternalToolsApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
 		protected http: Http,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		super(loginService, http, configService, messageService)

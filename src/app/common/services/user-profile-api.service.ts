@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { SystemConfigService } from "./config.service";
+import { AppConfigService } from "../app-config.service";
 import { BaseHttpApiService } from "./base-http-api.service";
 import { SessionService } from "./session.service";
 import { MessageService } from "./message.service";
@@ -13,7 +13,7 @@ export class UserProfileApiService extends BaseHttpApiService {
 	constructor(
 		protected sessionService: SessionService,
 		protected http: Http,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected messageService: MessageService,
 		protected eventsService: EventsService
 	) {

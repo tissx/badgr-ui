@@ -1,5 +1,5 @@
 import { TestBed, inject } from "@angular/core/testing";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../../common/app-config.service";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
 import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
@@ -21,7 +21,7 @@ describe('RecipientBadgeManger', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,

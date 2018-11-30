@@ -4,7 +4,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/switchMap";
 //import { LoginService } from "../../auth/auth.service";
 import { AuthorizationToken, SessionService } from "./session.service";
-import { SystemConfigService } from "./config.service";
+import { AppConfigService } from "../app-config.service";
 import { MessageService } from "./message.service";
 
 export class BadgrApiError extends Error {
@@ -24,7 +24,7 @@ export abstract class BaseHttpApiService {
 		//protected sessionService: LoginService,
 		protected sessionService: SessionService,
 		protected http: Http,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
@@ -143,7 +143,7 @@ export abstract class BaseHttpApiService {
 		return BaseHttpApiService.addTestingDelay<T>(this.configService);
 	}
 
-	static addTestingDelay<T>(configService: SystemConfigService): (result: T) => (Promise<T> | T) {
+	static addTestingDelay<T>(configService: AppConfigService): (result: T) => (Promise<T> | T) {
 		let delayRange = configService.apiConfig.debugDelayRange;
 
 		if (delayRange) {

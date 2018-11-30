@@ -11,7 +11,7 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { OAuth2AppAuthorization } from "../common/model/oauth.model";
 import { groupIntoObject } from "../common/util/array-reducers";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 
@@ -100,7 +100,7 @@ export class AppIntegrationListComponent extends BaseAuthenticatedRoutableCompon
 		private messageService: MessageService,
 		private appIntegrationManager: AppIntegrationManager,
 		private oAuthManager: OAuthManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);

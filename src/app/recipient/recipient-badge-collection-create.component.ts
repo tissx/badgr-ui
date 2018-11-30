@@ -9,7 +9,7 @@ import { ApiRecipientBadgeCollectionForCreation } from "./models/recipient-badge
 import { markControlsDirty } from "../common/util/form-util";
 import { SessionService } from "../common/services/session.service";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'create-recipient-badge-collection',
@@ -86,7 +86,7 @@ export class RecipientBadgeCollectionCreateComponent extends BaseAuthenticatedRo
 		private formBuilder: FormBuilder,
 		private title: Title,
 		private messageService: MessageService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager
 	) {
 		super(router, route, loginService);

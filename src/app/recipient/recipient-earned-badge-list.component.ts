@@ -15,7 +15,7 @@ import { ApiRecipientBadgeIssuer } from "./models/recipient-badge-api.model";
 import { RecipientBadgeInstance } from "./models/recipient-badge.model";
 import { badgeShareDialogOptionsFor } from "./recipient-earned-badge-detail.component";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -267,7 +267,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		private dialogService: CommonDialogsService,
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private profileManager: UserProfileManager
 	) {
 		super(router, route, sessionService);

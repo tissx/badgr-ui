@@ -26,7 +26,7 @@ import {EventsService} from "../common/services/events.service";
 import { FormFieldTextInputType } from '../common/components/formfield-text';
 import * as sanitizeHtml from "sanitize-html";
 import {DateValidator} from "../common/validators/date.validator";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -374,7 +374,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		protected badgeClassManager: BadgeClassManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
 		protected dialogService: CommonDialogsService,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		sessionService: SessionService,
 		router: Router,
 		route: ActivatedRoute

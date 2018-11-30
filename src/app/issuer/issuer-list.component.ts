@@ -9,7 +9,7 @@ import { Issuer } from "./models/issuer.model";
 import { BadgeClass } from "./models/badgeclass.model";
 import { Title } from "@angular/platform-browser";
 import { preloadImageURL } from "../common/util/file-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -105,7 +105,7 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected badgeClassService: BadgeClassManager,
 		loginService: SessionService,
 		router: Router,

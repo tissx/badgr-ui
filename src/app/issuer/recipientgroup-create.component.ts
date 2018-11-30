@@ -10,7 +10,7 @@ import { ApiRecipientGroupForCreation } from "./models/recipientgroup-api.model"
 import { Issuer } from "./models/issuer.model";
 import { IssuerManager } from "./services/issuer-manager.service";
 import { markControlsDirty } from "../common/util/form-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 /**
  * Defines the fields in the form for this component. Can be used for type checking any type that exposes a property
@@ -104,7 +104,7 @@ export class RecipientGroupCreateComponent extends BaseAuthenticatedRoutableComp
 		protected title: Title,
 		protected formBuilder: FormBuilder,
 		protected recipientGroupManager: RecipientGroupManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);

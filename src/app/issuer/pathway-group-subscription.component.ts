@@ -11,7 +11,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { RecipientGroupSelectionDialog } from "./recipientgroup-selection-dialog.component";
 import { RecipientGroup } from "./models/recipientgroup.model";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -108,7 +108,7 @@ export class PathwayGroupSubscriptionComponent extends BaseAuthenticatedRoutable
 		protected title: Title,
 		protected pathwayManager: PathwayManager,
 		protected issuerManager: IssuerManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);

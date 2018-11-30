@@ -3,7 +3,7 @@ import { CommonEntityManager } from "../../entity-manager/common-entity-manager.
 import { MessageService } from "../../common/services/message.service";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../../common/app-config.service";
 
 import { expectRequestAndRespondWith, setupMockResponseReporting } from "../../common/util/mock-response-util";
 import { verifyManagedEntitySet, verifyEntitySetWhenLoaded } from "../../common/model/managed-entity-set.spec";
@@ -251,7 +251,7 @@ describe('RecipientGroupManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			{ provide: 'config', useValue: { api: { baseUrl: '' }, features: {} } },

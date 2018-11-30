@@ -22,7 +22,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -269,7 +269,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected badgeClassService: BadgeClassManager,
 		protected recipientGroupManager: RecipientGroupManager,
 		protected profileManager: UserProfileManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);

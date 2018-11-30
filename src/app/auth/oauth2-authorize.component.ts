@@ -10,7 +10,7 @@ import { throwExpr } from "../common/util/throw-expr";
 import { flatten } from "../common/util/array-reducers";
 import { Title } from "@angular/platform-browser";
 import { InitialLoadingIndicatorService } from "../common/services/initial-loading-indicator.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -79,7 +79,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 		protected loginService: SessionService,
 		protected oAuthManager: OAuthManager,
 		protected queryParams: QueryParametersService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		protected initialLoadingIndicatorService: InitialLoadingIndicatorService
 	) {
 		super(router, route);

@@ -18,7 +18,7 @@ import { CommonDialogsService } from "../common/services/common-dialogs.service"
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { IssuerStaffRoleSlug } from "./models/issuer-api.model";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -161,7 +161,7 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
 		protected profileManager: UserProfileManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);

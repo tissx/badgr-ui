@@ -19,7 +19,7 @@ import { FormFieldSelectOption } from "../common/components/formfield-select";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../common/model/user-profile.model";
 import { CommonEntityManager } from "../entity-manager/common-entity-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'issuer-edit',
@@ -124,7 +124,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 		protected formBuilder: FormBuilder,
 		protected title: Title,
 		protected messageService: MessageService,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);

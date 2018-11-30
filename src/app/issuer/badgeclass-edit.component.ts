@@ -19,7 +19,7 @@ import { BgFormFieldImageComponent } from "../common/components/formfield-image"
 import { BadgeInstanceManager } from "./services/badgeinstance-manager.service";
 import { BadgeClassInstances, BadgeInstance } from "./models/badgeinstance.model";
 import { EventsService } from "../common/services/events.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'badgeclass-edit',
@@ -101,7 +101,7 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 		protected badgeManager: BadgeClassManager,
 		protected issuerManager: IssuerManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected badgeClassManager: BadgeClassManager
 	) {
 		super(router, route, sessionService);

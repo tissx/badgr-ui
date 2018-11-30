@@ -2,7 +2,7 @@
 import { Http } from "@angular/http";
 import { BaseHttpApiService } from "../../common/services/base-http-api.service";
 import { Injectable } from "@angular/core";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../../common/app-config.service";
 import { SessionService } from "../../common/services/session.service";
 import { ApiIssuerForCreation, ApiIssuer, ApiIssuerStaffOperation } from "../models/issuer-api.model";
 import { IssuerSlug } from "../models/issuer-api.model";
@@ -13,7 +13,7 @@ export class IssuerApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
 		protected http: Http,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		super(loginService, http, configService, messageService);

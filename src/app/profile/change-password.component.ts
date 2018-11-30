@@ -9,7 +9,7 @@ import { markControlsDirty } from "../common/util/form-util";
 import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 import { UserProfileManager } from "../common/services/user-profile-manager.service";
 import { UserProfile } from "../common/model/user-profile.model";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -99,7 +99,7 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 		private profileManager: UserProfileManager,
 		route: ActivatedRoute,
 		router: Router,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private _messageService: MessageService
 	) {
 		super(router, route);

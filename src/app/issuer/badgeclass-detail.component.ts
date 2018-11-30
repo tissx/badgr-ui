@@ -23,7 +23,7 @@ import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-
 import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
 import {badgeShareDialogOptions} from "../recipient/recipient-earned-badge-detail.component";
 import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -241,7 +241,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		route: ActivatedRoute,
 		protected dialogService: CommonDialogsService,
 		private eventService: EventsService,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, sessionService);

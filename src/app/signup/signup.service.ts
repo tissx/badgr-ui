@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
-import { SystemConfigService } from "../common/services/config.service";
+import { AppConfigService } from "../common/app-config.service";
 import { SignupModel } from "./signup-model.type";
 import { Observable } from "rxjs/Observable";
 import { ApiUserProfile } from "../common/model/user-profile-api.model";
@@ -10,7 +10,7 @@ import { ApiUserProfile } from "../common/model/user-profile-api.model";
 export class SignupService {
 	baseUrl: string;
 
-	constructor(private http: Http, private configService: SystemConfigService) {
+	constructor(private http: Http, private configService: AppConfigService) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 	}
 

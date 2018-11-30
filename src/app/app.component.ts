@@ -1,25 +1,25 @@
-import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import {AfterViewInit, Component, OnInit, Renderer2, ViewChild, ViewEncapsulation} from "@angular/core";
+import {Router} from "@angular/router";
 
-import { MessageService } from "./common/services/message.service";
-import { SessionService } from "./common/services/session.service";
-import { CommonDialogsService } from "./common/services/common-dialogs.service";
-import { SystemConfigService } from "./common/services/config.service";
-import { ShareSocialDialog } from "./common/dialogs/share-social-dialog.component";
-import { ConfirmDialog } from "./common/dialogs/confirm-dialog.component";
+import {MessageService} from "./common/services/message.service";
+import {SessionService} from "./common/services/session.service";
+import {CommonDialogsService} from "./common/services/common-dialogs.service";
+import {AppConfigService} from "./common/app-config.service";
+import {ShareSocialDialog} from "./common/dialogs/share-social-dialog.component";
+import {ConfirmDialog} from "./common/dialogs/confirm-dialog.component";
 
 import "../thirdparty/scopedQuerySelectorShim";
-import { EventsService } from "./common/services/events.service";
-import { OAuthManager } from "./common/services/oauth-manager.service";
-import { EmbedService } from "./common/services/embed.service";
-import { InitialLoadingIndicatorService } from "./common/services/initial-loading-indicator.service";
-import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
+import {EventsService} from "./common/services/events.service";
+import {OAuthManager} from "./common/services/oauth-manager.service";
+import {EmbedService} from "./common/services/embed.service";
+import {InitialLoadingIndicatorService} from "./common/services/initial-loading-indicator.service";
+import {Angulartics2GoogleTagManager} from "angulartics2/gtm";
 
-import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
-import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
+import {ApiExternalToolLaunchpoint} from "app/externaltools/models/externaltools-api.model";
+import {ExternalToolsManager} from "app/externaltools/services/externaltools-manager.service";
 
 
-import { detect } from "detect-browser";
+import {detect} from "detect-browser";
 import {UserProfileManager} from "./common/services/user-profile-manager.service";
 import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 import {QueryParametersService} from "./common/services/query-parameters.service";
@@ -29,7 +29,7 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 // https://stackoverflow.com/questions/3680876/using-queryselectorall-to-retrieve-direct-children/21126966#21126966
 
 @Component({
-	selector: "app",
+	selector: "app-root",
 	host: {
 		'(document:click)': 'onDocumentClick($event)',
 		'[class.app-is-hidden-chrome]': '! showAppChrome'
@@ -139,7 +139,11 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 				</ng-template>
 			</ul>
 		</nav>
-	`
+	`,
+	styleUrls: [
+		"../breakdown/static/scss/theme-default.scss"
+	],
+	encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
@@ -188,7 +192,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private profileManager: UserProfileManager,
 		private router: Router,
 		private messageService: MessageService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private commonDialogsService: CommonDialogsService,
 		private eventService: EventsService,
 		private oAuthManager: OAuthManager,

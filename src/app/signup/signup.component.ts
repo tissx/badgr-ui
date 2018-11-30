@@ -9,7 +9,7 @@ import { MessageService } from "../common/services/message.service";
 import { EmailValidator } from "../common/validators/email.validator";
 import { Title } from "@angular/platform-browser";
 import { markControlsDirty } from "../common/util/form-util";
-import { SystemConfigService } from "../common/services/config.service";
+import { AppConfigService } from "../common/app-config.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
 
 @Component({
@@ -146,7 +146,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		fb: FormBuilder,
 		private title: Title,
 		public messageService: MessageService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		public sessionService: SessionService,
 		public signupService: SignupService,
 		public oAuthManager: OAuthManager,

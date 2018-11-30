@@ -10,7 +10,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
 import { RecipientGroup } from "./models/recipientgroup.model";
 import { EmailValidator } from "../common/validators/email.validator";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 //import "rxjs/add/observable/combineLatest";
 //import "rxjs/add/operator/first";
@@ -254,9 +254,8 @@ type ButtonAction = () =>void;
 	`,
 
 })
-
 export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent  implements OnInit {
-	readonly badgrImportMembersTemplateUrl = require('../../breakdown/static/badgrImportMembersTemplate.csv');
+	readonly badgrImportMembersTemplateUrl = require('file-loader!../../assets/badgrImportMembersTemplate.csv');
 	readonly csvUploadImageUrl = require('../../breakdown/static/images/csvuploadicon.svg');
 
 	MAX_ROWS_TO_DISPLAY:number = 5;
@@ -295,7 +294,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 		protected issuerManager: IssuerManager,
 		protected route: ActivatedRoute,
 		protected router: Router,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected title: Title
 	)
 	{

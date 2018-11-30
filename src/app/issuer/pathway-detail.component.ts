@@ -13,7 +13,7 @@ import { BadgeSelectionDialog } from "./badge-selection-dialog.component";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { RecipientGroupSelectionDialog } from "./recipientgroup-selection-dialog.component";
 import { RecipientGroup } from "./models/recipientgroup.model";
-import { SystemConfigService } from "../common/services/config.service";
+import { AppConfigService } from "../common/app-config.service";
 import { preloadImageURL } from "../common/util/file-util";
 
 
@@ -257,7 +257,7 @@ export class PathwayDetailComponent extends BaseAuthenticatedRoutableComponent i
 		protected issuerManager: IssuerManager,
 		protected changeDetectionRef: ChangeDetectorRef,
 		protected dialogService: CommonDialogsService,
-		protected configService: SystemConfigService
+		protected configService: AppConfigService
 	) {
 		super(router, route, loginService);
 

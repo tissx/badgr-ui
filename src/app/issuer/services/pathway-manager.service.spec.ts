@@ -18,7 +18,7 @@ import { PathwayApiService } from "./pathway-api.service";
 import { MessageService } from "../../common/services/message.service";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../../common/app-config.service";
 import {
 	expectRequestAndRespondWith,
 	setupMockResponseReporting,
@@ -568,7 +568,7 @@ describe('PathwayManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			{ provide: 'config', useValue: { api: { baseUrl: '' }, features: {} } },

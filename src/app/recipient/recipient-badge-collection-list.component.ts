@@ -11,7 +11,7 @@ import { SessionService } from "../common/services/session.service";
 import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { shareCollectionDialogOptionsFor } from "./recipient-badge-collection-detail.component";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'recipient-badge-collection-list',
@@ -116,7 +116,7 @@ export class RecipientBadgeCollectionListComponent extends BaseAuthenticatedRout
 		private messageService: MessageService,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager,
 		private recipientBadgeManager: RecipientBadgeManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);

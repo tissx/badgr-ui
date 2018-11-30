@@ -7,7 +7,7 @@ import { MessageService } from "../common/services/message.service";
 import { Title } from "@angular/platform-browser";
 import { markControlsDirty } from "../common/util/form-util";
 import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'change-password',
@@ -80,7 +80,7 @@ export class ResetPasswordComponent extends BaseRoutableComponent {
 		private sessionService: SessionService,
 		route: ActivatedRoute,
 		router: Router,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private _messageService: MessageService
 	) {
 		super(router, route);

@@ -11,7 +11,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { SessionService } from "../common/services/session.service";
 import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
 import { addQueryParamsToUrl } from "../common/util/url-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -142,7 +142,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);

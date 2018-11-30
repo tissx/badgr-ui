@@ -1,14 +1,15 @@
-import { Injectable, Injector } from "@angular/core";
 
 /**
  * The shape of a Badgr Config object. As there may be multiple config sources, each one may not specify all parts.
  */
 export interface BadgrConfig {
+	production?: boolean;
 	api?: ApiConfig;
 	help?: HelpConfig;
 	features?: FeaturesConfig;
 	googleAnalytics?: GoogleAnalyticsConfig;
 	assertionVerifyUrl?: string;
+	thm?: any;
 }
 
 /**
@@ -70,63 +71,4 @@ export interface GoogleAnalyticsConfig {
 	 * The GA tracking identifier, e.g. UA-12345678-9
 	 */
 	trackingId: string;
-}
-
-@Injectable()
-export class SystemConfigService {
-	constructor(private injector: Injector) {}
-
-	private getConfig<T>(getter: (config: BadgrConfig) => T): T {
-		const configProviders: { (): BadgrConfig }[] = [
-			() => window[ 'config' ],
-			() => this.injector.get('config', {}),
-			() => ({
-				api: {
-					baseUrl: (window.location.protocol + "//" + window.location.hostname + ":8000"),
-				},
-				features: {
-					alternateLandingRedirect: false
-				},
-				help: {
-					email: "support@badgr.io"
-				},
-				assertionVerifyUrl: "https://badgecheck.io/"
-			}),
-		];
-
-		for (const provider of configProviders) {
-			const overall = provider();
-			if (typeof overall === "object") {
-				const config = getter(overall);
-
-				if (config) {
-					return config;
-				}
-			}
-		}
-
-		throw `Could not resolve required config value using ${getter.toString()}. Please ensure that config.js is setup correctly.`
-	}
-
-	get apiConfig(): ApiConfig {
-		return this.getConfig(config => config.api);
-	}
-
-	get featuresConfig(): FeaturesConfig {
-		return this.getConfig(config => config.features);
-	}
-
-	get helpConfig(): HelpConfig {
-		return this.getConfig(config => config.help);
-	}
-
-	get googleAnalyticsConfig(): GoogleAnalyticsConfig {
-		return this.getConfig(config => (config.googleAnalytics || { trackingId: null }));
-	}
-
-	get assertionVerifyUrl(): string {
-		return this.getConfig(config => config.assertionVerifyUrl)
-	}
-
-	get thm() { return window["THM"] || {} }
 }

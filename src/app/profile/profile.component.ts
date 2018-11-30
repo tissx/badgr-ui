@@ -21,7 +21,7 @@ import { UserProfile, UserProfileEmail, UserProfileSocialAccount } from "../comm
 import { Subscription } from "rxjs/Subscription";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import {OAuthApiService} from "../common/services/oauth-api.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'userProfile',
@@ -285,7 +285,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		protected profileManager: UserProfileManager,
 		protected dialogService: CommonDialogsService,
 		protected paramService: QueryParametersService,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private oauthService: OAuthApiService
 ) {
 		super(router, route, sessionService);

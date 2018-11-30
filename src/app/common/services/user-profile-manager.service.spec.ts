@@ -1,5 +1,5 @@
 import { inject, TestBed } from "@angular/core/testing";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../app-config.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
 import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
@@ -26,7 +26,7 @@ describe('UserProfileManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,

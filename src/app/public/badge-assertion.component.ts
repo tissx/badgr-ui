@@ -14,7 +14,7 @@ import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../common/util/url
 import { routerLinkForUrl } from "./public.component";
 import {QueryParametersService} from "../common/services/query-parameters.service";
 import {MessageService} from "../common/services/message.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 import { saveAs } from "file-saver";
 
 
@@ -220,7 +220,7 @@ export class PublicBadgeAssertionComponent {
 		private injector: Injector,
 		public embedService: EmbedService,
 		public messageService: MessageService,
-		public configService: SystemConfigService,
+		public configService: AppConfigService,
 		public queryParametersService: QueryParametersService
 	) {
 		this.assertionIdParam = new LoadedRouteParam(

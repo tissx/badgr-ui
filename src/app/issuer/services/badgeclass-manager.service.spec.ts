@@ -1,7 +1,7 @@
 
 import { TestBed, inject } from "@angular/core/testing";
 import { SessionService } from "../../common/services/session.service";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../../common/app-config.service";
 import { BadgeClassManager } from "./badgeclass-manager.service";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
@@ -19,7 +19,7 @@ describe('badgeManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,

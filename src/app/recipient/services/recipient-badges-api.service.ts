@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { SessionService } from "../../common/services/session.service";
-import { SystemConfigService } from "../../common/services/config.service";
+import { AppConfigService } from "../../common/app-config.service";
 import { BaseHttpApiService } from "../../common/services/base-http-api.service";
 import {
 	ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo
@@ -14,7 +14,7 @@ export class RecipientBadgeApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
 		protected http: Http,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		super(loginService, http, configService, messageService);

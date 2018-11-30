@@ -5,7 +5,7 @@ import { MessageService } from "../common/services/message.service";
 import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 import { Title } from "@angular/platform-browser";
 
-import { SystemConfigService } from "../common/services/config.service";
+import { AppConfigService } from "../common/app-config.service";
 
 
 @Component({
@@ -29,7 +29,7 @@ export class PublicComponent extends BaseRoutableComponent implements OnInit {
 	constructor(
 		private title: Title,
 		router: Router,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		route: ActivatedRoute
 	) {
 		super(router, route);

@@ -1,14 +1,16 @@
-import { Component, Output, EventEmitter } from "@angular/core";
-import { FormGroup, FormBuilder} from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { BulkIssueImportPreviewData,
-	     ColumnHeaders,
-	     DestSelectOptions,
-		 ViewState } from "./badgeclass-issue-bulk-award.component"
+import {Component, EventEmitter, Output} from "@angular/core";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {
+	BulkIssueImportPreviewData,
+	ColumnHeaders,
+	DestSelectOptions,
+	ViewState
+} from "./badgeclass-issue-bulk-award.component"
 
 @Component({
 	selector: 'Badgeclass-issue-bulk-award-import',
@@ -38,7 +40,7 @@ import { BulkIssueImportPreviewData,
 						<bg-formfield-file #fileField
 										    label="File"
 										    validFileTypes="text/plain,.csv"
-										    [control]="csvForm.controls.file"
+										    [control]="csvForm.controls['file']"
 										    [placeholderImage]="csvUploadIconUrl"
 										    (fileData) = onFileDataRecived($event)>
 						</bg-formfield-file>
@@ -64,7 +66,7 @@ import { BulkIssueImportPreviewData,
 	`,
 })
 export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRoutableComponent {
-	readonly badgrBulkIssueTemplateUrl = require('../../breakdown/static/badgrBulkIssueTemplate.csv');
+	readonly badgrBulkIssueTemplateUrl = require('file-loader!../../assets/badgrBulkIssueTemplate.csv');
 	readonly csvUploadIconUrl = require('../../breakdown/static/images/csvuploadicon.svg');
 
 	@Output() importPreviewDataEmitter = new EventEmitter<BulkIssueImportPreviewData>();

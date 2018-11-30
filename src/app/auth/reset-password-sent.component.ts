@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { SessionService } from "../common/services/session.service";
-import { SystemConfigService } from "../common/services/config.service";
+import { AppConfigService } from "../common/app-config.service";
 import { BaseRoutableComponent } from "../common/pages/base-routable.component";
 
 @Component({
@@ -28,7 +28,7 @@ export class ResetPasswordSent extends BaseRoutableComponent {
 		private sessionService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
-		private configService: SystemConfigService
+		private configService: AppConfigService
 	) {
 		super(router, route);
 	}

@@ -11,7 +11,7 @@ import { Title } from "@angular/platform-browser";
 
 
 import { markControlsDirty } from "../common/util/form-util";
-import { SystemConfigService } from "../common/services/config.service";
+import { AppConfigService } from "../common/app-config.service";
 import { FormFieldText } from "../common/components/formfield-text";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
@@ -182,7 +182,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		private title: Title,
 		private sessionService: SessionService,
 		private messageService: MessageService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private queryParams: QueryParametersService,
 		public oAuthManager: OAuthManager,
 		private externalToolsManager: ExternalToolsManager,
