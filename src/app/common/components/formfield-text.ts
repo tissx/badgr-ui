@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, ViewChild, ElementRef, AfterViewInit, SimpleChanges } from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
 
-import { FormControl, FormGroup } from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
-import { UrlValidator } from "../validators/url.validator";
-import { CommonDialogsService } from "../services/common-dialogs.service";
+import {UrlValidator} from "../validators/url.validator";
+import {CommonDialogsService} from "../services/common-dialogs.service";
 
 @Component({
 	selector: 'bg-formfield-text',

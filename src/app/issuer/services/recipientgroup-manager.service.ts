@@ -1,9 +1,9 @@
-import { Injectable, Inject, forwardRef } from "@angular/core";
-import { RecipientGroup, IssuerRecipientGroups } from "../models/recipientgroup.model";
-import { ApiRecipientGroupForCreation } from "../models/recipientgroup-api.model";
-import { RecipientGroupApiService } from "./recipientgroup-api.service";
-import { MessageService } from "../../common/services/message.service";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {forwardRef, Inject, Injectable} from "@angular/core";
+import {IssuerRecipientGroups, RecipientGroup} from "../models/recipientgroup.model";
+import {ApiRecipientGroupForCreation} from "../models/recipientgroup-api.model";
+import {RecipientGroupApiService} from "./recipientgroup-api.service";
+import {MessageService} from "../../common/services/message.service";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 import "../../entity-manager/common-entity-manager.service";
 
 @Injectable()

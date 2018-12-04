@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder} from "@angular/forms";
+import {Title} from "@angular/platform-browser";
 
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Issuer } from "./models/issuer.model";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BadgeClass } from "./models/badgeclass.model";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Issuer} from "./models/issuer.model";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgrApiFailure} from "../common/services/api-failure";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BadgeClass} from "./models/badgeclass.model";
 import {AppConfigService} from "../common/app-config.service";
 
 

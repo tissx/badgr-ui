@@ -1,18 +1,18 @@
-import { Component, forwardRef, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { UrlValidator } from "../common/validators/url.validator";
-import { Title } from "@angular/platform-browser";
-import { ApiIssuerForCreation } from "./models/issuer-api.model";
-import { markControlsDirty } from "../common/util/form-util";
-import { SessionService } from "../common/services/session.service";
-import { preloadImageURL } from "../common/util/file-util";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfileEmail } from "../common/model/user-profile.model";
-import { FormFieldSelectOption } from "../common/components/formfield-select";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {UrlValidator} from "../common/validators/url.validator";
+import {Title} from "@angular/platform-browser";
+import {ApiIssuerForCreation} from "./models/issuer-api.model";
+import {markControlsDirty} from "../common/util/form-util";
+import {SessionService} from "../common/services/session.service";
+import {preloadImageURL} from "../common/util/file-util";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfileEmail} from "../common/model/user-profile.model";
+import {FormFieldSelectOption} from "../common/components/formfield-select";
 import {AppConfigService} from "../common/app-config.service";
 
 @Component({

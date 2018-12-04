@@ -1,13 +1,13 @@
-import { OnInit, Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { OAuthManager } from "../common/services/oauth-manager.service";
-import { OAuth2AppAuthorization } from "../common/model/oauth.model";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { flatten } from "../common/util/array-reducers";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {OAuthManager} from "../common/services/oauth-manager.service";
+import {OAuth2AppAuthorization} from "../common/model/oauth.model";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {flatten} from "../common/util/array-reducers";
 import {AppConfigService} from "../common/app-config.service";
 
 

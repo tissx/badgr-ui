@@ -1,4 +1,4 @@
-import {ElementRef, Input, HostListener, Component, AfterViewInit, ViewChild, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild} from '@angular/core';
 
 import * as Tether from 'tether';
 

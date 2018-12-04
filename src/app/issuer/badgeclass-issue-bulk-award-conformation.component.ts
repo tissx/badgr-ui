@@ -7,8 +7,6 @@ import {Title} from "@angular/platform-browser";
 import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 import {TransformedImportData, ViewState} from "./badgeclass-issue-bulk-award.component"
 
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/first";
 import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
 import {BadgeInstanceBatchAssertion} from "./models/badgeinstance-api.model";
 import {BadgrApiFailure} from "../common/services/api-failure";

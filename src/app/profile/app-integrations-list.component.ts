@@ -1,18 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit} from "@angular/core";
+import {Title} from "@angular/platform-browser";
 
-import { Router, ActivatedRoute, } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { AppIntegrationManager } from "./services/app-integration-manager.service";
-import { OAuthManager } from "../common/services/oauth-manager.service";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { OAuth2AppAuthorization } from "../common/model/oauth.model";
-import { groupIntoObject } from "../common/util/array-reducers";
+import {ActivatedRoute, Router,} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {AppIntegrationManager} from "./services/app-integration-manager.service";
+import {OAuthManager} from "../common/services/oauth-manager.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {OAuth2AppAuthorization} from "../common/model/oauth.model";
+import {groupIntoObject} from "../common/util/array-reducers";
 import {AppConfigService} from "../common/app-config.service";
-
 
 
 @Component({

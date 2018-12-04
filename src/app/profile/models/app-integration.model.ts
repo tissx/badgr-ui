@@ -1,11 +1,12 @@
-import { ManagedEntity } from "../../common/model/managed-entity";
+import {ManagedEntity} from "../../common/model/managed-entity";
 import {
-	ApiAppIntegrationRef,
 	ApiAppIntegration,
-	AppIntegrationType,
-	ApiAppIntegrationUid, ApiBadgebookCanvasLti1AppIntegration
+	ApiAppIntegrationRef,
+	ApiAppIntegrationUid,
+	ApiBadgebookCanvasLti1AppIntegration,
+	AppIntegrationType
 } from "./app-integration-api.model";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 
 export abstract class AppIntegration<T extends ApiAppIntegration> extends ManagedEntity<T, ApiAppIntegrationRef> {
 	constructor(

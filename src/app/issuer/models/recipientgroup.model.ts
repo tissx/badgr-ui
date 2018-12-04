@@ -1,16 +1,17 @@
-import { RecipientGroupManager } from "../services/recipientgroup-manager.service";
-import { StandaloneEntitySet, LazyEmbeddedEntitySet } from "../../common/model/managed-entity-set";
+import {RecipientGroupManager} from "../services/recipientgroup-manager.service";
+import {LazyEmbeddedEntitySet, StandaloneEntitySet} from "../../common/model/managed-entity-set";
 import {
 	ApiRecipientGroup,
-	ApiRecipientGroupMember,
 	ApiRecipientGroupForCreation,
-	RecipientGroupRef, ApiRecipientGroupMemberForCreation
+	ApiRecipientGroupMember,
+	ApiRecipientGroupMemberForCreation,
+	RecipientGroupRef
 } from "./recipientgroup-api.model";
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { LearningPathway } from "./pathway.model";
-import { PathwayRef } from "./pathway-api.model";
-import { BidirectionallyLinkedEntitySet } from "../../common/model/linked-entity-set";
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {ManagedEntity} from "../../common/model/managed-entity";
+import {LearningPathway} from "./pathway.model";
+import {PathwayRef} from "./pathway-api.model";
+import {BidirectionallyLinkedEntitySet} from "../../common/model/linked-entity-set";
+import {ApiEntityRef} from "../../common/model/entity-ref";
 
 /**
  * Managed model class holding the recipientGroups owned by an issuer. Does not load recipientGroup detail unless requested for

@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Angulartics2 } from "angulartics2";
+import {Injectable} from "@angular/core";
+import {Angulartics2} from "angulartics2";
 import {RecipientBadgeApiService} from "../../recipient/services/recipient-badges-api.service";
 
 @Injectable()

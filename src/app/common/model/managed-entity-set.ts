@@ -1,8 +1,9 @@
-import { Observable } from "rxjs/Observable";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { ManagedEntity, AnyManagedEntity } from "./managed-entity";
-import { AnyRefType, EntityRef } from "./entity-ref";
-import { EntitySet, EntitySetUpdate } from "./entity-set";
+import {Observable} from "rxjs";
+import {UpdatableSubject} from "../util/updatable-subject";
+import {AnyManagedEntity, ManagedEntity} from "./managed-entity";
+import {AnyRefType, EntityRef} from "./entity-ref";
+import {EntitySet, EntitySetUpdate} from "./entity-set";
+import {first, map} from "rxjs/operators";
 
 /**
  * Manages a set of entities based on API data. This set and its children act as the primary holders and creators of
@@ -32,7 +33,9 @@ export class ManagedEntitySet<
 		protected entityFactory: (apiModel: ApiEntityType) => EntityType,
 		protected urlForApiModel: (apiModel: ApiEntityType) => string
 	) {
-		this.changedSubject.map(u => u.entitySet).subscribe(this.loadedSubject);
+		this.changedSubject
+			.pipe(map(u => u.entitySet))
+			.subscribe(this.loadedSubject);
 	}
 
 	/**
@@ -63,7 +66,7 @@ export class ManagedEntitySet<
 	get loadedPromise(): Promise<this> {
 		return this._loadedPromise
 			? this._loadedPromise
-			: (this._loadedPromise = this.loaded$.first().toPromise())
+			: (this._loadedPromise = this.loaded$.pipe(first()).toPromise())
 	}
 
 	get loaded() {

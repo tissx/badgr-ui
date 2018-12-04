@@ -1,8 +1,5 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-
-
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import { BaseDialog } from "./base-dialog";
+import {Component, ElementRef, Renderer2} from "@angular/core";
+import {BaseDialog} from "./base-dialog";
 import {AppConfigService} from "../app-config.service";
 import {UserProfileManager} from "../services/user-profile-manager.service";
 import {UserProfile} from "../model/user-profile.model";

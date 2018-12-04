@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router, } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router,} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
 import {AppConfigService} from "../common/app-config.service";
 
 

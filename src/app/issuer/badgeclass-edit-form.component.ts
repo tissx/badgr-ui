@@ -1,24 +1,26 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Title} from "@angular/platform-browser";
 
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Issuer } from "./models/issuer.model";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
 
-import { ApiBadgeClassAlignment, ApiBadgeClassForCreation, BadgeClassExpiresDuration } from './models/badgeclass-api.model';
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { markControlsDirty } from "../common/util/form-util";
-import { BadgeStudioComponent } from "./badge-studio.component";
-import { BgFormFieldImageComponent } from "../common/components/formfield-image";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import { UrlValidator } from "../common/validators/url.validator";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BadgeClass } from "./models/badgeclass.model";
+import {
+	ApiBadgeClassAlignment,
+	ApiBadgeClassForCreation,
+	BadgeClassExpiresDuration
+} from './models/badgeclass-api.model';
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {markControlsDirty} from "../common/util/form-util";
+import {BadgeStudioComponent} from "./badge-studio.component";
+import {BgFormFieldImageComponent} from "../common/components/formfield-image";
+import {UrlValidator} from "../common/validators/url.validator";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BadgeClass} from "./models/badgeclass.model";
 import {AppConfigService} from "../common/app-config.service";
 
 

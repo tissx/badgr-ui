@@ -1,16 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../common/util/form-util";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {markControlsDirty} from "../common/util/form-util";
 
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { ApiUserProfile } from "../common/model/user-profile-api.model";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfile } from "../common/model/user-profile.model";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfile} from "../common/model/user-profile.model";
 import {AppConfigService} from "../common/app-config.service";
 
 @Component({

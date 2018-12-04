@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
-import { AppConfigService } from "../common/app-config.service";
-import { SignupModel } from "./signup-model.type";
-import { Observable } from "rxjs/Observable";
-import { ApiUserProfile } from "../common/model/user-profile-api.model";
+import {Injectable} from "@angular/core";
+import {Headers, Http} from "@angular/http";
+import {AppConfigService} from "../common/app-config.service";
+import {SignupModel} from "./signup-model.type";
+import {Observable} from "rxjs";
+import {ApiUserProfile} from "../common/model/user-profile-api.model";
 
 
 @Injectable()

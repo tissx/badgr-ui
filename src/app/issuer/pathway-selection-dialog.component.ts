@@ -1,14 +1,11 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
+import {Component, ElementRef, Renderer2} from "@angular/core";
 
 
-import { MessageService } from "../common/services/message.service";
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/first";
-import { LearningPathway, IssuerPathways } from "./models/pathway.model";
-import { PathwayManager } from "./services/pathway-manager.service";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import { BaseDialog } from "../common/dialogs/base-dialog";
+import {MessageService} from "../common/services/message.service";
+import {IssuerPathways, LearningPathway} from "./models/pathway.model";
+import {PathwayManager} from "./services/pathway-manager.service";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {BaseDialog} from "../common/dialogs/base-dialog";
 
 
 export interface PathwaySelectionDialogOptions {

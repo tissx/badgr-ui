@@ -1,15 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import {
-	FormBuilder, FormControl, Validators
-} from "@angular/forms";
-import {  ActivatedRoute , Router} from "@angular/router";
-import { Title } from "@angular/platform-browser";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { EmailValidator, ValidationResult } from "../common/validators/email.validator";
-import { UrlValidator } from "../common/validators/url.validator";
-import { MdImgValidator } from "../common/validators/md-img.validator";
+import {Component, OnInit} from "@angular/core";
+import {FormControl, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {EmailValidator, ValidationResult} from "../common/validators/email.validator";
+import {UrlValidator} from "../common/validators/url.validator";
+import {MdImgValidator} from "../common/validators/md-img.validator";
 
 import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
 import {BadgeClassManager} from "./services/badgeclass-manager.service";
@@ -17,13 +15,13 @@ import {IssuerManager} from "./services/issuer-manager.service";
 
 import {Issuer} from "./models/issuer.model";
 import {BadgeClass} from "./models/badgeclass.model";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import { RecipientIdentifierType } from "./models/badgeinstance-api.model";
-import { typedGroup } from "../common/util/typed-forms";
-import { TelephoneValidator } from "../common/validators/telephone.validator";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BadgrApiFailure} from "../common/services/api-failure";
+import {RecipientIdentifierType} from "./models/badgeinstance-api.model";
+import {typedGroup} from "../common/util/typed-forms";
+import {TelephoneValidator} from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
-import { FormFieldTextInputType } from '../common/components/formfield-text';
+import {FormFieldTextInputType} from '../common/components/formfield-text';
 import * as sanitizeHtml from "sanitize-html";
 import {DateValidator} from "../common/validators/date.validator";
 import {AppConfigService} from "../common/app-config.service";

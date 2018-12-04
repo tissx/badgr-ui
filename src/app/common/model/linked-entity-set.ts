@@ -1,8 +1,9 @@
-import { AnyManagedEntity } from "./managed-entity";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { AnyRefType, EntityRef, ApiEntityRef } from "./entity-ref";
-import { EntitySet, EntitySetUpdate } from "./entity-set";
-import { Observable } from "rxjs/Observable";
+import {AnyManagedEntity} from "./managed-entity";
+import {UpdatableSubject} from "../util/updatable-subject";
+import {AnyRefType, ApiEntityRef, EntityRef} from "./entity-ref";
+import {EntitySet, EntitySetUpdate} from "./entity-set";
+import {Observable} from "rxjs";
+import {first, map} from "rxjs/operators";
 
 export class LinkedEntitySet<
 	OwnerType extends AnyManagedEntity,
@@ -21,7 +22,7 @@ export class LinkedEntitySet<
 	public get loaded$(): Observable<this> { return this.loadedSubject.asObservable() }
 	public get changed$(): Observable<EntitySetUpdate<EntityType, this>> { return this.changedSubject.asObservable() }
 
-	get loadedPromise(): Promise<this> { return this.loaded$.first().toPromise() }
+	get loadedPromise(): Promise<this> { return this.loaded$.pipe(first()).toPromise() }
 	get loaded(): boolean { return this.loadedSubject.isLoaded }
 
 	constructor(
@@ -30,7 +31,9 @@ export class LinkedEntitySet<
 		protected attachEntity: (entity: EntityType) => void,
 		protected detachEntity: (entity: EntityType) => void
 	) {
-		this.changedSubject.map(u => u.entitySet).subscribe(this.loadedSubject);
+		this.changedSubject
+			.pipe(map(u => u.entitySet))
+			.subscribe(this.loadedSubject);
 	}
 
 	get length() {

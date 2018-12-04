@@ -1,19 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { Issuer } from "./models/issuer.model";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
-import { RecipientGroup } from "./models/recipientgroup.model";
-import { EmailValidator } from "../common/validators/email.validator";
+import {Component, OnInit} from "@angular/core";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {Issuer} from "./models/issuer.model";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {RecipientGroupManager} from "./services/recipientgroup-manager.service";
+import {RecipientGroup} from "./models/recipientgroup.model";
+import {EmailValidator} from "../common/validators/email.validator";
 import {AppConfigService} from "../common/app-config.service";
-
-//import "rxjs/add/observable/combineLatest";
-//import "rxjs/add/operator/first";
 
 type DestSelectOptions = "first" | "last" | "middleInitial" | "name" | "email" | "NA";
 type ViewState = "instructions" | "importPreview" | "importError" | "importConformation";

@@ -1,21 +1,17 @@
-import { Component, Injector } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {Component, Injector} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
 
-import { preloadImageURL } from "../common/util/file-util";
-import { PublicApiService } from "./services/public-api.service";
-import { LoadedRouteParam } from "../common/util/loaded-route-param";
-import {
-	PublicApiBadgeAssertionWithBadgeClass, PublicApiBadgeClass,
-	PublicApiBadgeClassWithIssuer,
-	PublicApiIssuer
-} from "./models/public-api.model";
-import { EmbedService } from "../common/services/embed.service";
-import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../common/util/url-util";
-import { routerLinkForUrl } from "./public.component";
+import {preloadImageURL} from "../common/util/file-util";
+import {PublicApiService} from "./services/public-api.service";
+import {LoadedRouteParam} from "../common/util/loaded-route-param";
+import {PublicApiBadgeAssertionWithBadgeClass, PublicApiBadgeClass, PublicApiIssuer} from "./models/public-api.model";
+import {EmbedService} from "../common/services/embed.service";
+import {addQueryParamsToUrl} from "../common/util/url-util";
+import {routerLinkForUrl} from "./public.component";
 import {QueryParametersService} from "../common/services/query-parameters.service";
 import {MessageService} from "../common/services/message.service";
 import {AppConfigService} from "../common/app-config.service";
-import { saveAs } from "file-saver";
+import {saveAs} from "file-saver";
 
 
 @Component({

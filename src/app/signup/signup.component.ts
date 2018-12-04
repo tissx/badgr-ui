@@ -1,16 +1,16 @@
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router, } from "@angular/router";
-import { SignupModel } from "./signup-model.type";
-import { SignupService } from "./signup.service";
-import { SessionService } from "../common/services/session.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { MessageService } from "../common/services/message.service";
-import { EmailValidator } from "../common/validators/email.validator";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../common/util/form-util";
-import { AppConfigService } from "../common/app-config.service";
-import { OAuthManager } from "../common/services/oauth-manager.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router,} from "@angular/router";
+import {SignupModel} from "./signup-model.type";
+import {SignupService} from "./signup.service";
+import {SessionService} from "../common/services/session.service";
+import {BaseRoutableComponent} from "../common/pages/base-routable.component";
+import {MessageService} from "../common/services/message.service";
+import {EmailValidator} from "../common/validators/email.validator";
+import {Title} from "@angular/platform-browser";
+import {markControlsDirty} from "../common/util/form-util";
+import {AppConfigService} from "../common/app-config.service";
+import {OAuthManager} from "../common/services/oauth-manager.service";
 
 @Component({
 	selector: 'sign-up',

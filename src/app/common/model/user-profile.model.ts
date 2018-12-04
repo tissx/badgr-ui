@@ -1,4 +1,4 @@
-import { ManagedEntity } from "./managed-entity";
+import {ManagedEntity} from "./managed-entity";
 import {
 	ApiUserProfile,
 	ApiUserProfileEmail,
@@ -8,7 +8,7 @@ import {
 	UserProfileRef,
 	UserProfileSocialAccountRef
 } from "./user-profile-api.model";
-import { StandaloneEntitySet } from "./managed-entity-set";
+import {StandaloneEntitySet} from "./managed-entity-set";
 
 /**
  * Logical interface to the current user's profile, providing access to personal information (as the entitiy) and

@@ -1,8 +1,7 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { BadgeClass } from "./badgeclass.model";
-import { Issuer } from "./issuer.model";
-import { ApiIssuer } from "./issuer-api.model";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {inject, TestBed} from "@angular/core/testing";
+import {Issuer} from "./issuer.model";
+import {ApiIssuer} from "./issuer-api.model";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 
 
 describe('Issuer', () => {

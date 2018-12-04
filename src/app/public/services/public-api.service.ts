@@ -1,22 +1,24 @@
-import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
-import { MessageService } from "../../common/services/message.service";
+import {Injectable} from "@angular/core";
+import {BaseHttpApiService} from "../../common/services/base-http-api.service";
+import {SessionService} from "../../common/services/session.service";
+import {AppConfigService} from "../../common/app-config.service";
+import {MessageService} from "../../common/services/message.service";
 import {
-	PublicApiBadgeAssertionWithBadgeClass, PublicApiBadgeClass,
-	PublicApiBadgeClassWithIssuer, PublicApiBadgeCollectionWithBadgeClassAndIssuer,
+	PublicApiBadgeAssertionWithBadgeClass,
+	PublicApiBadgeClass,
+	PublicApiBadgeClassWithIssuer,
+	PublicApiBadgeCollectionWithBadgeClassAndIssuer,
 	PublicApiIssuer
 } from "../models/public-api.model";
-import { stripQueryParamsFromUrl } from "../../common/util/url-util";
+import {stripQueryParamsFromUrl} from "../../common/util/url-util";
+import {HttpClient} from "@angular/common/http";
 
 
 @Injectable()
 export class PublicApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
-		protected http: Http,
+		protected http: HttpClient,
 		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
@@ -25,13 +27,13 @@ export class PublicApiService extends BaseHttpApiService {
 
 	getBadgeAssertion(
 		assertionId: string
-	): Promise<PublicApiBadgeAssertionWithBadgeClass> {
+	) {
 		const url = assertionId.startsWith("http")
 			? assertionId
 			: `/public/assertions/${assertionId}.json?v=2_0&expand=badge&expand=badge.issuer`;
 
-		return this.get(url, null, false, false)
-			.then(r => r.json() as PublicApiBadgeAssertionWithBadgeClass)
+		return this.get<PublicApiBadgeAssertionWithBadgeClass>(url, null, false, false)
+			.then(r => r.body)
 			.then(
 				assertion => typeof(assertion.badge) == "string"
 					? this.getBadgeClass(assertion.badge).then(badge=>({... assertion, badge }))
@@ -46,8 +48,8 @@ export class PublicApiService extends BaseHttpApiService {
 			? badgeId
 			: `/public/badges/${badgeId}?v=2_0&expand=issuer`;
 
-		return this.get(url, null, false, false)
-			.then(r => r.json() as PublicApiBadgeClassWithIssuer)
+		return this.get<PublicApiBadgeClassWithIssuer>(url, null, false, false)
+			.then(r => r.body)
 			.then(
 				badge => typeof(badge.issuer) == "string"
 					? this.getIssuer(badge.issuer).then(issuer=>({... badge, issuer }))
@@ -62,8 +64,8 @@ export class PublicApiService extends BaseHttpApiService {
 			? issuerId
 			: `/public/issuers/${issuerId}`;
 
-		return this.get(url, null, false, false)
-			.then(r => r.json() as PublicApiIssuer);
+		return this.get<PublicApiIssuer>(url, null, false, false)
+			.then(r => r.body);
 	}
 
 	getIssuerBadges(
@@ -73,8 +75,8 @@ export class PublicApiService extends BaseHttpApiService {
 			? stripQueryParamsFromUrl(issuerId) + "/badges"
 			: `/public/issuers/${issuerId}/badges`;
 
-		return this.get(url, null, false, false)
-			.then(r => r.json() as PublicApiBadgeClass[]);
+		return this.get<PublicApiBadgeClass[]>(url, null, false, false)
+			.then(r => r.body);
 	}
 
 	getIssuerWithBadges(
@@ -89,7 +91,7 @@ export class PublicApiService extends BaseHttpApiService {
 	getBadgeCollection(
 		shareHash: string
 	): Promise<PublicApiBadgeCollectionWithBadgeClassAndIssuer> {
-		return this.get(`/public/collections/${shareHash}.json?v=2_0&expand=badges.badge&expand=badges.badge.issuer`, null,false, false)
-			.then(r => r.json() as PublicApiBadgeCollectionWithBadgeClassAndIssuer);
+		return this.get<PublicApiBadgeCollectionWithBadgeClassAndIssuer>(`/public/collections/${shareHash}.json?v=2_0&expand=badges.badge&expand=badges.badge.issuer`, null,false, false)
+			.then(r => r.body);
 	}
 }

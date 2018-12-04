@@ -1,20 +1,22 @@
-import { Injectable } from "@angular/core";
-import { SessionService } from "./session.service";
-import { Http } from "@angular/http";
-import { AppConfigService } from "../app-config.service";
-import { MessageService } from "./message.service";
-import { BaseHttpApiService } from "./base-http-api.service";
+import {Injectable} from "@angular/core";
+import {SessionService} from "./session.service";
+import {AppConfigService} from "../app-config.service";
+import {MessageService} from "./message.service";
+import {BaseHttpApiService} from "./base-http-api.service";
 import {
-	ApiOAuth2AppAuthorization, ApiOAuth2ClientAuthorized, ApiOAuthResponse,
+	ApiOAuth2AppAuthorization,
+	ApiOAuth2ClientAuthorized,
+	ApiOAuthResponse,
 	OAuth2RequestParams
 } from "../model/oauth-api.model";
 import {SocialAccountProviderInfo} from "../model/user-profile-api.model";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class OAuthApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
-		protected http: Http,
+		protected http: HttpClient,
 		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
@@ -25,7 +27,7 @@ export class OAuthApiService extends BaseHttpApiService {
 		const now = new Date;
 
 		return this.get(`/v2/auth/tokens`)
-			.then(r => r.json() as ApiOAuth2AppAuthorization[]);
+			.then(r => r.body as ApiOAuth2AppAuthorization[]);
 			//.then(list => list.filter(token => new Date(token.expires) > now));
 	}
 
@@ -35,8 +37,8 @@ export class OAuthApiService extends BaseHttpApiService {
 
 	startAuthorization(
 		request: OAuth2RequestParams
-	): Promise<ApiOAuthResponse> {
-		return this.get(
+	) {
+		return this.get<ApiOAuthResponse>(
 			`/o/authorize`,
 			{
 				"response_type": "code",
@@ -47,14 +49,14 @@ export class OAuthApiService extends BaseHttpApiService {
 				... (request.stateString ? { "state": request.stateString } : {})
 			},
 			false
-		).then(r => r.json());
+		).then(r => r.body);
 	}
 
 	authorizeApp(
 		request: OAuth2RequestParams,
 		authorizedScopes: string[]
-	): Promise<ApiOAuth2ClientAuthorized> {
-		return this.post(
+	) {
+		return this.post<ApiOAuth2ClientAuthorized>(
 			`/o/authorize`,
 			{
 				"allow": true,
@@ -64,10 +66,12 @@ export class OAuthApiService extends BaseHttpApiService {
 				"scopes": authorizedScopes,
 				... (request.stateString ? { "state": request.stateString } : {})
 			}
-		).then(r => r.json());
+		).then(r => r.body);
 	}
 
 	connectProvider(provider: SocialAccountProviderInfo) {
-		return this.get(`/v1/user/socialaccounts/connect?provider=${provider.slug}`).then(r => r.json())
+		return this
+			.get<{ url: string }>(`/v1/user/socialaccounts/connect?provider=${provider.slug}`)
+			.then(r => r.body)
 	}
 }

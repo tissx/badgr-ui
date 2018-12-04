@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
-import { BadebookLti1Integration } from "./models/app-integration.model";
-import { AppIntegrationDetailComponent } from "./app-integration-detail.component";
-import { SessionService } from "../common/services/session.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Title } from "@angular/platform-browser";
-import { MessageService } from "../common/services/message.service";
-import { AppIntegrationManager } from "./services/app-integration-manager.service";
+import {Component, Input} from "@angular/core";
+import {BadebookLti1Integration} from "./models/app-integration.model";
+import {AppIntegrationDetailComponent} from "./app-integration-detail.component";
+import {SessionService} from "../common/services/session.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
+import {MessageService} from "../common/services/message.service";
+import {AppIntegrationManager} from "./services/app-integration-manager.service";
 import {AppConfigService} from "../common/app-config.service";
 
 

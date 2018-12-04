@@ -1,25 +1,21 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
 
-import { EmailValidator } from "../common/validators/email.validator";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../common/util/form-util";
+import {EmailValidator} from "../common/validators/email.validator";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {markControlsDirty} from "../common/util/form-util";
 
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import {
-	SocialAccountProviderInfo, ApiUserProfile, ApiUserProfileEmail,
-	ApiUserProfileSocialAccount,
-	socialAccountProviderInfoForSlug,
-} from "../common/model/user-profile-api.model";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfile, UserProfileEmail, UserProfileSocialAccount } from "../common/model/user-profile.model";
-import { Subscription } from "rxjs/Subscription";
-import { QueryParametersService } from "../common/services/query-parameters.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {BadgrApiFailure} from "../common/services/api-failure";
+import {SocialAccountProviderInfo,} from "../common/model/user-profile-api.model";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfile, UserProfileEmail, UserProfileSocialAccount} from "../common/model/user-profile.model";
+import {Subscription} from "rxjs";
+import {QueryParametersService} from "../common/services/query-parameters.service";
 import {OAuthApiService} from "../common/services/oauth-api.service";
 import {AppConfigService} from "../common/app-config.service";
 
@@ -83,7 +79,7 @@ import {AppConfigService} from "../common/app-config.service";
 
 								<div class="table-x-th " scope="row">
 									<div class="formfield l-childrenhorizontal">
-										<bg-formfield-text [control]="emailForm.controls.email"
+										<bg-formfield-text [control]="emailForm.controls['email']"
 														   [errorMessage]="'Please enter a valid email address'"
 														   fieldType="email"
 										                   placeholder="Member Email">

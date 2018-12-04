@@ -1,6 +1,6 @@
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import isURL from 'validator/lib/isURL';
-import { ValidationResult } from "./email.validator";
+import {ValidationResult} from "./email.validator";
 
 export class UrlValidator {
 	static validUrl(control: FormControl): ValidationResult {

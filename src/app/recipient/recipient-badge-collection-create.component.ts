@@ -1,14 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
-import { RecipientBadgeCollectionManager } from "./services/recipient-badge-collection-manager.service";
-import { ApiRecipientBadgeCollectionForCreation } from "./models/recipient-badge-collection-api.model";
-import { markControlsDirty } from "../common/util/form-util";
-import { SessionService } from "../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {RecipientBadgeCollectionManager} from "./services/recipient-badge-collection-manager.service";
+import {ApiRecipientBadgeCollectionForCreation} from "./models/recipient-badge-collection-api.model";
+import {markControlsDirty} from "../common/util/form-util";
+import {SessionService} from "../common/services/session.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 import {AppConfigService} from "../common/app-config.service";
 
 @Component({

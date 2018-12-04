@@ -1,20 +1,20 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { EmailValidator } from "../common/validators/email.validator";
-import { UserCredential } from "../common/model/user-credential.type";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {EmailValidator} from "../common/validators/email.validator";
+import {UserCredential} from "../common/model/user-credential.type";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {BaseRoutableComponent} from "../common/pages/base-routable.component";
+import {Title} from "@angular/platform-browser";
 
 
-import { markControlsDirty } from "../common/util/form-util";
-import { AppConfigService } from "../common/app-config.service";
-import { FormFieldText } from "../common/components/formfield-text";
-import { QueryParametersService } from "../common/services/query-parameters.service";
-import { OAuthManager } from "../common/services/oauth-manager.service";
+import {markControlsDirty} from "../common/util/form-util";
+import {AppConfigService} from "../common/app-config.service";
+import {FormFieldText} from "../common/components/formfield-text";
+import {QueryParametersService} from "../common/services/query-parameters.service";
+import {OAuthManager} from "../common/services/oauth-manager.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
 

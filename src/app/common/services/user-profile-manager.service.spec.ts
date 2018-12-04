@@ -1,26 +1,19 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { AppConfigService } from "../app-config.service";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import {
-	expectRequest,
-	expectRequestAndRespondWith,
-	setupMockResponseReporting
-} from "../../common/util/mock-response-util";
-import { verifyEntitySetWhenLoaded, verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
+import {inject, TestBed} from "@angular/core/testing";
+import {AppConfigService} from "../app-config.service";
+import {MockBackend} from "@angular/http/testing";
+import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {expectRequestAndRespondWith, setupMockResponseReporting} from "../../common/util/mock-response-util";
+import {verifyEntitySetWhenLoaded} from "../../common/model/managed-entity-set.spec";
 
-import { MessageService } from "../../common/services/message.service";
-import { SessionService } from "../../common/services/session.service";
-import { UserProfileManager } from "./user-profile-manager.service";
-import { UserProfileApiService } from "./user-profile-api.service";
-import { ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount } from "../model/user-profile-api.model";
-import {
-	apiProfileEmails, apiSocialAccounts, apiUserProfile,
-	verifyUserProfile
-} from "../model/user-profile.model.spec";
-import { UserProfile } from "../model/user-profile.model";
-import { EventsService } from "./events.service";
+import {MessageService} from "../../common/services/message.service";
+import {SessionService} from "../../common/services/session.service";
+import {UserProfileManager} from "./user-profile-manager.service";
+import {UserProfileApiService} from "./user-profile-api.service";
+import {ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount} from "../model/user-profile-api.model";
+import {apiProfileEmails, apiSocialAccounts, apiUserProfile, verifyUserProfile} from "../model/user-profile.model.spec";
+import {UserProfile} from "../model/user-profile.model";
+import {EventsService} from "./events.service";
 
 describe('UserProfileManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({

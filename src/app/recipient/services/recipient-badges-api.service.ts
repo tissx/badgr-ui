@@ -1,29 +1,27 @@
-import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import {
-	ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo
-} from "../models/recipient-badge-api.model";
-import { MessageService } from "../../common/services/message.service";
+import {Injectable} from "@angular/core";
+import {SessionService} from "../../common/services/session.service";
+import {AppConfigService} from "../../common/app-config.service";
+import {BaseHttpApiService} from "../../common/services/base-http-api.service";
+import {ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo} from "../models/recipient-badge-api.model";
+import {MessageService} from "../../common/services/message.service";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class RecipientBadgeApiService extends BaseHttpApiService {
 
 	constructor(
 		protected loginService: SessionService,
-		protected http: Http,
+		protected http: HttpClient,
 		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		super(loginService, http, configService, messageService);
 	}
 
-	listRecipientBadges(): Promise<ApiRecipientBadgeInstance[]> {
+	listRecipientBadges() {
 		return this
-			.get(`/v1/earner/badges?json_format=plain`)
-			.then(r => r.json());
+			.get<ApiRecipientBadgeInstance[]>(`/v1/earner/badges?json_format=plain`)
+			.then(r => r.body);
 	}
 
 	removeRecipientBadge(instanceSlug: string): Promise<void> {
@@ -34,30 +32,30 @@ export class RecipientBadgeApiService extends BaseHttpApiService {
 
 	addRecipientBadge(
 		badgeInfo: RecipientBadgeInstanceCreationInfo
-	): Promise<ApiRecipientBadgeInstance> {
+	) {
 		return this
-			.post('/v1/earner/badges?json_format=plain', badgeInfo)
-			.then(r => r.json())
+			.post<ApiRecipientBadgeInstance>('/v1/earner/badges?json_format=plain', badgeInfo)
+			.then(r => r.body)
 	}
 
-	saveInstance(apiModel: ApiRecipientBadgeInstance): Promise<ApiRecipientBadgeInstance> {
+	saveInstance(apiModel: ApiRecipientBadgeInstance) {
 		return this
-			.put(`/v1/earner/badges/${apiModel.id}?json_format=plain`, apiModel)
-			.then(r => r.json());
+			.put<ApiRecipientBadgeInstance>(`/v1/earner/badges/${apiModel.id}?json_format=plain`, apiModel)
+			.then(r => r.body);
 	}
 
 	getBadgeShareUrlForProvider(objectIdUrl, shareServiceType): Promise<string> {
 		let id_url = objectIdUrl.replace(/.*\//, '');
 		return this
-			.get(`/v1/earner/share/badge/${id_url}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
-			.then(r => r.json().url)
+			.get<any>(`/v1/earner/share/badge/${id_url}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
+			.then(r => r.body.url)
 	}
 
 	getCollectionShareUrlForProvider(objectIdUrl, shareServiceType): Promise<string> {
 		let id_url = objectIdUrl.replace(/.*\//, '')
 		return this
-			.get(`/v1/earner/share/collection/${id_url}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
-			.then(r => r.json().url)
+			.get<any>(`/v1/earner/share/collection/${id_url}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
+			.then(r => r.body.url)
 	}
 }
 

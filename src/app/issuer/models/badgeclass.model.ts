@@ -1,11 +1,15 @@
 import {
-	BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, BadgeClassExpiresDuration,
-	ApiBadgeClassExpiration
+	ApiBadgeClass,
+	ApiBadgeClassAlignment,
+	ApiBadgeClassExpiration,
+	BadgeClassExpiresDuration,
+	BadgeClassRef,
+	BadgeClassUrl
 } from './badgeclass-api.model';
-import { IssuerUrl } from "./issuer-api.model";
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { ApiEntityRef } from "../../common/model/entity-ref";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {IssuerUrl} from "./issuer-api.model";
+import {ManagedEntity} from "../../common/model/managed-entity";
+import {ApiEntityRef} from "../../common/model/entity-ref";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 
 export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	constructor(

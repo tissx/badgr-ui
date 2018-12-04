@@ -1,4 +1,4 @@
-import { SimpleChange } from "@angular/core";
+import {SimpleChange} from "@angular/core";
 
 export class ChangeDetectionUtil {
 	static typedChangesFor<T>(

@@ -1,16 +1,18 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {FormBuilder} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 
-import { BulkIssueData,
-	     BulkIssueImportPreviewData,
-		 DestSelectOptions,
-		 TransformedImportData,
-		 ViewState } from "./badgeclass-issue-bulk-award.component"
+import {
+	BulkIssueData,
+	BulkIssueImportPreviewData,
+	DestSelectOptions,
+	TransformedImportData,
+	ViewState
+} from "./badgeclass-issue-bulk-award.component"
 
 @Component({
 	selector: 'Badgeclass-issue-bulk-award-preview',

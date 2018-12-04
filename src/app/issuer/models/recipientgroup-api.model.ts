@@ -1,6 +1,6 @@
-import { PathwayRef } from "./pathway-api.model";
-import { IssuerRef } from "./issuer-api.model";
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {PathwayRef} from "./pathway-api.model";
+import {IssuerRef} from "./issuer-api.model";
+import {ApiEntityRef} from "../../common/model/entity-ref";
 
 export type RecipientGroupUrl = string;
 export type RecipientGroupSlug = string;

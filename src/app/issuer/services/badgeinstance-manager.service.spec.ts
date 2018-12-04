@@ -1,26 +1,26 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { BadgeInstanceManager } from "./badgeinstance-manager.service";
-import { MockBackend } from "@angular/http/testing";
+import {inject, TestBed} from "@angular/core/testing";
+import {BadgeInstanceManager} from "./badgeinstance-manager.service";
+import {MockBackend} from "@angular/http/testing";
 import {
-	randomIssuerName,
-	testSlugForName,
 	randomBadgeName,
 	randomEmail,
+	randomIssuerName,
+	randomNames,
 	randomUuid,
-	randomNames
+	testSlugForName
 } from "../../common/util/test/test-data-util";
-import { ApiBadgeInstance, ApiBadgeInstanceJsonld } from "../models/badgeinstance-api.model";
-import { testIssuerRefForSlug } from "./issuer-manager.service.spec";
-import { testBadgeClassRefForSlugs } from "./badgeclass-manager.service.spec";
-import { expectRequestAndRespondWith } from "../../common/util/mock-response-util";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { BadgeInstance } from "../models/badgeinstance.model";
-import { verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { AppConfigService } from "../../common/app-config.service";
-import { SessionService } from "../../common/services/session.service";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import { BadgeInstanceApiService } from "./badgeinstance-api.service";
-import { MessageService } from "../../common/services/message.service";
+import {ApiBadgeInstance, ApiBadgeInstanceJsonld} from "../models/badgeinstance-api.model";
+import {testIssuerRefForSlug} from "./issuer-manager.service.spec";
+import {testBadgeClassRefForSlugs} from "./badgeclass-manager.service.spec";
+import {expectRequestAndRespondWith} from "../../common/util/mock-response-util";
+import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
+import {BadgeInstance} from "../models/badgeinstance.model";
+import {verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
+import {AppConfigService} from "../../common/app-config.service";
+import {SessionService} from "../../common/services/session.service";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {BadgeInstanceApiService} from "./badgeinstance-api.service";
+import {MessageService} from "../../common/services/message.service";
 
 describe('BadgeInstanceManager', () => {
 	const defaultIssuerSlug = testSlugForName(randomIssuerName());

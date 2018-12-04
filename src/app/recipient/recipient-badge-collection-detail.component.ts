@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { RecipientBadgeSelectionDialog } from "./recipient-badge-selection-dialog.component";
-import { RecipientBadgeCollection, RecipientBadgeCollectionEntry } from "./models/recipient-badge-collection.model";
-import { RecipientBadgeCollectionManager } from "./services/recipient-badge-collection-manager.service";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { SessionService } from "../common/services/session.service";
-import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
-import { addQueryParamsToUrl } from "../common/util/url-util";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {RecipientBadgeSelectionDialog} from "./recipient-badge-selection-dialog.component";
+import {RecipientBadgeCollection, RecipientBadgeCollectionEntry} from "./models/recipient-badge-collection.model";
+import {RecipientBadgeCollectionManager} from "./services/recipient-badge-collection-manager.service";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {SessionService} from "../common/services/session.service";
+import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
+import {addQueryParamsToUrl} from "../common/util/url-util";
 import {AppConfigService} from "../common/app-config.service";
 
 

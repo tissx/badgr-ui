@@ -1,5 +1,4 @@
-
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {ApiEntityRef} from "../../common/model/entity-ref";
 
 export type IssuerSlug = string;
 export type IssuerUrl = string;

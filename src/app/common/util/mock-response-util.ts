@@ -1,6 +1,6 @@
-import { inject } from "@angular/core/testing";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Response, ResponseOptions, RequestMethod } from "@angular/http";
+import {inject} from "@angular/core/testing";
+import {MockBackend, MockConnection} from "@angular/http/testing";
+import {RequestMethod, Response, ResponseOptions} from "@angular/http";
 
 export function setupMockResponseReporting() {
 	beforeEach(inject([ MockBackend ], (mockBackend: MockBackend) => {

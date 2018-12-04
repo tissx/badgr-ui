@@ -1,14 +1,14 @@
-import { Component } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgeClass } from "./models/badgeclass.model";
-import { Issuer } from "./models/issuer.model";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
+import {Component} from "@angular/core";
+import {FormBuilder} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgeClass} from "./models/badgeclass.model";
+import {Issuer} from "./models/issuer.model";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
 import {AppConfigService} from "../common/app-config.service";
 
 

@@ -1,5 +1,5 @@
-import { AbstractControl, Form, FormArray, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
-import { markControlsDirty } from "./form-util";
+import {AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators} from "@angular/forms";
+import {markControlsDirty} from "./form-util";
 
 /**
  * A function that exercises the typed forms to ensure they compile correctly.

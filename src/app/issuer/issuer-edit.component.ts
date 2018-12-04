@@ -1,24 +1,22 @@
-import { Component, Inject, OnInit, forwardRef } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { UrlValidator } from "../common/validators/url.validator";
-import { Title } from "@angular/platform-browser";
-import { ApiIssuerForEditing } from "./models/issuer-api.model";
-import { markControlsDirty } from "../common/util/form-util";
-import { Issuer } from "./models/issuer.model";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {UrlValidator} from "../common/validators/url.validator";
+import {Title} from "@angular/platform-browser";
+import {ApiIssuerForEditing} from "./models/issuer-api.model";
+import {markControlsDirty} from "../common/util/form-util";
+import {Issuer} from "./models/issuer.model";
 
-import { preloadImageURL } from "../common/util/file-util";
-import { ApiUserProfileEmail } from "../common/model/user-profile-api.model";
-import { FormFieldSelectOption } from "../common/components/formfield-select";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfileEmail } from "../common/model/user-profile.model";
-import { CommonEntityManager } from "../entity-manager/common-entity-manager.service";
+import {preloadImageURL} from "../common/util/file-util";
+import {FormFieldSelectOption} from "../common/components/formfield-select";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfileEmail} from "../common/model/user-profile.model";
 import {AppConfigService} from "../common/app-config.service";
 
 @Component({

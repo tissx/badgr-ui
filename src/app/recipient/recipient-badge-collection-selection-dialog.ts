@@ -1,15 +1,12 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-import { MessageService } from "../common/services/message.service";
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/first";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import { SettingsService } from "../common/services/settings.service";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { RecipientBadgeInstance } from "./models/recipient-badge.model";
-import { RecipientBadgeCollection } from "./models/recipient-badge-collection.model";
-import { RecipientBadgeCollectionManager } from "./services/recipient-badge-collection-manager.service";
-import { BaseDialog } from "../common/dialogs/base-dialog";
+import {Component, ElementRef, Renderer2} from "@angular/core";
+import {MessageService} from "../common/services/message.service";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {SettingsService} from "../common/services/settings.service";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {RecipientBadgeInstance} from "./models/recipient-badge.model";
+import {RecipientBadgeCollection} from "./models/recipient-badge-collection.model";
+import {RecipientBadgeCollectionManager} from "./services/recipient-badge-collection-manager.service";
+import {BaseDialog} from "../common/dialogs/base-dialog";
 
 export interface RecipientBadgeCollectionSelectionDialogOptions {
 	dialogId: string;

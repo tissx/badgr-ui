@@ -7,36 +7,38 @@ import {
 	HelpConfig
 } from "../../environments/badgr-config";
 import {environment} from "../../environments/environment";
-import {Http} from "@angular/http";
-
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class AppConfigService {
 	private remoteConfig?: BadgrConfig;
 
+	private configProviders: { (): BadgrConfig }[] = [
+		() => this.remoteConfig,
+		() => environment.defaultConfig
+	];
+
 	constructor(
 		private injector: Injector,
-		private http: Http
+		private http: HttpClient
 	) {}
 
 	loadRemoteConfig() {
 		if (! environment.configBaseUrl)
 			return Promise.resolve();
 
-		return this.http.get(environment.configBaseUrl + "/" + window.location.hostname + "/config.json")
+		const configUrl = environment.configBaseUrl + window.location.hostname + "/config.json";
+
+		return this.http.get(configUrl)
 			.toPromise()
-			.then(data => {
-				this.remoteConfig = data.json();
-			});
+			.then(
+				data => this.remoteConfig = data,
+				err => console.warn(`Failed to load remote config from ${configUrl}`, err)
+			);
 	}
 
 	private getConfig<T>(getter: (config: BadgrConfig) => T): T {
-		const configProviders: { (): BadgrConfig }[] = [
-			() => this.remoteConfig,
-			() => environment.defaultConfig
-		];
-
-		for (const provider of configProviders) {
+		for (const provider of this.configProviders) {
 			const overall = provider();
 			if (typeof overall === "object") {
 				const config = getter(overall);

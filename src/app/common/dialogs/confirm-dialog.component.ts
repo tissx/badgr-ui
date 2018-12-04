@@ -1,8 +1,5 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-
-
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import { BaseDialog } from "./base-dialog";
+import {Component, ElementRef, Renderer2} from "@angular/core";
+import {BaseDialog} from "./base-dialog";
 
 export interface ConfirmDialogOptions {
 	dialogTitle?: string;

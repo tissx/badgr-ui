@@ -1,13 +1,10 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { BidirectionallyLinkedEntitySet, ListBackedLinkedEntitySet } from "./linked-entity-set";
-import {
-	TestEntity,
-	ApiTestEntity, TestEntityRef, buildTestEntities, TestApiEntities
-} from "./managed-entity.spec";
-import { ManagedEntitySet, StandaloneEntitySet } from "./managed-entity-set";
-import { ManagedEntity } from "./managed-entity";
-import { ApiEntityRef, EntityRef, AnyRefType } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {inject, TestBed} from "@angular/core/testing";
+import {BidirectionallyLinkedEntitySet, ListBackedLinkedEntitySet} from "./linked-entity-set";
+import {ApiTestEntity, buildTestEntities, TestApiEntities, TestEntity, TestEntityRef} from "./managed-entity.spec";
+import {ManagedEntitySet, StandaloneEntitySet} from "./managed-entity-set";
+import {ManagedEntity} from "./managed-entity";
+import {AnyRefType, ApiEntityRef, EntityRef} from "./entity-ref";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 
 describe('ListBackedLinkedEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({

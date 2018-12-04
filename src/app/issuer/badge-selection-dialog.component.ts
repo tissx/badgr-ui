@@ -1,21 +1,17 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
+import {Component, ElementRef, Renderer2} from "@angular/core";
 
 
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { BadgeClass } from "./models/badgeclass.model";
-import { BadgeClassUrl } from "./models/badgeclass-api.model";
-import { Issuer } from "./models/issuer.model";
-import { MessageService } from "../common/services/message.service";
-import { Observable } from "rxjs/Observable";
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/first";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import { SettingsService } from "../common/services/settings.service";
-import { BgAwaitPromises } from "../common/directives/bg-await-promises";
-import { BaseDialog } from "../common/dialogs/base-dialog";
-
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {BadgeClass} from "./models/badgeclass.model";
+import {BadgeClassUrl} from "./models/badgeclass-api.model";
+import {Issuer} from "./models/issuer.model";
+import {MessageService} from "../common/services/message.service";
+import {combineLatest} from "rxjs";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {SettingsService} from "../common/services/settings.service";
+import {BaseDialog} from "../common/dialogs/base-dialog";
+import {first} from "rxjs/operators";
 
 
 export interface BadgeSelectionDialogOptions {
@@ -307,13 +303,12 @@ export class BadgeSelectionDialog extends BaseDialog {
 	}
 
 	private updateData() {
-		this.badgesLoaded = Observable
-			.combineLatest(
+		this.badgesLoaded = combineLatest(
 				this.badgeManager.badgesByIssuerUrl$,
 				this.badgeManager.allBadges$,
 				this.issuerManager.allIssuers$
 			)
-			.first()
+			.pipe(first())
 			.toPromise()
 			.then(
 				([badgesByIssuer, allBadges, issuers]) => this.updateBadges(badgesByIssuer, allBadges, issuers),

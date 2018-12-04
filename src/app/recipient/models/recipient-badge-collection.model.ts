@@ -1,16 +1,16 @@
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {ManagedEntity} from "../../common/model/managed-entity";
+import {ApiEntityRef} from "../../common/model/entity-ref";
 import {
 	ApiRecipientBadgeCollection,
-	RecipientBadgeCollectionRef,
 	ApiRecipientBadgeCollectionEntry,
 	RecipientBadgeCollectionEntryRef,
+	RecipientBadgeCollectionRef,
 	RecipientBadgeCollectionUrl
 } from "./recipient-badge-collection-api.model";
-import { RecipientBadgeInstance } from "./recipient-badge.model";
-import { EmbeddedEntitySet } from "../../common/model/managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import { RecipientBadgeInstanceSlug } from "./recipient-badge-api.model";
+import {RecipientBadgeInstance} from "./recipient-badge.model";
+import {EmbeddedEntitySet} from "../../common/model/managed-entity-set";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {RecipientBadgeInstanceSlug} from "./recipient-badge-api.model";
 
 export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCollection, RecipientBadgeCollectionRef> {
 	public badgeEntries = new EmbeddedEntitySet<

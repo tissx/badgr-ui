@@ -1,6 +1,5 @@
-
-import {} from 'jasmine';
-import { $, protractor, browser, element, by } from "protractor";
+import 'jasmine';
+import {$, browser, by, element, protractor} from "protractor";
 
 class LoginPage {
     usernameInput = element(by.id('email'));

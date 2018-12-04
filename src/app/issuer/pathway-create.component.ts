@@ -1,19 +1,17 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { UrlValidator } from "../common/validators/url.validator";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { ApiPathwaySummaryForCreation } from "./models/pathway-api.model";
-import { PathwayManager } from "./services/pathway-manager.service";
-import { FormFieldText } from "../common/components/formfield-text";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { Issuer } from "./models/issuer.model";
-import { FormMessageComponent } from "../common/components/form-message.component";
-import { markControlsDirty } from "../common/util/form-util";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {UrlValidator} from "../common/validators/url.validator";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {ApiPathwaySummaryForCreation} from "./models/pathway-api.model";
+import {PathwayManager} from "./services/pathway-manager.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {Issuer} from "./models/issuer.model";
+import {markControlsDirty} from "../common/util/form-util";
 import {AppConfigService} from "../common/app-config.service";
 
 /**

@@ -1,6 +1,4 @@
-import { Directive, ElementRef, Renderer, OnChanges, Input } from "@angular/core";
-import { Router } from "@angular/router";
-import Timer = NodeJS.Timer;
+import {Directive, ElementRef, Input, OnChanges} from "@angular/core";
 
 const defaultLoadingImage = require("../../../breakdown/static/images/image-placeholder.svg");
 const defaultErrorImage = require("../../../breakdown/static/images/image-failed.svg");

@@ -1,14 +1,12 @@
-import { Injectable } from "@angular/core";
-import { Headers, Http, Response } from "@angular/http";
-import { Observable } from "rxjs/Observable";
-import "../../rxjs-operators";
-
-import { UserCredential } from "../model/user-credential.type";
-import { AppConfigService } from "../app-config.service";
-import { MessageService } from "./message.service";
-import { BaseHttpApiService } from "./base-http-api.service";
-import { SocialAccountProviderInfo, socialAccountProviderInfos } from "../model/user-profile-api.model";
-import { throwExpr } from "../util/throw-expr";
+import {Injectable} from "@angular/core";
+import {UserCredential} from "../model/user-credential.type";
+import {AppConfigService} from "../app-config.service";
+import {MessageService} from "./message.service";
+import {BaseHttpApiService} from "./base-http-api.service";
+import {SocialAccountProviderInfo, socialAccountProviderInfos} from "../model/user-profile-api.model";
+import {throwExpr} from "../util/throw-expr";
+import {UpdatableSubject} from "../util/updatable-subject";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 /**
  * The key used to store the authentication token in session and local storage.
@@ -27,13 +25,13 @@ export interface AuthorizationToken {
 export class SessionService {
 	baseUrl: string;
 
-	loggedin$: Observable<boolean>;
-	loggedinObserver: any;
-
 	enabledExternalAuthProviders: SocialAccountProviderInfo[];
 
+	private loggedInSubect = new UpdatableSubject<boolean>();
+	get loggedin$() { return this.loggedInSubect.asObservable() }
+
 	constructor(
-		private http: Http,
+		private http: HttpClient,
 		private configService: AppConfigService,
 		private messageService: MessageService,
 	) {
@@ -41,8 +39,6 @@ export class SessionService {
 		this.enabledExternalAuthProviders = socialAccountProviderInfos.filter(providerInfo =>
 			! this.configService.featuresConfig.socialAccountProviders || this.configService.featuresConfig.socialAccountProviders.includes(providerInfo.slug)
 		);
-
-		this.loggedin$ = new Observable<boolean>(observer => this.loggedinObserver = observer).share()
 	}
 
 	login(credential: UserCredential, sessionOnlyStorage: boolean = false): Promise<AuthorizationToken> {
@@ -50,34 +46,42 @@ export class SessionService {
 		const scope = "rw:profile rw:issuer rw:backpack";
 		const client_id = "public";
 
-		const payload = `grant_type=password&client_id=${client_id}&scope=${encodeURIComponent(scope)}&username=${encodeURIComponent(credential.username)}&password=${encodeURIComponent(credential.password)}`;
+		const payload = `grant_type=password&client_id=${encodeURIComponent(client_id)}&scope=${encodeURIComponent(scope)}&username=${encodeURIComponent(credential.username)}&password=${encodeURIComponent(credential.password)}`;
 
-		const headers = new Headers();
-		headers.append('Content-Type', 'application/x-www-form-urlencoded');
+		const headers = new HttpHeaders()
+			.append('Content-Type', 'application/x-www-form-urlencoded');
 
 		// Update global loading state
 		this.messageService.incrementPendingRequestCount();
 
-		const result = this.http.post(endpoint, payload, { headers: headers });
-
-		result.toPromise().then(
-			() => this.messageService.decrementPendingRequestCount(),
-			() => this.messageService.decrementPendingRequestCount(),
-		);
-
-		return result.flatMap(
-			r => {
-				if (r.status < 200 || r.status >= 300) {
-					return Observable.throw(new Error("Login Failed: " + r.status));
+		return this.http
+			.post(
+				endpoint,
+				payload,
+				{
+					observe: "response",
+					responseType: "json",
+					headers: headers
 				}
-				return Observable.of(r.json());
-			}
-		).map(
-			(result: AuthorizationToken) => {
-				this.storeToken(result, sessionOnlyStorage);
-				return result
-			}
-		).toPromise().then(BaseHttpApiService.addTestingDelay(this.configService));
+			)
+			.toPromise()
+			.then(r => BaseHttpApiService.addTestingDelay(r, this.configService))
+			.finally(
+				() => this.messageService.decrementPendingRequestCount()
+			)
+			.then(r => {
+				if (r.status < 200 || r.status >= 300) {
+					throw new Error("Login Failed: " + r.status);
+				}
+
+				return r.body;
+			})
+			.then(
+				(result: AuthorizationToken) => {
+					this.storeToken(result, sessionOnlyStorage);
+					return result
+				}
+			);
 	}
 
 	initiateUnauthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
@@ -88,9 +92,7 @@ export class SessionService {
 		localStorage.removeItem(TOKEN_STORAGE_KEY);
 		sessionStorage.removeItem(TOKEN_STORAGE_KEY);
 
-		if (this.loggedinObserver) {
-			this.loggedinObserver.next(false);
-		}
+		this.loggedInSubect.next(false);
 	}
 
 	storeToken(token: AuthorizationToken, sessionOnlyStorage = false): void {
@@ -99,9 +101,7 @@ export class SessionService {
 		} else {
 			localStorage.setItem(TOKEN_STORAGE_KEY, token.access_token);
 		}
-		if (this.loggedinObserver) {
-			this.loggedinObserver.next(true);
-		}
+		this.loggedInSubect.next(true);
 	}
 
 	get currentAuthToken(): AuthorizationToken | null {
@@ -121,32 +121,42 @@ export class SessionService {
 	}
 
 	exchangeCodeForToken(authCode: string): Promise<AuthorizationToken> {
-		const endpoint = this.baseUrl + '/o/code';
-		const payload = 'code=' + encodeURIComponent(authCode);
-		const headers = new Headers();
-		headers.append('Content-Type', 'application/x-www-form-urlencoded');
-		
-		return this.http.post(endpoint, payload, {headers: headers}).toPromise().then(_ => _.json());
+		return this.http.post<AuthorizationToken>(
+			this.baseUrl + '/o/code',
+			'code=' + encodeURIComponent(authCode),
+			{
+				observe: "response",
+				responseType: "json",
+				headers: new HttpHeaders()
+					.append('Content-Type', 'application/x-www-form-urlencoded')
+			}
+		).toPromise()
+			.then(r => r.body);
 	}
 
-	submitResetPasswordRequest(email: string): Promise<Response> {
-		const endpoint = this.baseUrl + '/v1/user/forgot-password';
-		const payload = 'email=' + encodeURIComponent(email);
-
-		const headers = new Headers();
-		headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-		return this.http.post(endpoint, payload, { headers: headers }).toPromise();
+	submitResetPasswordRequest(email: string) {
+		// TODO: Define the type of this response
+		return this.http.post<any>(
+			this.baseUrl + '/v1/user/forgot-password',
+			'email=' + encodeURIComponent(email),
+			{
+				observe: "response",
+				responseType: "json",
+				headers: new HttpHeaders()
+					.append('Content-Type', 'application/x-www-form-urlencoded')
+			}
+		).toPromise();
 	}
 
-	submitForgotPasswordChange(newPassword: string, token: string): Promise<Response> {
-		const endpoint = this.baseUrl + '/v1/user/forgot-password';
-
-		const payload = JSON.stringify({ password: newPassword, token: token });
-
-		const headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.put(endpoint, payload, { headers: headers }).toPromise();
+	submitForgotPasswordChange(newPassword: string, token: string) {
+		// TODO: Define the type of this response
+		return this.http.put<any>(
+			this.baseUrl + '/v1/user/forgot-password',
+			{ password: newPassword, token: token },
+			{
+				observe: "response",
+				responseType: "json"
+			}
+			).toPromise();
 	}
 }

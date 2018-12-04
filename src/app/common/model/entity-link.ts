@@ -1,6 +1,7 @@
-import { ManagedEntity } from "./managed-entity";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { ApiEntityRef } from "./entity-ref";
+import {ManagedEntity} from "./managed-entity";
+import {UpdatableSubject} from "../util/updatable-subject";
+import {ApiEntityRef} from "./entity-ref";
+import {first} from "rxjs/operators";
 
 /**
  * Represents a many-to-one connection between entities. Wraps an EntityRef from API data and handles loading and
@@ -35,7 +36,7 @@ export class EntityLink<
 		return !! this.entityRef;
 	}
 
-	public get loadedPromise() { return this.loaded$.first().toPromise(); }
+	public get loadedPromise() { return this.loaded$.pipe(first()).toPromise(); }
 
 	public get entityRef(): RefType { return this.getRef(); }
 

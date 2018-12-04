@@ -1,6 +1,5 @@
 import {ModuleWithProviders, NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 
 import {BgAwaitPromises} from "./directives/bg-await-promises";
@@ -33,7 +32,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UcFirstPipe} from "./pipes/ucfirst.pipe";
 
 import {MarkdownToHtmlModule} from "markdown-to-html-pipe";
-import {Autosize} from "angular2-autosize/src/autosize.directive";
+
 //import { TooltipDirective } from "./directives/tooltip.directive";
 import {BgCopyInputDirective} from "./directives/bg-copy-input.directive";
 import {ShareSocialDialog} from "./dialogs/share-social-dialog.component";
@@ -57,6 +56,8 @@ import {ExternalToolsManager} from "../externaltools/services/externaltools-mana
 import {ExternalToolsApiService} from "../externaltools/services/externaltools-api.service";
 import {ExternalToolLaunchComponent} from "./components/external-tool-launch.component";
 import {AppConfigService} from "./app-config.service";
+import {HttpClientModule} from "@angular/common/http";
+import {AutosizeDirective} from "./directives/autosize.directive";
 
 
 const DIRECTIVES = [
@@ -65,7 +66,7 @@ const DIRECTIVES = [
 	MenuItemDirective,
 	ScrollPinDirective,
 	BgCopyInputDirective,
-	Autosize,
+	AutosizeDirective,
 	//TooltipDirective,
 ];
 
@@ -126,7 +127,7 @@ export const COMMON_IMPORTS = [
 	CommonModule,
 	FormsModule,
 	ReactiveFormsModule,
-	HttpModule,
+	HttpClientModule,
 	RouterModule,
 ];
 

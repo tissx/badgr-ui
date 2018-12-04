@@ -1,10 +1,9 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
+import {Component, ElementRef, Renderer2} from "@angular/core";
 
-import {SharingService, SharedObjectType, ShareEndPoint, ShareServiceType} from "../services/sharing.service";
-import { BaseDialog } from "./base-dialog";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { addQueryParamsToUrl } from "../util/url-util";
+import {SharedObjectType, ShareEndPoint, ShareServiceType, SharingService} from "../services/sharing.service";
+import {BaseDialog} from "./base-dialog";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {addQueryParamsToUrl} from "../util/url-util";
 import {TimeComponent} from "../components/time.component";
 import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 

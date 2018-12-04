@@ -1,21 +1,23 @@
-import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
+import {Injectable} from "@angular/core";
+import {Response} from "@angular/http";
+import {BaseHttpApiService} from "../../common/services/base-http-api.service";
+import {SessionService} from "../../common/services/session.service";
+import {AppConfigService} from "../../common/app-config.service";
 import {
-	ApiRecipientGroup,
+	ApiIssuerRecipientGroupDetailList,
 	ApiIssuerRecipientGroupList,
-	ApiRecipientGroupForCreation, ApiIssuerRecipientGroupDetailList
+	ApiRecipientGroup,
+	ApiRecipientGroupForCreation
 } from "../models/recipientgroup-api.model";
-import { MessageService } from "../../common/services/message.service";
+import {MessageService} from "../../common/services/message.service";
+import {HttpClient} from "@angular/common/http";
 
 
 @Injectable()
 export class RecipientGroupApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
-		protected http: Http,
+		protected http: HttpClient,
 		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
@@ -24,18 +26,18 @@ export class RecipientGroupApiService extends BaseHttpApiService {
 
 	listIssuerRecipientGroups(
 		issuerSlug: string
-	): Promise<ApiIssuerRecipientGroupList> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/recipient-groups`)
-			.then(r => r.json());
+			.get<ApiIssuerRecipientGroupList>(`/v2/issuers/${issuerSlug}/recipient-groups`)
+			.then(r => r.body);
 	}
 
 	listIssuerRecipientGroupDetail(
 		issuerSlug: string
-	): Promise<ApiIssuerRecipientGroupDetailList> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/recipient-groups?embedRecipients=true`)
-			.then(r => r.json());
+			.get<ApiIssuerRecipientGroupDetailList>(`/v2/issuers/${issuerSlug}/recipient-groups?embedRecipients=true`)
+			.then(r => r.body);
 	}
 
 	/**
@@ -44,10 +46,10 @@ export class RecipientGroupApiService extends BaseHttpApiService {
 	createRecipientGroup(
 		issuerSlug: string,
 		recipientGroupPayload: ApiRecipientGroupForCreation
-	): Promise<ApiRecipientGroup> {
+	) {
 		return this
-			.post(`/v2/issuers/${issuerSlug}/recipient-groups`, recipientGroupPayload)
-			.then(r => r.json());
+			.post<ApiRecipientGroup>(`/v2/issuers/${issuerSlug}/recipient-groups`, recipientGroupPayload)
+			.then(r => r.body);
 	}
 
 	/**
@@ -56,10 +58,10 @@ export class RecipientGroupApiService extends BaseHttpApiService {
 	getRecipientGroupDetail(
 		issuerSlug: string,
 		recipientGroupSlug: string
-	): Promise<ApiRecipientGroup> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}?embedRecipients=true`)
-			.then(r => r.json());
+			.get<ApiRecipientGroup>(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}?embedRecipients=true`)
+			.then(r => r.body);
 	}
 
 	/**
@@ -69,10 +71,10 @@ export class RecipientGroupApiService extends BaseHttpApiService {
 		issuerSlug: string,
 		recipientGroupSlug: string,
 		recipientGroup: ApiRecipientGroup
-	): Promise<ApiRecipientGroup> {
+	) {
 		return this
-			.put(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}?embedRecipients=true`, recipientGroup)
-			.then(r => r.json());
+			.put<ApiRecipientGroup>(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}?embedRecipients=true`, recipientGroup)
+			.then(r => r.body);
 	}
 
 	/**
@@ -81,9 +83,9 @@ export class RecipientGroupApiService extends BaseHttpApiService {
 	deleteRecipientGroup(
 		issuerSlug: string,
 		recipientGroupSlug: string
-	): Promise<Response> {
+	) {
 		return this
-			.delete(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}`);
+			.delete<Response>(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}`);
 	}
 
 	/**
@@ -93,9 +95,9 @@ export class RecipientGroupApiService extends BaseHttpApiService {
 		issuerSlug: string,
 		recipientGroupSlug: string,
 		recipientGroupPayload: ApiRecipientGroup
-	): Promise<ApiRecipientGroup> {
+	) {
 		return this
-			.put(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}`, recipientGroupPayload)
-			.then(r => r.json());
+			.put<ApiRecipientGroup>(`/v2/issuers/${issuerSlug}/recipient-groups/${recipientGroupSlug}`, recipientGroupPayload)
+			.then(r => r.body);
 	}
 }

@@ -1,18 +1,16 @@
-
-import { Http } from "@angular/http";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { Injectable } from "@angular/core";
-import { AppConfigService } from "../../common/app-config.service";
-import { SessionService } from "../../common/services/session.service";
-import { ApiIssuerForCreation, ApiIssuer, ApiIssuerStaffOperation } from "../models/issuer-api.model";
-import { IssuerSlug } from "../models/issuer-api.model";
-import { MessageService } from "../../common/services/message.service";
+import {BaseHttpApiService} from "../../common/services/base-http-api.service";
+import {Injectable} from "@angular/core";
+import {AppConfigService} from "../../common/app-config.service";
+import {SessionService} from "../../common/services/session.service";
+import {ApiIssuer, ApiIssuerForCreation, ApiIssuerStaffOperation, IssuerSlug} from "../models/issuer-api.model";
+import {MessageService} from "../../common/services/message.service";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
 export class IssuerApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
-		protected http: Http,
+		protected http: HttpClient,
 		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
@@ -21,32 +19,29 @@ export class IssuerApiService extends BaseHttpApiService {
 
 	createIssuer(
 		creationIssuer: ApiIssuerForCreation
-	): Promise<ApiIssuer> {
-
-		return this.post(`/v1/issuer/issuers`, creationIssuer)
-			.then(r => r.json() as ApiIssuer)
-
+	) {
+		return this.post<ApiIssuer>(`/v1/issuer/issuers`, creationIssuer)
+			.then(r => r.body)
 	}
 
 	editIssuer(
 		issuerSlug: IssuerSlug,
 		editingIssuer: ApiIssuerForCreation
-	): Promise<ApiIssuer> {
-		return this.put(`/v1/issuer/issuers/${issuerSlug}`, editingIssuer)
-			.then(r => r.json() as ApiIssuer)
-
+	) {
+		return this.put<ApiIssuer>(`/v1/issuer/issuers/${issuerSlug}`, editingIssuer)
+			.then(r => r.body)
 	}
 
-	listIssuers(): Promise<ApiIssuer[]> {
+	listIssuers() {
 		return this
-			.get(`/v1/issuer/issuers`)
-			.then(r => r.json());
+			.get<ApiIssuer[]>(`/v1/issuer/issuers`)
+			.then(r => r.body);
 	}
 
-	getIssuer(issuerSlug: string): Promise<ApiIssuer> {
+	getIssuer(issuerSlug: string) {
 		return this
-			.get(`/v1/issuer/issuers/${issuerSlug}`)
-			.then(r => r.json());
+			.get<ApiIssuer>(`/v1/issuer/issuers/${issuerSlug}`)
+			.then(r => r.body);
 	}
 
 	updateStaff(
@@ -55,6 +50,6 @@ export class IssuerApiService extends BaseHttpApiService {
 	) {
 		return this
 			.post(`/v1/issuer/issuers/${issuerSlug}/staff`, updateOp)
-			.then(r => r.json() as ApiIssuer)
+			.then(r => r.body)
 	}
 }

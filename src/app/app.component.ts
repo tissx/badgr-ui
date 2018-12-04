@@ -18,8 +18,6 @@ import {Angulartics2GoogleTagManager} from "angulartics2/gtm";
 import {ApiExternalToolLaunchpoint} from "app/externaltools/models/externaltools-api.model";
 import {ExternalToolsManager} from "app/externaltools/services/externaltools-manager.service";
 
-
-import {detect} from "detect-browser";
 import {UserProfileManager} from "./common/services/user-profile-manager.service";
 import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
 import {QueryParametersService} from "./common/services/query-parameters.service";
@@ -225,13 +223,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		if (this.embedService.isEmbedded) {
 			// Enable the embedded indicator class on the body
 			renderer.addClass(document.body, "embeddedcontainer")
-		}
-
-		var browser = detect();
-		if (browser) {
-			if (browser.name.toLowerCase() == "ie") {
-				this.isUnsupportedBrowser = true;
-			}
 		}
 	}
 

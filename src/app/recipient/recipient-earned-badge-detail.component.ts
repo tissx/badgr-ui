@@ -1,22 +1,22 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
 
-import { RecipientBadgeInstance } from "./models/recipient-badge.model";
-import { RecipientBadgeCollection } from "./models/recipient-badge-collection.model";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { RecipientBadgeCollectionSelectionDialog } from "./recipient-badge-collection-selection-dialog";
-import { preloadImageURL } from "../common/util/file-util";
-import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
-import { addQueryParamsToUrl } from "../common/util/url-util";
-import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
-import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
-import { EventsService } from "../common/services/events.service";
+import {RecipientBadgeInstance} from "./models/recipient-badge.model";
+import {RecipientBadgeCollection} from "./models/recipient-badge-collection.model";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {RecipientBadgeCollectionSelectionDialog} from "./recipient-badge-collection-selection-dialog";
+import {preloadImageURL} from "../common/util/file-util";
+import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
+import {addQueryParamsToUrl} from "../common/util/url-util";
+import {ApiExternalToolLaunchpoint} from "app/externaltools/models/externaltools-api.model";
+import {ExternalToolsManager} from "app/externaltools/services/externaltools-manager.service";
+import {EventsService} from "../common/services/events.service";
 import {AppConfigService} from "../common/app-config.service";
 
 @Component({

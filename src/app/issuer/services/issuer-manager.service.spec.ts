@@ -1,26 +1,26 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { AppConfigService } from "../../common/app-config.service";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {inject, TestBed} from "@angular/core/testing";
+import {AppConfigService} from "../../common/app-config.service";
+import {MockBackend, MockConnection} from "@angular/http/testing";
+import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 import {
 	expectRequest,
 	expectRequestAndRespondWith,
 	setupMockResponseReporting
 } from "../../common/util/mock-response-util";
-import { IssuerApiService } from "./issuer-api.service";
-import { IssuerManager } from "./issuer-manager.service";
-import { ApiIssuer, ApiIssuerStaff, ApiIssuerStaffOperation } from "../models/issuer-api.model";
-import { apiIssuer1, apiIssuer2, apiIssuer3 } from "../models/issuer.model.spec";
-import { verifyEntitySetWhenLoaded, verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { PathwayApiService } from "./pathway-api.service";
-import { RecipientGroupApiService } from "./recipientgroup-api.service";
-import { RecipientGroupManager } from "./recipientgroup-manager.service";
-import { BadgeClassApiService } from "./badgeclass-api.service";
-import { BadgeClassManager } from "./badgeclass-manager.service";
-import { PathwayManager } from "./pathway-manager.service";
-import { MessageService } from "../../common/services/message.service";
-import { SessionService } from "../../common/services/session.service";
+import {IssuerApiService} from "./issuer-api.service";
+import {IssuerManager} from "./issuer-manager.service";
+import {ApiIssuer, ApiIssuerStaff, ApiIssuerStaffOperation} from "../models/issuer-api.model";
+import {apiIssuer1, apiIssuer2, apiIssuer3} from "../models/issuer.model.spec";
+import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
+import {PathwayApiService} from "./pathway-api.service";
+import {RecipientGroupApiService} from "./recipientgroup-api.service";
+import {RecipientGroupManager} from "./recipientgroup-manager.service";
+import {BadgeClassApiService} from "./badgeclass-api.service";
+import {BadgeClassManager} from "./badgeclass-manager.service";
+import {PathwayManager} from "./pathway-manager.service";
+import {MessageService} from "../../common/services/message.service";
+import {SessionService} from "../../common/services/session.service";
 
 describe('IssuerManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({

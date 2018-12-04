@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { preloadImageURL, readFileAsText } from "../util/file-util";
-import { DomSanitizer } from "@angular/platform-browser";
+import {Component, ElementRef, EventEmitter, Input, Output} from "@angular/core";
+import {FormControl} from "@angular/forms";
+import {preloadImageURL, readFileAsText} from "../util/file-util";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
 	selector: 'bg-formfield-file',

@@ -1,15 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { AuthAttemptResult, OAuthManager, ScopeGroupRule } from "../common/services/oauth-manager.service";
-import { QueryParametersService } from "../common/services/query-parameters.service";
-import { MessageService } from "../common/services/message.service";
-import { ApiOAuth2AppInfo, OAuth2RequestParams } from "../common/model/oauth-api.model";
-import { throwExpr } from "../common/util/throw-expr";
-import { flatten } from "../common/util/array-reducers";
-import { Title } from "@angular/platform-browser";
-import { InitialLoadingIndicatorService } from "../common/services/initial-loading-indicator.service";
+import {Component} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {BaseRoutableComponent} from "../common/pages/base-routable.component";
+import {AuthAttemptResult, OAuthManager} from "../common/services/oauth-manager.service";
+import {QueryParametersService} from "../common/services/query-parameters.service";
+import {MessageService} from "../common/services/message.service";
+import {OAuth2RequestParams} from "../common/model/oauth-api.model";
+import {throwExpr} from "../common/util/throw-expr";
+import {Title} from "@angular/platform-browser";
+import {InitialLoadingIndicatorService} from "../common/services/initial-loading-indicator.service";
 import {AppConfigService} from "../common/app-config.service";
 
 

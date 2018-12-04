@@ -7,7 +7,7 @@ import {BadgrConfig} from "./badgr-config";
 
 export const environment = {
 	production: false,
-	configBaseUrl: null,
+	configBaseUrl: "/",
 
 	defaultConfig: {
 		api: {
