@@ -291,7 +291,10 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(
 						badgesByIssuer => {
 							const cmp = (a,b) => a == b ? 0 : (a < b ? -1 : 1);
-							this.badges = badgesByIssuer[ this.issuer.issuerUrl ].sort((a,b) => cmp(b.createdAt, a.createdAt))
+							this.badges = badgesByIssuer[ this.issuer.issuerUrl ];
+							if (this.badges) {
+								this.badges = this.badges.sort((a,b) => cmp(b.createdAt, a.createdAt));
+							}
 							resolve();
 						},
 						error => {
