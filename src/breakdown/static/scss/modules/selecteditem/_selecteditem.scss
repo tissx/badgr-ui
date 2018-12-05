@@ -18,14 +18,14 @@ Markup:
   align-items: center;
   box-sizing: border-box;
   display: flex;
-  font-size: $font-size-small2;
+  font-size: var(--font-size-small2);
   line-height: $line-height;
   text-transform: uppercase;
   transition: transform $transition-duration $transition-easing,
               opacity $transition-duration $transition-easing;
 
   button {
-    background: url('#{$base-path}images/selecteditem-remove.svg') $color-dark2 center center no-repeat;
+    background: url('#{$base-path}images/selecteditem-remove.svg') var(--color-dark2) center center no-repeat;
     border-radius: 100%;
     color: transparent;
     height: 14px;

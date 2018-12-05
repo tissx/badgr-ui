@@ -8,9 +8,9 @@ textarea,
 select {
   appearance: none;
   -webkit-appearance: none;
-  color: $color-dark1;
-  font-family: $font-family;
-  font-size: $font-size;
+  color: var(--color-dark1);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
 }
 
 html,
@@ -20,7 +20,7 @@ body {
 }
 
 a {
-  color: $color-primary;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
@@ -57,10 +57,10 @@ app-root {
 }
 
 body {
-  background: $color-light2;
-  color: $color-dark1;
-  font-family: $font-family;
-  font-size: $font-size;
+  background: var(--color-light2);
+  color: var(--color-dark1);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -69,10 +69,10 @@ button {
   appearance: none;
   background: none;
   border: 0;
-  color: $color-dark1;
+  color: var(--color-dark1);
   cursor: pointer;
-  font-family: $font-family;
-  font-size: $font-size;
+  font-family: var(--font-family);
+  font-size: var(--font-size);
   line-height: 1;
   margin: 0;
   padding: 0;
@@ -289,5 +289,5 @@ strong {
 
 // When in the canvas/LTI views this overrides the body background to match the design
 .o-canvas {
-  background-color: $color-light1;
+  background-color: var(--color-light1);
 }

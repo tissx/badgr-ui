@@ -30,7 +30,7 @@
   &.statusselect-is-active {
 
     &::before {
-      background-color: $color-primary;
+      background-color: var(--color-primary);
       display: block;
     }
 
@@ -39,7 +39,7 @@
   &.statusselect-is-inactive {
 
     &::before {
-      background-color: $color-dark4;
+      background-color: var(--color-dark4);
       display: block;
     }
 
@@ -48,13 +48,13 @@
 }
 
 .statusselect-bordered {
-  border: 1px solid $color-primary;
-  border-radius: $border-radius;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius);
   padding: $gridspacing $gridspacing * 2;
 
   select {
     background-image: url('#{$base-path}images/statusselect-bordered.svg');
-    color: $color-primary;
+    color: var(--color-primary);
   }
 
 }

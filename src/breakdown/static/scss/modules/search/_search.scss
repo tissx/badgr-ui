@@ -1,7 +1,7 @@
 .search {
-  background: $color-light1 url('#{$base-path}images/search.svg') calc(100% - #{$gridspacing}) center no-repeat;
-  border: $border;
-  border-radius: $border-radius;
+  background: var(--color-light1) url('#{$base-path}images/search.svg') calc(100% - #{$gridspacing}) center no-repeat;
+  border: var(--border);
+  border-radius: var(--border-radius);
   box-sizing: border-box;
   display: block;
   min-width: 264px;
@@ -12,12 +12,12 @@
   width: 100%;
 
   &:hover {
-    border-color: $color-secondary;
+    border-color: var(--color-secondary);
   }
 
   &:focus {
     background-image: url('#{$base-path}images/search-focus.svg');
-    border-color: $color-secondary;
+    border-color: var(--color-secondary);
   }
 
   @media (min-width: $media-tablet) {

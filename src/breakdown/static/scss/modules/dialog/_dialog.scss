@@ -1,6 +1,6 @@
 @mixin backdrop {
   animation: fadein $transition-duration $transition-easing forwards;
-  background: rgba($color-secondary, .8);
+  background: var(--color-secondary-a8);
   height: 100vh;
   left: 0;
   opacity: 0;
@@ -11,10 +11,10 @@
 }
 
 .dialog {
-  background: $color-light1;
+  background: var(--color-light1);
   border: 0;
-  box-shadow: 0 4px 4px 0 rgba($color-secondary, .12), 0 0 2px 0 rgba($color-secondary, .12);
-  color: $color-dark1;
+  box-shadow: 0 4px 4px 0 var(--color-secondary-a12), 0 0 2px 0 var(--color-secondary-a12);
+  color: var(--color-dark1);
   height: 100vh;
   left: 0;
   margin: 0;
@@ -55,7 +55,7 @@
     padding: $gridspacing * 2.5 $gridspacing * 2 $gridspacing * 2;
 
     > p {
-      color: $color-dark2;
+      color: var(--color-dark2);
       line-height: $line-height-large1;
     }
 
@@ -84,7 +84,7 @@
   }
 
   @media (min-width: $media-tablet) {
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     height: auto;
     left: 50%;
     max-height: $maxheight-dialog;
@@ -102,13 +102,13 @@
 .dialog-titled {
 
   .dialog-x-titlebar {
-    background-color: $color-light1;
+    background-color: var(--color-light1);
     padding-bottom: $gridspacing * 3;
     padding-top: $gridspacing * 3;
 
     h1 {
-      color: $color-dark2;
-      font-size: $font-size-large2;
+      color: var(--color-dark2);
+      font-size: var(--font-size-large2);
       line-height: $line-height-large3;
       text-align: center;
     }

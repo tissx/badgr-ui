@@ -1,37 +1,37 @@
 .title {
-  color: $color-secondary;
-  font-size: $font-size-large2;
+  color: var(--color-secondary);
+  font-size: var(--font-size-large2);
   font-weight: 600;
   line-height: 1;
 
   span {
-    color: $color-dark2;
-    font-size: $font-size-small1;
+    color: var(--color-dark2);
+    font-size: var(--font-size-small1);
     font-weight: normal;
   }
 
   .title-x-linebreak {
-    color: $color-secondary;
-    font-size: $font-size-large2;
+    color: var(--color-secondary);
+    font-size: var(--font-size-large2);
     font-weight: bold;
   }
 
   @media (max-width: #{$media-tablet - 1px}) {
 
     &.title-is-smallmobile {
-      font-size: $font-size;
+      font-size: var(--font-size);
     }
 
     &.title-x-linebreak {
-      color: $color-secondary;
-      font-size: $font-size;
+      color: var(--color-secondary);
+      font-size: var(--font-size);
       line-height: $line-height-large2;
       font-weight: bold;
       display:block;
     }
 
     &.title-line-height-large {
-      line-height: $font-size-large2;
+      line-height: var(--font-size-large2);
     }
   }
 
@@ -46,8 +46,8 @@
 }
 
 .title-bordered {
-  border-left: $gridspacing solid $color-quaternary;
-  font-size: $font-size-large1;
+  border-left: $gridspacing solid var(--color-quaternary);
+  font-size: var(--font-size-large1);
   font-weight: bold;
   line-height: $line-height-large2;
   padding-left: $gridspacing * 1.5;
@@ -59,15 +59,15 @@
 
 .title-ruled,
 .title-ruledadd {
-  border-bottom: 1px solid $color-dark4;
-  font-size: $font-size;
+  border-bottom: 1px solid var(--color-dark4);
+  font-size: var(--font-size);
   font-weight: bold;
   line-height: $line-height-large3;
   padding-bottom: $gridspacing * 2;
   text-transform: uppercase;
 
   span {
-    font-size: $font-size;
+    font-size: var(--font-size);
     font-weight: bold;
     line-height: $line-height-large3;
     text-transform: none;
@@ -99,18 +99,18 @@
 }
 
 .title-small {
-  font-size: $font-size;
+  font-size: var(--font-size);
 }
 
 .title-small-2x {
-  color: $color-dark2;
-  font-size: $font-size-small1;
+  color: var(--color-dark2);
+  font-size: var(--font-size-small1);
   font-weight: 600;
 }
 
 .title-small-3x {
-  color: $color-secondary;
-  font-size: $font-size-small2;
+  color: var(--color-secondary);
+  font-size: var(--font-size-small2);
   text-transform: uppercase;
 }
 

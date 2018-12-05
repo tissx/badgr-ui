@@ -1,9 +1,9 @@
 .formdivider {
   align-items: center;
-  color: $color-dark3;
+  color: var(--color-dark3);
   display: flex;
   flex-wrap: nowrap;
-  font-size: $font-size-small1;
+  font-size: var(--font-size-small1);
   font-weight: bold;
   justify-content: center;
   margin: $gridspacing * 3 0;
@@ -11,7 +11,7 @@
 
   &::before,
   &::after {
-    background: $color-dark4;
+    background: var(--color-dark4);
     content: '';
     flex-grow: 1;
     height: 1px;
