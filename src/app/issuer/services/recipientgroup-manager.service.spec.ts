@@ -5,7 +5,7 @@ import {MockBackend} from "@angular/http/testing";
 import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
 import {AppConfigService} from "../../common/app-config.service";
 
-import {expectRequestAndRespondWith, setupMockResponseReporting} from "../../common/util/mock-response-util";
+import {expectRequestAndRespondWith, setupMockResponseReporting} from "../../common/util/mock-response-util.spec";
 import {verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
 import {RecipientGroupManager} from "./recipientgroup-manager.service";
 import {

@@ -1,4 +1,4 @@
-import {Injectable, Injector} from "@angular/core";
+import {Injectable, InjectionToken, Injector} from "@angular/core";
 import {
 	ApiConfig,
 	BadgrConfig,
@@ -14,6 +14,7 @@ export class AppConfigService {
 	private remoteConfig?: BadgrConfig;
 
 	private configProviders: { (): BadgrConfig }[] = [
+		() => this.injector.get(new InjectionToken<BadgrConfig>('config'), null),
 		() => this.remoteConfig,
 		() => environment.defaultConfig
 	];
@@ -40,7 +41,7 @@ export class AppConfigService {
 	private getConfig<T>(getter: (config: BadgrConfig) => T): T {
 		for (const provider of this.configProviders) {
 			const overall = provider();
-			if (typeof overall === "object") {
+			if (overall && typeof overall === "object") {
 				const config = getter(overall);
 
 				if (config) {

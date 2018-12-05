@@ -3,7 +3,7 @@ import {AppConfigService} from "../../common/app-config.service";
 import {MockBackend} from "@angular/http/testing";
 import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
 import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {expectRequestAndRespondWith} from "../../common/util/mock-response-util";
+import {expectRequestAndRespondWith} from "../../common/util/mock-response-util.spec";
 import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
 import {RecipientBadgeApiService} from "./recipient-badges-api.service";
 import {RecipientBadgeManager} from "./recipient-badge-manager.service";

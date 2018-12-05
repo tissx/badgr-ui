@@ -1,9 +1,7 @@
 import {inject, TestBed} from "@angular/core/testing";
 import {AppConfigService} from "../app-config.service";
-import {MockBackend} from "@angular/http/testing";
-import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
 import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {expectRequestAndRespondWith, setupMockResponseReporting} from "../../common/util/mock-response-util";
+import {expectRequestAndRespondWith, setupMockResponseReporting} from "../util/mock-response-util.spec";
 import {verifyEntitySetWhenLoaded} from "../../common/model/managed-entity-set.spec";
 
 import {MessageService} from "../../common/services/message.service";
@@ -14,31 +12,23 @@ import {ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount} from "
 import {apiProfileEmails, apiSocialAccounts, apiUserProfile, verifyUserProfile} from "../model/user-profile.model.spec";
 import {UserProfile} from "../model/user-profile.model";
 import {EventsService} from "./events.service";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('UserProfileManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
 			AppConfigService,
-			MockBackend,
-			BaseRequestOptions,
 			MessageService,
 			EventsService,
 			{ provide: 'config', useValue: { api: { baseUrl: '' }, features: {} } },
-			{
-				provide: Http,
-				useFactory: (backend, options) => new Http(backend, options),
-				deps: [ MockBackend, BaseRequestOptions ]
-			},
-
 			SessionService,
 			CommonEntityManager,
 			UserProfileApiService,
 			UserProfileManager,
-
 		  MessageService
 		],
-		imports: [ ]
+		imports: [ HttpClientTestingModule ]
 	}));
 
 	setupMockResponseReporting();

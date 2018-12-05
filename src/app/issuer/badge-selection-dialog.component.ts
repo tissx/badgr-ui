@@ -185,7 +185,7 @@ export class BadgeSelectionDialog extends BaseDialog {
 	multiSelectMode: boolean = false;
 	restrictToIssuerId: string = null;
 
-	private selectedBadges = new Set<BadgeClass>();
+	selectedBadges = new Set<BadgeClass>();
 	private omittedBadges = [];
 
 	private resolveFunc: { (badges: BadgeClass[]): void };

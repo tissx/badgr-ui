@@ -7,7 +7,7 @@ import {
 	expectRequest,
 	expectRequestAndRespondWith,
 	setupMockResponseReporting
-} from "../../common/util/mock-response-util";
+} from "../../common/util/mock-response-util.spec";
 import {IssuerApiService} from "./issuer-api.service";
 import {IssuerManager} from "./issuer-manager.service";
 import {ApiIssuer, ApiIssuerStaff, ApiIssuerStaffOperation} from "../models/issuer-api.model";
@@ -21,6 +21,7 @@ import {BadgeClassManager} from "./badgeclass-manager.service";
 import {PathwayManager} from "./pathway-manager.service";
 import {MessageService} from "../../common/services/message.service";
 import {SessionService} from "../../common/services/session.service";
+import {first} from "rxjs/operators";
 
 describe('IssuerManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -107,7 +108,7 @@ describe('IssuerManager', () => {
 			(issuerManager: IssuerManager, loginService: SessionService, mockBackend: MockBackend) => {
 				return Promise.all([
 					expectAllIssuersRequest(mockBackend),
-					issuerManager.allIssuers$.first().toPromise().then(() => {
+					issuerManager.allIssuers$.pipe(first()).toPromise().then(() => {
 						verifyManagedEntitySet(issuerManager.issuersList, allApiIssuers)
 					})
 				])

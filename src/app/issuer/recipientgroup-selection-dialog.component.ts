@@ -120,7 +120,7 @@ export class RecipientGroupSelectionDialog extends BaseDialog {
 	multiSelectMode: boolean = false;
 	issuerSlug: string = null;
 
-	private selectedRecipientGroups = new Set<RecipientGroup>();
+	selectedRecipientGroups = new Set<RecipientGroup>();
 	private resolveFunc: { (recipientGroups: RecipientGroup[]): void };
 
 	maxDisplayedResults = 100;

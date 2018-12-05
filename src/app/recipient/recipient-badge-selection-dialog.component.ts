@@ -200,7 +200,7 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 	restrictToIssuerId: string = null;
 
 	private omittedCollection:RecipientBadgeInstance[];
-	private selectedBadges = new Set<RecipientBadgeInstance>();
+	selectedBadges = new Set<RecipientBadgeInstance>();
 	private resolveFunc: { (badges: RecipientBadgeInstance[]): void };
 
 	maxDisplayedResults = 100;

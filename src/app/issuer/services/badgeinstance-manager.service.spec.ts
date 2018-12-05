@@ -12,7 +12,7 @@ import {
 import {ApiBadgeInstance, ApiBadgeInstanceJsonld} from "../models/badgeinstance-api.model";
 import {testIssuerRefForSlug} from "./issuer-manager.service.spec";
 import {testBadgeClassRefForSlugs} from "./badgeclass-manager.service.spec";
-import {expectRequestAndRespondWith} from "../../common/util/mock-response-util";
+import {expectRequestAndRespondWith} from "../../common/util/mock-response-util.spec";
 import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
 import {BadgeInstance} from "../models/badgeinstance.model";
 import {verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";

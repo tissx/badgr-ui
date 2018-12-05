@@ -132,7 +132,7 @@ export class PathwaySelectionDialog extends BaseDialog {
 	multiSelectMode: boolean = false;
 	issuerSlug: string = null;
 
-	private selectedPathways = new Set<LearningPathway>();
+	selectedPathways = new Set<LearningPathway>();
 	private resolveFunc: { (pathways: LearningPathway[]): void };
 
 	maxDisplayedResults = 100;

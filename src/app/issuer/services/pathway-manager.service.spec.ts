@@ -25,7 +25,7 @@ import {
 	expectRequest,
 	expectRequestAndRespondWith,
 	setupMockResponseReporting
-} from "../../common/util/mock-response-util";
+} from "../../common/util/mock-response-util.spec";
 import {verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
 import {groupIntoArray} from "../../common/util/array-reducers";
 import {testIssuerRefForSlug} from "./issuer-manager.service.spec";

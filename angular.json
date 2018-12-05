@@ -18,10 +18,11 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+							"src/unsupported-browser-warning.html"
             ],
             "styles": [
-              "src/styles.css"
+							"src/styles.scss"
             ],
             "scripts": []
           },
@@ -62,24 +63,23 @@
             "browserTarget": "badgr-ui-cli:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [],
-            "styles": [
-              "src/styles.css"
-            ],
-            "assets": [
-              "src/assets",
-              "src/favicon.ico",
-							"src/unsupported-browser-warning.html"
-            ]
-          }
-        },
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "src/test.ts",
+						"polyfills": "src/polyfills.ts",
+						"tsConfig": "src/tsconfig.spec.json",
+						"karmaConfig": "src/karma.conf.js",
+						"styles": [
+							"src/styles.scss"
+						],
+						"scripts": [],
+						"assets": [
+							"src/favicon.ico",
+							"src/assets"
+						]
+					}
+				},
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
