@@ -137,11 +137,7 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 				</ng-template>
 			</ul>
 		</nav>
-	`,
-	styleUrls: [
-		"../breakdown/static/scss/theme-default.scss"
-	],
-	encapsulation: ViewEncapsulation.None
+	`
 })
 export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";

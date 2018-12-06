@@ -1,6 +1,2 @@
-// For building the shareable widgets.js used for embedding
-
-
-
-
+// For building the shareable widgets.ts used for embedding
 import "./embed/widgets";

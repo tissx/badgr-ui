@@ -119,53 +119,53 @@ $transition-easing: ease-out;
 :root {
   // Backwards compatibility
   // TODO: once theming is updated, replace these sass vars with actual values
-  --color-primary: $color-primary;
-  --color-primary-hover: $color-primary-hover;
-  --color-primary-light: $color-primary-light;
-  --color-secondary: $color-secondary;
-  --color-tertiary: $color-tertiary;
-  --color-quaternary: $color-quaternary;
-  --color-light1: $color-light1;
-  --color-light2: $color-light2;
-  --color-light3: $color-light3;
-  --color-light4: $color-light4;
-  --color-dark1: $color-dark1;
-  --color-dark2: $color-dark2;
-  --color-dark3: $color-dark3;
-  --color-dark4: $color-dark4;
-  --color-dark5: $color-dark5;
-  --color-error: $color-error;
-  --color-pending: $color-tertiary;
-  --color-success: $color-quaternary;
+  --color-primary: #{$color-primary};
+  --color-primary-hover: #{$color-primary-hover};
+  --color-primary-light: #{$color-primary-light};
+  --color-secondary: #{$color-secondary};
+  --color-tertiary: #{$color-tertiary};
+  --color-quaternary: #{$color-quaternary};
+  --color-light1: #{$color-light1};
+  --color-light2: #{$color-light2};
+  --color-light3: #{$color-light3};
+  --color-light4: #{$color-light4};
+  --color-dark1: #{$color-dark1};
+  --color-dark2: #{$color-dark2};
+  --color-dark3: #{$color-dark3};
+  --color-dark4: #{$color-dark4};
+  --color-dark5: #{$color-dark5};
+  --color-error: #{$color-error};
+  --color-pending: #{$color-tertiary};
+  --color-success: #{$color-quaternary};
 
   // Update values based on related color
-  --color-secondary-a12: rgba($color-secondary, .12);;
-  --color-dark1-a5: rgba($color-dark1, .5);
-  --color-secondary-a38: rgba($color-secondary, .38);
-  --color-secondary-a8: rgba($color-secondary, .8);
-  --color-dark5-a5: rgba($color-dark5, .5);
-  --color-secondary-a3: rgba($color-secondary, .3);
-  --color-light1-a12: rgba($color-light1, .12);
-  --color-primary-a2: rgba($color-primary, .2);
-  --color-secondary-a54:rgba($color-secondary, .54);
+  --color-secondary-a12: #{rgba($color-secondary, .12)};
+  --color-dark1-a5: #{rgba($color-dark1, .5)};
+  --color-secondary-a38: #{rgba($color-secondary, .38)};
+  --color-secondary-a8: #{rgba($color-secondary, .8)};
+  --color-dark5-a5: #{rgba($color-dark5, .5)};
+  --color-secondary-a3: #{rgba($color-secondary, .3)};
+  --color-light1-a12: #{rgba($color-light1, .12)};
+  --color-primary-a2: #{rgba($color-primary, .2)};
+  --color-secondary-a54:#{rgba($color-secondary, .54)};
 
   --border: 1px solid var(--color-dark4);
   --border-radius: 4px;
   --box-shadow: 0 1px 4 0 var(--color-dark1-a3);
-  
-  --font-family: $font-family;
-  --font-size-small2: $font-size-small2;
-  --font-size-small1: $font-size-small1;
-  --font-size: $font-size;
-  --font-size-large1: $font-size-large1;
-  --font-size-large2: $font-size-large2;
-  --font-size-large3: $font-size-large3;
-  --line-height-small1: $line-height-small1;
-  --line-height: $line-height;
-  --line-height-large1: $line-height-large1;
-  --line-height-large2: $line-height-large2;
-  --line-height-large3: $line-height-large3;
-  --line-height-large4: $line-height-large4;
+
+  --font-family: #{$font-family};
+  --font-size-small2: #{$font-size-small2};
+  --font-size-small1: #{$font-size-small1};
+  --font-size: #{$font-size};
+  --font-size-large1: #{$font-size-large1};
+  --font-size-large2: #{$font-size-large2};
+  --font-size-large3: #{$font-size-large3};
+  --line-height-small1: #{$line-height-small1};
+  --line-height: #{$line-height};
+  --line-height-large1: #{$line-height-large1};
+  --line-height-large2: #{$line-height-large2};
+  --line-height-large3: #{$line-height-large3};
+  --line-height-large4: #{$line-height-large4};
 }
 
 // Mixins
@@ -218,9 +218,9 @@ $transition-easing: ease-out;
 }
 
 @mixin expiredlabel {
-  background-color: $color-dark2;
-  border-radius: $border-radius;
-  color: $color-light1;
+  background-color: var(--color-dark2);
+  border-radius: var(--border-radius);
+  color: var(--color-light1);
   font-size: $font-size-small2;
   font-weight: bold;
   line-height: 1;

@@ -9,7 +9,7 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
@@ -22,10 +22,14 @@
 							"src/unsupported-browser-warning.html"
             ],
             "styles": [
-							"src/styles.scss"
+							"src/breakdown/static/css/reset.css",
+							"src/breakdown/static/scss/theme-default.scss"
             ],
-            "scripts": []
-          },
+            "scripts": [],
+						"customWebpackConfig": {
+							"path": "./custom-webpack.config.js"
+						}
+					},
           "configurations": {
             "production": {
               "optimization": true,
@@ -47,7 +51,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/dev-server:generic",
           "options": {
             "browserTarget": "badgr-ui-cli:build"
           },
@@ -71,7 +75,8 @@
 						"tsConfig": "src/tsconfig.spec.json",
 						"karmaConfig": "src/karma.conf.js",
 						"styles": [
-							"src/styles.scss"
+							"src/breakdown/static/css/reset.css",
+							"src/breakdown/static/scss/theme-default.scss"
 						],
 						"scripts": [],
 						"assets": [
