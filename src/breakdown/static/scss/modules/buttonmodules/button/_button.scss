@@ -113,8 +113,9 @@
 }
 
 .button-secondary {
-  background-color: var(--color-light4);
+  background-color: var(--button-secondary-background);
   color: var(--color-dark2);
+  border: var(--button-secondary-border);
 
   .button-x-loading {
 

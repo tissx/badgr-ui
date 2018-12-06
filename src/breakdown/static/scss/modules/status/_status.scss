@@ -1,19 +1,19 @@
 .status {
-	border-radius: var(--border-radius);
-	box-sizing: border-box;
-	color: var(--color-light1);
-	display: inline-block;
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  color: var(--color-light1);
+  display: inline-block;
 	font-size: var(--font-size-small2);
-	font-weight: bold;
-	line-height: 1;
-	padding: 5px 10px;
-	text-transform: uppercase;
+  font-weight: bold;
+  line-height: 1;
+  padding: 5px 10px;
+  text-transform: uppercase;
 }
 
 .status-new {
-	background-color: var(--color-pending);
+  background-color: var(--color-pending);
 }
 
 .status-expired {
-	background-color: var(--color-dark2);
+  background-color: var(--color-dark2);
 }

@@ -27,7 +27,7 @@
       position: absolute;
       top: 0px;
       left: 0px;
-      background: $color-primary;
+      background: var(--color-primary);
       width: 24px;
       height: 3px;
       z-index: 100;
@@ -37,8 +37,8 @@
       position: absolute;
       top: 6px;
       left: 0px;
-      border-bottom: 3px solid $color-primary;
-      border-top: 3px solid $color-primary;
+      border-bottom: 3px solid var(--color-primary);
+      border-top: 3px solid var(--color-primary);
       width: 24px;
       height: 3px;
       z-index: 100;
