@@ -66,8 +66,9 @@ import {AppConfigService} from "../common/app-config.service";
 						</bg-formfield-text>
 					</fieldset>
 					
-					<p>Don't have your current password? <a (click)="forgotPassword()">Click here to reset by email</a>
-					 </p>
+					<p>
+						Don't have your current password? <a (click)="forgotPassword()">Click here to reset by email</a>
+					</p>
 		
 					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-right">
 						<a class="button button-secondary"
@@ -104,7 +105,7 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 	) {
 		super(router, route);
 
-		title.setTitle(`Change Password - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Change Password - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.profileManager.userProfilePromise
 			.then(profile => this.profile = profile);

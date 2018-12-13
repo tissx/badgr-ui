@@ -91,7 +91,7 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 		protected dialogService: CommonDialogsService
 ) {
 		super(router, route, sessionService);
-		title.setTitle(`Profile - Edit - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Profile - Edit - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.profileLoaded = profileManager.userProfilePromise.then(
 			profile => this.profile = profile,

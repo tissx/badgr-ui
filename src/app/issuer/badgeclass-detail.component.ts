@@ -252,7 +252,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		).then(
 			badge => {
 				this.badgeClass = badge;
-				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 				this.loadInstances();
 			},
 			error => this.messageService.reportLoadingError(`Cannot find badge ${this.issuerSlug} / ${this.badgeSlug}`,

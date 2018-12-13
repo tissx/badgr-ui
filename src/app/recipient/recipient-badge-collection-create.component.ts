@@ -90,7 +90,7 @@ export class RecipientBadgeCollectionCreateComponent extends BaseAuthenticatedRo
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Create Collection - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Collection - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgeCollectionForm = this.formBuilder.group({
 			collectionName: [ '',

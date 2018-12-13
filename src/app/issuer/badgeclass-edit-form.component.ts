@@ -416,7 +416,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, sessionService);
-		title.setTitle(`Create Badge Class - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Badge Class - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgeClassForm = fb.group({
 			badge_name: [

@@ -263,7 +263,7 @@ export class RecipientGroupDetailComponent extends BaseAuthenticatedRoutableComp
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Recipient Group Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Recipient Group Detail - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
 			issuer => this.issuer = issuer,

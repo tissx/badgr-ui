@@ -204,7 +204,7 @@ import {AppConfigService} from "../common/app-config.service";
 						<h2 class="title title-is-smallmobile">Linked Accounts</h2>
 					</header>
 					<p *ngIf="socialAccounts.length == 0">
-						Click one of the provider buttons below to allow you to log in to {{configService.thm['serviceName'] || "Badgr"}} in the future using that service
+						Click one of the provider buttons below to allow you to log in to {{configService.theme['serviceName'] || "Badgr"}} in the future using that service
 						rather than your email and password.
 					</p>
 					<table class="table">
@@ -285,7 +285,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		private oauthService: OAuthApiService
 ) {
 		super(router, route, sessionService);
-		title.setTitle(`Profile - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Profile - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.emailForm = this.formBuilder.group({
 			'email': [
@@ -347,7 +347,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	async unlinkAccount(socialAccount: UserProfileSocialAccount) {
 		if (await this.dialogService.confirmDialog.openTrueFalseDialog({
 			dialogTitle: `Unlink ${socialAccount.providerInfo.name}?`,
-			dialogBody: `Are you sure you want to unlink the ${socialAccount.providerInfo.name} account ${socialAccount.fullLabel}) from your ${this.configService.thm['serviceName'] || "Badgr"} account? You may re-link in the future by clicking the ${socialAccount.providerInfo.name} button on this page.`,
+			dialogBody: `Are you sure you want to unlink the ${socialAccount.providerInfo.name} account ${socialAccount.fullLabel}) from your ${this.configService.theme['serviceName'] || "Badgr"} account? You may re-link in the future by clicking the ${socialAccount.providerInfo.name} button on this page.`,
 			resolveButtonLabel: `Unlink ${socialAccount.providerInfo.name} account?`,
 			rejectButtonLabel: "Cancel"
 		})) {

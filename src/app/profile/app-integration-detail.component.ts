@@ -25,7 +25,7 @@ export abstract class AppIntegrationDetailComponent<
 		private configService: AppConfigService
 	) {
 		super(router, route, loginService);
-		title.setTitle(`App Integrations - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`App Integrations - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.integrationPromise = appIntegrationManager.appIntegrations.loadedPromise.then(
 			list => {

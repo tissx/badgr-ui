@@ -37,7 +37,7 @@ export class SignupSuccessComponent implements OnInit {
 		private configService: AppConfigService,
 		private router: Router
 	) {
-		title.setTitle(`Verification - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Verification - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
 	ngOnInit() {
@@ -51,6 +51,6 @@ export class SignupSuccessComponent implements OnInit {
 		return `mailto:${this.configService.helpConfig ? this.configService.helpConfig.email || 'help@badgr.io' : 'help@badgr.io'}`;
 	}
 	get service() {
-		return this.configService.thm['serviceName'] || "Badgr"
+		return this.configService.theme['serviceName'] || "Badgr"
 	}
 }

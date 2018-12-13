@@ -123,7 +123,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);
-		title.setTitle(`Create Issuer - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Issuer - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerForm = formBuilder.group({
 			'issuer_name': [
@@ -209,6 +209,6 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	get dataProcessorUrl() {
-		return this.configService.thm['dataProcessorTermsLink'] || 'https://badgr.com/en-us/data-processing.html';
+		return this.configService.theme['dataProcessorTermsLink'] || 'https://badgr.com/en-us/data-processing.html';
 	}
 }

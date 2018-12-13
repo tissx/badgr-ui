@@ -297,7 +297,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 	{
 		super(router, route, loginService);
 
-		title.setTitle(`Recipient Group CSV upload - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Recipient Group CSV upload - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.activateViewState("instructions");
 

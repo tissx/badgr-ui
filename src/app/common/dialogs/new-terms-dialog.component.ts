@@ -62,11 +62,11 @@ export class NewTermsDialog extends BaseDialog {
 	}
 
 	get termsOfServiceLink() {
-		return this.configService.thm['termsOfServiceLink'] || 'https://badgr.org/missing-terms';
+		return this.configService.theme['termsOfServiceLink'] || 'https://badgr.org/missing-terms';
 	}
 
 	get termsHelpLink() {
-		return this.configService.thm['termsHelpLink'] || 'https://badgr.org/missing-terms-help';
+		return this.configService.theme['termsHelpLink'] || 'https://badgr.org/missing-terms-help';
 	}
 
 	get isErrorState(): boolean {

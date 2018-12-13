@@ -35,7 +35,8 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 	template: `
 		<header class="header l-containerhorizontal" *ngIf="showAppChrome">
 
-			<a class="logo" [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : thm.alternateLandingUrl || '/'">
+			<a class="logo" [class.logo-is-loading]="isRequestPending"
+			   [href]="isOAuthAuthorizationInProcess ? '#' : theme.alternateLandingUrl || '/'">
 				<picture>
 					<source media="(min-width: 640px)" [srcset]="logoDesktop">
 					<img [src]="logoSmall" alt="Logo">
@@ -48,21 +49,27 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 		</header>
 
 		<!--<form-message></form-message>-->
-		
+
 		<div *ngIf="isUnsupportedBrowser" class="l-formmessage formmessage formmessage-is-{{status}}"
 		     [class.formmessage-is-active]="isUnsupportedBrowser">
-		    <p>The Browser you are using isn’t fully supported. It may not display correctly and some features may not be accessible or function properly.</p>
-		    <button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
+			<p>The Browser you are using isn’t fully supported. It may not display correctly and some features may not be accessible or function
+				properly.</p>
+			<button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
 		</div>
 
 		<article *ngIf="hasFatalError" class="emptyillustration l-containervertical">
-			<h1 *ngIf="fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{fatalMessage}}</h1>
-			<h1 *ngIf="fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">{{fatalMessageDetail}}</h1>
-			<h1 *ngIf="!fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops! <span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
-			<h1 *ngIf="!fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
+			<h1 *ngIf="fatalMessage"
+			    class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{fatalMessage}}</h1>
+			<h1 *ngIf="fatalMessageDetail"
+			    class="title title-bold title-center title-is-smallmobile title-line-height-large">{{fatalMessageDetail}}</h1>
+			<h1 *ngIf="!fatalMessage"
+			    class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops!
+				<span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
+			<h1 *ngIf="!fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and
+				try again.</h1>
 			<img [src]="unavailableImageSrc">
 		</article>
-		
+
 		<router-outlet *ngIf="!hasFatalError"></router-outlet>
 
 		<confirm-dialog #confirmDialog></confirm-dialog>
@@ -72,15 +79,16 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
 				<ul>
-					<li *ngIf="thm.showPoweredByBadgr === undefined || thm.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
-					<li *ngIf="thm.providedBy">
-						Provided by <a href="{{ thm.providedBy.url}}"target="_blank">{{ thm.providedBy.name }}</a>
+					<li *ngIf="theme.showPoweredByBadgr === undefined || theme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a>
 					</li>
-					
-					<li><a [href]="thm.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
-					<li><a [href]="thm.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy Policy</a></li>
+					<li *ngIf="theme.providedBy">
+						Provided by <a href="{{ theme.providedBy.url}}" target="_blank">{{ theme.providedBy.name }}</a>
+					</li>
+
+					<li><a [href]="theme.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
+					<li><a [href]="theme.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy Policy</a></li>
 				</ul>
-				<a href="https://support.badgr.io/docs/" *ngIf="thm.showApiDocsLink === undefined || thm.showApiDocsLink" target="_blank">Documentation</a>
+				<a href="https://support.badgr.io/docs/" *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink" target="_blank">Documentation</a>
 			</div>
 		</footer>
 
@@ -95,7 +103,7 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
 						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints"  routerLinkActive="menuitem-is-active">
+							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints" routerLinkActive="menuitem-is-active">
 								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
 							</li>
 						</ul>
@@ -111,15 +119,15 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
 						<button>Apps</button>
 						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints"  routerLinkActive="menuitem-is-active">
+							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints" routerLinkActive="menuitem-is-active">
 								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
 							</li>
 						</ul>
 					</li>
-					<li class="menuitem" *ngIf="thm.customMenu">
-						<button>{{ thm.customMenu.label }}</button>
+					<li class="menuitem" *ngIf="theme.customMenu">
+						<button>{{ theme.customMenu.label }}</button>
 						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let item of thm.customMenu.items">
+							<li class="menuitem menuitem-secondary" *ngFor="let item of theme.customMenu.items">
 								<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
 						</ul>
 					</li>
@@ -163,7 +171,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return ! this.embedService.isEmbedded;
 	}
 
-	get thm() { return this.configService.thm }
+	get theme() { return this.configService.theme }
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
@@ -284,6 +292,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
 	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
-	get logoSmall() { return this.thm['logoImg'] ? this.thm['logoImg']['small'] : this.defaultLogoSmall }
-	get logoDesktop() { return this.thm['logoImg'] ? this.thm['logoImg']['desktop'] : this.defaultLogoDesktop }
+	get logoSmall() { return this.theme['logoImg'] ? this.theme['logoImg']['small'] : this.defaultLogoSmall }
+	get logoDesktop() { return this.theme['logoImg'] ? this.theme['logoImg']['desktop'] : this.defaultLogoDesktop }
 }

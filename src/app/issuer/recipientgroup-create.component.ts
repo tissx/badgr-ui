@@ -109,7 +109,7 @@ export class RecipientGroupCreateComponent extends BaseAuthenticatedRoutableComp
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Create RecipientGroup - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create RecipientGroup - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.recipientGroupForm = formBuilder.group({
 			recipientGroup_name:  [ '',

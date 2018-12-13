@@ -66,7 +66,7 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, sessionService);
-		title.setTitle(`Create Badge Class - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Badge Class - ${this.configService.theme['serviceName'] || "Badgr"}`);
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then((issuer) => {

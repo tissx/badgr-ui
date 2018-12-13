@@ -18,6 +18,7 @@ import {AuthModule} from "./auth/auth.module";
 import {AuthGuard} from "./common/guards/auth.guard";
 import {RecipientBadgeApiService} from "./recipient/services/recipient-badges-api.service";
 import {AppConfigService} from "./common/app-config.service";
+import {initializeTheme} from '../theming/theme-setup';
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
@@ -95,7 +96,18 @@ const ROUTE_CONFIG: Routes = [
 ];
 
 export const appInitializerFn = (configService: AppConfigService) => {
-	return () => configService.loadRemoteConfig()
+	return async () => {
+		const configPromise = configService.initializeConfig();
+
+		// Expose the configuration to external scripts for debugging and testing.
+		window["badgrConfigPromise"] = configPromise;
+
+		const config = await configPromise;
+
+		window["badgrConfig"] = config;
+
+		initializeTheme(configService);
+	}
 };
 
 @NgModule({

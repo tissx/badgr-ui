@@ -82,7 +82,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 		protected initialLoadingIndicatorService: InitialLoadingIndicatorService
 	) {
 		super(router, route);
-		title.setTitle(`Authorize - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Authorize - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
 	get authorizingApp() {
@@ -126,7 +126,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 						.then(
 							state => {
 								if (state == AuthAttemptResult.AUTHORIZATION_REQUIRED) {
-									this.title.setTitle(`Authorize ${this.authorizingApp.application.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+									this.title.setTitle(`Authorize ${this.authorizingApp.application.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 									// We'll stay on this page to perform the authorization
 								} else if (state == AuthAttemptResult.LOGIN_REQUIRED) {
 									return this.router.navigate([ '/auth/login' ]);

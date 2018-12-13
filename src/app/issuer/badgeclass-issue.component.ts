@@ -378,7 +378,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		route: ActivatedRoute
 	) {
 		super(router, route, sessionService);
-		title.setTitle(`Award Badge - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Award Badge - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then((issuer) => {
 			this.issuer = issuer;
@@ -393,7 +393,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				}
 				this.issueForm.untypedControls.expires.setValue(this.defaultExpiration);
 
-				this.title.setTitle(`Award Badge - ${badge_class.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Award Badge - ${badge_class.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 			});
 		});
 	}

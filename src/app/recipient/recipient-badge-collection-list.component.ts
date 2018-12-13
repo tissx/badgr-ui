@@ -120,7 +120,7 @@ export class RecipientBadgeCollectionListComponent extends BaseAuthenticatedRout
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Collections - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Collections - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.collectionListLoaded = Promise.all([
 			this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,

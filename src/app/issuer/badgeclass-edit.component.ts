@@ -104,7 +104,7 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 		protected badgeClassManager: BadgeClassManager
 	) {
 		super(router, route, sessionService);
-		title.setTitle(`Edit Badge Class - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Edit Badge Class - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgeClassLoaded = badgeManager.badgeByIssuerSlugAndSlug(
 			this.issuerSlug,

@@ -24,13 +24,13 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 	template: `
 		<main *bgAwaitPromises="[ initFinished ]">
 			<form-message></form-message>
-			
-			<div  class="l-auth">
+
+			<div class="l-auth">
 				<!-- Non-OAuth Welcome Message -->
 				<ng-template [ngIf]="! oAuthManager.currentAuthorization">
 					<ng-template [ngIf]="! verifiedName">
-						<markdown-display id="heading-form" 
-						                  [value]="thm.welcomeMessage || '## Welcome to Badgr'" 
+						<markdown-display id="heading-form"
+						                  [value]="theme.welcomeMessage || '## Welcome to Badgr'"
 						                  [login]="true"
 						></markdown-display>
 						<p class="l-auth-x-text text text-quiet" *ngIf="sessionService.enabledExternalAuthProviders.length">
@@ -41,9 +41,9 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 							Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
-					<ng-template [ngIf]="verifiedName">					
+					<ng-template [ngIf]="verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr" }}
+							{{ verifiedName | ucfirst }}, welcome to {{ theme.serviceName || "Badgr" }}
 						</h3>
 
 						<p class="l-auth-x-text text text-quiet">
@@ -51,33 +51,34 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 						</p>
 					</ng-template>
 				</ng-template>
-	
+
 				<!-- OAuth Welcome Message -->
 				<ng-template [ngIf]="oAuthManager.currentAuthorization">
 					<oauth-banner></oauth-banner>
-	
+
 					<ng-template [ngIf]="! verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							Sign in to your {{ thm.serviceName || "Badgr" }} Account
+							Sign in to your {{ theme.serviceName || "Badgr" }} Account
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
-							The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ thm.serviceName || "Badgr" }} account.
-							Not using {{ thm.serviceName || "Badgr"}}? <a [routerLink]="['/signup']">Create an account</a>!
+							The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to
+							sign you in using your {{ theme.serviceName || "Badgr" }} account.
+							Not using {{ theme.serviceName || "Badgr"}}? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
 					<ng-template [ngIf]="verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr"}}!
+							{{ verifiedName | ucfirst }}, welcome to {{ theme.serviceName || "Badgr"}}!
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
-							The application  <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ thm.serviceName || "Badgr"}} account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
+							The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to
+							sign you in using your {{ theme.serviceName || "Badgr"}} account. Your email address, {{ verifiedEmail }}, has been verified.
+							Enter your
 							password below to continue.
 						</p>
 					</ng-template>
 				</ng-template>
-	
+
 				<form class="l-form l-form-span"
 				      role="form"
 				      aria-labelledby="heading-form"
@@ -90,7 +91,7 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 					          *ngIf="! verifiedName && sessionService.enabledExternalAuthProviders.length > 0"
 					>
 						<legend class="visuallyhidden" id="heading-socialsignin">Sign in with third-party social account</legend>
-	
+
 						<div class="formfield">
 							<p class="formfield-x-label">Sign In With</p>
 							<div class="l-authbuttons">
@@ -104,24 +105,24 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 							</div>
 						</div>
 					</fieldset>
-	
+
 					<div class="formdivider" *ngIf="! verifiedName && sessionService.enabledExternalAuthProviders.length > 0">
 						<span>Or sign in with your email</span>
 					</div>
-	
+
 					<!-- Login Email/Password Fields -->
 					<fieldset role="group" aria-labelledby="heading-badgrsignin">
 						<legend class="visuallyhidden" id="heading-badgrsignin">Sign In with username and password</legend>
 
 						<bg-formfield-text [control]="loginForm.controls.username"
-										   label="Email"
-										   fieldType="email"
+						                   label="Email"
+						                   fieldType="email"
 						                   [errorMessage]="'Please enter a valid email address'"
 						                   [autofocus]="true"
 						                   [initialValue]="verifiedEmail || ''"
 						                   #usernameField
 						></bg-formfield-text>
-	
+
 						<bg-formfield-text [control]="loginForm.controls.password"
 						                   label="Password"
 						                   [errorMessage]="'Please enter your password'"
@@ -134,13 +135,13 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 							</span>
 						</bg-formfield-text>
 					</fieldset>
-	
+
 					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-spacebetween">
 						<label class="formcheckbox" for="remember-me">
 							<input name="remember-me" id="remember-me" type="checkbox" [formControl]="loginForm.controls.rememberMe">
 							<span class="formcheckbox-x-text">Remember me</span>
 						</label>
-	
+
 						<div class="l-childrenhorizontal">
 							<button class="button button-secondary"
 							        type="button"
@@ -148,7 +149,7 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 							        *ngIf="oAuthManager.currentAuthorization"
 							>Cancel
 							</button>
-	
+
 							<button class="button"
 							        type="submit"
 							        [disabled]="!! loginFinished"
@@ -175,7 +176,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	initFinished: Promise<any> = new Promise(() => {});
 	loginFinished: Promise<any>;
 
-	get thm() { return this.configService.thm }
+	get theme() { return this.configService.theme }
 
 	constructor(
 		private fb: FormBuilder,
@@ -191,7 +192,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle(`Login - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Login - ${this.configService.theme['serviceName'] || "Badgr"}`);
 		this.handleQueryParamCases();
 	}
 

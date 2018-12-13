@@ -1,20 +1,10 @@
-import {BadgrConfig} from "./badgr-config";
+import {BadgrEnvironment} from './badgr-environment';
 
-export const environment = {
+export const environment: BadgrEnvironment = {
 	production: true,
-	configBaseUrl: null,
-
-	defaultConfig: {
-		api: {
-			baseUrl: window.location.protocol + "//" + window.location.hostname + ":8000",
-		},
-		features: {
-			alternateLandingRedirect: false
-		},
-		help: {
-			email: "support@badgr.io"
-		},
-		assertionVerifyUrl: "https://badgecheck.io/",
-		thm: {}
-	} as BadgrConfig
+	config: undefined,
+	remoteConfig: {
+		baseUrl: "http://static.badgr.io/csky-badgr-ui-config",
+		version: "latest",
+	}
 };

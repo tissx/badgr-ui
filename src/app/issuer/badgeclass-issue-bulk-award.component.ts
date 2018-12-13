@@ -127,7 +127,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 				this.badgeSlug
 			).then((badge_class) => {
 				this.badge_class = badge_class;
-				this.title.setTitle(`Bulk Award Badge - ${badge_class.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Bulk Award Badge - ${badge_class.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 			});
 		})
 	}

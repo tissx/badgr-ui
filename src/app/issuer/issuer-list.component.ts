@@ -112,7 +112,7 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 		route: ActivatedRoute
 	) {
 		super(router, route, loginService);
-		title.setTitle(`Issuers - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Issuers - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		// subscribe to issuer and badge class changes
 		this.issuersLoaded = new Promise((resolve, reject) => {

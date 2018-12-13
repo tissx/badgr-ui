@@ -287,7 +287,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	}
 
 	private updateData(){
-		this.title.setTitle(`Backpack - ${this.badge.badgeClass.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		this.title.setTitle(`Backpack - ${this.badge.badgeClass.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badge.markAccepted();
 

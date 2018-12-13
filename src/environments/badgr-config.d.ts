@@ -1,15 +1,16 @@
-
 /**
  * The shape of a Badgr Config object. As there may be multiple config sources, each one may not specify all parts.
  */
+import {BadgrTheme} from '../theming/badgr-theme';
+
+
 export interface BadgrConfig {
-	production?: boolean;
-	api?: ApiConfig;
-	help?: HelpConfig;
-	features?: FeaturesConfig;
-	googleAnalytics?: GoogleAnalyticsConfig;
-	assertionVerifyUrl?: string;
-	thm?: any;
+	api: ApiConfig;
+	help: HelpConfig;
+	features: FeaturesConfig;
+	googleAnalytics: GoogleAnalyticsConfig;
+	assertionVerifyUrl: string;
+	theme: BadgrTheme;
 }
 
 /**
@@ -21,7 +22,10 @@ export interface ApiConfig {
 	 */
 	baseUrl: string;
 
-	integrationEndpoints: string[];
+	/**
+	 *
+	 */
+	integrationEndpoints?: string[];
 
 	/**
 	 * Configures an optional delay for all API calls. Allows the simulation of a slow server or network for testing of

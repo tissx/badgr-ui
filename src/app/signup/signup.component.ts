@@ -21,20 +21,20 @@ import {OAuthManager} from "../common/services/oauth-manager.service";
 			<div class="l-auth">
 				<!-- OAuth Banner -->
 				<oauth-banner></oauth-banner>
-	
+
 				<!-- Title Message -->
 				<h3 class="l-auth-x-title title title-bold" id="heading-form">
-					Create a {{ thm.serviceName || "Badgr" }} Account
+					Create a {{ theme.serviceName || "Badgr" }} Account
 				</h3>
 				<p class="l-auth-x-text text text-quiet" *ngIf="! oAuthManager.currentAuthorization">
 					Already have an account? <a [routerLink]="['/auth/login']">Sign in</a>.
 				</p>
 				<p class="l-auth-x-text text text-quiet" *ngIf="oAuthManager.currentAuthorization">
-					The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to sign 
-					you in using {{ thm.serviceName || "Badgr"}}.
+					The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to sign
+					you in using {{ theme.serviceName || "Badgr"}}.
 					Already have an account? <a [routerLink]="['/login']">Sign in</a>!
 				</p>
-				
+
 				<!-- Sign Up Form -->
 				<form class="l-form l-form-span"
 				      role="form"
@@ -48,7 +48,7 @@ import {OAuthManager} from "../common/services/oauth-manager.service";
 					          aria-labelledby="heading-socialsignup"
 					>
 						<legend class="visuallyhidden" id="heading-socialsignup">Sign up with third-party social account</legend>
-	
+
 						<div class="formfield" *ngIf="sessionService.enabledExternalAuthProviders.length > 0">
 							<p class="formfield-x-label">Sign Up With</p>
 							<div class="l-authbuttons">
@@ -61,38 +61,40 @@ import {OAuthManager} from "../common/services/oauth-manager.service";
 							</div>
 						</div>
 					</fieldset>
-	
+
 					<div class="formdivider" *ngIf="sessionService.enabledExternalAuthProviders.length">
 						<span>OR</span>
 					</div>
-	
+
 					<!-- Signup Controls -->
 					<fieldset role="group" aria-labelledby="heading-badgrsignup2">
-						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with {{ thm.serviceName || "Badgr"}} by providing your information</legend>
-						
+						<legend class="visuallyhidden" id="heading-badgrsignup2">Sign up with {{ theme.serviceName || "Badgr"}} by providing your
+							information
+						</legend>
+
 						<bg-formfield-text [control]="signupForm.controls.username"
-										   [label]="'Email'"
-										   fieldType="email"
+						                   [label]="'Email'"
+						                   fieldType="email"
 						                   [errorMessage]="'Please enter a valid email address'"
 						                   [autofocus]="true"
 						></bg-formfield-text>
-	
+
 						<bg-formfield-text [control]="signupForm.controls.firstName"
 						                   [label]="'First Name'"
 						                   [errorMessage]="'Please enter a first name'"
 						></bg-formfield-text>
-	
+
 						<bg-formfield-text [control]="signupForm.controls.lastName"
 						                   [label]="'Last Name'"
 						                   [errorMessage]="'Please enter a last name'"
 						></bg-formfield-text>
-	
+
 						<bg-formfield-text [control]="passwordGroup.controls.password"
 						                   [label]="'Password (Must be at least 8 characters)'"
 						                   fieldType="password"
 						                   [errorMessage]="{ required: 'Please enter a password' }"
 						></bg-formfield-text>
-	
+
 						<bg-formfield-text [control]="passwordGroup.controls.passwordConfirm"
 						                   [label]="'Confirm Password'"
 						                   fieldType="password"
@@ -101,15 +103,20 @@ import {OAuthManager} from "../common/services/oauth-manager.service";
 						></bg-formfield-text>
 					</fieldset>
 
-					<label [class.formcheckbox-is-error]="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox  l-marginBottom-2x" for="terms">
+					<label
+						[class.formcheckbox-is-error]="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid"
+						class="formcheckbox  l-marginBottom-2x" for="terms">
 						<input name="terms" id="terms" type="checkbox" [formControl]="signupForm.controls.agreedTermsService">
-						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="thm.termsOfServiceLink || 'https://badgr.org/missing-terms'">Terms of Service</a>.</span>
-						<span *ngIf="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
+						<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank"
+						                                                                  [href]="theme.termsOfServiceLink || 'https://badgr.org/missing-terms'">Terms of Service</a>.</span>
+						<span *ngIf="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid"
+						      class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
 					</label>
-					
+
 					<label class="formcheckbox" for="news" *ngIf="showMarketingOptIn">
 						<input name="news" id="news" type="checkbox" [formControl]="signupForm.controls.marketingOptIn">
-						<span class="formcheckbox-x-text">Yes! I would like to receive email updates about products &amp; services, upcoming webinars, news and events from {{configService.thm['serviceName'] || "Badgr"}}.</span>
+						<span class="formcheckbox-x-text">Yes! I would like to receive email updates about products &amp; services, upcoming webinars, news and events from {{configService.theme['serviceName'] || "Badgr"}}
+							.</span>
 					</label>
 
 					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-right">
@@ -117,15 +124,17 @@ import {OAuthManager} from "../common/services/oauth-manager.service";
 						        type="button"
 						        (click)="oAuthManager.cancelCurrentAuthorization()"
 						        *ngIf="oAuthManager.currentAuthorization"
-						>Cancel</button>
-	
+						>Cancel
+						</button>
+
 						<button class="button"
 						        type="submit"
 						        [disabled]="!! signupFinished"
 						        (click)="clickSubmit($event)"
 						        [loading-promises]="[ signupFinished ]"
 						        loading-message="Signing Up..."
-						>Create Account</button>
+						>Create Account
+						</button>
 					</div>
 				</form>
 			</div>
@@ -140,7 +149,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 
 	agreedTermsService: boolean = false;
 
-	get thm() { return this.configService.thm }
+	get theme() { return this.configService.theme }
 
 	constructor(
 		fb: FormBuilder,
@@ -154,7 +163,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle(`Signup - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Signup - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.passwordGroup = fb.group({
 				'password': [ '', Validators.compose([ Validators.required, passwordValidator ]) ],
@@ -234,7 +243,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	}
 
 	get showMarketingOptIn() {
-		return !!!this.thm['hideMarketingOptIn'];
+		return !!!this.theme['hideMarketingOptIn'];
 	}
 }
 

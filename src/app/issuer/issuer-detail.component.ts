@@ -271,7 +271,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Issuer Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Issuer Detail - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
 
@@ -282,7 +282,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then(
 			(issuer) => {
 				this.issuer = issuer;
-				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 				this.badgesLoaded = new Promise((resolve, reject) => {
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(

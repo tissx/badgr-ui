@@ -165,7 +165,7 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
-		title.setTitle(`Manage Issuer Staff - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Manage Issuer Staff - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug)

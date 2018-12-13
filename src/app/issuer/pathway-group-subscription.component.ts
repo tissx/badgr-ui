@@ -113,7 +113,7 @@ export class PathwayGroupSubscriptionComponent extends BaseAuthenticatedRoutable
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Pathway Group Subscription - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Pathway Group Subscription - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.pathwayLoaded = this.pathwayManager
 			.pathwaySummaryFor(this.issuerSlug, this.pathwaySlug)

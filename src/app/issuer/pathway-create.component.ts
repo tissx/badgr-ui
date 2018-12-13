@@ -117,7 +117,7 @@ export class PathwayCreateComponent extends BaseAuthenticatedRoutableComponent i
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Create Pathway - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Pathway - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.pathwayForm = formBuilder.group({
 			pathway_name: [ '',

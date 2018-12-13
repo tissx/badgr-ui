@@ -32,7 +32,7 @@ export class PublicComponent extends BaseRoutableComponent implements OnInit {
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle(`Public - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Public - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
 	ngOnInit() {

@@ -15,7 +15,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
  *
  * @type {string}
  */
-const TOKEN_STORAGE_KEY = "LoginService.token";
+export const TOKEN_STORAGE_KEY = "LoginService.token";
 
 export interface AuthorizationToken {
 	access_token: string;

@@ -40,7 +40,7 @@ type BadgeDispay = "grid" | "list" ;
 				<article class="emptyillustration l-containervertical" *ngIf="allBadges.length == 0">
 					<h1>You have no badges</h1>
 					  <div>
-					    Collect and share digital badges you've earned from {{configService.thm['serviceName'] || "Badgr"}} or any Open Badges issuer.
+					    Collect and share digital badges you've earned from {{configService.theme['serviceName'] || "Badgr"}} or any Open Badges issuer.
 					    <a href="https://openbadges.org" target="_blank">Learn more</a> about Open Badges
 					  </div>
 					<img [src]="noBadgesImageUrl" alt="Illustration description">
@@ -272,7 +272,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	) {
 		super(router, route, sessionService);
 
-		title.setTitle(`Backpack - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Backpack - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));
