@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
 	entry: {
-		widgets: './src/widgets.browser.ts'
+		widgets: path.join(__dirname, 'src/widgets.browser.ts')
 	},
 	plugins: [
 		// Add a plugin that copies the widgets.hash.js file to widgets.bundle.js for backwards compatibility and support

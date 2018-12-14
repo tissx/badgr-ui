@@ -7,10 +7,6 @@ import {BadgrEnvironment} from './badgr-environment';
 
 export const environment: BadgrEnvironment = {
 		production: false,
-		config: undefined,
-		remoteConfig: {
-			baseUrl: "https://static.badgr.io/csky-badgr-ui-config",
-			version: "latest",
-		}
+		config: undefined
 	}
 ;

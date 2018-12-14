@@ -11,6 +11,7 @@ import {HttpClient} from "@angular/common/http";
 import {BadgrTheme} from '../../theming/badgr-theme';
 
 import * as deepmerge from 'deepmerge'
+import {animationFramePromise} from './util/promise-util';
 
 const packageJsonVersion = require("../../../package.json").version;
 
@@ -51,21 +52,31 @@ export class AppConfigService {
 	}
 
 
-	private loadRemoteConfig(): Promise<Partial<BadgrConfig> | null> {
-		if (! environment.remoteConfig)
-			return Promise.resolve(null);
-
+	private async loadRemoteConfig(): Promise<Partial<BadgrConfig> | null> {
 		const queryParams = new URLSearchParams(window.location.search);
 
-		function getRemoteConfigParam(name) {
-			return queryParams.get(name) || window.localStorage.getItem(name) || window.sessionStorage.getItem(name);
+		// Allow custom remote config information to be added after the angular scripts in index.html.
+		await animationFramePromise();
+
+		function getRemoteConfigParam(name, allowQueryParam) {
+			return (allowQueryParam && queryParams.get(name)) || (window["remoteConfigOverrides"] && window["remoteConfigOverrides"][name]) || window.localStorage.getItem(name) || window.sessionStorage.getItem(name);
 		}
 
-		// SECURITY NOTE: We do _not_ allow overriding the remote configuration baseUrl because it could allow an attacker to load badgr
-		// with third-party configuration, which could harvest user data or otherwise cause mischief.
-		const baseUrl = environment.remoteConfig.baseUrl;
-		const version = getRemoteConfigParam("configVersion") || environment.remoteConfig.version;
-		const domain = getRemoteConfigParam("configDomain") || window.location.hostname;
+		// SECURITY NOTE: We do _not_ allow overriding the remote configuration baseUrl with a query param because it could allow an attacker
+		// to load badgr with third-party configuration, which could harvest user data or otherwise cause mischief.
+		const baseUrl = getRemoteConfigParam("configBaseUrl", false) || (environment.remoteConfig && environment.remoteConfig.baseUrl) || null;
+		const version = getRemoteConfigParam("configVersion", true) || (environment.remoteConfig && environment.remoteConfig.version) || null;
+		const domain = getRemoteConfigParam("configDomain", true) || window.location.hostname;
+
+		console.info(
+		"baseUrl: " + baseUrl + ", " +
+			"version: " + version + ", " +
+			"domain: " + domain + ", "
+		);
+
+		if (! baseUrl || ! version || ! domain) {
+			return Promise.resolve(null);
+		}
 
 		// Request a new copy of the config every hour
 		const oneHourMs = 60 * 60 * 1000;
