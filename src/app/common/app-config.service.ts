@@ -12,6 +12,7 @@ import {BadgrTheme} from '../../theming/badgr-theme';
 
 import * as deepmerge from 'deepmerge'
 import {animationFramePromise} from './util/promise-util';
+import {initializeTheme} from '../../theming/theme-setup';
 
 const packageJsonVersion = require("../../../package.json").version;
 
@@ -59,7 +60,7 @@ export class AppConfigService {
 		await animationFramePromise();
 
 		function getRemoteConfigParam(name, allowQueryParam) {
-			return (allowQueryParam && queryParams.get(name)) || (window["remoteConfigOverrides"] && window["remoteConfigOverrides"][name]) || window.localStorage.getItem(name) || window.sessionStorage.getItem(name);
+			return (allowQueryParam && queryParams.get(name))  || window.localStorage.getItem(name) || window.sessionStorage.getItem(name) || (window["remoteConfigOverrides"] && window["remoteConfigOverrides"][name]);
 		}
 
 		// SECURITY NOTE: We do _not_ allow overriding the remote configuration baseUrl with a query param because it could allow an attacker
@@ -67,12 +68,6 @@ export class AppConfigService {
 		const baseUrl = getRemoteConfigParam("configBaseUrl", false) || (environment.remoteConfig && environment.remoteConfig.baseUrl) || null;
 		const version = getRemoteConfigParam("configVersion", true) || (environment.remoteConfig && environment.remoteConfig.version) || null;
 		const domain = getRemoteConfigParam("configDomain", true) || window.location.hostname;
-
-		console.info(
-		"baseUrl: " + baseUrl + ", " +
-			"version: " + version + ", " +
-			"domain: " + domain + ", "
-		);
 
 		if (! baseUrl || ! version || ! domain) {
 			return Promise.resolve(null);
@@ -87,12 +82,11 @@ export class AppConfigService {
 		return this.http.get(configUrl)
 			.toPromise()
 			.then(r => {
-				console.info("Loaded remote config from " + configUrl);
 				return r;
 			})
 			.catch(
 				err => {
-					console.warn(`Failed to load remote config from ${configUrl}`, err);
+					console.error(`Failed to load remote config from ${configUrl}`, err);
 					return null;
 				}
 			);
@@ -127,6 +121,9 @@ export class AppConfigService {
 		], {
 			clone: true
 		}) as BadgrConfig;
+
+		// Initialize theming with the final configuration value
+		initializeTheme(this);
 
 		return this.config;
 	}
