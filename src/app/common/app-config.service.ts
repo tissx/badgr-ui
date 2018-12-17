@@ -67,6 +67,7 @@ export class AppConfigService {
 		// to load badgr with third-party configuration, which could harvest user data or otherwise cause mischief.
 		const baseUrl = getRemoteConfigParam("configBaseUrl", false) || (environment.remoteConfig && environment.remoteConfig.baseUrl) || null;
 		const version = getRemoteConfigParam("configVersion", true) || (environment.remoteConfig && environment.remoteConfig.version) || null;
+		const cacheBust = getRemoteConfigParam("configCacheBust", true) || null;
 		const domain = getRemoteConfigParam("configDomain", true) || window.location.hostname;
 
 		if (! baseUrl || ! version || ! domain) {
@@ -77,7 +78,7 @@ export class AppConfigService {
 		const oneHourMs = 60 * 60 * 1000;
 		const timeCode = Math.floor(Date.now() / oneHourMs);
 
-		const configUrl = `${baseUrl}/${version}/${domain}/config.json?v=${packageJsonVersion}&t=${timeCode}`;
+		const configUrl = `${baseUrl}/${version}/${domain}/config.json?v=${packageJsonVersion}&t=${timeCode}&cacheBust=${cacheBust}`;
 
 		return this.http.get(configUrl)
 			.toPromise()
