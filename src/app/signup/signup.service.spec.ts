@@ -38,9 +38,9 @@ describe('SignupService', () => {
 			signupModel = new SignupModel(
 				'username@email.com', 'Firstname', 'Lastname', 'password', true, true);
 			signupService.submitSignup(signupModel)
-				.subscribe(
-					(res) => { error = false },
-					(err) => { error = true }
+				.then(
+					() => error = false,
+					() => error = true
 				);
 
 			connection.mockRespond(new Response(
