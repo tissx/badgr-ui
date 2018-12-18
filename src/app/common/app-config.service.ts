@@ -112,10 +112,10 @@ export class AppConfigService {
 			await this.loadRemoteConfig() || {},
 
 			// User-specified configuration overrides from local storage
-			localStorage.getItem("config") || {},
+			JSON.parse(localStorage.getItem("config")) || {},
 
 			// User-specified configuration overrides from session storage
-			sessionStorage.getItem("config") || {},
+			JSON.parse(sessionStorage.getItem("config")) || {},
 
 			// Programmatic Configuration Overrides
 			configOverrides || {}
@@ -132,7 +132,7 @@ export class AppConfigService {
 
 export const defaultConfig: BadgrConfig = {
 	api: {
-		baseUrl: window.localStorage.getItem("apiServer") || (window.location.protocol + "//" + window.location.hostname + ":8000"),
+		baseUrl: window.location.protocol + "//" + window.location.hostname + ":8000",
 	},
 	features: {
 		alternateLandingRedirect: false
