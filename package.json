@@ -48,6 +48,7 @@
 		"jasmine": "^3.3.0",
 		"jasmine-promises": "0.4.1",
 		"markdown-to-html-pipe": "^1.2.0",
+		"popper.js": "^1.14.6",
 		"postcss-cssnext": "2.10.0",
 		"rxjs": "^6.3.3",
 		"sanitize-html": "^1.19.2",

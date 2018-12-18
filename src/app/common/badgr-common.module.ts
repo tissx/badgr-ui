@@ -58,6 +58,9 @@ import {ExternalToolLaunchComponent} from "./components/external-tool-launch.com
 import {AppConfigService} from "./app-config.service";
 import {HttpClientModule} from "@angular/common/http";
 import {AutosizeDirective} from "./directives/autosize.directive";
+import { SvgIconComponent } from './components/svg-icon.component';
+import { BgPopupMenu, BgPopupMenuTriggerDirective } from './components/bg-popup-menu.component';
+
 
 
 const DIRECTIVES = [
@@ -68,31 +71,34 @@ const DIRECTIVES = [
 	BgCopyInputDirective,
 	AutosizeDirective,
 	//TooltipDirective,
+	BgPopupMenuTriggerDirective,
 ];
 
 const COMPONENTS = [
 	BadgeImageComponent,
+	BadgrButtonComponent,
+	BgFormFieldFileComponent,
+	BgFormFieldImageComponent,
+	BgIssuerLinkComponent,
 	ConfirmDialog,
-	NewTermsDialog,
-	ShareSocialDialog,
 	ConnectedBadgeComponent,
-	TruncatedTextComponent,
-	FormMessageComponent,
-	FormFieldText,
+	ExternalToolLaunchComponent,
 	FormFieldMarkdown,
 	FormFieldSelect,
+	FormFieldText,
+	FormMessageComponent,
 	LoadingDotsComponent,
 	LoadingErrorComponent,
-	BgIssuerLinkComponent,
-	BgFormFieldImageComponent,
-	BgFormFieldFileComponent,
-	TimeComponent,
-	BadgrButtonComponent,
-	TooltipComponent,
 	MarkdownDisplay,
-	ShowMore,
+	NewTermsDialog,
 	OAuthBannerComponent,
-	ExternalToolLaunchComponent
+	ShareSocialDialog,
+	ShowMore,
+	SvgIconComponent,
+	TimeComponent,
+	TooltipComponent,
+	TruncatedTextComponent,
+	BgPopupMenu,
 ];
 
 const SERVICES = [
