@@ -12,12 +12,38 @@
 		<ng-template [ngIf]="!loggedIn">
 			<nav class="navbar-x-items">
 				<div class="navbar-x-navitems">
-						<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
-						<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/signup']">Create Account</a>
-						<a class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active" [bgPopupMenuTrigger]="navMenu">
-							Apps
-							<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
-						</a>
+					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
+					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/signup']">Create Account</a>
+					<a class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
+					 [bgPopupMenuTrigger]="appsMenu">
+						Apps
+						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
+					</a>
+				</div>
+			</nav>
+		</ng-template>
+
+		<!-- Authenticated -->
+		<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
+			<nav class="navbar-x-items">
+				<div class="navbar-x-navitems">
+					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
+					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
+					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/issuer']">Issuers</a>
+					<a class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
+					 [bgPopupMenuTrigger]="appsMenu">
+						Apps
+						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
+					</a>
+					<a class="navitem u-cursor-pointer" *ngIf="theme.customMenu" routerLinkActive="menuitem-is-active"
+					 [bgPopupMenuTrigger]="customMenu">
+						{{ theme.customMenu.label }}
+						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
+					</a>
+					<a class="navitem u-cursor-pointer" routerLinkActive="menuitem-is-active" [bgPopupMenuTrigger]="accountMenu">
+						Account
+						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
+					</a>
 				</div>
 			</nav>
 		</ng-template>
@@ -30,42 +56,71 @@
 				<i class="visuallyhidden">Open Menu</i>
 			</button>
 		</div>
-
 	</nav>
 
-	<bg-popup-menu #navMenu>
-		<a class="menuitem"
-			href="{{lp.launch_url}}"
-			*ngFor="let lp of launchpoints"
-			target="_blank"
-		>
+	<!-- Nav dropdown menus -->
+
+	<bg-popup-menu #appsMenu>
+		<a class="menuitem" href="{{lp.launch_url}}" *ngFor="let lp of launchpoints" target="_blank">
 			{{lp.label}}
 		</a>
 	</bg-popup-menu>
 
+	<bg-popup-menu #customMenu>
+		<a class="menuitem" [href]="item.url" *ngFor="let item of theme?.customMenu?.items" target="_blank">
+			{{ item.label }}
+		</a>
+	</bg-popup-menu>
+
+	<bg-popup-menu #accountMenu>
+		<a class="menuitem" routerLinkActive="menuitem-is-active" [routerLink]="['/profile/profile']">Profile</a>
+		<a class="menuitem" routerLinkActive="menuitem-is-active" [routerLink]="['/profile/app-integrations']">App
+			Integrations</a>
+		<a class="menuitem" routerLinkActive="menuitem-is-active" [routerLink]="['/auth/logout']">Sign Out</a>
+	</bg-popup-menu>
 
 
-
-	<nav class="l-dialog mobilenav" [class.mobilenav-is-active]="mobileNavOpen">
+	<nav class="l-dialog mobilenav" [class.mobilenav-is-active]="mobileNavOpen" *ngIf="!loggedIn">
 		<div class="mobilenav-x-navitems">
 			<a routerLinkActive="menuitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
 			<a routerLinkActive="menuitem-is-active" [routerLink]="['/signup']">Create Account</a>
 			<hr class="mobilenav-x-rule">
 			<p class="mobilenav-x-label" *ngIf="launchpoints?.length">Apps</p>
-			<a href="{{lp.launch_url}}"
-			   *ngFor="let lp of launchpoints"
-			   target="_blank"
-			>
+			<a href="{{lp.launch_url}}" *ngFor="let lp of launchpoints" target="_blank">
 				{{lp.label}}
 			</a>
 		</div>
 	</nav>
+
+	<nav class="l-dialog mobilenav" [class.mobilenav-is-active]="mobileNavOpen" *ngIf="loggedIn && ! isOAuthAuthorizationInProcess">
+		<div class="mobilenav-x-navitems">
+			<a [routerLink]="['/recipient/badges']">Backpack</a>
+			<a [routerLink]="['/recipient/badge-collections']">Collections</a>
+			<a [routerLink]="['/issuer']">Issuers</a>
+
+			<hr class="mobilenav-x-rule" *ngIf="launchpoints?.length">
+			<p class="mobilenav-x-label" *ngIf="launchpoints?.length">Apps</p>
+			<a href="{{lp.launch_url}}" *ngFor="let lp of launchpoints" target="_blank"> {{lp.label}} </a>
+
+			<hr class="mobilenav-x-rule" *ngIf="theme.customMenu">
+			<p class="mobilenav-x-label" *ngIf="theme.customMenu">{{ theme.customMenu.label }}</p>
+			<a [href]="item.url" *ngFor="let item of theme?.customMenu?.items" target="_blank"> {{ item.label }} </a>
+
+			<hr class="mobilenav-x-rule">
+			<p class="mobilenav-x-label">Account</p>
+			<a [routerLink]="['/profile/profile']">Profile</a>
+			<a [routerLink]="['/profile/app-integrations']">App Integrations</a>
+			<a [routerLink]="['/auth/logout']">Sign Out</a>
+		</div>
+	</nav>
+
 
 </header>
 <div class="loader l-stickyfooter-x-loader"></div>
 
 <main class="l-stickyfooter-x-main o-container">
 	<router-outlet *ngIf="!hasFatalError"></router-outlet>
+	<!-- children go here -->
 </main>
 
 <article *ngIf="hasFatalError" class="l-containerxaxis l-containeryaxis l-flex l-flex-justifycenter">
@@ -83,20 +138,25 @@
 <new-terms-dialog #newTermsDialog></new-terms-dialog>
 <share-social-dialog #shareSocialDialog></share-social-dialog>
 
-<!-- Main -->
+
+
+<!-- Footer -->
 <footer class="o-container">
 	<div class="l-containerxaxis">
 		<div class="footer l-stickyfooter-x-footer">
 
 			<ul class="footer-x-leftlinks">
 				<li *ngIf="theme.showPoweredByBadgr === undefined || theme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
-				<li *ngIf="theme.providedBy">Provided by <a href="{{ theme.providedBy.url}}" target="_blank">{{ theme.providedBy.name }}</a></li>
+				<li *ngIf="theme.providedBy">Provided by <a href="{{ theme.providedBy.url}}" target="_blank">{{
+						theme.providedBy.name }}</a></li>
 			</ul>
 
 			<ul class="footer-x-links">
 				<li><a [href]="theme.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
-				<li><a [href]="theme.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy Policy</a></li>
-				<li><a href="https://support.badgr.io/docs/" *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink" target="_blank">Documentation</a></li>
+				<li><a [href]="theme.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy
+						Policy</a></li>
+				<li><a href="https://support.badgr.io/docs/" *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink"
+					 target="_blank">Documentation</a></li>
 			</ul>
 
 		</div>
