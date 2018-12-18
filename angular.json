@@ -22,8 +22,7 @@
 							"src/unsupported-browser-warning.html"
 						],
 						"styles": [
-							"src/breakdown/static/css/reset.css",
-							"src/breakdown/static/scss/theme-default.scss"
+							"node_modules/@concentricsky/badgr-style/dist/css/iobadgr.min.css"
 						],
 						"scripts": [],
 						"customWebpackConfig": {
