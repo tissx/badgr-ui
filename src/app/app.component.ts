@@ -27,125 +27,12 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 // https://stackoverflow.com/questions/3680876/using-queryselectorall-to-retrieve-direct-children/21126966#21126966
 
 @Component({
-	selector: "app-root",
+	selector: 'app-root',
 	host: {
 		'(document:click)': 'onDocumentClick($event)',
 		'[class.app-is-hidden-chrome]': '! showAppChrome'
 	},
-	template: `
-		<header class="header l-containerhorizontal" *ngIf="showAppChrome">
-
-			<a class="logo" [class.logo-is-loading]="isRequestPending"
-			   [href]="isOAuthAuthorizationInProcess ? '#' : theme.alternateLandingUrl || '/'">
-				<picture>
-					<source media="(min-width: 640px)" [srcset]="logoDesktop">
-					<img [src]="logoSmall" alt="Logo">
-				</picture>
-			</a>
-
-			<a class="header-x-menu"
-			   href="javascript:void(0)"
-			   onclick="document.getElementById('menu').scrollIntoView(false)">Main Navigation</a>
-		</header>
-
-		<!--<form-message></form-message>-->
-
-		<div *ngIf="isUnsupportedBrowser" class="l-formmessage formmessage formmessage-is-{{status}}"
-		     [class.formmessage-is-active]="isUnsupportedBrowser">
-			<p>The Browser you are using isn’t fully supported. It may not display correctly and some features may not be accessible or function
-				properly.</p>
-			<button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
-		</div>
-
-		<article *ngIf="hasFatalError" class="emptyillustration l-containervertical">
-			<h1 *ngIf="fatalMessage"
-			    class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{fatalMessage}}</h1>
-			<h1 *ngIf="fatalMessageDetail"
-			    class="title title-bold title-center title-is-smallmobile title-line-height-large">{{fatalMessageDetail}}</h1>
-			<h1 *ngIf="!fatalMessage"
-			    class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops!
-				<span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
-			<h1 *ngIf="!fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and
-				try again.</h1>
-			<img [src]="unavailableImageSrc">
-		</article>
-
-		<router-outlet *ngIf="!hasFatalError"></router-outlet>
-
-		<confirm-dialog #confirmDialog></confirm-dialog>
-		<new-terms-dialog #newTermsDialog></new-terms-dialog>
-		<share-social-dialog #shareSocialDialog></share-social-dialog>
-
-		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
-			<div class="footer">
-				<ul>
-					<li *ngIf="theme.showPoweredByBadgr === undefined || theme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a>
-					</li>
-					<li *ngIf="theme.providedBy">
-						Provided by <a href="{{ theme.providedBy.url}}" target="_blank">{{ theme.providedBy.name }}</a>
-					</li>
-
-					<li><a [href]="theme.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
-					<li><a [href]="theme.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy Policy</a></li>
-				</ul>
-				<a href="https://support.badgr.io/docs/" *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink" target="_blank">Documentation</a>
-			</div>
-		</footer>
-
-		<nav class="menu" id="menu" *ngIf="showAppChrome">
-			<h1 class="visuallyhidden">Main Navigation</h1>
-
-			<ul>
-				<!-- Non-Authenticated Menu -->
-				<ng-template [ngIf]="! loggedIn">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/auth/login']">Sign In</a></li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/signup']">Create Account</a></li>
-					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
-						<button>Apps</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints" routerLinkActive="menuitem-is-active">
-								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
-							</li>
-						</ul>
-					</li>
-				</ng-template>
-
-				<!-- Authenticated Menu -->
-				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
-					</li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
-					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
-						<button>Apps</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints" routerLinkActive="menuitem-is-active">
-								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
-							</li>
-						</ul>
-					</li>
-					<li class="menuitem" *ngIf="theme.customMenu">
-						<button>{{ theme.customMenu.label }}</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let item of theme.customMenu.items">
-								<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
-						</ul>
-					</li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active">
-						<button>Account</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/profile/profile']">Profile</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/profile/app-integrations']">App Integrations</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
-						</ul>
-					</li>
-				</ng-template>
-			</ul>
-		</nav>
-	`
+	templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
