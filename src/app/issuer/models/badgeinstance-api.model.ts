@@ -64,6 +64,8 @@ export interface ApiBadgeInstance {
 
 	json: ApiBadgeInstanceJsonld
 	extensions?: object
+
+	public_url?: string
 }
 
 export interface BadgeInstanceBatchAssertion {
