@@ -22,7 +22,7 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 @Component({
 	selector: 'login',
 	template: `
-		<main *bgAwaitPromises="[ initFinished ]">
+		<ng-container *bgAwaitPromises="[ initFinished ]">
 			<form-message></form-message>
 
 			<div class="l-auth">
@@ -162,7 +162,7 @@ import {UserProfileManager} from "../common/services/user-profile-manager.servic
 					</div>
 				</form>
 			</div>
-		</main>
+		</ng-container>
 	`
 })
 export class LoginComponent extends BaseRoutableComponent implements OnInit, AfterViewInit {

@@ -37,8 +37,9 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
+	mobileNavOpen: boolean = false;
 	isUnsupportedBrowser: boolean = false;
-	launchpoints: ApiExternalToolLaunchpoint[];
+	launchpoints?: ApiExternalToolLaunchpoint[];
 
 	copyrightYear = new Date().getFullYear();
 
@@ -74,7 +75,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return (this.messageService.message ? this.messageService.message.detail : undefined);
 	}
 
-	readonly unavailableImageSrc = require("../breakdown/static/images/badgr-unavailable.svg");
+	readonly unavailableImageSrc = require("../../node_modules/@concentricsky/badgr-style/dist/images/image-error.svg");
 
 	constructor(
 		private sessionService: SessionService,
@@ -120,7 +121,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 	dismissUnsupportedBrowserMessage() {
 		this.isUnsupportedBrowser = false;
 	}
-
+	toggleMobileNav() {
+		this.mobileNavOpen = !this.mobileNavOpen;
+	}
 	get isOAuthAuthorizationInProcess() {
 		return this.oAuthManager.isAuthorizationInProgress;
 	}
