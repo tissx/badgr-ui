@@ -11,6 +11,7 @@ import {Title} from '@angular/platform-browser';
 import {markControlsDirty} from '../common/util/form-util';
 import {AppConfigService} from '../common/app-config.service';
 import {OAuthManager} from '../common/services/oauth-manager.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
 	selector: 'sign-up',
@@ -212,7 +213,9 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 						this.sendSignupConfirmation(formState.username);
 						resolve();
 					},
-					error => {
+					(response: HttpErrorResponse) => {
+						const error = response.error;
+
 						if (error) {
 							if (error.password) {
 								this.messageService.setMessage('Your password must be uncommon and at least 8 characters. Please try again.', 'error');

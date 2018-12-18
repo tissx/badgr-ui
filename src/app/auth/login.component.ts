@@ -17,6 +17,7 @@ import {QueryParametersService} from "../common/services/query-parameters.servic
 import {OAuthManager} from "../common/services/oauth-manager.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {HttpErrorResponse} from '@angular/common/http';
 
 
 @Component({
@@ -297,8 +298,9 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					});
 
 				},
-				(error) => {
-					const body = error.json();
+				(response: HttpErrorResponse) => {
+					const body = response.error as any;
+
 					let msg = "Login failed. Please check your email and password and try again.";
 					if (body['error'] == 'login attempts throttled') {
 						if (body['expires']) {
@@ -312,7 +314,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 							msg = "Too many login attempts. Please wait and try again."
 						}
 					}
-					this.messageService.reportHandledError(msg, error);
+					this.messageService.reportHandledError(msg, response);
 				}
 			)
 			.then(() => this.loginFinished = null);
