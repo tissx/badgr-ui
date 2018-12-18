@@ -1,5 +1,4 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { UserCredential } from "./user-credential.type";
+import {UserCredential} from "./user-credential.type";
 
 
 describe('UserCredential', () => {

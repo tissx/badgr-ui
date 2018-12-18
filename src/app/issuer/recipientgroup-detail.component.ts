@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
-import { Title } from "@angular/platform-browser";
-import { Issuer } from "./models/issuer.model";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { RecipientGroup, RecipientGroupMember } from "./models/recipientgroup.model";
-import { PathwaySelectionDialog } from "./pathway-selection-dialog.component";
-import { LearningPathway } from "./models/pathway.model";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { FormFieldText } from "../common/components/formfield-text";
-import { EmailValidator } from "../common/validators/email.validator";
-import { RecipientSelectionDialog } from "./recipient-selection-dialog.component";
-import { jsonCopy } from "../common/util/deep-assign";
-import { markControlsDirty } from "../common/util/form-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {RecipientGroupManager} from "./services/recipientgroup-manager.service";
+import {Title} from "@angular/platform-browser";
+import {Issuer} from "./models/issuer.model";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {RecipientGroup, RecipientGroupMember} from "./models/recipientgroup.model";
+import {PathwaySelectionDialog} from "./pathway-selection-dialog.component";
+import {LearningPathway} from "./models/pathway.model";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {FormFieldText} from "../common/components/formfield-text";
+import {EmailValidator} from "../common/validators/email.validator";
+import {RecipientSelectionDialog} from "./recipient-selection-dialog.component";
+import {jsonCopy} from "../common/util/deep-assign";
+import {markControlsDirty} from "../common/util/form-util";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'recipientGroup-detail',
@@ -258,12 +258,12 @@ export class RecipientGroupDetailComponent extends BaseAuthenticatedRoutableComp
 		protected formBuilder: FormBuilder,
 		protected recipientGroupManager: RecipientGroupManager,
 		protected issuerManager: IssuerManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Recipient Group Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Recipient Group Detail - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
 			issuer => this.issuer = issuer,

@@ -1,6 +1,7 @@
-import { ManagedEntity, AnyManagedEntity } from "./managed-entity";
-import { Observable } from "rxjs/Observable";
-import { UpdatableSubject } from "../util/updatable-subject";
+import {AnyManagedEntity, ManagedEntity} from "./managed-entity";
+import {Observable} from "rxjs";
+import {UpdatableSubject} from "../util/updatable-subject";
+import {first} from "rxjs/operators";
 
 /**
  * Interface for asynchronous sets of managed entities of various types.
@@ -81,8 +82,8 @@ export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
 		() => this.entityList.loadedPromise
 	);
 
-	get loaded$(): Observable<{ [groupId: string]: EntityType[] }> { return this.entireListSubject; }
-	get loadedPromise(): Promise<{ [groupId: string]: EntityType[] }> { return this.entireListSubject.first().toPromise(); }
+	get loaded$(): Observable<{ [groupId: string]: EntityType[] }> { return this.entireListSubject.asObservable(); }
+	get loadedPromise(): Promise<{ [groupId: string]: EntityType[] }> { return this.entireListSubject.pipe(first()).toPromise(); }
 
 	constructor(
 		private entityList: EntitySet<EntityType>,
@@ -125,8 +126,8 @@ export class ManagedEntityMapping<EntityType extends AnyManagedEntity> {
 		() => this.entityList.loadedPromise
 	);
 
-	get loaded$(): Observable<{ [mapId: string]: EntityType }> { return this.entireListSubject; }
-	get loadedPromise(): Promise<{ [mapId: string]: EntityType }> { return this.entireListSubject.first().toPromise(); }
+	get loaded$(): Observable<{ [mapId: string]: EntityType }> { return this.entireListSubject.asObservable(); }
+	get loadedPromise(): Promise<{ [mapId: string]: EntityType }> { return this.entireListSubject.pipe(first()).toPromise(); }
 
 	constructor(
 		private entityList: EntitySet<EntityType>,

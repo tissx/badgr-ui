@@ -1,21 +1,21 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { groupIntoArray, groupIntoObject } from "../common/util/array-reducers";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {groupIntoArray, groupIntoObject} from "../common/util/array-reducers";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
 
-import { AddBadgeDialogComponent } from "./add-badge-dialog.component";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { ApiRecipientBadgeIssuer } from "./models/recipient-badge-api.model";
-import { RecipientBadgeInstance } from "./models/recipient-badge.model";
-import { badgeShareDialogOptionsFor } from "./recipient-earned-badge-detail.component";
+import {AddBadgeDialogComponent} from "./add-badge-dialog.component";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {ApiRecipientBadgeIssuer} from "./models/recipient-badge-api.model";
+import {RecipientBadgeInstance} from "./models/recipient-badge.model";
+import {badgeShareDialogOptionsFor} from "./recipient-earned-badge-detail.component";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -40,7 +40,7 @@ type BadgeDispay = "grid" | "list" ;
 				<article class="emptyillustration l-containervertical" *ngIf="allBadges.length == 0">
 					<h1>You have no badges</h1>
 					  <div>
-					    Collect and share digital badges you've earned from {{configService.thm['serviceName'] || "Badgr"}} or any Open Badges issuer.
+					    Collect and share digital badges you've earned from {{configService.theme['serviceName'] || "Badgr"}} or any Open Badges issuer.
 					    <a href="https://openbadges.org" target="_blank">Learn more</a> about Open Badges
 					  </div>
 					<img [src]="noBadgesImageUrl" alt="Illustration description">
@@ -224,9 +224,9 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	@ViewChild("addBadgeDialog")
 	addBadgeDialog: AddBadgeDialogComponent;
 
-	allBadges: RecipientBadgeInstance[];
+	allBadges: RecipientBadgeInstance[] = [];
 	badgesLoaded: Promise<any>;
-	allIssuers: ApiRecipientBadgeIssuer[];
+	allIssuers: ApiRecipientBadgeIssuer[] = [];
 
 	badgeResults: BadgeResult[] = [];
 	issuerResults: MatchingIssuerBadges[] = [];
@@ -267,12 +267,12 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		private dialogService: CommonDialogsService,
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
-		private configService: SystemConfigService,
+		public configService: AppConfigService,
 		private profileManager: UserProfileManager
 	) {
 		super(router, route, sessionService);
 
-		title.setTitle(`Backpack - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Backpack - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));

@@ -1,17 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
-import { RecipientBadgeCollectionManager } from "./services/recipient-badge-collection-manager.service";
-import { RecipientBadgeCollection } from "./models/recipient-badge-collection.model";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { SessionService } from "../common/services/session.service";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { shareCollectionDialogOptionsFor } from "./recipient-badge-collection-detail.component";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {RecipientBadgeCollectionManager} from "./services/recipient-badge-collection-manager.service";
+import {RecipientBadgeCollection} from "./models/recipient-badge-collection.model";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {SessionService} from "../common/services/session.service";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {shareCollectionDialogOptionsFor} from "./recipient-badge-collection-detail.component";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'recipient-badge-collection-list',
@@ -116,12 +115,12 @@ export class RecipientBadgeCollectionListComponent extends BaseAuthenticatedRout
 		private messageService: MessageService,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager,
 		private recipientBadgeManager: RecipientBadgeManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Collections - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Collections - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.collectionListLoaded = Promise.all([
 			this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,

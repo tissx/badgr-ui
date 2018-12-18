@@ -1,5 +1,4 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { deepAssign, isPositiveInteger, toJsonInclArrayProps, jsonCopy } from "./deep-assign";
+import {deepAssign, jsonCopy, toJsonInclArrayProps} from "./deep-assign";
 
 const assign = Object.assign;
 

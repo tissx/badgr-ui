@@ -1,15 +1,17 @@
 import {
-	BadgeInstanceUrl,
 	ApiBadgeInstance,
+	ApiBadgeInstanceEvidenceItem,
+	ApiBadgeInstanceForBatchCreation,
+	ApiBadgeInstanceForCreation,
 	BadgeInstanceRef,
-	ApiBadgeInstanceForCreation, ApiBadgeInstanceForBatchCreation, ApiBadgeInstanceEvidenceItem
+	BadgeInstanceUrl
 } from "./badgeinstance-api.model";
-import { BadgeClassUrl } from "./badgeclass-api.model";
-import { IssuerUrl } from "./issuer-api.model";
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { ApiEntityRef } from "../../common/model/entity-ref";
-import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
-import { BadgeInstanceManager } from "../services/badgeinstance-manager.service";
+import {BadgeClassUrl} from "./badgeclass-api.model";
+import {IssuerUrl} from "./issuer-api.model";
+import {ManagedEntity} from "../../common/model/managed-entity";
+import {ApiEntityRef} from "../../common/model/entity-ref";
+import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
+import {BadgeInstanceManager} from "../services/badgeinstance-manager.service";
 import {PaginationResults} from "../services/badgeinstance-api.service";
 
 

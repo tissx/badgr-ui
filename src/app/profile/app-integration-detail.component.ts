@@ -1,12 +1,12 @@
-import { OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { AppIntegration } from "./models/app-integration.model";
-import { AppIntegrationManager } from "./services/app-integration-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {AppIntegration} from "./models/app-integration.model";
+import {AppIntegrationManager} from "./services/app-integration-manager.service";
+import {AppConfigService} from "../common/app-config.service";
 
 export abstract class AppIntegrationDetailComponent<
 	T extends AppIntegration<any>
@@ -22,10 +22,10 @@ export abstract class AppIntegrationDetailComponent<
 		private title: Title,
 		private messageService: MessageService,
 		private appIntegrationManager: AppIntegrationManager,
-		private configService: SystemConfigService
+		private configService: AppConfigService
 	) {
 		super(router, route, loginService);
-		title.setTitle(`App Integrations - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`App Integrations - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.integrationPromise = appIntegrationManager.appIntegrations.loadedPromise.then(
 			list => {

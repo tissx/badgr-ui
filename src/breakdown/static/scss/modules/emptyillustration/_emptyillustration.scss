@@ -13,8 +13,8 @@
 }
 
 .emptyillustration {
-  color: $color-secondary;
-  font-size: $font-size-large2;
+  color: var(--color-secondary);
+  font-size: var(--font-size-large2);
   font-weight: bold;
   padding-bottom: $gridspacing * 20;
   text-align: center;
@@ -24,7 +24,7 @@
   }
 
   div{
-    font-size: $font-size;
+    font-size: var(--font-size);
     font-weight: normal;
     line-height: $line-height-large2;
     margin-bottom: $gridspacing * 3;

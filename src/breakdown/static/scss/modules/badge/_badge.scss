@@ -14,8 +14,8 @@
   }
 
   &.badge-is-active {
-    background-color: $color-light1;
-    box-shadow: 0 0 0 1px $color-dark3;
+    background-color: var(--color-light1);
+    box-shadow: 0 0 0 1px var(--color-dark3);
   }
 
   &.badge-is-noMargin {
@@ -29,7 +29,7 @@
 
   &.badge-is-locked::after {
     position: absolute;
-    color: $color-dark2;
+    color: var(--color-dark2);
     top: 0;
     right: 0;
     content: "\f023";
@@ -44,8 +44,8 @@
 }
 
 :checked + label .badge {
-  background: $color-light1;
-  box-shadow: 0 0 0 1px $color-dark3;
+  background: var(--color-light1);
+  box-shadow: 0 0 0 1px var(--color-dark3);
 }
 
 .badge-flat {

@@ -1,9 +1,6 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-
-
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import { BaseDialog } from "./base-dialog";
-import {SystemConfigService} from "../services/config.service";
+import {Component, ElementRef, Renderer2} from "@angular/core";
+import {BaseDialog} from "./base-dialog";
+import {AppConfigService} from "../app-config.service";
 import {UserProfileManager} from "../services/user-profile-manager.service";
 import {UserProfile} from "../model/user-profile.model";
 
@@ -48,7 +45,7 @@ export class NewTermsDialog extends BaseDialog {
 	constructor(
 		componentElem: ElementRef,
 		renderer: Renderer2,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private profileManager: UserProfileManager
 	) {
 		super(componentElem, renderer);
@@ -65,11 +62,11 @@ export class NewTermsDialog extends BaseDialog {
 	}
 
 	get termsOfServiceLink() {
-		return this.configService.thm['termsOfServiceLink'] || 'https://badgr.org/missing-terms';
+		return this.configService.theme['termsOfServiceLink'] || 'https://badgr.org/missing-terms';
 	}
 
 	get termsHelpLink() {
-		return this.configService.thm['termsHelpLink'] || 'https://badgr.org/missing-terms-help';
+		return this.configService.theme['termsHelpLink'] || 'https://badgr.org/missing-terms-help';
 	}
 
 	get isErrorState(): boolean {

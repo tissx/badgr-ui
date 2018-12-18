@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { MessageService } from "../common/services/message.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { Issuer } from "./models/issuer.model";
-import { BadgeClass } from "./models/badgeclass.model";
-import { Title } from "@angular/platform-browser";
-import { preloadImageURL } from "../common/util/file-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {MessageService} from "../common/services/message.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {Issuer} from "./models/issuer.model";
+import {BadgeClass} from "./models/badgeclass.model";
+import {Title} from "@angular/platform-browser";
+import {preloadImageURL} from "../common/util/file-util";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -105,14 +105,14 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 		protected title: Title,
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected badgeClassService: BadgeClassManager,
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute
 	) {
 		super(router, route, loginService);
-		title.setTitle(`Issuers - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Issuers - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		// subscribe to issuer and badge class changes
 		this.issuersLoaded = new Promise((resolve, reject) => {

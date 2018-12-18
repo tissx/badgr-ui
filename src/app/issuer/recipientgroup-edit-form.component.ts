@@ -1,13 +1,11 @@
-import { Component, Input } from "@angular/core";
+import {Component, Input} from "@angular/core";
 
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MessageService } from "../common/services/message.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from "../common/services/message.service";
 
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { BadgeImageComponent } from "../common/components/badge-image.component";
-import { FormFieldText } from "../common/components/formfield-text";
-import { RecipientGroup } from "./models/recipientgroup.model";
-import { markControlsDirty } from "../common/util/form-util";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {RecipientGroup} from "./models/recipientgroup.model";
+import {markControlsDirty} from "../common/util/form-util";
 
 @Component({
 	selector: 'recipientgroup-edit-form',

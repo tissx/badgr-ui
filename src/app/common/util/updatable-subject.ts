@@ -1,5 +1,4 @@
-import { Subject } from "rxjs/Subject";
-import { Subscriber } from "rxjs/Subscriber";
+import {Subject, Subscriber} from "rxjs";
 
 /**
  * A Subject for objects that will be loaded at some point and may be subsequently updated. Acts like a promise with updates:
@@ -9,7 +8,7 @@ import { Subscriber } from "rxjs/Subscriber";
  * @class UpdatableSubject<T>
  */
 export class UpdatableSubject<T> extends Subject<T> {
-	private _value: T;
+	private _value: T | null = null;
 	private _valueSet: boolean = false;
 
 	private hasFirstSubscriber = false;
@@ -24,7 +23,7 @@ export class UpdatableSubject<T> extends Subject<T> {
 		super();
 	}
 
-	getValue(): T {
+	getValue(): T | null {
 		if (this.hasError) {
 			throw this.thrownError;
 		} else {
@@ -32,7 +31,7 @@ export class UpdatableSubject<T> extends Subject<T> {
 		}
 	}
 
-	get value(): T {
+	get value(): T | null {
 		return this.getValue();
 	}
 
@@ -40,7 +39,7 @@ export class UpdatableSubject<T> extends Subject<T> {
 		return this._valueSet;
 	}
 
-	protected _subscribe(
+	_subscribe(
 		subscriber: Subscriber<T>
 	) {
 		const subscription = super._subscribe(subscriber);
@@ -51,7 +50,7 @@ export class UpdatableSubject<T> extends Subject<T> {
 		}
 
 		if (this._valueSet && subscription) {
-			subscriber.next(this._value);
+			requestAnimationFrame(() => subscriber.next(this._value!));
 		}
 
 		return subscription;
@@ -72,6 +71,9 @@ export class UpdatableSubject<T> extends Subject<T> {
 		this.next(value);
 	}
 
+	/**
+	 * Resets this subject to a just-initialized state, with no current value.
+	 */
 	reset() {
 		this._value = null;
 		this._valueSet = false;

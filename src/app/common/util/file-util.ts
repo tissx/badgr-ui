@@ -10,9 +10,9 @@ export function readFile<T>(
 
 	reader.onload = e => {
 		const fr: FileReader = <FileReader>e.target;
-		resolve(fr.result as T);
+		resolve(fr.result as unknown as T);
 	};
-	reader.onerror = (e: ErrorEvent) => {
+	reader.onerror = e => {
 		reject(e);
 	};
 

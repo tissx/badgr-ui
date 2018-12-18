@@ -1,4 +1,4 @@
-import { ApiEntityRef } from "./entity-ref";
+import {ApiEntityRef} from "./entity-ref";
 
 export type ApiOAuthResponse = ApiOAuth2AppInfo | ApiOAuth2ClientAuthorized;
 

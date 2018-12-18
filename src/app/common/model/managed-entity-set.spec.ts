@@ -1,10 +1,9 @@
-import { ManagedEntity } from "./managed-entity";
-import { ManagedEntitySet, StandaloneEntitySet, ListBackedEntitySet } from "./managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import {
-	TestEntity, ApiTestEntity, buildTestEntities
-} from "./managed-entity.spec";
-import { TestBed, inject } from "@angular/core/testing";
+import {ManagedEntity} from "./managed-entity";
+import {ListBackedEntitySet, ManagedEntitySet, StandaloneEntitySet} from "./managed-entity-set";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {ApiTestEntity, buildTestEntities, TestEntity} from "./managed-entity.spec";
+import {inject, TestBed} from "@angular/core/testing";
+import {filter, first} from "rxjs/operators";
 
 describe('StandaloneEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -120,8 +119,10 @@ describe('StandaloneEntitySet', () => {
 						list.applyApiData([ testApiEntity1, testApiEntity2 ])
 					),
 				list.loaded$
-					.filter(list => list.entities.length == 2)
-					.first().toPromise()
+					.pipe(
+						filter(list => list.entities.length == 2),
+						first()
+					).toPromise()
 					.then(
 						update => verifyManagedEntitySet(list, [ testApiEntity1, testApiEntity2 ])
 					)
@@ -145,8 +146,11 @@ describe('StandaloneEntitySet', () => {
 						list.applyApiData([ testApiEntity1 ])
 					),
 				list.loaded$
-					.filter(list => list.entities.length == 1)
-					.first().toPromise()
+					.pipe(
+						filter(list => list.entities.length == 1),
+						first()
+					)
+					.toPromise()
 					.then(
 						update => verifyManagedEntitySet(list, [ testApiEntity1 ])
 					)
@@ -173,8 +177,10 @@ describe('StandaloneEntitySet', () => {
 						expect(list.remove(entityToRemove)).toBeFalsy();
 					}),
 				list.loaded$
-					.filter(list => list.entities.length == 1)
-					.first().toPromise()
+					.pipe(
+						filter(list => list.entities.length == 1),
+						first()
+					).toPromise()
 					.then(
 						update => verifyManagedEntitySet(list, [ testApiEntity1 ])
 					)
@@ -201,8 +207,11 @@ describe('StandaloneEntitySet', () => {
 						expect(list.removeAll(entitiesToRemove)).toBeFalsy();
 					}),
 				list.loaded$
-					.filter(list => list.entities.length == 1)
-					.first().toPromise()
+					.pipe(
+						filter(list => list.entities.length == 1),
+						first()
+					)
+					.toPromise()
 					.then(
 						update => verifyManagedEntitySet(list, [ testApiEntity1 ])
 					)
@@ -226,8 +235,10 @@ describe('StandaloneEntitySet', () => {
 						list.addOrUpdate(testApiEntity2)
 					),
 				list.loaded$
-					.filter(list => list.entities.length == 2)
-					.first().toPromise()
+					.pipe(
+						filter(list => list.entities.length == 2),
+						first()
+					).toPromise()
 					.then(
 						update => verifyManagedEntitySet(list, [ testApiEntity1, testApiEntity2 ])
 					)

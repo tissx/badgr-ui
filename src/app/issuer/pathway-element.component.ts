@@ -1,15 +1,15 @@
-import { Component, Input } from "@angular/core";
-import { FormControl, FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { UrlValidator } from "../common/validators/url.validator";
-import { PathwayDetailComponent } from "./pathway-detail.component";
-import { LearningPathwayElement } from "./models/pathway.model";
-import { MessageService } from "../common/services/message.service";
-import { BadgeSelectionDialogOptions } from "./badge-selection-dialog.component";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { ApiElementRequirementJunctionType } from "./models/pathway-api.model";
-import { BadgeClassUrl, BadgeClassSlug, BadgeClassRef } from "./models/badgeclass-api.model";
-import { markControlsDirty } from "../common/util/form-util";
-import { Router } from "@angular/router";
+import {Component, Input} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {UrlValidator} from "../common/validators/url.validator";
+import {PathwayDetailComponent} from "./pathway-detail.component";
+import {LearningPathwayElement} from "./models/pathway.model";
+import {MessageService} from "../common/services/message.service";
+import {BadgeSelectionDialogOptions} from "./badge-selection-dialog.component";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {ApiElementRequirementJunctionType} from "./models/pathway-api.model";
+import {BadgeClassRef, BadgeClassSlug, BadgeClassUrl} from "./models/badgeclass-api.model";
+import {markControlsDirty} from "../common/util/form-util";
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'pathway-element',

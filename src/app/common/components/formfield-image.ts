@@ -1,8 +1,8 @@
-import { Component, Input, ElementRef } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { readFileAsDataURL, loadImageURL, preloadImageURL, base64ByteSize } from "../util/file-util";
-import { DomSanitizer } from '@angular/platform-browser';
-import { throwExpr } from "../util/throw-expr";
+import {Component, ElementRef, Input} from "@angular/core";
+import {FormControl} from "@angular/forms";
+import {base64ByteSize, loadImageURL, preloadImageURL, readFileAsDataURL} from "../util/file-util";
+import {DomSanitizer} from '@angular/platform-browser';
+import {throwExpr} from "../util/throw-expr";
 
 @Component({
 	selector: 'bg-formfield-image',

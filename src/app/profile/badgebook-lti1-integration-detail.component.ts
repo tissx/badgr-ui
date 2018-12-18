@@ -1,12 +1,12 @@
-import { Component, Input } from "@angular/core";
-import { BadebookLti1Integration } from "./models/app-integration.model";
-import { AppIntegrationDetailComponent } from "./app-integration-detail.component";
-import { SessionService } from "../common/services/session.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Title } from "@angular/platform-browser";
-import { MessageService } from "../common/services/message.service";
-import { AppIntegrationManager } from "./services/app-integration-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, Input} from "@angular/core";
+import {BadebookLti1Integration} from "./models/app-integration.model";
+import {AppIntegrationDetailComponent} from "./app-integration-detail.component";
+import {SessionService} from "../common/services/session.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
+import {MessageService} from "../common/services/message.service";
+import {AppIntegrationManager} from "./services/app-integration-manager.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -130,7 +130,7 @@ export class BadgebookLti1DetailComponent extends AppIntegrationDetailComponent<
 		title: Title,
 		messageService: MessageService,
 		appIntegrationManager: AppIntegrationManager,
-		configService: SystemConfigService
+		configService: AppConfigService
 	) {
 		super(loginService, route, router, title, messageService, appIntegrationManager, configService);
 	}

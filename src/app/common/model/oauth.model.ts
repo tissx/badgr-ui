@@ -1,5 +1,5 @@
-import { ManagedEntity } from "./managed-entity";
-import { ApiOAuth2AppAuthorization, OAuth2AppAuthorizationRef } from "./oauth-api.model";
+import {ManagedEntity} from "./managed-entity";
+import {ApiOAuth2AppAuthorization, OAuth2AppAuthorizationRef} from "./oauth-api.model";
 
 export class OAuth2AppAuthorization extends ManagedEntity<ApiOAuth2AppAuthorization, OAuth2AppAuthorizationRef> {
 	protected buildApiRef(): OAuth2AppAuthorizationRef {

@@ -1,15 +1,6 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-
-import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
-import { Angulartics2 } from "angulartics2";
-
-import { MessageService } from "./common/services/message.service";
-import { SessionService } from "./common/services/session.service";
-import { CommonDialogsService } from "./common/services/common-dialogs.service";
-import { SystemConfigService } from "./common/services/config.service";
-import { ShareSocialDialog } from "./common/dialogs/share-social-dialog.component";
-import { ConfirmDialog } from "./common/dialogs/confirm-dialog.component";
+import {Component} from "@angular/core";
+import {Router} from "@angular/router";
+import {SessionService} from "./common/services/session.service";
 
 import "../thirdparty/scopedQuerySelectorShim";
 

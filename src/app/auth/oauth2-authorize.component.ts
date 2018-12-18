@@ -1,16 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { AuthAttemptResult, OAuthManager, ScopeGroupRule } from "../common/services/oauth-manager.service";
-import { QueryParametersService } from "../common/services/query-parameters.service";
-import { MessageService } from "../common/services/message.service";
-import { ApiOAuth2AppInfo, OAuth2RequestParams } from "../common/model/oauth-api.model";
-import { throwExpr } from "../common/util/throw-expr";
-import { flatten } from "../common/util/array-reducers";
-import { Title } from "@angular/platform-browser";
-import { InitialLoadingIndicatorService } from "../common/services/initial-loading-indicator.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {BaseRoutableComponent} from "../common/pages/base-routable.component";
+import {AuthAttemptResult, OAuthManager} from "../common/services/oauth-manager.service";
+import {QueryParametersService} from "../common/services/query-parameters.service";
+import {MessageService} from "../common/services/message.service";
+import {OAuth2RequestParams} from "../common/model/oauth-api.model";
+import {throwExpr} from "../common/util/throw-expr";
+import {Title} from "@angular/platform-browser";
+import {InitialLoadingIndicatorService} from "../common/services/initial-loading-indicator.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -79,11 +78,11 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 		protected loginService: SessionService,
 		protected oAuthManager: OAuthManager,
 		protected queryParams: QueryParametersService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		protected initialLoadingIndicatorService: InitialLoadingIndicatorService
 	) {
 		super(router, route);
-		title.setTitle(`Authorize - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Authorize - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
 	get authorizingApp() {
@@ -127,7 +126,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 						.then(
 							state => {
 								if (state == AuthAttemptResult.AUTHORIZATION_REQUIRED) {
-									this.title.setTitle(`Authorize ${this.authorizingApp.application.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+									this.title.setTitle(`Authorize ${this.authorizingApp.application.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 									// We'll stay on this page to perform the authorization
 								} else if (state == AuthAttemptResult.LOGIN_REQUIRED) {
 									return this.router.navigate([ '/auth/login' ]);

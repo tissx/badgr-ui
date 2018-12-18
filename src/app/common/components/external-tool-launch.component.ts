@@ -1,7 +1,7 @@
-import { ViewChild, OnDestroy, Component, ElementRef } from "@angular/core";
+import {Component, ElementRef, OnDestroy, ViewChild} from "@angular/core";
 import {ApiExternalToolLaunchInfo} from "../../externaltools/models/externaltools-api.model";
 import {EventsService} from "../services/events.service";
-import { Subscription } from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 
 
 @Component({

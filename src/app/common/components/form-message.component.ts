@@ -1,9 +1,9 @@
-import { OnInit, OnDestroy, Component, Input, ElementRef } from "@angular/core";
-import { MessageService, FlashMessage } from "../services/message.service";
+import {Component, ElementRef, OnDestroy, OnInit} from "@angular/core";
+import {FlashMessage, MessageService} from "../services/message.service";
 
-import { Router } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
-import { EventsService } from "../services/events.service";
+import {Router} from "@angular/router";
+import {Subscription} from "rxjs";
+import {EventsService} from "../services/events.service";
 
 
 @Component({

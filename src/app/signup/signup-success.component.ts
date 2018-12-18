@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router, } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router,} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -34,10 +34,10 @@ export class SignupSuccessComponent implements OnInit {
 		private routeParams: ActivatedRoute,
 		private title: Title,
 		private sessionService: SessionService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private router: Router
 	) {
-		title.setTitle(`Verification - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Verification - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
 	ngOnInit() {
@@ -51,6 +51,6 @@ export class SignupSuccessComponent implements OnInit {
 		return `mailto:${this.configService.helpConfig ? this.configService.helpConfig.email || 'help@badgr.io' : 'help@badgr.io'}`;
 	}
 	get service() {
-		return this.configService.thm['serviceName'] || "Badgr"
+		return this.configService.theme['serviceName'] || "Badgr"
 	}
 }

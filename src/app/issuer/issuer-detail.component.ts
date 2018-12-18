@@ -1,28 +1,25 @@
-import { Component, forwardRef, Inject, OnInit } from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { MessageService } from "../common/services/message.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { Issuer, issuerRoleInfoFor } from "./models/issuer.model";
-import { BadgeClass } from "./models/badgeclass.model";
-import { Title } from "@angular/platform-browser";
-import { LearningPathway } from "./models/pathway.model";
-import { PathwayManager } from "./services/pathway-manager.service";
-import { RecipientGroup } from "./models/recipientgroup.model";
-import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
-import { preloadImageURL } from "../common/util/file-util";
-import { ApiUserProfileEmail } from "../common/model/user-profile-api.model";
-import { ApiIssuerStaff, IssuerStaffRoleSlug } from "./models/issuer-api.model";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfileEmail } from "../common/model/user-profile.model";
-import { CommonEntityManager } from "../entity-manager/common-entity-manager.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {MessageService} from "../common/services/message.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {Issuer} from "./models/issuer.model";
+import {BadgeClass} from "./models/badgeclass.model";
+import {Title} from "@angular/platform-browser";
+import {LearningPathway} from "./models/pathway.model";
+import {PathwayManager} from "./services/pathway-manager.service";
+import {RecipientGroup} from "./models/recipientgroup.model";
+import {RecipientGroupManager} from "./services/recipientgroup-manager.service";
+import {preloadImageURL} from "../common/util/file-util";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfileEmail} from "../common/model/user-profile.model";
 
-import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
-import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {ApiExternalToolLaunchpoint} from "app/externaltools/models/externaltools-api.model";
+import {ExternalToolsManager} from "app/externaltools/services/externaltools-manager.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -269,12 +266,12 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected badgeClassService: BadgeClassManager,
 		protected recipientGroupManager: RecipientGroupManager,
 		protected profileManager: UserProfileManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Issuer Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Issuer Detail - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
 
@@ -285,7 +282,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then(
 			(issuer) => {
 				this.issuer = issuer;
-				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 				this.badgesLoaded = new Promise((resolve, reject) => {
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(

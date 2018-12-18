@@ -1,12 +1,12 @@
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, } from "@angular/router";
-import { EmailValidator } from "../common/validators/email.validator";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
+import {Component} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router,} from "@angular/router";
+import {EmailValidator} from "../common/validators/email.validator";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
 
-import { markControlsDirty } from "../common/util/form-util";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
+import {markControlsDirty} from "../common/util/form-util";
+import {BaseRoutableComponent} from "../common/pages/base-routable.component";
 
 @Component({
 	selector: 'password-reset-request',

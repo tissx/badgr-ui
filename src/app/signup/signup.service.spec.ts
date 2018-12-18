@@ -1,18 +1,18 @@
-import { BaseRequestOptions, Http, Response, ResponseOptions } from "@angular/http";
-import { MockBackend } from "@angular/http/testing";
-import { TestBed, inject } from "@angular/core/testing";
-import { SystemConfigService } from "../common/services/config.service";
-import { SignupModel } from "./signup-model.type";
-import { SignupService } from "./signup.service";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
+import {BaseRequestOptions, Http, Response, ResponseOptions} from "@angular/http";
+import {MockBackend} from "@angular/http/testing";
+import {inject, TestBed} from "@angular/core/testing";
+import {AppConfigService} from "../common/app-config.service";
+import {SignupModel} from "./signup-model.type";
+import {SignupService} from "./signup.service";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
 
 
 describe('SignupService', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,

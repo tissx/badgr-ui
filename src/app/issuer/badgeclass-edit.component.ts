@@ -1,25 +1,24 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Title} from "@angular/platform-browser";
 
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Issuer } from "./models/issuer.model";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Issuer} from "./models/issuer.model";
 
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { markControlsDirty } from "../common/util/form-util";
-import { BadgeClass } from "./models/badgeclass.model";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import { BadgeStudioComponent } from "./badge-studio.component";
-import { BgFormFieldImageComponent } from "../common/components/formfield-image";
-import { BadgeInstanceManager } from "./services/badgeinstance-manager.service";
-import { BadgeClassInstances, BadgeInstance } from "./models/badgeinstance.model";
-import { EventsService } from "../common/services/events.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgeClass} from "./models/badgeclass.model";
+import {BadgrApiFailure} from "../common/services/api-failure";
+import {BadgeStudioComponent} from "./badge-studio.component";
+import {BgFormFieldImageComponent} from "../common/components/formfield-image";
+import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
+import {BadgeClassInstances, BadgeInstance} from "./models/badgeinstance.model";
+import {EventsService} from "../common/services/events.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'badgeclass-edit',
@@ -101,11 +100,11 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 		protected badgeManager: BadgeClassManager,
 		protected issuerManager: IssuerManager,
 		protected badgeInstanceManager: BadgeInstanceManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected badgeClassManager: BadgeClassManager
 	) {
 		super(router, route, sessionService);
-		title.setTitle(`Edit Badge Class - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Edit Badge Class - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgeClassLoaded = badgeManager.badgeByIssuerSlugAndSlug(
 			this.issuerSlug,

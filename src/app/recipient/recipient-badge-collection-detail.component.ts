@@ -1,17 +1,17 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { RecipientBadgeSelectionDialog } from "./recipient-badge-selection-dialog.component";
-import { RecipientBadgeCollection, RecipientBadgeCollectionEntry } from "./models/recipient-badge-collection.model";
-import { RecipientBadgeCollectionManager } from "./services/recipient-badge-collection-manager.service";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { SessionService } from "../common/services/session.service";
-import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
-import { addQueryParamsToUrl } from "../common/util/url-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {RecipientBadgeSelectionDialog} from "./recipient-badge-selection-dialog.component";
+import {RecipientBadgeCollection, RecipientBadgeCollectionEntry} from "./models/recipient-badge-collection.model";
+import {RecipientBadgeCollectionManager} from "./services/recipient-badge-collection-manager.service";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {SessionService} from "../common/services/session.service";
+import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
+import {addQueryParamsToUrl} from "../common/util/url-util";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -142,12 +142,12 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Collections - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Collections - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.collectionLoadedPromise = Promise.all([
 				this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,

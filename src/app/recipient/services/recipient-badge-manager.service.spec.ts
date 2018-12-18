@@ -1,27 +1,28 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { SystemConfigService } from "../../common/services/config.service";
-import { MockBackend } from "@angular/http/testing";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import { expectRequestAndRespondWith } from "../../common/util/mock-response-util";
-import { verifyManagedEntitySet, verifyEntitySetWhenLoaded } from "../../common/model/managed-entity-set.spec";
-import { RecipientBadgeApiService } from "./recipient-badges-api.service";
-import { RecipientBadgeManager } from "./recipient-badge-manager.service";
-import { ApiRecipientBadgeInstance } from "../models/recipient-badge-api.model";
-import { buildTestRecipientBadges } from "../models/recipient-badge.model.spec";
-import { RecipientBadgeCollectionManager } from "./recipient-badge-collection-manager.service";
-import { buildTestRecipientBadgeCollections } from "../models/recipient-badge-collection.model.spec";
-import { expectAllCollectionsRequest, expectCollectionPut } from "./recipient-badge-collection-manager.service.spec";
-import { RecipientBadgeCollectionApiService } from "./recipient-badge-collection-api.service";
-import { MessageService } from "../../common/services/message.service";
-import { EventsService } from "../../common/services/events.service";
-import { SessionService } from "../../common/services/session.service";
+import {inject, TestBed} from "@angular/core/testing";
+import {AppConfigService} from "../../common/app-config.service";
+import {MockBackend} from "@angular/http/testing";
+import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {expectRequestAndRespondWith} from "../../common/util/mock-response-util.spec";
+import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
+import {RecipientBadgeApiService} from "./recipient-badges-api.service";
+import {RecipientBadgeManager} from "./recipient-badge-manager.service";
+import {ApiRecipientBadgeInstance} from "../models/recipient-badge-api.model";
+import {buildTestRecipientBadges} from "../models/recipient-badge.model.spec";
+import {RecipientBadgeCollectionManager} from "./recipient-badge-collection-manager.service";
+import {buildTestRecipientBadgeCollections} from "../models/recipient-badge-collection.model.spec";
+import {expectAllCollectionsRequest, expectCollectionPut} from "./recipient-badge-collection-manager.service.spec";
+import {RecipientBadgeCollectionApiService} from "./recipient-badge-collection-api.service";
+import {MessageService} from "../../common/services/message.service";
+import {EventsService} from "../../common/services/events.service";
+import {SessionService} from "../../common/services/session.service";
+import {first, skip} from "rxjs/operators";
 
 describe('RecipientBadgeManger', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,
@@ -163,11 +164,19 @@ describe('RecipientBadgeManger', () => {
 							return badge.collections.loadedPromise.then(
 								collections => {
 									try {
-										return badge.collections.changed$.skip(1).first().toPromise().then(() =>
-											expect(collections.entities.map(e => e.url))
-												.toEqual(collectionManager.recipientBadgeCollectionList.entitiesForApiEntities([ containingCollection ]).map(
-													e => e.url))
-										)
+										return badge.collections.changed$
+											.pipe(
+												skip(1),
+												first()
+											).toPromise()
+											.then(() =>
+												expect(collections.entities.map(e => e.url))
+													.toEqual(
+														collectionManager.recipientBadgeCollectionList
+															.entitiesForApiEntities([ containingCollection ])
+															.map(e => e.url)
+													)
+											)
 									} finally {
 										collectionList.entityForApiEntity(containingCollection).addBadge(badge);
 									}

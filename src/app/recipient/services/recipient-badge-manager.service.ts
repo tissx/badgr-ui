@@ -1,10 +1,10 @@
-import { Injectable, forwardRef, Inject } from "@angular/core";
-import { RecipientBadgeApiService } from "./recipient-badges-api.service";
-import { RecipientBadgeInstance } from "../models/recipient-badge.model";
-import { ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo } from "../models/recipient-badge-api.model";
-import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import { EventsService } from "../../common/services/events.service";
+import {forwardRef, Inject, Injectable} from "@angular/core";
+import {RecipientBadgeApiService} from "./recipient-badges-api.service";
+import {RecipientBadgeInstance} from "../models/recipient-badge.model";
+import {ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo} from "../models/recipient-badge-api.model";
+import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {EventsService} from "../../common/services/events.service";
 
 const test = [CommonEntityManager];
 

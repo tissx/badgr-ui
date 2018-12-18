@@ -1,9 +1,9 @@
 .status {
-  border-radius: $border-radius;
+  border-radius: var(--border-radius);
   box-sizing: border-box;
-  color: $color-light1;
+  color: var(--color-light1);
   display: inline-block;
-  font-size: $font-size-small2;
+	font-size: var(--font-size-small2);
   font-weight: bold;
   line-height: 1;
   padding: 5px 10px;
@@ -11,9 +11,9 @@
 }
 
 .status-new {
-  background-color: map-get($states, pending);
+  background-color: var(--color-pending);
 }
 
 .status-expired {
-  background-color: $color-dark2;
+  background-color: var(--color-dark2);
 }

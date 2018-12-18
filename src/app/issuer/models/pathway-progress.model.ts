@@ -1,5 +1,6 @@
-import { LearningPathway, LearningPathwayElement } from "./pathway.model";
-import { EntityRef } from "../../common/model/entity-ref";
+import {LearningPathway, LearningPathwayElement} from "./pathway.model";
+import {EntityRef} from "../../common/model/entity-ref";
+
 export class PathwayEarnerProgressDetail {
 	earnedBadgeIds: string[] = [];
 	requiredBadgeIds: string[] = [];

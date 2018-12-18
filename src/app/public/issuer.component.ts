@@ -1,13 +1,13 @@
-import { Component, Injector } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {Component, Injector} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
 
-import { preloadImageURL } from "../common/util/file-util";
-import { PublicApiService } from "./services/public-api.service";
-import { LoadedRouteParam } from "../common/util/loaded-route-param";
-import { PublicApiBadgeClass, PublicApiIssuer } from "./models/public-api.model";
-import { EmbedService } from "../common/services/embed.service";
-import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../common/util/url-util";
-import { routerLinkForUrl } from "./public.component";
+import {preloadImageURL} from "../common/util/file-util";
+import {PublicApiService} from "./services/public-api.service";
+import {LoadedRouteParam} from "../common/util/loaded-route-param";
+import {PublicApiBadgeClass, PublicApiIssuer} from "./models/public-api.model";
+import {EmbedService} from "../common/services/embed.service";
+import {addQueryParamsToUrl, stripQueryParamsFromUrl} from "../common/util/url-util";
+import {routerLinkForUrl} from "./public.component";
 
 @Component({
 	template: `

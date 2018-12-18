@@ -1,8 +1,5 @@
-import { SessionService } from "../services/session.service";
-import { OnInit } from "@angular/core";
-import { UrlSegment, ActivatedRoute, Router } from "@angular/router";
-
-import "rxjs/add/operator/skip";
+import {OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
 
 /**
  * Base class for all routable components (pages).

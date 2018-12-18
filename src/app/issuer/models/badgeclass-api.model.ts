@@ -1,5 +1,5 @@
-import { IssuerUrl } from "./issuer-api.model";
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {IssuerUrl} from "./issuer-api.model";
+import {ApiEntityRef} from "../../common/model/entity-ref";
 
 export type BadgeClassSlug = string;
 export type BadgeClassUrl = string;

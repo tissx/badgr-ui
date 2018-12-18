@@ -1,5 +1,4 @@
-import { TestBed, inject } from "@angular/core/testing";
-import { randomNames } from "./test-data-util";
+import {randomNames} from "./test-data-util";
 
 
 describe('test-data-util', () => {

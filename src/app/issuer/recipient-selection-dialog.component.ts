@@ -1,21 +1,14 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
+import {Component, ElementRef, Renderer2} from "@angular/core";
 
 
-import { MessageService } from "../common/services/message.service";
-import { Observable } from "rxjs/Observable";
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/first";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import {
-	RecipientGroupMember, IssuerRecipientGroups,
-	RecipientGroup
-} from "./models/recipientgroup.model";
-import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
-import { SettingsService } from "../common/services/settings.service";
-import { RecipientGroupMemberUrl, RecipientGroupUrl } from "./models/recipientgroup-api.model";
-import { flatten } from "../common/util/array-reducers";
-import { BaseDialog } from "../common/dialogs/base-dialog";
+import {MessageService} from "../common/services/message.service";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {IssuerRecipientGroups, RecipientGroup, RecipientGroupMember} from "./models/recipientgroup.model";
+import {RecipientGroupManager} from "./services/recipientgroup-manager.service";
+import {SettingsService} from "../common/services/settings.service";
+import {RecipientGroupMemberUrl, RecipientGroupUrl} from "./models/recipientgroup-api.model";
+import {flatten} from "../common/util/array-reducers";
+import {BaseDialog} from "../common/dialogs/base-dialog";
 
 
 export interface RecipientSelectionDialogOptions {

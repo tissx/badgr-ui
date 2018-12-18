@@ -2,26 +2,26 @@
   display: block;
 
   .formimage-x-title {
-    color: $color-dark1;
-    font-size: $font-size-small2;
+    color: var(--color-dark1);
+    font-size: var(--font-size-small2);
     font-weight: bold;
     justify-content: space-between;
     margin-bottom: $gridspacing;
     text-transform: uppercase;
 
     span {
-      color: $color-dark2;
+      color: var(--color-dark2);
     }
 
     a {
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       font-weight: normal;
       text-transform: none;
     }
 
     button {
-      color: $color-dark2;
-      font-size: $font-size-small1;
+      color: var(--color-dark2);
+      font-size: var(--font-size-small1);
     }
 
   }
@@ -32,8 +32,8 @@
 
   label {
     align-items: center;
-    border: 1px dashed $color-dark3;
-    border-radius: $border-radius;
+    border: 1px dashed var(--color-dark3);
+    border-radius: var(--border-radius);
     box-sizing: border-box;
     cursor: pointer;
     display: flex;
@@ -43,21 +43,21 @@
 
     &:hover,
     &:focus {
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
       border-style: solid;
     }
   }
 
   &.formimage-is-error {
     label {
-      border-color: map-get($states, error);
+      border-color: var(--color-error);
       border-style: solid;
     }
   }
 
   &.formimage-is-dragging {
     label {
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
       border-style: solid;
     }
   }
@@ -86,16 +86,16 @@
   }
 
   .formimage-x-error {
-    color: map-get($states, error);
-    font-size: $font-size-small2;
+    color: var(--color-error);
+    font-size: var(--font-size-small2);
     margin-top: $gridspacing;
   }
 
   .formimage-x-label {
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
 
     span {
-      color: $color-primary;
+      color: var(--color-primary);
       font-weight: bold;
     }
 

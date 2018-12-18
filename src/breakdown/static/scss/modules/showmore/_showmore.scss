@@ -6,9 +6,9 @@ $carat: 'images/menuitem-desktop.svg';
   align-items: stretch;
 
   > .showmore-x-button {
-    color: $color-dark2;
+    color: var(--color-dark2);
     text-decoration: none;
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     font-weight: bold;
     transition: box-shadow $transition-duration $transition-easing;
     text-align: center;
@@ -17,7 +17,7 @@ $carat: 'images/menuitem-desktop.svg';
     margin: auto;
 
     &:hover {
-      color: $color-primary;
+      color: var(--color-primary);
     }
 
     &::after {

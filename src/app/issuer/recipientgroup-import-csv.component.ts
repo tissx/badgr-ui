@@ -1,19 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { Issuer } from "./models/issuer.model";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
-import { RecipientGroup } from "./models/recipientgroup.model";
-import { EmailValidator } from "../common/validators/email.validator";
-import {SystemConfigService} from "../common/services/config.service";
-
-//import "rxjs/add/observable/combineLatest";
-//import "rxjs/add/operator/first";
+import {Component, OnInit} from "@angular/core";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {Issuer} from "./models/issuer.model";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {RecipientGroupManager} from "./services/recipientgroup-manager.service";
+import {RecipientGroup} from "./models/recipientgroup.model";
+import {EmailValidator} from "../common/validators/email.validator";
+import {AppConfigService} from "../common/app-config.service";
 
 type DestSelectOptions = "first" | "last" | "middleInitial" | "name" | "email" | "NA";
 type ViewState = "instructions" | "importPreview" | "importError" | "importConformation";
@@ -254,9 +251,8 @@ type ButtonAction = () =>void;
 	`,
 
 })
-
 export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent  implements OnInit {
-	readonly badgrImportMembersTemplateUrl = require('../../breakdown/static/badgrImportMembersTemplate.csv');
+	readonly badgrImportMembersTemplateUrl = require('file-loader!../../assets/badgrImportMembersTemplate.csv');
 	readonly csvUploadImageUrl = require('../../breakdown/static/images/csvuploadicon.svg');
 
 	MAX_ROWS_TO_DISPLAY:number = 5;
@@ -295,13 +291,13 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 		protected issuerManager: IssuerManager,
 		protected route: ActivatedRoute,
 		protected router: Router,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected title: Title
 	)
 	{
 		super(router, route, loginService);
 
-		title.setTitle(`Recipient Group CSV upload - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Recipient Group CSV upload - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.activateViewState("instructions");
 

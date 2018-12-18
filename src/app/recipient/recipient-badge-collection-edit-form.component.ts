@@ -1,9 +1,8 @@
-import { Component, Input } from "@angular/core";
-import { FormBuilder, FormGroup, Validators, FormControl } from "@angular/forms";
-import { MessageService } from "../common/services/message.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { markControlsDirty } from "../common/util/form-util";
-import { RecipientBadgeCollection } from "./models/recipient-badge-collection.model";
+import {Component, Input} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {MessageService} from "../common/services/message.service";
+import {markControlsDirty} from "../common/util/form-util";
+import {RecipientBadgeCollection} from "./models/recipient-badge-collection.model";
 
 @Component({
 	selector: 'recipient-badge-collection-edit-form',

@@ -1,13 +1,14 @@
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {ManagedEntity} from "../../common/model/managed-entity";
+import {ApiEntityRef} from "../../common/model/entity-ref";
 import {
-	ApiRecipientBadgeInstance, RecipientBadgeInstanceRef,
-	ApiRecipientBadgeClass, ApiRecipientBadgeRecipient
+	ApiRecipientBadgeClass,
+	ApiRecipientBadgeInstance,
+	RecipientBadgeInstanceRef
 } from "./recipient-badge-api.model";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import { LinkedEntitySet } from "../../common/model/linked-entity-set";
-import { RecipientBadgeCollection } from "./recipient-badge-collection.model";
-import { RecipientBadgeCollectionRef } from "./recipient-badge-collection-api.model";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {LinkedEntitySet} from "../../common/model/linked-entity-set";
+import {RecipientBadgeCollection} from "./recipient-badge-collection.model";
+import {RecipientBadgeCollectionRef} from "./recipient-badge-collection-api.model";
 
 type BadgeMostRelevantStatusType = "new" | "expired";
 

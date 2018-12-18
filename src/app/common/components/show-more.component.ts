@@ -1,5 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from "@angular/core";
-import { animate, state, style, transition, trigger } from "@angular/animations";
+import {AfterViewChecked, Component, ElementRef, Input, ViewChild} from "@angular/core";
 
 @Component({
 	selector: 'show-more',

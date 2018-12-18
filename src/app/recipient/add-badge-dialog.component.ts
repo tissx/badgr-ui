@@ -1,13 +1,13 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { FormControl, FormGroup, FormBuilder } from "@angular/forms";
-import { UrlValidator } from "../common/validators/url.validator";
-import { JsonValidator } from "../common/validators/json.validator";
-import { MessageService } from "../common/services/message.service";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import { BaseDialog } from "../common/dialogs/base-dialog";
-import { preloadImageURL } from "../common/util/file-util";
-import { FormFieldText } from "../common/components/formfield-text";
+import {Component, ElementRef, Renderer2, ViewChild} from "@angular/core";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {UrlValidator} from "../common/validators/url.validator";
+import {JsonValidator} from "../common/validators/json.validator";
+import {MessageService} from "../common/services/message.service";
+import {BadgrApiFailure} from "../common/services/api-failure";
+import {BaseDialog} from "../common/dialogs/base-dialog";
+import {preloadImageURL} from "../common/util/file-util";
+import {FormFieldText} from "../common/components/formfield-text";
 
 
 type dialog_view_states = "upload" | "url" | "json";
