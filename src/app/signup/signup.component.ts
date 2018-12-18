@@ -1,16 +1,16 @@
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router,} from "@angular/router";
-import {SignupModel} from "./signup-model.type";
-import {SignupService} from "./signup.service";
-import {SessionService} from "../common/services/session.service";
-import {BaseRoutableComponent} from "../common/pages/base-routable.component";
-import {MessageService} from "../common/services/message.service";
-import {EmailValidator} from "../common/validators/email.validator";
-import {Title} from "@angular/platform-browser";
-import {markControlsDirty} from "../common/util/form-util";
-import {AppConfigService} from "../common/app-config.service";
-import {OAuthManager} from "../common/services/oauth-manager.service";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router,} from '@angular/router';
+import {SignupModel} from './signup-model.type';
+import {SignupService} from './signup.service';
+import {SessionService} from '../common/services/session.service';
+import {BaseRoutableComponent} from '../common/pages/base-routable.component';
+import {MessageService} from '../common/services/message.service';
+import {EmailValidator} from '../common/validators/email.validator';
+import {Title} from '@angular/platform-browser';
+import {markControlsDirty} from '../common/util/form-util';
+import {AppConfigService} from '../common/app-config.service';
+import {OAuthManager} from '../common/services/oauth-manager.service';
 
 @Component({
 	selector: 'sign-up',
@@ -149,7 +149,9 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 
 	agreedTermsService: boolean = false;
 
-	get theme() { return this.configService.theme }
+	get theme() {
+		return this.configService.theme;
+	}
 
 	constructor(
 		fb: FormBuilder,
@@ -163,12 +165,12 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle(`Signup - ${this.configService.theme['serviceName'] || "Badgr"}`);
+		title.setTitle(`Signup - ${this.configService.theme['serviceName'] || 'Badgr'}`);
 
 		this.passwordGroup = fb.group({
-				'password': [ '', Validators.compose([ Validators.required, passwordValidator ]) ],
-				'passwordConfirm': [ '', Validators.required ],
-			}, { validator: passwordsMatchValidator }
+				'password': ['', Validators.compose([Validators.required, passwordValidator])],
+				'passwordConfirm': ['', Validators.required],
+			}, {validator: passwordsMatchValidator}
 		);
 		this.signupForm = fb.group({
 				'username': [
@@ -178,8 +180,8 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 						EmailValidator.validEmail
 					])
 				],
-				'firstName': [ '', Validators.required ],
-				'lastName': [ '', Validators.required ],
+				'firstName': ['', Validators.required],
+				'lastName': ['', Validators.required],
 				'passwords': this.passwordGroup,
 				'agreedTermsService': [false, Validators.requiredTrue],
 				'marketingOptIn': [false],
@@ -189,7 +191,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 
 	ngOnInit() {
 		if (this.sessionService.isLoggedIn) {
-			this.router.navigate([ '/userProfile' ]);
+			this.router.navigate(['/userProfile']);
 		}
 	}
 
@@ -204,24 +206,22 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		);
 
 		this.signupFinished = new Promise((resolve, reject) => {
-
-            this.signupService.submitSignup(signupUser)
-                .subscribe(
-                    response => {
+			this.signupService.submitSignup(signupUser)
+				.then(
+					() => {
 						this.sendSignupConfirmation(formState.username);
 						resolve();
 					},
-                    error => {
-                        if (error) {
-                          if (error.password) {
-                            this.messageService.setMessage("Your password must be uncommon and at least 8 characters. Please try again.", "error");
-                          } else {
-                            this.messageService.setMessage("" + error, "error");
-                          }
-                        }
-                        else {
-                            this.messageService.setMessage("Unable to signup.", "error");
-                        }
+					error => {
+						if (error) {
+							if (error.password) {
+								this.messageService.setMessage('Your password must be uncommon and at least 8 characters. Please try again.', 'error');
+							} else {
+								this.messageService.setMessage('' + error, 'error');
+							}
+						} else {
+							this.messageService.setMessage('Unable to signup.', 'error');
+						}
 						resolve();
 					}
 				);
@@ -229,7 +229,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	}
 
 	sendSignupConfirmation(email) {
-		this.router.navigate([ 'signup/success', { email: email } ]);
+		this.router.navigate(['signup/success', {email: email}]);
 	}
 
 	clickSubmit(ev) {
@@ -249,11 +249,12 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 
 function passwordValidator(control: FormControl): { [errorName: string]: any } {
 	if (control.value.length < 8) {
-		return { 'weakPassword': "Password must be at least 8 characters" }
+		return {'weakPassword': 'Password must be at least 8 characters'};
 	}
 }
+
 function passwordsMatchValidator(group: FormGroup): { [errorName: string]: any } {
-	if (group.controls[ 'password' ].value !== group.controls[ 'passwordConfirm' ].value) {
-		return { passwordsMatch: "Passwords do not match" }
+	if (group.controls['password'].value !== group.controls['passwordConfirm'].value) {
+		return {passwordsMatch: 'Passwords do not match'};
 	}
 }
