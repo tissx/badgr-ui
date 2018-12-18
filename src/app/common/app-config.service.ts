@@ -155,8 +155,8 @@ export const defaultConfig: BadgrConfig = {
 		privacyPolicyLink: null,
 		providedBy: null,
 		logoImg: {
-			small: require("../../breakdown/static/images/logo.svg"),
-			desktop: require("../../breakdown/static/images/logo-desktop.svg"),
+			small: require("../../../node_modules/@concentricsky/badgr-style/dist/images/logo-small.svg"),
+			desktop: require("../../../node_modules/@concentricsky/badgr-style/dist/images/logo-large.svg"),
 		},
 		loadingImg: {
 			// Image is inlined here to avoid any external resource loading, at the expense of a larger initial file size. We only do this for the default theme.
