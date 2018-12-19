@@ -25,18 +25,6 @@
 <body>
 <app-root></app-root>
 
-<script>
-	// Simple feature-based check for old browsers (like IE11)
-	if (typeof Symbol === "undefined") {
-		const request = new XMLHttpRequest();
-		request.onload = function() {
-			document.write(request.responseText);
-		};
-		request.open("GET", "/unsupported-browser-warning.html");
-		request.send();
-	}
-</script>
-
 <!-- Inline style so loading shows up before css and theming is ready -->
 <div id="initial-loading-indicator"
      style="align-items: center;
@@ -54,5 +42,11 @@
 			 style="animation: loading-fade 1.25s ease-out infinite;"
 	/>
 </div>
+
+<!-- Include the unsupported browser check -->
+<script type="text/javascript"
+        src="unsupported-browser-check.js"
+        async
+></script>
 </body>
 </html>
