@@ -60,7 +60,10 @@ export class AppConfigService {
 		await animationFramePromise();
 
 		function getRemoteConfigParam(name, allowQueryParam) {
-			return (allowQueryParam && queryParams.get(name))  || window.localStorage.getItem(name) || window.sessionStorage.getItem(name) || (window["remoteConfigOverrides"] && window["remoteConfigOverrides"][name]);
+			return (allowQueryParam && queryParams.get(name))
+				|| window.localStorage.getItem(name)
+				|| window.sessionStorage.getItem(name)
+				|| (() => { const m = document.querySelector(`meta[name=${name}]`); return m && m.getAttribute("content")})();
 		}
 
 		// SECURITY NOTE: We do _not_ allow overriding the remote configuration baseUrl with a query param because it could allow an attacker
@@ -104,9 +107,6 @@ export class AppConfigService {
 
 			// Configuration overrides in Angular's dependency injection. Mostly used for tests.
 			this.injector.get(new InjectionToken<Partial<BadgrConfig>>('config'), null) || {},
-
-			// Window-level configuration, can be used to specify configs through javascript outside of Angular
-			window && window["config"] || {},
 
 			// Remote configuration overrides, generally domain-specific from a config server
 			await this.loadRemoteConfig() || {},
