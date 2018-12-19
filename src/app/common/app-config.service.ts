@@ -146,7 +146,7 @@ export const defaultConfig: BadgrConfig = {
 	assertionVerifyUrl: "https://badgecheck.io/",
 	theme: {
 		serviceName: "Badgr",
-		welcomeMessage: "## Welcome to Badgr!",
+		welcomeMessage: "### Welcome to Badgr!",
 		alternateLandingUrl: null,
 		showPoweredByBadgr: false,
 		showApiDocsLink: true,
