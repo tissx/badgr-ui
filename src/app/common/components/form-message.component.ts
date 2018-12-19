@@ -6,22 +6,46 @@ import {Subscription} from "rxjs";
 import {EventsService} from "../services/events.service";
 
 
+interface Notification {
+	submodule: "notification-warning" | "notification-success" | "";
+	icon: "icon_priority_high" | "icon_checkmark" | "icon_info";
+	title: "Attention" | "Success" | "Info";	
+}
+
+const MessageStatusTypeToNotificationMap: { [key in MessageStatusType]: Notification } = {
+	"error" : {submodule:"notification-warning", title: "Attention", icon: "icon_priority_high"},
+	"load-error" : {submodule:"notification-warning", title: "Loading Error", icon: "icon_priority_high"},
+	"fatal-error" : {submodule:"notification-warning", title: "Fatal Error", icon: "icon_priority_high"},
+	"success": {submodule:"notification-success", title: "Success", icon: "icon_checkmark"},
+};
+
+
 @Component({
 	selector: 'form-message',
 	template: `
-		<div *ngIf="msg" class="l-formmessage formmessage formmessage-is-{{status}}"
-		     [class.formmessage-is-active]="message"
-		     [class.formmessage-is-inactive]="messageDismissed">
-			<p>{{ msg }}</p>
-			<button type="button" (click)="dismissMessage()">Dismiss</button>
+	<div class="l-toast">
+		<div *ngIf="msg" class="notification notification-toast {{notification.submodule}}" [class.notification-is-active]="message">
+			<div class="notification-x-icon">
+				<svg class="navitem-x-icon" icon="{{notification.icon}}"></svg>
+			</div>
+			<div class="notification-x-text">
+				<h2>{{ notification.title }}</h2>
+				<p>{{ msg }}</p>
+			</div>
+			<button class="notification-x-close buttonicon buttonicon-clear" (click)="dismissMessage()">
+				<svg class="navitem-x-icon" icon="icon_close"></svg>
+				<span class="visuallyhidden">Close Notification</span>
+			</button>
 		</div>
-	`
+	</div>`
 })
+
 export class FormMessageComponent implements OnInit, OnDestroy {
 	messageDismissed = false;
 	message: FlashMessage;
 	msg: string;
-	status: string;
+	status: MessageStatusType;
+	notification: Notification;
 	subscription: Subscription;
 	timeout: any;
 	private clickSubscription: Subscription;
@@ -57,6 +81,10 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	toNotification(status: MessageStatusType): Notification {
+		return MessageStatusTypeToNotificationMap[status]
+	}
+	
 	setMessage(message: FlashMessage) {
 		this.messageDismissed = this.message && !message;
 
@@ -64,6 +92,7 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 		if (message) {
 			this.msg = message.message;
 			this.status = message.status;
+			this.notification = this.toNotification(message.status)
 			if (this.timeout) {
 				clearTimeout(this.timeout);
 				this.timeout = null;
