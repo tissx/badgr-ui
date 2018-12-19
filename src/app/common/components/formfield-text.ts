@@ -9,23 +9,25 @@ import {CommonDialogsService} from "../services/common-dialogs.service";
 	selector: 'bg-formfield-text',
 
 	host: {
-		'class': "formfield",
-		'[class.formfield-is-error]': "isErrorState",
-		'[class.formfield-locked]': "isLockedState",
-		'[class.formfield-monospaced]': "monospaced",
+		'class': "forminput",
+		'[class.forminput-is-error]': "isErrorState",
+		'[class.forminput-locked]': "isLockedState",
+		'[class.forminput-monospaced]': "monospaced",
 	},
 	template: `
-        <label [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
-	        {{ label }}  <span *ngIf="optional" >(OPTIONAL)</span>
-            <span *ngIf="formFieldAside">{{ formFieldAside }}</span>
-            <button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
-            <ng-content select="[label-additions]"></ng-content>
-        </label>
+		<div class="forminput-x-labelrow">
+			<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
+				{{ label }}  <span *ngIf="optional" >(OPTIONAL)</span>
+				<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
+				<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
+			</label>
+			<ng-content select="[label-additions]"></ng-content>
+		</div>
 
         <label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 
-        <p class="formfield-x-description" *ngIf="description">{{ description }}</p>
-
+        <p class="forminput-x-sublabel" *ngIf="description">{{ description }}</p>
+		<div class="forminput-x-inputs">
         <input [type]="fieldType"
                *ngIf="! multiline"
                [name]="inputName"
@@ -47,8 +49,8 @@ import {CommonDialogsService} from "../services/common-dialogs.service";
                   (keypress)="handleKeyPress($event)"
                   #textareaInput
                   ></textarea>
-
-				<p class="formfield-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
+		</div>
+		<p class="forminput-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
     `
 })
 export class FormFieldText implements OnChanges, AfterViewInit {
