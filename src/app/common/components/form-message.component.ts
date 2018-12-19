@@ -9,10 +9,10 @@ import {EventsService} from "../services/events.service";
 interface Notification {
 	submodule: "notification-warning" | "notification-success" | "";
 	icon: "icon_priority_high" | "icon_checkmark" | "icon_info";
-	title: "Attention" | "Success" | "Info";	
+	title: "Attention" | "Success" | "Loading Error" | "Fatal Error";	
 }
 
-const MessageStatusTypeToNotificationMap: { [key in MessageStatusType]: Notification } = {
+const MessageStatusTypeToNotificationMap: { [key in string]: Notification } = {
 	"error" : {submodule:"notification-warning", title: "Attention", icon: "icon_priority_high"},
 	"load-error" : {submodule:"notification-warning", title: "Loading Error", icon: "icon_priority_high"},
 	"fatal-error" : {submodule:"notification-warning", title: "Fatal Error", icon: "icon_priority_high"},
@@ -44,7 +44,7 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 	messageDismissed = false;
 	message: FlashMessage;
 	msg: string;
-	status: MessageStatusType;
+	status: string;
 	notification: Notification;
 	subscription: Subscription;
 	timeout: any;
@@ -81,7 +81,7 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	toNotification(status: MessageStatusType): Notification {
+	toNotification(status: string): Notification {
 		return MessageStatusTypeToNotificationMap[status]
 	}
 	
