@@ -18,9 +18,7 @@
 						"polyfills": "src/polyfills.ts",
 						"assets": [
 							"src/assets",
-							"src/favicon.ico",
-							"src/unsupported-browser-warning.html",
-							"src/unsupported-browser-check.js"
+							"src/favicon.ico"
 						],
 						"styles": [
 							"src/breakdown/static/css/reset.css",
