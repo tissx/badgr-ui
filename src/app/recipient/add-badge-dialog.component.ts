@@ -10,125 +10,12 @@ import {preloadImageURL} from "../common/util/file-util";
 import {FormFieldText} from "../common/components/formfield-text";
 
 
-type dialog_view_states = "upload" | "url" | "json";
+type dialogViewStates = "upload" | "url" | "json";
 
 
 @Component({
 	selector: 'add-badge-dialog',
-	template: `
-		<dialog class="dialog dialog-large">
-
-			<form class="table-x-tr table-x-active"
-			      [formGroup]="addRecipientBadgeForm"
-			      (ngSubmit)="submitBadgeRecipientForm(addRecipientBadgeForm.value)">
-
-				<div class="dialog-x-content">
-
-					<h1 class="title">Add Badge</h1>
-
-					<p class="text">Add a badge you’ve already received by utilizing one of the options below.</p>
-
-					<!---------- Drag or upload Badge ------------>
-
-					<div *ngIf="currentDialogViewState === 'upload'">
-						<bg-formfield-image
-								imageLoaderName="basic"
-								[placeholderImage]="uploadBadgeImageUrl"
-								[control]="addRecipientBadgeForm.controls.image"
-								(mouseup)="controlUpdated('image')"
-								(drop)="controlUpdated('image' )"
-								class="formimage-badgeUpload">
-
-						</bg-formfield-image>
-					</div>
-
-					<!---------- Paste badge URL ---------->
-
-					<div *ngIf="currentDialogViewState === 'url'">
-						<div class="formfield formfield-image">
-							<bg-formfield-text
-									urlField="true"
-									[control]="addRecipientBadgeForm.controls.url"
-									errorMessage="Please enter valid URL"
-									(keyup)="controlUpdated('url')"
-									includeLabelAsWrapper="true"
-									placeholder="Enter URL"
-									#urlField
-							>
-
-								<img label-additions [loaded-src]="pasteBadgeImageUrl" />
-							</bg-formfield-text>
-						</div>
-					</div>
-
-					<!---------- Paste badge JSON ---------->
-
-					<div *ngIf="currentDialogViewState === 'json'">
-						<div class="formfield">
-							<bg-formfield-text
-									[control]="addRecipientBadgeForm.controls.assertion"
-									errorMessage="Please enter valid JSON"
-									placeholder="Enter JSON"
-									(keyup)="controlUpdated('assertion')"
-									[multiline]="true"
-									[monospaced]="true"
-									class="formfield-x-badgePasteJson-text-height"
-									#jsonField
-							>
-							</bg-formfield-text>
-						</div>
-					</div>
-
-					<!---------- State controls ---------->
-
-					<div class="l-uploadBadgeButtons">
-						<button class="badgeButton badgeButton-icon-badgeUpload"
-						        [class.badgeButton-is-selected]="currentDialogViewState === 'upload'"
-						        (click)="currentDialogViewState = 'upload'"
-						        type="button">
-							Upload Badge Image
-						</button>
-
-						<button class="badgeButton badgeButton-icon-pasteUrl"
-						        [class.badgeButton-is-selected]="currentDialogViewState === 'url'"
-						        (click)="openUrlTab()"
-						        type="button">
-							Paste Badge URL
-						</button>
-
-						<button class="badgeButton badgeButton-icon-pasteJson"
-						        [class.badgeButton-is-selected]="currentDialogViewState === 'json'"
-						        (click)="openJsonTab()"
-						        type="button">
-							Paste Badge JSON
-						</button>
-
-					</div>
-
-					<!---------- Dialog controls---------->
-
-					<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-						<button class="button button-primaryghost"
-						        type="button"
-						        (click)="closeDialog()"
-						        [disabled-when-requesting]="true">Cancel
-						</button>
-						<button class="button" type="submit" [loading-promises]="[ badgeUploadPromise ]" loading-message="Adding">
-							Add Badge
-						</button>
-					</div>
-
-					<div *ngIf="formError" class="formmessage formmessage-is-active formmessage-is-error">
-						<p>{{formError}}</p>
-						<button class="icon icon-close-light icon-right" type="button" (click)="clearFormError()">Dismiss</button>
-					</div>
-
-				</div>
-
-			</form>
-
-		</dialog>
-	`
+	templateUrl: './add-badge-dialog.component.html',
 })
 export class AddBadgeDialogComponent extends BaseDialog {
 	readonly uploadBadgeImageUrl = require('../../breakdown/static/images/image-uplodBadge.svg');
@@ -142,7 +29,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 	showAdvance:boolean = false;
 	formError:string;
 
-	currentDialogViewState: dialog_view_states = "upload";
+	currentDialogViewState: dialogViewStates = "upload";
 
 	options: AddBadgeDialogOptions = AddBadgeDialogComponent.defaultOptions;
 	resolveFunc: () => void;
