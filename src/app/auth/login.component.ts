@@ -40,7 +40,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	constructor(
 		private fb: FormBuilder,
 		private title: Title,
-		private sessionService: SessionService,
+		public sessionService: SessionService,
 		private messageService: MessageService,
 		private configService: AppConfigService,
 		private queryParams: QueryParametersService,

@@ -4,6 +4,6 @@ if (typeof Symbol === "undefined") {
 	request.onload = function() {
 		document.write(request.responseText);
 	};
-	request.open("GET", "/unsupported-browser-warning.html");
+	request.open("GET", "/assets/unsupported-browser-warning.html");
 	request.send();
 }
