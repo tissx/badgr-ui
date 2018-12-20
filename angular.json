@@ -19,7 +19,8 @@
 						"assets": [
 							"src/assets",
 							"src/favicon.ico",
-							"src/unsupported-browser-warning.html"
+							"src/unsupported-browser-warning.html",
+							"src/unsupported-browser-check.js"
 						],
 						"styles": [
 							"node_modules/@concentricsky/badgr-style/dist/css/iobadgr.min.css"
