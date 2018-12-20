@@ -121,17 +121,16 @@
 <main class="l-stickyfooter-x-main o-container">
 	<router-outlet *ngIf="!hasFatalError"></router-outlet>
 	<!-- children go here -->
+	<article *ngIf="hasFatalError" class="l-containerxaxis l-containeryaxis l-flex l-flex-justifycenter">
+		<div>
+			<h1 *ngIf="fatalMessage" class="u-text-h2-bold u-text-center">{{fatalMessage}}</h1>
+			<h1 *ngIf="fatalMessageDetail" class="u-text-h3 u-text-center">{{fatalMessageDetail}}</h1>
+			<h1 *ngIf="!fatalMessage" class="u-text-body-bold u-text-center">Whoops! The server has failed to respond.</h1>
+			<h1 *ngIf="!fatalMessageDetail" class="u-text-body u-text-center">Please refresh and try again.</h1>
+			<img [src]="unavailableImageSrc">
+		</div>
+	</article>
 </main>
-
-<article *ngIf="hasFatalError" class="l-containerxaxis l-containeryaxis l-flex l-flex-justifycenter">
-	<div>
-		<h1 *ngIf="fatalMessage" class="u-text-h2-bold u-text-center">{{fatalMessage}}</h1>
-		<h1 *ngIf="fatalMessageDetail" class="u-text-h3 u-text-center">{{fatalMessageDetail}}</h1>
-		<h1 *ngIf="!fatalMessage" class="u-text-body-bold u-text-center">Whoops! The server has failed to respond.</h1>
-		<h1 *ngIf="!fatalMessageDetail" class="u-text-body u-text-center">Please refresh and try again.</h1>
-		<img [src]="unavailableImageSrc">
-	</div>
-</article>
 
 <!-- TODO: Assess dialog patterns - use inert polyfill -->
 <confirm-dialog #confirmDialog></confirm-dialog>
