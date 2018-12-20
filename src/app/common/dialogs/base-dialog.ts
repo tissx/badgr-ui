@@ -1,5 +1,6 @@
 import {AfterViewInit, ElementRef, Renderer2} from "@angular/core";
 import {HTMLDialogElement, registerDialog} from "dialog-polyfill/dialog-polyfill";
+import {throwExpr} from '../util/throw-expr';
 
 export abstract class BaseDialog implements AfterViewInit {
 	constructor(
@@ -8,7 +9,9 @@ export abstract class BaseDialog implements AfterViewInit {
 	) {}
 
 	private get dialogElem(): HTMLDialogElement {
-		return (this.componentElem.nativeElement as HTMLElement).querySelector("dialog") as any;
+		return (this.componentElem.nativeElement as HTMLElement).querySelector<HTMLDialogElement>("dialog")
+			|| throwExpr("Unable to find <dialog> element in dialog")
+			;
 	}
 
 	ngAfterViewInit() {
