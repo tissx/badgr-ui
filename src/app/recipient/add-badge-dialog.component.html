@@ -16,7 +16,7 @@
 
 
 			<div class="tabbar">
-				<div class="tab" [class.tab-is-active]="currentDialogViewState === 'upload'" (click)="currentDialogViewState = 'upload'"
+				<div class="tab border border-left" [class.tab-is-active]="currentDialogViewState === 'upload'" (click)="currentDialogViewState = 'upload'"
 				 type="button">
 					<span class="l-hidden l-hidden-laptop">Upload Badge</span> Image
 				</div>
@@ -32,7 +32,7 @@
 
 			<!-- Drag or upload Badge -->
 
-			<div *ngIf="currentDialogViewState === 'upload'" class="u-padding-all3x">
+			<div *ngIf="currentDialogViewState === 'upload'" class="u-padding-all3x u-background-light2 border border-bottom">
 				<bg-formfield-image imageLoaderName="basic" [placeholderImage]="uploadBadgeImageUrl" [control]="addRecipientBadgeForm.controls.image"
 				 (mouseup)="controlUpdated('image')" (drop)="controlUpdated('image' )" class="formimage-badgeUpload">
 
@@ -41,7 +41,7 @@
 
 			<!-- ------- Paste badge URL  -->
 
-			<div *ngIf="currentDialogViewState === 'url'" class="u-padding-all3x">
+			<div *ngIf="currentDialogViewState === 'url'" class="u-padding-all3x u-background-light2 border border-bottom">
 				<div class="forminput">
 					<bg-formfield-text urlField="true" [control]="addRecipientBadgeForm.controls.url" errorMessage="Please enter valid URL"
 					 (keyup)="controlUpdated('url')" includeLabelAsWrapper="true" placeholder="Enter URL" #urlField>
@@ -51,7 +51,7 @@
 
 			<!-- ------- Paste badge JSON  -->
 
-			<div *ngIf="currentDialogViewState === 'json'" class="u-padding-all3x">
+			<div *ngIf="currentDialogViewState === 'json'" class="u-padding-all3x u-background-light2 border border-bottom">
 				<div class="forminput">
 					<bg-formfield-text [control]="addRecipientBadgeForm.controls.assertion" errorMessage="Please enter valid JSON"
 					 placeholder="Enter JSON" (keyup)="controlUpdated('assertion')" [multiline]="true" [monospaced]="true" class="formfield-x-badgePasteJson-text-height"

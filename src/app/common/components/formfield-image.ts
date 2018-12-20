@@ -7,7 +7,7 @@ import {throwExpr} from "../util/throw-expr";
 @Component({
 	selector: 'bg-formfield-image',
 	host: {
-		"[class.formimage]": "! newDropZone",
+		"[class.dropzone]": "! newDropZone",
 		"[class.formfield]": "newDropZone",
 		"[class.formfield-inlinelabel]": "newDropZone",
 
@@ -83,7 +83,8 @@ import {throwExpr} from "../util/throw-expr";
 					<img [src]="unsafeImageDataUrl" alt="Image preview" *ngIf="imageDataUrl">
 				</span>
 				<span class="formimage-x-text">
-					<span *ngIf="!imageLoading && !imageDataUrl" class="formimage-x-label">Drag or <span>Upload Image</span>.</span>
+					<p *ngIf="!imageLoading && !imageDataUrl" class="u-text-body-bold">Drag or Upload Image</p>
+
 					<span *ngIf="imageLoading" class="formimage-x-label">Loading Image...</span> 
 					<span *ngIf="imageDataUrl" class="formimage-x-label">{{ imageName }}</span>
 					<span *ngIf="imageDataUrl" class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
