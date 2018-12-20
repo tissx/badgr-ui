@@ -8,23 +8,20 @@ import {AppConfigService} from "../common/app-config.service";
 @Component({
 	selector: 'sign-up-success',
 	template: `
-		<main>
-			<form-message></form-message>
-
-			<div class="l-auth">
-				<!-- OAuth Banner -->
-				<oauth-banner></oauth-banner>
-	
-				<!-- Title Message -->
-				<h3 class="l-auth-x-title title title-bold" id="heading-form">Verify Your Email Address</h3>
-				<p class="l-auth-x-text text text-quiet">Welcome to {{ service }}!</p>
-				<p class="l-auth-x-text text text-quiet">
-					We have sent a verification email to <strong>{{ email }}</strong>. Follow the link provided to finalize the signup
-					process. if you do not receive it within a few minutes, check your Spam or Junk email folders. If you
-					still can’t locate the email, please <a [href]="helpEmailUrl">contact us</a>.
-				</p>
-			</div>
-		</main>
+	<div class="l-containerxaxis l-containeryaxis l-flex l-flex-justifycenter">
+		<form-message></form-message>
+		<oauth-banner></oauth-banner>
+		<div class="shadowcontainer">
+			<h2 class="u-text-h3-bold">Verify Your Email Address</h2>
+			<p class="u-text-body u-margin-top1x">Welcome to {{ service }}!</p>
+			<p class="u-text-body u-margin-top4x">We have sent a verification email to <strong class="u-text-bold">{{ email }}</strong>. 
+			</p>
+			<p class="u-text-body u-margin-top2x">
+			Follow the link provided to finalize the sign-up process. If you do not recieve it within a few minutes, 
+			check your spam or junk email folders. If you still can't locate the email, please 
+			<a class="u-text-link" [href]="helpEmailUrl">contact us</a>.</p>
+		</div>
+	</div>
 	`,
 })
 export class SignupSuccessComponent implements OnInit {
