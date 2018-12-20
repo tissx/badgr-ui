@@ -139,6 +139,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	private initScrollFix() {
 		// Scroll the header into view after navigation, mainly for mobile where the menu is at the bottom of the display
 		this.router.events.subscribe(url => {
+			this.mobileNavOpen = false;
 			let header = document.querySelector("header") as HTMLElement;
 			if (header) {
 				header.scrollIntoView();
