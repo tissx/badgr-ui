@@ -7,28 +7,35 @@ import {UserProfile} from "../model/user-profile.model";
 @Component({
 	selector: 'new-terms-dialog',
 	template: `
-    <dialog class="dialog dialog-titled wrap wrap-light">
-				<header class="dialog-x-titlebar">
-						<h1>Updated Terms of Service</h1>
-				</header>
-				<div class="dialog-x-content">
-						<p>We’ve updated our <a target="_blank" [href]="termsOfServiceLink">Terms of Service</a>. </p>
-						
-						<p *ngIf="profile && profile.latestTermsDescription">{{profile.latestTermsDescription}}</p>
+	<div aria-labelledby="updatedTermsDialog" aria-describedby="dialog1Desc" class="dialog dialog-is-active dialog l-dialog" role="dialog">
+		<div class="dialog-x-box o-container">
+			<div class="l-flex l-flex-justifybetween u-padding-top2x u-padding-xaxis3x">
+				<h2 id="updatedTermsDialog" class="u-text-body-bold-caps text-dark1">
+					Updated Terms of Service
+				</h2>
+			</div>
+			<div class="u-padding-all3x">
+			
+				<p class="u-text u-text-body u-margin-bottom2x">We’ve updated our <a target="_blank" [href]="termsOfServiceLink">Terms of Service</a>. </p>
 
-						<label [class.formcheckbox-is-error]="isErrorState" class="formcheckbox l-marginBottom-2x" for="terms">
-							<input name="terms" id="terms" type="checkbox" [(ngModel)]="agreedToTerms">
-							<span class="formcheckbox-x-text">I have read and agree to the <a target="_blank" [href]="termsOfServiceLink">Terms of Service</a>.</span>
-							<span *ngIf="isErrorState" class="formcheckbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</span>
-						</label>
-
-						<div class="l-childrenhorizontal l-childrenhorizontal-right">
-								<a *ngIf="termsHelpLink" [href]="termsHelpLink">Need Help?</a>
-								<button class="button" (click)="submitAgreement()">Continue</button>
-						</div>
+				<div class="u-background-light3 u-padding-all2x u-margin-bottom3x">
+					<p class="u-text u-text-body" *ngIf="profile && profile.latestTermsDescription">{{profile.latestTermsDescription}}</p>
 				</div>
-    </dialog>
-    `,
+
+				<label class="checkbox checkbox-small u-margin-bottom3x" [class.checkbox-is-error]="isErrorState">
+					<input name="terms" id="terms" type="checkbox" [(ngModel)]="agreedToTerms">
+					<span class="checkbox-x-text">I have read and agree to the <a target="_blank" [href]="termsOfServiceLink">Terms of Service</a>.
+					<div *ngIf="isErrorState" class="checkbox-x-errortext">Please read and agree to the Terms of Service if you want to continue.</div>
+					</span>
+				</label>
+
+				<div class="l-flex l-flex-2x">
+					<button class="button" (click)="submitAgreement()">Continue</button>
+					<a class="button button-secondary" *ngIf="termsHelpLink" [href]="termsHelpLink">Need Help?</a>
+				</div>
+			</div>
+		</div>
+	</div>`,
 })
 export class NewTermsDialog extends BaseDialog {
 
