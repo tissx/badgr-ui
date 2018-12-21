@@ -160,6 +160,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	}
 
 	clickAddEmail(ev: MouseEvent) {
+		console.log("clicked!")
 		if (!this.emailForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.emailForm);

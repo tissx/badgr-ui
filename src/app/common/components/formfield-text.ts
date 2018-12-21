@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Input, Output, OnChanges, EventEmitter, SimpleChanges, ViewChild} from "@angular/core";
 
 import {FormControl, FormGroup} from '@angular/forms';
 
@@ -42,8 +42,9 @@ import {CommonDialogsService} from "../services/common-dialogs.service";
 			   />
 		<div class="forminput-x-button" *ngIf="hasbutton">
 			<button class="button button-secondary button-informinput"
-					(click)="clickFunc" 
+					(click)="clickHandler($event)" 
 					[disabled-when-requesting]="true"
+					type="submit"
 			>
 				Add
 			</button>
@@ -78,8 +79,12 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() fieldType: FormFieldTextInputType = "text";
 	@Input() optional: boolean = false;
 	@Input() hasbutton: boolean = false;
-	@Input() clickFunc;
 	
+	@Output() clickHandleEmitter: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>()
+	clickHandler(ev: MouseEvent) {
+		this.clickHandleEmitter.emit(ev)
+	}
+
 	@Input() errorGroup: FormGroup;
 	@Input() errorGroupMessage: CustomValidatorMessages;
 

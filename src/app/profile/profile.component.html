@@ -2,11 +2,6 @@
 	<form-message></form-message>
 	<div class="topbar">
 		<div class="l-containerxaxis">
-			<div class="topbar-x-breadcrumbs">
-				<div class="breadcrumbs breadcrumbs-subtle">
-					<span>Profile</span>
-				</div>
-			</div>
 			<div class="topbar-x-wrap">
 				<div class="topbar-x-heading">
 					{{ profile?.firstName }} {{ profile?.lastName}}
@@ -28,16 +23,16 @@
 				Emails
 			</p>
 
-
-			<bg-formfield-text [control]="emailForm.controls['email']" 
-							   [errorMessage]="'Please enter a valid email address'"
-							   fieldType="email" 
-							   hasbutton="true"
-							   clickFunc="clickAddEmail($event)"
-							   class="forminput-light1 u-width-formsmall"
-							   placeholder="Member Email">
-			</bg-formfield-text>
-
+			<form [formGroup]="emailForm" (ngSubmit)="onSubmit(emailForm.value)" class="u-width-formsmall">
+				<bg-formfield-text [control]="emailForm.controls['email']" 
+								[errorMessage]="'Please enter a valid email address'"
+								fieldType="email" 
+								hasbutton="true"
+								(clickHandleEmitter)="clickAddEmail($event)"
+								class="forminput-light1"
+								placeholder="Member Email">
+				</bg-formfield-text>
+			</form>
 
 		</div>
 
@@ -66,15 +61,21 @@
 					</td>
 					<td class="datatable-x-cell u-text-body">
 						<div class="l-flex l-flex-aligncenter l-flex-1x" *ngIf="email.verified">
-							<svg class="icon icon-success" icon="icon_checkmark_circle">
-							</svg>
-							
+							<svg class="icon icon-success" icon="icon_checkmark_circle"></svg>
 							<p class="u-text-body" >Verified</p>
 						</div>
 
 						<div class="l-flex l-flex-aligncenter l-flex-1x" *ngIf="!email.verified">
+							<svg class="icon icon-light4" icon="icon_pending"></svg>
 							<p class="u-text-body">Pending</p>
+							<button *ngIf="!email.verified" 
+								class="u-text-link-small l-flex-x-selfflexend" 
+								(click)="clickResendVerification($event, email)"
+								[disabled-when-requesting]="true">
+								Re-send Verification
+							</button>
 						</div>
+						
 
 
 					</td>
