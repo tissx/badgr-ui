@@ -9,8 +9,8 @@ import {MessageService} from "../services/message.service";
 		"[attr.disabled]": "disabledForLoading ? true : null"
 	},
 	template: `
-		<span class="button-x-defaulttext" *ngIf="! showLoadindMessage"><ng-content></ng-content></span>
-		<span class="button-x-loading" *ngIf="showLoadindMessage">{{ loadingMessage }}</span>
+		<ng-content *ngIf="!showLoadindMessage"></ng-content>
+		<ng-template *ngIf="showLoadindMessage">{{ loadingMessage }}</ng-template>
 	`,
 })
 export class BadgrButtonComponent {
