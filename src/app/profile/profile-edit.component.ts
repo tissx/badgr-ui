@@ -13,66 +13,7 @@ import {UserProfile} from "../common/model/user-profile.model";
 import {AppConfigService} from "../common/app-config.service";
 
 @Component({
-	template: `
-		<main *bgAwaitPromises="[profileLoaded]">
-			<form-message></form-message>
-			
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a [routerLink]="['/profile/profile']">Profile</a>
-						</li>
-						<li class="breadcrumb-x-current">Edit Profile Name</li>
-					</ul>
-				</nav>
-				
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>
-							Edit Profile Name
-						</h1>
-						<p>
-							Edit a new name for your profile.
-						</p>
-					</div>
-				</div>
-			</header>
-
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical l-headeredsection wrap">
-				<form [formGroup]="profileEditForm"
-				      (ngSubmit)="submitEdit(profileEditForm.getRawValue())"
-				      class="l-form"
-				      novalidate
-				>
-					<fieldset>
-						<bg-formfield-text [control]="profileEditForm.controls.firstName"
-						                   [label]="'First Name'"
-						                   [errorMessage]="'Please enter your first name'"
-						></bg-formfield-text>
-
-						<bg-formfield-text [control]="profileEditForm.controls.lastName"
-						                   [label]="'Last Name'"
-						                   [errorMessage]="'Please enter your last name'"
-						></bg-formfield-text>
-					</fieldset>
-
-					<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-						<a class="button button-primaryghost"
-						   [routerLink]="['profile']"
-						   [disabled-when-requesting]="true"
-						>Cancel</a>
-						<button type="submit"
-						        class="button"
-						        (click)="validateEditForm($event)"
-						        [disabled-when-requesting]="true"
-						>Save</button>
-					</div>
-				</form>
-			</div>
-		</main>
-	`
+	templateUrl: './profile-edit.component.html',
 })
 export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	profile: UserProfile;

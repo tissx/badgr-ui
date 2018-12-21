@@ -13,7 +13,7 @@ import {CommonDialogsService} from "../services/common-dialogs.service";
 		'[class.forminput-is-error]': "isErrorState",
 		'[class.forminput-locked]': "isLockedState",
 		'[class.forminput-monospaced]': "monospaced",
-		'[class.forminput-withbutton.forminput-light1.u-width-formsmall]': "hasbutton",
+		'[class.forminput-withbutton]': "hasbutton",
 	},
 	template: `
 		<div class="forminput-x-labelrow">

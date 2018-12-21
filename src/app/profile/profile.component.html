@@ -10,8 +10,12 @@
 			<div class="topbar-x-wrap">
 				<div class="topbar-x-heading">
 					{{ profile?.firstName }} {{ profile?.lastName}}
-					<button class="heading-x-edit" type="button" [routerLink]="['/profile/edit']">Edit
-					</button>
+					<div class="l-flex l-flex-1x l-flex-aligncenter u-margin-top2x">
+						<svg icon="icon_edit" class="icon icon-dark4"></svg>
+						<button class="u-text-link" type="button" [routerLink]="['/profile/edit']">
+							Edit
+						</button>
+					</div>
 				</div>
 				<a [routerLink]="['../change-password']" class="button topbar-x-button">Change Password</a>
 			</div>
@@ -30,6 +34,7 @@
 							   fieldType="email" 
 							   hasbutton="true"
 							   clickFunc="clickAddEmail($event)"
+							   class="forminput-light1 u-width-formsmall"
 							   placeholder="Member Email">
 			</bg-formfield-text>
 
@@ -74,7 +79,7 @@
 
 					</td>
 					<td class="datatable-x-cell">
-						<button [class.button-is-disabled]="email.primary"
+						<button [class.u-text-light3]="email.primary"
 								(click)="clickConfirmRemove($event, email)" 
 								[disabled-when-requesting]="true" 
 								class="u-text-link-small u-text-bold">
@@ -124,7 +129,10 @@
 
 		<div class="l-grid l-grid-medium">
 			<button *ngFor="let provider of sessionService.enabledExternalAuthProviders" 
-			class="oauthbutton oauthbutton-{{ provider.slug }}"></button>
+					class="oauthbutton oauthbutton-{{ provider.slug }}"
+					(click)="linkAccount(provider)"
+					>
+			</button>
 		</div>
 
 	</div>
