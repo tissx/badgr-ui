@@ -13,6 +13,7 @@ import {CommonDialogsService} from "../services/common-dialogs.service";
 		'[class.forminput-is-error]': "isErrorState",
 		'[class.forminput-locked]': "isLockedState",
 		'[class.forminput-monospaced]': "monospaced",
+		'[class.forminput-withbutton.forminput-light1.u-width-formsmall]': "hasbutton",
 	},
 	template: `
 		<div class="forminput-x-labelrow">
@@ -38,7 +39,15 @@ import {CommonDialogsService} from "../services/common-dialogs.service";
                (focus)="cacheControlState()"
                (keypress)="handleKeyPress($event)"
                #textInput
-               />
+			   />
+		<div class="forminput-x-button" *ngIf="hasbutton">
+			<button class="button button-secondary button-informinput"
+					(click)="clickFunc" 
+					[disabled-when-requesting]="true"
+			>
+				Add
+			</button>
+		</div>
         <textarea *ngIf="multiline"
                   [name]="inputName"
                   [id]="inputId"
@@ -68,7 +77,9 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() placeholder: string;
 	@Input() fieldType: FormFieldTextInputType = "text";
 	@Input() optional: boolean = false;
-
+	@Input() hasbutton: boolean = false;
+	@Input() clickFunc;
+	
 	@Input() errorGroup: FormGroup;
 	@Input() errorGroupMessage: CustomValidatorMessages;
 
