@@ -10,7 +10,7 @@ import {
 	ApiBadgeInstanceForCreation
 } from "../models/badgeinstance-api.model";
 import {MessageService} from "../../common/services/message.service";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 
 export class PaginationResults {
@@ -75,13 +75,17 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 			.then(r => r.body);
 	}
 
-	private handleAssertionResult = (r) => {
+	private handleAssertionResult = (r: HttpResponse<ApiBadgeInstance[]>) => {
 			let resultset = new BadgeInstanceResultSet();
-			if (r.headers && r.headers.has('link')) {
+
+			if (r.headers.has('link')) {
 				let link = r.headers.get('link');
+
 				resultset.links = new PaginationResults(link);
 			}
-			resultset.instances = r.json();
+
+			resultset.instances = r.body || [];
+
 			return resultset;
 	};
 
