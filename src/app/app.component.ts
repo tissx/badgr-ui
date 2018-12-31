@@ -108,6 +108,13 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 							</li>
 						</ul>
 					</li>
+					<li class="menuitem" *ngIf="theme.customMenu">
+						<button>{{ theme.customMenu.label }}</button>
+						<ul>
+							<li class="menuitem menuitem-secondary" *ngFor="let item of theme.customMenu.items">
+								<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
+						</ul>
+					</li>
 				</ng-template>
 
 				<!-- Authenticated Menu -->
