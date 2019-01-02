@@ -23,17 +23,19 @@
 				Emails
 			</p>
 
-			<form [formGroup]="emailForm" (ngSubmit)="onSubmit(emailForm.value)" class="u-width-formsmall">
+			<form [formGroup]="emailForm"
+						(ngSubmit)="onSubmit(emailForm.value)"
+						class="u-width-formsmall"
+			>
 				<bg-formfield-text [control]="emailForm.controls['email']" 
-								[errorMessage]="'Please enter a valid email address'"
-								fieldType="email" 
-								hasbutton="true"
-								(clickHandleEmitter)="clickAddEmail($event)"
-								class="forminput-light1"
-								placeholder="Member Email">
-				</bg-formfield-text>
+				                   [errorMessage]="'Please enter a valid email address'"
+				                   fieldType="email"
+				                   hasbutton="true"
+				                   (buttonClicked)="clickAddEmail($event)"
+				                   class="forminput-light1"
+				                   placeholder="Member Email"
+				></bg-formfield-text>
 			</form>
-
 		</div>
 
 		<table class="datatable datatable-roundheaders datatable-tallrows datatable-onlyfirstcolumn">
