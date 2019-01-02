@@ -26,7 +26,7 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 	) {
 		super(
 			apiModel => new BadgeInstance(this),
-			apiModel => apiModel.json.id,
+			apiModel => apiModel.public_url || apiModel.json.id,
 			() => {
 				return this.badgeInstanceManager.badgeInstanceApiService.listBadgeInstances(issuerSlug, badgeClassSlug, recipientQuery).then(resultset => {
 					if (resultset.links) {

@@ -79,7 +79,7 @@ import {AppConfigService} from "../common/app-config.service";
 						
 						<div class="l-childrenhorizontal">
 							<a [routerLink]="['badges/create']" class="button">
-								<span class="hidden hidden-is-tablet">Create</span> Badge
+								Create Badge
 							</a>
 							<div *ngIf="launchpoints?.length">
 								<a class="button" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
@@ -144,8 +144,9 @@ import {AppConfigService} from "../common/app-config.service";
 							</tbody>
 						</table>
 	
-						<p class="empty" *ngIf="! badges?.length">
-							You do not have any Badge Classes
+						<p class="empty u-margin-bottom1x" *ngIf="! badges?.length">
+							You do not have any Badge Classes.
+							<a [routerLink]="['badges/create']">Create one now</a>.
 						</p>
 					</div>
 				</div>
@@ -277,7 +278,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 		this.externalToolsManager.getToolLaunchpoints("issuer_external_launch").then(launchpoints => {
 			this.launchpoints = launchpoints.filter(lp => Boolean(lp));
-		})
+		});
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then(
 			(issuer) => {
@@ -288,7 +289,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(
 						badgesByIssuer => {
 							const cmp = (a,b) => a == b ? 0 : (a < b ? -1 : 1);
-							this.badges = badgesByIssuer[ this.issuer.issuerUrl ].sort((a,b) => cmp(b.createdAt, a.createdAt))
+							this.badges = (badgesByIssuer[ this.issuer.issuerUrl ] || []).sort((a,b) => cmp(b.createdAt, a.createdAt))
 							resolve();
 						},
 						error => {
