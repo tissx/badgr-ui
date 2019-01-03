@@ -23,7 +23,7 @@
 				You have no badges
 			</h2>
 			<p class="u-text-body u-text-center u-margin-bottom3x">
-				Collect and share digital badges you've earned from {{configService.theme['serviceName'] || "Badgr"}} or any Open Badges issuer. 
+				Collect and share digital badges you've earned from {{configService.theme['serviceName'] || "Badgr"}} or any Open Badges issuer.
 				<a href="https://openbadges.org/" class="u-text-outlink">Learn more<svg icon="icon_external_link"></svg></a> about Open Badges.
 			</p>
 			<div class="l-flex l-flex-justifycenter">
@@ -31,101 +31,91 @@
 			</div>
 		</div>
 
-		<!-- TODO: The grid view, list view and dialogs -->
+		
 
-		<div class="l-containerhorizontal wrap" *ngIf="allBadges.length > 0">
-			<div class="l-controls bordered bordered-bottom">
-				<div>
-					<input type="text" class="search" placeholder="Search Badges" [(ngModel)]="searchQuery">
-				</div>
+		<div class="l-containerxaxis l-containeryaxis" *ngIf="allBadges.length > 0">
 
-				<!-- Toggle  between list and grid view -->
-				<div>
-					<label class="formcheckbox">
-						<input type="checkbox" [(ngModel)]="groupByIssuer" />
-						<span class="formcheckbox-x-text">Group by Issuer</span>
-					</label>
-					<div class="radiobuttons">
-						<input type="radio" name="radiobutton" id="radiobutton1" [(ngModel)]="badgesDisplay" value="grid" checked="checked">
-						<label class="radiobuttons-x-grid" for="radiobutton1">Grid</label>
-						<input type="radio" name="radiobutton" id="radiobutton2" [(ngModel)]="badgesDisplay" value="list">
-						<label class="radiobuttons-x-list" for="radiobutton2">List</label>
+
+
+
+				<div class="l-actionbar u-margin-bottom3x">
+					<div class="forminput l-actionbar-x-search">
+						<div class="forminput-x-inputs">
+							<input type="text" name="forminput" id="forminput" placeholder="Search badges" [(ngModel)]="searchQuery">
+							<svg class="forminput-x-icon" icon="icon_search"></svg>
+						</div>
 					</div>
+					<div class="l-actionbar-x-groupby">
+						<label class="checkbox checkbox-small">
+							<input name="groupby" type="checkbox" [(ngModel)]="groupByIssuer">
+							<span class="checkbox-x-text">
+								Group by Issuer
+							</span>
+						</label>
+					</div>
+
+					<div class="viewtoggle l-actionbar-x-viewtoggle" [class.viewtoggle-is-listview]="badgesDisplay=='list'">
+						<label class="viewtoggle-x-grid">
+							<span class="visuallyhidden">grid</span>
+							<input  type="radio" name="radiobutton" id="radiobutton1" [(ngModel)]="badgesDisplay" checked="checked" value="grid">
+							<svg viewBox="0 0 24 24"><use xlink:href="/images/icons.svg#icon_grid"></use></svg>
+						</label>
+						<label class="viewtoggle-x-list">
+							<span class="visuallyhidden">list</span>
+							<input  type="radio" name="radiobutton" id="radiobutton2" [(ngModel)]="badgesDisplay" value="list">
+							<svg viewBox="0 0 24 24"><use xlink:href="/images/icons.svg#icon_list"></use></svg>
+						</label>
+					</div>
+
+
 				</div>
 
-			</div>
-
-			<div class="l-headeredsection">
 
 				<!-- Grid View -->
 				<ng-template [ngIf]="badgesDisplay == 'grid'">
 
 					<!-- ------------------ UNGROUPED ------------------  -->
 					<ng-template [ngIf]="! groupByIssuer">
-						<div class="l-gridthree">
-							<div *ngFor="let badgeResult of badgeResults">
-								<article class="card card-largeimage">
-									<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
-										<div class="card-x-label status status-{{badgeResult.badge.mostRelevantStatus}}" *ngIf="badgeResult.badge.mostRelevantStatus">
-											{{badgeResult.badge.mostRelevantStatus}}
-										</div>
-										<div class="card-x-image">
-											<img [loaded-src]="badgeResult.badge.image" [loading-src]="badgeLoadingImageUrl" [error-src]="badgeFailedImageUrl"
-											 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}" width="80" />
-										</div>
-										<div class="card-x-text">
-											<h1>{{ badgeResult.badge.badgeClass.name }}</h1>
-											<small>{{ badgeResult.badge.badgeClass.issuer.name }}</small>
-											<p [truncatedText]="badgeResult.badge.badgeClass.description" [maxLength]="100"></p>
-										</div>
-									</a>
-									<div class="card-x-actions">
-										<div><small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time></div>
-										<button class="button button-secondaryghost l-offsetright l-offsetbottom" (click)="shareBadge(badgeResult.badge)">Share</button>
-									</div>
-								</article>
+						<div class="l-grid l-grid-large">
+
+								<bg-badgecard *ngFor="let badgeResult of badgeResults"
+											  badgeTitle="{{badgeResult.badge.badgeClass.name}}"
+											  badgeImage="{{badgeResult.badge.image}}"
+											  badgeDescription="{{badgeResult.badge.badgeClass.description}}"
+											  badgeIssueDate="{{badgeResult?.badge?.issueDate}}"
+								              mostRelevantStatus="{{badgeResult.badge.mostRelevantStatus}}"
+											  isExpired="{{badgeResult.badge.isExpired}}"
+											  issuerTitle="{{badgeResult.badge.badgeClass.issuer.name}}"
+											  [routerLink]="['../earned-badge', badgeResult.badge.slug]"
+								>
+								</bg-badgecard>
+
 							</div>
-						</div>
 					</ng-template>
 
 					<!-- ------------------ GROUP BY ISSUER ------------------  -->
 					<ng-template [ngIf]="groupByIssuer">
 						<div *ngFor="let issuerGroup of issuerResults">
-
-							<header>
-								<h1 class="title title-margin-bottom-2x">{{ issuerGroup.issuer.name }} <span>{{ issuerGroup.badges.length }} {{
-										issuerGroup.badges.length == 1 ? "Badge" : "Badges" }}</span></h1>
-							</header>
-
-							<div class="l-gridthree">
-								<div *ngFor="let badge of issuerGroup.badges">
-									<article class="card card-largeimage">
-										<a class="card-x-main" [routerLink]="['../earned-badge', badge.slug]">
-											<div class="card-x-label status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">{{badge.mostRelevantStatus}}</div>
-											<div class="card-x-image">
-												<div class="badge badge-flat">
-													<img [loaded-src]="badge.image" [loading-src]="badgeLoadingImageUrl" [error-src]="badgeFailedImageUrl"
-													 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}" width="80" />
-												</div>
-											</div>
-											<div class="card-x-text">
-												<h1>{{ badge.badgeClass.name }}</h1>
-												<small>{{ badge.badgeClass.issuer.name }}</small>
-												<p [truncatedText]="badge.badgeClass.description" [maxLength]="100"></p>
-											</div>
-										</a>
-										<div class="card-x-actions">
-											<div><small>Awarded</small> <time [date]="badge.issueDate" format="mediumDate"></time></div>
-											<button class="button button-secondaryghost l-offsetright l-offsetbottom" (click)="shareBadge(badge)">Share</button>
-										</div>
-									</article>
-								</div>
+							<h3 class="u-text-body-bold u-margin-yaxis3x u-text-dark1">{{ issuerGroup.issuer.name }} <span>{{ issuerGroup.badges.length }} {{
+									issuerGroup.badges.length == 1 ? "Badge" : "Badges" }}</span></h3>
+							<div class="l-grid l-grid-large">
+								<bg-badgecard *ngFor="let badge of issuerGroup.badges"
+												badgeTitle="{{badge.badgeClass.name}}"
+												badgeImage="{{badge.image}}"
+												badgeDescription="{{badge.badgeClass.description}}"
+												badgeIssueDate="{{badge.issueDate}}"
+												mostRelevantStatus="{{badge.mostRelevantStatus}}"
+												isExpired="{{badge.isExpired}}"
+												issuerTitle="{{ badge.badgeClass.issuer.name }}"
+												[routerLink]="['../earned-badge', badge.slug]"
+								>
+								</bg-badgecard>
 							</div>
 						</div>
 					</ng-template>
-
 				</ng-template>
-
+				
+				<!-- TODO: The list view and dialogs -->
 				<!-- List View -->
 				<ng-template [ngIf]="badgesDisplay == 'list'">
 
@@ -178,8 +168,9 @@
 						</table>
 					</div>
 				</ng-template>
-			</div>
+
 		</div>
+		<!-- End of l container -->
 	</ng-template>
 
 	<add-badge-dialog #addBadgeDialog></add-badge-dialog>
