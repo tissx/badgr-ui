@@ -15,11 +15,9 @@ import Popper, { Placement } from "popper.js";
 	}
 })
 export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
-	private popper: Popper | null = null;
-
-	private lastTriggerElem: HTMLElement | null = null;
-
 	public triggerData: any = null;
+	private popper: Popper | null = null;
+	private lastTriggerElem: HTMLElement | null = null;
 
 	@Input()
 	closeOnOutsideClick: boolean = true;

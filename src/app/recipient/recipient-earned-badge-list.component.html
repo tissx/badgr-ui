@@ -36,10 +36,8 @@
 			</div>
 		</div>
 
-
+		<!-- Badge Search, group and grid/list toggle -->
 		<div class="l-containerxaxis l-containeryaxis" *ngIf="allBadges.length > 0">
-
-
 			<div class="l-actionbar u-margin-bottom3x">
 				<div class="forminput l-actionbar-x-search">
 					<div class="forminput-x-inputs">
@@ -55,7 +53,6 @@
 							</span>
 					</label>
 				</div>
-
 				<div class="viewtoggle l-actionbar-x-viewtoggle" [class.viewtoggle-is-listview]="badgesDisplay=='list'">
 					<label class="viewtoggle-x-grid">
 						<span class="visuallyhidden">grid</span>
@@ -73,14 +70,10 @@
 						<svg icon="icon_list"></svg>
 					</label>
 				</div>
-
-
 			</div>
-
 
 			<!-- Grid View -->
 			<ng-template [ngIf]="badgesDisplay == 'grid'">
-
 				<!-- ------------------ UNGROUPED ------------------  -->
 				<ng-template [ngIf]="! groupByIssuer">
 					<div class="l-grid l-grid-large">
@@ -96,10 +89,8 @@
 						              [routerLink]="['../earned-badge', badgeResult.badge.slug]"
 						>
 						</bg-badgecard>
-
 					</div>
 				</ng-template>
-
 				<!-- ------------------ GROUP BY ISSUER ------------------  -->
 				<ng-template [ngIf]="groupByIssuer">
 					<div *ngFor="let issuerGroup of issuerResults">
@@ -124,7 +115,6 @@
 
 			<!-- List View -->
 			<ng-template [ngIf]="badgesDisplay == 'list'">
-
 				<table class="datatable datatable-roundheaders datatable-onlyfirstcolumn">
 					<thead class="datatable-x-head">
 						<tr class="datatable-x-header">
@@ -134,19 +124,15 @@
 							<th class="datatable-x-cell" scope="col"><span class="visuallyhidden">Actions</span></th>
 						</tr>
 					</thead>
-
 					<tbody class="datatable-x-body">
+						<!-- Issuer title if grouped by issuer -->
 						<ng-template ngFor let-issuerGroup [ngForOf]="issuerResults" let-i="index">
-
-
 							<tr class="datatable-x-row" *ngIf="groupByIssuer">
 								<th class="datatable-x-inlineheader" scope="row" colspan="4">{{ issuerGroup.issuer.name }}</th>
 							</tr>
-
+							<!-- Badges -->
 							<ng-template ngFor let-badge [ngForOf]="issuerGroup.badges" let-i="index">
 								<tr class="datatable-x-row">
-
-
 									<td class="datatable-x-cell">
 										<div class="l-flex l-flex-2x l-flex-aligncenter">
 											<img [loaded-src]="badge.image"
@@ -169,21 +155,14 @@
 									</td>
 									<td class="datatable-x-cell">
 										<button class="u-text-link-small u-text-bold" (click)="shareBadge(badge)">Share</button>
-
 									</td>
-
 								</tr>
 							</ng-template>
-
 						</ng-template>
 					</tbody>
-
 				</table>
-
 			</ng-template>
-
 		</div>
-		<!-- End of l container -->
 	</ng-template>
 	<add-badge-dialog #addBadgeDialog></add-badge-dialog>
 </main>
