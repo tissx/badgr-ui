@@ -1,49 +1,54 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const widgetModuleName = "widgets";
+
+
+class WidgetOutputPlugin {
+	apply(compiler) {
+		let outputPath = compiler.options.output.path;
+
+		if (outputPath === '/' &&
+			compiler.options.devServer &&
+			compiler.options.devServer.outputPath
+		) {
+			outputPath = compiler.options.devServer.outputPath;
+		}
+
+		compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
+			for (const chunk of compilation.chunks) {
+				if (chunk.name === widgetModuleName) {
+					const asset = compilation.assets[chunk.files[0]];
+
+					if (asset._value) {
+						fs.writeFileSync(
+							path.join(
+								path.dirname(path.join(outputPath, chunk.files[0])),
+								"widgets.bundle.js"
+							),
+							asset._value,
+							{
+								encoding: "utf-8"
+							}
+						);
+					}
+				}
+			}
+		});
+	}
+}
 
 module.exports = {
 	entry: {
-		widgets: path.join(__dirname, 'src/widgets.browser.ts')
+		[widgetModuleName]: path.join(__dirname, 'src/widgets.browser.ts')
 	},
+
 	plugins: [
-		// Add a plugin that copies the widgets.hash.js file to widgets.bundle.js for backwards compatibility and support
-		// for direct-linking to the file. In theory, this should be doable with output: { filename: () => }, but that
-		// method doesn't work correctly.
-		{
-			apply: (compiler) => {
-				let outputPath = compiler.options.output.path;
-
-				if (outputPath === '/' &&
-					compiler.options.devServer &&
-					compiler.options.devServer.outputPath
-				) {
-					outputPath = compiler.options.devServer.outputPath;
-				}
-
-				compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-					for (const chunk of compilation.chunks) {
-						if (chunk.name === "widgets") {
-							const asset = compilation.assets[chunk.files[0]];
-
-							if (asset._value) {
-								fs.writeFileSync(
-									path.join(
-										path.dirname(path.join(outputPath, chunk.files[0])),
-										"widgets.bundle.js"
-									),
-									asset._value,
-									{
-										encoding: "utf-8"
-									}
-								);
-							}
-						}
-					}
-				});
-			}
-		},
+		new WidgetOutputPlugin()
 	]
 };
+
 
 /*
 interface ChunkData {
