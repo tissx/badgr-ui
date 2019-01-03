@@ -79,14 +79,14 @@
 					<div class="l-grid l-grid-large">
 						<!-- TODO: Fix the badgecard link for sharing and routing -->
 						<bg-badgecard *ngFor="let badgeResult of badgeResults"
-						              badgeTitle="{{badgeResult.badge.badgeClass.name}}"
-						              badgeImage="{{badgeResult.badge.image}}"
-						              badgeDescription="{{badgeResult.badge.badgeClass.description}}"
-						              badgeIssueDate="{{badgeResult?.badge?.issueDate}}"
-						              mostRelevantStatus="{{badgeResult.badge.mostRelevantStatus}}"
-						              isExpired="{{badgeResult.badge.isExpired}}"
-						              issuerTitle="{{badgeResult.badge.badgeClass.issuer.name}}"
-						              [routerLink]="['../earned-badge', badgeResult.badge.slug]"
+						              [badgeTitle]="badgeResult.badge.badgeClass.name"
+						              [badgeImage]="badgeResult.badge.image"
+						              [badgeDescription]="badgeResult.badge.badgeClass.description"
+						              [badgeIssueDate]="badgeResult?.badge?.issueDate"
+						              [mostRelevantStatus]="badgeResult.badge.mostRelevantStatus"
+						              [issuerTitle]="badgeResult.badge.badgeClass.issuer.name"
+									  [badgeSlug]="badgeResult.badge.slug"
+									  (shareClicked)="shareBadge(badgeResult.badge)"
 						>
 						</bg-badgecard>
 					</div>
@@ -94,18 +94,18 @@
 				<!-- ------------------ GROUP BY ISSUER ------------------  -->
 				<ng-template [ngIf]="groupByIssuer">
 					<div *ngFor="let issuerGroup of issuerResults">
-						<h3 class="u-text-body-bold u-margin-yaxis3x u-text-dark1">{{ issuerGroup.issuer.name }} <span>{{ issuerGroup.badges.length }} {{
+						<h3 class="u-text-body-bold u-margin-yaxis3x u-text-dark1" >{{ issuerGroup.issuer.name }} <span>{{ issuerGroup.badges.length }} {{
 									issuerGroup.badges.length == 1 ? "Badge" : "Badges" }}</span></h3>
 						<div class="l-grid l-grid-large">
 							<bg-badgecard *ngFor="let badge of issuerGroup.badges"
-							              badgeTitle="{{badge.badgeClass.name}}"
-							              badgeImage="{{badge.image}}"
-							              badgeDescription="{{badge.badgeClass.description}}"
-							              badgeIssueDate="{{badge.issueDate}}"
-							              mostRelevantStatus="{{badge.mostRelevantStatus}}"
-							              isExpired="{{badge.isExpired}}"
-							              issuerTitle="{{ badge.badgeClass.issuer.name }}"
-							              [routerLink]="['../earned-badge', badge.slug]"
+							              [badgeTitle]="badge.badgeClass.name"
+							              [badgeImage]="badge.image"
+							              [badgeDescription]="badge.badgeClass.description"
+							              [badgeIssueDate]="badge.issueDate"
+							              [mostRelevantStatus]="badge.mostRelevantStatus"
+							              [issuerTitle]=" badge.badgeClass.issuer.name "
+										  [badgeSlug]="badge.slug"
+										  (shareClicked)="shareBadge(badge)"
 							>
 							</bg-badgecard>
 						</div>
@@ -142,7 +142,7 @@
 											     width="40"
 											     class="badgeimage badgeimage-expired badgeimage-small u-margin-right2x" />
 
-											<a href="#" class="u-text u-text-link">{{ badge.badgeClass.name }}</a>
+											<a [routerLink]="['../earned-badge', badge.slug]" class="u-text u-text-link">{{ badge.badgeClass.name }}</a>
 											<div *ngIf="badge.mostRelevantStatus"
 											     class="datatable-x-status badgestatus badgestatus-intable badgestatus-{{badge.mostRelevantStatus}}">
 												{{badge.mostRelevantStatus}}
