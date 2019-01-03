@@ -1,11 +1,12 @@
-import {Component, ElementRef, Renderer2} from "@angular/core";
+import {Component, ElementRef, Renderer2} from '@angular/core';
 
-import {SharedObjectType, ShareEndPoint, ShareServiceType, SharingService} from "../services/sharing.service";
-import {BaseDialog} from "./base-dialog";
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {addQueryParamsToUrl} from "../util/url-util";
-import {TimeComponent} from "../components/time.component";
-import {generateEmbedHtml} from "../../../embed/generate-embed-html";
+import {SharedObjectType, ShareEndPoint, ShareServiceType, SharingService} from '../services/sharing.service';
+import {BaseDialog} from './base-dialog';
+import {DomSanitizer} from '@angular/platform-browser';
+import {addQueryParamsToUrl} from '../util/url-util';
+import {TimeComponent} from '../components/time.component';
+import {generateEmbedHtml} from '../../../embed/generate-embed-html';
+import {animationFramePromise} from '../util/promise-util';
 
 
 @Component({
@@ -50,18 +51,20 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					<p class="label-formfield">Badge Options</p>
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
 						<label class="formcheckbox" for="form-checkbox">
-							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
-							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier"
+							       (ngModelChange)="updateEmbedHtml()">
+							<span
+								class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
 						</label>
 					</div>
 				</div>
-				
+
 				<div class="formfield formfield-link">
 					<label class=" " for="link-input">Copy this private URL to share:</label>
-					<input id="link-input" 
-					       name="link-input" 
-					       type="text" 
-					       [value]="currentShareUrl" 
+					<input id="link-input"
+					       name="link-input"
+					       type="text"
+					       [value]="currentShareUrl"
 					       (click)="$event.target.select()"
 					       readonly
 					       #urlInput
@@ -88,7 +91,8 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					        class="button"
 					        (click)="copyToClipboard(urlInput)"
 					        [hidden]="! copySupported"
-					>Copy</button>
+					>Copy
+					</button>
 				</div>
 				<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded" *ngIf="options.versionInfoTitle">
 					<p class="text text-small"><strong>{{ options.versionInfoTitle }}</strong></p>
@@ -100,17 +104,30 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 			</div>
 
 			<!-- Social Tab -->
-			<div class="l-sharepane l-sharepane-social" tabindex="-1" id="sharelinksocial" *ngIf="currentTabId == 'social'">
+			<div class="l-sharepane l-sharepane-social"
+			     tabindex="-1"
+			     id="sharelinksocial"
+			     *ngIf="currentTabId == 'social'"
+			>
 				<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
 					<p class="label-formfield">Badge Options</p>
-					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
-						<label class="formcheckbox" for="form-checkbox">
-							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
-							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+
+					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop l-marginTop-2x">
+						<label class="formcheckbox"
+						       for="form-checkbox"
+						>
+							<input name="form-checkbox"
+							       id="form-checkbox"
+							       type="checkbox"
+							       [(ngModel)]="includeRecipientIdentifier"
+							       (ngModelChange)="updateEmbedHtml()">
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">
+								Include Recipient Identifier: {{ options.recipientIdentifier }}
+							</span>
 						</label>
 					</div>
 				</div>
-						
+
 				<div class="l-authbuttons">
 					<div *ngIf="displayShareServiceType('Facebook')">
 						<button class="buttonauth buttonauth-facebook"
@@ -144,14 +161,21 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 			</div>
 
 			<!-- Embed Tab -->
-			<div class="l-sharepane" tabindex="-1" id="sharelinkembed" *ngIf="currentTabId == 'embed'">
-				<div class="l-childrenhorizontal l-childrenhorizontal-small">
+			<div class="l-sharepane"
+			     tabindex="-1"
+			     id="sharelinkembed"
+			     *ngIf="currentTabId == 'embed'"
+			>
+				<div class="l-childrenhorizontal l-childrenhorizontal-small"
+				     *ngIf="options.embedOptions.length > 1"
+				>
 					<div class="formradiobutton" *ngFor="let embedOption of options.embedOptions; let i = index">
 						<input type="radio"
 						       name="embed-type-{{i}}"
 						       id="embed-type-{{i}}"
 						       [value]="embedOption"
 						       [(ngModel)]="selectedEmbedOption"
+						       (ngModelChange)="updateEmbedHtml()"
 						/>
 						<label for="embed-type-{{i}}">
 							<span><span></span></span>
@@ -159,41 +183,80 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 						</label>
 					</div>
 				</div>
-				
+
 				<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
 					<p class="label-formfield">Badge Options</p>
 					<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
 
 						<label class="formcheckbox" for="form-checkbox">
-							<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier" (ngModelChange)="updatePreview()">
-							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
+							<input name="form-checkbox"
+							       id="form-checkbox"
+							       type="checkbox"
+							       [(ngModel)]="includeRecipientIdentifier"
+							       (ngModelChange)="updateEmbedHtml()"
+							/>
+							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">
+								Include Recipient Identifier: {{ options.recipientIdentifier }}
+							</span>
 						</label>
-						
-						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox1">
-							<input name="form-checkbox" id="form-checkbox1" type="checkbox" [(ngModel)]="includeBadgeClassName" (ngModelChange)="updatePreview()">
+
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'" class="formcheckbox" for="form-checkbox1">
+							<input name="form-checkbox"
+							       id="form-checkbox1"
+							       type="checkbox"
+							       [(ngModel)]="includeBadgeClassName"
+							       (ngModelChange)="updateEmbedHtml()"
+							/>
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
 						</label>
 
-						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image' && selectedEmbedOption.embedRecipientName" class="formcheckbox" for="form-checkbox2">
-							<input name="form-checkbox2" id="form-checkbox2" type="checkbox" [value]="includeRecipientName" [(ngModel)]="includeRecipientName" (change)="updatePreview()">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image' && selectedEmbedOption.embedRecipientName"
+						       class="formcheckbox"
+						       for="form-checkbox2"
+						>
+							<input name="form-checkbox2"
+							       id="form-checkbox2"
+							       type="checkbox"
+							       [value]="includeRecipientName"
+							       [(ngModel)]="includeRecipientName"
+							       (change)="updateEmbedHtml()"
+							/>
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Name</span>
 						</label>
 
-						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox5">
-							<input name="form-checkbox5" id="form-checkbox5" type="checkbox" [(ngModel)]="includeAwardDate" (change)="updatePreview()">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'"
+						       class="formcheckbox"
+						       for="form-checkbox5"
+						>
+							<input name="form-checkbox5"
+							       id="form-checkbox5"
+							       type="checkbox"
+							       [(ngModel)]="includeAwardDate"
+							       (change)="updateEmbedHtml()"
+							/>
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Date Awarded</span>
 						</label>
 
-						<label *ngIf="selectedEmbedOption && selectedEmbedOption.embedType == 'image'" class="formcheckbox" for="form-checkbox6">
-							<input name="form-checkbox6" id="form-checkbox6" type="checkbox" [(ngModel)]="includeVerifyButton" (change)="updatePreview()">
+						<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'" class="formcheckbox" for="form-checkbox6">
+							<input name="form-checkbox6"
+							       id="form-checkbox6"
+							       type="checkbox"
+							       [(ngModel)]="includeVerifyButton"
+							       (change)="updateEmbedHtml()"
+							/>
 							<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Verification</span>
 						</label>
 					</div>
 				</div>
-				
+
 				<p class="label-formfield">Preview</p>
-				<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded" [innerHTML]="currentSafeEmbedHtml"></div>
-				
+				<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded">
+					<iframe src="about:blank"
+					        class="previewIframe"
+					        style="width: 100%"
+					></iframe>
+				</div>
+
 				<div class="formfield formfield-limitedtextarea formfield-monospaced">
 					<label class=" " for="emebed-code-box">Embed Code</label>
 					<textarea id="emebed-code-box"
@@ -204,15 +267,16 @@ import {generateEmbedHtml} from "../../../embed/generate-embed-html";
 					          #embedHtmlInput
 					></textarea>
 				</div>
-				
-				<div class="l-childrenhorizontal l-childrenhorizontal-right" >
+
+				<div class="l-childrenhorizontal l-childrenhorizontal-right">
 					<button class="button"
 					        type="button"
 					        [hidden]="! copySupported"
 					        (click)="copyToClipboard(embedHtmlInput)"
-					>Copy</button>
+					>Copy
+					</button>
 				</div>
-				
+
 			</div>
 		</dialog>
 	`
@@ -234,12 +298,14 @@ export class ShareSocialDialog extends BaseDialog {
 	includeVerifyButton: boolean = true;
 
 	constructor(
-		componentElem: ElementRef,
+		componentElem: ElementRef<HTMLElement>,
 		renderer: Renderer2,
 		private domSanitizer: DomSanitizer,
 		private sharingService: SharingService
 	) {
 		super(componentElem, renderer);
+
+		this.updateEmbedHtml();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -254,11 +320,9 @@ export class ShareSocialDialog extends BaseDialog {
 		this.currentTabId = "link";
 		this.selectedEmbedOption = this.options.embedOptions && this.options.embedOptions[0] || null;
 		this.selectedVersion = this.options.versionOptions && this.options.versionOptions[0] || null;
-		this.cachedEmbedOption = null;
-		this.cachedEmbedHtml = null;
-		this.currentSafeEmbedHtml = null;
+		this.currentEmbedHtml = null;
 
-		this.currentEmbedHtml; // trigger html generation before rendering
+		this.updateEmbedHtml();
 
 		this.includeRecipientIdentifier = false;
 
@@ -297,19 +361,85 @@ export class ShareSocialDialog extends BaseDialog {
 		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versioned_url, params) : versioned_url;
 	}
 
-	private cachedEmbedOption: ShareSocialDialogEmbedOption | null = null;
-	private cachedEmbedHtml: string | null = null;
-	currentSafeEmbedHtml: SafeHtml | null = null;
+	currentEmbedHtml: string | null = null;
 
-	get currentEmbedHtml(): string | null {
-		if (! this.selectedEmbedOption) return null;
+	stripStyleTags(htmlstr: string): string {
+		return htmlstr.replace(/ ?style="[^"]*"/g, '');
+	}
 
-		// Cache the generated html because it involves DOM operations and could be slow, as it will be called on every
-		// angular update at least twice.
-		if (this.selectedEmbedOption == this.cachedEmbedOption)
-			return this.cachedEmbedHtml;
+	get hasEmbedSupport() {
+		return this.options.embedOptions && this.options.embedOptions.length;
+	}
 
+	displayShareServiceType(serviceType: ShareServiceType) {
+		if (this.options.excludeServiceTypes) {
+			return this.options.excludeServiceTypes.indexOf(serviceType) == -1;
+		}
+		return true;
+	}
+
+	openTab(tabId: ShareSocialDialogTabId) {
+		this.currentTabId = tabId;
+		this.updateEmbedHtml();
+	}
+
+	copySupported(): boolean {
+		try {
+			return document.queryCommandSupported('copy');
+		} catch(e) {
+			return false;
+		}
+	}
+
+	copyToClipboard(input: HTMLInputElement) {
+		// Inspired by https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+
+		const inputWasDisabled = input.disabled;
+		input.disabled = false;
+		input.select();
+
+		// Invoke browser support
+		try {
+			if (document.execCommand('copy')) {
+				return;
+			}
+		} catch (err) {
+
+		} finally {
+			input.disabled = inputWasDisabled;
+		}
+	}
+
+	private async updatePreviewHtml(html: string) {
+		if (this.componentElem.nativeElement) {
+			// Ensure the angular view is up-to-date so the iframe is around.
+			await animationFramePromise();
+
+			const iframe = this.componentElem.nativeElement.querySelector<HTMLIFrameElement>(".previewIframe");
+
+			if (iframe && html !== iframe["lastWrittenHtml"]) {
+				iframe["lastWrittenHtml"] = html;
+
+				iframe.style.height = "";
+
+				const iframeDocument = iframe.contentWindow.document;
+				iframeDocument.open();
+				iframeDocument.write(html);
+				iframeDocument.close();
+
+				iframe.style.height = iframeDocument.documentElement.scrollHeight + "px";
+			}
+		}
+	}
+
+	updateEmbedHtml() {
 		const option = this.selectedEmbedOption;
+
+		if (! option) {
+			this.currentEmbedHtml = null;
+			this.updatePreviewHtml("");
+			return;
+		}
 
 		// Include information about this embed in the query string so we know about the context later, especially if we
 		// need to change how things are displayed, and want old version embeds to work correctly.
@@ -330,7 +460,6 @@ export class ShareSocialDialog extends BaseDialog {
 
 		const outerContainer = document.createElement("div");
 		let containerElem: HTMLElement = outerContainer;
-
 
 		// Create the embedded HTML fragment by generating an element and grabbing innerHTML. This avoids us having to
 		// deal with any HTML-escape issues, which are hard to get right, and for which there aren't any built-in functions.
@@ -369,68 +498,13 @@ export class ShareSocialDialog extends BaseDialog {
 			} break;
 		}
 
-		this.cachedEmbedOption = this.selectedEmbedOption;
-		this.cachedEmbedHtml = outerContainer.innerHTML;
-		this.currentSafeEmbedHtml = this.domSanitizer.bypassSecurityTrustHtml(outerContainer.innerHTML);
+		this.currentEmbedHtml = outerContainer.innerHTML;
 
-		if (option.embedType == "image") {
-			this.cachedEmbedHtml = this.stripStyleTags(this.cachedEmbedHtml);
+		if (option.embedType === "image") {
+			this.currentEmbedHtml = this.stripStyleTags(this.currentEmbedHtml);
 		}
 
-		return this.cachedEmbedHtml;
-	}
-
-	stripStyleTags(htmlstr: string): string {
-		return htmlstr.replace(/ ?style="[^"]*"/g, '');
-	}
-
-	get hasEmbedSupport() {
-		return this.options.embedOptions && this.options.embedOptions.length;
-	}
-
-	displayShareServiceType(serviceType: ShareServiceType) {
-		if (this.options.excludeServiceTypes) {
-			return this.options.excludeServiceTypes.indexOf(serviceType) == -1;
-		}
-		return true;
-	}
-
-	openTab(tabId: ShareSocialDialogTabId) {
-		this.currentTabId = tabId;
-	}
-
-	copySupported(): boolean {
-		try {
-			return document.queryCommandSupported('copy');
-		} catch(e) {
-			return false;
-		}
-	}
-
-	copyToClipboard(input: HTMLInputElement) {
-		// Inspired by https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
-
-		const inputWasDisabled = input.disabled;
-		input.disabled = false;
-		input.select();
-
-		// Invoke browser support
-		try {
-			if (document.execCommand('copy')) {
-				return;
-			}
-		} catch (err) {
-
-		} finally {
-			input.disabled = inputWasDisabled;
-		}
-	}
-
-	updatePreview(ev) {
-		this.cachedEmbedOption = null;
-		this.cachedEmbedHtml = null;
-		this.currentSafeEmbedHtml = null;
-		this.currentEmbedHtml; // trigger html generation
+		this.updatePreviewHtml(this.currentEmbedHtml);
 	}
 }
 

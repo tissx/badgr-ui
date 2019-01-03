@@ -3,12 +3,12 @@ import {HTMLDialogElement, registerDialog} from "dialog-polyfill/dialog-polyfill
 
 export abstract class BaseDialog implements AfterViewInit {
 	constructor(
-		protected componentElem: ElementRef,
+		protected componentElem: ElementRef<HTMLElement>,
 		protected renderer: Renderer2
 	) {}
 
-	private get dialogElem(): HTMLDialogElement {
-		return (this.componentElem.nativeElement as HTMLElement).querySelector("dialog") as any;
+	private get dialogElem() {
+		return this.componentElem.nativeElement.querySelector<HTMLDialogElement>("dialog");
 	}
 
 	ngAfterViewInit() {
