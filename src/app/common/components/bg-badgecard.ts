@@ -16,10 +16,12 @@ declare function require(path: string): string;
 					     [loaded-src]="badgeImage"
 					     [loading-src]="badgeLoadingImageUrl"
 					     [error-src]="badgeFailedImageUrl"
-					     [ngStyle]="isExpired && {'filter':'grayscale(1)'}"
+					     [ngStyle]="mostRelevantStatus == 'expired' && {'filter':'grayscale(1)'}"
 					     width="80" />
 				</div>
-				<a class="badgecard-x-title" [routerLink]="routerLink">
+				<a class="badgecard-x-title" 
+				[routerLink]="['../earned-badge', badgeSlug]"
+				>
 					{{ badgeTitle }}
 				</a>
 				<div class="badgecard-x-issuer">{{ issuerTitle }}</div>
@@ -40,15 +42,12 @@ declare function require(path: string): string;
 export class BgBadgecard {
 	readonly badgeLoadingImageUrl = require('../../../breakdown/static/images/badge-loading.svg');
 	readonly badgeFailedImageUrl = require('../../../breakdown/static/images/badge-failed.svg');
-
+	@Input() badgeSlug: string;
 	@Input() badgeImage: string;
 	@Input() badgeTitle: string;
 	@Input() badgeDescription: string;
 	@Input() badgeIssueDate: string;
 	@Input() issuerTitle: string;
-	@Input() routerLink: string[];
-	@Input() isExpired: boolean;
 	@Input() mostRelevantStatus: "expired" | "new" | undefined;
 	@Output() shareClicked = new EventEmitter<MouseEvent>();
-
 }
