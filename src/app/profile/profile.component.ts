@@ -127,6 +127,7 @@ import {AppConfigService} from "../common/app-config.service";
 										        [class.button-is-disabled]="email.primary"
 										        (click)="clickConfirmRemove($event, email)"
 										        [disabled-when-requesting]="true"
+										        *ngIf="emails.length > 1 && ! email.primary"
 										>
 											Remove
 										</button>
