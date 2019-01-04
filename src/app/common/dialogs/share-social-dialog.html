@@ -1,5 +1,115 @@
+<dialog class="l-dialog o-container" open="">
+	<div class="dialog dialog-is-active">
+		<div class="dialog-x-box">
+		  <div class="dialog-x-header">
+			<h1>{{ options.title }}</h1>
+			<button class="buttonicon" (click)="closeDialog()">
+			  <svg icon="icon_close"></svg>
+			  <span class="visuallyhidden">Close</span>
+			</button>
+		  </div>
+  
+		  <div class="tabbar">
+			  <button class="tab tab-indialog"
+			  [class.tab-is-active]="currentTabId == 'link'"
+				(click)="openTab('link')">Link</button>
+			  <button class="tab tab-indialog" 
+			  [class.tab-is-active]="currentTabId == 'social'"
+				(click)="openTab('social')">Social</button>
+			  <button class="tab tab-indialog"
+			  [class.tab-is-active]="currentTabId == 'embed'"
+				(click)="openTab('embed')"
+				*ngIf="hasEmbedSupport">Embed</button>
+		  </div>
+  
+		  <div class="u-padding-all2x">
+  
+			<div class="l-flex l-flex-1x u-margin-bottom3x">
+			  <label class="radio" for="card">
+				<input type="radio" id="card" name="type" value="card" checked="">
+				<span class="radio-x-text">Card</span>
+			  </label>
+  
+			  <label class="radio" for="image">
+				<input type="radio" id="image" name="type" value="image">
+				<span class="radio-x-text">Image</span>
+			  </label>
+			</div>
+  
+  
+			<p class="u-text-bold">Included Badge Options</p>
+			<div class="rule u-margin-yaxis2x"></div>
+			<label class="checkbox checkbox-light u-margin-bottom2x">
+			  <input name="rec" type="checkbox" checked="">
+			  <span class="checkbox-x-text">
+				<strong>Recipient Identifier:</strong> <br> 
+				name@concentricsky.com
+			  </span>
+			</label>
+  
+			<label class="checkbox u-margin-bottom2x">
+			  <input name="nameinc" type="checkbox" checked="">
+			  <span class="checkbox-x-text">
+				Badge Name
+			  </span>
+			</label>
+  
+			<label class="checkbox u-margin-bottom2x">
+			  <input name="dateaw" type="checkbox" checked="">
+			  <span class="checkbox-x-text">
+				Date Awarded
+			  </span>
+			</label>
+  
+			<label class="checkbox u-margin-bottom2x">
+			  <input name="verifi" type="checkbox" checked="">
+			  <span class="checkbox-x-text">
+				Verification
+			  </span>
+			</label>
+  
+			<p class="u-text-small-bold u-margin-bottom0p5x u-margin-top5x">Preview</p>
+  
+			<div class="badgecard">
+			  <div class="badgecard-x-body">
+				  <div class="badgecard-x-image">
+					  <img class="badgeimage" src="http://placehold.it/100x100" alt="">
+				  </div>
+				  <a class="badgecard-x-title" href="#">A Badge Title</a>
+				  <div class="badgecard-x-issuer">Issuer Title</div>
+				  <div class="badgecard-x-desc">Some descriptive about this badge</div>
+			  </div>
+			  <div class="badgecard-x-footer">
+				  <div class="badgecard-x-date">Earned: January 01, 2019</div>
+				  <a href="#" class="badgecard-x-sharelink">Verify Badge</a>
+			  </div>
+			</div>
+			
+			<div class="forminput forminput-code u-margin-top3x u-margin-bottom2x">
+			  <label class="forminput-x-label" for="forminput">Embeded Code</label>
+			  <div class="forminput-x-inputs">
+				<textarea type="text" name="forminput" id="forminput">The embed code goes here and changes dynamically as the checks and radios are pressed above.
+				</textarea>
+			  </div>
+			</div>
+			<div class="l-stack l-stack-right">
+			  <button class="button button-secondary">Copy</button>
+			</div>
+		  </div>
+		</div>
+	</div>
+  </dialog>
+
+
+
+
+
+
+<!--
+
+
 <dialog class="dialog dialog-titled wrap wrap-light">
-	<!-- Header -->
+	 Header 
 	<header class="dialog-x-titlebar">
 		<h1>{{ options.title }}</h1>
 		<button class="dialog-x-close" (click)="closeDialog()">
@@ -7,7 +117,7 @@
 		</button>
 	</header>
 
-	<!-- Tab Navigation Bar -->
+	 Tab Navigation Bar 
 	<nav class="l-tabs" aria-labelledby="nav-tabs" role="navigation">
 		<h3 class="visuallyhidden" id="nav-tabs"> Tabs</h3>
 		<button class="tab"
@@ -31,7 +141,7 @@
 		</button>
 	</nav>
 
-	<!-- Link Tab -->
+	 Link Tab 
 	<div class="l-sharepane" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
 		<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
 			<p class="label-formfield">Badge Options</p>
@@ -86,7 +196,7 @@
 		</div>
 	</div>
 
-	<!-- Social Tab -->
+	 Social Tab 
 	<div class="l-sharepane l-sharepane-social" tabindex="-1" id="sharelinksocial" *ngIf="currentTabId == 'social'">
 		<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
 			<p class="label-formfield">Badge Options</p>
@@ -130,7 +240,7 @@
 		</div>
 	</div>
 
-	<!-- Embed Tab -->
+	 Embed Tab 
 	<div class="l-sharepane" tabindex="-1" id="sharelinkembed" *ngIf="currentTabId == 'embed'">
 		<div class="l-childrenhorizontal l-childrenhorizontal-small">
 			<div class="formradiobutton" *ngFor="let embedOption of options.embedOptions; let i = index">
@@ -201,4 +311,4 @@
 		</div>
 		
 	</div>
-</dialog>
+</dialog> -->
