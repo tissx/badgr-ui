@@ -1,6 +1,5 @@
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const widgetModuleName = "widgets";
 
