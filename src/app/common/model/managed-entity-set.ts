@@ -27,7 +27,7 @@ export class ManagedEntitySet<
 
 	private changedSubject = new UpdatableSubject<EntitySetUpdate<EntityType, this>>();
 
-	private _loadedPromise: Promise<this> = null
+	protected _loadedPromise: Promise<this> = null;
 
 	constructor(
 		protected entityFactory: (apiModel: ApiEntityType) => EntityType,
@@ -382,6 +382,7 @@ export class StandaloneEntitySet<
 		this.listInvalidatedSinceLastUpdate = true;
 
 		this._apiEntities = [];
+		this._loadedPromise = null;
 
 		this.onBackingListChanged();
 	}

@@ -211,7 +211,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
 		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager   // required for angulartics to work
-
 	) {
 		messageService.useRouter(router);
 
@@ -220,11 +219,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		const authCode = this.queryParams.queryStringValue("authCode", true);
 		if (sessionService.isLoggedIn && !authCode) {
-			profileManager.userProfilePromise.then(profile => {
-				if (profile.agreedTermsVersion != profile.latestTermsVersion) {
+			profileManager.userProfileSet.changed$.subscribe(set => {
+				if (set.entities.length && set.entities[0].agreedTermsVersion != set.entities[0].latestTermsVersion) {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
 			});
+
+			// Load the profile
+			this.profileManager.userProfileSet.loadedPromise;
 		}
 
 		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {

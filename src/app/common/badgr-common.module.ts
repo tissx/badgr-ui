@@ -58,6 +58,7 @@ import {ExternalToolLaunchComponent} from "./components/external-tool-launch.com
 import {AppConfigService} from "./app-config.service";
 import {HttpClientModule} from "@angular/common/http";
 import {AutosizeDirective} from "./directives/autosize.directive";
+import {NavigationService} from './services/navigation.service';
 
 
 const DIRECTIVES = [
@@ -113,6 +114,7 @@ const SERVICES = [
 	ExternalToolsApiService,
 	ExternalToolsManager,
 	AppConfigService,
+	NavigationService,
 ];
 
 const GUARDS = [

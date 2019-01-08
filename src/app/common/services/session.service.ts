@@ -7,6 +7,7 @@ import {SocialAccountProviderInfo, socialAccountProviderInfos} from "../model/us
 import {throwExpr} from "../util/throw-expr";
 import {UpdatableSubject} from "../util/updatable-subject";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {NavigationService} from './navigation.service';
 
 /**
  * The key used to store the authentication token in session and local storage.
@@ -34,6 +35,7 @@ export class SessionService {
 		private http: HttpClient,
 		private configService: AppConfigService,
 		private messageService: MessageService,
+		private navService: NavigationService,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 		this.enabledExternalAuthProviders = socialAccountProviderInfos.filter(providerInfo =>
@@ -158,5 +160,21 @@ export class SessionService {
 				responseType: "json"
 			}
 			).toPromise();
+	}
+
+	/**
+	 * Handles errors from the API that indicate session expiration, invalid token, and other similar problems.
+	 */
+	handleAuthenticationError() {
+		this.logout();
+
+		if (this.navService.currentRouteData.publiclyAccessible !== true) {
+			// If we're not on a public page, send the user to the login page with an error
+			window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
+		} else {
+			// If we _are_ on a public page, reload the page after clearing the session token, because that will clear any messy error states from
+			// api errors.
+			window.location.assign(window.location.toString());
+		}
 	}
 }
