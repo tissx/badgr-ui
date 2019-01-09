@@ -64,10 +64,10 @@ import {saveAs} from "file-saver";
 	
 						<div class="heading-x-text">
 							<!-- Badge Name -->
-							<h1><a [routerLink]="routerLinkForUrl(badgeClass.id)">{{ badgeClass.name }}</a></h1>
+							<h1><a [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">{{ badgeClass.name }}</a></h1>
 	
 							<!-- Issuer Information -->
-							<a class="stack" [routerLink]="routerLinkForUrl(issuer.id)">
+							<a class="stack" [routerLink]="routerLinkForUrl(issuer.hostedUrl || issuer.id)">
 								<div class="stack-x-image">
 									<img [loaded-src]="issuer.image"
 									     [loading-src]="issuerImagePlacholderUrl"

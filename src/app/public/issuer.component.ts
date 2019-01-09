@@ -87,7 +87,7 @@ import {routerLinkForUrl} from "./public.component";
 											     [src]="badgeClass.image"
 											     [alt]="badgeClass.name"
 											     width="40">
-											<a [routerLink]="routerLinkForUrl(badgeClass.id)">{{ badgeClass.name }}</a>
+											<a [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">{{ badgeClass.name }}</a>
 										</div>
 									</th>
 									<!--<td class="hidden hidden-is-desktop">-->
