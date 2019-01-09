@@ -16,7 +16,7 @@ import {NavigationService} from './navigation.service';
  *
  * @type {string}
  */
-const TOKEN_STORAGE_KEY = "LoginService.token";
+export const TOKEN_STORAGE_KEY = "LoginService.token";
 
 const EXPIRATION_DATE_STORAGE_KEY = "LoginService.tokenExpirationDate";
 
