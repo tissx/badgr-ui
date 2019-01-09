@@ -137,7 +137,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 
 	private randomName = "field" + Math.random();
 	get inputName() { return (this.label||this.placeholder||this.randomName).replace(/[^\w]+/g, "_").toLowerCase() }
-	get inputId() { return this.id || (this.label||this.placeholder||this.randomName).toLowerCase() }
+	get inputId() { return this.id || (this.label||this.placeholder||this.randomName).replace(/[^\w]+/g, "_").toLowerCase() }
 
 
 	constructor(

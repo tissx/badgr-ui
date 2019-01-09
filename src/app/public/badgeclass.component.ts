@@ -52,7 +52,7 @@ import {routerLinkForUrl} from "./public.component";
 							<h1>{{ badgeClass.name }}</h1>
 
 							<!-- Issuer Information -->
-							<a class="stack" [routerLink]="routerLinkForUrl(issuer.id)">
+							<a class="stack" [routerLink]="routerLinkForUrl(issuer.hostedUrl || issuer.id)">
 								<div class="stack-x-image">
 									<img [loaded-src]="issuer.image"
 									     [loading-src]="issuerImagePlaceholderUrl"

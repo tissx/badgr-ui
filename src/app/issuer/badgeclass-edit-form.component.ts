@@ -75,6 +75,7 @@ import {AppConfigService} from "../common/app-config.service";
 								<bg-formfield-text
 									[control]="badgeClassForm.controls.badge_description"
 									label="Short Description"
+									id="badgeclass_description_input"
 									placeholder="A short summary of this achievement."
 									[errorMessage]="{ required: 'Please enter a description' }"
 									[multiline]="true"
