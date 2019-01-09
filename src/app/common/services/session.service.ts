@@ -16,10 +16,18 @@ import {NavigationService} from './navigation.service';
  *
  * @type {string}
  */
-export const TOKEN_STORAGE_KEY = "LoginService.token";
+const TOKEN_STORAGE_KEY = "LoginService.token";
+
+const EXPIRATION_DATE_STORAGE_KEY = "LoginService.tokenExpirationDate";
+
+const DEFAULT_EXPIRATION_SECONDS = 24 * 60 * 60;
 
 export interface AuthorizationToken {
 	access_token: string;
+	expires_in?: number
+	refresh_token?: string;
+	scope?: string;
+	token_typ?: string;
 }
 
 @Injectable()
@@ -57,7 +65,7 @@ export class SessionService {
 		this.messageService.incrementPendingRequestCount();
 
 		return this.http
-			.post(
+			.post<AuthorizationToken>(
 				endpoint,
 				payload,
 				{
@@ -76,14 +84,10 @@ export class SessionService {
 					throw new Error("Login Failed: " + r.status);
 				}
 
+				this.storeToken(r.body, sessionOnlyStorage);
+
 				return r.body;
-			})
-			.then(
-				(result: AuthorizationToken) => {
-					this.storeToken(result, sessionOnlyStorage);
-					return result
-				}
-			);
+			});
 	}
 
 	initiateUnauthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
@@ -98,11 +102,16 @@ export class SessionService {
 	}
 
 	storeToken(token: AuthorizationToken, sessionOnlyStorage = false): void {
+		const expirationDateStr = new Date(Date.now() + (token.expires_in || DEFAULT_EXPIRATION_SECONDS) * 1000).toISOString();
+
 		if (sessionOnlyStorage) {
 			sessionStorage.setItem(TOKEN_STORAGE_KEY, token.access_token);
+			sessionStorage.setItem(EXPIRATION_DATE_STORAGE_KEY, expirationDateStr);
 		} else {
 			localStorage.setItem(TOKEN_STORAGE_KEY, token.access_token);
+			localStorage.setItem(EXPIRATION_DATE_STORAGE_KEY, expirationDateStr);
 		}
+
 		this.loggedInSubect.next(true);
 	}
 
@@ -118,8 +127,20 @@ export class SessionService {
 		return this.currentAuthToken || throwExpr("An authentication token is required, but the user is not logged in.")
 	}
 
-	get isLoggedIn() {
-		return !!(sessionStorage.getItem(TOKEN_STORAGE_KEY) || localStorage.getItem(TOKEN_STORAGE_KEY));
+	get isLoggedIn(): boolean {
+		if (sessionStorage.getItem(TOKEN_STORAGE_KEY) || localStorage.getItem(TOKEN_STORAGE_KEY)) {
+			const expirationString = sessionStorage.getItem(EXPIRATION_DATE_STORAGE_KEY) || localStorage.getItem(EXPIRATION_DATE_STORAGE_KEY);
+
+			if (expirationString) {
+				const expirationDate = new Date(expirationString);
+
+				return (expirationDate > new Date);
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	exchangeCodeForToken(authCode: string): Promise<AuthorizationToken> {
