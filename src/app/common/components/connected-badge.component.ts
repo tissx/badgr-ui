@@ -1,10 +1,9 @@
-import { Component, Output, EventEmitter } from "@angular/core";
+import {Component, EventEmitter, Output} from "@angular/core";
 
-import { BadgeClassManager } from "../../issuer/services/badgeclass-manager.service";
-import { BadgeClass } from "../../issuer/models/badgeclass.model";
-import { MessageService } from "../services/message.service";
-import { BadgeImageComponent } from "./badge-image.component";
-import { AbstractBadgeComponent } from "./abstract-badge.component";
+import {BadgeClassManager} from "../../issuer/services/badgeclass-manager.service";
+import {BadgeClass} from "../../issuer/models/badgeclass.model";
+import {MessageService} from "../services/message.service";
+import {AbstractBadgeComponent} from "./abstract-badge.component";
 
 
 @Component({

@@ -114,16 +114,3 @@ interface ErrorConstructor extends ErrorStackTraceLimit {}
 interface NodeRequireFunction extends Es6PromiseLoader  {}
 interface NodeModule extends WebpackModule {}
 interface Global extends GlobalEnvironment  {}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// css-element-queries types
-
-declare module "css-element-queries" {
-  class ResizeSensor {
-    constructor(
-      element: HTMLElement,
-      resizeCallback: () => void
-    )
-  }
-}

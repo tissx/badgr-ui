@@ -1,13 +1,13 @@
-import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, FormArray, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { EmailValidator } from "../common/validators/email.validator";
-import { TransformedImportData, ViewState } from "./badgeclass-issue-bulk-award.component"
-import { UrlValidator } from "../common/validators/url.validator";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {EmailValidator} from "../common/validators/email.validator";
+import {TransformedImportData, ViewState} from "./badgeclass-issue-bulk-award.component"
+import {UrlValidator} from "../common/validators/url.validator";
 
 
 @Component({

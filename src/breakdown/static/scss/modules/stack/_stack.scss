@@ -16,7 +16,7 @@
   h5,
   h6,
   .stack-x-title {
-    color: $color-secondary;
+    color: var(--color-secondary);
     display: block;
     line-height: $line-height-large2;
     overflow: hidden;
@@ -25,9 +25,9 @@
   }
 
   small {
-    color: $color-dark2;
+    color: var(--color-dark2);
     display: block;
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     line-height: $line-height;
   }
 
@@ -57,8 +57,8 @@
   h5,
   h6,
   .stack-x-title {
-    color: $color-secondary;
-    font-size: $font-size-small2;
+    color: var(--color-secondary);
+    font-size: var(--font-size-small2);
     line-height: $line-height;
   }
 
@@ -72,7 +72,7 @@
   h5,
   h6,
   .stack-x-title {
-    color: $color-primary;
+    color: var(--color-primary);
   }
 
 }

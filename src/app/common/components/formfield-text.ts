@@ -1,55 +1,67 @@
-import { Component, Input, OnChanges, ViewChild, ElementRef, AfterViewInit, SimpleChanges } from "@angular/core";
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 
-import { FormControl, FormGroup } from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
-import { UrlValidator } from "../validators/url.validator";
-import { CommonDialogsService } from "../services/common-dialogs.service";
+import {UrlValidator} from '../validators/url.validator';
+import {CommonDialogsService} from '../services/common-dialogs.service';
 
 @Component({
 	selector: 'bg-formfield-text',
 
 	host: {
-		'class': "formfield",
-		'[class.formfield-is-error]': "isErrorState",
-		'[class.formfield-locked]': "isLockedState",
-		'[class.formfield-monospaced]': "monospaced",
+		'class': 'forminput',
+		'[class.forminput-is-error]': 'isErrorState',
+		'[class.forminput-locked]': 'isLockedState',
+		'[class.forminput-monospaced]': 'monospaced',
+		'[class.forminput-withbutton]': 'hasbutton',
 	},
 	template: `
-        <label [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
-	        {{ label }}  <span *ngIf="optional" >(OPTIONAL)</span>
-            <span *ngIf="formFieldAside">{{ formFieldAside }}</span>
-            <button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
-            <ng-content select="[label-additions]"></ng-content>
-        </label>
+		<div class="forminput-x-labelrow">
+			<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
+				{{ label }}  <span *ngIf="optional">(OPTIONAL)</span>
+				<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
+				<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
+			</label>
+			<ng-content select="[label-additions]"></ng-content>
+		</div>
 
-        <label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
+		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 
-        <p class="formfield-x-description" *ngIf="description">{{ description }}</p>
-
-        <input [type]="fieldType"
-               *ngIf="! multiline"
-               [name]="inputName"
-               [id]="inputId"
-               [formControl]="control"
-               [placeholder]="placeholder || ''"
-               (change)="postProcessInput()"
-               (focus)="cacheControlState()"
-               (keypress)="handleKeyPress($event)"
-               #textInput
-               />
-        <textarea *ngIf="multiline"
-                  [name]="inputName"
-                  [id]="inputId"
-                  [formControl]="control"
-                  [placeholder]="placeholder || ''"
-                  (change)="postProcessInput()"
-                  (focus)="cacheControlState()"
-                  (keypress)="handleKeyPress($event)"
-                  #textareaInput
-                  ></textarea>
-
-				<p class="formfield-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
-    `
+		<p class="forminput-x-sublabel" *ngIf="description">{{ description }}</p>
+		<div class="forminput-x-inputs">
+			<input [type]="fieldType"
+			       *ngIf="! multiline"
+			       [name]="inputName"
+			       [id]="inputId"
+			       [formControl]="control"
+			       [placeholder]="placeholder || ''"
+			       (change)="postProcessInput()"
+			       (focus)="cacheControlState()"
+			       (keypress)="handleKeyPress($event)"
+			       #textInput
+			/>
+			<div class="forminput-x-button" *ngIf="hasbutton">
+				<button class="button button-secondary button-informinput"
+				        (click)="buttonClicked.emit($event)"
+				        [disabled-when-requesting]="true"
+				        type="submit"
+				>
+					Add
+				</button>
+			</div>
+			<textarea *ngIf="multiline"
+			          [name]="inputName"
+			          [id]="inputId"
+			          [formControl]="control"
+			          [placeholder]="placeholder || ''"
+			          (change)="postProcessInput()"
+			          (focus)="cacheControlState()"
+			          (keypress)="handleKeyPress($event)"
+			          #textareaInput
+			></textarea>
+		</div>
+		<p class="forminput-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
+	`
 })
 export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() control: FormControl;
@@ -57,36 +69,51 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() id: string;
 	@Input() label: string;
 	@Input() ariaLabel: string;
-	@Input() includeLabelAsWrapper:boolean = false; //includes label for layout purposes even if label text wasn't passed in.
-	@Input() formFieldAside:string; //Displays additional text above the field. I.E (optional)
+	@Input() includeLabelAsWrapper: boolean = false; //includes label for layout purposes even if label text wasn't passed in.
+	@Input() formFieldAside: string; //Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
 	@Input() multiline: boolean = false;
 	@Input() monospaced: boolean = false;
 	@Input() description: string;
 	@Input() placeholder: string;
-	@Input() fieldType: FormFieldTextInputType = "text";
+	@Input() fieldType: FormFieldTextInputType = 'text';
 	@Input() optional: boolean = false;
+	@Input() hasbutton: boolean = false;
+
+	@Output() buttonClicked = new EventEmitter<MouseEvent>();
 
 	@Input() errorGroup: FormGroup;
 	@Input() errorGroupMessage: CustomValidatorMessages;
 
-	@Input() unlockConfirmText: string = "Unlocking this field may have unintended consequences. Are you sure you want to continue?";
+	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
 	@Input() urlField: boolean = false;
 
 	@Input() autofocus: boolean = false;
 
-	@ViewChild("textInput") textInput: ElementRef;
-	@ViewChild("textareaInput") textareaInput: ElementRef;
+	@ViewChild('textInput') textInput: ElementRef;
+	@ViewChild('textareaInput') textareaInput: ElementRef;
 
 	private _unlocked = false;
 	@Input()
-	set unlocked(unlocked: boolean) { this._unlocked = unlocked; this.updateDisabled(); }
-	get unlocked() { return this._unlocked }
+	set unlocked(unlocked: boolean) {
+		this._unlocked = unlocked;
+		this.updateDisabled();
+	}
+
+	get unlocked() {
+		return this._unlocked;
+	}
 
 	private _locked = false;
 	@Input()
-	set locked(locked: boolean) { this._locked = locked; this.updateDisabled(); }
-	get locked() { return this._locked }
+	set locked(locked: boolean) {
+		this._locked = locked;
+		this.updateDisabled();
+	}
+
+	get locked() {
+		return this._locked;
+	}
 
 	get inputElement(): HTMLInputElement | HTMLTextAreaElement {
 		if (this.textInput && this.textInput.nativeElement) {
@@ -125,7 +152,11 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	private cachedErrorMessage = null;
 	private cachedErrorState = null;
 	private cachedDirtyState = null;
-	get controlErrorState() { return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid)) }
+
+	get controlErrorState() {
+		return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
+	}
+
 	get isErrorState() {
 		if (this.hasFocus && this.cachedErrorState !== null) {
 			return this.cachedErrorState;
@@ -133,17 +164,27 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 			return this.controlErrorState;
 		}
 	}
-	get isLockedState() { return this.locked && !this.unlocked }
 
-	private randomName = "field" + Math.random();
-	get inputName() { return (this.label||this.placeholder||this.randomName).replace(/[^\w]+/g, "_").toLowerCase() }
-	get inputId() { return this.id || (this.label||this.placeholder||this.randomName).toLowerCase() }
+	get isLockedState() {
+		return this.locked && !this.unlocked;
+	}
+
+	private randomName = 'field' + Math.random();
+
+	get inputName() {
+		return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, '_').toLowerCase();
+	}
+
+	get inputId() {
+		return this.id || (this.label || this.placeholder || this.randomName).toLowerCase();
+	}
 
 
 	constructor(
 		private dialogService: CommonDialogsService,
 		private elemRef: ElementRef
-	) { }
+	) {
+	}
 
 	ngAfterViewInit() {
 		if (this.autofocus) {
@@ -157,10 +198,10 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 			this.unlocked = true;
 		}
 
-		if ("initialValue" in changes) {
-			const initialValue = changes["initialValue"].currentValue;
+		if ('initialValue' in changes) {
+			const initialValue = changes['initialValue'].currentValue;
 			if ((this.value === null || this.value === undefined || this.value === '') &&
-					(initialValue !== null && initialValue !== undefined && initialValue !== '')
+				(initialValue !== null && initialValue !== undefined && initialValue !== '')
 			) {
 				this.control.setValue(initialValue);
 			}
@@ -170,7 +211,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	}
 
 	updateDisabled() {
-		if (! this.control) return;
+		if (!this.control) return;
 
 		if (this.isLockedState) {
 			this.control.disable();
@@ -181,10 +222,10 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 
 	unlock() {
 		this.dialogService.confirmDialog.openResolveRejectDialog({
-			dialogTitle: "Are you sure?",
+			dialogTitle: 'Are you sure?',
 			dialogBody: this.unlockConfirmText,
-			resolveButtonLabel: "Continue",
-			rejectButtonLabel: "Cancel",
+			resolveButtonLabel: 'Continue',
+			rejectButtonLabel: 'Cancel',
 		}).then(
 			() => this.unlocked = true,
 			() => void 0
@@ -224,11 +265,11 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 /**
  * Allowable HTML input type for text based inputs.
  */
-export type FormFieldTextInputType = "text" | "email" | "url" | "tel" | "password" | "search";
+export type FormFieldTextInputType = 'text' | 'email' | 'url' | 'tel' | 'password' | 'search';
 
-export type ValidatorKey = "required" | "maxlength" | "validUrl";
+export type ValidatorKey = 'required' | 'maxlength' | 'validUrl';
 
-export type CustomValidatorMessages = string | {[validatorKey: string]: string};
+export type CustomValidatorMessages = string | { [validatorKey: string]: string };
 
 /**
  * Default validation message generators for input fields.
@@ -236,13 +277,13 @@ export type CustomValidatorMessages = string | {[validatorKey: string]: string};
 export const defaultValidatorMessages: {
 	[validatorKey: string]: (label: string, result?: any) => string
 } = {
-	"required": (label: string) => `${label} is required`,
-	"validUrl": () => `Please enter a valid URL`,
-	"invalidTelephone": () => `Please enter a valid phone number`,
-	"invalidEmail": () => `Please enter a valid email address`,
-	"maxlength": (
+	'required': (label: string) => `${label} is required`,
+	'validUrl': () => `Please enter a valid URL`,
+	'invalidTelephone': () => `Please enter a valid phone number`,
+	'invalidEmail': () => `Please enter a valid email address`,
+	'maxlength': (
 		label: string,
-		{actualLength, requiredLength}: {actualLength: number; requiredLength: number}
+		{actualLength, requiredLength}: { actualLength: number; requiredLength: number }
 	) => (actualLength && requiredLength)
 		? `${label} exceeds maximum length of ${requiredLength} by ${actualLength - requiredLength} characters`
 		: `${label} exceeds maximum length.`
@@ -250,12 +291,12 @@ export const defaultValidatorMessages: {
 
 export function messagesForValidationError(
 	label: string,
-	validatorResult: {[key: string]: string},
+	validatorResult: { [key: string]: string },
 	customMessages: CustomValidatorMessages
 ): string[] {
-	if (validatorResult && typeof(validatorResult) === "object" && Object.keys(validatorResult).length > 0) {
-		if (typeof(customMessages) === "string") {
-			return [ customMessages ];
+	if (validatorResult && typeof (validatorResult) === 'object' && Object.keys(validatorResult).length > 0) {
+		if (typeof (customMessages) === 'string') {
+			return [customMessages];
 		}
 
 		const messages: string[] = [];
@@ -264,8 +305,8 @@ export function messagesForValidationError(
 			const validatorValue = validatorResult[validatorKey];
 
 			messages.push(
-				(customMessages && typeof(customMessages) === "object" && customMessages[validatorKey]) ||
-				(validatorValue && typeof(validatorValue) === "string" && validatorValue) ||
+				(customMessages && typeof (customMessages) === 'object' && customMessages[validatorKey]) ||
+				(validatorValue && typeof (validatorValue) === 'string' && validatorValue) ||
 				(defaultValidatorMessages[validatorKey] && defaultValidatorMessages[validatorKey](label, validatorValue)) ||
 				`Field failed ${validatorKey} validation.`
 			);
@@ -273,6 +314,6 @@ export function messagesForValidationError(
 
 		return messages;
 	} else {
-		return []
+		return [];
 	}
 }

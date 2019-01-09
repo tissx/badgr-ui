@@ -1,5 +1,4 @@
-import { Directive, ElementRef, Renderer, OnChanges, Input } from "@angular/core";
-import { Router } from "@angular/router";
+import {Directive, Input} from "@angular/core";
 
 const defaultLoadingImage = require("../../../breakdown/static/images/image-placeholder.svg");
 const defaultErrorImage = require("../../../breakdown/static/images/image-failed.svg");

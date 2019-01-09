@@ -1,16 +1,15 @@
-import { Injectable, Injector } from "@angular/core";
-import { PathwayManager } from "../issuer/services/pathway-manager.service";
-import { BadgeClassManager } from "../issuer/services/badgeclass-manager.service";
-import { RecipientGroupManager } from "../issuer/services/recipientgroup-manager.service";
-import { MessageService } from "../common/services/message.service";
-import { BadgeInstanceManager } from "../issuer/services/badgeinstance-manager.service";
-import { RecipientBadgeManager } from "../recipient/services/recipient-badge-manager.service";
-import { RecipientBadgeCollectionManager } from "../recipient/services/recipient-badge-collection-manager.service";
-import { AppIntegrationManager } from "../profile/services/app-integration-manager.service";
-import { IssuerManager } from "../issuer/services/issuer-manager.service";
-import { UserProfileApiService } from "../common/services/user-profile-api.service";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { OAuthManager } from "../common/services/oauth-manager.service";
+import {Injectable, Injector} from "@angular/core";
+import {PathwayManager} from "../issuer/services/pathway-manager.service";
+import {BadgeClassManager} from "../issuer/services/badgeclass-manager.service";
+import {RecipientGroupManager} from "../issuer/services/recipientgroup-manager.service";
+import {MessageService} from "../common/services/message.service";
+import {BadgeInstanceManager} from "../issuer/services/badgeinstance-manager.service";
+import {RecipientBadgeManager} from "../recipient/services/recipient-badge-manager.service";
+import {RecipientBadgeCollectionManager} from "../recipient/services/recipient-badge-collection-manager.service";
+import {AppIntegrationManager} from "../profile/services/app-integration-manager.service";
+import {IssuerManager} from "../issuer/services/issuer-manager.service";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {OAuthManager} from "../common/services/oauth-manager.service";
 
 /**
  * Common entity manager which orchestrates communication between the various types of managed entities so they can

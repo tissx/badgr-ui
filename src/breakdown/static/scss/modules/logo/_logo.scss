@@ -4,7 +4,9 @@
   position: relative;
 
   picture img {
-    max-height: 48px;
+    max-height: var(--logo-height);
+    height: var(--logo-height);
+    width: var(--logo-width);
   }
 
   &::after {

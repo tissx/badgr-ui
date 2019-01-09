@@ -1,8 +1,5 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-
-
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import { BaseDialog } from "./base-dialog";
+import {Component, ElementRef, Renderer2} from "@angular/core";
+import {BaseDialog} from "./base-dialog";
 
 export interface ConfirmDialogOptions {
 	dialogTitle?: string;
@@ -16,27 +13,24 @@ export interface ConfirmDialogOptions {
 @Component({
 	selector: 'confirm-dialog',
 	template: `
-    <dialog class="dialog dialog-confirm">
+    <dialog class="dialog dialog-is-active dialog l-dialog">
+		<div class="dialog-x-box o-container">
+			<div class="u-padding-all3x">
+				<div class="l-flex l-flex-justifybetween u-margin-bottom2x">
+					<h2 class="u-text-body-bold-caps text-dark1">
+						{{ options.dialogTitle }}
+					</h2>
+				</div>
+				<p class="u-text-body" [innerHTML]="options.dialogBody"></p>
 
-        <header class="heading heading-small l-container">
-
-					<div class="heading-x-text">
-
-            <h1>{{ options.dialogTitle }}</h1>
-
-            <p [innerHTML]="options.dialogBody"></p>
-
-					</div>
-
-        </header>
-
-        <div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right l-container">
-            <button *ngIf="options.showRejectButton" 
-                    class="button button-primaryghost" 
-                    (click)="closeDialog(false)">{{ options.rejectButtonLabel }}</button>
-            <button class="button" (click)="closeDialog(true)">{{ options.resolveButtonLabel }}</button>
-        </div>
-
+				<div class="l-flex l-flex-1x u-margin-top3x">
+					<button *ngIf="options.showRejectButton" 
+							class="button button-secondary" 
+							(click)="closeDialog(false)">{{ options.rejectButtonLabel }}</button>
+					<button class="button" (click)="closeDialog(true)">{{ options.resolveButtonLabel }}</button>
+				</div>
+			</div>
+		</div>
     </dialog>
     `,
 

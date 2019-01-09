@@ -90,15 +90,17 @@
       padding: 0;
 
       h1 {
-        color: $color-dark2;
-        font-size: $font-size;
+        color: var(--color-heading-h1);
+        font-size: var(--font-size);
         font-weight: bold;
-        line-height: $font-size;
+        line-height: var(--font-size);
         margin-bottom: $gridspacing;
       }
 
     }
-
+    > h1 {
+      color: var(--color-heading-h1);
+    }
     > h1,
     > p {
       margin-bottom: $gridspacing;
@@ -114,25 +116,25 @@
       white-space: pre-line;
 
       a {
-        color: $color-primary;
+        color: var(--color-primary);
       }
 
     }
 
     small {
-      color: $color-dark2;
-      font-size: $font-size-small1;
+      color: var(--color-dark2);
+      font-size: var(--font-size-small1);
     }
 
     > h1 {
-      color: $color-secondary;
-      font-size: $font-size-large2;
+      color: var(--color-secondary);
+      font-size: var(--font-size-large2);
       font-weight: 600;
       line-height: $line-height-large3;
 
       span {
-        color: $color-dark2;
-        font-size: $font-size-small1;
+        color: var(--color-dark2);
+        font-size: var(--font-size-small1);
         font-weight: normal;
       }
 
@@ -144,13 +146,13 @@
 
     > h2 {
       align-items: center;
-      color: $color-dark2;
+      color: var(--color-dark2);
       display: flex;
-      font-size: $font-size-small2;
+      font-size: var(--font-size-small2);
       max-width: 560px;
 
       &::after {
-        background-color: $color-dark4;
+        background-color: var(--color-dark4);
         content: '';
         display: block;
         flex: 1 1 0;
@@ -162,9 +164,9 @@
 
     > h3 {
       align-items: center;
-      color: $color-dark2;
+      color: var(--color-dark2);
       display: flex;
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       line-height: $line-height-large2;
       max-width: 560px;
     }
@@ -172,7 +174,7 @@
     > p,
     > ul,
     > ol {
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       line-height: 1.5;
       max-width: 560px;
     }
@@ -181,9 +183,9 @@
 
   .heading-x-edit {
     background: url('#{$base-path}images/heading-edit.svg') left center no-repeat;
-    color: rgba($color-secondary, .38);
+    color: var(--color-secondary-a38);
     display: inline-block;
-    font-size: $font-size-small1;
+    font-size: var(--font-size-small1);
     font-weight: bold;
     padding-left: $gridspacing * 3;
     text-transform: uppercase;
@@ -202,11 +204,11 @@
   }
 
   .heading-x-meta {
-    color: rgba($color-secondary, .38);
+    color: var(--color-secondary-a38);
   }
 
   .heading-x-meta-callout {
-    color: $color-primary;
+    color: var(--color-primary);
     font-weight: bold;
   }
 
@@ -215,12 +217,12 @@
     .heading-x-text {
 
       h1 {
-        font-size: $font-size-large3;
+        font-size: var(--font-size-large3);
         font-weight: bold;
         line-height: $line-height-large4;
 
         span {
-          font-size: $font-size;
+          font-size: var(--font-size);
         }
 
       }
@@ -265,7 +267,7 @@
 
     h1,
     p {
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
     }
 
   }
@@ -287,12 +289,12 @@
     .heading-x-text {
 
       h1 {
-        font-size: $font-size-large2;
+        font-size: var(--font-size-large2);
         line-height: $line-height-large3;
       }
 
       p {
-        font-size: $font-size;
+        font-size: var(--font-size);
       }
 
     }

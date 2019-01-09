@@ -1,14 +1,9 @@
-import { Component, ViewChild, AfterViewInit, ElementRef, Renderer, Renderer2 } from "@angular/core";
-
-
-import { MessageService } from "../common/services/message.service";
-import { registerDialog } from "dialog-polyfill/dialog-polyfill";
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/first";
-import { RecipientGroup, IssuerRecipientGroups } from "./models/recipientgroup.model";
-import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import { BaseDialog } from "../common/dialogs/base-dialog";
+import {Component, ElementRef, Renderer2} from "@angular/core";
+import {MessageService} from "../common/services/message.service";
+import {IssuerRecipientGroups, RecipientGroup} from "./models/recipientgroup.model";
+import {RecipientGroupManager} from "./services/recipientgroup-manager.service";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {BaseDialog} from "../common/dialogs/base-dialog";
 
 
 export interface RecipientGroupSelectionDialogOptions {
@@ -125,7 +120,7 @@ export class RecipientGroupSelectionDialog extends BaseDialog {
 	multiSelectMode: boolean = false;
 	issuerSlug: string = null;
 
-	private selectedRecipientGroups = new Set<RecipientGroup>();
+	selectedRecipientGroups = new Set<RecipientGroup>();
 	private resolveFunc: { (recipientGroups: RecipientGroup[]): void };
 
 	maxDisplayedResults = 100;

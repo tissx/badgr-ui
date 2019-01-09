@@ -1,4 +1,4 @@
-import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../url-util";
+import {addQueryParamsToUrl, stripQueryParamsFromUrl} from "../url-util";
 
 describe('addQueryParamsToUrl', () => {
 	it(

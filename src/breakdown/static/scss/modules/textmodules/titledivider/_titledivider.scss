@@ -1,11 +1,11 @@
 .titledivider {
   align-items: center;
-  color: rgba($color-secondary, .38);
+  color: var(--color-secondary-a38);
   display: flex;
-  font-size: $font-size-small2;
+  font-size: var(--font-size-small2);
 
   &::after {
-    background-color: rgba($color-secondary, .12);
+    background-color: var(--color-secondary-a12);
     content: '';
     flex: 1 1 auto;
     height: 1px;

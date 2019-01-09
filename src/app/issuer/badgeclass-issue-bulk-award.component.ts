@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgeClass } from "./models/badgeclass.model";
-import { Issuer } from "./models/issuer.model";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component} from "@angular/core";
+import {FormBuilder} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgeClass} from "./models/badgeclass.model";
+import {Issuer} from "./models/issuer.model";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 export interface TransformedImportData {
@@ -112,7 +112,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 		protected messageService: MessageService,
 		protected router: Router,
 		protected route: ActivatedRoute,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected title: Title
 	)
 	{
@@ -127,7 +127,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 				this.badgeSlug
 			).then((badge_class) => {
 				this.badge_class = badge_class;
-				this.title.setTitle(`Bulk Award Badge - ${badge_class.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Bulk Award Badge - ${badge_class.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 			});
 		})
 	}

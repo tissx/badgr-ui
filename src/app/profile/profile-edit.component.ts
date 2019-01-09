@@ -1,79 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../common/util/form-util";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {markControlsDirty} from "../common/util/form-util";
 
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { ApiUserProfile } from "../common/model/user-profile-api.model";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfile } from "../common/model/user-profile.model";
-import {SystemConfigService} from "../common/services/config.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfile} from "../common/model/user-profile.model";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
-	template: `
-		<main *bgAwaitPromises="[profileLoaded]">
-			<form-message></form-message>
-			
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a [routerLink]="['/profile/profile']">Profile</a>
-						</li>
-						<li class="breadcrumb-x-current">Edit Profile Name</li>
-					</ul>
-				</nav>
-				
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>
-							Edit Profile Name
-						</h1>
-						<p>
-							Edit a new name for your profile.
-						</p>
-					</div>
-				</div>
-			</header>
-
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical l-headeredsection wrap">
-				<form [formGroup]="profileEditForm"
-				      (ngSubmit)="submitEdit(profileEditForm.getRawValue())"
-				      class="l-form"
-				      novalidate
-				>
-					<fieldset>
-						<bg-formfield-text [control]="profileEditForm.controls.firstName"
-						                   [label]="'First Name'"
-						                   [errorMessage]="'Please enter your first name'"
-						></bg-formfield-text>
-
-						<bg-formfield-text [control]="profileEditForm.controls.lastName"
-						                   [label]="'Last Name'"
-						                   [errorMessage]="'Please enter your last name'"
-						></bg-formfield-text>
-					</fieldset>
-
-					<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-						<a class="button button-primaryghost"
-						   [routerLink]="['profile']"
-						   [disabled-when-requesting]="true"
-						>Cancel</a>
-						<button type="submit"
-						        class="button"
-						        (click)="validateEditForm($event)"
-						        [disabled-when-requesting]="true"
-						>Save</button>
-					</div>
-				</form>
-			</div>
-		</main>
-	`
+	templateUrl: './profile-edit.component.html',
 })
 export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	profile: UserProfile;
@@ -88,11 +28,11 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 		protected title: Title,
 		protected messageService: MessageService,
 		protected profileManager: UserProfileManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected dialogService: CommonDialogsService
 ) {
 		super(router, route, sessionService);
-		title.setTitle(`Profile - Edit - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Profile - Edit - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.profileLoaded = profileManager.userProfilePromise.then(
 			profile => this.profile = profile,

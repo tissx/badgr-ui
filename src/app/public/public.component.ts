@@ -1,11 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 
-import { Router, ActivatedRoute, } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
+import {ActivatedRoute, Router,} from "@angular/router";
+import {BaseRoutableComponent} from "../common/pages/base-routable.component";
+import {Title} from "@angular/platform-browser";
 
-import { SystemConfigService } from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -29,11 +28,11 @@ export class PublicComponent extends BaseRoutableComponent implements OnInit {
 	constructor(
 		private title: Title,
 		router: Router,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle(`Public - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Public - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
 	ngOnInit() {

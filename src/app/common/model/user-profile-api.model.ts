@@ -1,4 +1,4 @@
-import { ApiEntityRef } from "./entity-ref";
+import {ApiEntityRef} from "./entity-ref";
 
 /**
  * Personal information about the current user from the API

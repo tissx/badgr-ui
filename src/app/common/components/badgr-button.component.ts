@@ -1,5 +1,5 @@
-import { Component, Output, EventEmitter, Input, OnChanges, ElementRef } from "@angular/core";
-import { MessageService } from "../services/message.service";
+import {Component, Input} from "@angular/core";
+import {MessageService} from "../services/message.service";
 
 @Component({
 	selector: 'button[loading-promises],.button[loading-promises],button[disabled-when-requesting],.button[disabled-when-requesting],button[loading-when-requesting],.button[loading-when-requesting]',
@@ -9,8 +9,8 @@ import { MessageService } from "../services/message.service";
 		"[attr.disabled]": "disabledForLoading ? true : null"
 	},
 	template: `
-		<span class="button-x-defaulttext" *ngIf="! showLoadindMessage"><ng-content></ng-content></span>
-		<span class="button-x-loading" *ngIf="showLoadindMessage">{{ loadingMessage }}</span>
+		<ng-content *ngIf="!showLoadindMessage"></ng-content>
+		<ng-template *ngIf="showLoadindMessage">{{ loadingMessage }}</ng-template>
 	`,
 })
 export class BadgrButtonComponent {

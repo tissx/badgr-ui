@@ -1,20 +1,20 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { PathwayManager } from "./services/pathway-manager.service";
-import { Title } from "@angular/platform-browser";
-import { LearningPathway, LearningPathwayElement } from "./models/pathway.model";
-import { PathwayElementComponent } from "./pathway-element.component";
-import { Issuer } from "./models/issuer.model";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgeSelectionDialog } from "./badge-selection-dialog.component";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { RecipientGroupSelectionDialog } from "./recipientgroup-selection-dialog.component";
-import { RecipientGroup } from "./models/recipientgroup.model";
-import { SystemConfigService } from "../common/services/config.service";
-import { preloadImageURL } from "../common/util/file-util";
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {PathwayManager} from "./services/pathway-manager.service";
+import {Title} from "@angular/platform-browser";
+import {LearningPathway, LearningPathwayElement} from "./models/pathway.model";
+import {PathwayElementComponent} from "./pathway-element.component";
+import {Issuer} from "./models/issuer.model";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgeSelectionDialog} from "./badge-selection-dialog.component";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {RecipientGroupSelectionDialog} from "./recipientgroup-selection-dialog.component";
+import {RecipientGroup} from "./models/recipientgroup.model";
+import {AppConfigService} from "../common/app-config.service";
+import {preloadImageURL} from "../common/util/file-util";
 
 
 @Component({
@@ -257,11 +257,11 @@ export class PathwayDetailComponent extends BaseAuthenticatedRoutableComponent i
 		protected issuerManager: IssuerManager,
 		protected changeDetectionRef: ChangeDetectorRef,
 		protected dialogService: CommonDialogsService,
-		protected configService: SystemConfigService
+		protected configService: AppConfigService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Pathway Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Pathway Detail - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.pathwayLoaded = this.pathwayManager
 			.pathwaySummaryFor(this.issuerSlug, this.pathwaySlug)

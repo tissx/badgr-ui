@@ -1,11 +1,11 @@
-import { Injectable, Inject, forwardRef } from "@angular/core";
-import { LearningPathway, IssuerPathways } from "../models/pathway.model";
-import { ApiPathwaySummaryForCreation } from "../models/pathway-api.model";
-import { PathwayApiService } from "./pathway-api.service";
-import { MessageService } from "../../common/services/message.service";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {forwardRef, Inject, Injectable} from "@angular/core";
+import {IssuerPathways, LearningPathway} from "../models/pathway.model";
+import {ApiPathwaySummaryForCreation} from "../models/pathway-api.model";
+import {PathwayApiService} from "./pathway-api.service";
+import {MessageService} from "../../common/services/message.service";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 import "../../entity-manager/common-entity-manager.service";
-import { IssuerUrl, IssuerSlug } from "../models/issuer-api.model";
+import {IssuerSlug} from "../models/issuer-api.model";
 
 @Injectable()
 export class PathwayManager {

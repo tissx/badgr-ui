@@ -1,168 +1,28 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { EmailValidator } from "../common/validators/email.validator";
-import { UserCredential } from "../common/model/user-credential.type";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {EmailValidator} from "../common/validators/email.validator";
+import {UserCredential} from "../common/model/user-credential.type";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {BaseRoutableComponent} from "../common/pages/base-routable.component";
+import {Title} from "@angular/platform-browser";
 
 
-import { markControlsDirty } from "../common/util/form-util";
-import { SystemConfigService } from "../common/services/config.service";
-import { FormFieldText } from "../common/components/formfield-text";
-import { QueryParametersService } from "../common/services/query-parameters.service";
-import { OAuthManager } from "../common/services/oauth-manager.service";
+import {markControlsDirty} from "../common/util/form-util";
+import {AppConfigService} from "../common/app-config.service";
+import {FormFieldText} from "../common/components/formfield-text";
+import {QueryParametersService} from "../common/services/query-parameters.service";
+import {OAuthManager} from "../common/services/oauth-manager.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {HttpErrorResponse} from '@angular/common/http';
 
 
 @Component({
 	selector: 'login',
-	template: `
-		<main *bgAwaitPromises="[ initFinished ]">
-			<form-message></form-message>
-			
-			<div  class="l-auth">
-				<!-- Non-OAuth Welcome Message -->
-				<ng-template [ngIf]="! oAuthManager.currentAuthorization">
-					<ng-template [ngIf]="! verifiedName">
-						<markdown-display id="heading-form" 
-						                  [value]="thm.welcomeMessage || '## Welcome to Badgr'" 
-						                  [login]="true"
-						></markdown-display>
-						<p class="l-auth-x-text text text-quiet" *ngIf="sessionService.enabledExternalAuthProviders.length">
-							Choose your sign in method to get started.
-						</p>
-						<p class="l-auth-x-text text text-quiet" *ngIf="! sessionService.enabledExternalAuthProviders.length">
-							Sign in with your email and password.
-							Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
-						</p>
-					</ng-template>
-					<ng-template [ngIf]="verifiedName">					
-						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr" }}
-						</h3>
-
-						<p class="l-auth-x-text text text-quiet">
-							Your email address, {{ verifiedEmail }}, has been verified. Enter your password below to get started.
-						</p>
-					</ng-template>
-				</ng-template>
-	
-				<!-- OAuth Welcome Message -->
-				<ng-template [ngIf]="oAuthManager.currentAuthorization">
-					<oauth-banner></oauth-banner>
-	
-					<ng-template [ngIf]="! verifiedName">
-						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							Sign in to your {{ thm.serviceName || "Badgr" }} Account
-						</h3>
-						<p class="l-auth-x-text text text-quiet">
-							The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ thm.serviceName || "Badgr" }} account.
-							Not using {{ thm.serviceName || "Badgr"}}? <a [routerLink]="['/signup']">Create an account</a>!
-						</p>
-					</ng-template>
-					<ng-template [ngIf]="verifiedName">
-						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr"}}!
-						</h3>
-						<p class="l-auth-x-text text text-quiet">
-							The application  <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ thm.serviceName || "Badgr"}} account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
-							password below to continue.
-						</p>
-					</ng-template>
-				</ng-template>
-	
-				<form class="l-form l-form-span"
-				      role="form"
-				      aria-labelledby="heading-form"
-				      (ngSubmit)="submitAuth()"
-				      novalidate
-				>
-					<!-- Social Account Buttons -->
-					<fieldset role="group"
-					          aria-labelledby="heading-socialsignin"
-					          *ngIf="! verifiedName && sessionService.enabledExternalAuthProviders.length > 0"
-					>
-						<legend class="visuallyhidden" id="heading-socialsignin">Sign in with third-party social account</legend>
-	
-						<div class="formfield">
-							<p class="formfield-x-label">Sign In With</p>
-							<div class="l-authbuttons">
-								<div *ngFor="let provider of sessionService.enabledExternalAuthProviders">
-									<button type="button"
-									        class="buttonauth buttonauth-{{ provider.slug }}"
-									        (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)"
-									>{{ provider.name }}
-									</button>
-								</div>
-							</div>
-						</div>
-					</fieldset>
-	
-					<div class="formdivider" *ngIf="! verifiedName && sessionService.enabledExternalAuthProviders.length > 0">
-						<span>Or sign in with your email</span>
-					</div>
-	
-					<!-- Login Email/Password Fields -->
-					<fieldset role="group" aria-labelledby="heading-badgrsignin">
-						<legend class="visuallyhidden" id="heading-badgrsignin">Sign In with username and password</legend>
-
-						<bg-formfield-text [control]="loginForm.controls.username"
-										   label="Email"
-										   fieldType="email"
-						                   [errorMessage]="'Please enter a valid email address'"
-						                   [autofocus]="true"
-						                   [initialValue]="verifiedEmail || ''"
-						                   #usernameField
-						></bg-formfield-text>
-	
-						<bg-formfield-text [control]="loginForm.controls.password"
-						                   label="Password"
-						                   [errorMessage]="'Please enter your password'"
-						                   fieldType="password"
-						                   #passwordField
-						>
-							<span label-additions>
-								<a tabindex="-1"
-								   [routerLink]="['/auth/request-password-reset', usernameField.value]">Forgot Password?</a>
-							</span>
-						</bg-formfield-text>
-					</fieldset>
-	
-					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-spacebetween">
-						<label class="formcheckbox" for="remember-me">
-							<input name="remember-me" id="remember-me" type="checkbox" [formControl]="loginForm.controls.rememberMe">
-							<span class="formcheckbox-x-text">Remember me</span>
-						</label>
-	
-						<div class="l-childrenhorizontal">
-							<button class="button button-secondary"
-							        type="button"
-							        (click)="oAuthManager.cancelCurrentAuthorization()"
-							        *ngIf="oAuthManager.currentAuthorization"
-							>Cancel
-							</button>
-	
-							<button class="button"
-							        type="submit"
-							        [disabled]="!! loginFinished"
-							        [loading-promises]="[ loginFinished ]"
-							        loading-message="Signing In"
-							        (click)="clickSubmit($event)"
-							>Sign In
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</main>
-	`
+	templateUrl: './login.component.html',
 })
 export class LoginComponent extends BaseRoutableComponent implements OnInit, AfterViewInit {
 	loginForm: FormGroup;
@@ -175,14 +35,14 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	initFinished: Promise<any> = new Promise(() => {});
 	loginFinished: Promise<any>;
 
-	get thm() { return this.configService.thm }
+	get theme() { return this.configService.theme }
 
 	constructor(
 		private fb: FormBuilder,
 		private title: Title,
-		private sessionService: SessionService,
+		public sessionService: SessionService,
 		private messageService: MessageService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private queryParams: QueryParametersService,
 		public oAuthManager: OAuthManager,
 		private externalToolsManager: ExternalToolsManager,
@@ -191,7 +51,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle(`Login - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Login - ${this.configService.theme['serviceName'] || "Badgr"}`);
 		this.handleQueryParamCases();
 	}
 
@@ -296,8 +156,9 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					});
 
 				},
-				(error) => {
-					const body = error.json();
+				(response: HttpErrorResponse) => {
+					const body = response.error as any;
+
 					let msg = "Login failed. Please check your email and password and try again.";
 					if (body['error'] == 'login attempts throttled') {
 						if (body['expires']) {
@@ -311,7 +172,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 							msg = "Too many login attempts. Please wait and try again."
 						}
 					}
-					this.messageService.reportHandledError(msg, error);
+					this.messageService.reportHandledError(msg, response);
 				}
 			)
 			.then(() => this.loginFinished = null);

@@ -1,28 +1,30 @@
-import { PathwayManager } from "../services/pathway-manager.service";
-import { ManagedEntitySet, StandaloneEntitySet } from "../../common/model/managed-entity-set";
+import {PathwayManager} from "../services/pathway-manager.service";
+import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
 import {
-	ApiPathwaySummary,
+	ApiElementBadgeJunctionRequirement,
+	ApiElementElementJunctionRequirement,
+	ApiElementJunctionRequirement,
+	ApiElementRequirementConjunctionConfig,
+	ApiElementRequirementDisjunctionConfig,
+	ApiElementRequirementJunctionType,
+	ApiElementRequirementType,
 	ApiPathwayDetail,
 	ApiPathwayElement,
 	ApiPathwayElementForCreation,
-	ApiElementElementJunctionRequirement,
-	ApiElementRequirementType,
-	ApiElementBadgeJunctionRequirement,
-	ApiElementRequirementJunctionType,
-	ApiElementRequirementDisjunctionConfig,
-	ApiElementJunctionRequirement,
-	ApiElementRequirementConjunctionConfig,
-	ApiPathwaySummaryForCreation, PathwayRef, PathwayElementRef
+	ApiPathwaySummary,
+	ApiPathwaySummaryForCreation,
+	PathwayElementRef,
+	PathwayRef
 } from "./pathway-api.model";
-import { BadgeClassUrl, BadgeClassSlug, BadgeClassRef } from "./badgeclass-api.model";
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { BidirectionallyLinkedEntitySet } from "../../common/model/linked-entity-set";
-import { RecipientGroup } from "./recipientgroup.model";
-import { ApiEntityRef, EntityRef } from "../../common/model/entity-ref";
-import { RecipientGroupRef } from "./recipientgroup-api.model";
-import { EntityLink, MutableEntityLink } from "../../common/model/entity-link";
-import { BadgeClass } from "./badgeclass.model";
-import { flatten } from "../../common/util/array-reducers";
+import {BadgeClassRef, BadgeClassUrl} from "./badgeclass-api.model";
+import {ManagedEntity} from "../../common/model/managed-entity";
+import {BidirectionallyLinkedEntitySet} from "../../common/model/linked-entity-set";
+import {RecipientGroup} from "./recipientgroup.model";
+import {ApiEntityRef, EntityRef} from "../../common/model/entity-ref";
+import {RecipientGroupRef} from "./recipientgroup-api.model";
+import {EntityLink, MutableEntityLink} from "../../common/model/entity-link";
+import {BadgeClass} from "./badgeclass.model";
+import {flatten} from "../../common/util/array-reducers";
 
 /**
  * Managed model class holding the pathways owned by an issuer. Does not load pathway structure unless requested for

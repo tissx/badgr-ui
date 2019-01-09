@@ -1,232 +1,40 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { groupIntoArray, groupIntoObject } from "../common/util/array-reducers";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {groupIntoArray, groupIntoObject} from "../common/util/array-reducers";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
 
-import { AddBadgeDialogComponent } from "./add-badge-dialog.component";
-import { RecipientBadgeManager } from "./services/recipient-badge-manager.service";
-import { ApiRecipientBadgeIssuer } from "./models/recipient-badge-api.model";
-import { RecipientBadgeInstance } from "./models/recipient-badge.model";
-import { badgeShareDialogOptionsFor } from "./recipient-earned-badge-detail.component";
+import {AddBadgeDialogComponent} from "./add-badge-dialog.component";
+import {RecipientBadgeManager} from "./services/recipient-badge-manager.service";
+import {ApiRecipientBadgeIssuer} from "./models/recipient-badge-api.model";
+import {RecipientBadgeInstance} from "./models/recipient-badge.model";
+import {badgeShareDialogOptionsFor} from "./recipient-earned-badge-detail.component";
 import {UserProfileManager} from "../common/services/user-profile-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 type BadgeDispay = "grid" | "list" ;
 
 @Component({
 	selector: 'recipient-earned-badge-list',
-	template: `
-		<main>
-			<form-message></form-message>
-
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>Backpack <span *ngIf="!! allBadges">{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span></h1>
-					</div>
-					<div class="heading-x-actions">
-						<a class="button button-major" (click)="addBadge()" [disabled-when-requesting]="true">Add Badge</a>
-					</div>
-				</div>
-			</header>
-
-			<ng-template [bgAwaitPromises]="[ badgesLoaded ]">
-				<article class="emptyillustration l-containervertical" *ngIf="allBadges.length == 0">
-					<h1>You have no badges</h1>
-					  <div>
-					    Collect and share digital badges you've earned from {{configService.thm['serviceName'] || "Badgr"}} or any Open Badges issuer.
-					    <a href="https://openbadges.org" target="_blank">Learn more</a> about Open Badges
-					  </div>
-					<img [src]="noBadgesImageUrl" alt="Illustration description">
-				</article>
-
-				<div class="l-containerhorizontal wrap" *ngIf="allBadges.length > 0">
-					<div class="l-controls bordered bordered-bottom">
-						<div>
-							<input
-								type="text"
-								class="search"
-								placeholder="Search Badges"
-								[(ngModel)]="searchQuery">
-						</div>
-
-						<!-- Toggle  between list and grid view -->
-						<div>
-							<label class="formcheckbox" >
-								<input type="checkbox" [(ngModel)]="groupByIssuer" />
-								<span class="formcheckbox-x-text">Group by Issuer</span>
-							</label>
-							<div class="radiobuttons">
-								<input type="radio" name="radiobutton" id="radiobutton1" [(ngModel)]="badgesDisplay" value="grid" checked="checked">
-								<label class="radiobuttons-x-grid" for="radiobutton1">Grid</label>
-								<input type="radio" name="radiobutton" id="radiobutton2" [(ngModel)]="badgesDisplay" value="list">
-								<label class="radiobuttons-x-list" for="radiobutton2">List</label>
-							</div>
-						</div>
-
-					</div>
-
-					<div class="l-headeredsection">
-
-						<!-- Grid View -->
-						<ng-template [ngIf]="badgesDisplay == 'grid'">
-
-								<!-- ------------------ UNGROUPED ------------------  -->
-								<ng-template [ngIf]="! groupByIssuer">
-									<div class="l-gridthree">
-										<div *ngFor="let badgeResult of badgeResults">
-											<article class="card card-largeimage">
-												<a class="card-x-main" [routerLink]="['../earned-badge', badgeResult.badge.slug]">
-													<div class="card-x-label status status-{{badgeResult.badge.mostRelevantStatus}}" *ngIf="badgeResult.badge.mostRelevantStatus">
-														{{badgeResult.badge.mostRelevantStatus}}
-													</div>
-													<div class="card-x-image">
-														<img [loaded-src]="badgeResult.badge.image"
-														     [loading-src]="badgeLoadingImageUrl"
-															 [error-src]="badgeFailedImageUrl" 
-															 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}"
-															 width="80"
-														/>
-													</div>
-													<div class="card-x-text">
-														<h1>{{ badgeResult.badge.badgeClass.name }}</h1>
-														<small>{{ badgeResult.badge.badgeClass.issuer.name }}</small>
-														<p [truncatedText]="badgeResult.badge.badgeClass.description" [maxLength]="100"></p>
-													</div>
-												</a>
-												<div class="card-x-actions">
-													<div><small>Awarded</small> <time [date]="badgeResult?.badge?.issueDate" format="mediumDate"></time></div>
-													<button class="button button-secondaryghost l-offsetright l-offsetbottom" (click)="shareBadge(badgeResult.badge)">Share</button>
-												</div>
-											</article>
-										</div>
-									</div>
-								</ng-template>
-
-								<!-- ------------------ GROUP BY ISSUER ------------------  -->
-								<ng-template [ngIf]="groupByIssuer">
-									<div *ngFor="let issuerGroup of issuerResults">
-										
-                                        <header>
-											<h1 class="title title-margin-bottom-2x">{{ issuerGroup.issuer.name }} <span>{{ issuerGroup.badges.length }} {{ issuerGroup.badges.length == 1 ? "Badge" : "Badges" }}</span></h1>
-										</header>
-
-										<div class="l-gridthree">
-											<div *ngFor="let badge of issuerGroup.badges">
-												<article class="card card-largeimage">
-													<a class="card-x-main" [routerLink]="['../earned-badge', badge.slug]">
-														<div class="card-x-label status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">{{badge.mostRelevantStatus}}</div>
-														<div class="card-x-image">
-															<div class="badge badge-flat">
-																<img [loaded-src]="badge.image"
-																     [loading-src]="badgeLoadingImageUrl"
-																	 [error-src]="badgeFailedImageUrl"
-																	 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
-																	 width="80" 
-																/>
-															</div>
-														</div>
-														<div class="card-x-text">
-															<h1>{{ badge.badgeClass.name }}</h1>
-															<small>{{ badge.badgeClass.issuer.name }}</small>
-															<p [truncatedText]="badge.badgeClass.description" [maxLength]="100"></p>
-														</div>
-													</a>
-													<div class="card-x-actions">
-														<div><small>Awarded</small> <time [date]="badge.issueDate" format="mediumDate"></time></div>
-														<button class="button button-secondaryghost l-offsetright l-offsetbottom" (click)="shareBadge(badge)">Share</button>
-													</div>
-												</article>
-											</div>
-										</div>
-									</div>
-								</ng-template>
-
-							</ng-template>
-
-						<!-- List View -->
-						<ng-template [ngIf]="badgesDisplay == 'list'">
-
-							<div class="l-overflowhorizontal">
-								<table class="table">
-									<thead>
-										<tr>
-											<th scope="col">Badge</th>
-											<th class="hidden hidden-is-desktop" scope="col">Issuer</th>
-											<th class="hidden hidden-is-desktop" scope="col">Awarded</th>
-											<th class="table-x-hidetext hidden hidden-is-tablet" scope="col">Actions</th>
-										</tr>
-									</thead>
-
-									<tbody>
-									<ng-template ngFor let-issuerGroup [ngForOf]="issuerResults" let-i="index" >
-										<tr *ngIf="groupByIssuer">
-											<th class="table-x-inlineheader" scope="row" colspan="4">{{ issuerGroup.issuer.name }}</th>
-										</tr>
-
-										<ng-template ngFor let-badge [ngForOf]="issuerGroup.badges" let-i="index" >
-										<tr>
-											<th scope="row">
-												<a class="stack stack-list"
-													 [routerLink]="['../earned-badge', badge.slug]">
-													<span class="stack-x-image">
-														<img [loaded-src]="badge.image"
-														     [loading-src]="badgeLoadingImageUrl"
-															 [error-src]="badgeFailedImageUrl"
-															 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
-														     width="40" 
-														/>
-													</span>
-													<span *ngIf="badge.mostRelevantStatus" class="status status-{{badge.mostRelevantStatus}} u-margin-right1x">
-														{{badge.mostRelevantStatus}}
-													</span> 
-													<span class="stack-x-text">
-														<span class="stack-x-title">{{ badge.badgeClass.name }}</span>
-													</span>
-												</a>
-											</th>
-											<td class="hidden hidden-is-desktop">{{ badge.badgeClass.issuer.name }}</td>
-											<td class="hidden hidden-is-desktop"><time [date]="badge?.issueDate" format="mediumDate"></time></td>
-											<td class="hidden hidden-is-tablet">
-												<div class="l-childrenhorizontal l-childrenhorizontal-right">
-													<button class="button button-primaryghost" type="button" (click)="shareBadge(badge)">Share</button>
-												</div>
-											</td>
-										</tr>
-										</ng-template>
-
-									</ng-template>
-									</tbody>
-
-								</table>
-							</div>
-						</ng-template>
-					</div>
-				</div>
-			</ng-template>
-
-			<add-badge-dialog #addBadgeDialog></add-badge-dialog>
-		</main>
-		`
+	templateUrl: './recipient-earned-badge-list.component.html' 
 })
 
 export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly noBadgesImageUrl = require('../../breakdown/static/images/emptyillustration-nobadges.svg');
+	readonly noBadgesImageUrl = require('../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-backpack.svg');
 	readonly badgeLoadingImageUrl = require('../../breakdown/static/images/badge-loading.svg');
 	readonly badgeFailedImageUrl = require('../../breakdown/static/images/badge-failed.svg');
 
 	@ViewChild("addBadgeDialog")
 	addBadgeDialog: AddBadgeDialogComponent;
 
-	allBadges: RecipientBadgeInstance[];
+	allBadges: RecipientBadgeInstance[] = [];
 	badgesLoaded: Promise<any>;
-	allIssuers: ApiRecipientBadgeIssuer[];
+	allIssuers: ApiRecipientBadgeIssuer[] = [];
 
 	badgeResults: BadgeResult[] = [];
 	issuerResults: MatchingIssuerBadges[] = [];
@@ -267,12 +75,12 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		private dialogService: CommonDialogsService,
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
-		private configService: SystemConfigService,
+		public configService: AppConfigService,
 		private profileManager: UserProfileManager
 	) {
 		super(router, route, sessionService);
 
-		title.setTitle(`Backpack - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Backpack - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));

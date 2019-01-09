@@ -13,8 +13,8 @@
 
   .markdowneditor-x-preview {
     padding: $gridspacing;
-    border: 1px solid rgba($color-secondary, .38);
-    border-radius: $border-radius;
+    border: 1px solid var(--color-secondary-a38);
+    border-radius: var(--border-radius);
   }
 
   .markdowneditor-x-tabbar {
@@ -38,7 +38,7 @@
       button {
         color: transparent;
         font-family: "Open Sans";
-        font-size: $font-size-small1;
+        font-size: var(--font-size-small1);
         line-height: 20px;
         overflow: hidden;
         text-decoration: underline;
@@ -61,9 +61,9 @@
     }
   }
 
-  .markdowneditor-x-tab {
-    background-color: $color-light3;
-    border: 1px solid $color-dark3;
+  .markdowneditor-x-tab{
+    background-color: var(--color-light3);
+    border: 1px solid var(--color-dark3);
     box-sizing: border-box;
     height: 36px;
     padding-top: 5px;
@@ -72,10 +72,9 @@
     width: 72px;
     cursor: pointer;
   }
-
-  .markdowneditor-x-tab-is-active {
-    background-color: $color-light1;
-    border-top-color: $color-light1;
+  .markdowneditor-x-tab-is-active{
+    background-color: var(--color-light1);
+    border-top-color: var(--color-light1);
   }
 
   .markdowneditor-x-writebutton {
@@ -89,7 +88,7 @@
   }
 
   .markdowneditor-x-active {
-    background-color: $color-light1;
+    background-color: var(--color-light1);
   }
 
   /* un-reset css */
@@ -184,7 +183,7 @@
       span {
 
         button {
-          color: $color-secondary;
+          color: var(--color-secondary);
           overflow: visible;
           user-select: all;
           width: auto;

@@ -1,29 +1,29 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { BadgeClassManager } from "./services/badgeclass-manager.service";
-import { BadgeClass } from "./models/badgeclass.model";
-import { Issuer } from "./models/issuer.model";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { SessionService } from "../common/services/session.service";
-import { StringMatchingUtil } from "../common/util/string-matching-util";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BadgeInstanceManager } from "./services/badgeinstance-manager.service";
-import { BadgeClassInstances, BadgeInstance } from "./models/badgeinstance.model";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {BadgeClassManager} from "./services/badgeclass-manager.service";
+import {BadgeClass} from "./models/badgeclass.model";
+import {Issuer} from "./models/issuer.model";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {SessionService} from "../common/services/session.service";
+import {StringMatchingUtil} from "../common/util/string-matching-util";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BadgeInstanceManager} from "./services/badgeinstance-manager.service";
+import {BadgeClassInstances, BadgeInstance} from "./models/badgeinstance.model";
 
 
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import { preloadImageURL } from "../common/util/file-util";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BadgrApiFailure} from "../common/services/api-failure";
+import {preloadImageURL} from "../common/util/file-util";
 import {EventsService} from "../common/services/events.service";
 import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
 import {ApiExternalToolLaunchpoint} from "../externaltools/models/externaltools-api.model";
 import {BadgeInstanceSlug} from "./models/badgeinstance-api.model";
 import {badgeShareDialogOptions} from "../recipient/recipient-earned-badge-detail.component";
 import {ShareSocialDialogOptions} from "../common/dialogs/share-social-dialog.component";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -241,7 +241,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		route: ActivatedRoute,
 		protected dialogService: CommonDialogsService,
 		private eventService: EventsService,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, sessionService);
@@ -252,7 +252,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		).then(
 			badge => {
 				this.badgeClass = badge;
-				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Badge Class - ${this.badgeClass.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 				this.loadInstances();
 			},
 			error => this.messageService.reportLoadingError(`Cannot find badge ${this.issuerSlug} / ${this.badgeSlug}`,

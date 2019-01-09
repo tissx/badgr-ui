@@ -1,6 +1,6 @@
 .authlink {
   align-items: center;
-  display: flex;
+  display: var(--authlink-display);
   justify-content: center;
 
   > *:not(:last-child) {

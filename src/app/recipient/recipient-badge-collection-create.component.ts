@@ -1,15 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
-import { RecipientBadgeCollectionManager } from "./services/recipient-badge-collection-manager.service";
-import { ApiRecipientBadgeCollectionForCreation } from "./models/recipient-badge-collection-api.model";
-import { markControlsDirty } from "../common/util/form-util";
-import { SessionService } from "../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {RecipientBadgeCollectionManager} from "./services/recipient-badge-collection-manager.service";
+import {ApiRecipientBadgeCollectionForCreation} from "./models/recipient-badge-collection-api.model";
+import {markControlsDirty} from "../common/util/form-util";
+import {SessionService} from "../common/services/session.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'create-recipient-badge-collection',
@@ -86,12 +85,12 @@ export class RecipientBadgeCollectionCreateComponent extends BaseAuthenticatedRo
 		private formBuilder: FormBuilder,
 		private title: Title,
 		private messageService: MessageService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Create Collection - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Collection - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.badgeCollectionForm = this.formBuilder.group({
 			collectionName: [ '',

@@ -1,6 +1,6 @@
-import { Directive, ViewContainerRef, TemplateRef, Input, ComponentFactoryResolver } from "@angular/core";
-import { LoadingDotsComponent } from "../components/loading-dots.component";
-import { LoadingErrorComponent } from "../components/loading-error.component";
+import {ComponentFactoryResolver, Directive, Input, TemplateRef, ViewContainerRef} from "@angular/core";
+import {LoadingDotsComponent} from "../components/loading-dots.component";
+import {LoadingErrorComponent} from "../components/loading-error.component";
 
 /**
  *

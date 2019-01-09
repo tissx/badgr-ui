@@ -1,25 +1,25 @@
-
-import { TestBed, inject } from "@angular/core/testing";
-import { SessionService } from "../../common/services/session.service";
-import { SystemConfigService } from "../../common/services/config.service";
-import { BadgeClassManager } from "./badgeclass-manager.service";
-import { MockBackend } from "@angular/http/testing";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import { BadgeClassApiService } from "./badgeclass-api.service";
-import { expectRequestAndRespondWith } from "../../common/util/mock-response-util";
-import { verifyEntitySetWhenLoaded, verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { apiBadgeClass1, apiBadgeClass2, apiBadgeClass3 } from "../models/badgeclass.model.spec";
-import { BadgeClass } from "../models/badgeclass.model";
-import { ApiBadgeClass } from "../models/badgeclass-api.model";
-import { testIssuerRefForSlug } from "./issuer-manager.service.spec";
-import { MessageService } from "../../common/services/message.service";
+import {inject, TestBed} from "@angular/core/testing";
+import {SessionService} from "../../common/services/session.service";
+import {AppConfigService} from "../../common/app-config.service";
+import {BadgeClassManager} from "./badgeclass-manager.service";
+import {MockBackend} from "@angular/http/testing";
+import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {BadgeClassApiService} from "./badgeclass-api.service";
+import {expectRequestAndRespondWith} from "../../common/util/mock-response-util.spec";
+import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
+import {apiBadgeClass1, apiBadgeClass2, apiBadgeClass3} from "../models/badgeclass.model.spec";
+import {BadgeClass} from "../models/badgeclass.model";
+import {ApiBadgeClass} from "../models/badgeclass-api.model";
+import {testIssuerRefForSlug} from "./issuer-manager.service.spec";
+import {MessageService} from "../../common/services/message.service";
+import {first} from "rxjs/operators";
 
 describe('badgeManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,
@@ -57,7 +57,7 @@ describe('badgeManager', () => {
 			(badgeManager: BadgeClassManager, loginService: SessionService, mockBackend: MockBackend) => {
 				return Promise.all([
 					expectAllBadgesRequest(mockBackend),
-					badgeManager.allBadges$.first().toPromise().then(
+					badgeManager.allBadges$.pipe(first()).toPromise().then(
 						() => verifyManagedEntitySet(badgeManager.badgesList, allApiBadgesClasses)
 					)
 				]);
@@ -69,7 +69,7 @@ describe('badgeManager', () => {
 			(badgeManager: BadgeClassManager, loginService: SessionService, mockBackend: MockBackend) => {
 				return Promise.all([
 					expectAllBadgesRequest(mockBackend),
-					badgeManager.badgesByIssuerUrl$.first().toPromise().then(
+					badgeManager.badgesByIssuerUrl$.pipe(first()).toPromise().then(
 						() => verifyManagedEntitySet(badgeManager.badgesList, allApiBadgesClasses)
 					)
 				]);

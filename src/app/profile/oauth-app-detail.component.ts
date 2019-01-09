@@ -1,14 +1,14 @@
-import { OnInit, Component } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { OAuthManager } from "../common/services/oauth-manager.service";
-import { OAuth2AppAuthorization } from "../common/model/oauth.model";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { flatten } from "../common/util/array-reducers";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {OAuthManager} from "../common/services/oauth-manager.service";
+import {OAuth2AppAuthorization} from "../common/model/oauth.model";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {flatten} from "../common/util/array-reducers";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -94,17 +94,17 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 		private title: Title,
 		private messageService: MessageService,
 		private oAuthManager: OAuthManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
-		title.setTitle(`App Integrations - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`App Integrations - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.appPromise = oAuthManager.authorizedApps.loadedPromise.then(
 			list => {
 				this.app = list.entityForUrl(this.appId);
 				this.appTokens = list.entities.filter(t => t.clientId == this.app.clientId);
-				title.setTitle(`App - ${this.app.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				title.setTitle(`App - ${this.app.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 			}
 		);
 	}

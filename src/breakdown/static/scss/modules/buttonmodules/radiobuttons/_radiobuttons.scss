@@ -13,7 +13,7 @@
 
   label {
     background: center center no-repeat;
-    border: $border;
+    border: var(--border);
     color: transparent;
     cursor: pointer;
     display: block;
@@ -25,17 +25,17 @@
     z-index: $z-index-med;
 
     &:hover {
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
     }
 
     &:first-of-type {
-      border-bottom-left-radius: $border-radius;
-      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: var(--border-radius);
+      border-top-left-radius: var(--border-radius);
     }
 
     &:last-of-type {
-      border-bottom-right-radius: $border-radius;
-      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
     }
 
     &:not(:first-of-type) {
@@ -53,12 +53,12 @@
   }
 
   input:focus + label {
-    border-color: $color-secondary;
+    border-color: var(--color-secondary);
   }
 
   input:checked + label {
-    background-color: $color-secondary;
-    border-color: $color-secondary;
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
     z-index: $z-index-high;
 
     &.radiobuttons-x-grid {

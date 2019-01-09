@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
 import "font-awesome/css/font-awesome.css";
 import * as FontFaceObserver from "fontfaceobserver";
-import { VisualCenterResult, canvasVisualCenter } from "../common/util/visual-center";
-import { Http } from "@angular/http";
+import {canvasVisualCenter} from "../common/util/visual-center";
+import {HttpClient} from "@angular/common/http";
 
 // The FabricJs Import does not work as expected. Instead of getting a "fabric" variable with properties for the various
 // fabric classes, it contains another nested "fabric" property with those values. This seems to be the only way to get
@@ -25,7 +25,7 @@ export class BadgeStudioComponent implements OnInit {
 	private fontPromise: Promise<any>;
 
 	constructor(
-		protected http: Http
+		protected http: HttpClient
 	) {
 	}
 
@@ -51,9 +51,15 @@ export class BadgeStudioComponent implements OnInit {
 				this.context2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 				// Grab a random SVG from our set
-				this.http.get(shapeImages[Math.floor(Math.random() * shapeImages.length)]).toPromise()
+				this.http.get(
+					shapeImages[Math.floor(Math.random() * shapeImages.length)],
+					{
+						observe: "body",
+						responseType: "text"
+					}
+				).toPromise()
 					.then(res => {
-						const svgRoot = new DOMParser().parseFromString(res.text(), "image/svg+xml").documentElement;
+						const svgRoot = new DOMParser().parseFromString(res, "image/svg+xml").documentElement;
 
 						// We need to attach the SVG to the window so we can compute the style of the elements for re-coloring
 						document.body.appendChild(svgRoot);

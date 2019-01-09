@@ -1,6 +1,8 @@
-import { ManagedEntity, AnyManagedEntity } from "./managed-entity";
-import { Observable } from "rxjs/Observable";
-import { UpdatableSubject } from "../util/updatable-subject";
+import {AnyManagedEntity, ManagedEntity} from "./managed-entity";
+import {Observable} from "rxjs";
+import {UpdatableSubject} from "../util/updatable-subject";
+import {first} from "rxjs/operators";
+import {MemoizedProperty} from '../util/memoized-property-decorator';
 
 /**
  * Interface for asynchronous sets of managed entities of various types.
@@ -77,12 +79,24 @@ export class EntitySetUpdate<
 export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
 	grouped: { [groupId: string]: EntityType[] } = {};
 
+	private _loadedPromise: Promise<{ [groupId: string]: EntityType[] }> | null = null;
+
 	private entireListSubject = new UpdatableSubject<{ [groupId: string]: EntityType[] }>(
 		() => this.entityList.loadedPromise
 	);
 
-	get loaded$(): Observable<{ [groupId: string]: EntityType[] }> { return this.entireListSubject; }
-	get loadedPromise(): Promise<{ [groupId: string]: EntityType[] }> { return this.entireListSubject.first().toPromise(); }
+	get loaded$(): Observable<{ [groupId: string]: EntityType[] }> {
+		return this.entireListSubject.asObservable();
+	}
+
+	@MemoizedProperty()
+	get loadedPromise(): Promise<{ [groupId: string]: EntityType[] }> {
+		if (! this._loadedPromise) {
+			this._loadedPromise = this.entireListSubject.pipe(first()).toPromise();
+		}
+
+		return this._loadedPromise;
+	}
 
 	constructor(
 		private entityList: EntitySet<EntityType>,
@@ -90,10 +104,11 @@ export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
 	) {
 		entityList.changed$.subscribe(
 			updates => this.updateGrouping()
-		)
+		);
 	}
 
 	private updateGrouping() {
+		this._loadedPromise = null;
 		this.grouped = {};
 		this.entityList.entities.forEach(entity => {
 			var key = this.groupIdForEntity(entity);
@@ -125,8 +140,8 @@ export class ManagedEntityMapping<EntityType extends AnyManagedEntity> {
 		() => this.entityList.loadedPromise
 	);
 
-	get loaded$(): Observable<{ [mapId: string]: EntityType }> { return this.entireListSubject; }
-	get loadedPromise(): Promise<{ [mapId: string]: EntityType }> { return this.entireListSubject.first().toPromise(); }
+	get loaded$(): Observable<{ [mapId: string]: EntityType }> { return this.entireListSubject.asObservable(); }
+	get loadedPromise(): Promise<{ [mapId: string]: EntityType }> { return this.entireListSubject.pipe(first()).toPromise(); }
 
 	constructor(
 		private entityList: EntitySet<EntityType>,

@@ -1,27 +1,23 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
 
-import { EmailValidator } from "../common/validators/email.validator";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../common/util/form-util";
+import {EmailValidator} from "../common/validators/email.validator";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {Title} from "@angular/platform-browser";
+import {markControlsDirty} from "../common/util/form-util";
 
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { BadgrApiFailure } from "../common/services/api-failure";
-import {
-	SocialAccountProviderInfo, ApiUserProfile, ApiUserProfileEmail,
-	ApiUserProfileSocialAccount,
-	socialAccountProviderInfoForSlug,
-} from "../common/model/user-profile-api.model";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfile, UserProfileEmail, UserProfileSocialAccount } from "../common/model/user-profile.model";
-import { Subscription } from "rxjs/Subscription";
-import { QueryParametersService } from "../common/services/query-parameters.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {BadgrApiFailure} from "../common/services/api-failure";
+import {SocialAccountProviderInfo,} from "../common/model/user-profile-api.model";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfile, UserProfileEmail, UserProfileSocialAccount} from "../common/model/user-profile.model";
+import {Subscription} from "rxjs";
+import {QueryParametersService} from "../common/services/query-parameters.service";
 import {OAuthApiService} from "../common/services/oauth-api.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'userProfile',
@@ -83,7 +79,7 @@ import {SystemConfigService} from "../common/services/config.service";
 
 								<div class="table-x-th " scope="row">
 									<div class="formfield l-childrenhorizontal">
-										<bg-formfield-text [control]="emailForm.controls.email"
+										<bg-formfield-text [control]="emailForm.controls['email']"
 														   [errorMessage]="'Please enter a valid email address'"
 														   fieldType="email"
 										                   placeholder="Member Email">
@@ -131,6 +127,7 @@ import {SystemConfigService} from "../common/services/config.service";
 										        [class.button-is-disabled]="email.primary"
 										        (click)="clickConfirmRemove($event, email)"
 										        [disabled-when-requesting]="true"
+										        *ngIf="emails.length > 1 && ! email.primary"
 										>
 											Remove
 										</button>
@@ -208,7 +205,7 @@ import {SystemConfigService} from "../common/services/config.service";
 						<h2 class="title title-is-smallmobile">Linked Accounts</h2>
 					</header>
 					<p *ngIf="socialAccounts.length == 0">
-						Click one of the provider buttons below to allow you to log in to {{configService.thm['serviceName'] || "Badgr"}} in the future using that service
+						Click one of the provider buttons below to allow you to log in to {{configService.theme['serviceName'] || "Badgr"}} in the future using that service
 						rather than your email and password.
 					</p>
 					<table class="table">
@@ -285,11 +282,11 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		protected profileManager: UserProfileManager,
 		protected dialogService: CommonDialogsService,
 		protected paramService: QueryParametersService,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private oauthService: OAuthApiService
 ) {
 		super(router, route, sessionService);
-		title.setTitle(`Profile - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Profile - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.emailForm = this.formBuilder.group({
 			'email': [
@@ -351,7 +348,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	async unlinkAccount(socialAccount: UserProfileSocialAccount) {
 		if (await this.dialogService.confirmDialog.openTrueFalseDialog({
 			dialogTitle: `Unlink ${socialAccount.providerInfo.name}?`,
-			dialogBody: `Are you sure you want to unlink the ${socialAccount.providerInfo.name} account ${socialAccount.fullLabel}) from your ${this.configService.thm['serviceName'] || "Badgr"} account? You may re-link in the future by clicking the ${socialAccount.providerInfo.name} button on this page.`,
+			dialogBody: `Are you sure you want to unlink the ${socialAccount.providerInfo.name} account ${socialAccount.fullLabel}) from your ${this.configService.theme['serviceName'] || "Badgr"} account? You may re-link in the future by clicking the ${socialAccount.providerInfo.name} button on this page.`,
 			resolveButtonLabel: `Unlink ${socialAccount.providerInfo.name} account?`,
 			rejectButtonLabel: "Cancel"
 		})) {
@@ -400,6 +397,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	}
 
 	clickAddEmail(ev: MouseEvent) {
+		console.log("clicked!")
 		if (!this.emailForm.valid) {
 			ev.preventDefault();
 			markControlsDirty(this.emailForm);

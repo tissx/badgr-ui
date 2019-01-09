@@ -1,5 +1,5 @@
 .bordered {
-  border: $border;
+  border: var(--border);
 
   @media (max-width: #{$media-desktop - 1px}) {
 
@@ -18,11 +18,11 @@
 }
 
 .bordered-light {
-  border-color: $color-dark4;
+  border-color: var(--color-dark4);
 }
 
 .bordered-dark {
-  border-color: $color-dark3;
+  border-color: var(--color-dark3);
 }
 
 .bordered-top {

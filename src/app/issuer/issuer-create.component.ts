@@ -1,19 +1,19 @@
-import { Component, forwardRef, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { UrlValidator } from "../common/validators/url.validator";
-import { Title } from "@angular/platform-browser";
-import { ApiIssuerForCreation } from "./models/issuer-api.model";
-import { markControlsDirty } from "../common/util/form-util";
-import { SessionService } from "../common/services/session.service";
-import { preloadImageURL } from "../common/util/file-util";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfileEmail } from "../common/model/user-profile.model";
-import { FormFieldSelectOption } from "../common/components/formfield-select";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {UrlValidator} from "../common/validators/url.validator";
+import {Title} from "@angular/platform-browser";
+import {ApiIssuerForCreation} from "./models/issuer-api.model";
+import {markControlsDirty} from "../common/util/form-util";
+import {SessionService} from "../common/services/session.service";
+import {preloadImageURL} from "../common/util/file-util";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfileEmail} from "../common/model/user-profile.model";
+import {FormFieldSelectOption} from "../common/components/formfield-select";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'issuer-create',
@@ -115,7 +115,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		loginService: SessionService,
 		router: Router,
 		route: ActivatedRoute,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected profileManager: UserProfileManager,
 		protected formBuilder: FormBuilder,
 		protected title: Title,
@@ -123,7 +123,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);
-		title.setTitle(`Create Issuer - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Issuer - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerForm = formBuilder.group({
 			'issuer_name': [
@@ -209,6 +209,6 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	get dataProcessorUrl() {
-		return this.configService.thm['dataProcessorTermsLink'] || 'https://badgr.com/en-us/data-processing.html';
+		return this.configService.theme['dataProcessorTermsLink'] || 'https://badgr.com/en-us/data-processing.html';
 	}
 }

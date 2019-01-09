@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
+import {FormControl, FormGroup} from "@angular/forms";
 
-import { CommonDialogsService } from "../services/common-dialogs.service";
-import { CustomValidatorMessages, messagesForValidationError } from "./formfield-text";
+import {CommonDialogsService} from "../services/common-dialogs.service";
+import {CustomValidatorMessages, messagesForValidationError} from "./formfield-text";
 
 @Component({
 	selector: 'bg-formfield-markdown',

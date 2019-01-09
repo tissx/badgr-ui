@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { RecipientGroupManager } from "./services/recipientgroup-manager.service";
-import { ApiRecipientGroupForCreation } from "./models/recipientgroup-api.model";
-import { Issuer } from "./models/issuer.model";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { markControlsDirty } from "../common/util/form-util";
-import {SystemConfigService} from "../common/services/config.service";
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {Title} from "@angular/platform-browser";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {RecipientGroupManager} from "./services/recipientgroup-manager.service";
+import {ApiRecipientGroupForCreation} from "./models/recipientgroup-api.model";
+import {Issuer} from "./models/issuer.model";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {markControlsDirty} from "../common/util/form-util";
+import {AppConfigService} from "../common/app-config.service";
 
 /**
  * Defines the fields in the form for this component. Can be used for type checking any type that exposes a property
@@ -104,12 +104,12 @@ export class RecipientGroupCreateComponent extends BaseAuthenticatedRoutableComp
 		protected title: Title,
 		protected formBuilder: FormBuilder,
 		protected recipientGroupManager: RecipientGroupManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`Create RecipientGroup - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create RecipientGroup - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.recipientGroupForm = formBuilder.group({
 			recipientGroup_name:  [ '',

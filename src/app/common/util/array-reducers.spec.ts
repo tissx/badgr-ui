@@ -1,5 +1,4 @@
-import { groupIntoObject, groupIntoArray } from "./array-reducers";
-import { TestBed, inject } from "@angular/core/testing";
+import {groupIntoArray, groupIntoObject} from "./array-reducers";
 
 describe("groupIntoObject", () => {
 	it("should group an array correctly", () => {

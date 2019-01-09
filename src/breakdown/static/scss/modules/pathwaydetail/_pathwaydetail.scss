@@ -1,7 +1,7 @@
 .pathwaydetail {
 
-  background-color: $color-light1;
-  box-shadow: 0 0 0 1px $color-dark4 inset;
+  background-color: var(--color-light1);
+  box-shadow: 0 0 0 1px var(--color-dark4) inset;
   padding: $gridspacing * 2;
   position: relative;
 
@@ -60,22 +60,22 @@
     }
 
     h1 {
-      font-size: $font-size;
+      font-size: var(--font-size);
       line-height: $line-height-large2;
       margin-bottom: $gridspacing;
       padding-right: $menumorewidth + $gridspacing * 2;
     }
 
     p {
-      color: $color-secondary;
-      font-size: $font-size-small2;
+      color: var(--color-secondary);
+      font-size: var(--font-size-small2);
       line-height: $line-height;
       margin-bottom: $gridspacing * 2;
     }
 
     .pathwaydetail-x-children {
-      color: $color-dark3;
-      font-size: $font-size-small1;
+      color: var(--color-dark3);
+      font-size: var(--font-size-small1);
       height: 24px;
       line-height: 24px;
       margin-top: $gridspacing * 2;
@@ -122,8 +122,8 @@
   }
 
   .pathwaydetail-x-or {
-    color: $color-dark3;
-    font-size: $font-size-small1;
+    color: var(--color-dark3);
+    font-size: var(--font-size-small1);
   }
 
   @media (min-width: $media-tablet) {
@@ -135,7 +135,7 @@
     .pathwaydetail-x-text {
 
       p {
-        font-size: $font-size-small1;
+        font-size: var(--font-size-small1);
         line-height: $line-height-large2;
         white-space: pre-wrap;
       }
@@ -161,7 +161,7 @@
 
   .pathway-x-required{
     align-items: center;
-    color: $color-dark2;
+    color: var(--color-dark2);
     display: flex;
 
     &::before {

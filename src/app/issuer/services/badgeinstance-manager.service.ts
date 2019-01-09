@@ -1,8 +1,8 @@
-import { Injectable, forwardRef, Inject } from "@angular/core";
-import { BadgeClassInstances, BadgeInstance } from "../models/badgeinstance.model";
-import { BadgeInstanceApiService } from "./badgeinstance-api.service";
-import { ApiBadgeInstanceForCreation, ApiBadgeInstanceForBatchCreation } from "../models/badgeinstance-api.model";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {forwardRef, Inject, Injectable} from "@angular/core";
+import {BadgeClassInstances, BadgeInstance} from "../models/badgeinstance.model";
+import {BadgeInstanceApiService} from "./badgeinstance-api.service";
+import {ApiBadgeInstanceForBatchCreation, ApiBadgeInstanceForCreation} from "../models/badgeinstance-api.model";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
 
 @Injectable()
 export class BadgeInstanceManager {

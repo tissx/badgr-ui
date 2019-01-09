@@ -1,12 +1,16 @@
-import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { SessionService } from "../../common/services/session.service";
-import { SystemConfigService } from "../../common/services/config.service";
-import { IssuerSlug } from "../models/issuer-api.model";
-import { BadgeClassSlug } from "../models/badgeclass-api.model";
-import { ApiBadgeInstance, ApiBadgeInstanceForCreation, ApiBadgeInstanceForBatchCreation } from "../models/badgeinstance-api.model";
-import { MessageService } from "../../common/services/message.service";
+import {Injectable} from "@angular/core";
+import {BaseHttpApiService} from "../../common/services/base-http-api.service";
+import {SessionService} from "../../common/services/session.service";
+import {AppConfigService} from "../../common/app-config.service";
+import {IssuerSlug} from "../models/issuer-api.model";
+import {BadgeClassSlug} from "../models/badgeclass-api.model";
+import {
+	ApiBadgeInstance,
+	ApiBadgeInstanceForBatchCreation,
+	ApiBadgeInstanceForCreation
+} from "../models/badgeinstance-api.model";
+import {MessageService} from "../../common/services/message.service";
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 
 export class PaginationResults {
@@ -46,8 +50,8 @@ export class BadgeInstanceResultSet {
 export class BadgeInstanceApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
-		protected http: Http,
-		protected configService: SystemConfigService,
+		protected http: HttpClient,
+		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		super(loginService, http, configService, messageService);
@@ -57,27 +61,31 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 		issuerSlug: IssuerSlug,
 		badgeSlug: BadgeClassSlug,
 		creationInstance: ApiBadgeInstanceForCreation
-	): Promise<ApiBadgeInstance> {
-		return this.post(`/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/assertions`, creationInstance)
-			.then(r => r.json() as ApiBadgeInstance);
+	) {
+		return this.post<ApiBadgeInstance>(`/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/assertions`, creationInstance)
+			.then(r => r.body);
 	}
 
 	createBadgeInstanceBatched(
 		issuerSlug: IssuerSlug,
 		badgeSlug: BadgeClassSlug,
 		batchCreationInstance: ApiBadgeInstanceForBatchCreation
-	): Promise<ApiBadgeInstance[]>{
-		return this.post(`/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/batchAssertions`, batchCreationInstance)
-			.then(r => r.json());
+	){
+		return this.post<ApiBadgeInstance[]>(`/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/batchAssertions`, batchCreationInstance)
+			.then(r => r.body);
 	}
 
-	private handleAssertionResult = (r) => {
+	private handleAssertionResult = (r: HttpResponse<ApiBadgeInstance[]>) => {
 			let resultset = new BadgeInstanceResultSet();
-			if (r.headers && r.headers.has('link')) {
+
+			if (r.headers.has('link')) {
 				let link = r.headers.get('link');
+
 				resultset.links = new PaginationResults(link);
 			}
-			resultset.instances = r.json();
+
+			resultset.instances = r.body || [];
+
 			return resultset;
 	};
 
@@ -98,7 +106,7 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 		badgeSlug: string,
 		badgeInstanceSlug: string,
 		revocationReason: string
-	): Promise<Response> {
+	) {
 		return this.delete(
 			`/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/assertions/${badgeInstanceSlug}`,
 			{
@@ -106,6 +114,4 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 			}
 		);
 	}
-
-
 }

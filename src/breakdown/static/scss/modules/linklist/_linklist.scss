@@ -20,7 +20,7 @@
   }
 
   button {
-    color: $color-primary;
+    color: var(--color-primary);
   }
 
   img {
@@ -40,7 +40,7 @@
       }
 
       &:not(:last-child) {
-        border-right: 2px solid $color-dark4;
+        border-right: 2px solid var(--color-dark4);
         margin-bottom: 0;
         padding-right: $gridspacing * 2;
       }

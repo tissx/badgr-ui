@@ -1,25 +1,23 @@
-import { Component, Inject, OnInit, forwardRef } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {Component, OnInit} from "@angular/core";
+import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
 
-import { SessionService } from "../common/services/session.service";
-import { MessageService } from "../common/services/message.service";
-import { IssuerManager } from "./services/issuer-manager.service";
-import { UrlValidator } from "../common/validators/url.validator";
-import { Title } from "@angular/platform-browser";
-import { ApiIssuerForEditing } from "./models/issuer-api.model";
-import { markControlsDirty } from "../common/util/form-util";
-import { Issuer } from "./models/issuer.model";
+import {SessionService} from "../common/services/session.service";
+import {MessageService} from "../common/services/message.service";
+import {IssuerManager} from "./services/issuer-manager.service";
+import {UrlValidator} from "../common/validators/url.validator";
+import {Title} from "@angular/platform-browser";
+import {ApiIssuerForEditing} from "./models/issuer-api.model";
+import {markControlsDirty} from "../common/util/form-util";
+import {Issuer} from "./models/issuer.model";
 
-import { preloadImageURL } from "../common/util/file-util";
-import { ApiUserProfileEmail } from "../common/model/user-profile-api.model";
-import { FormFieldSelectOption } from "../common/components/formfield-select";
-import { UserProfileManager } from "../common/services/user-profile-manager.service";
-import { UserProfileEmail } from "../common/model/user-profile.model";
-import { CommonEntityManager } from "../entity-manager/common-entity-manager.service";
-import {SystemConfigService} from "../common/services/config.service";
+import {preloadImageURL} from "../common/util/file-util";
+import {FormFieldSelectOption} from "../common/components/formfield-select";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
+import {UserProfileEmail} from "../common/model/user-profile.model";
+import {AppConfigService} from "../common/app-config.service";
 
 @Component({
 	selector: 'issuer-edit',
@@ -124,11 +122,11 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 		protected formBuilder: FormBuilder,
 		protected title: Title,
 		protected messageService: MessageService,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		protected issuerManager: IssuerManager
 	) {
 		super(router, route, loginService);
-		title.setTitle(`Edit Issuer - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`Edit Issuer - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
 
@@ -174,7 +172,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 				this.editControls.issuer_url.setValue(this.issuer.websiteUrl, { emitEvent: false });
 				this.editControls.issuer_image.setValue(this.issuer.image, { emitEvent: false });
 
-				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
+				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 				/*this.badgesLoaded = new Promise((resolve, reject) => {
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(

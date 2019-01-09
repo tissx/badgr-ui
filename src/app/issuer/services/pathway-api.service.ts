@@ -1,26 +1,26 @@
-import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { SessionService } from "../../common/services/session.service";
-import { SystemConfigService } from "../../common/services/config.service";
+import {Injectable} from "@angular/core";
+import {BaseHttpApiService} from "../../common/services/base-http-api.service";
+import {SessionService} from "../../common/services/session.service";
+import {AppConfigService} from "../../common/app-config.service";
 import {
-	ApiPathwaySummary,
+	ApiIssuerPathwayList,
 	ApiPathwayDetail,
 	ApiPathwayElement,
-	ApiIssuerPathwayList,
 	ApiPathwayElementForCreation,
+	ApiPathwaySummary,
 	ApiPathwaySummaryForCreation
 } from "../models/pathway-api.model";
-import { BadgeClass } from "../models/badgeclass.model";
-import { MessageService } from "../../common/services/message.service";
+import {BadgeClass} from "../models/badgeclass.model";
+import {MessageService} from "../../common/services/message.service";
+import {HttpClient} from "@angular/common/http";
 
 
 @Injectable()
 export class PathwayApiService extends BaseHttpApiService {
 	constructor(
 		protected loginService: SessionService,
-		protected http: Http,
-		protected configService: SystemConfigService,
+		protected http: HttpClient,
+		protected configService: AppConfigService,
 		protected messageService: MessageService
 	) {
 		super(loginService, http, configService, messageService);
@@ -28,10 +28,10 @@ export class PathwayApiService extends BaseHttpApiService {
 
 	listIssuerPathways(
 		issuerSlug: string
-	): Promise<ApiIssuerPathwayList> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/pathways`)
-			.then(r => r.json());
+			.get<ApiIssuerPathwayList>(`/v2/issuers/${issuerSlug}/pathways`)
+			.then(r => r.body);
 	}
 
 	/**
@@ -40,10 +40,10 @@ export class PathwayApiService extends BaseHttpApiService {
 	createPathway(
 		issuerSlug: string,
 		pathwayPayload: ApiPathwaySummaryForCreation
-	): Promise<ApiPathwaySummary> {
+	) {
 		return this
-			.post(`/v2/issuers/${issuerSlug}/pathways`, pathwayPayload)
-			.then(r => r.json());
+			.post<ApiPathwaySummary>(`/v2/issuers/${issuerSlug}/pathways`, pathwayPayload)
+			.then(r => r.body);
 	}
 
 	/**
@@ -52,9 +52,9 @@ export class PathwayApiService extends BaseHttpApiService {
 	deletePathway(
 		issuerSlug: string,
 		pathwaySlug: string
-	): Promise<void> {
+	) {
 		return this
-			.delete(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}`)
+			.delete<void>(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}`)
 			.then(() => void 0);
 	}
 
@@ -64,10 +64,10 @@ export class PathwayApiService extends BaseHttpApiService {
 	getPathwayDetail(
 		issuerSlug: string,
 		pathwaySlug: string
-	): Promise<ApiPathwayDetail> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}`)
-			.then(r => r.json());
+			.get<ApiPathwayDetail>(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}`)
+			.then(r => r.body);
 	}
 
 	/**
@@ -77,10 +77,10 @@ export class PathwayApiService extends BaseHttpApiService {
 		issuerSlug: string,
 		pathwaySlug: string,
 		pathway: ApiPathwaySummary
-	): Promise<ApiPathwaySummary> {
+	) {
 		return this
-			.put(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}`, pathway)
-			.then(r => r.json());
+			.put<ApiPathwaySummary>(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}`, pathway)
+			.then(r => r.body);
 	}
 
 	/**
@@ -89,10 +89,10 @@ export class PathwayApiService extends BaseHttpApiService {
 	getPathwayElements(
 		issuerSlug: string,
 		pathwaySlug: string
-	): Promise<ApiPathwayElement[]> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements`)
-			.then(r => r.json());
+			.get<ApiPathwayElement[]>(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements`)
+			.then(r => r.body);
 	}
 
 	/**
@@ -102,10 +102,10 @@ export class PathwayApiService extends BaseHttpApiService {
 		issuerSlug: string,
 		pathwaySlug: string,
 		elementPayload: ApiPathwayElementForCreation
-	): Promise<ApiPathwayElement> {
+	) {
 		return this
-			.post(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements`, elementPayload)
-			.then(r => r.json())
+			.post<ApiPathwayElement>(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements`, elementPayload)
+			.then(r => r.body)
 			;
 	}
 
@@ -116,10 +116,10 @@ export class PathwayApiService extends BaseHttpApiService {
 		issuerSlug: string,
 		pathwaySlug: string,
 		elementSlug: string
-	): Promise<ApiPathwayElement> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}`)
-			.then(r => r.json());
+			.get<ApiPathwayElement>(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}`)
+			.then(r => r.body);
 	}
 
 	/**
@@ -130,13 +130,13 @@ export class PathwayApiService extends BaseHttpApiService {
 		pathwaySlug: string,
 		elementSlug: string,
 		elementPayload: ApiPathwayElement
-	): Promise<ApiPathwayElement> {
+	) {
 		return this
-			.put(
+			.put<ApiPathwayElement>(
 				`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}`,
 				elementPayload
 			)
-			.then(r => r.json());
+			.then(r => r.body);
 	}
 
 	/**
@@ -146,7 +146,7 @@ export class PathwayApiService extends BaseHttpApiService {
 		issuerSlug: string,
 		pathwaySlug: string,
 		elementSlug: string
-	): Promise<Response> {
+	) {
 		return this
 			.delete(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}`);
 	}
@@ -158,10 +158,10 @@ export class PathwayApiService extends BaseHttpApiService {
 		issuerSlug: string,
 		pathwaySlug: string,
 		elementSlug: string
-	): Promise<BadgeClass[]> {
+	) {
 		return this
-			.get(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}/badges`)
-			.then(r => r.json());
+			.get<BadgeClass[]>(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}/badges`)
+			.then(r => r.body);
 	}
 
 	/**
@@ -172,7 +172,7 @@ export class PathwayApiService extends BaseHttpApiService {
 		pathwaySlug: string,
 		elementSlug: string,
 		badgeClassSlug: string
-	): Promise<Response> {
+	) {
 		return this
 			.post(
 				`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}/badges`,
@@ -188,7 +188,7 @@ export class PathwayApiService extends BaseHttpApiService {
 		pathwaySlug: string,
 		elementSlug: string,
 		badgeSlug: string
-	): Promise<Response> {
+	) {
 		return this
 			.delete(`/v2/issuers/${issuerSlug}/pathways/${pathwaySlug}/elements/${elementSlug}/badges/${badgeSlug}`)
 	}

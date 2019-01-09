@@ -1,5 +1,5 @@
 // This impl. bases upon one that can be found in the router's test cases.
-import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from "@angular/router";
+import {ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy} from "@angular/router";
 
 /**
  * Route Reuse Strategy for Badgr. Our routable components were designed before route reuse was the default and as such

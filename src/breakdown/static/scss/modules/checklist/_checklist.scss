@@ -2,8 +2,8 @@
   display: none;
 
   + label {
-    border-radius: $border-radius;
-    box-shadow: 0 0 0 1px $color-dark4 inset;
+    border-radius: var(--border-radius);
+    box-shadow: 0 0 0 1px var(--color-dark4) inset;
     color: transparent;
     content: '';
     display: block;
@@ -18,8 +18,8 @@
   &:checked {
 
     + label {
-      background: url('#{$base-path}images/checklist.svg') center center no-repeat $color-secondary;
-      box-shadow: 0 0 0 0 $color-secondary;
+      background: url('#{$base-path}images/checklist.svg') center center no-repeat var(--color-secondary);
+      box-shadow: 0 0 0 0 var(--color-secondary);
     }
 
   }

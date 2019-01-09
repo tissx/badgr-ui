@@ -1,21 +1,21 @@
-import { Injectable } from "@angular/core";
-import { Http, Headers } from "@angular/http";
-import { SystemConfigService } from "../common/services/config.service";
-import { SignupModel } from "./signup-model.type";
-import { Observable } from "rxjs/Observable";
-import { ApiUserProfile } from "../common/model/user-profile-api.model";
+import {Injectable} from '@angular/core';
+import {AppConfigService} from '../common/app-config.service';
+import {SignupModel} from './signup-model.type';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
 @Injectable()
 export class SignupService {
 	baseUrl: string;
 
-	constructor(private http: Http, private configService: SystemConfigService) {
+	constructor(
+		private http: HttpClient,
+		private configService: AppConfigService
+	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 	}
 
 	submitSignup(signupModel: SignupModel) {
-
 		const endpoint = this.baseUrl + '/v1/user/profile';
 		const payload = {
 			email: signupModel.username,
@@ -26,19 +26,18 @@ export class SignupService {
 			marketing_opt_in: signupModel.marketingOptIn,
 		};
 
-		const headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-		headers.set('Accept', '*/*');
+		const headers = new HttpHeaders()
+			.append('Content-Type', 'application/json')
+			.set('Accept', '*/*');
 
-		return new Observable<ApiUserProfile>((observer) => {
-
-			this.http.post(endpoint, JSON.stringify(payload), { headers: headers }).subscribe((r) => {
-				observer.next(r.json())
-			}, error => {
-				observer.error(error.json())
-			});
-
-		});
-
+		return this.http.post(
+			endpoint,
+			JSON.stringify(payload),
+			{
+				observe: 'body',
+				responseType: 'json',
+				headers: headers
+			}
+		).toPromise();
 	}
 }

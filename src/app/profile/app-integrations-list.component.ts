@@ -1,18 +1,16 @@
-import { Component, OnInit } from "@angular/core";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit} from "@angular/core";
+import {Title} from "@angular/platform-browser";
 
-import { Router, ActivatedRoute, } from "@angular/router";
-import { MessageService } from "../common/services/message.service";
-import { SessionService } from "../common/services/session.service";
-import { BaseRoutableComponent } from "../common/pages/base-routable.component";
-import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
-import { AppIntegrationManager } from "./services/app-integration-manager.service";
-import { OAuthManager } from "../common/services/oauth-manager.service";
-import { CommonDialogsService } from "../common/services/common-dialogs.service";
-import { OAuth2AppAuthorization } from "../common/model/oauth.model";
-import { groupIntoObject } from "../common/util/array-reducers";
-import {SystemConfigService} from "../common/services/config.service";
-
+import {ActivatedRoute, Router,} from "@angular/router";
+import {MessageService} from "../common/services/message.service";
+import {SessionService} from "../common/services/session.service";
+import {BaseAuthenticatedRoutableComponent} from "../common/pages/base-authenticated-routable.component";
+import {AppIntegrationManager} from "./services/app-integration-manager.service";
+import {OAuthManager} from "../common/services/oauth-manager.service";
+import {CommonDialogsService} from "../common/services/common-dialogs.service";
+import {OAuth2AppAuthorization} from "../common/model/oauth.model";
+import {groupIntoObject} from "../common/util/array-reducers";
+import {AppConfigService} from "../common/app-config.service";
 
 
 @Component({
@@ -38,7 +36,7 @@ import {SystemConfigService} from "../common/services/config.service";
 
 			<div class="l-containerhorizontal l-containervertical l-containervertical-small l-childrenvertical wrap"
 			     *bgAwaitPromises="[ appIntegrationsSet.loadedPromise ]">
-				<p class="text text-quiet">You've authorized access to your {{configService.thm['serviceName'] || "Badgr"}} account for the apps and sites listed below.</p>
+				<p class="text text-quiet">You've authorized access to your {{configService.theme['serviceName'] || "Badgr"}} account for the apps and sites listed below.</p>
 
 				<div class="l-gridthree">
 					<!-- Custom Integrations -->
@@ -73,7 +71,7 @@ import {SystemConfigService} from "../common/services/config.service";
 								</div>
 								<div class="card-x-text">
 									<h1 id="appCardTitle-{{ app.entityId }}">{{ app.name }}</h1>
-									<p>This application has been granted permission to sign you in using your {{configService.thm['serviceName'] || "Badgr"}} account.</p>
+									<p>This application has been granted permission to sign you in using your {{configService.theme['serviceName'] || "Badgr"}} account.</p>
 								</div>
 							</a>
 							<div class="card-x-actions">
@@ -100,12 +98,12 @@ export class AppIntegrationListComponent extends BaseAuthenticatedRoutableCompon
 		private messageService: MessageService,
 		private appIntegrationManager: AppIntegrationManager,
 		private oAuthManager: OAuthManager,
-		protected configService: SystemConfigService,
+		protected configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle(`App Integrations - ${this.configService.thm['serviceName'] || "Badgr"}`);
+		title.setTitle(`App Integrations - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
 	get appIntegrationsSet() {

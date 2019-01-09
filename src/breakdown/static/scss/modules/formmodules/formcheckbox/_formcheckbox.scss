@@ -10,19 +10,19 @@
 
   .formcheckbox-x-text {
     align-items: flex-start;
-    color: $color-secondary;
+    color: var(--color-secondary);
     cursor: pointer;
     display: flex;
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     line-height: $line-height-small1;
     transition: color $transition-duration $transition-easing;
     a {
       padding-left: 3px;
     }
     &::before {
-      background: center center no-repeat $color-light1;
-      border: 1px solid $color-dark4;
-      border-radius: $border-radius;
+      background: center center no-repeat var(--color-light1);
+      border: 1px solid var(--color-dark4);
+      border-radius: var(--border-radius);
       content: '';
       display: block;
       height: 16px;
@@ -34,27 +34,27 @@
     }
 
     &:hover::before {
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
     }
 
   }
 
   .formcheckbox-x-text-sharebadge {
-    color: $color-dark2;
-    font-size: $font-size-small1;
+    color: var(--color-dark2);
+    font-size: var(--font-size-small1);
     line-height: $line-height;
   }
 
   input:focus + .formcheckbox-x-text::before {
-    border-color: $color-secondary;
+    border-color: var(--color-secondary);
   }
 
   input:checked + .formcheckbox-x-text {
 
     &::before {
-      background-color: $color-secondary;
+      background-color: var(--color-secondary);
       background-image: url('#{$base-path}images/formcheckbox-checked.svg');
-      border-color: $color-secondary;
+      border-color: var(--color-secondary);
     }
 
   }
@@ -66,13 +66,13 @@
 
   &.formcheckbox-is-error {
     .formcheckbox-x-text::before {
-      border-color: map-get($states, error);
+      border-color: var(--color-error);
     }
     .formcheckbox-x-errortext{
-      color: map-get($states, error);
+      color: var(--color-error);
       align-items: center;
       display: flex;
-      font-size: $font-size-small2;
+      font-size: var(--font-size-small2);
       transition: color $transition-duration $transition-easing;
       margin-left: 25px;
       margin-top: $gridspacing;

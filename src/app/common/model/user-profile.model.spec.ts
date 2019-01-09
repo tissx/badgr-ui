@@ -1,24 +1,24 @@
-import { TestBed, inject } from "@angular/core/testing";
+import {inject, TestBed} from "@angular/core/testing";
 
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import { UserProfile, UserProfileEmail, UserProfileSocialAccount } from "./user-profile.model";
-import { ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount } from "./user-profile-api.model";
-import { verifyManagedEntitySet } from "./managed-entity-set.spec";
-import { UserProfileManager } from "../services/user-profile-manager.service";
-import { MessageService } from "../services/message.service";
-import { UserProfileApiService } from "../services/user-profile-api.service";
-import { SessionService } from "../services/session.service";
-import { BaseRequestOptions, Http } from "@angular/http";
-import { MockBackend } from "@angular/http/testing";
-import { SystemConfigService } from "../services/config.service";
-import { EventsService } from "../services/events.service";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {UserProfile, UserProfileEmail, UserProfileSocialAccount} from "./user-profile.model";
+import {ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount} from "./user-profile-api.model";
+import {verifyManagedEntitySet} from "./managed-entity-set.spec";
+import {UserProfileManager} from "../services/user-profile-manager.service";
+import {MessageService} from "../services/message.service";
+import {UserProfileApiService} from "../services/user-profile-api.service";
+import {SessionService} from "../services/session.service";
+import {BaseRequestOptions, Http} from "@angular/http";
+import {MockBackend} from "@angular/http/testing";
+import {AppConfigService} from "../app-config.service";
+import {EventsService} from "../services/events.service";
 
 
 describe('UserProfile', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [
-			SystemConfigService,
+			AppConfigService,
 			MockBackend,
 			BaseRequestOptions,
 			MessageService,

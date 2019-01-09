@@ -1,4 +1,4 @@
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 
 /**
  * Helper class for controllers whose route parameters specify entities that need to be loaded.

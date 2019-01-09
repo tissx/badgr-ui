@@ -1,6 +1,7 @@
-import { UpdatableSubject } from "../util/updatable-subject";
-import { ApiEntityRef, EntityRef } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import {UpdatableSubject} from "../util/updatable-subject";
+import {ApiEntityRef, EntityRef} from "./entity-ref";
+import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {first} from "rxjs/operators";
 
 export type AnyManagedEntity = ManagedEntity<any, any>;
 
@@ -20,7 +21,7 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 	private changedSubject: UpdatableSubject<this> = new UpdatableSubject<this>();
 	public get changed$() { return this.changedSubject.asObservable() }
 	
-	public get loadedPromise(): Promise<this> { return this.loadedSubject.first().toPromise() }
+	public get loadedPromise(): Promise<this> { return this.loadedSubject.pipe(first()).toPromise() }
 
 	constructor(
 		private _commonManager: CommonEntityManager,

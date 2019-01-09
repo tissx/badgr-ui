@@ -11,14 +11,14 @@
     }
 
     a {
-      font-size: $font-size-small1;
+      font-size: var(--font-size-small1);
       font-weight: normal;
       text-transform: none;
     }
 
     button {
-      color: $color-dark2;
-      font-size: $font-size-small1;
+      color: var(--color-dark2);
+      font-size: var(--font-size-small1);
     }
 
   }
@@ -27,12 +27,12 @@
   > input:not([type='checkbox']),
   > select,
   > textarea {
-    background: $color-light1;
-    border: 1px solid $color-dark4;
-    border-radius: $border-radius;
+    background: var(--color-light1);
+    border: 1px solid var(--color-dark4);
+    border-radius: var(--border-radius);
     box-sizing: border-box;
     display: block;
-    font-size: $font-size; // Anything less than 16px will cause automatic zooming on Safari for iOS
+    font-size: var(--font-size); // Anything less than 16px will cause automatic zooming on Safari for iOS
     line-height: $line-height-large1;
     min-width: 150px; // Needed for tables that have expanding th rows
     outline: none;
@@ -46,22 +46,22 @@
     &::-webkit-input-placeholder,
     &::-moz-placeholder,
     &:-ms-input-placeholder {
-      color: $color-dark3;
+      color: var(--color-dark3);
     }
 
     &[disabled] {
-      background-color: $color-light4;
-      border-color: $color-light4;
-      color: $color-dark3;
+      background-color: var(--color-light4);
+      border-color: var(--color-light4);
+      color: var(--color-dark3);
     }
 
     &:hover:not([readonly]):not([disabled]) {
-      border-color: $color-dark3;
+      border-color: var(--color-dark3);
     }
 
     &:focus:not([readonly]):not([disabled]) {
-      border-color: $color-dark3;
-      box-shadow: 0 0 4px 0 $color-quaternary;
+      border-color: var(--color-dark3);
+      box-shadow: 0 0 4px 0 var(--color-quaternary);
     }
 
   }
@@ -71,8 +71,8 @@
     background-image: url('#{$base-path}images/form-dropdown.svg');
     background-position: calc(100% - #{$gridspacing * 2}) center;
     background-repeat: no-repeat;
-    color: $color-secondary;
-    font-size: $font-size-small1;
+    color: var(--color-secondary);
+    font-size: var(--font-size-small1);
     letter-spacing: 0.58;
     padding-right: $gridspacing * 4;
 
@@ -106,14 +106,14 @@
   }
 
   .formfield-x-description {
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     margin-bottom: $gridspacing;
   }
 
   .formfield-x-error {
-    color: map-get($states, error);
+    color: var(--color-error);
     display: none;
-    font-size: $font-size-small2;
+    font-size: var(--font-size-small2);
     font-weight: bold;
     margin-top: $gridspacing;
     transition: opacity $transition-duration / 2 $transition-easing;
@@ -152,18 +152,18 @@
 
     > label,
     .formfield-x-label {
-      color: map-get($states, error);
+      color: var(--color-error);
     }
 
     > input,
     > select,
     > textarea {
-      border-color: map-get($states, error);
-      color: map-get($states, error);
+      border-color: var(--color-error);
+      color: var(--color-error);
 
       &:hover:not([readonly]):not([disabled]),
       &:focus:not([readonly]):not([disabled]) {
-        border-color: map-get($states, error);
+        border-color: var(--color-error);
       }
 
     }
@@ -185,7 +185,7 @@
   > input:not([type='checkbox']),
   > select,
   > textarea {
-    background: $color-light1 $gridspacing * 1.25 center no-repeat;
+    background: var(--color-light1) $gridspacing * 1.25 center no-repeat;
     padding-left: $gridspacing * 2 + 16px;
   }
 
@@ -214,7 +214,7 @@
 // TODO This should be a module that consumes a .formfield with a hidden label, rather than a submodule
 
 .formfield-image {
-  border: 1px solid $color-dark4;
+  border: 1px solid var(--color-dark4);
   border-radius: 4px;
   padding: 16px;
 
