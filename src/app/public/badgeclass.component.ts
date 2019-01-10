@@ -8,6 +8,8 @@ import {PublicApiBadgeClassWithIssuer, PublicApiIssuer} from "./models/public-ap
 import {EmbedService} from "../common/services/embed.service";
 import {addQueryParamsToUrl, stripQueryParamsFromUrl} from "../common/util/url-util";
 import {routerLinkForUrl} from "./public.component";
+import {AppConfigService} from '../common/app-config.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
 	template: `
@@ -151,8 +153,12 @@ export class PublicBadgeClassComponent {
 
 	constructor(
 		private injector: Injector,
-		public embedService: EmbedService
+		public embedService: EmbedService,
+		public configService: AppConfigService,
+		private title: Title,
 	) {
+		title.setTitle(`Badge Class - ${this.configService.theme['serviceName'] || "Badgr"}`);
+
 		this.badgeIdParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),
 			"badgeId",

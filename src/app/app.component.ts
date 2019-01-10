@@ -1,26 +1,27 @@
-import {AfterViewInit, Component, OnInit, Renderer2, ViewChild, ViewEncapsulation} from "@angular/core";
-import {Router} from "@angular/router";
+import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
 
-import {MessageService} from "./common/services/message.service";
-import {SessionService} from "./common/services/session.service";
-import {CommonDialogsService} from "./common/services/common-dialogs.service";
-import {AppConfigService} from "./common/app-config.service";
-import {ShareSocialDialog} from "./common/dialogs/share-social-dialog.component";
-import {ConfirmDialog} from "./common/dialogs/confirm-dialog.component";
+import {MessageService} from './common/services/message.service';
+import {SessionService} from './common/services/session.service';
+import {CommonDialogsService} from './common/services/common-dialogs.service';
+import {AppConfigService} from './common/app-config.service';
+import {ShareSocialDialog} from './common/dialogs/share-social-dialog.component';
+import {ConfirmDialog} from './common/dialogs/confirm-dialog.component';
 
-import "../thirdparty/scopedQuerySelectorShim";
-import {EventsService} from "./common/services/events.service";
-import {OAuthManager} from "./common/services/oauth-manager.service";
-import {EmbedService} from "./common/services/embed.service";
-import {InitialLoadingIndicatorService} from "./common/services/initial-loading-indicator.service";
-import {Angulartics2GoogleTagManager} from "angulartics2/gtm";
+import '../thirdparty/scopedQuerySelectorShim';
+import {EventsService} from './common/services/events.service';
+import {OAuthManager} from './common/services/oauth-manager.service';
+import {EmbedService} from './common/services/embed.service';
+import {InitialLoadingIndicatorService} from './common/services/initial-loading-indicator.service';
+import {Angulartics2GoogleTagManager} from 'angulartics2/gtm';
 
-import {ApiExternalToolLaunchpoint} from "app/externaltools/models/externaltools-api.model";
-import {ExternalToolsManager} from "app/externaltools/services/externaltools-manager.service";
+import {ApiExternalToolLaunchpoint} from 'app/externaltools/models/externaltools-api.model';
+import {ExternalToolsManager} from 'app/externaltools/services/externaltools-manager.service';
 
-import {UserProfileManager} from "./common/services/user-profile-manager.service";
-import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
-import {QueryParametersService} from "./common/services/query-parameters.service";
+import {UserProfileManager} from './common/services/user-profile-manager.service';
+import {NewTermsDialog} from './common/dialogs/new-terms-dialog.component';
+import {QueryParametersService} from './common/services/query-parameters.service';
+import {Title} from '@angular/platform-browser';
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -210,9 +211,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private queryParams: QueryParametersService,
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
-		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager   // required for angulartics to work
+		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,   // required for angulartics to work
+		private titleService: Title
 	) {
 		messageService.useRouter(router);
+
+		titleService.setTitle(this.configService.theme['serviceName'] || "Badgr");
 
 		this.initScrollFix();
 		this.initAnalytics();

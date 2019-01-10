@@ -12,6 +12,7 @@ import {QueryParametersService} from "../common/services/query-parameters.servic
 import {MessageService} from "../common/services/message.service";
 import {AppConfigService} from "../common/app-config.service";
 import {saveAs} from "file-saver";
+import {Title} from '@angular/platform-browser';
 
 
 @Component({
@@ -217,8 +218,11 @@ export class PublicBadgeAssertionComponent {
 		public embedService: EmbedService,
 		public messageService: MessageService,
 		public configService: AppConfigService,
-		public queryParametersService: QueryParametersService
+		public queryParametersService: QueryParametersService,
+		private title: Title,
 	) {
+		title.setTitle(`Assertion - ${this.configService.theme['serviceName'] || "Badgr"}`);
+		
 		this.assertionIdParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),
 			"assertionId",
