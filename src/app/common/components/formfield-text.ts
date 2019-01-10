@@ -14,20 +14,17 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 		'[class.forminput-locked]': 'isLockedState',
 		'[class.forminput-monospaced]': 'monospaced',
 		'[class.forminput-withbutton]': 'hasbutton',
+		'[class.forminput-withsublabel]': 'sublabel'
 	},
 	template: `
-		<div class="forminput-x-labelrow">
-			<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
-				{{ label }}  <span *ngIf="optional">(OPTIONAL)</span>
-				<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
-				<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
-			</label>
-			<ng-content select="[label-additions]"></ng-content>
-		</div>
+		<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
+			{{ label }}  <span *ngIf="optional">(OPTIONAL)</span>
+			<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
+			<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
+		</label>
+		<p class="forminput-x-sublabel" *ngIf="sublabel">{{ sublabel }}</p>
 
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
-
-		<p class="forminput-x-sublabel" *ngIf="description">{{ description }}</p>
 		<div class="forminput-x-inputs">
 			<input [type]="fieldType"
 			       *ngIf="! multiline"
@@ -74,7 +71,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() errorMessage: CustomValidatorMessages;
 	@Input() multiline: boolean = false;
 	@Input() monospaced: boolean = false;
-	@Input() description: string;
+	@Input() sublabel: string;
 	@Input() placeholder: string;
 	@Input() fieldType: FormFieldTextInputType = 'text';
 	@Input() optional: boolean = false;

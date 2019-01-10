@@ -17,31 +17,12 @@ import {AppConfigService} from "../common/app-config.service";
 	template: `
 		<main>
 			<form-message></form-message>
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li>
-							<a [routerLink]="['/profile/profile']">Profile</a>
-						</li>
-						<li class="breadcrumb-x-current">Change Password</li>
-					</ul>
-				</nav>
-		
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>Enter a new password</h1>
-						<p>Enter in your new password.</p>
-					</div>
-				</div>
-		
+			<header class="l-containerxaxis topbar">
+				<h1 class="topbar-x-heading">Change Password</h1>
+				<p class="topbar-x-subheading">Enter a new password.</p>
 			</header>
-		
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
-		
+			<div class="l-containerxaxis u-margin-top3x u-width-formsmall">
 				<form class="l-form" [formGroup]='changePasswordForm' (ngSubmit)="submitChange()" novalidate>
-		
 					<fieldset>
 						<bg-formfield-text [control]="changePasswordForm.controls.current_password"
 						                   [label]="'Current Password'"
@@ -49,31 +30,29 @@ import {AppConfigService} from "../common/app-config.service";
 						                   fieldType="password"
 						                   [autofocus]="true">              
 						</bg-formfield-text>
-						
-						<bg-formfield-text [control]="changePasswordForm.controls.password1"
-						                   [label]="'New Password'"
-						                   [errorMessage]="'Please enter a new password'"
-						                   fieldType="password"
-						                   >              
-							<span label-additions>(MUST BE AT LEAST 8 CHARACTERS)</span>
-						</bg-formfield-text>
-		
-						<bg-formfield-text [control]="changePasswordForm.controls.password2"
-						                   [label]="'Confirm New Password'"
-						                   fieldType="password"
-						                   [errorMessage]="{ required: 'Please confim your new password' }"
-						                   >
-						</bg-formfield-text>
+						<div class="u-margin-top2x">
+							<bg-formfield-text [control]="changePasswordForm.controls.password1"
+							                   [label]="'New Password'"
+							                   [errorMessage]="'Please enter a new password'"
+							                   fieldType="password"
+							                   [sublabel]="'Must be at least 8 characters'"
+							                   >
+							</bg-formfield-text>
+						</div>
+						<div class="u-margin-top2x">
+							<bg-formfield-text [control]="changePasswordForm.controls.password2"
+							                   [label]="'Confirm New Password'"
+							                   fieldType="password"
+							                   [errorMessage]="{ required: 'Please confim your new password' }"
+							                   >
+							</bg-formfield-text>
+						</div>
 					</fieldset>
-					
-					<p>
-						Don't have your current password? <a (click)="forgotPassword()">Click here to reset by email</a>
-					</p>
-		
-					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-right">
+					<div class="l-flex l-flex-1x l-flex-justifyend u-margin-top2x">
 						<a class="button button-secondary"
 						   (click)="cancel()"
 						   [disabled-when-requesting]="true"
+						   tabindex="0"
 						>Cancel</a>
 		
 						<button class="button"
@@ -83,6 +62,12 @@ import {AppConfigService} from "../common/app-config.service";
 						        loading-message="Changing Password"
 						>Change Password</button>
 					</div>
+					<p class="u-text u-margin-yaxis3x">
+						Don’t have your current password?
+			            <br>
+			            <a (click)="forgotPassword()" class="u-text-link">Click here</a>
+			            to reset by email.
+					</p>
 				</form>
 			</div>
 		</main>
