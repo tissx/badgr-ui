@@ -45,8 +45,9 @@ import * as marked from 'marked';
 			<div class="markdowneditor-x-preview"
 			     #markdownPreviewPane
 			     [bgMarkdown]="control.value"
-			     [ngStyle]="{'height.px':textHeight}"
-			     *ngIf="_preview">Markdown preview
+			     [style.minHeight.px]="textHeight"
+			     *ngIf="_preview"
+			>Markdown preview
 			</div>
 
 			<div class="markdowneditor-x-tabbar">
@@ -230,9 +231,10 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 	}
 
 	markdownPreview(preview) {
-		this.textHeight = (!preview)
-			? this.markdownPreviewPane.nativeElement.offsetHeight
-			: this.textareaInput.nativeElement.offsetHeight;
+		if (this.textareaInput) {
+			this.textHeight = this.textareaInput.nativeElement.offsetHeight;
+		}
+
 		this._preview = preview;
 	}
 
