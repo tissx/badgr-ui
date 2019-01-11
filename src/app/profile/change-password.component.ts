@@ -18,7 +18,7 @@ import {AppConfigService} from "../common/app-config.service";
 		<main>
 			<form-message></form-message>
 			<header class="l-containerxaxis topbar">
-				<h1 class="topbar-x-heading">Change Password</h1>
+				<h3 class="topbar-x-heading">Change Password</h3>
 				<p class="topbar-x-subheading">Enter a new password.</p>
 			</header>
 			<div class="l-containerxaxis u-margin-top3x u-width-formsmall">
