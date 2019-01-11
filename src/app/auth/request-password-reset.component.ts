@@ -25,8 +25,7 @@ import {BaseRoutableComponent} from "../common/pages/base-routable.component";
 			</header>
 			<div class="l-containerxaxis u-margin-top3x u-width-formsmall">
 				<!-- Login Form -->
-				<form class="l-form l-form-span "
-				      role="form"
+				<form role="form"
 				      aria-labelledby="heading-form"
 				      [formGroup]="requestPasswordResetForm"
 				      (ngSubmit)="submitResetRequest()"
