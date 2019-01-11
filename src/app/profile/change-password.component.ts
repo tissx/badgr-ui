@@ -54,7 +54,6 @@ import {AppConfigService} from "../common/app-config.service";
 						   [disabled-when-requesting]="true"
 						   tabindex="0"
 						>Cancel</a>
-		
 						<button class="button"
 						        type="submit"
 						        (click)="clickSubmit($event)"
@@ -71,7 +70,6 @@ import {AppConfigService} from "../common/app-config.service";
 				</form>
 			</div>
 		</main>
-
 	`
 })
 export class ChangePasswordComponent extends BaseRoutableComponent {
