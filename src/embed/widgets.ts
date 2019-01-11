@@ -3,8 +3,7 @@ import {generateEmbedHtml} from "./generate-embed-html";
 
 const sha256 = require('tiny-sha256');
 
-function init(x) {
-	console.info(x);
+export function setupEmbeddedBadges() {
 	function messageToSha256HexString(message) {
 		return sha256(message);
 	}
@@ -90,5 +89,3 @@ function init(x) {
 		}
 	}
 }
-
-init("DO THE INIT YO");

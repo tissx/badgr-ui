@@ -3,6 +3,8 @@ import {FormControl, FormGroup} from "@angular/forms";
 
 import {CommonDialogsService} from "../services/common-dialogs.service";
 import {CustomValidatorMessages, messagesForValidationError} from "./formfield-text";
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import * as marked from 'marked';
 
 @Component({
 	selector: 'bg-formfield-markdown',
@@ -42,15 +44,7 @@ import {CustomValidatorMessages, messagesForValidationError} from "./formfield-t
 
 			<div class="markdowneditor-x-preview"
 			     #markdownPreviewPane
-			     [innerHTML]="control.value | MarkdownToHtml : {  
-				gfm: false,
-				tables: false,
-				breaks: false,
-				pedantic: false,
-				sanitize: true,
-				smartLists: true,
-				smartypants: false
-			}"
+			     [bgMarkdown]="control.value"
 			     [ngStyle]="{'height.px':textHeight}"
 			     *ngIf="_preview">Markdown preview
 			</div>
@@ -132,6 +126,9 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 
 	textHeight: number;
 
+	private _lastRenderedMarkdown?: string;
+	private _currentMarkdownHtml?: SafeHtml;
+
 	private _unlocked = false;
 	_preview = false;
 
@@ -205,6 +202,7 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 
 	constructor(
 		private dialogService: CommonDialogsService,
+		private domSanitizer: DomSanitizer
 	) { }
 
 	ngAfterViewInit() {

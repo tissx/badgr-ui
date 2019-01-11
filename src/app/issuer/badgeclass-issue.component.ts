@@ -22,7 +22,7 @@ import {typedGroup} from "../common/util/typed-forms";
 import {TelephoneValidator} from "../common/validators/telephone.validator";
 import {EventsService} from "../common/services/events.service";
 import {FormFieldTextInputType} from '../common/components/formfield-text';
-import * as sanitizeHtml from "sanitize-html";
+import * as striptags from 'striptags'
 import {DateValidator} from "../common/validators/date.validator";
 import {AppConfigService} from "../common/app-config.service";
 
@@ -435,8 +435,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	onSubmit() {
 		const formState = this.issueForm.value;
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative != "" || e.evidence_url != "");
-		const cleanedName = sanitizeHtml(formState.recipientprofile_name, {allowedTags: []});
-
+		const cleanedName = striptags(formState.recipientprofile_name);
 
 		const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
 		let extensions = formState.recipientprofile_name ? {

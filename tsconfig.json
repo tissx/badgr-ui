@@ -23,7 +23,7 @@
 			"dom",
 			"esnext"
 		],
-		"module": "es2015",
+		"module": "commonjs",
 		"baseUrl": "./"
 	}
 }

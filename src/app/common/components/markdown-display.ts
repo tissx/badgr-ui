@@ -1,4 +1,4 @@
-import {Component, Input,} from "@angular/core";
+import {Component, Input} from "@angular/core";
 
 @Component({
 	selector: 'markdown-display',
@@ -9,21 +9,14 @@ import {Component, Input,} from "@angular/core";
 		     [class.markdowneditor-login]="login"
 		>	
 			<div class="markdowneditor-x-display"
-				[innerHTML]="value | MarkdownToHtml : {  
-					gfm: false,
-					tables: false,
-					breaks: false,
-					pedantic: false,
-					sanitize: true,
-					smartLists: true,
-					smartypants: false
-				}">Markdown preview
-	        </div>
+			     [bgMarkdown]="value"
+			>Markdown preview</div>
 		</div> 
 	`
 })
 export class MarkdownDisplay {
-	@Input() value: string;
+	@Input() value = "";
+
 	@Input() login = false;
-	constructor() { }
 }
+
