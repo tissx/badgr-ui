@@ -11,11 +11,11 @@
             <span>Sign in With</span>
         </h3>
 
-        <div class="l-oauthbuttons">
+        <div class="l-socialbuttons">
             <button
                 type="button"
                 *ngFor="let provider of sessionService.enabledExternalAuthProviders"
-                class="oauthbutton oauthbutton-{{ provider.slug }}"
+                class="socialbutton socialbutton-{{ provider.slug }}"
                 (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)"
             >
                 {{ provider.name }}

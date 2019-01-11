@@ -132,7 +132,7 @@
 
 		<div class="l-grid l-grid-medium">
 			<button *ngFor="let provider of sessionService.enabledExternalAuthProviders" 
-					class="oauthbutton oauthbutton-{{ provider.slug }}"
+					class="socialbutton socialbutton-{{ provider.slug }}"
 					(click)="linkAccount(provider)"
 					>
 			</button>

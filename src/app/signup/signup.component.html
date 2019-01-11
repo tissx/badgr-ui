@@ -42,13 +42,13 @@
         </h3>
 
         <div
-            class="l-oauthbuttons"
+            class="l-socialbuttons"
             *ngIf="sessionService.enabledExternalAuthProviders.length > 0"
         >
             <button
                 type="button"
                 *ngFor="let provider of sessionService.enabledExternalAuthProviders"
-                class="oauthbutton oauthbutton-{{ provider.slug }}"
+                class="socialbutton socialbutton-{{ provider.slug }}"
                 (click)="sessionService.initiateUnauthenticatedExternalAuth(provider)"
             >
                 {{ provider.name }}
