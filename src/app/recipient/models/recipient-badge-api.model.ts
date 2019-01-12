@@ -53,6 +53,7 @@ export interface ApiRecipientBadgeRecipient {
 
 export interface ApiRecipientBadgeClass {
 	id: ApiBadgeRecipientClassBadgeUrl
+	alignment: string
 	type: string
 	name: string
 	description: string

@@ -57,6 +57,10 @@ import {ExternalToolLaunchComponent} from "./components/external-tool-launch.com
 import {AppConfigService} from "./app-config.service";
 import {HttpClientModule} from "@angular/common/http";
 import {AutosizeDirective} from "./directives/autosize.directive";
+import { NavigationService } from "./services/navigation.service";
+import { BgPopupMenu, BgPopupMenuTriggerDirective } from "./components/bg-popup-menu.component";
+import { SvgIconComponent } from "./components/svg-icon.component";
+import { BgMarkdownComponent } from "./directives/bg-markdown.component";
 
 
 const DIRECTIVES = [
