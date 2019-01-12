@@ -8,6 +8,8 @@ import {PublicApiBadgeClassWithIssuer, PublicApiIssuer} from "./models/public-ap
 import {EmbedService} from "../common/services/embed.service";
 import {addQueryParamsToUrl, stripQueryParamsFromUrl} from "../common/util/url-util";
 import {routerLinkForUrl} from "./public.component";
+import {AppConfigService} from '../common/app-config.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
 	template: `
@@ -52,7 +54,7 @@ import {routerLinkForUrl} from "./public.component";
 							<h1>{{ badgeClass.name }}</h1>
 
 							<!-- Issuer Information -->
-							<a class="stack" [routerLink]="routerLinkForUrl(issuer.id)">
+							<a class="stack" [routerLink]="routerLinkForUrl(issuer.hostedUrl || issuer.id)">
 								<div class="stack-x-image">
 									<img [loaded-src]="issuer.image"
 									     [loading-src]="issuerImagePlaceholderUrl"
@@ -151,8 +153,12 @@ export class PublicBadgeClassComponent {
 
 	constructor(
 		private injector: Injector,
-		public embedService: EmbedService
+		public embedService: EmbedService,
+		public configService: AppConfigService,
+		private title: Title,
 	) {
+		title.setTitle(`Badge Class - ${this.configService.theme['serviceName'] || "Badgr"}`);
+
 		this.badgeIdParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),
 			"badgeId",

@@ -7,6 +7,8 @@ import {LoadedRouteParam} from "../common/util/loaded-route-param";
 import {PublicApiBadgeCollectionWithBadgeClassAndIssuer} from "./models/public-api.model";
 import {EmbedService} from "../common/services/embed.service";
 import {routerLinkForUrl} from "./public.component";
+import {Title} from '@angular/platform-browser';
+import {AppConfigService} from '../common/app-config.service';
 
 @Component({
 	template: `
@@ -94,8 +96,12 @@ export class PublicBadgeCollectionComponent {
 
 	constructor(
 		private injector: Injector,
-		public embedService: EmbedService
+		public embedService: EmbedService,
+		public configService: AppConfigService,
+		private title: Title,
 	) {
+		title.setTitle(`Collection - ${this.configService.theme['serviceName'] || "Badgr"}`);
+
 		this.collectionHashParam = new LoadedRouteParam(
 			injector.get(ActivatedRoute),
 			"collectionShareHash",

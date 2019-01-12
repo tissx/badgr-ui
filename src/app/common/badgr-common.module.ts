@@ -32,8 +32,6 @@ import {SettingsService} from "./services/settings.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {UcFirstPipe} from "./pipes/ucfirst.pipe";
 
-import {MarkdownToHtmlModule} from "markdown-to-html-pipe";
-
 //import { TooltipDirective } from "./directives/tooltip.directive";
 import {BgCopyInputDirective} from "./directives/bg-copy-input.directive";
 import {ShareSocialDialog} from "./dialogs/share-social-dialog.component";
@@ -59,9 +57,6 @@ import {ExternalToolLaunchComponent} from "./components/external-tool-launch.com
 import {AppConfigService} from "./app-config.service";
 import {HttpClientModule} from "@angular/common/http";
 import {AutosizeDirective} from "./directives/autosize.directive";
-import { SvgIconComponent } from './components/svg-icon.component';
-import { BgPopupMenu, BgPopupMenuTriggerDirective } from './components/bg-popup-menu.component';
-
 
 
 const DIRECTIVES = [
@@ -71,6 +66,7 @@ const DIRECTIVES = [
 	ScrollPinDirective,
 	BgCopyInputDirective,
 	AutosizeDirective,
+	BgMarkdownComponent,
 	//TooltipDirective,
 	BgPopupMenuTriggerDirective,
 ];
@@ -121,6 +117,7 @@ const SERVICES = [
 	ExternalToolsApiService,
 	ExternalToolsManager,
 	AppConfigService,
+	NavigationService,
 ];
 
 const GUARDS = [
@@ -142,7 +139,6 @@ export const COMMON_IMPORTS = [
 @NgModule({
 	imports: [
 		...COMMON_IMPORTS,
-		MarkdownToHtmlModule
 		//RouterModule.forChild(routes)
 	],
 	declarations: [

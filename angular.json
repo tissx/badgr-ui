@@ -9,7 +9,7 @@
 			"projectType": "application",
 			"architect": {
 				"build": {
-					"builder": "@angular-builders/custom-webpack:browser",
+					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
 						"outputPath": "dist",
 						"index": "src/index.html",
@@ -22,10 +22,7 @@
 						"styles": [
 							"node_modules/@concentricsky/badgr-style/dist/css/iobadgr.min.css"
 						],
-						"scripts": [],
-						"customWebpackConfig": {
-							"path": "./custom-webpack.config.js"
-						}
+						"scripts": []
 					},
 					"configurations": {
 						"production": {

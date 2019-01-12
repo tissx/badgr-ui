@@ -190,8 +190,7 @@ export abstract class BaseHttpApiService {
 	): T | never {
 		if (response && response.status < 200 || response.status >= 300) {
 			if (response.status === 401 || response.status === 403) {
-				this.sessionService.logout();
-				window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
+				this.sessionService.handleAuthenticationError();
 			}
 			else if (response.status === 0) {
 				this.messageService.reportFatalError(`Server Unavailable`);

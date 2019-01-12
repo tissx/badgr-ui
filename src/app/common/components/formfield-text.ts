@@ -173,7 +173,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	}
 
 	get inputId() {
-		return this.id || (this.label || this.placeholder || this.randomName).toLowerCase();
+		return this.id || (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase();
 	}
 
 

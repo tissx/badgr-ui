@@ -7,6 +7,7 @@ import {SocialAccountProviderInfo, socialAccountProviderInfos} from "../model/us
 import {throwExpr} from "../util/throw-expr";
 import {UpdatableSubject} from "../util/updatable-subject";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {NavigationService} from './navigation.service';
 
 /**
  * The key used to store the authentication token in session and local storage.
@@ -17,8 +18,16 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
  */
 export const TOKEN_STORAGE_KEY = "LoginService.token";
 
+const EXPIRATION_DATE_STORAGE_KEY = "LoginService.tokenExpirationDate";
+
+const DEFAULT_EXPIRATION_SECONDS = 24 * 60 * 60;
+
 export interface AuthorizationToken {
 	access_token: string;
+	expires_in?: number
+	refresh_token?: string;
+	scope?: string;
+	token_typ?: string;
 }
 
 @Injectable()
@@ -34,6 +43,7 @@ export class SessionService {
 		private http: HttpClient,
 		private configService: AppConfigService,
 		private messageService: MessageService,
+		private navService: NavigationService,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 		this.enabledExternalAuthProviders = socialAccountProviderInfos.filter(providerInfo =>
@@ -55,7 +65,7 @@ export class SessionService {
 		this.messageService.incrementPendingRequestCount();
 
 		return this.http
-			.post(
+			.post<AuthorizationToken>(
 				endpoint,
 				payload,
 				{
@@ -74,14 +84,10 @@ export class SessionService {
 					throw new Error("Login Failed: " + r.status);
 				}
 
+				this.storeToken(r.body, sessionOnlyStorage);
+
 				return r.body;
-			})
-			.then(
-				(result: AuthorizationToken) => {
-					this.storeToken(result, sessionOnlyStorage);
-					return result
-				}
-			);
+			});
 	}
 
 	initiateUnauthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
@@ -96,11 +102,16 @@ export class SessionService {
 	}
 
 	storeToken(token: AuthorizationToken, sessionOnlyStorage = false): void {
+		const expirationDateStr = new Date(Date.now() + (token.expires_in || DEFAULT_EXPIRATION_SECONDS) * 1000).toISOString();
+
 		if (sessionOnlyStorage) {
 			sessionStorage.setItem(TOKEN_STORAGE_KEY, token.access_token);
+			sessionStorage.setItem(EXPIRATION_DATE_STORAGE_KEY, expirationDateStr);
 		} else {
 			localStorage.setItem(TOKEN_STORAGE_KEY, token.access_token);
+			localStorage.setItem(EXPIRATION_DATE_STORAGE_KEY, expirationDateStr);
 		}
+
 		this.loggedInSubect.next(true);
 	}
 
@@ -116,8 +127,20 @@ export class SessionService {
 		return this.currentAuthToken || throwExpr("An authentication token is required, but the user is not logged in.")
 	}
 
-	get isLoggedIn() {
-		return !!(sessionStorage.getItem(TOKEN_STORAGE_KEY) || localStorage.getItem(TOKEN_STORAGE_KEY));
+	get isLoggedIn(): boolean {
+		if (sessionStorage.getItem(TOKEN_STORAGE_KEY) || localStorage.getItem(TOKEN_STORAGE_KEY)) {
+			const expirationString = sessionStorage.getItem(EXPIRATION_DATE_STORAGE_KEY) || localStorage.getItem(EXPIRATION_DATE_STORAGE_KEY);
+
+			if (expirationString) {
+				const expirationDate = new Date(expirationString);
+
+				return (expirationDate > new Date);
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	exchangeCodeForToken(authCode: string): Promise<AuthorizationToken> {
@@ -158,5 +181,21 @@ export class SessionService {
 				responseType: "json"
 			}
 			).toPromise();
+	}
+
+	/**
+	 * Handles errors from the API that indicate session expiration, invalid token, and other similar problems.
+	 */
+	handleAuthenticationError() {
+		this.logout();
+
+		if (this.navService.currentRouteData.publiclyAccessible !== true) {
+			// If we're not on a public page, send the user to the login page with an error
+			window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
+		} else {
+			// If we _are_ on a public page, reload the page after clearing the session token, because that will clear any messy error states from
+			// api errors.
+			window.location.assign(window.location.toString());
+		}
 	}
 }
