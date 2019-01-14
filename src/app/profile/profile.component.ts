@@ -25,53 +25,212 @@ import {AppConfigService} from "../common/app-config.service";
 		<main *bgAwaitPromises="[profileLoaded, emailsLoaded]">
 			<form-message></form-message>
 
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li class="breadcrumb-x-current">Profile</li>
-					</ul>
-				</nav>
-
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>
+			<div class="topbar">
+				<div class="l-containerxaxis">
+					<div class="topbar-x-wrap">
+						<div class="topbar-x-heading l-spacestack">
 							{{ profile?.firstName }} {{ profile?.lastName}}
-							<button class="heading-x-edit"
-							        type="button"
-							        [routerLink]="['/profile/edit']"
-							>Edit
-							</button>
-						</h1>
-					</div>
-					<div class="heading-x-actions">
-						<a [routerLink]="['../change-password']" class="button button-major">Change Password</a>
+							<div class="l-primarymore">
+								<button [routerLink]="['../change-password']" class="button">Change Password</button>
+								<button [bgPopupMenuTrigger]="editMenu" class="buttonicon buttonicon-secondary" id="trigger2">
+									<svg icon="icon_more"></svg>
+									<span class="visuallyhidden">More</span>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
-			</header>
+				<bg-popup-menu #editMenu class="menu" id="menu2">
+					<div [routerLink]="['/profile/edit']" class="menuitem">
+						<svg icon="icon_edit"></svg> Edit
+					</div>
+				</bg-popup-menu>
+			</div>
 
+			<div class="l-containerxaxis">
+				<div class="l-stack l-stack-2x u-margin-yaxis3x">
+					<p class="u-text-h3-bold">
+						Emails
+					</p>
+					<form class="table-x-tr table-x-active"
+						[formGroup]="emailForm"
+						(ngSubmit)="onSubmit(emailForm.value)">
+					<div class="forminput forminput-withbutton forminput-light1 u-width-formsmall">
 
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
+						<!--<bg-formfield-text [control]="emailForm.controls['email']"
+															 [errorMessage]="'Please enter a valid email address'"
+															 fieldType="email"
+															 placeholder="Member Email">
+						</bg-formfield-text>-->
+
+						<label class="forminput-x-label visuallyhidden" for="forminput">Search</label>
+						<div class="forminput-x-inputs">
+							<input type="text" name="forminput" id="forminput" placeholder="Email Address...">
+							
+							<div class="forminput-x-button">
+								<button class="button button-secondary button-informinput">
+									Add
+								</button>
+							</div>
+						</div>
+					</div>
+					</form>
+				</div>
+
+				<table class="datatable datatable-roundheaders datatable-tallrows">
+					<thead class="datatable-x-head">
+					<tr class="datatable-x-header">
+						<th class="datatable-x-cell" style="width:80%;">Email Address</th>
+						<th class="datatable-x-cell">Status</th>
+						<th class="datatable-x-cell"> <span class="visuallyhidden">Actions</span></th>
+					</tr>
+					</thead>
+					<tbody class="datatable-x-body">
+					
+					<tr class="datatable-x-row" *ngFor="let email of emails">
+						<td class="datatable-x-cell">
+							<div class="l-stack l-stack-start">
+								<p class="u-text-body u-break-word">
+									{{email.email}}
+								</p>
+								<div *ngIf="email.primary" class="badgestatus badgestatus-new badgestatus-intable">primary</div>
+							</div>
+						</td>
+						<td class="datatable-x-cell u-text-body">
+							<div class="l-flex l-flex-aligncenter l-flex-1x">
+								<div *ngIf="email.verified" class="l-flex l-flex-aligncenter l-flex-1x">
+									<svg icon="icon_checkmark_circle" class="icon icon-success" viewBox="0 0 24 24"></svg>
+									<p class="u-text-body u-hidden-maxtablet">
+										Verified
+									</p>
+								</div>
+								<div *ngIf="!email.verified" class="l-flex l-flex-aligncenter l-flex-1x">
+									<svg icon="icon_pending" class="icon icon-dark4" viewBox="0 0 24 24"></svg>
+									<p class="u-text-body u-hidden-maxtablet">
+										Pending
+									</p>
+								</div>
+							</div>
+						</td>
+						<td class="datatable-x-cell">
+							
+							<button 
+								*ngIf="!email.verified || (email.verified && !email.primary) || (emails.length > 1 && ! email.primary)"
+								[bgPopupMenuTrigger]="emailMenu" 
+								class="buttonicon buttonicon-secondary buttonicon-nopadding" >
+								<svg icon="icon_more"></svg>
+								<span class="visuallyhidden">More</span>
+							</button>
+							
+							<bg-popup-menu #emailMenu class="menu" id="menu1">
+
+								<div *ngIf="!email.verified"
+										 class="menuitem button button-primaryghost"
+										 (click)="clickResendVerification($event, email)"
+										 [disabled-when-requesting]="true"
+								>
+									<svg icon="icon_refresh"></svg> Resend Verification
+								</div>
+
+								<div *ngIf="email.verified && !email.primary"
+										 class="menuitem button button-primaryghost"
+										 (click)="clickMakePrimary($event, email)"
+										 [disabled-when-requesting]="true"
+								>
+									<svg icon="icon_refresh"></svg> Make primary
+								</div>
+
+								<div class="menuitem"
+										 [class.button-is-disabled]="email.primary"
+										 (click)="clickConfirmRemove($event, email)"
+										 *ngIf="emails.length > 1 && ! email.primary"
+								>
+									<svg icon="icon_remove"></svg> Remove
+								</div>
+
+							</bg-popup-menu>
+							
+						</td>
+					</tr>
+					
+					</tbody>
+				</table>
+				<h2 class="u-text-h3-bold u-margin-yaxis3x">Linked Accounts</h2>
+
+				<table class="datatable datatable-roundheaders">
+					<thead class="datatable-x-head" *ngIf="socialAccounts.length > 0">
+					<tr class="datatable-x-header">
+						<th class="datatable-x-cell">Service</th>
+						<th class="datatable-x-cell">Account</th>
+						<th class="datatable-x-cell"> <span class="visuallyhidden">Actions</span></th>
+					</tr>
+					</thead>
+					<tbody class="datatable-x-body">
+					<tr *ngFor="let account of socialAccounts" class="datatable-x-row">
+						<td class="datatable-x-cell u-text-small">
+							{{ account.providerInfo.name }}
+						</td>
+						<td class="datatable-x-cell u-text-small u-break-all">
+							{{ account.fullLabel }}
+						</td>
+						<td class="datatable-x-cell">
+							<div class="l-flex l-flex-justifyend">
+								<a 
+									href="" 
+									class="u-text u-text-small u-text-bold"
+									(click)="unlinkAccount(account)">Unlink</a>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+
+				<p class="u-text-body u-margin-yaxis3x u-width-paragraph">
+					Click one of the provider buttons below to allow you to log in to {{configService.theme['serviceName'] || "Badgr"}} in the future using that service rather than your email and password.
+				</p>
+				<p class="u-text-small u-text-bold u-margin-bottom1x">Link Account:</p>
+
+				<div class="rule u-margin-bottom2x"></div>
+
+				<div class="l-grid l-grid-medium">
+					
+					<button *ngFor="let provider of sessionService.enabledExternalAuthProviders"
+									class="socialbutton socialbutton-{{ provider.slug }}"
+									style="min-width: initial;"
+									type="button"
+									(click)="linkAccount(provider)"
+					>{{ provider.name }}
+					</button>
+					
+				</div>
+
+			</div>
+
+			
+			<!-- !!!!!!!!!!!!!!!!!!! -->
+			
+			
+			<!--<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
 
 				<div class="l-childrenvertical l-headeredsection">
-					<!-- Email Table -->
+					&lt;!&ndash; Email Table &ndash;&gt;
 					<header>
 						<h2 class="title title-is-smallmobile">Emails</h2>
 					</header>
 					<div class="table">
-						<!-- table header -->
+						&lt;!&ndash; table header &ndash;&gt;
 						<div class="table-x-thead">
 							<div class="table-x-tr">
 								<div class="table-x-th">Email Address</div>
 								<div class="table-x-th">Status</div>
 								<div class="table-x-th hidden hidden-is-desktop"><span class="visuallyhidden">Actions</span></div>
-								<!-- Additional header for menu more column-->
+								&lt;!&ndash; Additional header for menu more column&ndash;&gt;
 								<div class="table-x-th hidden hidden-is-lessThen-desktop" scope="row">&nbsp;</div>
 							</div>
 						</div>
-						<!-- End table header -->
+						&lt;!&ndash; End table header &ndash;&gt;
 
-						<!-- table body -->
+						&lt;!&ndash; table body &ndash;&gt;
 						<div class="table-x-tbody hidden hidden-is-tablet">
 							<form class="table-x-tr table-x-active"
 							      [formGroup]="emailForm"
@@ -88,7 +247,7 @@ import {AppConfigService} from "../common/app-config.service";
 								</div>
 
 								<div class="table-x-td hidden hidden-is-desktop">&nbsp;</div>
-								<!-- Additional header for menu more column-->
+								&lt;!&ndash; Additional header for menu more column&ndash;&gt;
 								<div class="table-x-th hidden hidden-is-lessThen-desktop" scope="row">&nbsp;</div>
 
 								<div class="table-x-td">
@@ -103,9 +262,9 @@ import {AppConfigService} from "../common/app-config.service";
 								</div>
 							</form>
 						</div>
-						<!-- end FORM -->
+						&lt;!&ndash; end FORM &ndash;&gt;
 
-						<!-- table body -->
+						&lt;!&ndash; table body &ndash;&gt;
 						<div class="table-x-tbody">
 							<div class="table-x-tr" *ngFor="let email of emails">
 								<div class="table-x-th" scope="row" [ngSwitch]="email.verified">
@@ -148,14 +307,14 @@ import {AppConfigService} from "../common/app-config.service";
 									</div>
 								</div>
 
-								<!-- -->
+								&lt;!&ndash; &ndash;&gt;
 								<div class="table-x-td  pathwaydetail-x-menu menumore hidden hidden-is-lessThen-desktop"
 								     [class.menumore-is-active]="menu.show"
 								     [class.pathwaydetail-x-inactive]="isMoveInProgress"
 								     #menu
 								     (document:click)="(menu.clickedState ? (menu.clickedState = false) : (menu.show = false)) || true">
 
-									<!-- TODO: Above is an awesome hack that hides the menu when clicking on the document... might want to replace with something more stable. -->
+									&lt;!&ndash; TODO: Above is an awesome hack that hides the menu when clicking on the document... might want to replace with something more stable. &ndash;&gt;
 									<button type="button"
 									        aria-controls="menumore1"
 									        (click)="menu.show = ! menu.show;
@@ -194,13 +353,13 @@ import {AppConfigService} from "../common/app-config.service";
 										</li>
 									</ul>
 								</div>
-								<!-- -->
+								&lt;!&ndash; &ndash;&gt;
 							</div>
 						</div>
-						<!-- table body -->
+						&lt;!&ndash; table body &ndash;&gt;
 					</div>
 
-					<!-- Social Account Table -->
+					&lt;!&ndash; Social Account Table &ndash;&gt;
 					<header>
 						<h2 class="title title-is-smallmobile">Linked Accounts</h2>
 					</header>
@@ -256,7 +415,7 @@ import {AppConfigService} from "../common/app-config.service";
 						</tbody>
 					</table>
 				</div>
-			</div>
+			</div>-->
 		</main>
 	`
 })
@@ -269,6 +428,9 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	emailsLoaded: Promise<any>;
 
 	newlyAddedSocialAccountId: string;
+
+	isMoveInProgress = false;
+	menuOpen = false;
 
 	private emailsSubscription: Subscription;
 
