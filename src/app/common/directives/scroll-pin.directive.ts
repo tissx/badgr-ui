@@ -1,4 +1,4 @@
-import {AfterViewInit, Directive, ElementRef, Renderer} from "@angular/core";
+import { AfterViewInit, Directive, ElementRef, Renderer } from "@angular/core";
 
 @Directive({
 	selector: '.l-scrollpin'
@@ -42,10 +42,10 @@ export class ScrollPinDirective implements AfterViewInit {
 			pos.y += elem.offsetTop;
 
 			elem = elem.offsetParent as HTMLElement;
-		} while (elem != containerElem && containerElem.contains(elem));
+		} while (elem !== containerElem && containerElem.contains(elem));
 
 		// Edge case to handle relative parent
-		if (elem == containerElem.offsetParent) {
+		if (elem === containerElem.offsetParent) {
 			pos.x -= containerElem.offsetLeft;
 			pos.y -= containerElem.offsetTop;
 		}
@@ -56,7 +56,7 @@ export class ScrollPinDirective implements AfterViewInit {
 	private findScrollElem(elem: HTMLElement): HTMLElement {
 		// Find the fist element...
 		for (; elem
-		&& elem != document.body // ...that isn't outside the body
+		&& elem !== document.body // ...that isn't outside the body
 		&& !this.isScrollableElem(elem); // ...that can scroll
 			elem = elem.parentElement
 		);
