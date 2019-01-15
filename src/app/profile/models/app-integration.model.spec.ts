@@ -1,7 +1,7 @@
-import {inject, TestBed} from "@angular/core/testing";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {AppIntegration, BadebookLti1Integration} from "./app-integration.model";
-import {ApiAppIntegration} from "./app-integration-api.model";
+import { inject, TestBed } from "@angular/core/testing";
+import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { AppIntegration, BadebookLti1Integration } from "./app-integration.model";
+import { ApiAppIntegration } from "./app-integration-api.model";
 
 describe('AppIntegration', () => {
 	beforeEach(() => TestBed.configureTestingModule({
