@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {Router} from "@angular/router";
-import {SessionService} from "./common/services/session.service";
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { SessionService } from "./common/services/session.service";
 
 import "../thirdparty/scopedQuerySelectorShim";
 

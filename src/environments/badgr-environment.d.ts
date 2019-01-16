@@ -1,4 +1,4 @@
-import {BadgrConfig} from './badgr-config';
+import { BadgrConfig } from './badgr-config';
 
 export interface BadgrEnvironment {
 	production: boolean;

@@ -1,7 +1,7 @@
 /**
  * The shape of a Badgr Config object. As there may be multiple config sources, each one may not specify all parts.
  */
-import {BadgrTheme} from '../theming/badgr-theme';
+import { BadgrTheme } from '../theming/badgr-theme';
 
 
 export interface BadgrConfig {
