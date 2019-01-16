@@ -13,7 +13,7 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 		'[class.forminput-is-error]': 'isErrorState',
 		'[class.forminput-locked]': 'isLockedState',
 		'[class.forminput-monospaced]': 'monospaced',
-		'[class.forminput-withbutton]': 'hasbutton',
+		'[class.forminput-withbutton]': 'inlineButtonText',
 		'[class.forminput-withsublabel]': 'sublabel'
 	},
 	template: `
@@ -37,13 +37,13 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			       (keypress)="handleKeyPress($event)"
 			       #textInput
 			/>
-			<div class="forminput-x-button" *ngIf="hasbutton">
+			<div class="forminput-x-button" *ngIf="inlineButtonText">
 				<button class="button button-secondary button-informinput"
 				        (click)="buttonClicked.emit($event)"
 				        [disabled-when-requesting]="true"
 				        type="submit"
 				>
-					Add
+					{{inlineButtonText}}
 				</button>
 			</div>
 			<textarea *ngIf="multiline"
@@ -151,7 +151,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() placeholder: string;
 	@Input() fieldType: FormFieldTextInputType = 'text';
 	@Input() optional: boolean = false;
-	@Input() hasbutton: boolean = false;
+	@Input() inlineButtonText: string;
 
 	@Output() buttonClicked = new EventEmitter<MouseEvent>();
 
