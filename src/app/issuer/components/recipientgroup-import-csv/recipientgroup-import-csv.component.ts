@@ -19,236 +19,7 @@ type ButtonAction = () => void;
 
 @Component({
 	selector: 'Recipientgroup-import-csv',
-	template: `
-			<main *bgAwaitPromises="[issuerLoaded, recipientGroupLoaded]">
-			<form-message></form-message>
-			<!-- Breadcrumb -->
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li><a [routerLink]="['/issuer']">Issuers</a></li>
-						<li *ngIf="issuer"><a [routerLink]="['/issuer/issuers', issuerSlug]">{{ issuer.name }}</a></li>
-						<li *ngIf="issuer && recipientGroup"><a [routerLink]="['/issuer/issuers', issuerSlug, 'recipient-groups', recipientGroup.slug]">Group: {{ recipientGroup.name }}</a></li>
-						<li class="breadcrumb-x-current">Import CSV</li>
-					</ul>
-				</nav>
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>Import Members</h1>
-					</div>
-				</div>
-			</header>
-
-			<section class="wrap l-containerhorizontal">
-
-	            <div *ngIf="viewState === 'instructions'">
-				    <!-- import heading-->
-				    <article class="importHeading">
-						<h1 class=title>Instructions</h1>
-						<p>
-							You may import new or existing members to your group. Your file must meet the following requirements:
-						</p>
-						<ul>
-							<li>Contains name and email address</li>
-							<li>CSV or TXT format only.</li>
-						</ul>
-						<p>
-							Use this
-							<a [href]="badgrImportMembersTemplateUrl" download="import-members.csv">
-								Sample Template
-							</a>
-							to create a CSV or TXT file for importing members.
-						</p>
-					</article>
-					<form [formGroup]="csvForm"
-						  class="l-maxWidth">
-						<fieldset>
-							<bg-formfield-file #fileField
-											    label="File"
-											    validFileTypes="text/plain,.csv"
-											    [control]="csvForm.controls.file"
-											    [placeholderImage]="csvUploadImageUrl"
-											    (fileData) = onFileDataRecived($event)>
-							</bg-formfield-file>
-						</fieldset>
-					</form>
-				</div>
-
-				<!---------------------
-					ViewState  : importPreview
-			        Styleguide : Import Members - Select Categories
-				----------------------->
-				<div *ngIf="viewState === 'importPreview'"
-					 class="select-csvUpload"
-				>
-					<div class="importHeading">
-					  <h1 class=title>Map CSV Columns</h1>
-					  <p *ngIf="importPreviewData?.rows">
-						  Below is a preview of the first
-						  {{ (importPreviewData.rows.length < MAX_ROWS_TO_DISPLAY) ? importPreviewData.rows.length : MAX_ROWS_TO_DISPLAY}}
-						  of {{importPreviewData.rows.length}} rows in your file.
-
-						  For each column in the table below, choose the heading from the dropdown that matches the data in your CSV.
-					  </p>
-					</div>
-					<table class="table table-import">
-						<thead>
-							<tr>
-								<th scope="col" *ngFor="let columnHeaderName of importPreviewData.columnHeaders; let columnId = index;">
-									<label class="select select-inputonly select-import">
-										<span>Sort by</span>
-										<select name="select"
-												[id]= "'select'+columnId"
-												#selectDest
-												[value] = columnHeaderName.destColumn
-												(change)="mapDestNameToSourceName(columnId,selectDest.value)">
-
-											<option value="NA">N/A</option>
-											<option value="first">First Name</option>
-											<option value="last">Last Name</option>
-											<option value="middleInitial">Middle initial</option>
-											<option value="name">Full Name</option>
-											<option value="email">Email</option>
-										</select>
-									</label>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td *ngFor="let columnHeaderName of importPreviewData.columnHeaders">
-									{{ columnHeaderName.sourceName }}
-								</td>
-							</tr>
-							<tr *ngFor="let row of importPreviewData?.rows.slice(0,MAX_ROWS_TO_DISPLAY)">
-								<td *ngFor="let cell of row">
-									{{ cell}}
-								</td>
-								<ng-template [ngIf]="row.length < columnHeadersCount">
-									<td *ngFor="let spacer of createRange(columnHeadersCount-row.length)"></td>
-								</ng-template>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<!---------------------
-					ViewState  : importConformation
-					Styleguide : Import Members - Import preview
-				----------------------->
-				<div *ngIf="viewState === 'importConformation'">
-					<div class="importHeading">
-					  <h1 class=title>Import Preview</h1>
-					  <p>
-					    {{validRowsTransformed.size}} Rows ready to be imported. {{duplicateRecords.length}} rows were
-					    found to be duplicates and will be ignored. Click the IMPORT MEMBERS button below to issue this badge
-					  </p>
-					</div>
-
-					<table class="table table-issues">
-						<thead>
-							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Email</th>
-								<th><!-- header for remove link--></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let row of validRowsTransformed">
-								<td class="table-issues-x-confirmation table-issues-x-confirmationText">
-									{{row.name}}
-								</td>
-								<td class="table-issues-x-confirmation table-issues-x-confirmationText">
-									{{row.email}}
-								</td>
-								<td>
-									<button class="button button-primaryghost"
-										(click)="removeValidRowsTransformed(row)"
-									>REMOVE</button>
-								</td>
-							</tr>
-						<tbody>
-					</table>
-				</div>
-
-				<!---------------------
-					ViewState  : importError
-			        Styleguide : Import Members - Import Issues
-				----------------------->
-				<div *ngIf="viewState === 'importError'">
-				<div class="importHeading">
-					  <h1 class=title>Import Errors</h1>
-					  <p>
-					    {{validRowsTransformed.size}} rows will be imported. The following {{invalidRowsTransformed.length}} contain errors. Please fix the errors below or select REMOVE.
-					  </p>
-					</div>
-
-					<form [formGroup]="importErrorForm">
-
-						<table formArrayName="users"
-							   class="table table-issues">
-							<thead>
-								<tr>
-									<th scope="col">Name</th>
-									<th scope="col">Email</th>
-									<th><!-- header for remove link--></th>
-								</tr>
-							</thead>
-							<tbody>
-							<tr *ngFor="let user of importErrorForm.controls.users.controls; let i=index">
-	                            <td class="table-issues-x-confirmationText">
-									<bg-formfield-text
-											(focusout)= "errorStateInputOnFocusOut()"
-											[control]="importErrorForm.controls.users.controls[i].controls.name"
-							                [errorMessage]="{required:'Please enter a name'}"
-					                ></bg-formfield-text>
-	                            </td>
-	                            <td class="table-issues-x-confirmationText">
-									<bg-formfield-text
-											(focusout)= "errorStateInputOnFocusOut()"
-											[control]="importErrorForm.controls.users.controls[i].controls.email"
-	                                        [errorMessage]="{ required: 'Please enter an email',
-		                                                       invalidEmail: 'Please enter a valid email'}"
-	                                ></bg-formfield-text>
-	                            </td>
-								<td>
-									<button class="button button-primaryghost"
-											(click)="removeButtonErrorState(i)"
-									>REMOVE</button>
-								</td>
-							</tr>
-							<tbody>
-						</table>
-					</form>
-				</div>
-
-				<!-- BUTTONS -->
-				<div class="l-display-flex l-childrenhorizontal-right l-marginTop-4x l-marginBottom-4x"
-					 [class.l-maxWidth]= "viewState === 'instructions'">
-					<button
-						class="button button-primaryghost"
-						(click)="cancelButtonAction($event)"
-					>cancel</button>
-
-					<button
-						class="button l-marginLeft-x2"
-						[class.button-is-disabled]=buttonDisabledClass
-						[attr.disabled] = buttonDisabledAttribute
-						(click)="buttonAction($event)"
-					>{{ buttonLabel }}</button>
-			    </div>
-			</section>
-			<div *ngIf="rowIsLongerThanHeader">
-				<div class="l-formmessage formmessage formmessage-is-error formmessage-is-active">
-				    <p>
-				      The CSV uploaded contains row lengths longer then its header lengths. Please correct this error and try again.
-				    </p>
-				    <!--<button type="button" (click)="rowIsLongerThanHeader = false">Dismiss</button>-->
-				</div>
-			</div>
-		</main>
-	`,
+	templateUrl: './recipientgroup-import-csv.component.html'
 
 })
 export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent  implements OnInit {
@@ -314,7 +85,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 		);
 		this.csvForm = formBuilder.group({
 			file: []
-		} as importCsvForm<any[]>)
+		} as ImportCsvForm<any[]>)
 
 	}
 
@@ -356,9 +127,9 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 						}
 					)
 				)
-			})
+			});
 			return formArray;
-		}
+		};
 
 		 this.importErrorForm = this.formBuilder.group({
 			 users: this.formBuilder.array(
@@ -453,7 +224,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 
 		// helper functions //
 		const generateColumnHeaders = (): ColumnHeaders[] => {
-			let columnHeaders = [];
+			let thisColumnHeaders = [];
 			let inferredColumnHeaders = new Set<string>();
 			let nameElements: DestSelectOptions[] = ["first", "last", "middleInitial"];
 
@@ -464,7 +235,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 					let cannotInfer: boolean = false;
 					let rootNameElement: DestSelectOptions;
 
-					if (tempColumnHeaderName == 'name') {
+					if (tempColumnHeaderName === 'name') {
 						for (let i=0; i < inferredColumnHeaders.size; ++i) {
 							if (inferredColumnHeaders.has(nameElements[i]) ) {
 								cannotInfer = true;
@@ -483,29 +254,29 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 									rootNameElement = nameElement;
 								}
 							}
-						})
+						});
 						// found rootNameElement - has it been inferred yet?
 						if (rootNameElement) {
 							cannotInfer = inferredColumnHeaders.has(rootNameElement);
 						}
 					}
 
-					columnHeaders
+					thisColumnHeaders
 						.push(
 							{ destColumn: cannotInfer ? "NA" : inferDestColumn(tempColumnHeaderName),
 								sourceName: columnHeaderName
-							})
+							});
 
 					inferredColumnHeaders.add(rootNameElement ? rootNameElement : tempColumnHeaderName);
 				});
 
-			return columnHeaders;
-		}
+			return thisColumnHeaders;
+		};
 
 		const inferDestColumn = (sourceColumnHeaderName: string): DestSelectOptions => {
 			let result: DestSelectOptions = "NA";
 
-			if (sourceColumnHeaderName.toLowerCase() == "name") { return "name"}
+			if (sourceColumnHeaderName.toLowerCase() === "name") { return "name"}
 
 			this.validDestHeaderNameElements.forEach(destName => {
 				if (sourceColumnHeaderName.indexOf(destName.toLowerCase()) > -1) {
@@ -513,7 +284,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 				}
 			});
 			return result;
-		}
+		};
 
 		const padRowWithMissingCells =
 			(row: string[]) => row.concat(this.createRange(this.columnHeadersCount - row.length));
@@ -546,7 +317,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 			} else {
 				validRows.push(row)
 			}
-		})
+		});
 
 		this.importPreviewData = {
 			columnHeaders: columnHeaders,
@@ -582,11 +353,11 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 			if (elementIndex > -1) {
 				containsNameElement = true;
 				break;
-			};
+			}
 		}
 
 		for (let j = 0; j < this.importPreviewData.columnHeaders.length; j++) {
-			if (this.importPreviewData.columnHeaders[j].destColumn == "email") {
+			if (this.importPreviewData.columnHeaders[j].destColumn === "email") {
 				containsEmailElement = true;
 				break;
 			}
@@ -599,7 +370,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 		Object
 			.keys(this.importPreviewData.columnHeaders)
 			.forEach(key => {
-				if (this.importPreviewData.columnHeaders[ key ].destColumn != "NA") {
+				if (this.importPreviewData.columnHeaders[ key ].destColumn !== "NA") {
 					this.destNameToColumnHeaderMap[ this.importPreviewData.columnHeaders[ key ].destColumn ] = Number(key);
 				}
 			})
@@ -642,7 +413,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 				if (columnId === columnHeaderId.toString()) {
 					this.importPreviewData.columnHeaders[ columnId ].destColumn = selected;
 				}
-			})
+			});
 		this.areNameAndEmailColumnHeadersMapped()
 	}
 
@@ -714,13 +485,13 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 							email: row["email"].trim()
 						}
 					)
-			})
+			});
 			this.removeDuplicateEmails();
 			this.activateViewState("importConformation");
 		}
 	}
 
-	errorStateInputOnFocusOut(event: FocusEvent) {;
+	errorStateInputOnFocusOut(event: FocusEvent) {
 		if (!this.importErrorForm.valid) {
 			this.markFormControllsAsDirty();
 		} else {
@@ -778,7 +549,7 @@ export class RecipientGroupImportCSV extends BaseAuthenticatedRoutableComponent 
 	}
 }
 
-interface importCsvForm<T> {
+interface ImportCsvForm<T> {
 	file: T;
 }
 
@@ -792,9 +563,9 @@ interface RecipientGroupImportPreviewData {
 interface ColumnHeaders {
 	destColumn: DestSelectOptions,
 	sourceName: string
-};
+}
 
 interface RecipientGroupImportData {
 	name: string,
 	email: string
-};
+}

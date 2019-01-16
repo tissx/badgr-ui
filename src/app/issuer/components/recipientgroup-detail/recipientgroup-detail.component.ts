@@ -1,227 +1,27 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {SessionService} from "../../../common/services/session.service";
-import {MessageService} from "../../../common/services/message.service";
-import {BaseAuthenticatedRoutableComponent} from "../../../common/pages/base-authenticated-routable.component";
-import {RecipientGroupManager} from "../../services/recipientgroup-manager.service";
-import {Title} from "@angular/platform-browser";
-import {Issuer} from "../../models/issuer.model";
-import {IssuerManager} from "../../services/issuer-manager.service";
-import {RecipientGroup, RecipientGroupMember} from "../../models/recipientgroup.model";
-import {PathwaySelectionDialog} from "../pathway-selection-dialog/pathway-selection-dialog.component";
-import {LearningPathway} from "../../models/pathway.model";
-import {CommonDialogsService} from "../../../common/services/common-dialogs.service";
-import {FormFieldText} from "../../../common/components/formfield-text";
-import {EmailValidator} from "../../../common/validators/email.validator";
-import {RecipientSelectionDialog} from "../recipient-selection-dialog/recipient-selection-dialog.component";
-import {jsonCopy} from "../../../common/util/deep-assign";
-import {markControlsDirty} from "../../../common/util/form-util";
-import {AppConfigService} from "../../../common/app-config.service";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SessionService } from "../../../common/services/session.service";
+import { MessageService } from "../../../common/services/message.service";
+import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
+import { RecipientGroupManager } from "../../services/recipientgroup-manager.service";
+import { Title } from "@angular/platform-browser";
+import { Issuer } from "../../models/issuer.model";
+import { IssuerManager } from "../../services/issuer-manager.service";
+import { RecipientGroup, RecipientGroupMember } from "../../models/recipientgroup.model";
+import { PathwaySelectionDialog } from "../pathway-selection-dialog/pathway-selection-dialog.component";
+import { LearningPathway } from "../../models/pathway.model";
+import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
+import { FormFieldText } from "../../../common/components/formfield-text";
+import { EmailValidator } from "../../../common/validators/email.validator";
+import { RecipientSelectionDialog } from "../recipient-selection-dialog/recipient-selection-dialog.component";
+import { jsonCopy } from "../../../common/util/deep-assign";
+import { markControlsDirty } from "../../../common/util/form-util";
+import { AppConfigService } from "../../../common/app-config.service";
 
 @Component({
 	selector: 'recipientGroup-detail',
-	template: `
-		<main *bgAwaitPromises="[issuerLoaded, groupLoaded]">
-
-			<form-message></form-message>
-
-			<ng-template [ngIf]="recipientGroup">
-
-				<header class="wrap wrap-light l-containerhorizontal l-heading">
-
-					<nav [class.inactive]="editForm.isEditing">
-						<h1 class="visuallyhidden">Breadcrumbs</h1>
-						<ul class="breadcrumb">
-							<li><a [routerLink]="['/issuer']">Issuers</a></li>
-							<li *ngIf="issuer"><a [routerLink]="['/issuer/issuers', issuerSlug]">{{ issuer.name }}</a></li>
-
-							<li class="breadcrumb-x-current">GROUP: {{ recipientGroup?.name }}</li>
-						</ul>
-					</nav>
-
-					<div class="heading">
-						<div class="heading-x-text">
-							<h1 *ngIf="! editForm.isEditing">{{ recipientGroup.name }}
-								<button class="heading-x-edit"
-								        type="button"
-								        (click)="editForm.startEditing()"
-								        *ngIf="! editForm.isEditing">Edit
-								</button>
-							</h1>
-							<ng-template [ngIf]="! editForm.isEditing">
-								<p> {{ recipientGroup.description }}</p>
-							</ng-template>
-							<recipientgroup-edit-form [recipientGroup]="recipientGroup" #editForm></recipientgroup-edit-form>
-						</div>
-						<div class="heading-x-actions" [class.inactive]="editForm.isEditing">
-							<button class="button button-major" (click)="subscribeToPathway()">Manage Pathways</button>
-							<input class="switch switch-bold" type="checkbox" id="status" name="status"
-								[value]="recipientGroup.active"
-								(change)="updateGroupActiveState($event.target.value === 'true')"
-							>
-							<label for="status">
-							  <span class="switch-x-text">Your group is </span>
-							  <span class="switch-x-toggletext">
-							    <span class="switch-x-unchecked"><span class="switch-x-hiddenlabel">Unchecked: </span>Private</span>
-							    <span class="switch-x-checked"><span class="switch-x-hiddenlabel">Checked: </span>Public</span>
-							  </span>
-							</label>
-						</div>
-					</div>
-
-				</header>
-
-				<div class="wrap l-containerhorizontal l-containervertical l-childrenvertical" [class.inactive]="editForm.isEditing">
-
-					<h2 class="title title-is-smallmobile hidden hidden-is-tablet">Subscribed Pathways</h2>
-
-					<div class="l-gridthree hidden hidden-is-tablet"
-					     [class.inactive]="editForm.isEditing">
-						<div *ngFor="let pathway of recipientGroup.subscribedPathways">
-							<div class="card card-smallimage">
-								<a class="card-x-main" [routerLink]="['/issuer/issuers/', issuerSlug, 'pathways', pathway?.slug||'', 'elements', pathway?.slug||'']">
-									<div class="card-x-image">
-							      <div class="badge">
-								      <badge-image [badge]="pathway.completionBadge.entity" [size]="40"></badge-image>
-							      </div>
-							    </div>
-									<div class="card-x-text">
-										<h1>{{ pathway.name }}</h1>
-										<small>{{ pathway.elementCount }} Child Elements</small>
-										<p [truncatedText]="pathway.description" [maxLength]="150"></p>
-									</div>
-								</a>
-							</div>
-						</div>
-					</div>
-
-					<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween">
-						<h2 class="title">{{ recipientGroup.members.length }} Members</h2>
-						<div>
-						<button class="button" 
-								type="button"
-								[routerLink]="['/issuer/issuers', issuer.slug, 'recipient-groups', recipientGroup.slug,'csv-import']"
-						>UPLOAD CSV</button>
-								
-						<button class="button button-secondary l-marginLeft"
-								type="button"
-								(click)="importExistingRecipients()">
-							Import <span class="hidden hidden-is-tablet">Existing Members</span>
-						</button>
-						</div>
-					</header>
-
-					<div class="l-overflowhorizontal">
-
-						<!-- Members Tables -->
-						<div class="table">
-							<!-- Table Header -->
-							<div class="table-x-thead">
-								<div class="table-x-tr">
-									<div class="table-x-th" scope="col">Member</div>
-									<div class="table-x-th hidden hidden-is-tablet" scope="col">Email</div>
-									<div class="table-x-th table-x-actions hidden hidden-is-tablet" scope="col"><span class="visuallyhidden">Actions</span></div>
-								</div>
-							</div>
-
-							<!-- Add Member Row -->
-							<div class="table-x-tbody hidden hidden-is-tablet">
-								<form class="table-x-tr table-x-active"
-								      [formGroup]="memberCreateForm"
-								      (ngSubmit)="submitMemberCreate(memberCreateForm.value)">
-									<div class="table-x-th"
-											 scope="row">
-										<bg-formfield-text [control]="memberCreateForm.controls.memberName"
-										                   [errorMessage]="'Please enter a member name'"
-										                   placeholder="Member Name"
-										                   #memberCreateName
-																			 [class.inactive]="editForm.isEditing || isEditingMember"
-										></bg-formfield-text>
-									</div>
-									<div class="table-x-td">
-										<bg-formfield-text [control]="memberCreateForm.controls.memberEmail"
-										                   [errorMessage]="'Please enter valid email address'"
-														   placeholder="Member Email"
-														   fieldType="email"
-														   [class.inactive]="editForm.isEditing || isEditingMember"
-										></bg-formfield-text>
-									</div>
-									<div class="table-x-td">
-										<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right"
-												 [class.inactive]="editForm.isEditing || isEditingMember">
-											<button class="button" type="submit" [disabled-when-requesting]="true">Add Member</button>
-										</div>
-									</div>
-								</form>
-							</div>
-
-							<!-- Member Edit Form -->
-						<form class="table-x-tbody"
-						      [formGroup]="memberEditForm"
-						      (ngSubmit)="submitMemberEdit(memberEditForm.value)">
-							<!-- Member Row -->
-							<div class="table-x-tr"
-							     *ngFor="let member of recipientGroup.members.entities.slice().reverse()">
-								<div class="table-x-th"
-										 scope="row"
-										 [class.inactive]="isEditingMember && editingMember != member">
-									<bg-formfield-text [control]="memberEditForm.controls.memberName"
-									                   [errorMessage]="'Please enter a member name'"
-									                   placeholder="Member Name"
-									                   *ngIf="editingMember == member"
-									                   #editMemberNameField
-									></bg-formfield-text>
-
-										<ng-template [ngIf]="editingMember != member">
-											{{ member.memberName }}
-										</ng-template>
-									</div>
-									<div class="table-x-td hidden hidden-is-tablet"
-											 [class.inactive]="isEditingMember && editingMember != member">
-										{{ member.memberEmail }}
-									</div>
-									<div class="table-x-td table-x-actions hidden hidden-is-tablet"
-											 [class.inactive]="isEditingMember && editingMember != member">
-										<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-											<button class="button button-primaryghost"
-											        type="button"
-											        (click)="editMember(member)"
-											        *ngIf="editingMember != member"
-											>Edit</button>
-
-											<button class="button button-primaryghost"
-											        type="button"
-											        (click)="cancelMemberEdit()"
-											        *ngIf="editingMember == member"
-											>Cancel</button>
-
-											<button class="button"
-											        type="submit"
-											        *ngIf="editingMember == member"
-											        [disabled-when-requesting]="true"
-											>Update</button>
-
-											<button class="button button-primaryghost"
-											        type="button"
-											        *ngIf="editingMember != member"
-											        (click)="deleteMember(member)"
-											        [class.inactive]="isEditingMember && editingMember == member"
-											        [disabled-when-requesting]="true"
-											>Delete</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-			</div>
-		</ng-template>
-
-		<pathway-selection-dialog #pathwayDialog></pathway-selection-dialog>
-		<recipient-selection-dialog #recipientSelectionDialog></recipient-selection-dialog>
-	</main>
-	`
+	templateUrl: './recipientgroup-detail.component.html'
 })
 export class RecipientGroupDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	memberCreateForm: FormGroup;
@@ -364,7 +164,7 @@ export class RecipientGroupDetailComponent extends BaseAuthenticatedRoutableComp
 	}
 
 	submitMemberEdit(formState: RecipientMemberEditForm<string>) {
-		if (! this.memberEditForm.valid){
+		if (! this.memberEditForm.valid) {
 			markControlsDirty(this.memberEditForm);
 			return;
 		}

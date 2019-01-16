@@ -26,78 +26,7 @@ interface PathwayCreateForm<T> {
 
 @Component({
 	selector: 'pathway-create',
-	template: `
-		<main>
-			<form-message></form-message>
-
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li><a [routerLink]="['/issuer']">Issuers</a></li>
-						<li *ngIf="issuer"><a [routerLink]="['/issuer/issuers', issuerSlug]">{{ issuer.name }}</a></li>
-
-						<li class="breadcrumb-x-current">Create Pathway</li>
-					</ul>
-				</nav>
-
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>New Pathway</h1>
-						<p>
-							Create a Learning Pathway based on combinations of learning objectives with badges from one issuer or many. Learning Pathways can represent competencies, job requirements, content knowledge and more.
-							<a href="https://support.badgr.io/display/BSKB/Learning+Pathways+and+Badge+System+Designs" target="_blank">Learn More.</a>
-						</p>
-					</div>
-				</div>
-
-			</header>
-
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
-
-				<form class="l-form"
-				      [formGroup]="pathwayForm"
-				      (ngSubmit)="onSubmit(pathwayForm.value)"
-				      novalidate>
-					<fieldset>
-						<bg-formfield-text [control]="pathwayForm.controls.pathway_name"
-						                   [label]="'Name'"
-						                   [errorMessage]="{required:'Please enter a pathway name'}"
-						                   [autofocus]="true"
-						></bg-formfield-text>
-
-						<bg-formfield-text [control]="pathwayForm.controls.pathway_description"
-						                   [label]="'Description'"
-						                   [errorMessage]="{required:'Please enter a pathway description'}"
-						                   [multiline]="true"
-						></bg-formfield-text>
-
-						<bg-formfield-text [control]="pathwayForm.controls.alignment_url"
-						                   [label]="'Alignment URL (Optional)'"
-						                   [sublabel]="'An Alignment URL will be automatically created for you if you don’t have one.'"
-						                   [errorMessage]="'Please enter a valid URL'"
-						                   [urlField]="true"
-						></bg-formfield-text>
-					</fieldset>
-
-					<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-							<a class="button button-primaryghost"
-							   [routerLink]="['/issuer/issuers', issuerSlug]"
-							   [disabled-when-requesting]="true"
-							>Cancel</a>
-							<button class="button"
-							        type="submit"
-							        [disabled]="creationSent"
-							        (click)="createPathway($event)"
-							        [loading-when-requesting]="true"
-							>Create Pathway</button>
-					</div>
-				</form>
-
-			</div>
-		</main>
-	`
+	templateUrl: './pathway-create.component.html'
 })
 export class PathwayCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	pathwayForm: FormGroup;

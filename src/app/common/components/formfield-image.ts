@@ -287,7 +287,7 @@ export function badgeImageLoader(file: File): Promise<string> {
 					dataURL = canvas.toDataURL("image/png");
 
 					// On the first try, guess a dimension based on the ratio of max pixel count to file size
-					if (maxDimension == startingMaxDimension) {
+					if (maxDimension === startingMaxDimension) {
 						maxDimension = Math.sqrt(maxFileSize * (Math.pow(maxDimension, 2) / base64ByteSize(dataURL)));
 					}
 
@@ -347,7 +347,7 @@ export function issuerImageLoader(file: File): Promise<string> {
 					dataURL =  canvas.toDataURL("image/png");
 
 					// On the first try, guess a dimension based on the ratio of max pixel count to file size
-					if (maxDimension == startingMaxDimension) {
+					if (maxDimension === startingMaxDimension) {
 						maxDimension = Math.sqrt(maxFileSize * (Math.pow(maxDimension, 2) / base64ByteSize(dataURL)));
 					}
 
@@ -358,7 +358,6 @@ export function issuerImageLoader(file: File): Promise<string> {
 				return dataURL;
 			})
 			.catch(e => { throw new Error(`${file.name} is not a valid image file`) });
-			;
 	}
 }
 
