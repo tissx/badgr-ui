@@ -1,8 +1,8 @@
-import {Component, ElementRef, Input, OnChanges} from "@angular/core";
+import { Component, ElementRef, Input, OnChanges } from "@angular/core";
 
 
-import {Issuer} from "../../issuer/models/issuer.model";
-import {preloadImageURL} from "../util/file-util";
+import { Issuer } from "../../issuer/models/issuer.model";
+import { preloadImageURL } from "../util/file-util";
 
 
 @Component({

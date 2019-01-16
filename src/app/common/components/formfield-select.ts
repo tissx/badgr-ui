@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
 
-import {FormControl, FormGroup} from "@angular/forms";
+import { FormControl, FormGroup } from "@angular/forms";
 
-import {CommonDialogsService} from "../services/common-dialogs.service";
-import {CustomValidatorMessages, messagesForValidationError} from "./formfield-text";
+import { CommonDialogsService } from "../services/common-dialogs.service";
+import { CustomValidatorMessages, messagesForValidationError } from "./formfield-text";
 
 @Component({
 	selector: 'bg-formfield-select',
@@ -20,7 +20,7 @@ import {CustomValidatorMessages, messagesForValidationError} from "./formfield-t
 			<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
 			<ng-content select="[label-additions]"></ng-content>
 		</label>
-		
+
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 
 		<p class="formfield-x-description" *ngIf="description">{{ description }}</p>
@@ -45,8 +45,8 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 	@Input() initialValue: string;
 	@Input() label: string;
 	@Input() ariaLabel: string | null = null;
-	@Input() includeLabelAsWrapper: boolean = false; //includes label for layout purposes even if label text wasn't passed in.
-	@Input() formFieldAside: string; //Displays additional text above the field. I.E (optional)
+	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
 	@Input() multiline: boolean = false;
 	@Input() description: string;

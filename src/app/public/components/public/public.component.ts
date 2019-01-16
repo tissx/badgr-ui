@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 
 import { ActivatedRoute, Router } from "@angular/router";
-import { BaseRoutableComponent } from "../../common/pages/base-routable.component";
+import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
 import { Title } from "@angular/platform-browser";
 
-import { AppConfigService } from "../../common/app-config.service";
+import { AppConfigService } from "../../../common/app-config.service";
 
 
 @Component({

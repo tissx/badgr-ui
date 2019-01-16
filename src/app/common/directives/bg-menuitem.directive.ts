@@ -1,6 +1,6 @@
-import {Directive, ElementRef, OnDestroy} from "@angular/core";
-import {EventsService} from "../services/events.service";
-import {Subscription} from "rxjs";
+import { Directive, ElementRef, OnDestroy } from "@angular/core";
+import { EventsService } from "../services/events.service";
+import { Subscription } from "rxjs";
 
 /**
  * RouterLink which exports itself. Shouldn't be necessary to create this, but the built-in RouterLink does not have

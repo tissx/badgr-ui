@@ -19,7 +19,7 @@ declare function require(path: string): string;
 					     [ngStyle]="mostRelevantStatus == 'expired' && {'filter':'grayscale(1)'}"
 					     width="80" />
 				</div>
-				<a class="badgecard-x-title" 
+				<a class="badgecard-x-title"
 				[routerLink]="['../earned-badge', badgeSlug]"
 				>
 					{{ badgeTitle }}

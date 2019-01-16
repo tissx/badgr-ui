@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, ElementRef, Input, ViewChild} from "@angular/core";
+import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from "@angular/core";
 
 @Component({
 	selector: 'show-more',
@@ -8,14 +8,14 @@ import {AfterViewChecked, Component, ElementRef, Input, ViewChild} from "@angula
 		"[class.showmore-is-loaded]": "loaded"
 	},
 	template: `
-		<div #container 
+		<div #container
 		     class="showmore-x-container"
 		>
 			<div #content class="showmore-x-content">
 				<ng-content></ng-content>
 			</div>
 		</div>
-		
+
 		<button class="showmore-x-button" (click)="toggleOpen()">
 			<span>{{ isOpen ? "Show Less" : "Show More" }}</span>
 		</button>

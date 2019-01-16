@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {Angulartics2} from "angulartics2";
-import {RecipientBadgeApiService} from "../../recipient/services/recipient-badges-api.service";
+import { Injectable } from "@angular/core";
+import { Angulartics2 } from "angulartics2";
+import { RecipientBadgeApiService } from "../../recipient/services/recipient-badges-api.service";
 
 @Injectable()
 export class SharingService {
@@ -26,12 +26,11 @@ export class SharingService {
 		let promise;
 		if (objectType == "BadgeInstance") {
 			promise = this.recipientBadgeApiService.getBadgeShareUrlForProvider(objectIdUrl, shareServiceType);
-		}
-		else if (objectType == "BadgeCollection") {
+		} else if (objectType == "BadgeCollection") {
 			promise = this.recipientBadgeApiService.getCollectionShareUrlForProvider(objectIdUrl, shareServiceType);
 		}
 
-		//open window with share url retrieved from server
+		// open window with share url retrieved from server
 		promise.then(
 			(url) => {
 				window.open(url, "_blank", provider_features[shareServiceType]);

@@ -1,7 +1,7 @@
-import {BaseRoutableComponent} from "./base-routable.component";
-import {OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {SessionService} from "../services/session.service";
+import { BaseRoutableComponent } from "./base-routable.component";
+import { OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SessionService } from "../services/session.service";
 
 /**
  * Base class for all routable components (pages in the applications) that require authentication.

@@ -1,4 +1,4 @@
-import {Directive, Input} from "@angular/core";
+import { Directive, Input } from "@angular/core";
 
 const defaultLoadingImage = require("../../../breakdown/static/images/image-placeholder.svg");
 const defaultErrorImage = require("../../../breakdown/static/images/image-failed.svg");
@@ -19,7 +19,7 @@ export class BgCopyInputDirective {
 	copySupported(): boolean {
 		try {
 			return !! document.queryCommandSupported('copy');
-		} catch(e) {
+		} catch (e) {
 			return false;
 		}
 	}

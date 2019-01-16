@@ -1,5 +1,5 @@
-import {Component, ElementRef, Renderer2} from "@angular/core";
-import {BaseDialog} from "./base-dialog";
+import { Component, ElementRef, Renderer2 } from "@angular/core";
+import { BaseDialog } from "./base-dialog";
 
 export interface ConfirmDialogOptions {
 	dialogTitle?: string;
@@ -24,8 +24,8 @@ export interface ConfirmDialogOptions {
 				<p class="u-text-body" [innerHTML]="options.dialogBody"></p>
 
 				<div class="l-flex l-flex-1x u-margin-top3x">
-					<button *ngIf="options.showRejectButton" 
-							class="button button-secondary" 
+					<button *ngIf="options.showRejectButton"
+							class="button button-secondary"
 							(click)="closeDialog(false)">{{ options.rejectButtonLabel }}</button>
 					<button class="button" (click)="closeDialog(true)">{{ options.resolveButtonLabel }}</button>
 				</div>

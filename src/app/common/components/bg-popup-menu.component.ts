@@ -15,9 +15,13 @@ import Popper, { Placement } from "popper.js";
 	}
 })
 export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
+
+	get componentElem(): HTMLElement { return this.componentElemRef.nativeElement ! as HTMLElement }
+
+	get isOpen() {
+		return this.componentElem && this.componentElem.classList.contains("menu-is-open");
+	}
 	public triggerData: any = null;
-	private popper: Popper | null = null;
-	private lastTriggerElem: HTMLElement | null = null;
 
 	@Input()
 	closeOnOutsideClick: boolean = true;
@@ -27,14 +31,14 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 
 	@Input()
 	menuPlacement: Placement = "bottom-end";
+	private popper: Popper | null = null;
+	private lastTriggerElem: HTMLElement | null = null;
 
 	constructor(
 		private componentElemRef: ElementRef,
 		private renderer: Renderer2,
 		private ngZone: NgZone
 	) {}
-
-	get componentElem(): HTMLElement { return this.componentElemRef.nativeElement ! as HTMLElement }
 
 	open(
 		triggerElem: HTMLElement
@@ -73,12 +77,6 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 		}
 	}
 
-	private hideElem() {
-		this.componentElem.style.position = "absolute";
-		this.componentElem.style.top = "-1000px";
-		this.componentElem.style.left = "-1000px";
-	}
-
 	toggle(triggerElem: HTMLElement) {
 		if (!this.isOpen || this.lastTriggerElem != triggerElem) {
 			if (this.isOpen) this.close();
@@ -87,10 +85,6 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 		} else if (this.isOpen) {
 			this.close();
 		}
-	}
-
-	get isOpen() {
-		return this.componentElem && this.componentElem.classList.contains("menu-is-open");
 	}
 
 	ngAfterViewInit(): void {
@@ -122,6 +116,12 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 				this.close();
 			}
 		}
+	}
+
+	private hideElem() {
+		this.componentElem.style.position = "absolute";
+		this.componentElem.style.top = "-1000px";
+		this.componentElem.style.left = "-1000px";
 	}
 }
 

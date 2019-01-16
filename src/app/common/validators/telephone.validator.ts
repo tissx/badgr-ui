@@ -1,5 +1,5 @@
-import {FormControl} from '@angular/forms';
-import {ValidationResult} from "./email.validator";
+import { FormControl } from '@angular/forms';
+import { ValidationResult } from "./email.validator";
 
 export class TelephoneValidator {
 	static validTelephone(control: FormControl): ValidationResult {

@@ -1,4 +1,4 @@
-import {randomNames} from "./test-data-util";
+import { randomNames } from "./test-data-util";
 
 
 describe('test-data-util', () => {

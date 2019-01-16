@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from "@angular/core";
-import {FormControl, FormGroup} from "@angular/forms";
+import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
-import {CommonDialogsService} from "../services/common-dialogs.service";
-import {CustomValidatorMessages, messagesForValidationError} from "./formfield-text";
-import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
+import { CommonDialogsService } from "../services/common-dialogs.service";
+import { CustomValidatorMessages, messagesForValidationError } from "./formfield-text";
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as marked from 'marked';
 
 @Component({
@@ -104,33 +104,6 @@ import * as marked from 'marked';
 		</div> `
 })
 export class FormFieldMarkdown implements OnChanges, AfterViewInit {
-	@Input() control: FormControl;
-	@Input() initialValue: string;
-	@Input() label: string;
-	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
-	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
-	@Input() errorMessage: CustomValidatorMessages;
-	@Input() description: string;
-	@Input() placeholder: string;
-	@Input() optional: boolean = false;
-
-	@Input() errorGroup: FormGroup;
-	@Input() errorGroupMessage: CustomValidatorMessages;
-
-	@Input() unlockConfirmText: string = "Unlocking this field may have unintended consequences. Are you sure you want to continue?";
-
-	@Input() autofocus: boolean = false;
-
-	@ViewChild("textareaInput") textareaInput: ElementRef;
-	@ViewChild("markdownPreviewPane") markdownPreviewPane: ElementRef;
-
-	textHeight: number;
-
-	private _lastRenderedMarkdown?: string;
-	private _currentMarkdownHtml?: SafeHtml;
-
-	private _unlocked = false;
-	_preview = false;
 
 	@Input()
 	set unlocked(unlocked: boolean) {
@@ -139,8 +112,6 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 	}
 
 	get unlocked() { return this._unlocked }
-
-	private _locked = false;
 	@Input()
 	set locked(locked: boolean) {
 		this._locked = locked;
@@ -180,10 +151,6 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 		return this.control.value;
 	}
 
-	private cachedErrorMessage = null;
-	private cachedErrorState = null;
-	private cachedDirtyState = null;
-
 	get controlErrorState() { return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid)) }
 
 	get isErrorState() {
@@ -196,9 +163,42 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 
 	get isLockedState() { return this.locked && !this.unlocked }
 
-	private randomName = "field" + Math.random();
-
 	get inputName() { return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase() }
+	@Input() control: FormControl;
+	@Input() initialValue: string;
+	@Input() label: string;
+	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
+	@Input() errorMessage: CustomValidatorMessages;
+	@Input() description: string;
+	@Input() placeholder: string;
+	@Input() optional: boolean = false;
+
+	@Input() errorGroup: FormGroup;
+	@Input() errorGroupMessage: CustomValidatorMessages;
+
+	@Input() unlockConfirmText: string = "Unlocking this field may have unintended consequences. Are you sure you want to continue?";
+
+	@Input() autofocus: boolean = false;
+
+	@ViewChild("textareaInput") textareaInput: ElementRef;
+	@ViewChild("markdownPreviewPane") markdownPreviewPane: ElementRef;
+
+	textHeight: number;
+	_preview = false;
+
+	private _lastRenderedMarkdown?: string;
+	private _currentMarkdownHtml?: SafeHtml;
+
+	private _unlocked = false;
+
+	private _locked = false;
+
+	private cachedErrorMessage = null;
+	private cachedErrorState = null;
+	private cachedDirtyState = null;
+
+	private randomName = "field" + Math.random();
 
 	constructor(
 		private dialogService: CommonDialogsService,

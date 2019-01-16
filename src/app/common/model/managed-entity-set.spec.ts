@@ -1,9 +1,9 @@
-import {ManagedEntity} from "./managed-entity";
-import {ListBackedEntitySet, ManagedEntitySet, StandaloneEntitySet} from "./managed-entity-set";
-import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
-import {ApiTestEntity, buildTestEntities, TestEntity} from "./managed-entity.spec";
-import {inject, TestBed} from "@angular/core/testing";
-import {filter, first} from "rxjs/operators";
+import { ManagedEntity } from "./managed-entity";
+import { ListBackedEntitySet, ManagedEntitySet, StandaloneEntitySet } from "./managed-entity-set";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { ApiTestEntity, buildTestEntities, TestEntity } from "./managed-entity.spec";
+import { inject, TestBed } from "@angular/core/testing";
+import { filter, first } from "rxjs/operators";
 
 describe('StandaloneEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({

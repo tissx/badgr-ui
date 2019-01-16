@@ -1,8 +1,8 @@
-import {ManagedEntity} from "./managed-entity";
-import {UpdatableSubject} from "../util/updatable-subject";
-import {ApiEntityRef} from "./entity-ref";
-import {first} from "rxjs/operators";
-import {MemoizedProperty} from '../util/memoized-property-decorator';
+import { ManagedEntity } from "./managed-entity";
+import { UpdatableSubject } from "../util/updatable-subject";
+import { ApiEntityRef } from "./entity-ref";
+import { first } from "rxjs/operators";
+import { MemoizedProperty } from '../util/memoized-property-decorator';
 
 /**
  * Represents a many-to-one connection between entities. Wraps an EntityRef from API data and handles loading and
@@ -42,7 +42,7 @@ export class EntityLink<
 	@MemoizedProperty()
 	public get loadedPromise() {
 		if (! this._loadedPromise)
-			this._loadedPromise = this.loaded$.pipe(first()).toPromise();;
+			this._loadedPromise = this.loaded$.pipe(first()).toPromise(); ;
 		return this._loadedPromise;
 	}
 

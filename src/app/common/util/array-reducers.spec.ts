@@ -1,4 +1,4 @@
-import {groupIntoArray, groupIntoObject} from "./array-reducers";
+import { groupIntoArray, groupIntoObject } from "./array-reducers";
 
 describe("groupIntoObject", () => {
 	it("should group an array correctly", () => {

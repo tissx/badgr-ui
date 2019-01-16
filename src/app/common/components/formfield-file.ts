@@ -1,7 +1,7 @@
-import {Component, ElementRef, EventEmitter, Input, Output} from "@angular/core";
-import {FormControl} from "@angular/forms";
-import {preloadImageURL, readFileAsText} from "../util/file-util";
-import {DomSanitizer} from "@angular/platform-browser";
+import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { preloadImageURL, readFileAsText } from "../util/file-util";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
 	selector: 'bg-formfield-file',
@@ -37,15 +37,15 @@ import {DomSanitizer} from "@angular/platform-browser";
 				<img [src]="imageLoadingSrc" alt="Image preview" *ngIf="fileLoading">
 				<!--<img [src]="unsafeImageDataUrl" alt="Image preview" *ngIf="imageDataUrl">-->
 			</span>
-			
+
 			<span class="formimage-x-text" *ngIf="! fileErrorMessage">
 				<span *ngIf="! fileProvided && ! fileLoading" class="formimage-x-label">Drop file or <span>browse</span>.</span>
-				<span *ngIf="fileLoading" class="formimage-x-label">Loading File...</span> 
-					
+				<span *ngIf="fileLoading" class="formimage-x-label">Loading File...</span>
+
 				<span *ngIf="fileName" class="formimage-x-label">{{ fileName }}</span>
 				<span *ngIf="fileName" class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
 			</span>
-			
+
 			<span *ngIf="fileErrorMessage" class="formimage-x-error">{{ fileErrorMessage }}</span>
 			<!--</span>-->
 		</label>
@@ -54,10 +54,14 @@ import {DomSanitizer} from "@angular/platform-browser";
 
 })
 export class BgFormFieldFileComponent {
-	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
-	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
+
+	private get element(): HTMLElement {
+		return this.elemRef.nativeElement as any;
+	}
 
 	static uniqueNameCounter = 0;
+	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
+	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
 
 	@Input() control: FormControl;
 	@Input() label: string;
@@ -76,17 +80,13 @@ export class BgFormFieldFileComponent {
 	fileProvided: boolean = false;
 	fileErrorMessage: string = null;
 
-	//new
+	// new
 	fileName: string = "";
 
 	constructor(
 		private elemRef: ElementRef,
 		private domSanitizer: DomSanitizer
 	) {}
-
-	private get element(): HTMLElement {
-		return this.elemRef.nativeElement as any;
-	}
 
 	clearFileInput() {
 		(this.element.querySelector("input[type='file']") as HTMLInputElement).value = null;

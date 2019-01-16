@@ -1,14 +1,14 @@
 import { Component, Injector } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
-import { preloadImageURL } from "../../common/util/file-util";
-import { PublicApiService } from "../services/public-api.service";
-import { LoadedRouteParam } from "../../common/util/loaded-route-param";
-import { PublicApiBadgeCollectionWithBadgeClassAndIssuer } from "../models/public-api.model";
-import { EmbedService } from "../../common/services/embed.service";
-import { routerLinkForUrl } from "./public.component";
+import { preloadImageURL } from "../../../common/util/file-util";
+import { PublicApiService } from "../../services/public-api.service";
+import { LoadedRouteParam } from "../../../common/util/loaded-route-param";
+import { PublicApiBadgeCollectionWithBadgeClassAndIssuer } from "../../models/public-api.model";
+import { EmbedService } from "../../../common/services/embed.service";
+import { routerLinkForUrl } from "../public/public.component";
 import { Title } from '@angular/platform-browser';
-import { AppConfigService } from '../../common/app-config.service';
+import { AppConfigService } from '../../../common/app-config.service';
 
 @Component({
 	template: `
@@ -86,9 +86,9 @@ import { AppConfigService } from '../../common/app-config.service';
 })
 export class PublicBadgeCollectionComponent {
 	readonly issuerImagePlacholderUrl = preloadImageURL(require(
-		'../../../breakdown/static/images/placeholderavatar-issuer.svg'));
-	readonly badgeLoadingImageUrl = require('../../../breakdown/static/images/badge-loading.svg');
-	readonly badgeFailedImageUrl = require('../../../breakdown/static/images/badge-failed.svg');
+		'../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
+	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg');
+	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg');
 
 	routerLinkForUrl = routerLinkForUrl;
 

@@ -1,4 +1,4 @@
-import {SimpleChange} from "@angular/core";
+import { SimpleChange } from "@angular/core";
 
 export class ChangeDetectionUtil {
 	static typedChangesFor<T>(
@@ -17,7 +17,7 @@ export class ChangeDetectionUtil {
 		propName: string,
 		watcher: (T1, T2) => any
 	) {
-		var dataPropName = "_" + propName;
+		let dataPropName = "_" + propName;
 
 		Object.defineProperties(
 			object,
@@ -31,7 +31,7 @@ export class ChangeDetectionUtil {
 					configurable: true,
 					get: function () { return object[ dataPropName ]; },
 					set: function (newValue) {
-						var oldValue = object[ dataPropName ];
+						let oldValue = object[ dataPropName ];
 						if (newValue !== oldValue) {
 							object[ dataPropName ] = newValue;
 							watcher(newValue, oldValue);

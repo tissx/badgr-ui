@@ -1,12 +1,12 @@
-import {Component, ElementRef, Renderer2} from '@angular/core';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
 
-import {SharedObjectType, ShareEndPoint, ShareServiceType, SharingService} from '../services/sharing.service';
-import {BaseDialog} from './base-dialog';
-import {DomSanitizer} from '@angular/platform-browser';
-import {addQueryParamsToUrl} from '../util/url-util';
-import {TimeComponent} from '../components/time.component';
-import {generateEmbedHtml} from '../../../embed/generate-embed-html';
-import {animationFramePromise} from '../util/promise-util';
+import { SharedObjectType, ShareEndPoint, ShareServiceType, SharingService } from '../services/sharing.service';
+import { BaseDialog } from './base-dialog';
+import { DomSanitizer } from '@angular/platform-browser';
+import { addQueryParamsToUrl } from '../util/url-util';
+import { TimeComponent } from '../components/time.component';
+import { generateEmbedHtml } from '../../../embed/generate-embed-html';
+import { animationFramePromise } from '../util/promise-util';
 
 
 @Component({
@@ -282,6 +282,23 @@ import {animationFramePromise} from '../util/promise-util';
 	`
 })
 export class ShareSocialDialog extends BaseDialog {
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Internal API
+
+	get currentShareUrl() {
+		let versioned_url = this.selectedVersion
+			? this.selectedVersion.shareUrl
+			: this.options.shareUrl;
+
+		let params = {};
+		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
+		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versioned_url, params) : versioned_url;
+	}
+
+	get hasEmbedSupport() {
+		return this.options.embedOptions && this.options.embedOptions.length;
+	}
 	options: ShareSocialDialogOptions = {} as any;
 	resolveFunc: () => void;
 	rejectFunc: () => void;
@@ -296,6 +313,8 @@ export class ShareSocialDialog extends BaseDialog {
 	includeRecipientName: boolean = true;
 	includeAwardDate: boolean = true;
 	includeVerifyButton: boolean = true;
+
+	currentEmbedHtml: string | null = null;
 
 	constructor(
 		componentElem: ElementRef<HTMLElement>,
@@ -348,27 +367,8 @@ export class ShareSocialDialog extends BaseDialog {
 		);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Internal API
-
-	get currentShareUrl() {
-		let versioned_url = this.selectedVersion
-			? this.selectedVersion.shareUrl
-			: this.options.shareUrl;
-
-		let params = {};
-		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
-		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versioned_url, params) : versioned_url;
-	}
-
-	currentEmbedHtml: string | null = null;
-
 	stripStyleTags(htmlstr: string): string {
 		return htmlstr.replace(/ ?style="[^"]*"/g, '');
-	}
-
-	get hasEmbedSupport() {
-		return this.options.embedOptions && this.options.embedOptions.length;
 	}
 
 	displayShareServiceType(serviceType: ShareServiceType) {
@@ -386,7 +386,7 @@ export class ShareSocialDialog extends BaseDialog {
 	copySupported(): boolean {
 		try {
 			return document.queryCommandSupported('copy');
-		} catch(e) {
+		} catch (e) {
 			return false;
 		}
 	}
@@ -407,28 +407,6 @@ export class ShareSocialDialog extends BaseDialog {
 
 		} finally {
 			input.disabled = inputWasDisabled;
-		}
-	}
-
-	private async updatePreviewHtml(html: string) {
-		if (this.componentElem.nativeElement) {
-			// Ensure the angular view is up-to-date so the iframe is around.
-			await animationFramePromise();
-
-			const iframe = this.componentElem.nativeElement.querySelector<HTMLIFrameElement>(".previewIframe");
-
-			if (iframe && html !== iframe["lastWrittenHtml"]) {
-				iframe["lastWrittenHtml"] = html;
-
-				iframe.style.height = "";
-
-				const iframeDocument = iframe.contentWindow.document;
-				iframeDocument.open();
-				iframeDocument.write(html);
-				iframeDocument.close();
-
-				iframe.style.height = iframeDocument.documentElement.scrollHeight + "px";
-			}
 		}
 	}
 
@@ -505,6 +483,28 @@ export class ShareSocialDialog extends BaseDialog {
 		}
 
 		this.updatePreviewHtml(this.currentEmbedHtml);
+	}
+
+	private async updatePreviewHtml(html: string) {
+		if (this.componentElem.nativeElement) {
+			// Ensure the angular view is up-to-date so the iframe is around.
+			await animationFramePromise();
+
+			const iframe = this.componentElem.nativeElement.querySelector<HTMLIFrameElement>(".previewIframe");
+
+			if (iframe && html !== iframe["lastWrittenHtml"]) {
+				iframe["lastWrittenHtml"] = html;
+
+				iframe.style.height = "";
+
+				const iframeDocument = iframe.contentWindow.document;
+				iframeDocument.open();
+				iframeDocument.write(html);
+				iframeDocument.close();
+
+				iframe.style.height = iframeDocument.documentElement.scrollHeight + "px";
+			}
+		}
 	}
 }
 

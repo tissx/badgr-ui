@@ -1,9 +1,9 @@
-import {forwardRef, Inject, Injectable} from "@angular/core";
-import {UserProfileApiService} from "./user-profile-api.service";
-import {StandaloneEntitySet} from "../model/managed-entity-set";
-import {UserProfile} from "../model/user-profile.model";
-import {ApiUserProfile} from "../model/user-profile-api.model";
-import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
+import { forwardRef, Inject, Injectable } from "@angular/core";
+import { UserProfileApiService } from "./user-profile-api.service";
+import { StandaloneEntitySet } from "../model/managed-entity-set";
+import { UserProfile } from "../model/user-profile.model";
+import { ApiUserProfile } from "../model/user-profile-api.model";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 
 /**
  * Manager for the singleton `UserProfile` instance that provides access to the current user's profile.

@@ -1,5 +1,5 @@
-import {OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import { OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
 /**
  * Base class for all routable components (pages).

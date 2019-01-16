@@ -1,8 +1,8 @@
-import {AnyManagedEntity, ManagedEntity} from "./managed-entity";
-import {Observable} from "rxjs";
-import {UpdatableSubject} from "../util/updatable-subject";
-import {first} from "rxjs/operators";
-import {MemoizedProperty} from '../util/memoized-property-decorator';
+import { AnyManagedEntity, ManagedEntity } from "./managed-entity";
+import { Observable } from "rxjs";
+import { UpdatableSubject } from "../util/updatable-subject";
+import { first } from "rxjs/operators";
+import { MemoizedProperty } from '../util/memoized-property-decorator';
 
 /**
  * Interface for asynchronous sets of managed entities of various types.
@@ -77,13 +77,6 @@ export class EntitySetUpdate<
  * ManagedEntityMapping instead.
  */
 export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
-	grouped: { [groupId: string]: EntityType[] } = {};
-
-	private _loadedPromise: Promise<{ [groupId: string]: EntityType[] }> | null = null;
-
-	private entireListSubject = new UpdatableSubject<{ [groupId: string]: EntityType[] }>(
-		() => this.entityList.loadedPromise
-	);
 
 	get loaded$(): Observable<{ [groupId: string]: EntityType[] }> {
 		return this.entireListSubject.asObservable();
@@ -97,6 +90,13 @@ export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
 
 		return this._loadedPromise;
 	}
+	grouped: { [groupId: string]: EntityType[] } = {};
+
+	private _loadedPromise: Promise<{ [groupId: string]: EntityType[] }> | null = null;
+
+	private entireListSubject = new UpdatableSubject<{ [groupId: string]: EntityType[] }>(
+		() => this.entityList.loadedPromise
+	);
 
 	constructor(
 		private entityList: EntitySet<EntityType>,
@@ -107,11 +107,15 @@ export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
 		);
 	}
 
+	lookup(groupId: string) {
+		return this.grouped[ groupId ];
+	}
+
 	private updateGrouping() {
 		this._loadedPromise = null;
 		this.grouped = {};
 		this.entityList.entities.forEach(entity => {
-			var key = this.groupIdForEntity(entity);
+			let key = this.groupIdForEntity(entity);
 
 			if (key in this.grouped) {
 				this.grouped[ key ].push(entity);
@@ -120,10 +124,6 @@ export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
 			}
 		});
 		this.entireListSubject.safeNext(this.grouped);
-	}
-
-	lookup(groupId: string) {
-		return this.grouped[ groupId ];
 	}
 }
 
@@ -134,14 +134,14 @@ export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
  * key, use ManagedEntityGrouping instead.
  */
 export class ManagedEntityMapping<EntityType extends AnyManagedEntity> {
+
+	get loaded$(): Observable<{ [mapId: string]: EntityType }> { return this.entireListSubject.asObservable(); }
+	get loadedPromise(): Promise<{ [mapId: string]: EntityType }> { return this.entireListSubject.pipe(first()).toPromise(); }
 	mapped: { [mapId: string]: EntityType } = {};
 
 	private entireListSubject = new UpdatableSubject<{ [mapId: string]: EntityType }>(
 		() => this.entityList.loadedPromise
 	);
-
-	get loaded$(): Observable<{ [mapId: string]: EntityType }> { return this.entireListSubject.asObservable(); }
-	get loadedPromise(): Promise<{ [mapId: string]: EntityType }> { return this.entireListSubject.pipe(first()).toPromise(); }
 
 	constructor(
 		private entityList: EntitySet<EntityType>,
@@ -152,15 +152,15 @@ export class ManagedEntityMapping<EntityType extends AnyManagedEntity> {
 		)
 	}
 
+	lookup(mapId: string) {
+		return this.mapped[ mapId ];
+	}
+
 	private updateMapping() {
 		this.mapped = {};
 		this.entityList.entities.forEach(
 			entity => this.mapped[ this.mapIdForEntity(entity) ] = entity
 		);
 		this.entireListSubject.safeNext(this.mapped);
-	}
-
-	lookup(mapId: string) {
-		return this.mapped[ mapId ];
 	}
 }

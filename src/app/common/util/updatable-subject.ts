@@ -1,4 +1,4 @@
-import {Subject, Subscriber} from "rxjs";
+import { Subject, Subscriber } from "rxjs";
 
 /**
  * A Subject for objects that will be loaded at some point and may be subsequently updated. Acts like a promise with updates:
