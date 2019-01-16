@@ -1,6 +1,6 @@
 import {inject, TestBed} from "@angular/core/testing";
 
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {UserProfile, UserProfileEmail, UserProfileSocialAccount} from "./user-profile.model";
 import {ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount} from "./user-profile-api.model";
 import {verifyManagedEntitySet} from "./managed-entity-set.spec";

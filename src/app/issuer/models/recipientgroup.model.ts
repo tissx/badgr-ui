@@ -1,5 +1,5 @@
-import {RecipientGroupManager} from "../services/recipientgroup-manager.service";
-import {LazyEmbeddedEntitySet, StandaloneEntitySet} from "../../common/model/managed-entity-set";
+import { RecipientGroupManager } from "../services/recipientgroup-manager.service";
+import { LazyEmbeddedEntitySet, StandaloneEntitySet } from "../../common/model/managed-entity-set";
 import {
 	ApiRecipientGroup,
 	ApiRecipientGroupForCreation,
@@ -7,17 +7,45 @@ import {
 	ApiRecipientGroupMemberForCreation,
 	RecipientGroupRef
 } from "./recipientgroup-api.model";
-import {ManagedEntity} from "../../common/model/managed-entity";
-import {LearningPathway} from "./pathway.model";
-import {PathwayRef} from "./pathway-api.model";
-import {BidirectionallyLinkedEntitySet} from "../../common/model/linked-entity-set";
-import {ApiEntityRef} from "../../common/model/entity-ref";
+import { ManagedEntity } from "../../common/model/managed-entity";
+import { LearningPathway } from "./pathway.model";
+import { PathwayRef } from "./pathway-api.model";
+import { BidirectionallyLinkedEntitySet } from "../../common/model/linked-entity-set";
+import { ApiEntityRef } from "../../common/model/entity-ref";
 
 /**
  * Managed model class holding the recipientGroups owned by an issuer. Does not load recipientGroup detail unless requested for
  * a particular detail.
  */
 export class IssuerRecipientGroups extends StandaloneEntitySet<RecipientGroup, ApiRecipientGroup> {
+
+	get allDetailsLoaded() {
+		return this.loaded && ! this.entities.find(g => ! g.isDetailLoaded);
+	}
+	get allDetailsLoadedPromise(): Promise<this> {
+		if (this.ensureAllDetailsPromise) return this.ensureAllDetailsPromise;
+		else {
+			if (this.allDetailsLoaded) {
+				return Promise.resolve(this);
+			} else {
+				return this.ensureAllDetailsPromise = this.recipientGroupManager.recipientGroupApiService
+					.listIssuerRecipientGroupDetail(this.issuerSlug)
+					.then(
+						list => {
+							this.applyApiData(list.recipientGroups);
+							this.ensureAllDetailsPromise = null;
+							return this;
+						},
+						error => {
+							this.ensureAllDetailsPromise = null;
+							return error;
+						}
+					)
+			}
+		}
+	}
+
+	private ensureAllDetailsPromise: Promise<this>;
 	constructor(
 		public recipientGroupManager: RecipientGroupManager,
 		public issuerSlug: string
@@ -45,74 +73,16 @@ export class IssuerRecipientGroups extends StandaloneEntitySet<RecipientGroup, A
 				return this.entityForSlug(newRecipientGroup.slug);
 			});
 	}
-
-	get allDetailsLoaded() {
-		return this.loaded && ! this.entities.find(g => ! g.isDetailLoaded);
-	}
-
-	private ensureAllDetailsPromise: Promise<this>;
-	get allDetailsLoadedPromise(): Promise<this> {
-		if (this.ensureAllDetailsPromise) return this.ensureAllDetailsPromise;
-		else {
-			if (this.allDetailsLoaded) {
-				return Promise.resolve(this);
-			} else {
-				return this.ensureAllDetailsPromise = this.recipientGroupManager.recipientGroupApiService
-					.listIssuerRecipientGroupDetail(this.issuerSlug)
-					.then(
-						list => {
-							this.applyApiData(list.recipientGroups);
-							this.ensureAllDetailsPromise = null;
-							return this;
-						},
-						error => {
-							this.ensureAllDetailsPromise = null;
-							return error;
-						}
-					)
-			}
-		}
-	}
 }
 
 /**
  * Managed class for a learning recipientGroup summary / metadata. Does not include detail data unless requested.
  */
 export class RecipientGroup extends ManagedEntity<ApiRecipientGroup, RecipientGroupRef> {
-	public subscribedPathways = new BidirectionallyLinkedEntitySet<RecipientGroup, LearningPathway, PathwayRef>(
-		this,
-		() => this.apiModel.pathways,
-		ref => this.pathwayManager.loadPathwaysForIssuer(this.issuerSlug)
-			.then(p => p.entityForUrl(ref)),
-		pathway => pathway.subscribedGroups
-	);
 
-	members = new LazyEmbeddedEntitySet<RecipientGroup, RecipientGroupMember, ApiRecipientGroupMember>(
-		this,
-		() => this.apiModel && this.apiModel.members,
-		() => this.detailLoadedPromise.then(t => t.apiModel.members),
-		() => new RecipientGroupMember(this),
-		apiModel => apiModel[ "@id" ]
-	);
-	
-	constructor(
-		public issuerRecipientGroups: IssuerRecipientGroups,
-		initialEntity: ApiRecipientGroup = null
-	) {
-		super(
-			issuerRecipientGroups.recipientGroupManager.commonManager
-		);
-
-		if (initialEntity) {
-			this.applyApiModel(initialEntity);
-		}
-	}
-	
 	get isDetailLoaded(): boolean {
 		return !! (this.loaded && this.apiModel.members);
 	}
-
-	private _detailLoadedPromise;
 
 	get detailLoadedPromise(): Promise<this> {
 		if (this._detailLoadedPromise)
@@ -129,13 +99,6 @@ export class RecipientGroup extends ManagedEntity<ApiRecipientGroup, RecipientGr
 					}) as () => never
 				);
 		}
-	}
-
-	buildApiRef(): RecipientGroupRef {
-		return {
-			"@id": this.apiModel[ "@id" ],
-			slug: this.apiModel.slug
-		};
 	}
 
 	get issuerSlug(): string { return this.issuerRecipientGroups.issuerSlug; }
@@ -161,7 +124,48 @@ export class RecipientGroup extends ManagedEntity<ApiRecipientGroup, RecipientGr
 	set active(active: boolean) {
 		this.apiModel.active = active
 	}
-	
+
+	get subscribedPathwayRefs(): PathwayRef[] {
+		return this.apiModel.pathways || [];
+	}
+	public subscribedPathways = new BidirectionallyLinkedEntitySet<RecipientGroup, LearningPathway, PathwayRef>(
+		this,
+		() => this.apiModel.pathways,
+		ref => this.pathwayManager.loadPathwaysForIssuer(this.issuerSlug)
+			.then(p => p.entityForUrl(ref)),
+		pathway => pathway.subscribedGroups
+	);
+
+	members = new LazyEmbeddedEntitySet<RecipientGroup, RecipientGroupMember, ApiRecipientGroupMember>(
+		this,
+		() => this.apiModel && this.apiModel.members,
+		() => this.detailLoadedPromise.then(t => t.apiModel.members),
+		() => new RecipientGroupMember(this),
+		apiModel => apiModel[ "@id" ]
+	);
+
+	private _detailLoadedPromise;
+
+	constructor(
+		public issuerRecipientGroups: IssuerRecipientGroups,
+		initialEntity: ApiRecipientGroup = null
+	) {
+		super(
+			issuerRecipientGroups.recipientGroupManager.commonManager
+		);
+
+		if (initialEntity) {
+			this.applyApiModel(initialEntity);
+		}
+	}
+
+	buildApiRef(): RecipientGroupRef {
+		return {
+			"@id": this.apiModel[ "@id" ],
+			slug: this.apiModel.slug
+		};
+	}
+
 	save(): Promise<RecipientGroup> {
 		return this.recipientGroupManager.recipientGroupApiService.putRecipientGroup(
 			this.issuerSlug,
@@ -179,10 +183,6 @@ export class RecipientGroup extends ManagedEntity<ApiRecipientGroup, RecipientGr
 		).then(
 			model => this.applyApiModel(model)
 		)
-	}
-
-	get subscribedPathwayRefs(): PathwayRef[] {
-		return this.apiModel.pathways || [];
 	}
 
 	deleteRecipientGroup(): Promise<IssuerRecipientGroups> {

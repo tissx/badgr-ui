@@ -1,13 +1,13 @@
-import {inject, TestBed} from "@angular/core/testing";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {MessageService} from "../../common/services/message.service";
-import {MockBackend} from "@angular/http/testing";
-import {BaseRequestOptions, Http, RequestMethod} from "@angular/http";
-import {AppConfigService} from "../../common/app-config.service";
+import { inject, TestBed } from "@angular/core/testing";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { MessageService } from "../../common/services/message.service";
+import { MockBackend } from "@angular/http/testing";
+import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
+import { AppConfigService } from "../../common/app-config.service";
 
-import {expectRequestAndRespondWith, setupMockResponseReporting} from "../../common/util/mock-response-util.spec";
-import {verifyManagedEntitySet} from "../../common/model/managed-entity-set.spec";
-import {RecipientGroupManager} from "./recipientgroup-manager.service";
+import { expectRequestAndRespondWith, setupMockResponseReporting } from "../../common/util/mock-response-util.spec";
+import { verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
+import { RecipientGroupManager } from "./recipientgroup-manager.service";
 import {
 	ApiIssuerRecipientGroupList,
 	ApiRecipientGroup,
@@ -23,14 +23,14 @@ import {
 	randomSlugs,
 	testSlugForName
 } from "../../common/util/test/test-data-util";
-import {testIssuerRefForSlug} from "./issuer-manager.service.spec";
-import {expectPathwaysRequests, generateTestPathways, testPathwayRefForSlugs} from "./pathway-manager.service.spec";
-import {RecipientGroup, RecipientGroupMember} from "../models/recipientgroup.model";
-import {RecipientGroupApiService} from "./recipientgroup-api.service";
-import {verifyLinkedEntitySet} from "../../common/model/linked-entity-set.spec";
-import {PathwayApiService} from "./pathway-api.service";
-import {PathwayManager} from "./pathway-manager.service";
-import {SessionService} from "../../common/services/session.service";
+import { testIssuerRefForSlug } from "./issuer-manager.service.spec";
+import { expectPathwaysRequests, generateTestPathways, testPathwayRefForSlugs } from "./pathway-manager.service.spec";
+import { RecipientGroup, RecipientGroupMember } from "../models/recipientgroup.model";
+import { RecipientGroupApiService } from "./recipientgroup-api.service";
+import { verifyLinkedEntitySet } from "../../common/model/linked-entity-set.spec";
+import { PathwayApiService } from "./pathway-api.service";
+import { PathwayManager } from "./pathway-manager.service";
+import { SessionService } from "../../common/services/session.service";
 
 describe('RecipientGroupManager', () => {
 	const defaultIssuerSlug = testSlugForName(randomIssuerName());
@@ -332,7 +332,7 @@ export function expectGroupListRequest(
 	return expectRequestAndRespondWith(
 		mockBackend,
 		RequestMethod.Get,
-		`/v2/issuers/${issuerSlug}/recipient-groups${withDetail?'?embedRecipients=true':''}`,
+		`/v2/issuers/${issuerSlug}/recipient-groups${withDetail ? '?embedRecipients=true' : ''}`,
 		{
 			recipientGroups: groups,
 			issuer: {

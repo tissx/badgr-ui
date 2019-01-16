@@ -24,7 +24,7 @@ import { BgIssuerLinkComponent } from "./components/issuer-link.component";
 import { BgFormFieldImageComponent } from "./components/formfield-image";
 import { BgFormFieldFileComponent } from "./components/formfield-file";
 import { CommonDialogsService } from "./services/common-dialogs.service";
-import { CommonEntityManager } from "../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../entity-manager/services/common-entity-manager.service";
 import { SessionService } from "./services/session.service";
 import { MessageService } from "./services/message.service";
 import { SettingsService } from "./services/settings.service";

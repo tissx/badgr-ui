@@ -1,4 +1,4 @@
-import {ApiRecipientBadgeInstanceSlug} from "./recipient-badge-api.model";
+import { ApiRecipientBadgeInstanceSlug } from "./recipient-badge-api.model";
 
 export type RecipientBadgeCollectionUrl = string;
 export type RecipientBadgeCollectionSlug = string;

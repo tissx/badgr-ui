@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import {FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
-import {UrlValidator} from '../validators/url.validator';
-import {CommonDialogsService} from '../services/common-dialogs.service';
+import { UrlValidator } from '../validators/url.validator';
+import { CommonDialogsService } from '../services/common-dialogs.service';
 
 @Component({
 	selector: 'bg-formfield-text',
@@ -61,36 +61,6 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 	`
 })
 export class FormFieldText implements OnChanges, AfterViewInit {
-	@Input() control: FormControl;
-	@Input() initialValue: string;
-	@Input() id: string;
-	@Input() label: string;
-	@Input() ariaLabel: string;
-	@Input() includeLabelAsWrapper: boolean = false; //includes label for layout purposes even if label text wasn't passed in.
-	@Input() formFieldAside: string; //Displays additional text above the field. I.E (optional)
-	@Input() errorMessage: CustomValidatorMessages;
-	@Input() multiline: boolean = false;
-	@Input() monospaced: boolean = false;
-	@Input() sublabel: string;
-	@Input() placeholder: string;
-	@Input() fieldType: FormFieldTextInputType = 'text';
-	@Input() optional: boolean = false;
-	@Input() hasbutton: boolean = false;
-
-	@Output() buttonClicked = new EventEmitter<MouseEvent>();
-
-	@Input() errorGroup: FormGroup;
-	@Input() errorGroupMessage: CustomValidatorMessages;
-
-	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
-	@Input() urlField: boolean = false;
-
-	@Input() autofocus: boolean = false;
-
-	@ViewChild('textInput') textInput: ElementRef;
-	@ViewChild('textareaInput') textareaInput: ElementRef;
-
-	private _unlocked = false;
 	@Input()
 	set unlocked(unlocked: boolean) {
 		this._unlocked = unlocked;
@@ -100,8 +70,6 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	get unlocked() {
 		return this._unlocked;
 	}
-
-	private _locked = false;
 	@Input()
 	set locked(locked: boolean) {
 		this._locked = locked;
@@ -146,10 +114,6 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		return this.control.value;
 	}
 
-	private cachedErrorMessage = null;
-	private cachedErrorState = null;
-	private cachedDirtyState = null;
-
 	get controlErrorState() {
 		return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
 	}
@@ -166,8 +130,6 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		return this.locked && !this.unlocked;
 	}
 
-	private randomName = 'field' + Math.random();
-
 	get inputName() {
 		return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, '_').toLowerCase();
 	}
@@ -175,6 +137,44 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	get inputId() {
 		return this.id || (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase();
 	}
+	@Input() control: FormControl;
+	@Input() initialValue: string;
+	@Input() id: string;
+	@Input() label: string;
+	@Input() ariaLabel: string;
+	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
+	@Input() errorMessage: CustomValidatorMessages;
+	@Input() multiline: boolean = false;
+	@Input() monospaced: boolean = false;
+	@Input() sublabel: string;
+	@Input() placeholder: string;
+	@Input() fieldType: FormFieldTextInputType = 'text';
+	@Input() optional: boolean = false;
+	@Input() hasbutton: boolean = false;
+
+	@Output() buttonClicked = new EventEmitter<MouseEvent>();
+
+	@Input() errorGroup: FormGroup;
+	@Input() errorGroupMessage: CustomValidatorMessages;
+
+	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
+	@Input() urlField: boolean = false;
+
+	@Input() autofocus: boolean = false;
+
+	@ViewChild('textInput') textInput: ElementRef;
+	@ViewChild('textareaInput') textareaInput: ElementRef;
+
+	private _unlocked = false;
+
+	private _locked = false;
+
+	private cachedErrorMessage = null;
+	private cachedErrorState = null;
+	private cachedDirtyState = null;
+
+	private randomName = 'field' + Math.random();
 
 
 	constructor(
@@ -243,18 +243,18 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		this.inputElement.select();
 	}
 
-	private postProcessInput() {
-		if (this.urlField) {
-			UrlValidator.addMissingHttpToControl(this.control);
-		}
-	}
-
 	handleKeyPress(event: KeyboardEvent) {
 		// This handles revalidating when hitting enter from within an input element. Ideally, we'd catch _all_ form submission
 		// events, but since the form supresses those if things aren't valid, that doesn't really work. So we do this hack.
-		if (event.keyCode == 13) {
+		if (event.keyCode === 13) {
 			this.control.markAsDirty();
 			this.cacheControlState();
+		}
+	}
+
+	private postProcessInput() {
+		if (this.urlField) {
+			UrlValidator.addMissingHttpToControl(this.control);
 		}
 	}
 }

@@ -1,15 +1,15 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {BadgrCommonModule, COMMON_IMPORTS} from '../common/badgr-common.module';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { BadgrCommonModule, COMMON_IMPORTS } from '../common/badgr-common.module';
 
-import {PublicComponent} from './public.component';
-import {CommonEntityManagerModule} from '../entity-manager/entity-manager.module';
-import {PublicBadgeAssertionComponent} from './badge-assertion.component';
-import {PublicApiService} from './services/public-api.service';
-import {PublicBadgeClassComponent} from './badgeclass.component';
-import {PublicIssuerComponent} from './issuer.component';
-import {PublicBadgeCollectionComponent} from './badge-collection.component';
-import {BadgrRouteData} from '../common/services/navigation.service';
+import { PublicComponent } from './components/public.component';
+import { CommonEntityManagerModule } from '../entity-manager/entity-manager.module';
+import { PublicBadgeAssertionComponent } from './components/badge-assertion.component';
+import { PublicApiService } from './services/public-api.service';
+import { PublicBadgeClassComponent } from './components/badgeclass.component';
+import { PublicIssuerComponent } from './components/issuer.component';
+import { PublicBadgeCollectionComponent } from './components/badge-collection.component';
+import { BadgrRouteData } from '../common/services/navigation.service';
 
 export const routes: Routes = [
 	{

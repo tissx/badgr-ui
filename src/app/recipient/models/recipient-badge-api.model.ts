@@ -1,4 +1,4 @@
-//export type RecipientBadgeClassSlug = string;
+// export type RecipientBadgeClassSlug = string;
 export type RecipientBadgeInstanceUrl = string;
 export type RecipientBadgeInstanceSlug = string;
 export type RecipientBadgeAcceptance = "Accepted" | "Rejected" | "Unaccepted";

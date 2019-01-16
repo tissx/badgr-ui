@@ -1,5 +1,5 @@
-import {ManagedEntity} from "../../common/model/managed-entity";
-import {ApiEntityRef} from "../../common/model/entity-ref";
+import { ManagedEntity } from "../../common/model/managed-entity";
+import { ApiEntityRef } from "../../common/model/entity-ref";
 import {
 	ApiRecipientBadgeCollection,
 	ApiRecipientBadgeCollectionEntry,
@@ -7,29 +7,12 @@ import {
 	RecipientBadgeCollectionRef,
 	RecipientBadgeCollectionUrl
 } from "./recipient-badge-collection-api.model";
-import {RecipientBadgeInstance} from "./recipient-badge.model";
-import {EmbeddedEntitySet} from "../../common/model/managed-entity-set";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {RecipientBadgeInstanceSlug} from "./recipient-badge-api.model";
+import { RecipientBadgeInstance } from "./recipient-badge.model";
+import { EmbeddedEntitySet } from "../../common/model/managed-entity-set";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { RecipientBadgeInstanceSlug } from "./recipient-badge-api.model";
 
 export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCollection, RecipientBadgeCollectionRef> {
-	public badgeEntries = new EmbeddedEntitySet<
-		RecipientBadgeCollection,
-		RecipientBadgeCollectionEntry,
-		ApiRecipientBadgeCollectionEntry
-	>(
-		this,
-		() => this.apiModel.badges,
-		apiEntry => new RecipientBadgeCollectionEntry(this, apiEntry),
-		apiEntry => RecipientBadgeCollectionEntry.urlFromApiModel(this, apiEntry)
-	);
-
-	protected buildApiRef(): ApiEntityRef {
-		return {
-			"@id": RecipientBadgeCollection.urlForApiModel(this.apiModel),
-			slug: this.apiModel.slug,
-		}
-	}
 
 	get name(): string { return this.apiModel.name }
 	set name(name: string) { this.apiModel.name = name }
@@ -53,12 +36,33 @@ export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCol
 			([list]) => list.entities.map(e => e.badge)
 		)
 	}
+	public badgeEntries = new EmbeddedEntitySet<
+		RecipientBadgeCollection,
+		RecipientBadgeCollectionEntry,
+		ApiRecipientBadgeCollectionEntry
+	>(
+		this,
+		() => this.apiModel.badges,
+		apiEntry => new RecipientBadgeCollectionEntry(this, apiEntry),
+		apiEntry => RecipientBadgeCollectionEntry.urlFromApiModel(this, apiEntry)
+	);
+
+	static urlForApiModel(apiModel: ApiRecipientBadgeCollection): RecipientBadgeCollectionUrl {
+		return "badgr:badge-collection/" + apiModel.slug;
+	}
+
+	protected buildApiRef(): ApiEntityRef {
+		return {
+			"@id": RecipientBadgeCollection.urlForApiModel(this.apiModel),
+			slug: this.apiModel.slug,
+		}
+	}
 
 
 	constructor(
 		commonManager: CommonEntityManager,
 		initialEntity: ApiRecipientBadgeCollection = null,
-		onUpdateSubscribed: ()=>void = undefined
+		onUpdateSubscribed: () => void = undefined
 	) {
 		super(commonManager, onUpdateSubscribed);
 
@@ -85,15 +89,15 @@ export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCol
 		// To preserve descriptions set on existing badge entries, we need to do a two-step update, rather than blowing
 		// away the list with a new value
 
-		let newApiList = (this.apiModel.badges||[]);
+		let newApiList = (this.apiModel.badges || []);
 
 		// Only keep entries that are still referenced in the new list
-		newApiList = newApiList.filter(e => newBadges.find(b => b.slug == e.id) != null);
+		newApiList = newApiList.filter(e => newBadges.find(b => b.slug === e.id) != null);
 
 		// Add entries for badges that aren't in the API list
 		newApiList.push(
 			... newBadges
-				.filter(b => !newApiList.find(a => a.id == b.slug))
+				.filter(b => !newApiList.find(a => a.id === b.slug))
 				.map(b => ({
 					id: b.slug,
 					description: null
@@ -117,12 +121,8 @@ export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCol
 			.then(() => void 0);
 	}
 
-	static urlForApiModel(apiModel: ApiRecipientBadgeCollection): RecipientBadgeCollectionUrl {
-		return "badgr:badge-collection/" + apiModel.slug;
-	}
-
 	containsBadge(badge: RecipientBadgeInstance): boolean {
-		return !! this.badgeEntries.entities.find(e => e.badgeSlug == badge.slug);
+		return !! this.badgeEntries.entities.find(e => e.badgeSlug === badge.slug);
 	}
 
 	addBadge(badge: RecipientBadgeInstance) {
@@ -136,7 +136,7 @@ export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCol
 
 	removeBadge(badge: RecipientBadgeInstance): boolean {
 		return this.badgeEntries.remove(
-			this.badgeEntries.entities.find(e => e.badgeSlug == badge.slug)
+			this.badgeEntries.entities.find(e => e.badgeSlug === badge.slug)
 		);
 	}
 }
@@ -144,24 +144,7 @@ export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCol
 export class RecipientBadgeCollectionEntry extends ManagedEntity<
 	ApiRecipientBadgeCollectionEntry,
 	RecipientBadgeCollectionEntryRef
->{
-	constructor(
-		public collection: RecipientBadgeCollection,
-		initialEntity: ApiRecipientBadgeCollectionEntry = null,
-	) {
-		super(collection.commonManager, null);
-
-		if (initialEntity) {
-			this.applyApiModel(initialEntity);
-		}
-	}
-
-	protected buildApiRef(): ApiEntityRef {
-		return {
-			"@id": RecipientBadgeCollectionEntry.urlFromApiModel(this.collection, this.apiModel),
-			slug: `badge-collection-${this.collection.slug}-entry-${this.apiModel.id}`,
-		}
-	}
+> {
 
 	get badgeSlug(): RecipientBadgeInstanceSlug {
 		return String(this.apiModel.id);
@@ -184,5 +167,22 @@ export class RecipientBadgeCollectionEntry extends ManagedEntity<
 		apiModel: ApiRecipientBadgeCollectionEntry
 	) {
 		return `badgr:badge-collection/${collection.slug}/entry/${apiModel.id}`;
+	}
+	constructor(
+		public collection: RecipientBadgeCollection,
+		initialEntity: ApiRecipientBadgeCollectionEntry = null,
+	) {
+		super(collection.commonManager, null);
+
+		if (initialEntity) {
+			this.applyApiModel(initialEntity);
+		}
+	}
+
+	protected buildApiRef(): ApiEntityRef {
+		return {
+			"@id": RecipientBadgeCollectionEntry.urlFromApiModel(this.collection, this.apiModel),
+			slug: `badge-collection-${this.collection.slug}-entry-${this.apiModel.id}`,
+		}
 	}
 }

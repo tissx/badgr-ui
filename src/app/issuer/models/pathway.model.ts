@@ -1,5 +1,5 @@
-import {PathwayManager} from "../services/pathway-manager.service";
-import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
+import { PathwayManager } from "../services/pathway-manager.service";
+import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
 import {
 	ApiElementBadgeJunctionRequirement,
 	ApiElementElementJunctionRequirement,
@@ -16,15 +16,15 @@ import {
 	PathwayElementRef,
 	PathwayRef
 } from "./pathway-api.model";
-import {BadgeClassRef, BadgeClassUrl} from "./badgeclass-api.model";
-import {ManagedEntity} from "../../common/model/managed-entity";
-import {BidirectionallyLinkedEntitySet} from "../../common/model/linked-entity-set";
-import {RecipientGroup} from "./recipientgroup.model";
-import {ApiEntityRef, EntityRef} from "../../common/model/entity-ref";
-import {RecipientGroupRef} from "./recipientgroup-api.model";
-import {EntityLink, MutableEntityLink} from "../../common/model/entity-link";
-import {BadgeClass} from "./badgeclass.model";
-import {flatten} from "../../common/util/array-reducers";
+import { BadgeClassRef, BadgeClassUrl } from "./badgeclass-api.model";
+import { ManagedEntity } from "../../common/model/managed-entity";
+import { BidirectionallyLinkedEntitySet } from "../../common/model/linked-entity-set";
+import { RecipientGroup } from "./recipientgroup.model";
+import { ApiEntityRef, EntityRef } from "../../common/model/entity-ref";
+import { RecipientGroupRef } from "./recipientgroup-api.model";
+import { EntityLink, MutableEntityLink } from "../../common/model/entity-link";
+import { BadgeClass } from "./badgeclass.model";
+import { flatten } from "../../common/util/array-reducers";
 
 /**
  * Managed model class holding the pathways owned by an issuer. Does not load pathway structure unless requested for
@@ -63,39 +63,11 @@ export class IssuerPathways extends StandaloneEntitySet<LearningPathway, ApiPath
  * Managed class for a learning pathway summary / metadata. Does not include structure data unless requested.
  */
 export class LearningPathway extends ManagedEntity<ApiPathwaySummary, PathwayRef> {
-	private ourStructure: LearningPathwayStructure;
-
-	public subscribedGroups = new BidirectionallyLinkedEntitySet<LearningPathway, RecipientGroup, RecipientGroupRef>(
-		this,
-		() => (this.apiModel.groups = this.apiModel.groups || []),
-		ref => this.recipientGroupManager.loadRecipientGroupsForIssuer(this.issuerSlug).then(g => g.entityForUrl(ref)),
-		group => group.subscribedPathways
-	);
-
-	constructor(
-		public issuerPathways: IssuerPathways,
-		initialEntity: ApiPathwaySummary = null
-	) {
-		super(
-			issuerPathways.pathwayManager.commonManager
-		);
-
-		if (initialEntity) {
-			this.applyApiModel(initialEntity);
-		}
-	}
-
-	buildApiRef(): PathwayRef {
-		return {
-			"@id": this.apiModel[ "@id" ],
-			slug: this.apiModel.slug
-		};
-	}
 
 	get issuerSlug(): string { return this.issuerPathways.issuerSlug; }
 
 	get issuerUrl(): string { return EntityRef.urlForRef(this.apiModel.issuer) }
-	
+
 	get pathwaySlug(): string { return this.slug }
 
 	get id(): string { return this.url; }
@@ -117,12 +89,6 @@ export class LearningPathway extends ManagedEntity<ApiPathwaySummary, PathwayRef
 	get isStructureLoaded(): boolean {
 		return this.ourStructure && this.ourStructure.loaded;
 	}
-	
-	private _completionBadge = new EntityLink<BadgeClass, BadgeClassRef>(
-		this,
-		ref => this.badgeManager.badgeByRef(ref),
-		() => this.apiModel.completionBadge
-	);
 
 	get completionBadge() {
 		return this.isStructureLoaded
@@ -148,6 +114,64 @@ export class LearningPathway extends ManagedEntity<ApiPathwaySummary, PathwayRef
 	set description(description: string) { this.apiModel.description = description; }
 
 	set alignmentUrl(alignmentUrl: string) { this.apiModel.alignmentUrl = alignmentUrl; }
+
+	get structure(): LearningPathwayStructure {
+		if (this.ourStructure) {
+			return this.ourStructure;
+		} else {
+			this.ourStructure = new LearningPathwayStructure(this);
+			this.ourStructure.loaded$.subscribe(
+				_ => true,
+				err => this.pathwayManager.messageService.reportAndThrowError(`Failed to load structure for pathway ${this.name}`,
+					err)
+			);
+			return this.ourStructure;
+		}
+	}
+
+	public subscribedGroups = new BidirectionallyLinkedEntitySet<LearningPathway, RecipientGroup, RecipientGroupRef>(
+		this,
+		() => (this.apiModel.groups = this.apiModel.groups || []),
+		ref => this.recipientGroupManager.loadRecipientGroupsForIssuer(this.issuerSlug).then(g => g.entityForUrl(ref)),
+		group => group.subscribedPathways
+	);
+	private ourStructure: LearningPathwayStructure;
+
+	private _completionBadge = new EntityLink<BadgeClass, BadgeClassRef>(
+		this,
+		ref => this.badgeManager.badgeByRef(ref),
+		() => this.apiModel.completionBadge
+	);
+
+	static issuerSlugForApiPathwaySummary(
+		summary: ApiPathwaySummary
+	): string {
+		return LearningPathway.issuerSlugFromPathwayUrl(summary[ "@id" ]);
+	}
+
+	private static issuerSlugFromPathwayUrl(pathwayUrl: string) {
+		return (pathwayUrl.match(/\/v2\/issuers\/([^\/]+)/) || [])[ 1 ] || null;
+	}
+
+	constructor(
+		public issuerPathways: IssuerPathways,
+		initialEntity: ApiPathwaySummary = null
+	) {
+		super(
+			issuerPathways.pathwayManager.commonManager
+		);
+
+		if (initialEntity) {
+			this.applyApiModel(initialEntity);
+		}
+	}
+
+	buildApiRef(): PathwayRef {
+		return {
+			"@id": this.apiModel[ "@id" ],
+			slug: this.apiModel.slug
+		};
+	}
 
 	update(): Promise<this> {
 		return this.issuerPathways.updateList().then(_ => this);
@@ -175,30 +199,6 @@ export class LearningPathway extends ManagedEntity<ApiPathwaySummary, PathwayRef
 				return void 0;
 			}
 		);
-	}
-
-	get structure(): LearningPathwayStructure {
-		if (this.ourStructure) {
-			return this.ourStructure;
-		} else {
-			this.ourStructure = new LearningPathwayStructure(this);
-			this.ourStructure.loaded$.subscribe(
-				_ => true,
-				err => this.pathwayManager.messageService.reportAndThrowError(`Failed to load structure for pathway ${this.name}`,
-					err)
-			);
-			return this.ourStructure;
-		}
-	}
-
-	static issuerSlugForApiPathwaySummary(
-		summary: ApiPathwaySummary
-	): string {
-		return LearningPathway.issuerSlugFromPathwayUrl(summary[ "@id" ]);
-	}
-
-	private static issuerSlugFromPathwayUrl(pathwayUrl: string) {
-		return (pathwayUrl.match(/\/v2\/issuers\/([^\/]+)/) || [])[ 1 ] || null;
 	}
 }
 
@@ -247,32 +247,6 @@ export class LearningPathwayStructure extends StandaloneEntitySet<LearningPathwa
  * Managed model class for Learning Pathway elements.
  */
 export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, PathwayElementRef> {
-	public parentElement: LearningPathwayElement;
-
-	public children: LearningPathwayElement[] = [];
-
-	public requirements = new PathwayElementRequirements(this, () => this.apiModel);
-	
-	public completionBadge = new MutableEntityLink<BadgeClass, BadgeClassRef>(
-		this,
-		ref => this.badgeManager.badgeByRef(ref),
-		() => this.apiModel.completionBadge,
-		ref => this.apiModel.completionBadge = ref
-	);
-
-	constructor(
-		private structure: LearningPathwayStructure
-	) {
-		super(structure.pathway.commonManager);
-	}
-
-
-	buildApiRef(): ApiEntityRef {
-		return {
-			"@id": this.apiModel[ "@id" ],
-			slug: this.apiModel.slug
-		};
-	}
 
 	get id() { return this.url }
 
@@ -294,7 +268,7 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 			.replace(/[^\w0-9]/gi, "")
 			.replace(/(\w)(\d)/, "$1 $2")
 			.toUpperCase();
-		
+
 		return code.substr(0, Math.min(8, code.length));
 	}
 	set shortCode(value: string) {
@@ -342,6 +316,32 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 	get isDeleted() {
 		return this.structure.entities.indexOf(this) < 0;
 	}
+	public parentElement: LearningPathwayElement;
+
+	public children: LearningPathwayElement[] = [];
+
+	public requirements = new PathwayElementRequirements(this, () => this.apiModel);
+
+	public completionBadge = new MutableEntityLink<BadgeClass, BadgeClassRef>(
+		this,
+		ref => this.badgeManager.badgeByRef(ref),
+		() => this.apiModel.completionBadge,
+		ref => this.apiModel.completionBadge = ref
+	);
+
+	constructor(
+		private structure: LearningPathwayStructure
+	) {
+		super(structure.pathway.commonManager);
+	}
+
+
+	buildApiRef(): ApiEntityRef {
+		return {
+			"@id": this.apiModel[ "@id" ],
+			slug: this.apiModel.slug
+		};
+	}
 
 	collectDescendants(): LearningPathwayElement[] {
 		return this.children.map(c => [c, ... c.collectDescendants()]).reduce(flatten<LearningPathwayElement>(), []);
@@ -364,12 +364,12 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 	 * @returns {boolean}
 	 */
 	isSiblingOf(sibling: LearningPathwayElement) {
-		return sibling != null && (sibling == this.prevSibling || sibling == this.nextSibling);
+		return sibling != null && (sibling === this.prevSibling || sibling === this.nextSibling);
 	}
 
-	//get completionBadge(): string { return this.apiModel.completionBadge; }
-	//get children(): string[] { return this.apiModel.children; }
-	//get badges(): string[] { return this.apiModel.badges; }
+	// get completionBadge(): string { return this.apiModel.completionBadge; }
+	// get children(): string[] { return this.apiModel.children; }
+	// get badges(): string[] { return this.apiModel.badges; }
 
 	/**
 	 * Deletes this pathway element
@@ -404,10 +404,10 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 	) {
 		if (parents.indexOf(this) >= 0) {
 			parents.push(this);
-			console.info(
+			/*console.info(
 				"Pathway Cycle Detected. From ROOT:",
 				parents.map(n => ({name: n.name, id: n.id, children: n.children.map(n => ({name: n.name, id: n.id})), element: n}))
-			);
+			);*/
 			throw new Error("Pathway cycle detected!");
 		}
 
@@ -429,9 +429,9 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 		prevSibling: LearningPathwayElement
 	): boolean {
 		return newParent !== this
-			&& prevSibling != this
+			&& prevSibling !== this
 			&& !newParent.isChildOf(this)
-			&& !(newParent == this.parentElement && prevSibling == this.prevSibling);
+			&& !(newParent === this.parentElement && prevSibling === this.prevSibling);
 	}
 
 
@@ -456,7 +456,7 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 			);
 
 		const update: Promise<ApiPathwayElement> = this.isRoot
-			? updatePathwayElement.then(e => this.pathway.update().then(_=>e))
+			? updatePathwayElement.then(e => this.pathway.update().then(_ => e))
 			: updatePathwayElement;
 
 		return update
@@ -525,10 +525,10 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 				)
 			)
 			.then(newElem => {
-				var newChild: LearningPathwayElement = this.structure.addOrUpdate(newElem);
+				let newChild: LearningPathwayElement = this.structure.addOrUpdate(newElem);
 				this.structure.updateTreeReferences();
 
-				this.requirements.requiredElementIds = (this.requirements.requiredElementIds||[]).concat([newChild.url]);
+				this.requirements.requiredElementIds = (this.requirements.requiredElementIds || []).concat([newChild.url]);
 
 				return this.save()
 					.then(_ => newChild);
@@ -554,6 +554,18 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 			})
 	}
 
+	toString() {
+		return `PathwayElement(name=${this.name}, url=${this.url}, children.length=${this.children.length})`;
+	}
+
+	toTreeString(indent = "") {
+		let str = indent + "- " + this.name;
+		if (this.children.length) {
+			str += "\n" + this.children.map(c => c.toTreeString(indent + (this.nextSibling ? "| " : "  "))).join("\n");
+		}
+		return str;
+	}
+
 	/**
 	 * Inserts a child into this element after the given child. Does NOT save any changes to the server.
 	 *
@@ -565,7 +577,7 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 		newChild: LearningPathwayElement,
 		prevSibling: LearningPathwayElement = null
 	) {
-		var indexBefore = this.children.indexOf(prevSibling);
+		let indexBefore = this.children.indexOf(prevSibling);
 		if (indexBefore < 0 && prevSibling) {
 			throw new Error(`Previous sibling ${prevSibling.slug} does not exist in this element (${this.slug})`);
 		}
@@ -587,18 +599,6 @@ export class LearningPathwayElement extends ManagedEntity<ApiPathwayElement, Pat
 
 		this.apiModel.children.splice(index, 1);
 		this.applyApiModel(this.apiModel);
-	}
-
-	toString() {
-		return `PathwayElement(name=${this.name}, url=${this.url}, children.length=${this.children.length})`;
-	}
-
-	toTreeString(indent = "") {
-		let str = indent + "- " + this.name;
-		if (this.children.length) {
-			str += "\n" + this.children.map(c => c.toTreeString(indent + (this.nextSibling ? "| " : "  "))).join("\n");
-		}
-		return str;
 	}
 }
 
@@ -650,12 +650,12 @@ export class PathwayElementRequirements {
 		element: LearningPathwayElement,
 		elementRequired: boolean
 	) {
-		var elemJunction = this.toElementJunction;
+		let elemJunction = this.toElementJunction;
 		if (!elemJunction.elements) {
 			elemJunction.elements = [];
 		}
 
-		var elementIndex = elemJunction.elements.indexOf(element.id);
+		let elementIndex = elemJunction.elements.indexOf(element.id);
 		if (elementRequired) {
 			if (elementIndex < 0) {
 				elemJunction.elements.push(element.id);
@@ -668,11 +668,11 @@ export class PathwayElementRequirements {
 	}
 
 	isElementJunction() {
-		return this.apiModel.requirements && this.apiModel.requirements[ "@type" ] == ApiElementRequirementType.ElementJunction;
+		return this.apiModel.requirements && this.apiModel.requirements[ "@type" ] === ApiElementRequirementType.ElementJunction;
 	}
 
 	isBadgeJunction() {
-		return this.apiModel.requirements && this.apiModel.requirements[ "@type" ] == ApiElementRequirementType.BadgeJunction;
+		return this.apiModel.requirements && this.apiModel.requirements[ "@type" ] === ApiElementRequirementType.BadgeJunction;
 	}
 
 	private get asJunctionRequirement() {
@@ -688,13 +688,13 @@ export class PathwayElementRequirements {
 	}
 
 	set junctionType(type: ApiElementRequirementJunctionType) {
-		if (type != this.junctionType && this.apiModel.requirements) {
-			if (type == ApiElementRequirementJunctionType.Disjunction) {
+		if (type !== this.junctionType && this.apiModel.requirements) {
+			if (type === ApiElementRequirementJunctionType.Disjunction) {
 				this.asJunctionRequirement.junctionConfig = {
 					"@type": "Disjunction",
 					"requiredNumber": 1
 				} as ApiElementRequirementDisjunctionConfig;
-			} else if (type == ApiElementRequirementJunctionType.Conjunction) {
+			} else if (type === ApiElementRequirementJunctionType.Conjunction) {
 				this.asJunctionRequirement.junctionConfig = {
 					"@type": "Conjunction"
 				} as ApiElementRequirementConjunctionConfig;

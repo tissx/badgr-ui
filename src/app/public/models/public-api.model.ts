@@ -41,14 +41,17 @@ export interface PublicApiBadgeClass {
 	description: string;
 	type: "BadgeClass";
 	id: string;
+	hostedUrl: string;
 	name: string;
 	issuer: string | PublicApiIssuer;
 	image: string;
 	criteria: {
 		id: string;
-		narrative: string
+		narrative: string;
+		criteriaUrl: string;
 	} | string;
 	alignment: Array<{
+		frameworkName?: string;
 		targetName: string;
 		targetUrl: string;
 		targetDescription?: string;
@@ -73,13 +76,14 @@ export interface PublicApiIssuer {
 	name: string;
 	image?: string;
 	// Extension to the spec containing the original URL of this assertion if it is not stored by Badgr
-	sourceUrl?: string
+	sourceUrl?: string;
+	hostedUrl?: string;
 }
 
 export interface PublicApiBadgeCollectionWithBadgeClassAndIssuer {
 	entityId: string;
 	entityType: "SharedCollection";
-
+	id: string
 	name: string;
 	description: string;
 	badges: PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer[];

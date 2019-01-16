@@ -10,7 +10,7 @@ import {
 import {flatten} from "../util/array-reducers";
 import {StandaloneEntitySet} from "../model/managed-entity-set";
 import {OAuth2AppAuthorization} from "../model/oauth.model";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {CommonDialogsService} from "./common-dialogs.service";
 
 const OAUTH_STATE_STORAGE_NAME = "oauthState";

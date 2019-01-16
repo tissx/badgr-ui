@@ -1,5 +1,5 @@
-import {IssuerUrl} from "./issuer-api.model";
-import {ApiEntityRef} from "../../common/model/entity-ref";
+import { IssuerUrl } from "./issuer-api.model";
+import { ApiEntityRef } from "../../common/model/entity-ref";
 
 export type BadgeClassSlug = string;
 export type BadgeClassUrl = string;
@@ -16,7 +16,7 @@ export interface ApiBadgeClassJsonld {
 	name: string
 	image: string
 	description: string
-	criteria_url: string
+	criteriaUrl: string
 	criteria_text: string
 	issuer: string
 }

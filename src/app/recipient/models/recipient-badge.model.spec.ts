@@ -1,7 +1,7 @@
-import {inject, TestBed} from "@angular/core/testing";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {RecipientBadgeInstance} from "./recipient-badge.model";
-import {ApiRecipientBadgeInstance} from "./recipient-badge-api.model";
+import { inject, TestBed } from "@angular/core/testing";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { RecipientBadgeInstance } from "./recipient-badge.model";
+import { ApiRecipientBadgeInstance } from "./recipient-badge-api.model";
 
 describe('RecipientBadge', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -186,6 +186,6 @@ export function buildTestRecipientBadges() {
 		apiBadge1,
 		apiBadge2,
 		apiBadge3,
-		apiBadges: [ apiBadge1, apiBadge2, apiBadge3, ]
+		apiBadges: [ apiBadge1, apiBadge2, apiBadge3 ]
 	};
 }

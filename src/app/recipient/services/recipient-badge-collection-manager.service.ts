@@ -1,13 +1,13 @@
-import {forwardRef, Inject, Injectable} from "@angular/core";
-import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import { forwardRef, Inject, Injectable } from "@angular/core";
+import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 import {
 	ApiRecipientBadgeCollection,
 	ApiRecipientBadgeCollectionForCreation
 } from "../models/recipient-badge-collection-api.model";
-import {RecipientBadgeCollection} from "../models/recipient-badge-collection.model";
-import {RecipientBadgeCollectionApiService} from "./recipient-badge-collection-api.service";
-import {EventsService} from "../../common/services/events.service";
+import { RecipientBadgeCollection } from "../models/recipient-badge-collection.model";
+import { RecipientBadgeCollectionApiService } from "./recipient-badge-collection-api.service";
+import { EventsService } from "../../common/services/events.service";
 
 @Injectable()
 export class RecipientBadgeCollectionManager {

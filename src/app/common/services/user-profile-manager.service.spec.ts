@@ -1,6 +1,6 @@
 import {inject, TestBed} from "@angular/core/testing";
 import {AppConfigService} from "../app-config.service";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {expectRequestAndRespondWith, setupMockResponseReporting} from "../util/mock-response-util.spec";
 import {verifyEntitySetWhenLoaded} from "../../common/model/managed-entity-set.spec";
 

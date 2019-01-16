@@ -1,0 +1,80 @@
+<main>
+	<form-message></form-message>
+
+	<div class="topbar">
+			<div class="l-containerxaxis topbar-x-wrap">
+				<h2 class="topbar-x-heading">
+				Issuers
+				<span class="topbar-x-internalheading" *ngIf="!! issuers">
+					{{ issuers.length }} {{ issuers.length == 1 ? "Issuer" : "Issuers" }}
+				</span>
+				</h2>
+				<button class="button topbar-x-button" [routerLink]="['/issuer/create']" [disabled-when-requesting]="true">
+					Create Issuer
+				</button>
+			</div>
+		</div>
+
+
+
+	<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap" *bgAwaitPromises="[issuersLoaded, badgesLoaded]">
+		
+		
+		<!-- Empty state: no issuers -->
+		<div class="l-containerxaxis l-containeryaxis"  *ngIf="! issuers.length">
+			<h2 class="u-text-h3-bold u-text-center u-margin-bottom1x">
+				You have no issuers
+			</h2>
+			<p class="u-text-body u-text-center u-margin-bottom3x">
+					Create an issuer to begin awarding badges!
+					<a href="https://support.badgr.io/pages/viewpage.action?pageId=327776" target="_blank" class="u-text-outlink">Learn more<svg icon="icon_external_link"></svg></a> about Open
+					Badges.
+			</p>
+			<div class="l-flex l-flex-justifycenter">
+				<img [src]="noIssuersPlaceholderSrc" class="u-width-mediumimage u-display-block" alt="Illustration">
+			</div>
+		</div>
+
+
+		<!-- TODO: the other states -->
+
+		<a class="card card-large" *ngFor="let issuer of issuers" [routerLink]="['/issuer/issuers/', issuer.slug]">
+			<div class="card-x-main">
+				<div class="card-x-image">
+					<img [loaded-src]="issuer?.image" [loading-src]="issuerPlaceholderSrc" [error-src]="issuerPlaceholderSrc" alt="{{ issuer.name }} avatar"
+					 width="80" height="80">
+				</div>
+				<div class="card-x-text">
+					<h1>{{issuer.name}}</h1>
+
+					<small>Your Role: {{ issuer.currentUserStaffMember?.roleInfo.label }}</small>
+
+					<p [truncatedText]="issuer.description" [maxLength]="250"></p>
+					<ul class="statlist">
+						<li class="statlist-x-badge">
+							<strong>{{ issuer.badgeClassCount }}</strong>
+							{{ issuer.badgeClassCount == 1 ? 'Badge' : 'Badges' }}
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Top Badges Stack -->
+			<div class="card-x-actions" *ngFor="let issuerBadges of [issuerToBadgeInfo[issuer.issuerUrl]]">
+				<h2 class="titledivider" *ngIf="issuerBadges">Top Badges</h2>
+
+				<!-- Top Badge -->
+				<ng-template [ngIf]="issuerBadges">
+					<div class="stack stack-small" *ngFor="let badge of issuerBadges.badges.slice(0,3)">
+						<badge-image class="stack-x-image" [badge]="badge" [size]="40"></badge-image>
+						<div class="stack-x-text">
+							<h2>{{ badge.name }}</h2>
+							<small *ngIf="badge.recipientCount === 1">{{ badge.recipientCount }} Recipient</small>
+							<small *ngIf="badge.recipientCount > 1">{{ badge.recipientCount }} Recipients</small>
+						</div>
+					</div>
+				</ng-template>
+			</div>
+		</a>
+	</div>
+</main>

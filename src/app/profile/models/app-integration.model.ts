@@ -6,7 +6,7 @@ import {
 	ApiBadgebookCanvasLti1AppIntegration,
 	AppIntegrationType
 } from "./app-integration-api.model";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 
 export abstract class AppIntegration<T extends ApiAppIntegration> extends ManagedEntity<T, ApiAppIntegrationRef> {
 

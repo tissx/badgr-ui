@@ -1,9 +1,9 @@
-import {forwardRef, Inject, Injectable} from "@angular/core";
-import {BaseHttpApiService} from "../../common/services/base-http-api.service";
-import {SessionService} from "../../common/services/session.service";
-import {AppConfigService} from "../../common/app-config.service";
-import {BadgeClass} from "../models/badgeclass.model";
-import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
+import { forwardRef, Inject, Injectable } from "@angular/core";
+import { BaseHttpApiService } from "../../common/services/base-http-api.service";
+import { SessionService } from "../../common/services/session.service";
+import { AppConfigService } from "../../common/app-config.service";
+import { BadgeClass } from "../models/badgeclass.model";
+import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
 import {
 	ApiBadgeClass,
 	ApiBadgeClassForCreation,
@@ -11,15 +11,15 @@ import {
 	BadgeClassSlug,
 	BadgeClassUrl
 } from "../models/badgeclass-api.model";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {BadgeClassApiService} from "./badgeclass-api.service";
-import {IssuerSlug, IssuerUrl} from "../models/issuer-api.model";
-import {AnyRefType, EntityRef} from "../../common/model/entity-ref";
-import {ManagedEntityGrouping} from "../../common/model/entity-set";
-import {MessageService} from "../../common/services/message.service";
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {first, map} from "rxjs/operators";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { BadgeClassApiService } from "./badgeclass-api.service";
+import { IssuerSlug, IssuerUrl } from "../models/issuer-api.model";
+import { AnyRefType, EntityRef } from "../../common/model/entity-ref";
+import { ManagedEntityGrouping } from "../../common/model/entity-set";
+import { MessageService } from "../../common/services/message.service";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { first, map } from "rxjs/operators";
 
 @Injectable()
 export class BadgeClassManager extends BaseHttpApiService {
@@ -74,16 +74,16 @@ export class BadgeClassManager extends BaseHttpApiService {
 
 	createBadgeClass(issuerSlug: string, newBadge: ApiBadgeClassForCreation): Promise<BadgeClass> {
 		return this.badgeClassApi.createBadgeClass(issuerSlug, newBadge)
-			.then(newBadge => this.badgesList.addOrUpdate(newBadge));
+			.then(retNewBadge => this.badgesList.addOrUpdate(retNewBadge));
 	}
 
-	badgeByIssuerUrlAndSlug(issuer_id: IssuerUrl, badgeSlug: BadgeClassSlug): Promise<BadgeClass> {
+	badgeByIssuerUrlAndSlug(issuerId: IssuerUrl, badgeSlug: BadgeClassSlug): Promise<BadgeClass> {
 		return this.allBadges$
 			.pipe(first())
 			.toPromise()
 			.then(badges =>
-				badges.find(b => b.issuerUrl == issuer_id && b.slug == badgeSlug)
-				|| this.throwError(`Issuer ID '${issuer_id}' has no badge with slug '${badgeSlug}'`)
+				badges.find(b => b.issuerUrl === issuerId && b.slug === badgeSlug)
+				|| this.throwError(`Issuer ID '${issuerId}' has no badge with slug '${badgeSlug}'`)
 			);
 	}
 
@@ -92,7 +92,7 @@ export class BadgeClassManager extends BaseHttpApiService {
 			.pipe(first())
 			.toPromise()
 			.then(badges =>
-				badges.find(b => b.issuerSlug == issuerSlug && b.slug == badgeSlug)
+				badges.find(b => b.issuerSlug === issuerSlug && b.slug === badgeSlug)
 				|| this.throwError(`Issuer Slug '${issuerSlug}' has no badge with slug '${badgeSlug}'`)
 			);
 	}
@@ -100,11 +100,11 @@ export class BadgeClassManager extends BaseHttpApiService {
 	loadedBadgeByRef(badgeRef: BadgeClassRef | BadgeClassUrl): BadgeClass {
 		const badgeUrl = EntityRef.urlForRef(badgeRef);
 
-		return this.badgeClasses.find(b => b.badgeUrl == badgeUrl);
+		return this.badgeClasses.find(b => b.badgeUrl === badgeUrl);
 	}
 
-	loadedBadgeByIssuerIdAndSlug(issuer_id: string, badgeSlug: string): BadgeClass {
-		return this.badgeClasses.find(b => b.issuerUrl == issuer_id && b.slug == badgeSlug);
+	loadedBadgeByIssuerIdAndSlug(issuerId: string, badgeSlug: string): BadgeClass {
+		return this.badgeClasses.find(b => b.issuerUrl === issuerId && b.slug === badgeSlug);
 	}
 
 	badgeByRef(badgeRef: AnyRefType): Promise<BadgeClass> {
@@ -115,13 +115,13 @@ export class BadgeClassManager extends BaseHttpApiService {
 			.pipe(first())
 			.toPromise()
 			.then(badges =>
-				badges.find(b => b.badgeUrl == badgeUrl)
+				badges.find(b => b.badgeUrl === badgeUrl)
 				|| this.throwError(`No badge with URL ${badgeUrl}`)
 			);
 	}
 
 	badgesByUrls(badgeUrls: string[]): Promise<BadgeClass[]> {
-		if (!badgeUrls || badgeUrls.length == 0) {
+		if (!badgeUrls || badgeUrls.length === 0) {
 			return Promise.resolve([]);
 		}
 

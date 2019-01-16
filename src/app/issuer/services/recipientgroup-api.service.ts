@@ -1,16 +1,16 @@
-import {Injectable} from "@angular/core";
-import {Response} from "@angular/http";
-import {BaseHttpApiService} from "../../common/services/base-http-api.service";
-import {SessionService} from "../../common/services/session.service";
-import {AppConfigService} from "../../common/app-config.service";
+import { Injectable } from "@angular/core";
+import { Response } from "@angular/http";
+import { BaseHttpApiService } from "../../common/services/base-http-api.service";
+import { SessionService } from "../../common/services/session.service";
+import { AppConfigService } from "../../common/app-config.service";
 import {
 	ApiIssuerRecipientGroupDetailList,
 	ApiIssuerRecipientGroupList,
 	ApiRecipientGroup,
 	ApiRecipientGroupForCreation
 } from "../models/recipientgroup-api.model";
-import {MessageService} from "../../common/services/message.service";
-import {HttpClient} from "@angular/common/http";
+import { MessageService } from "../../common/services/message.service";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()

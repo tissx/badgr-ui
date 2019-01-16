@@ -1,6 +1,6 @@
 import {UpdatableSubject} from "../util/updatable-subject";
 import {ApiEntityRef, EntityRef} from "./entity-ref";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {first} from "rxjs/operators";
 
 export type AnyManagedEntity = ManagedEntity<any, any>;

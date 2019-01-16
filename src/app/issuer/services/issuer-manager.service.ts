@@ -1,11 +1,11 @@
-import {forwardRef, Inject, Injectable} from "@angular/core";
-import {IssuerApiService} from "./issuer-api.service";
-import {Issuer} from "../models/issuer.model";
-import {ApiIssuer, ApiIssuerForCreation, ApiIssuerForEditing, IssuerSlug} from "../models/issuer-api.model";
-import {Observable} from "rxjs";
-import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {first, map} from "rxjs/operators";
+import { forwardRef, Inject, Injectable } from "@angular/core";
+import { IssuerApiService } from "./issuer-api.service";
+import { Issuer } from "../models/issuer.model";
+import { ApiIssuer, ApiIssuerForCreation, ApiIssuerForEditing, IssuerSlug } from "../models/issuer-api.model";
+import { Observable } from "rxjs";
+import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { first, map } from "rxjs/operators";
 
 @Injectable()
 export class IssuerManager {
@@ -20,7 +20,7 @@ export class IssuerManager {
 		@Inject(forwardRef(() => CommonEntityManager))
 		public commonEntityManager: CommonEntityManager
 	) { }
-	
+
 	createIssuer(
 		initialIssuer: ApiIssuerForCreation
 	): Promise<Issuer> {
@@ -45,7 +45,7 @@ export class IssuerManager {
 			.pipe(first())
 			.toPromise()
 			.then(issuers =>
-				issuers.find(i => i.slug == issuerSlug)
+				issuers.find(i => i.slug === issuerSlug)
 				|| this.throwError(`Issuer Slug '${issuerSlug}' not found`)
 			);
 	}

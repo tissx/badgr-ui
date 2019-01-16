@@ -4,7 +4,7 @@ import {ApiTestEntity, buildTestEntities, TestApiEntities, TestEntity, TestEntit
 import {ManagedEntitySet, StandaloneEntitySet} from "./managed-entity-set";
 import {ManagedEntity} from "./managed-entity";
 import {AnyRefType, ApiEntityRef, EntityRef} from "./entity-ref";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {first} from "rxjs/operators";
 
 describe('ListBackedLinkedEntitySet', () => {
