@@ -61,8 +61,8 @@ import { AppConfigService } from "../../../common/app-config.service";
 						<a class="stack" [routerLink]="['/issuer/issuers/', issuerSlug]" >
 						  <div class="stack-x-image">
 							  <img [loaded-src]="issuer.image"
-							       [loading-src]="issuerImagePlaceHolderUrl"
-							       [error-src]="issuerImagePlaceHolderUrl"
+							       [loading-src]="issuerImagePlacholderUrl"
+							       [error-src]="issuerImagePlacholderUrl"
 							       width="40"
 							       alt="{{ issuer.name }} avatar"
 							       />
