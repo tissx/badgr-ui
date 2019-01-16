@@ -1,27 +1,27 @@
-import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {MessageService} from './common/services/message.service';
-import {SessionService} from './common/services/session.service';
-import {CommonDialogsService} from './common/services/common-dialogs.service';
-import {AppConfigService} from './common/app-config.service';
-import {ShareSocialDialog} from './common/dialogs/share-social-dialog.component';
-import {ConfirmDialog} from './common/dialogs/confirm-dialog.component';
+import { MessageService } from './common/services/message.service';
+import { SessionService } from './common/services/session.service';
+import { CommonDialogsService } from './common/services/common-dialogs.service';
+import { AppConfigService } from './common/app-config.service';
+import { ShareSocialDialog } from './common/dialogs/share-social-dialog.component';
+import { ConfirmDialog } from './common/dialogs/confirm-dialog.component';
 
 import '../thirdparty/scopedQuerySelectorShim';
-import {EventsService} from './common/services/events.service';
-import {OAuthManager} from './common/services/oauth-manager.service';
-import {EmbedService} from './common/services/embed.service';
-import {InitialLoadingIndicatorService} from './common/services/initial-loading-indicator.service';
-import {Angulartics2GoogleTagManager} from 'angulartics2/gtm';
+import { EventsService } from './common/services/events.service';
+import { OAuthManager } from './common/services/oauth-manager.service';
+import { EmbedService } from './common/services/embed.service';
+import { InitialLoadingIndicatorService } from './common/services/initial-loading-indicator.service';
+import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
 
-import {ApiExternalToolLaunchpoint} from 'app/externaltools/models/externaltools-api.model';
-import {ExternalToolsManager} from 'app/externaltools/services/externaltools-manager.service';
+import { ApiExternalToolLaunchpoint } from 'app/externaltools/models/externaltools-api.model';
+import { ExternalToolsManager } from 'app/externaltools/services/externaltools-manager.service';
 
-import {UserProfileManager} from './common/services/user-profile-manager.service';
-import {NewTermsDialog} from './common/dialogs/new-terms-dialog.component';
-import {QueryParametersService} from './common/services/query-parameters.service';
-import {Title} from '@angular/platform-browser';
+import { UserProfileManager } from './common/services/user-profile-manager.service';
+import { NewTermsDialog } from './common/dialogs/new-terms-dialog.component';
+import { QueryParametersService } from './common/services/query-parameters.service';
+import { Title } from '@angular/platform-browser';
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -36,6 +36,35 @@ import {Title} from '@angular/platform-browser';
 	templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, AfterViewInit {
+
+	get showAppChrome() {
+		return ! this.embedService.isEmbedded;
+	}
+
+	get theme() { return this.configService.theme }
+
+	get apiBaseUrl() {
+		return this.configService.apiConfig.baseUrl;
+	}
+
+	get hasFatalError(): boolean {
+		return this.messageService.hasFatalError
+	}
+	get fatalMessage(): string {
+		return (this.messageService.message ? this.messageService.message.message : undefined);
+	}
+	get fatalMessageDetail(): string {
+		return (this.messageService.message ? this.messageService.message.detail : undefined);
+	}
+	get isOAuthAuthorizationInProcess() {
+		return this.oAuthManager.isAuthorizationInProgress;
+	}
+
+	get isRequestPending() {
+		return this.messageService.pendingRequestCount > 0;
+	}
+	get logoSmall() { return this.theme['logoImg'] ? this.theme['logoImg']['small'] : this.defaultLogoSmall }
+	get logoDesktop() { return this.theme['logoImg'] ? this.theme['logoImg']['desktop'] : this.defaultLogoDesktop }
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	mobileNavOpen: boolean = false;
@@ -43,6 +72,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 	launchpoints?: ApiExternalToolLaunchpoint[];
 
 	copyrightYear = new Date().getFullYear();
+
+	readonly unavailableImageSrc = require("../../node_modules/@concentricsky/badgr-style/dist/images/image-error.svg");
+
+	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
+	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
 
 	@ViewChild("confirmDialog")
 	private confirmDialog: ConfirmDialog;
@@ -55,28 +89,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("issuerLink")
 	private issuerLink: any;
-
-	get showAppChrome() {
-		return ! this.embedService.isEmbedded;
-	}
-
-	get theme() { return this.configService.theme }
-
-	get apiBaseUrl() {
-		return this.configService.apiConfig.baseUrl;
-	}
-
-	get hasFatalError() : boolean {
-		return this.messageService.hasFatalError
-	}
-	get fatalMessage() : string {
-		return (this.messageService.message ? this.messageService.message.message : undefined);
-	}
-	get fatalMessageDetail() : string {
-		return (this.messageService.message ? this.messageService.message.detail : undefined);
-	}
-
-	readonly unavailableImageSrc = require("../../node_modules/@concentricsky/badgr-style/dist/images/image-error.svg");
 
 	constructor(
 		private sessionService: SessionService,
@@ -130,16 +142,25 @@ export class AppComponent implements OnInit, AfterViewInit {
 	toggleMobileNav() {
 		this.mobileNavOpen = !this.mobileNavOpen;
 	}
-	get isOAuthAuthorizationInProcess() {
-		return this.oAuthManager.isAuthorizationInProgress;
-	}
 
 	onDocumentClick($event: MouseEvent) {
 		this.eventService.documentClicked.next($event);
 	}
 
-	get isRequestPending() {
-		return this.messageService.pendingRequestCount > 0;
+	ngOnInit() {
+		this.loggedIn = this.sessionService.isLoggedIn;
+
+		this.sessionService.loggedin$.subscribe(
+			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
+		);
+	}
+
+	ngAfterViewInit() {
+		this.commonDialogsService.init(
+			this.confirmDialog,
+			this.shareSocialDialog,
+			this.newTermsDialog
+		);
 	}
 
 	private initScrollFix() {
@@ -170,25 +191,4 @@ export class AppComponent implements OnInit, AfterViewInit {
 			window[ "gtag" ]('config', this.configService.googleAnalyticsConfig.trackingId);
 		}
 	}
-
-	ngOnInit() {
-		this.loggedIn = this.sessionService.isLoggedIn;
-
-		this.sessionService.loggedin$.subscribe(
-			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
-		);
-	}
-
-	ngAfterViewInit() {
-		this.commonDialogsService.init(
-			this.confirmDialog,
-			this.shareSocialDialog,
-			this.newTermsDialog
-		);
-	}
-
-	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
-	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
-	get logoSmall() { return this.theme['logoImg'] ? this.theme['logoImg']['small'] : this.defaultLogoSmall }
-	get logoDesktop() { return this.theme['logoImg'] ? this.theme['logoImg']['desktop'] : this.defaultLogoDesktop }
 }

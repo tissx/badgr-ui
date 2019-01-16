@@ -1,4 +1,4 @@
-import {BadgrEnvironment} from './badgr-environment';
+import { BadgrEnvironment } from './badgr-environment';
 
 export const environment: BadgrEnvironment = {
 	production: true,

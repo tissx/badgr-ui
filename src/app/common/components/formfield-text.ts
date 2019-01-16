@@ -179,7 +179,6 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 
 	constructor(
 		private dialogService: CommonDialogsService,
-		private elemRef: ElementRef
 	) {
 	}
 
@@ -246,7 +245,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	handleKeyPress(event: KeyboardEvent) {
 		// This handles revalidating when hitting enter from within an input element. Ideally, we'd catch _all_ form submission
 		// events, but since the form supresses those if things aren't valid, that doesn't really work. So we do this hack.
-		if (event.keyCode === 13) {
+		if (event.code === 'Enter') {
 			this.control.markAsDirty();
 			this.cacheControlState();
 		}

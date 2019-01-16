@@ -1,6 +1,6 @@
-import {AppConfigService} from '../app/common/app-config.service';
-import {TOKEN_STORAGE_KEY} from '../app/common/services/session.service';
-import {BadgrTheme} from './badgr-theme';
+import { AppConfigService } from '../app/common/app-config.service';
+import { TOKEN_STORAGE_KEY } from '../app/common/services/session.service';
+import { BadgrTheme } from './badgr-theme';
 
 /**
  * Initializes any data from the Badgr Theme definition.
