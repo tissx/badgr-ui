@@ -38,7 +38,7 @@ import { CustomValidatorMessages, messagesForValidationError } from "./formfield
 			</select>
 		</div>
 
-		<p class="formfield-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
+		<p class="forminput-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
 	`
 })
 export class FormFieldSelect implements OnChanges, AfterViewInit {
