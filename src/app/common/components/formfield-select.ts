@@ -9,12 +9,12 @@ import { CustomValidatorMessages, messagesForValidationError } from "./formfield
 	selector: 'bg-formfield-select',
 
 	host: {
-		'class': "formfield",
+		'class': "forminput",
 		'[class.formfield-is-error]': "isErrorState",
 		'[class.formfield-locked]': "isLockedState",
 	},
 	template: `
-		<label class="select" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
+		<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
 			{{ label }}
 			<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
 			<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
@@ -23,19 +23,20 @@ import { CustomValidatorMessages, messagesForValidationError } from "./formfield
 
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 
-		<p class="formfield-x-description" *ngIf="description">{{ description }}</p>
-
-		<select
-			[name]="inputName"
-			[id]="inputName"
-			[formControl]="control"
-			(focus)="cacheControlState()"
-			(keypress)="handleKeyPress($event)"
-			#selectInput
-		>
-			<option *ngIf="placeholder" selected value="">{{ placeholder }}</option>
-			<option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
-		</select>
+		<div class="forminput-x-sublabel" *ngIf="description">{{ description }}</div>
+		<div class="forminput-x-inputs">
+			<select
+				[name]="inputName"
+				[id]="inputName"
+				[formControl]="control"
+				(focus)="cacheControlState()"
+				(keypress)="handleKeyPress($event)"
+				#selectInput
+			>
+				<option *ngIf="placeholder" selected value="">{{ placeholder }}</option>
+				<option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+			</select>
+		</div>
 
 		<p class="formfield-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
 	`
