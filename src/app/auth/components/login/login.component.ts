@@ -112,7 +112,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					const body = response.error as any;
 
 					let msg = "Login failed. Please check your email and password and try again.";
-					if (body['error'] == 'login attempts throttled') {
+					if (body['error'] === 'login attempts throttled') {
 						if (body['expires']) {
 							if (body['expires'] > 60) {
 								msg = `Too many login attempts. Try again in ${Math.ceil(body['expires'] / 60)} minutes.`;
