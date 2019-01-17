@@ -7,13 +7,8 @@ import { throwExpr } from "../util/throw-expr";
 @Component({
 	selector: 'bg-formfield-image',
 	host: {
-		"[class.dropzone]": "! newDropZone",
-		"[class.formfield]": "newDropZone",
-		"[class.formfield-inlinelabel]": "newDropZone",
-
-		"[class.formimage-is-dragging]": "isDragging",
-		"[class.formimage-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
-
+		"[class.dropzone-is-dragging]": "isDragging",
+		"[class.dropzone-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
 		"(drag)": "stopEvent($event)",
 		"(dragstart)": "stopEvent($event)",
 		"(dragover)": "dragStart($event)",
@@ -23,78 +18,37 @@ import { throwExpr } from "../util/throw-expr";
 		"(drop)": "drop($event)",
 	},
 	template: `
-		<ng-template [ngIf]="newDropZone">
-			<label [attr.for]="'image_field' + uniqueIdSuffix">
-				{{ label }}
-				<ng-content select="[label-additions]"></ng-content>
-			</label>
+	<input type="file"
+				accept="image/*"
+				name="image_field{{ uniqueIdSuffix }}"
+				id="image_field{{ uniqueIdSuffix }}"
+				(change)="fileInputChanged($event)"
+				class="visuallyhidden"
+		/>
 
-			<div class="l-dropzoneinput">
-				<div class="l-dropzoneinput-x-container">
-					<input type="file"
-					       accept="image/*"
-					       name="image_field{{ uniqueIdSuffix }}"
-					       id="image_field{{ uniqueIdSuffix }}"
-					       (change)="fileInputChanged($event)"
-					       class="visuallyhidden"
-					/>
+<label class="dropzone" [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" tabindex="0">
+    <svg icon="icon_upload"></svg>
+    <p class="dropzone-x-info1">Drag &amp; Drop an Image</p>
+	<p class="dropzone-x-info2">or <span class="text text-link">Select File to Upload</span></p>
+	<span class="formimage-x-image">
+		<img [src]="placeholderImage" alt="Placeholder image" *ngIf="!imageLoading && !imageDataUrl && !imageErrorMessage">
+		<img [src]="imageFailedSrc" alt="Invalid image" *ngIf="imageErrorMessage">
+		<img [src]="imageLoadingSrc" alt="Image preview" *ngIf="imageLoading">
+		<img [src]="unsafeImageDataUrl" alt="Image preview" *ngIf="imageDataUrl">
+	</span>
+	<span class="formimage-x-text">
+		<p *ngIf="!imageLoading && !imageDataUrl" class="u-text-body-bold">Drag or Upload Image</p>
+		<span *ngIf="imageLoading" class="formimage-x-label">Loading Image...</span>
+		<span *ngIf="imageDataUrl" class="formimage-x-label">{{ imageName }}</span>
+		<span *ngIf="imageDataUrl" class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
+		<span *ngIf="imageErrorMessage" class="formimage-x-error">{{ imageErrorMessage }}</span>
+	</span>
+</label>
+		
 
-					<label class="dropzone dropzone-alt1"
-					       [class.dropzone-is-error]="fileErrorMessage || (control.dirty && !control.valid)"
-					       [class.dropzone-is-dropped]="imageProvided"
-					       [class.dropzone-is-dragging]="isDragging"
-					       attr.aria-labelledby="image_field{{ uniqueIdSuffix }}"
-					       for="image_field{{ uniqueIdSuffix }}"
-					>
-						<span class="dropzone-x-text" *ngIf="!imageLoading && !imageDataUrl && !imageErrorMessage">Upload Image</span>
+		
 
-						<img [src]="imageFailedSrc" width="142" alt="Invalid image" *ngIf="imageErrorMessage">
-						<img [src]="imageLoadingSrc" width="142" alt="Image preview" *ngIf="imageLoading">
-						<img [src]="unsafeImageDataUrl" width="142" alt="Image preview" *ngIf="imageDataUrl">
-					</label>
-					<label class="button button-tertiary"
-					       type="button"
-					       for="image_field{{ uniqueIdSuffix }}"
-					>Upload</label>
-					<p class="formfield-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
-				</div>
-			</div>
-		</ng-template>
-
-		<ng-template [ngIf]="! newDropZone">
-			<p class="formimage-x-title">
-				{{ label }}
-				<ng-content select="[label-additions]"></ng-content>
-			</p>
-
-			<input type="file"
-			       accept="image/*"
-			       name="image_field{{ uniqueIdSuffix }}"
-			       id="image_field{{ uniqueIdSuffix }}"
-			       (change)="fileInputChanged($event)"
-			       class="visuallyhidden"
-			/>
-
-			<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()">
-				<span class="formimage-x-image">
-					<img [src]="placeholderImage" alt="Placeholder image" *ngIf="!imageLoading && !imageDataUrl && !imageErrorMessage">
-					<img [src]="imageFailedSrc" alt="Invalid image" *ngIf="imageErrorMessage">
-					<img [src]="imageLoadingSrc" alt="Image preview" *ngIf="imageLoading">
-					<img [src]="unsafeImageDataUrl" alt="Image preview" *ngIf="imageDataUrl">
-				</span>
-				<span class="formimage-x-text">
-					<p *ngIf="!imageLoading && !imageDataUrl" class="u-text-body-bold">Drag or Upload Image</p>
-
-					<span *ngIf="imageLoading" class="formimage-x-label">Loading Image...</span>
-					<span *ngIf="imageDataUrl" class="formimage-x-label">{{ imageName }}</span>
-					<span *ngIf="imageDataUrl" class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
-
-					<span *ngIf="imageErrorMessage" class="formimage-x-error">{{ imageErrorMessage }}</span>
-				</span>
-			</label>
-
-			<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
-		</ng-template>
+		<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
 	`,
 
 })

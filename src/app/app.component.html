@@ -1,5 +1,5 @@
 <header class="o-container" *ngIf="showAppChrome">
-	<nav class="navbar l-containerxaxis">
+	<nav class="navbar l-containerxaxis" [class.navbar-light]="!theme.useColorNavbar">
 
 		<a [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : theme.alternateLandingUrl || '/'">
 			<picture class="navbar-x-logo">
@@ -12,9 +12,9 @@
 		<ng-template [ngIf]="!loggedIn">
 			<nav class="navbar-x-items">
 				<div class="navbar-x-navitems">
-					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
-					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/signup']">Create Account</a>
-					<a class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/signup']">Create Account</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
 					 [bgPopupMenuTrigger]="appsMenu">
 						Apps
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
@@ -27,20 +27,20 @@
 		<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
 			<nav class="navbar-x-items">
 				<div class="navbar-x-navitems">
-					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
-					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<a class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/issuer']">Issuers</a>
-					<a class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/issuer']">Issuers</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
 					 [bgPopupMenuTrigger]="appsMenu">
 						Apps
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
 					</a>
-					<a class="navitem u-cursor-pointer" *ngIf="theme.customMenu" routerLinkActive="menuitem-is-active"
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="theme.customMenu" routerLinkActive="menuitem-is-active"
 					 [bgPopupMenuTrigger]="customMenu">
 						{{ theme.customMenu.label }}
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
 					</a>
-					<a class="navitem u-cursor-pointer" routerLinkActive="menuitem-is-active" [bgPopupMenuTrigger]="accountMenu">
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" routerLinkActive="menuitem-is-active" [bgPopupMenuTrigger]="accountMenu">
 						Account
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
 					</a>
@@ -49,7 +49,7 @@
 		</ng-template>
 
 		<div class="navbar-x-menutoggle" (click)="toggleMobileNav()">
-			<button class="menutoggle" [class.menutoggle-is-active]="mobileNavOpen">
+			<button class="menutoggle" [class.menutoggle-is-active]="mobileNavOpen" [class.menutoggle-light]="!theme.useColorNavbar">
 				<span></span>
 				<span></span>
 				<span></span>
@@ -80,7 +80,7 @@
 	</bg-popup-menu>
 
 
-	<nav class="l-dialog mobilenav" [class.mobilenav-is-active]="mobileNavOpen" *ngIf="!loggedIn">
+	<nav class="l-dialog mobilenav" [class.mobilenav-is-active]="mobileNavOpen" *ngIf="!loggedIn" [class.mobilenav-light]="!theme.useColorNavbar">
 		<div class="mobilenav-x-navitems">
 			<a routerLinkActive="menuitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
 			<a routerLinkActive="menuitem-is-active" [routerLink]="['/signup']">Create Account</a>
@@ -92,7 +92,7 @@
 		</div>
 	</nav>
 
-	<nav class="l-dialog mobilenav" [class.mobilenav-is-active]="mobileNavOpen" *ngIf="loggedIn && ! isOAuthAuthorizationInProcess">
+	<nav class="l-dialog mobilenav" [class.mobilenav-is-active]="mobileNavOpen" *ngIf="loggedIn && ! isOAuthAuthorizationInProcess" [class.mobilenav-light]="!theme.useColorNavbar">
 		<div class="mobilenav-x-navitems">
 			<a [routerLink]="['/recipient/badges']">Backpack</a>
 			<a [routerLink]="['/recipient/badge-collections']">Collections</a>
