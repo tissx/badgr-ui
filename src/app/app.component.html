@@ -118,7 +118,7 @@
 </header>
 <div class="loader l-stickyfooter-x-loader"></div>
 
-<main class="l-stickyfooter-x-main o-container">
+<main class="l-stickyfooter-x-main o-container" [attr.inert]="mobileNavOpen ? '' : null" [class.l-inertcontainer]="mobileNavOpen">
 	<router-outlet *ngIf="!hasFatalError"></router-outlet>
 	<!-- children go here -->
 	<article *ngIf="hasFatalError" class="l-containerxaxis l-containeryaxis l-flex l-flex-justifycenter">

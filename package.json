@@ -43,6 +43,7 @@
     "font-awesome": "4.7.0",
     "fontfaceobserver": "^2.0.9",
     "handlebars-helpers": "^0.10.0",
+    "inert-polyfill": "^0.2.5",
     "intl": "1.2.5",
     "jasmine": "^3.3.0",
     "jasmine-promises": "0.4.1",
