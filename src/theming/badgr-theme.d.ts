@@ -86,6 +86,7 @@ export interface BadgrTheme {
 		sizes?: string;
 	}[],
 
+	useColorNavbar: boolean;
 	/**
 	 * properties
 	 */

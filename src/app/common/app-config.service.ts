@@ -165,6 +165,7 @@ export const defaultConfig: BadgrConfig = {
 			height: 48
 		},
 		favicons: [],
+		useColorNavbar: false,
 		cssCustomProps: {}
 	}
 };
