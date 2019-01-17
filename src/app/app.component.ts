@@ -36,35 +36,6 @@ import { Title } from '@angular/platform-browser';
 	templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, AfterViewInit {
-
-	get showAppChrome() {
-		return ! this.embedService.isEmbedded;
-	}
-
-	get theme() { return this.configService.theme }
-
-	get apiBaseUrl() {
-		return this.configService.apiConfig.baseUrl;
-	}
-
-	get hasFatalError(): boolean {
-		return this.messageService.hasFatalError
-	}
-	get fatalMessage(): string {
-		return (this.messageService.message ? this.messageService.message.message : undefined);
-	}
-	get fatalMessageDetail(): string {
-		return (this.messageService.message ? this.messageService.message.detail : undefined);
-	}
-	get isOAuthAuthorizationInProcess() {
-		return this.oAuthManager.isAuthorizationInProgress;
-	}
-
-	get isRequestPending() {
-		return this.messageService.pendingRequestCount > 0;
-	}
-	get logoSmall() { return this.theme['logoImg'] ? this.theme['logoImg']['small'] : this.defaultLogoSmall }
-	get logoDesktop() { return this.theme['logoImg'] ? this.theme['logoImg']['desktop'] : this.defaultLogoDesktop }
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
 	mobileNavOpen: boolean = false;
@@ -72,16 +43,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 	launchpoints?: ApiExternalToolLaunchpoint[];
 
 	copyrightYear = new Date().getFullYear();
-
-	readonly unavailableImageSrc = require("../../node_modules/@concentricsky/badgr-style/dist/images/image-error.svg");
-
-	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
-	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
-
-	readonly unavailableImageSrc = require("../../node_modules/@concentricsky/badgr-style/dist/images/image-error.svg");
-
-	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
-	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
 
 	@ViewChild("confirmDialog")
 	private confirmDialog: ConfirmDialog;
@@ -94,6 +55,28 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("issuerLink")
 	private issuerLink: any;
+
+	get showAppChrome() {
+		return ! this.embedService.isEmbedded;
+	}
+
+	get theme() { return this.configService.theme }
+
+	get apiBaseUrl() {
+		return this.configService.apiConfig.baseUrl;
+	}
+
+	get hasFatalError() : boolean {
+		return this.messageService.hasFatalError
+	}
+	get fatalMessage() : string {
+		return (this.messageService.message ? this.messageService.message.message : undefined);
+	}
+	get fatalMessageDetail() : string {
+		return (this.messageService.message ? this.messageService.message.detail : undefined);
+	}
+
+	readonly unavailableImageSrc = require("../../node_modules/@concentricsky/badgr-style/dist/images/image-error.svg");
 
 	constructor(
 		private sessionService: SessionService,
@@ -147,25 +130,16 @@ export class AppComponent implements OnInit, AfterViewInit {
 	toggleMobileNav() {
 		this.mobileNavOpen = !this.mobileNavOpen;
 	}
+	get isOAuthAuthorizationInProcess() {
+		return this.oAuthManager.isAuthorizationInProgress;
+	}
 
 	onDocumentClick($event: MouseEvent) {
 		this.eventService.documentClicked.next($event);
 	}
 
-	ngOnInit() {
-		this.loggedIn = this.sessionService.isLoggedIn;
-
-		this.sessionService.loggedin$.subscribe(
-			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
-		);
-	}
-
-	ngAfterViewInit() {
-		this.commonDialogsService.init(
-			this.confirmDialog,
-			this.shareSocialDialog,
-			this.newTermsDialog
-		);
+	get isRequestPending() {
+		return this.messageService.pendingRequestCount > 0;
 	}
 
 	private initScrollFix() {
@@ -196,4 +170,25 @@ export class AppComponent implements OnInit, AfterViewInit {
 			window[ "gtag" ]('config', this.configService.googleAnalyticsConfig.trackingId);
 		}
 	}
+
+	ngOnInit() {
+		this.loggedIn = this.sessionService.isLoggedIn;
+
+		this.sessionService.loggedin$.subscribe(
+			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
+		);
+	}
+
+	ngAfterViewInit() {
+		this.commonDialogsService.init(
+			this.confirmDialog,
+			this.shareSocialDialog,
+			this.newTermsDialog
+		);
+	}
+
+	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
+	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
+	get logoSmall() { return this.theme['logoImg'] ? this.theme['logoImg']['small'] : this.defaultLogoSmall }
+	get logoDesktop() { return this.theme['logoImg'] ? this.theme['logoImg']['desktop'] : this.defaultLogoDesktop }
 }
