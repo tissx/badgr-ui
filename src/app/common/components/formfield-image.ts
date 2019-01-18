@@ -18,7 +18,9 @@ import { throwExpr } from "../util/throw-expr";
 		"(drop)": "drop($event)",
 	},
 	template: `
-	<input type="file"
+	<div class="forminput u-margin-bottom2x">
+        <label class="forminput-x-label u-margin-bottom1x" for="image_field{{ uniqueIdSuffix }}">{{label}}</label>
+		<input type="file"
 				accept="image/*"
 				name="image_field{{ uniqueIdSuffix }}"
 				id="image_field{{ uniqueIdSuffix }}"
@@ -26,29 +28,25 @@ import { throwExpr } from "../util/throw-expr";
 				class="visuallyhidden"
 		/>
 
-<label class="dropzone" [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" tabindex="0">
-    <svg icon="icon_upload"></svg>
-    <p class="dropzone-x-info1">Drag &amp; Drop an Image</p>
-	<p class="dropzone-x-info2">or <span class="text text-link">Select File to Upload</span></p>
-	<span class="formimage-x-image">
-		<img [src]="placeholderImage" alt="Placeholder image" *ngIf="!imageLoading && !imageDataUrl && !imageErrorMessage">
-		<img [src]="imageFailedSrc" alt="Invalid image" *ngIf="imageErrorMessage">
-		<img [src]="imageLoadingSrc" alt="Image preview" *ngIf="imageLoading">
-		<img [src]="unsafeImageDataUrl" alt="Image preview" *ngIf="imageDataUrl">
-	</span>
-	<span class="formimage-x-text">
-		<p *ngIf="!imageLoading && !imageDataUrl" class="u-text-body-bold">Drag or Upload Image</p>
-		<span *ngIf="imageLoading" class="formimage-x-label">Loading Image...</span>
-		<span *ngIf="imageDataUrl" class="formimage-x-label">{{ imageName }}</span>
-		<span *ngIf="imageDataUrl" class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
-		<span *ngIf="imageErrorMessage" class="formimage-x-error">{{ imageErrorMessage }}</span>
-	</span>
-</label>
-		
+		<label class="dropzone" [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" tabindex="0">
 
-		
+			<div class="dropzone-x-preview" *ngIf="imageDataUrl">
+				<img [src]="imageDataUrl" alt="">
+				<p class="u-text-body">
+					{{imageName}}
+					<span class="u-text-link">Change</span>
+				</p>
+			</div>
 
+			<ng-container *ngIf="!imageDataUrl">
+				<svg class="dropzone-x-icon" icon="icon_upload"></svg>
+				<p class="dropzone-x-info1">Drag &amp; Drop File</p>
+				<p class="dropzone-x-info2">or <span class="text text-link">Select File to Upload</span></p>
+			</ng-container>
+
+		</label>
 		<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
+	</div>
 	`,
 
 })
