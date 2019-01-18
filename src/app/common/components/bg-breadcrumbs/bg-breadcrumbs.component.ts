@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-bg-breadcrumbs',
+  selector: 'bg-breadcrumbs',
   templateUrl: './bg-breadcrumbs.component.html'
 })
 export class BgBreadcrumbsComponent implements OnInit {
