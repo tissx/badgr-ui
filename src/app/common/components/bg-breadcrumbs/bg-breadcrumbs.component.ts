@@ -16,7 +16,6 @@ export class BgBreadcrumbsComponent implements OnInit {
 }
 
 export interface LinkEntry {
-  routerLink: string[];
+  routerLink?: string[];
   title: string;
-  condition?: boolean;
 }

@@ -1,5 +1,5 @@
 <div class="breadcrumbs">
-    <ng-template ngFor let-link [ngForOf]="linkentries" let-i="index" let-last="last">
+    <ng-container *ngFor="let link of linkentries; let i=index; let last=last">
         <a *ngIf="!last"  class="breadcrumbs-x-link" [routerLink]="link.routerLink">
           <svg class="breadcrumbs-x-icon icon icon-dark2" icon="icon_arrow"></svg>
           <span class="breadcrumbs-x-text">
@@ -8,5 +8,5 @@
         </a>
         <span *ngIf="!last" class="breadcrumbs-x-divider">/</span>
         <span *ngIf="last" >{{link.title}}</span>
-    </ng-template>
+    </ng-container>
 </div>
