@@ -22,7 +22,7 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
 			<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
 		</label>
-		<p class="forminput-x-sublabel" *ngIf="sublabel">{{ sublabel }}</p>
+		<p class="forminput-x-sublabel" *ngIf="sublabel">{{ remainingCharactersNum }}{{ sublabel }}</p>
 
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 		<div class="forminput-x-inputs">
@@ -32,9 +32,11 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			       [id]="inputId"
 			       [formControl]="control"
 			       [placeholder]="placeholder || ''"
+			       [maxlength] = "maxchar"
 			       (change)="postProcessInput()"
 			       (focus)="cacheControlState()"
 			       (keypress)="handleKeyPress($event)"
+			       (keyup)="handleKeyUp($event)"
 			       #textInput
 			/>
 			<div class="forminput-x-button" *ngIf="inlineButtonText">
@@ -50,10 +52,12 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			          [name]="inputName"
 			          [id]="inputId"
 			          [formControl]="control"
+			          [maxlength] = "maxchar"
 			          [placeholder]="placeholder || ''"
 			          (change)="postProcessInput()"
 			          (focus)="cacheControlState()"
 			          (keypress)="handleKeyPress($event)"
+			          (keyup)="handleKeyUp($event)"
 			          #textareaInput
 			></textarea>
 		</div>
@@ -150,8 +154,10 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() sublabel: string;
 	@Input() placeholder: string;
 	@Input() fieldType: FormFieldTextInputType = 'text';
+	@Input() maxchar: number;
 	@Input() optional: boolean = false;
 	@Input() inlineButtonText: string;
+
 
 	@Output() buttonClicked = new EventEmitter<MouseEvent>();
 
@@ -165,6 +171,8 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 
 	@ViewChild('textInput') textInput: ElementRef;
 	@ViewChild('textareaInput') textareaInput: ElementRef;
+
+	remainingCharactersNum = this.maxchar;
 
 	private _unlocked = false;
 
@@ -180,6 +188,12 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	constructor(
 		private dialogService: CommonDialogsService,
 	) {
+	}
+
+	ngOnInit() {
+		if (this.maxchar) {
+			this.remainingCharactersNum = this.maxchar - this.control.value.length;
+		}
 	}
 
 	ngAfterViewInit() {
@@ -249,6 +263,10 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 			this.control.markAsDirty();
 			this.cacheControlState();
 		}
+	}
+
+	handleKeyUp(event: KeyboardEvent) {
+		this.remainingCharactersNum = this.maxchar - this.control.value.length;
 	}
 
 	private postProcessInput() {

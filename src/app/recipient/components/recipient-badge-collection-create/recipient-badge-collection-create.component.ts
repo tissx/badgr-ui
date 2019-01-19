@@ -30,17 +30,19 @@ import { RecipientBadgeCollectionManager } from "../../services/recipient-badge-
 					 	<bg-formfield-text
 					 		[control]="badgeCollectionForm.controls.collectionName"
 		                    [label]="'Name'"
+		                    [maxchar]=128
 		                    [errorMessage]="{required:'Please enter a collection name'}"
 		                    [autofocus]="true"
-		                    [sublabel]="'Max 128 characters'">
+		                    [sublabel]="' remaining characters'">
 	                    </bg-formfield-text>
 	                    <div class="u-margin-top2x">
 							<bg-formfield-text
 								[control]="badgeCollectionForm.controls.collectionDescription"
 			                    [label]="'Description'"
 		                        [errorMessage]="{required: 'Please enter a description'}"
+		                        [maxchar]=255
 			                    [multiline]="true"
-			                    [sublabel]="'Max 255 characters'">
+			                    [sublabel]="' remaining characters'">
 	                        </bg-formfield-text>
                         </div>
 						<div class="l-flex l-flex-1x l-flex-justifyend u-margin-top2x">
