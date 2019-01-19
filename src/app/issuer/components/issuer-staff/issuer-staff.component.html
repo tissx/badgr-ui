@@ -25,8 +25,8 @@
 		</div>
 	</div>
 
-	<div class="l-containerxaxis">
-		<div class="l-stack l-stack-2x u-margin-top3x u-margin-bottom2x">
+	<div class="l-containerxaxis l-containeryaxis">
+		<div class="l-stack l-stack-2x u-margin-bottom2x" *ngIf="isCurrentUserIssuerOwner">
 			<p class="u-text-h3-bold">Staff Members</p>
 			<form [formGroup]="staffCreateForm" (ngSubmit)="submitStaffCreate(staffCreateForm.value)">
 				<bg-formfield-text [control]="staffCreateForm.controls.staffEmail" [errorMessage]="'Please enter valid email address'"

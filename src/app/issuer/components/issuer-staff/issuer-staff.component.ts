@@ -59,9 +59,10 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 				this.issuer = issuer;
 				this.breadcrumbLinkEntries = [
 					{title: 'Issuers', routerLink: ['/issuer']},
-					{title: this.issuer.name, routerLink: ['/issuer/issuers', this.issuerSlug] },
+					{title: issuer.name, routerLink: ['/issuer/issuers', this.issuerSlug] },
 					{title: this.isCurrentUserIssuerOwner ? 'Manage Staff' : 'View Staff'}
 				];
+				return issuer
 			});
 
 		this.profileEmailsLoaded = this.profileManager.userProfilePromise
