@@ -20,6 +20,19 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 	appTokens: OAuth2AppAuthorization[];
 	appPromise: Promise<any>;
 
+
+	permisionScopeToIconName(scope: string): string{
+		switch (scope) {
+			case "permission-issuer":
+				return "icon_issuer2"
+			case "permission-assertion":
+				return "icon_badgeaward"
+			case "permission-profile":
+				return "icon_email"
+			default:
+				return ""
+		}
+	}
 	constructor(
 		loginService: SessionService,
 		route: ActivatedRoute,

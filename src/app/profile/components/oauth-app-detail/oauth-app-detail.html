@@ -1,65 +1,43 @@
-<main *bgAwaitPromises="[ appPromise ]">
+<div *bgAwaitPromises="[ appPromise ]">
 	<form-message></form-message>
-
-	<header class="wrap wrap-light l-containerhorizontal l-heading">
-		<nav>
-			<h1 class="visuallyhidden">Breadcrumbs</h1>
-			<ul class="breadcrumb">
-				<li>
-					<a [routerLink]="['/profile/app-integrations']">App Integrations</a>
-				</li>
-				<li class="breadcrumb-x-current">{{ app.name }}</li>
-			</ul>
-		</nav>
-
-		<header class="heading">
-			<div *ngIf="app.imageUrl">
-				<div class="heading-x-image">
-					<img [src]="app.imageUrl" alt="{{ app.name }} Logo">
+	<div class="topbar topbar-withimage">
+		<div class="l-containerxaxis">
+			<div class="topbar-x-wrap">
+				<img class="topbar-x-image" [src]="app.imageUrl" alt="" width="70px" srcset="">
+				<div class="topbar-x-heading">
+					{{ app.name }}
 				</div>
+				<div class="topbar-x-subheading">
+					<p class="topbar-x-authdate u-text">
+						Authorized: <strong><time [date]="app.createdDate" format="mediumDate"></time></strong>
+					</p>
+					This application has been granted permission to sign you in using your Badgr account.
+					<div class="u-margin-top1x" *ngIf="app.websiteUrl">
+						<a class="u-text-outlink" [href]="app.websiteUrl" attr.aria-labelledby="heading" target="_blank">Visit Website
+							<svg link="icon_external_link"></svg>
+						</a>
+					</div>
+				</div>
+				<button class="button topbar-x-buttons" (click)="revokeAccess()">Revoke</button>
 			</div>
-			<div class="heading-x-text">
-				<h1 id="heading">{{ app.name }}</h1>
-				<p class="heading-x-meta">Authorized: <strong><time [date]="app.createdDate" format="mediumDate"></time></strong></p>
-				<p>This application has been granted permission to sign you in using your Badgr account.</p>
-				<p *ngIf="app.websiteUrl">
-					<a class="button button-primaryghost l-offsetleft"
-						 [href]="app.websiteUrl"
-						 attr.aria-labelledby="heading"
-						 target="_blank"
-					>Visit Website</a>
-				</p>
-			</div>
-			<div class="heading-x-actions">
-				<a class="button button-major"
-					 href="javascript: void(0)"
-					 attr.aria-labelledby="heading"
-					 (click)="revokeAccess()"
-				>Revoke</a>
-			</div>
-		</header>
-	</header>
-
-	<div class="l-containerhorizontal l-containervertical l-containervertical-small l-childrenvertical wrap">
-		<table class="l-ssoauth-x-permissions table">
-			<thead>
-			<tr>
-				<th scope="col">{{ app.name }} has permission to:</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td class="table-x-wrap">
-					<p class="permission permission-personal">Know who you are on Badgr</p>
-				</td>
-			</tr>
-			<tr *ngFor="let scope of presentationScopes">
-				<td class="table-x-wrap">
-					<p class="permission {{ scope.cssName }}">{{ scope.label }}</p>
-				</td>
-			</tr>
-			</tbody>
-		</table>
+		</div>
 	</div>
 
-</main>
+	<div class="l-containerxaxis l-containeryaxis">
+		<div class="authlist">
+			<div class="authlist-x-title">
+				{{ app.name }} has permission to:
+			</div>
+			<ul class="authlist-x-items">
+				<li class="authlist-x-item">
+					<svg icon="icon_member"></svg>
+					Know who you are on Badgr
+				</li>
+				<li class="authlist-x-item" *ngFor="let scope of presentationScopes">
+					<svg [icon]="permisionScopeToIconName(scope.cssName)"></svg>
+					{{ scope.label }}
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

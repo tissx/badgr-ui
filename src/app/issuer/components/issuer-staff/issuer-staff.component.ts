@@ -1,145 +1,29 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import {BaseAuthenticatedRoutableComponent} from "../../../common/pages/base-authenticated-routable.component";
+import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
 
-import {SessionService} from "../../../common/services/session.service";
-import {MessageService} from "../../../common/services/message.service";
-import {IssuerManager} from "../../services/issuer-manager.service";
-import {Title} from "@angular/platform-browser";
-import {Issuer, IssuerStaffMember, issuerStaffRoles} from "../../models/issuer.model";
-import {preloadImageURL} from "../../../common/util/file-util";
-import {EmailValidator} from "../../../common/validators/email.validator";
-import {FormFieldSelectOption} from "../../../common/components/formfield-select";
-import {markControlsDirty} from "../../../common/util/form-util";
-import {BadgrApiFailure} from "../../../common/services/api-failure";
-import {CommonDialogsService} from "../../../common/services/common-dialogs.service";
-import {UserProfileManager} from "../../../common/services/user-profile-manager.service";
-import {UserProfileEmail} from "../../../common/model/user-profile.model";
-import {IssuerStaffRoleSlug} from "../../models/issuer-api.model";
-import {AppConfigService} from "../../../common/app-config.service";
+import { SessionService } from "../../../common/services/session.service";
+import { MessageService } from "../../../common/services/message.service";
+import { IssuerManager } from "../../services/issuer-manager.service";
+import { Title } from "@angular/platform-browser";
+import { Issuer, IssuerStaffMember, issuerStaffRoles } from "../../models/issuer.model";
+import { preloadImageURL } from "../../../common/util/file-util";
+import { EmailValidator } from "../../../common/validators/email.validator";
+import { FormFieldSelectOption } from "../../../common/components/formfield-select";
+import { markControlsDirty } from "../../../common/util/form-util";
+import { BadgrApiFailure } from "../../../common/services/api-failure";
+import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
+import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
+import { UserProfileEmail } from "../../../common/model/user-profile.model";
+import { IssuerStaffRoleSlug } from "../../models/issuer-api.model";
+import { AppConfigService } from "../../../common/app-config.service";
+import { LinkEntry, BgBreadcrumbsComponent } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 
 @Component({
-	template: `
-		<main *bgAwaitPromises="[issuerLoaded, profileEmailsLoaded]">
-			<form-message></form-message>
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li><a [routerLink]="['/issuer']">Issuers</a></li>
-						<li *ngIf="issuer"><a [routerLink]="['/issuer/issuers', issuerSlug]">{{ issuer.name }}</a></li>
-						<li class="breadcrumb-x-current">
-							{{ isCurrentUserIssuerOwner ? "Manage Staff" : "View Staff" }}
-						</li>
-					</ul>
-				</nav>
-
-				<div class="heading">
-					<div class="heading-x-image">
-						<img *ngIf="issuer.image" [src]="issuer.image" alt="{{issuer.name}} logo " />
-						<img *ngIf="!issuer.image" [src]="issuerImagePlaceHolderUrl" alt="Default issuer image">
-					</div>
-					<div class="heading-x-text">
-						<h1>{{ isCurrentUserIssuerOwner ? "Manage Staff" : "View Staff" }}</h1>
-						<p>
-							{{
-							isCurrentUserIssuerOwner
-								? "Manage who has access to manage and act on behalf of this issuer."
-								: "View who has access to manage and act on behalf of this issuer."
-							}}
-						</p>
-					</div>
-				</div>
-
-			</header>
-
-			<div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
-				<form [formGroup]="staffCreateForm"
-				      (ngSubmit)="submitStaffCreate(staffCreateForm.value)">
-					<table class="table table-staffeditor">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th class="hidden hidden-is-tablet">Email</th>
-								<th class="table-staffeditor-x-role">Role</th>
-								<th class="hidden hidden-is-tablet" *ngIf="isCurrentUserIssuerOwner"><span class="visuallyhidden">Actions</span>
-								</th>
-							</tr>
-						</thead>
-
-						<!-- Add Member Row -->
-						<tbody class="table-x-tbody hidden hidden-is-tablet" *ngIf="isCurrentUserIssuerOwner">
-							<tr class="table-x-active">
-								<th>
-									<em>
-										New Staff Member
-									</em>
-								</th>
-
-								<td>
-									<bg-formfield-text [control]="staffCreateForm.controls.staffEmail"
-									                   [errorMessage]="'Please enter valid email address'"
-									                   placeholder="Staff Email"
-									></bg-formfield-text>
-								</td>
-
-								<td class="table-staffeditor-x-role">
-									<bg-formfield-select [control]="staffCreateForm.controls.staffRole"
-									                     [options]="issuerStaffRoleOptions"
-									                     [errorMessage]="'Please select a staff role'"
-									></bg-formfield-select>
-								</td>
-
-								<td class="hidden hidden-is-tablet">
-									<button class="button button-primaryghost"
-									        type="submit"
-									        [disabled-when-requesting]="true"
-									>Add Member
-									</button>
-								</td>
-							</tr>
-						</tbody>
-
-						<tbody>
-							<tr *ngFor="let member of issuer.staff">
-								<td>
-									{{ member.nameLabel }}
-								</td>
-								<td class="hidden hidden-is-tablet">
-									{{ member.email }}
-								</td>
-								<td class="l-childrenhorizontal formfield table-staffeditor-x-role">
-									<select [value]="member.roleSlug"
-									        [disabled]="member == issuer.currentUserStaffMember"
-									        (change)="changeMemberRole(member, $event.target.value)"
-									        *ngIf="isCurrentUserIssuerOwner"
-									>
-										<option *ngFor="let role of issuerStaffRoleOptions" [value]="role.value">{{ role.label }}</option>
-									</select>
-									<span *ngIf="! isCurrentUserIssuerOwner">
-										{{ member.roleInfo.label }}
-									</span>
-								</td>
-								<td *ngIf="isCurrentUserIssuerOwner" class="hidden hidden-is-tablet">
-									<button class="button button-primaryghost"
-									        type="button"
-									        [disabled-when-requesting]="true"
-									        (click)="removeMember(member)"
-									        *ngIf="member != issuer.currentUserStaffMember"
-									>Remove Member
-									</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</form>
-			</div>
-		</main>
-	`
+	templateUrl: './issuer-staff.component.html'
 })
 export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	readonly issuerImagePlaceHolderUrl = preloadImageURL(require(
@@ -151,6 +35,8 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	profileEmailsLoaded: Promise<UserProfileEmail[]>;
 	profileEmails: UserProfileEmail[] = [];
 	staffCreateForm: FormGroup;
+
+	breadcrumbLinkEntries: LinkEntry[] = []
 
 	constructor(
 		loginService: SessionService,
@@ -169,7 +55,15 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug)
-			.then(issuer => this.issuer = issuer);
+			.then(issuer => {
+				this.issuer = issuer;
+				this.breadcrumbLinkEntries = [
+					{title: 'Issuers', routerLink: ['/issuer']},
+					{title: issuer.name, routerLink: ['/issuer/issuers', this.issuerSlug] },
+					{title: this.isCurrentUserIssuerOwner ? 'Manage Staff' : 'View Staff'}
+				];
+				return issuer
+			});
 
 		this.profileEmailsLoaded = this.profileManager.userProfilePromise
 			.then(profile => profile.emails.loadedPromise)

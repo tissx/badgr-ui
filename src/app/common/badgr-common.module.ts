@@ -61,7 +61,7 @@ import { NavigationService } from "./services/navigation.service";
 import { BgPopupMenu, BgPopupMenuTriggerDirective } from "./components/bg-popup-menu.component";
 import { SvgIconComponent } from "./components/svg-icon.component";
 import { BgMarkdownComponent } from "./directives/bg-markdown.component";
-
+import { BgBreadcrumbsComponent } from './components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 const DIRECTIVES = [
 	BgAwaitPromises,
@@ -101,6 +101,7 @@ const COMPONENTS = [
 	TruncatedTextComponent,
 	BgPopupMenu,
 	BgBadgecard,
+	BgBreadcrumbsComponent,
 ];
 
 const SERVICES = [
