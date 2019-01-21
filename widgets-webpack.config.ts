@@ -1,5 +1,5 @@
 import * as path from 'path';
-import {WebpackOptions} from 'webpack/declarations/WebpackOptions';
+import { WebpackOptions } from 'webpack/declarations/WebpackOptions';
 
 module.exports = {
 	mode: 'production',
