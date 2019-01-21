@@ -14,35 +14,30 @@ import * as marked from 'marked';
 		'[class.formfield-locked]': "isLockedState",
 	},
 	template: `
+	<div class="mdeditor">
+		<div class="mdeditor-x-editor">
+			<label [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
+				{{ label }} <span *ngIf="optional">(OPTIONAL)</span>
+				<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
+				<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
+				<ng-content select="[label-additions]"></ng-content>
+			</label>
+				<textarea
+				autosize
+				[name]="inputName"
+				[ngStyle]="{'height.px':textHeight}"
+				[id]="inputName"
+				[formControl]="control"
+				[placeholder]="placeholder || ''"
+				(change)="postProcessInput()"
+				(focus)="cacheControlState()"
+				(keypress)="handleKeyPress($event)"
+				*ngIf="!_preview"
+				#textareaInput
+			></textarea>
+		</div>
 
-		<div class="markdowneditor">
-
-			<div class="markdowneditor-x-editor">
-				<div class="formfield">
-					<label [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
-						{{ label }} <span *ngIf="optional">(OPTIONAL)</span>
-						<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
-						<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
-						<ng-content select="[label-additions]"></ng-content>
-					</label>
-
-					<textarea
-						autosize
-						[name]="inputName"
-						[ngStyle]="{'height.px':textHeight}"
-						[id]="inputName"
-						[formControl]="control"
-						[placeholder]="placeholder || ''"
-						(change)="postProcessInput()"
-						(focus)="cacheControlState()"
-						(keypress)="handleKeyPress($event)"
-						*ngIf="!_preview"
-						#textareaInput
-					></textarea>
-				</div>
-			</div>
-
-			<div class="markdowneditor-x-preview"
+		<div class="markdown mdeditor-x-preview"
 			     #markdownPreviewPane
 			     [bgMarkdown]="control.value"
 			     [style.minHeight.px]="textHeight"
@@ -50,59 +45,26 @@ import * as marked from 'marked';
 			>Markdown preview
 			</div>
 
-			<div class="markdowneditor-x-tabbar">
-				<div
-					class="markdowneditor-x-tab markdowneditor-x-writebutton"
-					[ngClass]="{'markdowneditor-x-tab-is-active':!_preview}"
-					(click)="markdownPreview(false);">Write
-				</div>
-				<div
-					class="markdowneditor-x-tab markdowneditor-x-previewbutton"
-					[ngClass]="{'markdowneditor-x-tab-is-active':_preview}"
-					(click)="markdownPreview(true);">Preview
-				</div>
-				<tooltip>
-					<button class="trigger">Markdown Supported</button>
-					<header></header>
-					<content>
-						<div class="markdowneditor">
-							<div class="markdowneditor-x-display">
-								<h1># This is an H1</h1>
-								<h2>## This is an H2</h2>
-								<h3>### This is an H3</h3>
-
-								<p>
-									_<em>These are italics</em>_
-								</p>
-
-								<p>
-									**<strong>This is bold</strong>**
-								</p>
-
-								<p>
-									[Link](<a href="javascript:void(0)">http://badgr.io/login</a>)
-								</p>
-
-								<ul>
-									<li>Unordered (bulleted) list item1</li>
-									<li>Unordered (bulleted) list item2</li>
-								</ul>
-
-								<ol>
-									<li>Ordered (numbered) list item1</li>
-									<li>Ordered (numbered) list item2</li>
-								</ol>
-							</div>
-						</div>
-					</content>
-					<footer>
-						<a href="//daringfireball.net/projects/markdown/basics" target="_blank">Learn More</a>
-					</footer>
-				</tooltip>
-			</div>
-
-
-		</div> `
+    <div class="mdeditor-x-tabbar">
+            <div class="mdeditor-x-tabs">
+                <div class="mdeditor-x-tab mdeditor-x-writebutton" [ngClass]="{'mdeditor-x-tab-is-active':!_preview}"
+				(click)="markdownPreview(false);">Write
+                </div>
+                <div class="mdeditor-x-tab mdeditor-x-previewbutton" [ngClass]="{'mdeditor-x-tab-is-active':_preview}"
+				(click)="markdownPreview(true);">Preview
+                </div>
+            </div>
+            <div class="mdeditor-x-help">
+                <div class="l-flex l-flex-1x l-flex-aligncenter">
+                    <button class="buttonicon buttonicon-clean" type="button">
+                        <svg class="icon l-flex-shrink0" icon="icon_markdown"></svg>
+                    </button>
+                    <button type="button" class="u-text-link-small u-hidden-maxmobile">Markdown Supported</button>
+                </div>
+            </div>
+    </div>
+</div>
+`
 })
 export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 
