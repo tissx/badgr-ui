@@ -1,10 +1,10 @@
-<dialog aria-labelledby="addBadgeDialog" aria-describedby="dialog1Desc" class="dialog dialog-is-active l-dialog" role="dialog">
+<dialog aria-labelledby="addBadgeDialog" aria-describedby="dialog1Desc" class="dialog dialog-is-active l-dialog dialog-clean" role="dialog">
 	<div class="dialog-x-box o-container">
-		<div class="l-flex l-flex-justifybetween u-padding-top2x u-padding-xaxis3x">
+		<div class="dialog-x-header">
 			<h2 id="addBadgeDialog" class="u-text-body-bold-caps text-dark1">
 				Add Badge
 			</h2>
-			<button class="buttonicon" (click)="closeDialog()">
+			<button class="buttonicon buttonicon-clean" (click)="closeDialog()">
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
 			</button>
@@ -12,11 +12,11 @@
 
 		
 		<form [formGroup]="addRecipientBadgeForm" (ngSubmit)="submitBadgeRecipientForm(addRecipientBadgeForm.value)">
-			<p class="u-text-body u-padding-all3x">Add a badge you’ve already received by utilizing one of the options below.</p>
+			<p class="u-margin-xaxis2x u-padding-yaxis2x border border-top border-light3 u-text-body">Add a badge you’ve already received by utilizing one of the options below.</p>
 
 
 			<div class="tabbar">
-				<div class="tab border border-left" [class.tab-is-active]="currentDialogViewState === 'upload'" (click)="currentDialogViewState = 'upload'"
+				<div class="tab" [class.tab-is-active]="currentDialogViewState === 'upload'" (click)="currentDialogViewState = 'upload'"
 				 type="button">
 					<span class="l-hidden l-hidden-laptop">Upload Badge</span> Image
 				</div>
@@ -61,7 +61,7 @@
 			</div>
 
 
-			<div class="u-padding-all3x">
+			<div class="u-padding-all3x l-stack l-stack-right">
 				<button class="button" type="submit" [loading-promises]="[ badgeUploadPromise ]" loading-message="Adding">
 					Add Badge
 				</button>
