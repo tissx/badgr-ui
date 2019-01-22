@@ -46,22 +46,22 @@ import * as marked from 'marked';
 			</div>
 
     <div class="mdeditor-x-tabbar">
-            <div class="mdeditor-x-tabs">
-                <div class="mdeditor-x-tab mdeditor-x-writebutton" [ngClass]="{'mdeditor-x-tab-is-active':!_preview}"
-				(click)="markdownPreview(false);">Write
-                </div>
-                <div class="mdeditor-x-tab mdeditor-x-previewbutton" [ngClass]="{'mdeditor-x-tab-is-active':_preview}"
-				(click)="markdownPreview(true);">Preview
-                </div>
-            </div>
-            <div class="mdeditor-x-help">
-                <div class="l-flex l-flex-1x l-flex-aligncenter">
-                    <button class="buttonicon buttonicon-clean" type="button">
-                        <svg class="icon l-flex-shrink0" icon="icon_markdown"></svg>
-                    </button>
-                    <button type="button" class="u-text-link-small u-hidden-maxmobile">Markdown Supported</button>
-                </div>
-            </div>
+		<div class="mdeditor-x-tabs">
+			<div class="mdeditor-x-tab mdeditor-x-writebutton" [ngClass]="{'mdeditor-x-tab-is-active':!_preview}"
+			(click)="markdownPreview(false);">Write
+			</div>
+			<div class="mdeditor-x-tab mdeditor-x-previewbutton" [ngClass]="{'mdeditor-x-tab-is-active':_preview}"
+			(click)="markdownPreview(true);">Preview
+			</div>
+		</div>
+		<div class="mdeditor-x-help">
+			<div class="l-flex l-flex-1x l-flex-aligncenter">
+				<button class="buttonicon buttonicon-clean" type="button" (click)="openMarkdownHintsDialog()">
+					<svg class="icon l-flex-shrink0" icon="icon_markdown"></svg>
+				</button>
+				<button (click)="openMarkdownHintsDialog()" type="button" class="u-text-link-small u-hidden-maxmobile">Markdown Supported</button>
+			</div>
+		</div>
     </div>
 </div>
 `
@@ -165,7 +165,7 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 
 	constructor(
 		private dialogService: CommonDialogsService,
-		private domSanitizer: DomSanitizer
+		private domSanitizer: DomSanitizer,
 	) { }
 
 	ngAfterViewInit() {
@@ -210,6 +210,11 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 		} else {
 			this.control.enable();
 		}
+	}
+
+	openMarkdownHintsDialog() {
+		console.log("here we go");
+		this.dialogService.markdownHintsDialog.openDialog();
 	}
 
 	unlock() {

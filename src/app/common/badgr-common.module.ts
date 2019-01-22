@@ -62,6 +62,7 @@ import { BgPopupMenu, BgPopupMenuTriggerDirective } from "./components/bg-popup-
 import { SvgIconComponent } from "./components/svg-icon.component";
 import { BgMarkdownComponent } from "./directives/bg-markdown.component";
 import { BgBreadcrumbsComponent } from './components/bg-breadcrumbs/bg-breadcrumbs.component';
+import { MarkdownHintsDialog } from './dialogs/markdown-hints-dialog.component';
 
 const DIRECTIVES = [
 	BgAwaitPromises,
@@ -94,6 +95,7 @@ const COMPONENTS = [
 	NewTermsDialog,
 	OAuthBannerComponent,
 	ShareSocialDialog,
+	MarkdownHintsDialog,
 	ShowMore,
 	SvgIconComponent,
 	TimeComponent,

@@ -22,6 +22,7 @@ import { UserProfileManager } from './common/services/user-profile-manager.servi
 import { NewTermsDialog } from './common/dialogs/new-terms-dialog.component';
 import { QueryParametersService } from './common/services/query-parameters.service';
 import { Title } from '@angular/platform-browser';
+import { MarkdownHintsDialog } from './common/dialogs/markdown-hints-dialog.component';
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -52,6 +53,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("shareSocialDialog")
 	private shareSocialDialog: ShareSocialDialog;
+
+	@ViewChild("markdownHintsDialog")
+	private markdownHintsDialog: MarkdownHintsDialog;
 
 	@ViewChild("issuerLink")
 	private issuerLink: any;
@@ -183,7 +187,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.commonDialogsService.init(
 			this.confirmDialog,
 			this.shareSocialDialog,
-			this.newTermsDialog
+			this.newTermsDialog,
+			this.markdownHintsDialog,
 		);
 	}
 
