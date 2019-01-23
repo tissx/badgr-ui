@@ -1,8 +1,4 @@
 <dialog class="dialog dialog-is-active l-dialog dialog-clean">
-
-
-
-
 	<div class="dialog-x-box o-container">
 		<div class="dialog-x-header">
 			<h2 id="addBadgeDialog" class="u-text-body-bold-caps text-dark1">
@@ -14,16 +10,22 @@
 			</button>
 		</div>
 		<!-- Search -->
-		<div class="u-padding-xaxis2x u-padding-bottom2x">
+		<div class="u-padding-xaxis2x u-padding-bottom2x l-flex l-flex-1x l-flex-aligncenter">
 			<div class="forminput forminput-hasicon">
 				<div class="forminput-x-inputs">
 					<input type="text" name="forminput" placeholder="Search" [(ngModel)]="searchQuery">
-					<svg icon="icon_search"></svg>
+					<svg class="forminput-x-icon" icon="icon_search"></svg>
 				</div>
 			</div>
+			<label class="checkbox checkbox-small" *ngIf="! isRestrictedToSingleIssuer && hasMultipleIssuers">
+				<input name="groupby" type="checkbox" [(ngModel)]="groupByIssuer">
+				<span class="checkbox-x-text">
+					Group by Issuer
+				</span>
+			</label>
 		</div>
 		<!-- Dialog Body -->
-		<table class="datatable datatable-roundheaders datatable-indialog" *bgAwaitPromises="[badgesLoaded]">
+		<table class="datatable datatable-roundheaders datatable-indialog datatable-verticalalignmiddle" *bgAwaitPromises="[badgesLoaded]">
 			<thead class="datatable-x-head">
 				<tr class="datatable-x-header">
 					<th class="datatable-x-cell">Badge</th>
@@ -31,160 +33,102 @@
 				</tr>
 			</thead>
 			<tbody class="datatable-x-body">
-				<p class="u-text" *ngIf="badgeResults.length < 1">
-					No Badges
-				</p>
-
-				<tr class="datatable-x-row" *ngFor="let badgeResult of badgeResults">
-					<td class="datatable-x-cell">
-						<div class="l-flex l-flex-1x l-flex-aligncenter">
-							<label class="checkbox">
-								<input name="badg1" type="checkbox">
-								<span class="checkbox-x-text visuallyhidden">
-									Badge Title
-								</span>
-							</label>
-
-							<img src="http://placekitten.com/g/100/100" class="badgeimage-small" alt="" srcset="">
-							<div class="l-flex l-flex-column">
-								<a href="#" class="u-text u-text-bold u-text-breakword">BadgeTitlethatmightbereallylong</a>
-								<p class="u-text-small-bold">Issuer Title</p>
-							</div>
-						</div>
-					</td>
-					<td class="datatable-x-cell u-text-small">
-						Jan 1st, 2019
-					</td>
-				</tr>
-
-			</tbody>
-		</table>
-	</div>
-
-
-
-	<!-- 
-
-
-
-		<section class="l-overflowlist">
-		<!-- Header and Search Area 
-		<header class="l-childrenvertical l-childrenvertical-is-smalldesktop bordered bordered-bottom">
-			<h1 class="title">{{ dialogTitle }}</h1>
-			<div class="l-childrenhorizontal l-childrenhorizontal-stackmobile">
-				<input type="text" class="search l-childrenhorizontal-x-offset" placeholder="Filter your badges" [(ngModel)]="searchQuery" />
-				<label *ngIf="! isRestrictedToSingleIssuer && hasMultipleIssuers" class="formcheckbox">
-					<input type="checkbox" [(ngModel)]="groupByIssuer" />
-					<span class="formcheckbox-x-text">Group by Issuer</span>
-				</label>
-			</div>
-		</header>
-		<!-- Badge List 
-		<div class="l-overflowlist-x-list">
-			<table class="table table-dialog" *bgAwaitPromises="[badgesLoaded]">
-				<thead>
-					<tr>
-						<th colspan="3">Badge</th>
-						<th><span class="table-x-issued hidden hidden-is-tablet">Awarded</span></th>
-					</tr>
-				</thead>
-
-				<tbody>
-					<!-- Empty state - no badges 
-					<tr *ngIf="badgeResults.length < 1">
-						<td class="table-x-padded">
-							<ng-template [ngIf]="hasMultipleIssuers">
-								No badges or issuers matching your query
-							</ng-template>
-							<ng-template [ngIf]="! hasMultipleIssuers">
-								No badges matching your query
-							</ng-template>
-						</td>
-						<td class="table-x-padded"></td>
-					</tr>
-					<!-- Badges grouped by Issuer 
-					<ng-template [ngIf]="groupByIssuer && hasMultipleIssuers">
-						<ng-template ngFor let-issuerResults [ngForOf]="issuerResults">
-							<tr>
-								<td colspan="4" class="table-x-inlineheader">{{ issuerResults.issuer?.name || "Unknown Issuer" }}</td>
-							</tr>
-							<tr *ngFor="let badge of issuerResults.badges">
-								<td class="table-x-input">
-									<input class="checklist" type="checkbox" id="badge-check-{{ badge.slug }}" #badgeCheckbox [checked]="selectedBadges.has(badge)"
-									 (change)="updateBadgeSelection(badge, badgeCheckbox.checked)" *ngIf="multiSelectMode" />
-									<input class="checklist checklist-radio" type="radio" id="badge-check-{{ badge.slug }}" #badgeRadio [checked]="selectedBadges.has(badge)"
-									 (change)="updateBadgeSelection(badge, badgeRadio.checked)" name="badge-selection-radio" *ngIf="! multiSelectMode" />
-									<label htmlFor="badge-check-{{ badge.slug }}">{{ badge.name }}</label>
-								</td>
-								<td>
-									<label htmlFor="badge-check-{{ badge.slug }}" class="table-x-badge">
-										<img src="{{ badge.image }}" width="40" height="40" alt="{{ badge.badgeClass.name }}" [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}">
-									</label>
-								</td>
-								<td class="table-x-span">
-									<label htmlFor="badge-check-{{ badge.slug }}" class="stack stack-list table-x-stack">
-										<span class="stack-x-text">
-											<h1>{{ badge.badgeClass.name }}</h1>
-											<small>{{ badge.badgeClass.issuer?.name || "Unknown Issuer" }}</small>
-										</span>
-										<span *ngIf="badge.mostRelevantStatus" class="status status-{{badge.mostRelevantStatus}}">
-											{{badge.mostRelevantStatus}}
-										</span>
-									</label>
-								</td>
-								<td class="table-x-issued table-x-padded"><span class="hidden hidden-is-tablet">{{ badge.issueDate | date:
-										'longDate'}}</span></td>
-							</tr>
+				<ng-template [ngIf]="badgeResults.length < 1">
+					<p class="u-text u-padding-all3x">
+						<ng-template [ngIf]="hasMultipleIssuers">
+							No badges or issuers matching your query
 						</ng-template>
-					</ng-template>
-
-					<!-- Badges not grouped by Issuer
-					<ng-template [ngIf]="! groupByIssuer || ! hasMultipleIssuers">
-						<tr *ngFor="let badgeResult of badgeResults">
-							<td class="table-x-input">
-								<input class="checklist" type="checkbox" id="badge-check-{{ badgeResult.badge.slug }}" #badgeCheckbox [checked]="selectedBadges.has(badgeResult.badge)"
-								 (change)="updateBadgeSelection(badgeResult.badge, badgeCheckbox.checked)" *ngIf="multiSelectMode" />
-								<input class="checklist checklist-radio" type="radio" id="badge-check-{{ badgeResult.badge.slug }}" #badgeRadio
-								 [checked]="selectedBadges.has(badgeResult.badge)" (change)="updateBadgeSelection(badgeResult.badge, badgeRadio.checked)"
-								 name="badge-selection-radio" *ngIf="! multiSelectMode" />
-								<label htmlFor="badge-check-{{ badgeResult.badge.slug }}">{{ badgeResult.badge.badgeClass.name }}</label>
+						<ng-template [ngIf]="!hasMultipleIssuers">
+							No badges matching your query
+						</ng-template>
+					</p>
+				</ng-template>
+				<!-- Grouped By Issuer -->
+				<ng-template [ngIf]="groupByIssuer && hasMultipleIssuers">
+					<ng-template ngFor let-issuerResults [ngForOf]="issuerResults">
+						<tr class="datatable-x-row">
+							<th class="datatable-x-inlineheader" scope="row" colspan="2">{{ issuerResults.issuer?.name || "Unknown Issuer" }}</th>
+						</tr>
+						<tr class="datatable-x-row" *ngFor="let badge of issuerResults.badges">
+							<td class="datatable-x-cell">
+								<div class="l-flex l-flex-1x l-flex-aligncenter">
+									<label class="checkbox">
+										<input class="checklist" type="checkbox" id="badge-check-{{ badge.slug }}" #badgeCheckbox [checked]="selectedBadges.has(badge)"
+										 (change)="updateBadgeSelection(badge, badgeCheckbox.checked)" *ngIf="multiSelectMode" />
+										<input class="checklist checklist-radio" type="radio" id="badge-check-{{ badge.slug }}" #badgeRadio [checked]="selectedBadges.has(badge)"
+										 (change)="updateBadgeSelection(badge, badgeRadio.checked)" name="badge-selection-radio" *ngIf="! multiSelectMode" />
+										<span class="checkbox-x-text visuallyhidden">
+											{{ badge.name }}
+										</span>
+									</label>
+									<label>
+										<img class="badgeimage-small" src="{{ badge.image }}" width="40" height="40" alt="{{ badge.badgeClass.name }}"
+										 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}">
+									</label>
+									<label>
+										<div class="l-flex l-flex-column">
+											<p class="u-text-link u-text-bold u-text-breakword">
+												{{ badge.badgeClass.name }}
+											</p>
+											<p class="u-text-small-bold">
+												{{ badge.badgeClass.issuer?.name || "Unknown Issuer" }}
+											</p>
+											<span *ngIf="badge.mostRelevantStatus" class="badgestatus badgestatus-{{badge.mostRelevantStatus}}">
+												{{badge.mostRelevantStatus}}
+											</span>
+										</div>
+									</label>
+								</div>
 							</td>
-
-							<td>
-								<label htmlFor="badge-check-{{ badgeResult.badge.slug }}" class="table-x-badge">
-									<img [src]="badgeResult.badge.image" width="40" height="40" alt="{{ badgeResult.badge.badgeClass.name }}"
-									 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}">
-								</label>
+							<td class="datatable-x-cell u-text-small">
+									{{ badge.issueDate | date: 'longDate'}}
 							</td>
-
-							<td class="table-x-span">
-								<label htmlFor="badge-check-{{ badgeResult.badge.slug }}" class="stack stack-list table-x-stack">
-									<span class="stack-x-text">
-										<h1>{{ badgeResult.badge.badgeClass.name }}</h1>
-										<small>{{ badgeResult.issuer?.name || "Unknown Issuer" }}</small>
-									</span>
-									<span *ngIf="badgeResult.badge.mostRelevantStatus" class="status status-{{badgeResult.badge.mostRelevantStatus}}">
-										{{badgeResult.badge.mostRelevantStatus}}
-									</span>
-								</label>
-							</td>
-
-							<td class="table-x-issued table-x-padded"><span class="hidden hidden-is-tablet">{{ badgeResult.badge.issueDate |
-									date: 'longDate'}}</span></td>
 						</tr>
 					</ng-template>
+				</ng-template>
+				<!-- List of badges — not grouped -->
+				<ng-template [ngIf]="! groupByIssuer || ! hasMultipleIssuers">
+					<tr class="datatable-x-row" *ngFor="let badgeResult of badgeResults">
+						<td class="datatable-x-cell">
+							<div class="l-flex l-flex-1x l-flex-aligncenter">
+								<label class="checkbox">
+									<input type="checkbox" id="badge-check-{{ badgeResult.badge.slug }}" #badgeCheckbox [checked]="selectedBadges.has(badgeResult.badge)"
+									 (change)="updateBadgeSelection(badgeResult.badge, badgeCheckbox.checked)" *ngIf="multiSelectMode" />
+									<input type="radio" id="badge-check-{{ badgeResult.badge.slug }}" #badgeRadio [checked]="selectedBadges.has(badgeResult.badge)"
+									 (change)="updateBadgeSelection(badgeResult.badge, badgeRadio.checked)" name="badge-selection-radio" *ngIf="! multiSelectMode" />
+									<span class="checkbox-x-text visuallyhidden">
+										{{ badgeResult.badge.badgeClass.name }}
+									</span>
+								</label>
+								<img class="badgeimage-small" [src]="badgeResult.badge.image" width="40" height="40" alt="{{ badgeResult.badge.badgeClass.name }}"
+								 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}">
+								<div class="l-flex l-flex-column">
+									<p class="u-text-link u-text-bold u-text-breakword">
+										{{ badgeResult.badge.badgeClass.name }}
+									</p>
+									<p class="u-text-small-bold">
+										{{ badgeResult.issuer?.name || "Unknown Issuer" }}
+									</p>
+									<span *ngIf="badgeResult.badge.mostRelevantStatus" class="badgestatus badgestatus-{{badgeResult.badge.mostRelevantStatus}}">
+										{{badgeResult.badge.mostRelevantStatus}}
+									</span>
+								</div>
+							</div>
+						</td>
+						<td class="datatable-x-cell u-text-small">
+							{{ badgeResult.badge.issueDate | date: 'longDate'}}
+						</td>
+					</tr>
+				</ng-template>
+			</tbody>
+		</table>
 
-				</tbody>
-			</table>
+		<div class="u-padding-all2x l-stack l-stack-buttons">
+			<button class="button" (click)="saveDialog()">Save Changes</button>
+			<button class="button button-secondary" (click)="cancelDialog()">Cancel</button>
 		</div>
 
-		<!-- Selected Badges and Buttons 
-		<footer class="bordered bordered-top">
-			<div class="l-childrenhorizontal l-childrenhorizontal-right l-childrenhorizontal-small">
-				<button class="button button-primaryghost" (click)="cancelDialog()">Cancel</button>
-				<button class="button" (click)="saveDialog()">Save Changes</button>
-			</div>
-		</footer>
-	</section>
-	 -->
+
+	</div>
+
 </dialog>
