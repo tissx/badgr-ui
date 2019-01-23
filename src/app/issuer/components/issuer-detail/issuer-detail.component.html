@@ -68,19 +68,7 @@
 							<img class="l-flex-x-shrink0 badgeimage badgeimage-small" src="{{badge.image}}" alt="{{badge.description}}" width="40">
 							<a class="u-text" [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
 							<div class="u-hidden-minmobile l-flex-x-selfcenter u-margin-leftauto">
-								<button class="buttonicon buttonicon-link" [bgPopupMenuTrigger]="badgeClassActionsMenu" [bgPopupMenuData]="badge">
-									<svg icon="icon_more"></svg>
-									<span class="visuallyhidden">Actions</span>
-								</button>
-								<div class="menu" #badgeClassActionsMenu>
-									<a class="menuitem" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
-									<button *ngIf="badge.recipient_count == 0" 
-										type="button" 
-										class="menuitem"
-										(click)="clickConfirmRemove($event, badge)"
-										[disabled-when-requesting]="true">Delete
-									</button>
-								</div>
+								<a class="u-text-link-small" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
 							</div>
 						</div>
 					</td>
@@ -97,19 +85,6 @@
 					<td class="datatable-x-cell">
 						<div class="l-flex l-flex-aligncenter l-flex-justifyend">
 							<a class="u-text-link-small" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
-							<!-- Delete a Badge with confirmation -->
-							<button *ngIf="badge.recipient_count == 0" 
-									type="button" 
-									class="u-text-link-small" 
-									(click)="clickConfirmRemove($event, badge)"
-									[disabled-when-requesting]="true">Delete
-							</button>
-							<div class="l-flex" *ngIf="confirmingBadgeId && confirmingBadgeId == badge.id">
-								<p class="u-text-small-bold">Are you sure?</p>
-								<button type="button" class="button" (click)="clickRemove($event, badge)">Confirm</button>
-								<button type="button" class="button button-secondary" (click)="clickCancelRemove($event)">Cancel</button>
-							</div>
-							
 						</div>
 					</td>
 				</tr>
