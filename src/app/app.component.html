@@ -27,20 +27,20 @@
 		<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
 			<nav class="navbar-x-items">
 				<div class="navbar-x-navitems">
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="menuitem-is-active" [routerLink]="['/issuer']">Issuers</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/issuer']">Issuers</a>
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="navitem-is-active"
 					 [bgPopupMenuTrigger]="appsMenu">
 						Apps
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
 					</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="theme.customMenu" routerLinkActive="menuitem-is-active"
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="theme.customMenu" routerLinkActive="navitem-is-active"
 					 [bgPopupMenuTrigger]="customMenu">
 						{{ theme.customMenu.label }}
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
 					</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" routerLinkActive="menuitem-is-active" [bgPopupMenuTrigger]="accountMenu">
+					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" routerLinkActive="navitem-is-active" [bgPopupMenuTrigger]="accountMenu">
 						Account
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
 					</a>
