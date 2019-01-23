@@ -35,8 +35,7 @@
 	<div class="issuercard" *ngFor="let issuer of issuers">
 
 		<div class="issuercard-x-image">
-			<img [loaded-src]="issuer?.image" [loading-src]="issuerPlaceholderSrc" [error-src]="issuerPlaceholderSrc" alt="{{ issuer.name }} avatar"
-			 width="80" height="80">
+			<img [loaded-src]="issuer?.image" [loading-src]="issuerPlaceholderSrc" [error-src]="issuerPlaceholderSrc" alt="{{ issuer.name }} avatar">
 		</div>
 		<div class="issuercard-x-title">
 			<a [routerLink]="['/issuer/issuers/', issuer.slug]">{{issuer.name}}</a>
