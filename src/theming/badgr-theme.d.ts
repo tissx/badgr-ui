@@ -91,30 +91,9 @@ export interface BadgrTheme {
 	 * properties
 	 */
 	cssCustomProps?: {
-		"--color-primary"?: string;
-		"--color-primary-hover"?: string;
-		"--color-primary-light"?: string;
-		"--color-secondary"?: string;
-		"--color-tertiary"?: string;
-		"--color-quaternary"?: string;
-		"--color-light1"?: string;
-		"--color-light2"?: string;
-		"--color-light3"?: string;
-		"--color-light4"?: string;
-		"--color-dark1"?: string;
-		"--color-dark2"?: string;
-		"--color-dark3"?: string;
-		"--color-dark4"?: string;
-		"--color-dark5"?: string;
-		"--color-error"?: string;
-		"--color-pending"?: string;
-		"--color-success"?: string;
-		"--logo-width"?: string;
-		"--logo-height"?: string;
-		"--button-secondary-border"?: string;
-		"--button-secondary-background"?: string;
-		"--authlink-display"?: string;
-		"--color-title"?: string;
-		"--color-heading-h1"?: string;
+		"--brand-hue"?: string;
+		"--brand-saturation"?: string;
+		"--brand-lightness"?: string;
+		"--color-theme"?: string;
 	},
 }

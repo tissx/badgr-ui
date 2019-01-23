@@ -146,7 +146,7 @@ export const defaultConfig: BadgrConfig = {
 	assertionVerifyUrl: "https://badgecheck.io/",
 	theme: {
 		serviceName: "Badgr",
-		welcomeMessage: "### Welcome to Badgr!",
+		welcomeMessage: `### Welcome!`,
 		alternateLandingUrl: null,
 		showPoweredByBadgr: false,
 		showApiDocsLink: true,
@@ -155,8 +155,8 @@ export const defaultConfig: BadgrConfig = {
 		privacyPolicyLink: null,
 		providedBy: null,
 		logoImg: {
-			small: require("../../../node_modules/@concentricsky/badgr-style/dist/images/logo-small.svg"),
-			desktop: require("../../../node_modules/@concentricsky/badgr-style/dist/images/logo-large.svg"),
+			small: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-small.svg"),
+			desktop: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-large.svg"),
 		},
 		loadingImg: {
 			// Image is inlined here to avoid any external resource loading, at the expense of a larger initial file size. We only do this for the default theme.
@@ -166,6 +166,10 @@ export const defaultConfig: BadgrConfig = {
 		},
 		favicons: [],
 		useColorNavbar: false,
-		cssCustomProps: {}
+		cssCustomProps: {
+			"--brand-hue": "351",
+			"--brand-saturation": "49%",
+			"--brand-lightness": "35%",
+		}
 	}
 };
