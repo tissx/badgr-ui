@@ -12,11 +12,10 @@ declare function require(path: string): string;
 
 			<div class="badgecard-x-body">
 				<div class="badgecard-x-image">
-					<img class="badgeimage"
+					<img class="badgeimage badgeimage-{{mostRelevantStatus}}"
 					     [loaded-src]="badgeImage"
 					     [loading-src]="badgeLoadingImageUrl"
 					     [error-src]="badgeFailedImageUrl"
-					     [ngStyle]="mostRelevantStatus == 'expired' && {'filter':'grayscale(1)'}"
 					     width="80" />
 				</div>
 				<a class="badgecard-x-title"
