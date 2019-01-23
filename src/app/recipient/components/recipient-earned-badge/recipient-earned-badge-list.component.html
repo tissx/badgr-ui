@@ -138,9 +138,8 @@
 											<img [loaded-src]="badge.image"
 											     [loading-src]="badgeLoadingImageUrl"
 											     [error-src]="badgeFailedImageUrl"
-											     [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
 											     width="40"
-											     class="badgeimage badgeimage-expired badgeimage-small u-margin-right2x" />
+											     class="badgeimage badgeimage-{{badge.mostRelevantStatus}} badgeimage-small u-margin-right2x" />
 
 											<a [routerLink]="['../earned-badge', badge.slug]" class="u-text u-text-link">{{ badge.badgeClass.name }}</a>
 											<div *ngIf="badge.mostRelevantStatus"
