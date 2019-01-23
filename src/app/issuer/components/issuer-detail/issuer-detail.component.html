@@ -2,244 +2,119 @@
 
 <ng-template [bgAwaitPromises]="[issuerLoaded]">
 
+	<div class="topbar topbar-withimage">
+		<div class="l-containerxaxis">
+			<div class="topbar-x-wrap">
+				<img class="topbar-x-image" *ngIf="issuer.image" [src]="issuer.image" alt="{{issuer.name}} logo " />
+				<img class="topbar-x-image" *ngIf="!issuer.image" [src]="issuerImagePlaceHolderUrl" alt="Default issuer image">
+				<div class="topbar-x-heading">{{ issuer.name }}
 
-
-
-
-
-
-		<div class="topbar topbar-withimage">
-				<div class="l-containerxaxis">
-					<div class="topbar-x-wrap">
-						<img class="topbar-x-image" *ngIf="issuer.image" [src]="issuer.image" alt="{{issuer.name}} logo " />
-						<img class="topbar-x-image" *ngIf="!issuer.image" [src]="issuerImagePlaceHolderUrl" alt="Default issuer image">
-						<div class="topbar-x-heading">{{ issuer.name }}
-								
-							</div>
-						<div class="topbar-x-subheading">
-							<p class="u-text u-text-small">
-								<strong [truncatedText]="issuer.email" [maxLength]="64"></strong>	
-								<br class="u-hidden-minmobile"><span class="u-hidden-maxmobile">
-									— </span>Your Role: {{ issuer?.currentUserStaffMember?.roleInfo?.label }}
-								</p>
-							<p class="u-margin-top1x u-width-paragraph">
-								{{ issuer.description }}
-								</p><div class="u-margin-top1x u-margin-bottom3x">
-									<a href="{{issuer.websiteUrl}}" class="u-text-outlink">Visit Website<svg icon="icon_external_link">
-										</svg></a>
-									<a class="button button-secondary l-offsetleft" [routerLink]="['./staff']">{{
-										issuer?.currentUserStaffMember?.isOwner ? "Manage": "View" }} Staff</a>
-								</div>
-							<p></p>
-						</div>
-						<div class="topbar-x-buttons">
-							<div class="l-primarymore">
-								<button class="button" [routerLink]="['/issuer/issuers', issuerSlug, 'edit']">Create Badge</button>
-								<button class="buttonicon buttonicon-secondary" id="trigger">
-									<svg icon="icon_more"></svg>
-									<span class="visuallyhidden">More</span>
-								</button>
-							</div>
-						</div>
+				</div>
+				<div class="topbar-x-subheading">
+					<p class="u-text u-text-small">
+						<strong [truncatedText]="issuer.email" [maxLength]="64"></strong>
+						<br class="u-hidden-minmobile"><span class="u-hidden-maxmobile">
+							— </span>Your Role: {{ issuer?.currentUserStaffMember?.roleInfo?.label }}
+					</p>
+					<p class="u-margin-top1x u-width-paragraph">
+						{{ issuer.description }}
+					</p>
+					<div class="u-margin-top1x u-margin-bottom3x">
+						<a href="{{issuer.websiteUrl}}" class="u-text-outlink">Visit Website<svg icon="icon_external_link"></svg></a>
 					</div>
+					<p></p>
+				</div>
+				<div class="topbar-x-buttons">
+					<div class="l-primarymore">
+						<button class="button" [routerLink]="['/issuer/issuers', issuerSlug, 'edit']">Create Badge</button>
+						<button class="buttonicon buttonicon-secondary" [bgPopupMenuTrigger]="issuerActionsMenu">
+							<svg icon="icon_more"></svg>
+							<span class="visuallyhidden">More</span>
+						</button>
+					</div>
+					<bg-popup-menu #issuerActionsMenu>
+						<a class="menuitem" [routerLink]="['./staff']">
+							{{ issuer?.currentUserStaffMember?.isOwner ? "Manage": "View" }} Staff
+						</a>
+						<a class="menuitem" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
+					</bg-popup-menu>
 				</div>
 			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	<div class="wrap l-containerhorizontal ">
-
-		<!-- Manage Pathway Button ================================================================================================-->
-		<div class="l-childrenhorizontal l-childrenhorizontal-right l-marginBottom l-marginBottom-5x l-marginTop l-marginTop-5x ">
-
-			<div class="l-childrenhorizontal">
-				<a [routerLink]="['badges/create']" class="button">
-					Create Badge
-				</a>
-				<div *ngIf="launchpoints?.length">
-					<a class="button" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
-				</div>
-			</div>
-		</div>
-
-		<!-- Badge Class List =============================================================================================-->
-		<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
-			<h2 class="title title-is-smallmobile l-marginBottom-1andhalfx">Badge Classes</h2>
-		</header>
-		<div class="l-overflowhorizontal" *bgAwaitPromises="[issuerLoaded, badgesLoaded]">
-			<table class="table" *ngIf="badges?.length">
-				<thead>
-					<tr>
-						<th scope="col">Badge</th>
-						<th class="hidden hidden-is-desktop" scope="col">Created</th>
-						<th class="hidden hidden-is-desktop" scope="col">Recipients</th>
-						<th class="table-x-hidetext hidden hidden-is-tablet" scope="col">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let badge of badges">
-						<th scope="row">
-							<div class="l-childrenhorizontal l-childrenhorizontal-small">
-								<img class="l-childrenhorizontal-x-offset" src="{{badge.image}}" alt="{{badge.description}}" width="40">
-								<a [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
-							</div>
-						</th>
-						<td class="hidden hidden-is-desktop">
-							<time [date]="badge.createdAt" format="mediumDate"></time>
-						</td>
-						<td class="hidden hidden-is-desktop">{{ badge.recipientCount }}</td>
-						<td class="hidden hidden-is-tablet">
-							<div class="confirmswitch" [class.confirmswitch-is-active]="confirmingBadgeId && confirmingBadgeId == badge.id">
-								<div class="l-childrenhorizontal l-childrenhorizontal-right">
-									<a class="button button-primaryghost" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
-									<button *ngIf="badge.recipient_count == 0" type="button" class="button button-primaryghost" (click)="clickConfirmRemove($event, badge)"
-									 [disabled-when-requesting]="true">Delete
-									</button>
-								</div>
-								<div class="l-childrenhorizontal l-childrenhorizontal-right">
-									<p class="l-childrenhorizontal-x-offset"><strong>Are you sure?</strong></p>
-									<button type="button" class="button" (click)="clickRemove($event, badge)">Confirm Delete
-									</button>
-									<button type="button" class="button button-primaryghost" (click)="clickCancelRemove($event)">
-										Cancel
-									</button>
-								</div>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<p class="empty u-margin-bottom1x" *ngIf="! badges?.length">
-				You do not have any Badge Classes.
-				<a [routerLink]="['badges/create']">Create one now</a>.
-			</p>
 		</div>
 	</div>
 
-	<div *ngIf="legacyPathwaysVisible" class="wrap l-containerhorizontal l-headeredsection">
-
-		<!-- Pathways List ================================================================================================-->
-		<header>
-			<h1 class="title title-is-smallmobile">Pathways</h1>
-		</header>
-
-		<div *bgAwaitPromises="[issuerLoaded, pathwaysLoaded]" class="l-gridthree">
-			<div *ngFor="let pathway of pathways">
-				<div class="card card-smallimage">
-					<a class="card-x-main" [routerLink]="['/issuer/issuers', issuerSlug, 'pathways', pathway.slug, 'elements', pathway.slug]">
-						<div class="card-x-image">
-							<div class="badge badge-flat">
-								<badge-image [badge]="pathway.completionBadge.entity" [size]="40" [link]="false"></badge-image>
+	<div class="l-containerxaxis l-containeryaxis" *bgAwaitPromises="[issuerLoaded, badgesLoaded]">
+		<!-- EMPTY STATE: No badge classes -->
+		<p class="u-text" *ngIf="! badges?.length">
+			You do not have any Badge Classes.
+			<a [routerLink]="['badges/create']">Create one now</a>.
+		</p>
+		<!-- Has Badge Classes -->
+		<h4 class="u-text-h3-bold u-margin-top1x" *ngIf="badges?.length">Badge Classes</h4>
+		<table class="datatable datatable-roundheaders datatable-onlyfirstcolumn datatable-verticalalignmiddle u-margin-top2x" *ngIf="badges?.length">
+			<thead class="datatable-x-head">
+				<tr class="datatable-x-header">
+					<th class="datatable-x-cell">Badge</th>
+					<th class="datatable-x-cell">Created</th>
+					<th class="datatable-x-cell">Recipients</th>
+					<th class="datatable-x-cell">
+						<span class="visuallyhidden">Actions</span></th>
+				</tr>
+			</thead>
+			<tbody class="datatable-x-body">
+				<tr class="datatable-x-row" *ngFor="let badge of badges; let i=index">
+					<td class="datatable-x-cell">
+						<div class="l-flex l-flex-aligncenter l-flex-1x">
+							<img class="l-flex-x-shrink0 badgeimage badgeimage-small" src="{{badge.image}}" alt="{{badge.description}}" width="40">
+							<a class="u-text" [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
+							<div class="u-hidden-minmobile l-flex-x-selfcenter u-margin-leftauto">
+								<button class="buttonicon buttonicon-link" [bgPopupMenuTrigger]="badgeClassActionsMenu" [bgPopupMenuData]="badge">
+									<svg icon="icon_more"></svg>
+									<span class="visuallyhidden">Actions</span>
+								</button>
+								<div class="menu" #badgeClassActionsMenu>
+									<a class="menuitem" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
+									<button *ngIf="badge.recipient_count == 0" 
+										type="button" 
+										class="menuitem"
+										(click)="clickConfirmRemove($event, badge)"
+										[disabled-when-requesting]="true">Delete
+									</button>
+								</div>
 							</div>
 						</div>
-						<div class="card-x-text">
-							<h1>{{ pathway.name }}</h1>
-							<small>{{ pathway.elementCount }} Child Elements</small>
-							<p [truncatedText]="pathway.description" [maxLength]="150"></p>
+					</td>
+					<td class="datatable-x-cell">
+						<div class="l-flex l-flex-aligncenter">
+							<p class="u-text"><time [date]="badge.createdAt" format="mediumDate"></time></p>
 						</div>
-					</a>
-				</div>
-			</div>
-			<!--<div>-->
-			<!--<div class="card card-placeholder">-->
-			<!--<a class="card-x-add" [routerLink]="['/issuer/issuers', issuer.slug, 'pathways', 'create']">-->
-			<!--Add Pathway-->
-			<!--</a>-->
-			<!--</div>-->
-			<!--</div>-->
-		</div>
-
-		<!-- Recipient Group List =========================================================================================-->
-
-		<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween">
-			<h2 class="title title-is-smallmobile">Groups</h2>
-		</header>
-
-		<div class="l-overflowhorizontal" *bgAwaitPromises="[issuerLoaded, groupsLoaded]">
-			<table class="table" *ngIf="recipientGroups.length">
-				<thead>
-					<tr>
-						<th scope="col">Group</th>
-						<th class="hidden hidden-is-desktop" scope="col">Members</th>
-						<th class="hidden hidden-is-tablet" scope="col">Pathways</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let recipientGroup of recipientGroups">
-						<th scope="row">
-							<div class="l-childrenhorizontal">
-								<a [routerLink]="['/issuer/issuers', issuer.slug, 'recipient-groups', recipientGroup.slug]">{{
-									recipientGroup.name
-									}}</a>
+					</td>
+					<td class="datatable-x-cell">
+						<div class="l-flex l-flex-aligncenter">
+							<p class="u-text">{{ badge.recipientCount }}</p>
+						</div>
+					</td>
+					<td class="datatable-x-cell">
+						<div class="l-flex l-flex-aligncenter l-flex-justifyend">
+							<a class="u-text-link-small" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
+							<!-- Delete a Badge with confirmation -->
+							<button *ngIf="badge.recipient_count == 0" 
+									type="button" 
+									class="u-text-link-small" 
+									(click)="clickConfirmRemove($event, badge)"
+									[disabled-when-requesting]="true">Delete
+							</button>
+							<div class="l-flex" *ngIf="confirmingBadgeId && confirmingBadgeId == badge.id">
+								<p class="u-text-small-bold">Are you sure?</p>
+								<button type="button" class="button" (click)="clickRemove($event, badge)">Confirm</button>
+								<button type="button" class="button button-secondary" (click)="clickCancelRemove($event)">Cancel</button>
 							</div>
-						</th>
-						<td class="hidden hidden-is-desktop">{{ recipientGroup.memberCount }}</td>
-						<td class="hidden hidden-is-tablet">
-							<span *ngIf="recipientGroup.subscribedPathways.length == 0">No Subscribed Pathways</span>
-							<span *ngIf="recipientGroup.subscribedPathways.length == 1">
-								<a *ngFor="let pathway of recipientGroup.subscribedPathways" [routerLink]="['/issuer/issuers', issuerSlug, 'pathways', pathway.slug, 'elements', pathway.slug]">
-									{{ pathway.name }}
-								</a>
-							</span>
-							<span *ngIf="recipientGroup.subscribedPathways.length > 1">
-								{{ recipientGroup.subscribedPathways.length }} Pathways
-							</span>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<p class="empty" *ngIf="! recipientGroups.length">
-				You do not have any Recipient Groups
-			</p>
-		</div>
-
+							
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
+
 </ng-template>
