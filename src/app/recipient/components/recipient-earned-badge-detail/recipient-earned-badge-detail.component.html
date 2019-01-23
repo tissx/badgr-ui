@@ -1,0 +1,191 @@
+<main *bgAwaitPromises="[ badgesLoaded ]" class="o-container">
+
+	<external-tool-launch></external-tool-launch>
+	<form-message></form-message>
+
+	<div class="badgedetail">
+		<div class="badgedetail-x-header">
+			<h1>{{ badge.badgeClass.name }}</h1>
+			<div class="l-primarymore">
+				<button class="button" type="button" (click)="shareBadge()">Share Badge</button>
+				<button class="buttonicon buttonicon-secondary" id="actionstrigger"
+		    		[bgPopupMenuTrigger]="moreMenu">
+			        <svg>
+			            <use xlink:href="icons.svg#icon_more"></use>
+			        </svg>
+			        <span class="visuallyhidden">More</span>
+			    </button>
+				<bg-popup-menu #moreMenu>
+					<a class="menuitem">Verify Badge</a>
+					<a class="menuitem">Download baked image (1.1 or 2.0)</a>
+					<a class="menuitem">View JSON (1.1 or 2.0)</a>
+					<a class="menuitem">Delete (from my backpack)</a>
+					<ng-container *ngIf="launchpoints">
+						<a class="menuitem" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" (click)="clickLaunchpoint(lp)">
+							{{lp.label}}
+						</a>
+					</ng-container>
+				</bg-popup-menu>
+			</div>
+		</div>
+		<div class="badgedetail-x-sidebar">
+			<div class="badgedetail-x-sidebarinternal">
+				<img [loaded-src]="badge.image"
+				     [loading-src]="badgeLoadingImageUrl"
+					 [error-src]="badgeFailedImageUrl"
+					 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
+					 class="badgeimage badgeimage-center badgeimage-large"
+					 width="200"
+			    />
+			    <dl>
+			    	<div class="l-flex l-flex-2x u-padding-top2x border border-top border-light3">
+						<div>
+							<img [loaded-src]="badge.badgeClass?.issuer?.image"
+                 				 [loading-src]="issuerImagePlacholderUrl"
+                 				 [error-src]="issuerImagePlacholderUrl"
+				 				 width="40" />
+						</div>
+						<div>
+							<dt class="u-text-small-bold">Issued by:</dt>
+							<dd class="u-text">
+                				<a class="u-break-word" [href]="badge.badgeClass.issuer.id" target="_blank">{{ badge.badgeClass.issuer.name }}</a>
+            				</dd>
+						</div>
+			    	</div>
+			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Created on:</dt>
+					<dd class="u-text"><time [date]="badge?.issueDate" format="mediumDate"></time></dd>
+			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Awarded to:</dt>
+			    	<dd class="u-text u-break-all">{{ badge.recipientEmail }}</dd>
+			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Expires on:</dt>
+			    	<dd *ngIf="badge.expiresDate && !isExpired" class="u-text"><time [date]="badge?.expiresDate" format="mediumDate"></time></dd>
+			    </dl>
+			</div>
+		</div>
+		<div class="badgedetail-x-desc">
+			<h2 class="u-text-h3-semibold u-margin-bottom2x u-hidden-mintablet">Description</h2>
+			<p class="u-text-body u-width-paragraph">{{ badge.badgeClass.description }}</p>
+		</div>
+		<div class="badgedetail-x-body">
+
+			<!-- criteria -->
+			<section>
+				<h3
+					*ngIf="badge.badgeClass.criteria_url || badge.badgeClass.criteria_text || badge.badgeClass.criteria"
+					class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+				>Criteria</h3>
+
+				<show-more *ngIf="badge.badgeClass.criteria_text">
+					<markdown-display [value]="badge.badgeClass.criteria_text"></markdown-display>
+				</show-more>
+
+				<div class="u-margin-yaxis2x">
+					<a
+						*ngIf="badge.criteriaUrl"
+						class="u-text-outlink"
+						[href]="badge.criteriaUrl"
+						target="_blank"
+					>View external Criteria URL
+							<svg><use xlink:href="icons.svg#icon_external_link"></use></svg>
+					</a>
+				</div>
+			</section>
+
+			<!-- alignment -->
+			<section>
+			<h3 *ngIf="badge.badgeClass.alignment && badge.badgeClass?.alignment.length>0" class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Alignment</h3>
+			<div class="bordered l-padding-2x l-marginBottom-2x"
+			     *ngFor="let alignment of badge.badgeClass.alignment; let i=index">
+				<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-spacebetween">
+					<h4 class="u-text-body-bold u-margin-bottom1x">{{alignment.targetName}}</h4>
+					<small>{{alignment.targetCode}}</small>
+				</div>
+				<p class="u-text-body u-width-paragraph">{{alignment.targetDescription}}</p>
+				<div *ngIf="alignment.frameworkName">
+					<h1>Framework</h1>
+					{{alignment.frameworkName}}
+				</div>
+				<div class="u-margin-yaxis2x">
+					<a
+						*ngIf="alignment.targetUrl"
+						class="u-text-outlink"
+						[href]="alignment.targetUrl"
+						target="_blank"
+					>View alignment URL
+							<svg><use xlink:href="icons.svg#icon_external_link"></use></svg>
+					</a>
+				</div>
+			</div>
+			</section>
+
+			<!-- tags -->
+			<section>
+			<h3 *ngIf="badge.badgeClass.tags" class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Tags</h3>
+			<div class="l-tags">
+				<div class="tag"
+					*ngFor="let tag of badge.badgeClass.tags; last as last"
+				>{{tag}}</div>
+			</div>
+			</section>
+
+			<!-- evidence -->
+			<section>
+			<div *ngIf="badge.narrative">
+				<h3 *ngIf="badge.evidence_items?.length>0 || badge.narrative" class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Narrative</h3>
+				<markdown-display [value]="badge.narrative"></markdown-display>
+			</div>
+			<div class="bordered l-padding-2x l-marginBottom-2x"
+			     *ngFor="let evidence of badge.evidence_items; let i=index">
+				<div  *ngIf="badge.evidence_items?.length>0 || badge.narrative">
+					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Evidence</h3>
+					<markdown-display [value]="evidence.narrative"></markdown-display>
+				</div>
+				<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
+					<a
+						*ngIf="evidence.evidence_url"
+						class="u-text-outlink"
+						[href]="evidence.evidence_url"
+						target="_blank"
+					>VIEW EVIDENCE URL<svg><use xlink:href="icons.svg#icon_external_link"></use></svg></a>
+				</div>
+			</div>
+			</section>
+
+			<!-- collections -->
+			<section>
+			<div class="l-flex l-flex-1x l-flex-justifybetween u-margin-bottom2x u-margin-top4x">
+	            <h2 class="u-text-h3-semibold">Collections</h2>
+	            <button
+            	    [class.connectionadd-is-added]="badge.collections.length > 0"
+			        (click)="manageCollections()"
+			        class="button button-secondary"
+		        >Add to Collection</button>
+	        </div>
+			<table class="datatable datatable-roundheaders">
+				<thead class="datatable-x-head">
+	                <tr class="datatable-x-header">
+	                    <th class="datatable-x-cell">Collection</th>
+	                    <th class="datatable-x-cell"><span class="visuallyhidden">Actions</span></th>
+	                </tr>
+	            </thead>
+	            <tbody class="datatable-x-body">
+                    <tr class="datatable-x-row"
+                    	*ngFor="let collection of badge.collections">
+                    	<td class="datatable-x-cell">
+                            <p class="u-text-body-semibold u-break-word">{{ collection.name }}</p>
+                        </td>
+                        <td class="datatable-x-cell">
+                            <div class="l-flex l-flex-justifyend">
+                                <button class="u-text-link-small"
+                            		(click)="removeCollection(collection)"
+                        		>Remove</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+			</table>
+			</section>
+		</div>
+	</div>
+	<div class="l-containerhorizontal l-headeredsection"></div>
+	<recipient-badge-collection-selection-dialog #collectionSelectionDialog> </recipient-badge-collection-selection-dialog>
+</main>
