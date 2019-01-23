@@ -10,8 +10,13 @@
 		</div>
 	</div>
 </div>
-<div class="l-containerxaxis" *bgAwaitPromises="[ appIntegrationsSet.loadedPromise ]">
-	<div class="l-grid l-grid-cards l-containeryaxis">
+<div class="l-containerxaxis l-containeryaxis" *bgAwaitPromises="[ appIntegrationsSet.loadedPromise ]">
+	<!-- EMPTY STATE: Integration List -->
+	<p class="u-text" *ngIf="0 == oAuthApps.length && 0 == appIntegrationsSet.length">
+		No App Integrations found.
+	</p>
+	<div class="l-grid l-grid-cards " *ngIf="oAuthApps.length > 0 || appIntegrationsSet.length > 0">
+		<!-- Integration List -->
 		<div class="integrationcard" *ngFor="let integration of appIntegrationsSet">
 			<div class="integrationcard-x-body">
 				<div class="integrationcard-x-image">
@@ -27,6 +32,7 @@
 				<div class="integrationcard-x-status">{{ integration.active ? 'Active' : 'Inactive' }}</div>
 			</div>
 		</div>
+		<!-- oAuth App Integration List -->
 		<div class="integrationcard" *ngFor="let app of oAuthApps">
 			<div class="integrationcard-x-body">
 				<div class="integrationcard-x-image">
