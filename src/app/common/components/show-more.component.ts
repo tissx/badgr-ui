@@ -17,7 +17,7 @@ import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from "@angu
 		</div>
 
 		<button class="showmore-x-button" (click)="toggleOpen()">
-			<span>{{ isOpen ? "Show Less" : "Show More" }}</span>
+			<div class="showmore-x-buttoninside">{{ isOpen ? "Show Less" : "Show More" }}</div>
 		</button>
 	`
 })

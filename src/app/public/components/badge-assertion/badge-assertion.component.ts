@@ -64,7 +64,7 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get showDownload() {
-		return this.queryParametersService.queryStringValue("action") == "download"
+		return this.queryParametersService.queryStringValue("action") === "download"
 	}
 
 	get assertion(): PublicApiBadgeAssertionWithBadgeClass { return this.assertionIdParam.value }
@@ -103,13 +103,13 @@ export class PublicBadgeAssertionComponent {
 
 	get verifyUrl() {
 		const v = this.queryParametersService.queryStringValue("v") || "2_0";
-		const assertion_url = v == "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
-		let url = `${this.configService.assertionVerifyUrl}?url=${assertion_url}`;
+		const ASSERTION_URL = v === "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
+		let url = `${this.configService.assertionVerifyUrl}?url=${ASSERTION_URL}`;
 
-		for (let identity_type of ['identity__email', 'identity__url', 'identity__telephone']) {
-			let identity = this.queryParametersService.queryStringValue(identity_type)
+		for (let IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
+			let identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE)
 			if (identity) {
-				url = `${url}&${identity_type}=${identity}`;
+				url = `${url}&${IDENTITY_TYPE}=${identity}`;
 			}
 		}
 		return url;
@@ -124,7 +124,7 @@ export class PublicBadgeAssertionComponent {
 		xhr.open("GET", assertion.image, true);
 		xhr.responseType = "blob";
 		xhr.onload = (e) => {
-			if (xhr.status == 200) {
+			if (xhr.status === 200) {
 				let fileExtension = this.mimeToExtension(xhr.response.type);
 				let name = this.generateFileName(assertion, fileExtension);
 				saveAs(xhr.response, name);
@@ -134,8 +134,8 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	mimeToExtension(mimeType: string): string {
-		if (mimeType.indexOf('svg') != -1) return ".svg"
-		if (mimeType.indexOf('png') != -1) return ".png"
+		if (mimeType.indexOf('svg') !== -1) return ".svg"
+		if (mimeType.indexOf('png') !== -1) return ".png"
 		return ""
 	}
 }
