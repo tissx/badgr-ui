@@ -24,7 +24,7 @@
 		</bg-popup-menu>
 	</div>
 
-	<div class="l-containerxaxis">
+	<div class="l-containerxaxis l-containeryaxis">
 		<div class="l-stack l-stack-2x u-margin-yaxis3x">
 			<p class="u-text-h3-bold">
 				Emails
@@ -102,17 +102,17 @@
 					<bg-popup-menu #emailMenu class="menu" id="menu1">
 
 						<div *ngIf="!email.verified"
-								 class="menuitem button button-primaryghost"
+								 class="menuitem"
 								 (click)="clickResendVerification($event, email)"
-								 [disabled-when-requesting]="true"
+								 
 						>
 							<svg icon="icon_refresh"></svg> Resend Verification
 						</div>
 
 						<div *ngIf="email.verified && !email.primary"
-								 class="menuitem button button-primaryghost"
+								 class="menuitem"
 								 (click)="clickMakePrimary($event, email)"
-								 [disabled-when-requesting]="true"
+								 
 						>
 							<svg icon="icon_refresh"></svg> Make primary
 						</div>
