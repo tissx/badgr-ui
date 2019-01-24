@@ -9,7 +9,7 @@ import { RecipientBadgeManager } from "../../services/recipient-badge-manager.se
 import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
 import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
 import { SessionService } from "../../../common/services/session.service";
-import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog.component";
+import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog/share-social-dialog.component";
 import { addQueryParamsToUrl } from "../../../common/util/url-util";
 import { AppConfigService } from "../../../common/app-config.service";
 

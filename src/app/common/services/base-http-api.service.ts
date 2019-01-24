@@ -18,9 +18,7 @@ export class BadgrApiError extends Error {
 
 @Injectable()
 export abstract class BaseHttpApiService {
-;
-;
-;
+
 	baseUrl: string;
 
 	static async addTestingDelay<T>(

@@ -12,7 +12,7 @@ import { RecipientBadgeCollection } from "../../models/recipient-badge-collectio
 import { RecipientBadgeManager } from "../../services/recipient-badge-manager.service";
 import { RecipientBadgeCollectionSelectionDialog } from "../recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog";
 import { preloadImageURL } from "../../../common/util/file-util";
-import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog.component";
+import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog/share-social-dialog.component";
 import { addQueryParamsToUrl } from "../../../common/util/url-util";
 import { EventsService } from "../../../common/services/events.service";
 import { AppConfigService } from "../../../common/app-config.service";
