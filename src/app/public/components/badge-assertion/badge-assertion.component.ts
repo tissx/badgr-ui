@@ -16,9 +16,7 @@ import { Title } from '@angular/platform-browser';
 
 
 @Component({
-	template: `
-
-	`
+	templateUrl: './badge-assertion.component.html'
 })
 export class PublicBadgeAssertionComponent {
 	readonly issuerImagePlacholderUrl = preloadImageURL(require(
