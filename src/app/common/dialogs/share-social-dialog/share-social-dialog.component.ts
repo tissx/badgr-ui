@@ -206,6 +206,8 @@ export class ShareSocialDialog extends BaseDialog {
 
 				containerElem.appendChild(blockquote);
 			} break;
+			default:
+				break;
 		}
 
 		this.currentEmbedHtml = outerContainer.innerHTML;
