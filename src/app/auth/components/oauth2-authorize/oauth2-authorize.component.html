@@ -1,0 +1,39 @@
+<ng-container *bgAwaitPromises="[loadingPromise]">
+	<form-message></form-message>
+
+	<div class="l-auth" *ngIf="authorizingApp">
+		<div class="authlink">
+			<div><img [src]="oAuthManager.currentAuthorization.application.image" alt="{{ authorizingApp.application.name }} Logo"
+				 height="72" /></div>
+			<div><img [src]="authLinkBadgrLogoSrc" height="72" alt="Logo" /></div>
+		</div>
+		<table class="l-auth-x-permissions table">
+			<thead>
+				<tr>
+					<th scope="col">{{ authorizingApp.application.name }} would like to</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="table-x-wrap">
+						<p class="permission permission-personal">Know who you are on Badgr</p>
+					</td>
+				</tr>
+				<tr *ngFor="let scope of presentationScopes">
+					<td class="table-x-wrap">
+						<p class="permission {{ scope.cssName }}">{{ scope.label }}</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p class="l-auth-x-textconfirm text text-quiet">
+			By clicking Authorize, you are allowing this application and Badgr to use your information in accordance with
+			their respective terms of service and privacy policies. You can change this and other account permissions
+			at any time from the Profile menu.
+		</p>
+		<form class="l-auth-x-buttons l-childrenhorizontal l-childrenhorizontal-right">
+			<button class="button button-secondary" type="button" (click)="cancelAuthorization()">Cancel</button>
+			<button class="button" type="submit" (click)="authorizeApp()">Authorize</button>
+		</form>
+	</div>
+</ng-container>
