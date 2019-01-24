@@ -26,7 +26,7 @@ export class AppIntegrationListComponent extends BaseAuthenticatedRoutableCompon
 		private messageService: MessageService,
 		private appIntegrationManager: AppIntegrationManager,
 		private oAuthManager: OAuthManager,
-		protected configService: AppConfigService,
+		public configService: AppConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
