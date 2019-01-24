@@ -7,7 +7,7 @@ import { AppConfigService } from "../../../common/app-config.service";
 
 @Component({
 	selector: 'signup-success',
-	template: './signup-success.component.html',
+	templateUrl: './signup-success.component.html',
 })
 export class SignupSuccessComponent implements OnInit {
 	email: string;
