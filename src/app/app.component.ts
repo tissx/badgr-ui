@@ -5,7 +5,7 @@ import { MessageService } from './common/services/message.service';
 import { SessionService } from './common/services/session.service';
 import { CommonDialogsService } from './common/services/common-dialogs.service';
 import { AppConfigService } from './common/app-config.service';
-import { ShareSocialDialog } from './common/dialogs/share-social-dialog.component';
+import { ShareSocialDialog } from './common/dialogs/share-social-dialog/share-social-dialog.component';
 import { ConfirmDialog } from './common/dialogs/confirm-dialog.component';
 
 import '../thirdparty/scopedQuerySelectorShim';

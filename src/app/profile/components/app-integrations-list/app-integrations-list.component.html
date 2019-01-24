@@ -46,7 +46,7 @@
 			</div>
 			<div class="integrationcard-x-footer">
 				<div class="integrationcard-x-status">Authorized: <strong><time [date]="app.createdDate" format="mediumDate"></time></strong></div>
-				<button class="integrationcard-x-link" type="button" attr.aria-labelledby="appCardTitle-{{ app.entityId }}"
+				<button class="integrationcard-x-link" type="button" [attr.aria-labelledby]="'appCardTitle-' + app.entityId"
 					(click)="revokeApp(app)">Revoke</button>
 			</div>
 		</div>

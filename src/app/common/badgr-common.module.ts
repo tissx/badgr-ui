@@ -34,7 +34,7 @@ import { UcFirstPipe } from "./pipes/ucfirst.pipe";
 
 // import { TooltipDirective } from "./directives/tooltip.directive";
 import { BgCopyInputDirective } from "./directives/bg-copy-input.directive";
-import { ShareSocialDialog } from "./dialogs/share-social-dialog.component";
+import { ShareSocialDialog } from "./dialogs/share-social-dialog/share-social-dialog.component";
 import { TimeComponent } from "./components/time.component";
 import { BadgrButtonComponent } from "./components/badgr-button.component";
 import { SharingService } from "./services/sharing.service";

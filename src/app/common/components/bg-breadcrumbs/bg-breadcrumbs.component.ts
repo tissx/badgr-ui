@@ -5,7 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './bg-breadcrumbs.component.html'
 })
 export class BgBreadcrumbsComponent implements OnInit {
-  
+
   @Input() linkentries: LinkEntry[];
 
   constructor() { }

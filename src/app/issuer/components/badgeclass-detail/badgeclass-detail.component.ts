@@ -22,7 +22,7 @@ import { ExternalToolsManager } from "../../../externaltools/services/externalto
 import { ApiExternalToolLaunchpoint } from "../../../externaltools/models/externaltools-api.model";
 import { BadgeInstanceSlug } from "../../models/badgeinstance-api.model";
 import { badgeShareDialogOptions } from "../../../recipient/components/recipient-earned-badge-detail/recipient-earned-badge-detail.component";
-import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog.component";
+import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog/share-social-dialog.component";
 import { AppConfigService } from "../../../common/app-config.service";
 
 @Component({
