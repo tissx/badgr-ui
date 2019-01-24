@@ -47,7 +47,8 @@
 				<ng-template [ngIf]="groupByIssuer && hasMultipleIssuers">
 					<ng-template ngFor let-issuerResults [ngForOf]="issuerResults">
 						<tr class="datatable-x-row">
-							<th class="datatable-x-inlineheader" scope="row" colspan="2">{{ issuerResults.issuer?.name || "Unknown Issuer" }}</th>
+							<th class="datatable-x-inlineheader" scope="row" colspan="2">{{ issuerResults.issuer?.name || "Unknown Issuer"
+								}}</th>
 						</tr>
 						<tr class="datatable-x-row" *ngFor="let badge of issuerResults.badges">
 							<td class="datatable-x-cell">
@@ -61,11 +62,11 @@
 											{{ badge.name }}
 										</span>
 									</label>
-									<label>
+									<label for="badge-check-{{ badgeResult.badge.slug }}">
 										<img class="badgeimage-small" src="{{ badge.image }}" width="40" height="40" alt="{{ badge.badgeClass.name }}"
 										 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}">
 									</label>
-									<label>
+									<label for="badge-check-{{ badgeResult.badge.slug }}">
 										<div class="l-flex l-flex-column">
 											<p class="u-text-link u-text-bold u-text-breakword">
 												{{ badge.badgeClass.name }}
@@ -81,7 +82,7 @@
 								</div>
 							</td>
 							<td class="datatable-x-cell u-text-small">
-									{{ badge.issueDate | date: 'longDate'}}
+								{{ badge.issueDate | date: 'longDate'}}
 							</td>
 						</tr>
 					</ng-template>
@@ -91,7 +92,7 @@
 					<tr class="datatable-x-row" *ngFor="let badgeResult of badgeResults">
 						<td class="datatable-x-cell">
 							<div class="l-flex l-flex-1x l-flex-aligncenter">
-								<label class="checkbox">
+								<label class="checkbox" for="badge-check-{{ badgeResult.badge.slug }}">
 									<input type="checkbox" id="badge-check-{{ badgeResult.badge.slug }}" #badgeCheckbox [checked]="selectedBadges.has(badgeResult.badge)"
 									 (change)="updateBadgeSelection(badgeResult.badge, badgeCheckbox.checked)" *ngIf="multiSelectMode" />
 									<input type="radio" id="badge-check-{{ badgeResult.badge.slug }}" #badgeRadio [checked]="selectedBadges.has(badgeResult.badge)"
@@ -100,9 +101,11 @@
 										{{ badgeResult.badge.badgeClass.name }}
 									</span>
 								</label>
-								<img class="badgeimage-small" [src]="badgeResult.badge.image" width="40" height="40" alt="{{ badgeResult.badge.badgeClass.name }}"
-								 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}">
-								<div class="l-flex l-flex-column">
+								<label for="badge-check-{{ badgeResult.badge.slug }}">
+									<img class="badgeimage-small" [src]="badgeResult.badge.image" width="40" height="40" alt="{{ badgeResult.badge.badgeClass.name }}"
+									 [ngStyle]="badgeResult.badge.isExpired && {'filter':'grayscale(1)'}">
+								</label>
+								<label class="l-flex l-flex-column" for="badge-check-{{ badgeResult.badge.slug }}">
 									<p class="u-text-link u-text-bold u-text-breakword">
 										{{ badgeResult.badge.badgeClass.name }}
 									</p>
@@ -112,7 +115,8 @@
 									<span *ngIf="badgeResult.badge.mostRelevantStatus" class="badgestatus badgestatus-{{badgeResult.badge.mostRelevantStatus}}">
 										{{badgeResult.badge.mostRelevantStatus}}
 									</span>
-								</div>
+								</label>
+
 							</div>
 						</td>
 						<td class="datatable-x-cell u-text-small">
