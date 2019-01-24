@@ -1,68 +1,64 @@
-import { Component } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { IssuerManager } from "../../services/issuer-manager.service";
-import { BadgeClass } from "../../models/badgeclass.model";
-import { Issuer } from "../../models/issuer.model";
-import { BadgeClassManager } from "../../services/badgeclass-manager.service";
-import { AppConfigService } from "../../../common/app-config.service";
-
+import { Component } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SessionService } from '../../../common/services/session.service';
+import { MessageService } from '../../../common/services/message.service';
+import { Title } from '@angular/platform-browser';
+import { BaseAuthenticatedRoutableComponent } from '../../../common/pages/base-authenticated-routable.component';
+import { IssuerManager } from '../../services/issuer-manager.service';
+import { BadgeClass } from '../../models/badgeclass.model';
+import { Issuer } from '../../models/issuer.model';
+import { BadgeClassManager } from '../../services/badgeclass-manager.service';
+import { AppConfigService } from '../../../common/app-config.service';
+import { LinkEntry, BgBreadcrumbsComponent } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 export interface TransformedImportData {
-	duplicateRecords: BulkIssueData[],
-	validRowsTransformed: Set<BulkIssueData>,
-	invalidRowsTransformed: Array<BulkIssueData>
+	duplicateRecords: BulkIssueData[];
+	validRowsTransformed: Set<BulkIssueData>;
+	invalidRowsTransformed: Array<BulkIssueData>;
 }
 
 export interface BulkIssueImportPreviewData {
-	columnHeaders: ColumnHeaders[],
-	invalidRows: string[][],
-	rowLongerThenHeader: boolean,
-	rows: string[],
-	validRows: string[][]
+	columnHeaders: ColumnHeaders[];
+	invalidRows: string[][];
+	rowLongerThenHeader: boolean;
+	rows: string[];
+	validRows: string[][];
 }
 
 export interface BulkIssueData {
-	email: string,
-	evidence: string
+	email: string;
+	evidence: string;
 }
 
-export type DestSelectOptions = "email" | "evidence" | "NA";
+export type DestSelectOptions = 'email' | 'evidence' | 'NA';
 
-export type ViewState = "import" | "importPreview" | "importError" | "importConformation" | "cancel" | "exit";
+export type ViewState = 'import' | 'importPreview' | 'importError' | 'importConformation' | 'cancel' | 'exit';
 
 export interface ColumnHeaders {
-	destColumn: DestSelectOptions,
-	sourceName: string
+	destColumn: DestSelectOptions;
+	sourceName: string;
 }
 
 @Component({
 	selector: 'Badgeclass-issue-bulk-award',
 	template: `
-		<main *bgAwaitPromises="[issuerLoaded, badgeClassLoaded]">
+		<ng-container *bgAwaitPromises="[issuerLoaded, badgeClassLoaded]">
 			<form-message></form-message>
-			<!-- Breadcrumb -->
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li><a [routerLink]="['/issuer']">Issuers</a></li>
-						<li><a [routerLink]="['/issuer/issuers', issuerSlug]">{{issuer.name}}</a></li>
-						<li><a [routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug]"
-									 [truncatedText]="badgeClass.name" [maxLength]="64"></a></li>
-						<li class="breadcrumb-x-current">Bulk Award Badge</li>
-					</ul>
-				</nav>
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>Bulk Award</h1>
+			
+			<div class="topbar topbar-withimage">
+				<div class="l-containerxaxis">
+					<div class="topbar-x-breadcrumbs">
+						<bg-breadcrumbs 
+							[linkentries]="breadcrumbLinkEntries"
+						>
+						</bg-breadcrumbs>
 					</div>
+					<h1 class="topbar-x-heading">
+						Bulk Award
+					</h1>
 				</div>
-			</header>
+			</div>
 
 			<Badgeclass-issue-bulk-award-import
 				*ngIf="viewState == 'import'"
@@ -91,10 +87,9 @@ export interface ColumnHeaders {
 				(updateStateEmitter)=updateViewState($event)>
 			</badgeclass-issue-bulk-award-error>
 
-		</main>
-	`,
+		</ng-container>
+	`
 })
-
 export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutableComponent {
 	importPreviewData: BulkIssueImportPreviewData;
 	transformedImportData: TransformedImportData;
@@ -105,7 +100,9 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 	issuer: Issuer;
 	issuerLoaded: Promise<any>;
 
-	constructor (
+	breadcrumbLinkEntries: LinkEntry[] = []
+
+	constructor(
 		protected badgeClassManager: BadgeClassManager,
 		protected formBuilder: FormBuilder,
 		protected issuerManager: IssuerManager,
@@ -118,18 +115,25 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 	) {
 		super(router, route, sessionService);
 
-		this.updateViewState("import");
+		this.updateViewState('import');
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then((issuer) => {
 			this.issuer = issuer;
-			this.badgeClassLoaded = this.badgeClassManager.badgeByIssuerUrlAndSlug(
-				issuer.issuerUrl,
-				this.badgeSlug
-			).then((badgeClass) => {
-				this.badgeClass = badgeClass;
-				this.title.setTitle(`Bulk Award Badge - ${badgeClass.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
-			});
-		})
+			this.badgeClassLoaded = this.badgeClassManager
+				.badgeByIssuerUrlAndSlug(issuer.issuerUrl, this.badgeSlug)
+				.then((badgeClass) => {
+					this.badgeClass = badgeClass;
+					this.title.setTitle(
+						`Bulk Award Badge - ${badgeClass.name} - ${this.configService.theme['serviceName'] || 'Badgr'}`
+					);
+					this.breadcrumbLinkEntries = [
+						{ title: 'Issuers', routerLink: [ '/issuer' ] },
+						{ title: issuer.name, routerLink: [ '/issuer/issuers', this.issuerSlug ] },
+						{ title: badgeClass.name, routerLink: [ '/issuer/issuers', this.issuerSlug, 'badges', badgeClass.slug ] },
+						{ title: 'Bulk Award Badge' }
+					];
+				});
+		});
 	}
 
 	onBulkIssueImportPreviewData(importPreviewData: BulkIssueImportPreviewData) {
@@ -143,11 +147,11 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 		// Determine if the transformed data contains any errors
 		this.transformedImportData && transformedImportData.invalidRowsTransformed.length
 			? this.updateViewState('importError')
-			: this.updateViewState("importConformation");
+			: this.updateViewState('importConformation');
 	}
 
 	updateViewState(state: ViewState) {
-		if (state === "cancel") {
+		if (state === 'cancel') {
 			this.navigateToIssueBadgeInstance();
 			return;
 		}
@@ -163,15 +167,13 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 	}
 
 	navigateToIssueBadgeInstance() {
-		this.router.navigate(
-			['/issuer/issuers', this.issuer.slug, "badges", this.badgeSlug]
-		);
+		this.router.navigate([ '/issuer/issuers', this.issuer.slug, 'badges', this.badgeSlug ]);
 	}
 
 	createRange(size: number) {
 		let items: string[] = [];
 		for (let i = 1; i <= size; i++) {
-			items.push("");
+			items.push('');
 		}
 		return items;
 	}

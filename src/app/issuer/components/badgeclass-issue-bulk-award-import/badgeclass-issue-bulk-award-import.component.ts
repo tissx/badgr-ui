@@ -15,10 +15,10 @@ import {
 @Component({
 	selector: 'Badgeclass-issue-bulk-award-import',
 	template: `
-		<section class="wrap l-containerhorizontal">
+		<section class="l-containerxaxis l-containeryaxis">
       <div>
-		    <article class="importHeading">
-					<h1 class=title>Instructions</h1>
+		    <article class="contentlong">
+					<h3 class="u-text-h3">Instructions</h3>
 					<p>
 						You may import a list of people to award this badge to. Your file must meet the following requirements:
 					</p>
@@ -49,11 +49,11 @@ import {
 			</div>
 
 			<!-- BUTTONS -->
-			<div class="l-display-flex l-childrenhorizontal-right l-marginTop-4x l-marginBottom-4x">
+			<div class="l-stack l-stack-buttons">
 				<button
 					class="button button-primaryghost"
 					(click)="updateViewState('cancel')"
-				>cancel</button>
+				>Cancel</button>
 
 				<button
 					class="button l-marginLeft-x2"
