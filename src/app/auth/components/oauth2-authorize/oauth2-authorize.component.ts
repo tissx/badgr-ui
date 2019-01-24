@@ -14,7 +14,7 @@ import { AppConfigService } from "../../../common/app-config.service";
 
 @Component({
 	selector: 'logout',
-	template: './oauth2-authorize.component.html'
+	templateUrl: './oauth2-authorize.component.html'
 })
 export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 	readonly authLinkBadgrLogoSrc = require("../../../../breakdown/static/images/logo.svg");
@@ -27,6 +27,13 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 
 	get loadingPromise() {
 		return this._loadingPromise;
+	}
+
+	iconName(scopeCssName: string): string {
+		if (scopeCssName === "permission-issuer") return "issuer2";
+		if (scopeCssName === "permission-assertion") return "badgeaward";
+		if (scopeCssName === "permission-profile") return "email";
+		return "checkmark";
 	}
 
 	constructor(
