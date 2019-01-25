@@ -34,22 +34,14 @@
 						(ngSubmit)="onSubmit(emailForm.value)">
 				<div class="forminput forminput-withbutton forminput-light1 u-width-formsmall">
 
-					<!--<bg-formfield-text [control]="emailForm.controls['email']"
-                                                           [errorMessage]="'Please enter a valid email address'"
-                                                           fieldType="email"
-                                                           placeholder="Member Email">
-                      </bg-formfield-text>-->
+					<bg-formfield-text
+						[control]="emailForm.controls['email']"
+						[errorMessage]="'Please enter a valid email address'"
+						fieldType="email"
+						placeholder="Email Address..."
+						inlineButtonText="Add">
+					</bg-formfield-text>
 
-					<label class="forminput-x-label visuallyhidden" for="forminput">Search</label>
-					<div class="forminput-x-inputs">
-						<input type="text" name="forminput" id="forminput" placeholder="Email Address...">
-
-						<div class="forminput-x-button">
-							<button class="button button-secondary button-informinput">
-								Add
-							</button>
-						</div>
-					</div>
 				</div>
 			</form>
 		</div>
@@ -152,9 +144,9 @@
 				<td class="datatable-x-cell">
 					<div class="l-flex l-flex-justifyend">
 						<a
-							href=""
+							href="#"
 							class="u-text u-text-small u-text-bold"
-							(click)="unlinkAccount(account)">Unlink</a>
+							(click)="$event.preventDefault();unlinkAccount(account)">Unlink</a>
 					</div>
 				</td>
 			</tr>
