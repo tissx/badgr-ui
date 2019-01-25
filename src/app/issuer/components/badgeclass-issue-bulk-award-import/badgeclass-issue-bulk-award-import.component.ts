@@ -16,26 +16,24 @@ import {
 	selector: 'Badgeclass-issue-bulk-award-import',
 	template: `
 		<section class="l-containerxaxis l-containeryaxis">
-      <div>
-		    <article class="contentlong">
-					<h3 class="u-text-h3">Instructions</h3>
+      		<div class="u-width-form">
+		    	<article class="contentlong">
+					<h2>Instructions</h2>
 					<p>
 						You may import a list of people to award this badge to. Your file must meet the following requirements:
 					</p>
-					<ul>
+					<ol>
 						<li>Contains email address and the Evidence URL.</li>
 						<li>CSV or TXT format only.</li>
-					</ul>
+					</ol>
 					<p>
 						Use this
-						<a [href]="badgrBulkIssueTemplateUrl" download="badgr-bulk-issue-template.csv">
-							Sample Template
-						</a>
+						<a [href]="badgrBulkIssueTemplateUrl" download="badgr-bulk-issue-template.csv">Sample Template</a>
 						to create a CSV or TXT file for Bulk Issuing badges.
 					</p>
 				</article>
 				<form [formGroup]="csvForm"
-					  class="l-maxWidth">
+					  class="">
 					<fieldset>
 						<bg-formfield-file #fileField
 										    label="File"
@@ -46,22 +44,21 @@ import {
 						</bg-formfield-file>
 					</fieldset>
 				</form>
+
+				<div class="l-flex l-flex-1x u-margin-top2x">
+					<button
+						class="button button-secondary"
+						(click)="updateViewState('cancel')"
+					>Cancel</button>
+
+					<button
+						class="button l-marginLeft-x2"
+						[class.button-is-disabled]="rawCsv === null"
+						[attr.disabled] = "rawCsv ? null : true "
+						(click)="importAction()"
+					>Import</button>
+				</div>
 			</div>
-
-			<!-- BUTTONS -->
-			<div class="l-stack l-stack-buttons">
-				<button
-					class="button button-primaryghost"
-					(click)="updateViewState('cancel')"
-				>Cancel</button>
-
-				<button
-					class="button l-marginLeft-x2"
-					[class.button-is-disabled]="rawCsv === null"
-					[attr.disabled] = "rawCsv ? null : true "
-					(click)="importAction()"
-				>Import</button>
-		    </div>
 		</section>
 	`,
 })

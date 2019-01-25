@@ -6,9 +6,9 @@ import { DomSanitizer } from "@angular/platform-browser";
 @Component({
 	selector: 'bg-formfield-file',
 	host: {
-		"class": "formimage",
-		"[class.formimage-is-dragging]": "isDragging",
-		"[class.formimage-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
+		"class": "dropzone",
+		"[class.dropzone-is-dragging]": "isDragging",
+		"[class.dropzone-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
 		"(drag)": "stopEvent($event)",
 		"(dragstart)": "stopEvent($event)",
 		"(dragover)": "dragStart($event)",
@@ -18,7 +18,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 		"(drop)": "drop($event)",
 	},
 	template: `
-		<p class="formimage-x-title">
+		<p class="visuallyhidden">
 			{{ label }}
 			<ng-content select="[label-additions]"></ng-content>
 		</p>
@@ -26,30 +26,22 @@ import { DomSanitizer } from "@angular/platform-browser";
 		       accept="{{validFileTypes}}"
 		       name="image_field{{ uniqueIdSuffix }}"
 		       id="image_field{{ uniqueIdSuffix }}"
-		       (change)="fileInputChanged($event)"
+			   (change)="fileInputChanged($event)"
+			   class="visuallyhidden"
 		/>
 		<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()">
-			<span class="formimage-x-image">
-				<img [src]="placeholderImage"
-				     alt="Placeholder image"
-				     *ngIf="!fileLoading && !fileErrorMessage">
-				<img [src]="imageFailedSrc" alt="Invalid image" *ngIf="fileErrorMessage">
-				<img [src]="imageLoadingSrc" alt="Image preview" *ngIf="fileLoading">
-				<!--<img [src]="unsafeImageDataUrl" alt="Image preview" *ngIf="imageDataUrl">-->
-			</span>
+		<svg class="dropzone-x-icon" icon="icon_upload"></svg>
+			<div class="dropzone-x-text" *ngIf="! fileErrorMessage">
+				<div *ngIf="! fileProvided && ! fileLoading" class="u-text-bold">Drop file or browse.</div>
+				<div *ngIf="fileLoading" class="dropzone-x-info1">Loading File...</div>
+				<div *ngIf="fileName" class="dropzone-x-info1">{{ fileName }}</div>
+				<div *ngIf="fileName" class="u-link-small">Change</div>
+			</div>
 
-			<span class="formimage-x-text" *ngIf="! fileErrorMessage">
-				<span *ngIf="! fileProvided && ! fileLoading" class="formimage-x-label">Drop file or <span>browse</span>.</span>
-				<span *ngIf="fileLoading" class="formimage-x-label">Loading File...</span>
-
-				<span *ngIf="fileName" class="formimage-x-label">{{ fileName }}</span>
-				<span *ngIf="fileName" class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
-			</span>
-
-			<span *ngIf="fileErrorMessage" class="formimage-x-error">{{ fileErrorMessage }}</span>
+			<div *ngIf="fileErrorMessage" class="dropzone-x-error">{{ fileErrorMessage }}</div>
 			<!--</span>-->
 		</label>
-		<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
+		<p class="dropzone-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
 	`,
 
 })
