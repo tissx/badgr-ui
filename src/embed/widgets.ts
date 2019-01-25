@@ -82,7 +82,7 @@ export function setupEmbeddedBadges() {
 						staticPrefix: staticPrefix,
 					});
 					badge.innerHTML = blockquote.innerHTML;
-					badge.setAttribute("style", 'border: none; font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 30px; position: unset; quotes: unset;');
+					badge.setAttribute("style", 'border: none; font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 0px; position: unset; quotes: unset;');
 				}
 			};
 			xhr.send();
