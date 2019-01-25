@@ -18,7 +18,7 @@
 			<button
 				[class.tab-is-active]="currentTabId === 'link'"
 				(click)="openTab('link')"
-				class="tab tab-wide tab-is-active">
+				class="tab">
 					<span class="visuallyhidden">
 						Open the </span> Link
 				<span class="visuallyhidden"> tab</span>
@@ -26,7 +26,7 @@
 			<button
 				[class.tab-is-active]="currentTabId === 'social'"
 				(click)="openTab('social')"
-				class="tab tab-wide">
+				class="tab">
 					<span class="visuallyhidden">
 						Open the </span>Social
 				<span class="visuallyhidden"> tab</span>
@@ -35,7 +35,7 @@
 				[class.tab-is-active]="currentTabId === 'embed'"
 				(click)="openTab('embed')"
 				*ngIf="hasEmbedSupport"
-				class="tab tab-wide">
+				class="tab">
 					<span class="visuallyhidden">
 						Open the </span>Embed
 				<span class="visuallyhidden"> tab</span>
