@@ -11,78 +11,7 @@ import { Title } from '@angular/platform-browser';
 import { AppConfigService } from '../../../common/app-config.service';
 
 @Component({
-	template: `
-		<ng-template [bgAwaitPromises]="collectionHashParam">
-			<!-- Embedded View -->
-			<div class="l-cardembedded" *ngIf="embedService.isEmbedded">
-				<div class="card card-largeimage">
-					<a class="card-x-main" [href]="collection.id" target="_blank">
-						<span class="card-x-text">
-							<h1>{{ collection.name }}</h1>
-							<small>{{ collection.badges.length == 1 ? '1 Badge' : (collection.badges.length + ' Badges') }}</small>
-							<ul>
-								<li *ngFor="let badge of collection.badges | slice:0:(collection.badges.length > 12 ? 11 : 12)">
-									<div class="badge badge-flat">
-										<img [loaded-src]="badge.image"
-										     [loading-src]="badgeLoadingImageUrl"
-										     [error-src]="badgeFailedImageUrl"
-										     width="40" />
-									</div>
-								</li>
-
-								<li *ngIf="collection.badges.length > 12">
-								  <span class="card-x-more">{{ collection.badges.length - 11 }}<span> More</span></span>
-								</li>
-							</ul>
-						</span>
-					</a>
-				</div>
-			</div>
-
-			<!-- Regular View -->
-			<main *ngIf="! embedService.isEmbedded">
-				<form-message></form-message>
-
-				<header class="wrap wrap-light l-containerhorizontal l-heading ">
-					<div class="heading">
-						<div class="heading-x-text">
-							<h1>{{ collection.name }} <span> {{ collection.badges.length == 1 ? "1 Badge" : collection.badges.length + " Badges" }}</span></h1>
-							<p><small>Badges earned by {{ collection.owner.firstName }} {{ collection.owner.lastName }}</small></p>
-							<p>{{ collection.description }}</p>
-						</div>
-					</div>
-				</header>
-
-				<div class="wrap l-containerhorizontal l-headeredsection">
-					<div class="l-gridthree">
-						<div *ngFor="let badge of collection.badges">
-							<article class="card card-largeimage">
-								<a class="card-x-main" [href]="getBadgeUrl(badge)">
-									<div class="card-x-label status status-expired"
-									*ngIf="isExpired(badge.expires)">
-										expired
-									</div>
-									<div class="card-x-image">
-										<div class="badge badge-flat">
-											<img [alt]="badge.badge.name + 'Badge'"
-												 [src]="badge.image"
-												 [ngStyle]="isExpired(badge.expires) && {'filter':'grayscale(1)'}"
-												 width="80">
-										</div>
-									</div>
-									<div class="card-x-text">
-										<h1>{{ badge.badge.name }}</h1>
-										<small>{{ badge.badge.issuer.name }}</small>
-										<p [truncatedText]="badge.badge.description" [maxLength]="100"></p>
-									</div>
-								</a>
-							</article>
-						</div>
-					</div>
-				</div>
-			</main>
-		</ng-template>
-	`
+	templateUrl: 'badge-collection.component.html'
 })
 export class PublicBadgeCollectionComponent {
 	readonly issuerImagePlacholderUrl = preloadImageURL(require(
