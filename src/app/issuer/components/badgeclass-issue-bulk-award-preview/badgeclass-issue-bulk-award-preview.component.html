@@ -1,56 +1,93 @@
-<section class="wrap l-containerhorizontal">
-	<div class="select-csvUpload">
-		<div class="importHeading">
-			<h1 class=title>Map CSV Columns</h1>
-			<p *ngIf="importPreviewData?.rows">
-				Below is a preview of the first {{ (importPreviewData.rows.length < MAX_ROWS_TO_DISPLAY) ?
+<section class="l-containerxaxis l-containeryaxis">
+    <div class="select-csvUpload">
+        <div class="contentlong u-width-form">
+            <h2>Map CSV Columns</h2>
+            <p *ngIf="importPreviewData?.rows">
+                Below is a preview of the first {{ (importPreviewData.rows.length < MAX_ROWS_TO_DISPLAY) ?
 				 importPreviewData.rows.length : MAX_ROWS_TO_DISPLAY}} of {{importPreviewData.rows.length}} rows in your file. For
-				 each column in the table below, choose the heading from the dropdown that matches the data in your CSV. </p> </div>
-				 <table class="table table-import">
-					<thead>
-						<tr>
-							<th scope="col" *ngFor="let columnHeaderName of importPreviewData.columnHeaders; let columnId = index;">
-								<label class="select select-inputonly select-import">
-									<span>Sort by</span>
-									<select name="select" [id]="'select'+columnId" #selectDest [value]=columnHeaderName.destColumn (change)="mapDestNameToSourceName(columnId,selectDest.value)">
-										<option value="NA">N/A</option>
-										<option value="email">Email</option>
-										<option value="evidence">Evidence URL</option>
-									</select>
-								</label>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td *ngFor="let columnHeaderName of importPreviewData.columnHeaders">
-								{{ columnHeaderName.sourceName }}
-							</td>
-						</tr>
-						<tr *ngFor="let row of importPreviewData?.rows.slice(0,MAX_ROWS_TO_DISPLAY)">
-							<td *ngFor="let cell of row">
-								{{ cell}}
-							</td>
-							<ng-template [ngIf]="row.length < columnHeadersCount">
-								<td *ngFor="let spacer of createRange(columnHeadersCount-row.length)"></td>
-							</ng-template>
-						</tr>
-					</tbody>
-					</table>
-		</div>
+				 each column in the table below, choose the heading from the dropdown that matches the data in your CSV.
+            </p>
+        </div>
+        <table class="datatable datatable-roundheaders datatable-headers">
+            <thead class="datatable-x-head">
+                <tr class="datatable-x-header">
+                    <th
+                        class="datatable-x-cell"
+                        scope="col"
+                        *ngFor="let columnHeaderName of importPreviewData.columnHeaders; let columnId = index;"
+                    >
+                        <label class="forminput">
+							<div class="forminput-x-inputs">
+								<div class="forminput-x-label">Sort by</div>
+								<select
+									name="select"
+									[id]="'select'+columnId"
+									#selectDest
+									[value]=columnHeaderName.destColumn
+									(change)="mapDestNameToSourceName(columnId,selectDest.value)"
+								>
+									<option value="NA">N/A</option>
+									<option value="email">Email</option>
+									<option value="evidence">Evidence URL</option>
+								</select>
+							</div>
+                        </label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="datatable-x-body">
+                <tr class="datatable-x-row">
+                    <td
+                        class="datatable-x-cell"
+                        *ngFor="let columnHeaderName of importPreviewData.columnHeaders"
+                    >
+                        {{ columnHeaderName.sourceName }}
+                    </td>
+                </tr>
+                <tr
+                    class="datatable-x-row"
+                    *ngFor="let row of importPreviewData?.rows.slice(0,MAX_ROWS_TO_DISPLAY)"
+                >
+                    <td
+                        class="datatable-x-cell"
+                        *ngFor="let cell of row"
+                    >
+                        {{ cell}}
+                    </td>
+                    <ng-template [ngIf]="row.length < columnHeadersCount">
+                        <td
+                            class="datatable-x-cell"
+                            *ngFor="let spacer of createRange(columnHeadersCount-row.length)"
+                        ></td>
+                    </ng-template>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-		<!-- BUTTONS -->
-		<div class="l-display-flex l-childrenhorizontal-right l-marginTop-4x l-marginBottom-4x">
-			<button class="button button-primaryghost" (click)="updateViewState('import')">cancel</button>
+    <!-- BUTTONS -->
+    <div class="l-flex l-flex-2x u-margin-top2x">
+        <button
+            class="button button-secondary"
+            (click)="updateViewState('import')"
+        >
+            Cancel
+        </button>
 
-			<button class="button l-marginLeft-x2" [class.button-is-disabled]=buttonDisabledClass [attr.disabled]=buttonDisabledAttribute
-			 (click)="generateImportPreview()">continue</button>
-		</div>
+        <button
+            class="button l-marginLeft-x2"
+            [class.button-is-disabled]=buttonDisabledClass
+            [attr.disabled]=buttonDisabledAttribute
+            (click)="generateImportPreview()"
+        >
+            Continue
+        </button>
+    </div>
 </section>
 
 <div *ngIf="rowIsLongerThanHeader">
-	<div class="l-formmessage formmessage formmessage-is-error formmessage-is-active">
-		<p>The CSV uploaded contains row lengths longer then its header lengths. Please correct this error and try again.</p>
-		<!--<button type="button" (click)="rowIsLongerThanHeader = false">Dismiss</button>-->
-	</div>
+    <p class="u-text u-width-form">
+        The CSV uploaded contains row lengths longer then its header lengths. Please correct this error and try again.
+        <!-- <button type="button" (click)="rowIsLongerThanHeader = false">Dismiss</button> -->
+    </p>
 </div>
