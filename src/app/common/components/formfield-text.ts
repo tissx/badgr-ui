@@ -17,11 +17,14 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 		'[class.forminput-withsublabel]': 'sublabel'
 	},
 	template: `
-		<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
-			{{ label }}  <span *ngIf="optional">(OPTIONAL)</span>
-			<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
-			<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
-		</label>
+		<div class="forminput-x-labelrow">
+			<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
+				{{ label }}  <span *ngIf="optional">(OPTIONAL)</span>
+				<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
+				<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
+			</label>
+			<ng-content class="forminput-x-helplink" select="[label-additions]"></ng-content>
+		</div>
 		<p class="forminput-x-sublabel" *ngIf="sublabel">{{ remainingCharactersNum }}{{ sublabel }}</p>
 
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>

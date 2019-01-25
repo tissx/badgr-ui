@@ -100,8 +100,6 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		return (this.badge && this.badge.expiresDate && this.badge.expiresDate < new Date());
 	}
 
-	
-
 	manageCollections() {
 		this.collectionSelectionDialog.openDialog({
 			dialogId: "recipient-badge-collec",
