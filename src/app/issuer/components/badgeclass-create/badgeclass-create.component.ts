@@ -13,44 +13,17 @@ import { BadgrApiFailure } from "../../../common/services/api-failure";
 import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
 import { BadgeClass } from "../../models/badgeclass.model";
 import { AppConfigService } from "../../../common/app-config.service";
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 
 @Component({
-	template: `
-		<main *bgAwaitPromises="[issuerLoaded]">
-
-			<form-message></form-message>
-
-			<header class="wrap wrap-light l-containerhorizontal l-heading ">
-				<nav>
-					<h2 class="visuallyhidden">Breadcrumbs</h2>
-					<ul class="breadcrumb">
-						<li><a [routerLink]="['/issuer']">Issuers</a></li>
-						<li><a [routerLink]="['/issuer/issuers/', issuerSlug]">{{issuer.name}}</a></li>
-						<li class="breadcrumb-x-current">Add Badge Class</li>
-					</ul>
-				</nav>
-
-				<header class="heading">
-					<div class="heading-x-text">
-						<h1 id="heading-addbadgeclass">Add Badge Class</h1>
-					</div>
-				</header>
-			</header>
-
-			<badgeclass-edit-form (save)="badgeClassCreated($event)"
-			                      (cancel)="creationCanceled($event)"
-			                      [issuerSlug]="issuerSlug"
-			                      submitText="Create Badge"
-			                      submittingText="Creating Badge..."
-			></badgeclass-edit-form>
-		</main>
-	`
+	templateUrl: 'badgeclass-create.component.html'
 })
 export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	issuerSlug: string;
 	issuer: Issuer;
 	issuerLoaded: Promise<any>;
+	breadcrumbLinkEntries: LinkEntry [] = [];
 
 	constructor(
 		sessionService: SessionService,
@@ -70,6 +43,11 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then((issuer) => {
 			this.issuer = issuer;
+			this.breadcrumbLinkEntries = [
+				{title: 'Issuers', routerLink: ['/issuer']},
+				{title: issuer.name, routerLink: ['/issuer/issuers', this.issuerSlug] },
+				{title: 'Add Badge Class'}
+			];
 		});
 	}
 

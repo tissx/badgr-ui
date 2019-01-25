@@ -106,6 +106,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	// Alignments
 	alignmentsEnabled = false;
 	savedAlignments: AbstractControl[] = null;
+	showAdvanced: boolean[] = [false];
 
 	constructor(
 		sessionService: SessionService,

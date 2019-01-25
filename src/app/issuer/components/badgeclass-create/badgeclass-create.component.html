@@ -1,0 +1,25 @@
+<div class="topbar">
+	<div class="l-containerxaxis">
+		<div class="topbar-x-breadcrumbs">
+			<bg-breadcrumbs [linkentries]="breadcrumbLinkEntries"></bg-breadcrumbs>
+		</div>
+		<div class="topbar-x-heading">
+			Add Badge Class
+		</div>
+		<div class="topbar-x-subheading">
+			Award badges an individual below, or <a class="u-text" href="#">bulk award</a> to multiple recipients at once.
+		</div>
+	</div>
+</div>
+
+<div *bgAwaitPromises="[issuerLoaded]" class="l-containerxaxis l-containeryaxis">
+	<div class="l-responsivelist">
+	<badgeclass-edit-form (save)="badgeClassCreated($event)"
+												(cancel)="creationCanceled($event)"
+												[issuerSlug]="issuerSlug"
+												submitText="Create Badge"
+												submittingText="Creating Badge..."
+	></badgeclass-edit-form>
+	</div>
+</div>
+

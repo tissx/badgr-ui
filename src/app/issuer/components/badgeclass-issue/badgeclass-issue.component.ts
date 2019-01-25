@@ -33,8 +33,8 @@ import { LinkEntry } from '../../../common/components/bg-breadcrumbs/bg-breadcru
 	templateUrl: './badgeclass-issue.component.html'
 })
 export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	
-	breadcrumbLinkEntries: LinkEntry [] = []
+
+	breadcrumbLinkEntries: LinkEntry [] = [];
 
 	get defaultExpiration(): string {
 		if (this.badgeClass && this.badgeClass.expiresDuration && this.badgeClass.expiresAmount) {
