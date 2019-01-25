@@ -1,0 +1,61 @@
+<section class="wrap l-containerhorizontal">
+	<div>
+		<div class="importHeading">
+			<h1 class=title>Import Preview</h1>
+			<p>
+				{{transformedImportData.validRowsTransformed.size}} Rows ready to be
+				imported. {{transformedImportData.duplicateRecords.length}}
+				rows were found to be duplicates and will be ignored. Click the AWARD BADGE button below to award this
+				badge.
+			</p>
+		</div>
+
+		<table class="table table-issues">
+			<thead>
+				<tr>
+					<th scope="col">Email</th>
+					<th scope="col">Evidence</th>
+					<th>
+						<!-- header for remove link-->
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let row of transformedImportData.validRowsTransformed">
+					<td class="table-issues-x-confirmationText">
+						{{row.email}}
+					</td>
+					<td class="table-issues-x-confirmationText">
+						{{row.evidence}}
+					</td>
+					<td>
+						<button class="button button-primaryghost" (click)="removeValidRowsTransformed(row)">REMOVE
+						</button>
+					</td>
+				</tr>
+			<tbody>
+		</table>
+	</div>
+
+	<div class="l-childrenvertical l-marginTop-4x">
+		<div>
+			<h1 class=title>Notification Preference</h1>
+		</div>
+		<div>
+			<label class="formcheckbox" for="notify_earner">
+				<input checked name="notify_earner" id="notify_earner" type="checkbox" [(ngModel)]="notifyEarner">
+				<span class="formcheckbox-x-text">Notify recipient by email</span>
+			</label>
+		</div>
+	</div>
+
+	<!-- BUTTONS -->
+	<div class="l-display-flex l-childrenhorizontal-right l-marginTop-4x l-marginBottom-4x">
+		<button class="button button-primaryghost" (click)="updateViewState('import')">cancel
+		</button>
+
+		<button class="button l-marginLeft-x2" [class.button-is-disabled]=buttonDisabledClass [attr.disabled]=buttonDisabledAttribute
+		 (click)="dataConfirmed()">Award Badge
+		</button>
+	</div>
+</section>

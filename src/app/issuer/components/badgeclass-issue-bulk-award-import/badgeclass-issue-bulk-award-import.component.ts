@@ -14,53 +14,7 @@ import {
 
 @Component({
 	selector: 'Badgeclass-issue-bulk-award-import',
-	template: `
-		<section class="l-containerxaxis l-containeryaxis">
-      		<div class="u-width-form">
-		    	<article class="contentlong">
-					<h2>Instructions</h2>
-					<p>
-						You may import a list of people to award this badge to. Your file must meet the following requirements:
-					</p>
-					<ol>
-						<li>Contains email address and the Evidence URL.</li>
-						<li>CSV or TXT format only.</li>
-					</ol>
-					<p>
-						Use this
-						<a [href]="badgrBulkIssueTemplateUrl" download="badgr-bulk-issue-template.csv">Sample Template</a>
-						to create a CSV or TXT file for Bulk Issuing badges.
-					</p>
-				</article>
-				<form [formGroup]="csvForm"
-					  class="">
-					<fieldset>
-						<bg-formfield-file #fileField
-										    label="File"
-										    validFileTypes="text/plain,.csv"
-										    [control]="csvForm.controls['file']"
-										    [placeholderImage]="csvUploadIconUrl"
-										    (fileData) = onFileDataRecived($event)>
-						</bg-formfield-file>
-					</fieldset>
-				</form>
-
-				<div class="l-flex l-flex-1x u-margin-top2x">
-					<button
-						class="button button-secondary"
-						(click)="updateViewState('cancel')"
-					>Cancel</button>
-
-					<button
-						class="button l-marginLeft-x2"
-						[class.button-is-disabled]="rawCsv === null"
-						[attr.disabled] = "rawCsv ? null : true "
-						(click)="importAction()"
-					>Import</button>
-				</div>
-			</div>
-		</section>
-	`,
+	templateUrl: './badgeclass-issue-bulk-award-import.component.html',
 })
 export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRoutableComponent {
 	readonly badgrBulkIssueTemplateUrl = require('file-loader!assets/badgrBulkIssueTemplate.csv');
