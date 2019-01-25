@@ -100,43 +100,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		return (this.badge && this.badge.expiresDate && this.badge.expiresDate < new Date());
 	}
 
-	private get rawJsonUrl() {
-		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.assertionId}.json`;
-	}
-
-	get v1JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "1_1"});
-	}
-
-	get v2JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
-	}
-
-	get rawBakedUrl() {
-		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.assertionId}/baked`;
-	}
-
-	get v1BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"})
-	}
-
-	get v2BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"})
-	}
-
-	get verifyUrl() {
-		const v = this.queryParametersService.queryStringValue("v") || "2_0";
-		const ASSERTION_URL = v === "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
-		let url = `${this.configService.assertionVerifyUrl}?url=${ASSERTION_URL}`;
-
-		for (let IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
-			let identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE)
-			if (identity) {
-				url = `${url}&${IDENTITY_TYPE}=${identity}`;
-			}
-		}
-		return url;
-	}
+	
 
 	manageCollections() {
 		this.collectionSelectionDialog.openDialog({
