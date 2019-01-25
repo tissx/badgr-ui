@@ -1,7 +1,7 @@
-<section class="wrap l-containerhorizontal">
-	<div>
-		<div class="importHeading">
-			<h1 class=title>Import Errors</h1>
+<section class="l-containerxaxis l-containeryaxis">
+	<div class="u-width-form">
+		<div class="contentlong">
+			<h2>Import Errors</h2>
 			<p>
 				{{transformedImportData.validRowsTransformed.size}} rows will be imported. The following
 				{{transformedImportData.invalidRowsTransformed.length}} contain errors. Please fix the errors below or select
@@ -11,26 +11,26 @@
 
 		<form [formGroup]="importErrorForm">
 
-			<table formArrayName="users" class="table table-issues">
-				<thead>
-					<tr>
-						<th scope="col">Email</th>
-						<th scope="col">Evidence URL</th>
-						<th>
+			<table class="datatable datatable-roundheaders datatable-headers" formArrayName="users" class="table table-issues">
+				<thead class="datatable-x-head">
+					<tr class="datatable-x-header">
+						<th class="datatable-x-cell" scope="col">Email</th>
+						<th class="datatable-x-cell" scope="col">Evidence URL</th>
+						<th class="datatable-x-cell">
 							<!-- header for remove link-->
 						</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr *ngFor="let user of importErrorForm.controls['users']['controls']; let i=index">
-						<td class="table-issues-x-confirmationText">
-							<bg-formfield-text [control]="importErrorForm.controls['users']['controls'][i].controls.email" [errorMessage]="'Please enter a valid email'"></bg-formfield-text>
+				<tbody class="datatable-x-body">
+					<tr class="datatable-x-row" *ngFor="let user of importErrorForm.controls['users']['controls']; let i=index">
+						<td class="datatable-x-cell">
+							<bg-formfield-text class="u-margin-left2x" [control]="importErrorForm.controls['users']['controls'][i].controls.email" [errorMessage]="'Please enter a valid email'"></bg-formfield-text>
 						</td>
-						<td class="table-issues-x-confirmationText">
-							<bg-formfield-text [control]="importErrorForm.controls['users']['controls'][i].controls.evidence" [errorMessage]="{required:'Please enter a valid URL'}"></bg-formfield-text>
+						<td class="datatable-x-cell">
+							<bg-formfield-text class="u-margin-left2x" [control]="importErrorForm.controls['users']['controls'][i].controls.evidence" [errorMessage]="{required:'Please enter a valid URL'}"></bg-formfield-text>
 						</td>
-						<td>
-							<button class="button button-primaryghost" (click)="removeButtonErrorState(i)">REMOVE</button>
+						<td class="datatable-x-cell">
+							<button class="u-margin-left2x u-text-link-small" (click)="removeButtonErrorState(i)">Remove</button>
 						</td>
 					</tr>
 				<tbody>
@@ -39,9 +39,9 @@
 	</div>
 
 	<!-- BUTTONS -->
-	<div class="l-display-flex l-childrenhorizontal-right l-marginTop-4x l-marginBottom-4x">
-		<button class="button button-primaryghost" (click)="updateViewState('import')">cancel</button>
+	<div class="l-flex l-flex-1x u-margin-top2x">
+		<button class="button button-secondary" (click)="updateViewState('import')">Cancel</button>
 
-		<button class="button l-marginLeft-x2" (click)="continueButtonAction()">continue</button>
+		<button class="button l-marginLeft-x2" (click)="continueButtonAction()">Continue</button>
 	</div>
 </section>

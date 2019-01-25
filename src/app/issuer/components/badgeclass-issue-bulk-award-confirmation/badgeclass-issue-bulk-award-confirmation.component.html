@@ -1,6 +1,6 @@
-<section class="wrap l-containerhorizontal">
-	<div>
-		<div class="importHeading">
+<section class="l-containerxaxis l-containeryaxis">
+	<div class="u-width-form">
+		<div class="contentlong">
 			<h1 class=title>Import Preview</h1>
 			<p>
 				{{transformedImportData.validRowsTransformed.size}} Rows ready to be
@@ -10,48 +10,45 @@
 			</p>
 		</div>
 
-		<table class="table table-issues">
-			<thead>
-				<tr>
-					<th scope="col">Email</th>
-					<th scope="col">Evidence</th>
-					<th>
+		<table class="datatable datatable-roundheaders datatable-headers">
+			<thead class="datatable-x-head">
+				<tr class="datatable-x-header">
+					<th class="datatable-x-cell" scope="col">Email</th>
+					<th class="datatable-x-cell" scope="col">Evidence</th>
+					<th class="datatable-x-cell">
 						<!-- header for remove link-->
 					</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr *ngFor="let row of transformedImportData.validRowsTransformed">
-					<td class="table-issues-x-confirmationText">
+			<tbody class="datatable-x-body">
+				<tr class="datatable-x-row" *ngFor="let row of transformedImportData.validRowsTransformed">
+					<td class="datatable-x-cell">
 						{{row.email}}
 					</td>
-					<td class="table-issues-x-confirmationText">
+					<td class="datatable-x-cell">
 						{{row.evidence}}
 					</td>
-					<td>
-						<button class="button button-primaryghost" (click)="removeValidRowsTransformed(row)">REMOVE
+					<td class="datatable-x-cell">
+						<button class="u-text-link-small" (click)="removeValidRowsTransformed(row)">Remove
 						</button>
 					</td>
 				</tr>
 			<tbody>
 		</table>
 	</div>
+	<div class="u-margin-yaxis2x">
+		<h2 class="u-text-h3 u-margin-bottom1x">Notification Preference</h2>
 
-	<div class="l-childrenvertical l-marginTop-4x">
-		<div>
-			<h1 class=title>Notification Preference</h1>
-		</div>
-		<div>
-			<label class="formcheckbox" for="notify_earner">
-				<input checked name="notify_earner" id="notify_earner" type="checkbox" [(ngModel)]="notifyEarner">
-				<span class="formcheckbox-x-text">Notify recipient by email</span>
-			</label>
-		</div>
+		<label class="checkbox checkbox-center" for="notify_earner">
+			<input checked name="notify_earner" id="notify_earner" type="checkbox" [(ngModel)]="notifyEarner">
+			<span class="checkbox-x-label u-margin-left1x"> Notify recipient by email</span>
+		</label>
 	</div>
 
+
 	<!-- BUTTONS -->
-	<div class="l-display-flex l-childrenhorizontal-right l-marginTop-4x l-marginBottom-4x">
-		<button class="button button-primaryghost" (click)="updateViewState('import')">cancel
+	<div class="l-flex l-flex-2x u-margin-top2x">
+		<button class="button button-secondary" (click)="updateViewState('import')">Cancel
 		</button>
 
 		<button class="button l-marginLeft-x2" [class.button-is-disabled]=buttonDisabledClass [attr.disabled]=buttonDisabledAttribute
