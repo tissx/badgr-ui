@@ -46,9 +46,9 @@ export function expectRequest(
 			manager.seenConnections.add(connection);
 
 			if ((url instanceof RegExp && url.exec(connection.request.url))
-				|| (String(url) == connection.request.url)
+				|| (String(url) === connection.request.url)
 			) {
-				if (!requestHandled && connection.request.method == method) {
+				if (!requestHandled && connection.request.method === method) {
 					requestHandled = true;
 
 					const helper = manager.helperFor(connection);
