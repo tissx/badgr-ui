@@ -1,53 +1,100 @@
 <dialog class="dialog dialog-is-active dialog-clean l-dialog">
 	<div class="dialog-x-box">
+
 		<!-- Header -->
-		<header class="dialog-x-header">
-			<h1 class="u-text-body-bold-caps text-dark1">{{ options.title }}</h1>
-			<button class="buttonicon buttonicon-clean" (click)="closeDialog()">
-					<svg icon="icon_close"></svg>
-					<span class="visuallyhidden">Close</span>
-				</button>
-		</header>
+		<div class="dialog-x-header">
+			<h1>{{ options.title }}</h1>
+			<button
+				(click)="closeDialog()"
+				class="buttonicon buttonicon-clean">
+				<svg icon="icon_close"></svg>
+				<span class="visuallyhidden">Close</span>
+			</button>
+		</div>
 
 		<!-- Tab Navigation Bar -->
-		<nav class="l-tabs" aria-labelledby="nav-tabs" role="navigation">
-			<h3 class="visuallyhidden" id="nav-tabs"> Tabs</h3>
-			<button class="tab"
-							[class.tab-is-active]="currentTabId == 'link'"
-							(click)="openTab('link')"
-			>
-				<span class="visuallyhidden">Open </span>Link<span class="visuallyhidden"> tab</span>
+		<nav aria-labelledby="heading-share-options" class="tabbar">
+			<h3 class="visuallyhidden" id="heading-share-options">Share Options</h3>
+			<button
+				[class.tab-is-active]="currentTabId === 'link'"
+				(click)="openTab('link')"
+				class="tab tab-wide tab-is-active">
+					<span class="visuallyhidden">
+						Open the </span> Link
+				<span class="visuallyhidden"> tab</span>
 			</button>
-			<button class="tab"
-							[class.tab-is-active]="currentTabId == 'social'"
-							(click)="openTab('social')"
-			>
-				<span class="visuallyhidden">Open </span>Social<span class="visuallyhidden"> tab</span>
+			<button
+				[class.tab-is-active]="currentTabId === 'social'"
+				(click)="openTab('social')"
+				class="tab tab-wide">
+					<span class="visuallyhidden">
+						Open the </span>Social
+				<span class="visuallyhidden"> tab</span>
 			</button>
-			<button class="tab"
-							[class.tab-is-active]="currentTabId == 'embed'"
-							(click)="openTab('embed')"
-							*ngIf="hasEmbedSupport"
-			>
-				<span class="visuallyhidden">Open </span>Embed<span class="visuallyhidden"> tab</span>
+			<button
+				[class.tab-is-active]="currentTabId === 'embed'"
+				(click)="openTab('embed')"
+				*ngIf="hasEmbedSupport"
+				class="tab tab-wide">
+					<span class="visuallyhidden">
+						Open the </span>Embed
+				<span class="visuallyhidden"> tab</span>
 			</button>
 		</nav>
 
 		<!-- Link Tab -->
-		<div class="l-sharepane" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
-			<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
-				<p class="label-formfield">Badge Options</p>
-				<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
-					<label class="formcheckbox" for="form-checkbox">
-						<input name="form-checkbox" id="form-checkbox" type="checkbox" [(ngModel)]="includeRecipientIdentifier"
-									(ngModelChange)="updateEmbedHtml()">
-						<span
-							class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Identifier: {{ options.recipientIdentifier }}</span>
-					</label>
+		<div class="u-padding-all2x" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
+
+			<ng-template [ngIf]="options.showRecipientOptions" >
+				<p class="u-text-bold u-margin-bottom3x">Badge Options:</p>
+				<label class="checkbox checkbox-light u-margin-bottom5x">
+					<input
+						[(ngModel)]="includeRecipientIdentifier"
+						(ngModelChange)="updateEmbedHtml()"
+						name="gadzooks"
+						type="checkbox"
+						checked>
+					<span class="checkbox-x-text">
+              <strong>Include Recipient Identifier:</strong> <br>
+              name@{{ options.recipientIdentifier }}
+            </span>
+				</label>
+			</ng-template>
+
+			<div class="forminput forminput-hasiconleft forminput-withbutton u-margin-bottom3x">
+				<label class="forminput-x-label" for="link-input">Copy this link to share</label>
+				<div class="forminput-x-inputs">
+					<svg class="forminput-x-icon" icon="icon_link"></svg>
+
+					<!--<input type="text" name="forminput" id="forminput" value="https://api.badgr.io/public/assertions/4lF9gJh-SCmls">-->
+					<input
+						id="link-input"
+						name="link-input"
+						type="text"
+						[value]="currentShareUrl"
+						(click)="$event.target.select()"
+						readonly
+						#urlInput>
+
+					<div class="forminput-x-button">
+						<button
+							(click)="copyToClipboard(urlInput)"
+							[hidden]="! copySupported"
+							class="button button-secondary button-informinput">
+							Copy
+						</button>
+					</div>
+
 				</div>
 			</div>
 
-			<div class="formfield formfield-link">
+			<a
+				[href]="currentShareUrl"
+				target="_blank"
+				class="u-text-link-small">Open in New Window</a>
+
+			<!--------------->
+			<!--<div class="formfield formfield-link">
 				<label class=" " for="link-input">Copy this private URL to share:</label>
 				<input id="link-input"
 							name="link-input"
@@ -57,214 +104,202 @@
 							readonly
 							#urlInput
 				>
-			</div>
-			<div class="l-childrenhorizontal l-childrenhorizontal-spacebetween">
-				<div class="l-childrenhorizontal l-childrenhorizontal-small" *ngIf="options.versionOptions">
-					<div class="formradiobutton" *ngFor="let version of options.versionOptions; let i = index">
-						<input type="radio"
-									[value]="version"
-									[(ngModel)]="selectedVersion"
-									name="version-{{ i }}"
-									id="version-{{ i }}"
-									#urlInput
-						/>
-						<label for="version-{{ i }}">
-							<span><span></span></span>
-							<span class="formradiobutton-x-text">{{ version.label }}</span>
-						</label>
-					</div>
-				</div>
+			</div>-->
 
-				<button type="button"
-								class="button"
-								(click)="copyToClipboard(urlInput)"
-								[hidden]="! copySupported"
-				>Copy
-				</button>
-			</div>
-			<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded" *ngIf="options.versionInfoTitle">
+			<!--<div class="l-childrenhorizontal l-childrenhorizontal-spacebetween">-->
+
+				<!-- version (deprecated) -->
+				<!--&lt;!&ndash;<div class="l-childrenhorizontal l-childrenhorizontal-small" *ngIf="options.versionOptions">-->
+					<!--<div class="formradiobutton" *ngFor="let version of options.versionOptions; let i = index">-->
+						<!--<input type="radio"-->
+									<!--[value]="version"-->
+									<!--[(ngModel)]="selectedVersion"-->
+									<!--name="version-{{ i }}"-->
+									<!--id="version-{{ i }}"-->
+									<!--#urlInput-->
+						<!--/>-->
+						<!--<label for="version-{{ i }}">-->
+							<!--<span><span></span></span>-->
+							<!--<span class="formradiobutton-x-text">{{ version.label }}</span>-->
+						<!--</label>-->
+					<!--</div>-->
+				<!--</div>&ndash;&gt;-->
+
+				<!--<button type="button"-->
+								<!--class="button"-->
+								<!--(click)="copyToClipboard(urlInput)"-->
+								<!--[hidden]="! copySupported"-->
+				<!--&gt;Copy-->
+				<!--</button>-->
+			<!--</div>-->
+			<!--<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded" *ngIf="options.versionInfoTitle">
 				<p class="text text-small"><strong>{{ options.versionInfoTitle }}</strong></p>
 				<p class="text text-small">{{ options.versionInfoBody }}</p>
-			</div>
+			</div>-->
+<!--
 			<div class="l-childrenhorizontal l-childrenhorizontal-right">
 				<a class="standaloneanchor" [href]="currentShareUrl" target="_blank">Open in New Window</a>
 			</div>
+-->
 		</div>
 
 		<!-- Social Tab -->
-		<div class="l-sharepane l-sharepane-social"
+		<div class="u-padding-all2x"
 				tabindex="-1"
 				id="sharelinksocial"
-				*ngIf="currentTabId == 'social'"
+				*ngIf="currentTabId === 'social'"
 		>
-			<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
-				<p class="label-formfield">Badge Options</p>
+			<ng-template [ngIf]="options.showRecipientOptions">
+				<p class="u-text-bold u-margin-bottom3x">Badge Options:</p>
+				<label class="checkbox checkbox-light u-margin-bottom5x">
+					<input
+						name="form-checkbox"
+						id="form-checkbox"
+						type="checkbox"
+						[(ngModel)]="includeRecipientIdentifier"
+						(ngModelChange)="updateEmbedHtml()"
+						checked >
+					<span class="checkbox-x-text">
+						<strong>Include Recipient Identifier:</strong> <br>
+						{{ options.recipientIdentifier }}
+					</span>
+				</label>
+			</ng-template>
 
-				<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop l-marginTop-2x">
-					<label class="formcheckbox"
-								for="form-checkbox"
-					>
-						<input name="form-checkbox"
-									id="form-checkbox"
-									type="checkbox"
-									[(ngModel)]="includeRecipientIdentifier"
-									(ngModelChange)="updateEmbedHtml()">
-						<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">
-									Include Recipient Identifier: {{ options.recipientIdentifier }}
-								</span>
-					</label>
-				</div>
+			<div class="l-grid l-grid-small">
+				<button
+					*ngIf="displayShareServiceType('Facebook')"
+					type="button"
+					(click)="openShareWindow('Facebook')"
+					class="socialbutton socialbutton-facebook">facebook</button>
+				<button
+					*ngIf="displayShareServiceType('LinkedIn')"
+					type="button"
+					(click)="openShareWindow('LinkedIn')"
+					class="socialbutton socialbutton-linkedin_oauth2">linked in</button>
+				<button
+					*ngIf="displayShareServiceType('Twitter')"
+					type="button"
+					(click)="openShareWindow('Twitter')"
+					class="socialbutton socialbutton-twitter">twitter</button>
+				<button
+					*ngIf="displayShareServiceType('Pinterest')"
+					type="button"
+					(click)="openShareWindow('Pinterest')"
+					class="socialbutton socialbutton-pinterest">pinterest</button>
 			</div>
-
-			<div class="l-authbuttons">
-				<div *ngIf="displayShareServiceType('Facebook')">
-					<button class="buttonauth buttonauth-facebook"
-									type="button"
-									(click)="openShareWindow('Facebook')"
-					>Facebook
-					</button>
-				</div>
-				<div *ngIf="displayShareServiceType('LinkedIn')">
-					<button class="buttonauth buttonauth-linkedin_oauth2"
-									type="button"
-									(click)="openShareWindow('LinkedIn')"
-					>LinkedIn
-					</button>
-				</div>
-				<div *ngIf="displayShareServiceType('Twitter')">
-					<button class="buttonauth buttonauth-twitter"
-									type="button"
-									(click)="openShareWindow('Twitter')"
-					>Twitter
-					</button>
-				</div>
-				<div *ngIf="displayShareServiceType('Pinterest')">
-					<button class="buttonauth buttonauth-pinterest"
-									type="button"
-									(click)="openShareWindow('Pinterest')"
-					>
-					</button>
-				</div>
-			</div>
+			
 		</div>
 
 		<!-- Embed Tab -->
-		<div class="l-sharepane"
+		<div class="u-padding-all2x"
 				tabindex="-1"
 				id="sharelinkembed"
-				*ngIf="currentTabId == 'embed'"
+				*ngIf="currentTabId === 'embed'"
 		>
-			<div class="l-childrenhorizontal l-childrenhorizontal-small"
+			<div class="l-flex l-flex-1x u-margin-bottom3x"
 					*ngIf="options.embedOptions.length > 1"
 			>
-				<div class="formradiobutton" *ngFor="let embedOption of options.embedOptions; let i = index">
-					<input type="radio"
-								name="embed-type-{{i}}"
-								id="embed-type-{{i}}"
-								[value]="embedOption"
-								[(ngModel)]="selectedEmbedOption"
-								(ngModelChange)="updateEmbedHtml()"
-					/>
-					<label for="embed-type-{{i}}">
-						<span><span></span></span>
-						<span class="formradiobutton-x-text">{{ embedOption.label }}</span>
+				<ng-template ngFor let-embedOption [ngForOf]="options.embedOptions" let-i="index">
+					<label class="radio" for="embed-type-{{i}}">
+						<input
+							type="radio"
+							name="embed-type-{{i}}"
+							id="embed-type-{{i}}"
+							[value]="embedOption"
+							[(ngModel)]="selectedEmbedOption"
+							(ngModelChange)="updateEmbedHtml()"/>
+						<span class="radio-x-text">{{ embedOption.label }}</span>
 					</label>
+				</ng-template>
+			</div>
+
+			<ng-template [ngIf]="options.showRecipientOptions">
+				<p class="u-text-bold u-margin-bottom2x">Included Badge Options</p>
+
+				<label class="checkbox checkbox-light u-margin-bottom2x">
+					<input
+						[(ngModel)]="includeRecipientIdentifier"
+						(ngModelChange)="updateEmbedHtml()"
+						name="rec"
+						type="checkbox"
+						checked>
+					<span class="checkbox-x-text">
+              <strong>Recipient Identifier:</strong> <br>
+						{{ options.recipientIdentifier }}
+            </span>
+				</label>
+
+				<label
+					*ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'"
+					class="checkbox u-margin-bottom2x">
+					<input
+						[(ngModel)]="includeBadgeClassName"
+						(ngModelChange)="updateEmbedHtml()"
+						name="nameinc"
+						type="checkbox"
+						checked>
+					<span class="checkbox-x-text">
+              Badge Name
+            </span>
+				</label>
+
+				<label
+					*ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'"
+					class="checkbox u-margin-bottom2x">
+					<input
+						[(ngModel)]="includeAwardDate"
+						(change)="updateEmbedHtml()"
+						name="dateaw"
+						type="checkbox"
+						checked>
+					<span class="checkbox-x-text">
+              Date Awarded
+            </span>
+				</label>
+
+				<label
+					*ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'"
+					class="checkbox u-margin-bottom2x">
+					<input
+						[(ngModel)]="includeVerifyButton"
+						(change)="updateEmbedHtml()"
+						name="verifi"
+						type="checkbox"
+						checked>
+					<span class="checkbox-x-text">
+              Verification
+            </span>
+				</label>
+
+			</ng-template>
+
+			<p class="u-text-small-bold u-margin-bottom0p5x u-margin-top5x">Preview</p>
+
+			<iframe src="about:blank"
+							class="previewIframe"
+							style="width: 100%"></iframe>
+
+			<div class="forminput forminput-code u-margin-top3x u-margin-bottom2x">
+				<label class="forminput-x-label" for="emebed-code-box">Embeded Code</label>
+				<div class="forminput-x-inputs">
+					<textarea
+						id="emebed-code-box"
+						name="emebed-code-box"
+						readonly
+						[value]="currentEmbedHtml"
+						(click)="$event.target.select()"
+						#embedHtmlInput>The embed code goes here and changes dynamically as the checks and radios are pressed above.</textarea>
 				</div>
 			</div>
-
-			<div *ngIf="options.showRecipientOptions" class="l-sharepane-x-preview wrap wrap-light4">
-				<p class="label-formfield">Badge Options</p>
-				<div class="l-sharepane-x-childrenhorizontal-marginbottom l-marginTop  l-marginTop-2x ">
-
-					<label class="formcheckbox" for="form-checkbox">
-						<input name="form-checkbox"
-									id="form-checkbox"
-									type="checkbox"
-									[(ngModel)]="includeRecipientIdentifier"
-									(ngModelChange)="updateEmbedHtml()"
-						/>
-						<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">
-									Include Recipient Identifier: {{ options.recipientIdentifier }}
-								</span>
-					</label>
-
-					<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'" class="formcheckbox" for="form-checkbox1">
-						<input name="form-checkbox"
-									id="form-checkbox1"
-									type="checkbox"
-									[(ngModel)]="includeBadgeClassName"
-									(ngModelChange)="updateEmbedHtml()"
-						/>
-						<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Badge Name</span>
-					</label>
-
-					<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image' && selectedEmbedOption.embedRecipientName"
-								class="formcheckbox"
-								for="form-checkbox2"
-					>
-						<input name="form-checkbox2"
-									id="form-checkbox2"
-									type="checkbox"
-									[value]="includeRecipientName"
-									[(ngModel)]="includeRecipientName"
-									(change)="updateEmbedHtml()"
-						/>
-						<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Recipient Name</span>
-					</label>
-
-					<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'"
-								class="formcheckbox"
-								for="form-checkbox5"
-					>
-						<input name="form-checkbox5"
-									id="form-checkbox5"
-									type="checkbox"
-									[(ngModel)]="includeAwardDate"
-									(change)="updateEmbedHtml()"
-						/>
-						<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Date Awarded</span>
-					</label>
-
-					<label *ngIf="selectedEmbedOption && selectedEmbedOption?.embedType == 'image'" class="formcheckbox" for="form-checkbox6">
-						<input name="form-checkbox6"
-									id="form-checkbox6"
-									type="checkbox"
-									[(ngModel)]="includeVerifyButton"
-									(change)="updateEmbedHtml()"
-						/>
-						<span class="formcheckbox-x-text formcheckbox-x-text-sharebadge">Include Verification</span>
-					</label>
-				</div>
+			<div class="l-stack l-stack-right">
+				<button
+					type="button"
+					[hidden]="! copySupported"
+					(click)="copyToClipboard(embedHtmlInput)"
+					class="button button-secondary">Copy</button>
 			</div>
-
-			<p class="label-formfield">Preview</p>
-			<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded">
-				<iframe src="about:blank"
-								class="previewIframe"
-								style="width: 100%"
-				></iframe>
-			</div>
-
-			<div class="formfield formfield-limitedtextarea formfield-monospaced">
-				<label class=" " for="emebed-code-box">Embed Code</label>
-				<textarea id="emebed-code-box"
-									name="emebed-code-box"
-									readonly
-									[value]="currentEmbedHtml"
-									(click)="$event.target.select()"
-									#embedHtmlInput
-				></textarea>
-			</div>
-
-			<div class="l-childrenhorizontal l-childrenhorizontal-right">
-				<button class="button"
-								type="button"
-								[hidden]="! copySupported"
-								(click)="copyToClipboard(embedHtmlInput)"
-				>Copy
-				</button>
-			</div>
-
 		</div>
+
 	</div>
 </dialog>
