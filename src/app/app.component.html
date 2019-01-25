@@ -1,5 +1,5 @@
-<header class="o-container" *ngIf="showAppChrome">
-	<nav class="navbar l-containerxaxis" [class.navbar-light]="!theme.useColorNavbar">
+<header class="o-container">
+	<nav class="navbar l-containerxaxis l-stickyfooter-x-nav" [class.navbar-light]="!theme.useColorNavbar">
 
 		<a [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : theme.alternateLandingUrl || '/'">
 			<picture class="navbar-x-logo">

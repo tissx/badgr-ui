@@ -32,7 +32,7 @@ import { MarkdownHintsDialog } from './common/dialogs/markdown-hints-dialog.comp
 	selector: 'app-root',
 	host: {
 		'(document:click)': 'onDocumentClick($event)',
-		'[class.app-is-hidden-chrome]': '! showAppChrome'
+		'[class.l-stickyfooter-chromeless]': '! showAppChrome'
 	},
 	templateUrl: './app.component.html'
 })
