@@ -21,13 +21,14 @@ import { RecipientBadgeCollection } from "../../models/recipient-badge-collectio
 					</bg-formfield-text>
 
 					<bg-formfield-text [control]="badgeCollectionForm.controls.collectionDescription"
-					                   [label]="'Description'"
+									   [label]="'Description'"
+									   class="u-margin-top3x"
 					                   [errorMessage]="{required: 'Please enter a description'}"
 					                   [multiline]="true"
 					><span label-additions>Max 255 characters</span></bg-formfield-text>
 
-					<div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-						<a class="button button-primaryghost"
+					<div class="l-flex l-flex-2x u-margin-top2x">
+						<a class="button button-secondary"
 						   [disabled-when-requesting]="true"
 						   (click)="cancelEditing()"
 						>Cancel</a>
