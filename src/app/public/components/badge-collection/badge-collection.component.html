@@ -39,14 +39,14 @@
 
 		<div class="l-containerxaxis l-containeryaxis l-grid l-grid-4up">
 
-			<bg-badgecard *ngFor="let badgeResult of collection.badges"
-										[badgeTitle]="badgeResult.badge.badgeClass.name"
-										[badgeImage]="badgeResult.badge.image"
-										[badgeDescription]="badgeResult.badge.badgeClass.description"
-										[badgeIssueDate]="badgeResult?.badge?.issueDate"
-										[mostRelevantStatus]="badgeResult.badge.mostRelevantStatus"
-										[issuerTitle]="badgeResult.badge.badgeClass.issuer.name"
-										[badgeSlug]="badgeResult.badge.slug"
+			<bg-badgecard *ngFor="let badge of collection.badges"
+										[badgeTitle]="badge.badge.name"
+										[badgeImage]="badge.image"
+										[badgeDescription]="badge.badge.description"
+										[badgeIssueDate]="badge?.issuedOn"
+										[mostRelevantStatus]="badge.badge.mostRelevantStatus"
+										[issuerTitle]="badge.badge.issuer.name"
+										[badgeSlug]="badge.slug"
 			>
 			</bg-badgecard>
 		</div>
