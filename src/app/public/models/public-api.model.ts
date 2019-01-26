@@ -2,6 +2,8 @@
  * TypeScript type information for a portion of the Open Badges v2.0 Specification, from
  * https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html
  */
+import { BadgeClass } from "../../issuer/models/badgeclass.model";
+import { Issuer } from "../../issuer/models/issuer.model";
 
 export interface PublicApiBadgeAssertion {
 	"@context": "https://w3id.org/openbadges/v2";
@@ -64,6 +66,9 @@ export interface PublicApiBadgeClass {
 }
 export interface PublicApiBadgeClassWithIssuer extends  PublicApiBadgeClass {
 	issuer: PublicApiIssuer;
+	badgeClass: BadgeClass;
+	issueDate: string;
+	mostRelevantStatus: string;
 }
 
 export interface PublicApiIssuer {

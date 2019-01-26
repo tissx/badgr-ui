@@ -18,11 +18,8 @@ declare function require(path: string): string;
 					     [error-src]="badgeFailedImageUrl"
 					     width="80" />
 				</div>
-				<a class="badgecard-x-title"
-				[routerLink]="['../earned-badge', badgeSlug]"
-				>
-					{{ badgeTitle }}
-				</a>
+				<a *ngIf="badgeSlug" class="badgecard-x-title" [routerLink]="['../earned-badge', badgeSlug]">{{ badgeTitle }}</a>
+				<a *ngIf="publicUrl" class="badgecard-x-title" [href]="publicUrl">{{ badgeTitle }}</a>
 				<div class="badgecard-x-issuer">{{ issuerTitle }}</div>
 				<p class="badgecard-x-desc" [truncatedText]="badgeDescription" [maxLength]="100"></p>
 			</div>
@@ -48,6 +45,7 @@ export class BgBadgecard {
 	readonly badgeLoadingImageUrl = require('../../../breakdown/static/images/badge-loading.svg');
 	readonly badgeFailedImageUrl = require('../../../breakdown/static/images/badge-failed.svg');
 	@Input() badgeSlug: string;
+	@Input() publicUrl: string;
 	@Input() badgeImage: string;
 	@Input() badgeTitle: string;
 	@Input() badgeDescription: string;

@@ -154,6 +154,7 @@ export class ShareSocialDialog extends BaseDialog {
 		// Include information about this embed in the query string so we know about the context later, especially if we
 		// need to change how things are displayed, and want old version embeds to work correctly.
 		// See [[ EmbedService ]] for the consumption of these parameters
+		// 'http://localhost:4200/public/collections/60d90316471ba01f53cb9130b866486f',
 		let embedUrlWithParams = addQueryParamsToUrl(
 			option.embedUrl,
 			{
