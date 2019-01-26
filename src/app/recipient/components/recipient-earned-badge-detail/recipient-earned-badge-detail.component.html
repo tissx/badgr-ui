@@ -13,9 +13,7 @@
 				>Share Badge</button>
 				<button class="buttonicon buttonicon-secondary" id="actionstrigger"
 		    		[bgPopupMenuTrigger]="moreMenu">
-			        <svg>
-			            <use xlink:href="icons.svg#icon_more"></use>
-			        </svg>
+			        <svg icon="icon_more"></svg>
 			        <span class="visuallyhidden">More</span>
 			    </button>
 				<bg-popup-menu #moreMenu>
@@ -104,7 +102,7 @@
 						[href]="badge.criteriaUrl"
 						target="_blank"
 					>View external Criteria URL
-							<svg><use xlink:href="icons.svg#icon_external_link"></use></svg>
+						<svg icon="icon_external_link"></svg>
 					</a>
 				</div>
 			</section>
@@ -132,7 +130,7 @@
 						[href]="alignment.targetUrl"
 						target="_blank"
 					>View alignment URL
-						<svg><use xlink:href="icons.svg#icon_external_link"></use></svg>
+						<svg icon="icon_external_link"></svg>
 					</a>
 				</div>
 			</div>
@@ -167,7 +165,9 @@
 						class="u-text-outlink"
 						[href]="evidence.evidence_url"
 						target="_blank"
-					>View Evidence URL<svg><use xlink:href="icons.svg#icon_external_link"></use></svg></a>
+					>View Evidence URL
+						<svg icon="icon_external_link"></svg>
+					</a>
 				</div>
 			</div>
 			</section>
