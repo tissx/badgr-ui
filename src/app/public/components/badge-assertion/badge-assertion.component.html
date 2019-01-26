@@ -88,7 +88,7 @@
 						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Created on:</dt>
 						<dd class="u-text"><time [date]="assertion.issuedOn" format="mediumDate"></time></dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Awarded to:</dt>
-				    	<dd class="u-text u-break-all">{{ assertion.recipient.email }}</dd>
+				    	<dd class="u-text u-break-all">{{ recipientId }}</dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3"><span *ngIf="assertion.expires && isExpired">EXPIRED</span><span *ngIf="assertion.expires && !isExpired">Expires on:</span></dt>
 				    	<dd *ngIf="assertion.expires && !isExpired" class="u-text"><time [date]="assertion.expires" format="mediumDate"></time></dd>
 					</dl>

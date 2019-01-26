@@ -113,6 +113,19 @@ export class PublicBadgeAssertionComponent {
 		return url;
 	}
 
+	get recipientId() {
+		const i = this.queryParametersService.queryStringValue("i");
+		let recipientIdentifierString = i;
+
+		for (let IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
+			let identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE)
+			if (identity) {
+				recipientIdentifierString = `${i}&${IDENTITY_TYPE}=${identity}`;
+			}
+		}
+		return recipientIdentifierString;
+	}
+
 	generateFileName(assertion, fileExtension): string {
 		return `${assertion.badge.name} - ${assertion.recipient.identity}${fileExtension}`
 	}
