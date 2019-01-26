@@ -1,30 +1,15 @@
 <ng-template [bgAwaitPromises]="assertionIdParam">
 	<!-- Embedded View -->
-	<div class="l-cardembedded" *ngIf="embedService.isEmbedded">
-		<div class="card card-largeimage">
-			<a class="card-x-main" [href]="assertion.id" target="_blank">
-				<div class="card-x-image">
-					<img [loaded-src]="assertion.image"
-						 [loading-src]="badgeLoadingImageUrl"
-						 [error-src]="badgeFailedImageUrl"
-						 width="60" height="60" />
-				</div>
-				<div class="card-x-text">
-					<h1 [truncatedText]="badgeClass.name"></h1>
-					<small [truncatedText]="issuer.name"></small>
-					<p [truncatedText]="badgeClass.description" [maxLength]="40"></p>
-				</div>
-			</a>
-			<div class="card-x-actions">
-				<span><small>Awarded</small> <time [date]="assertion.issuedOn" format="mediumDate"></time></span>
-				<a class="button button-secondaryghost"
-					 type="button"
-					 target="_blank"
-					 [href]="verifyUrl"
-				>Verify Badge</a>
-			</div>
-		</div>
-	</div>
+	<bg-badgecard 
+		[badgeTitle]="badgeClass.name"
+		[badgeImage]="assertion.image"
+		[badgeDescription]="badgeClass.description"
+		[badgeIssueDate]="assertion.issuedOn"
+		[mostRelevantStatus]=""
+		[issuerTitle]="issuer.name"
+		[verifyUrl]="verifyUrl"
+	>
+	</bg-badgecard>
 
 	<!-- Regular View -->
 	<main class="o-container"

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 declare function require(path: string): string;
-
+// TODO: Break this template out
 @Component({
 	selector: 'bg-badgecard',
 	template: `
@@ -30,10 +30,16 @@ declare function require(path: string): string;
 				<div class="badgecard-x-date">
 					<time [date]="badgeIssueDate" format="mediumDate"></time>
 				</div>
-				<button class="badgecard-x-sharelink"
-				        (click)="shareClicked.emit($event)"
-				>Share
+				
+				<!-- Show Verify or Share Button -->
+				<button class="badgecard-x-sharelink" *ngIf="!verifyUrl"
+				        (click)="shareClicked.emit($event)">
+					Share
 				</button>
+				<a class="badgecard-x-sharelink" *ngIf="verifyUrl" [href]="verifyUrl">
+					Verify
+				</a>
+
 			</div>
 		</div>
 	`
@@ -48,5 +54,6 @@ export class BgBadgecard {
 	@Input() badgeIssueDate: string;
 	@Input() issuerTitle: string;
 	@Input() mostRelevantStatus: "expired" | "new" | undefined;
+	@Input() verifyUrl: string;
 	@Output() shareClicked = new EventEmitter<MouseEvent>();
 }
