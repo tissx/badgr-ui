@@ -85,10 +85,20 @@
 						*ngIf="badgeClass.criteria_url || badgeClass.criteria_text">
 						Criteria
 					</h3>
-
 					<show-more *ngIf="badgeClass.criteria_text">
 						<markdown-display [value]="badgeClass.criteria_text"></markdown-display>
+
 					</show-more>
+					<div class="u-margin-bottom2x u-margin-top6x">
+						<a
+							*ngIf="badgeClass.criteria_url"
+							class="u-text-outlink"
+							[href]="badgeClass.criteria_url"
+							target="_blank"
+						>View external Criteria URL
+							<svg icon="icon_external_link"></svg>
+						</a>
+					</div>
 				</section>
 
 				<!-- alignment -->
