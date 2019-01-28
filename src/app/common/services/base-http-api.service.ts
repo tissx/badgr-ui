@@ -165,6 +165,7 @@ export abstract class BaseHttpApiService {
 			} else if (response.status === 0) {
 				this.messageService.reportFatalError(`Server Unavailable`);
 			} else {
+				// TODO: Give nicer error messages!
 				throw new BadgrApiError(
 					`Expected 2xx response; got ${response.status}`,
 					response
