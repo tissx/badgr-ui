@@ -62,11 +62,11 @@
 											{{ badge.name }}
 										</span>
 									</label>
-									<label for="badge-check-{{ badgeResult.badge.slug }}">
+									<label for="badge-check-{{ badge.slug }}">
 										<img class="badgeimage-small" src="{{ badge.image }}" width="40" height="40" alt="{{ badge.badgeClass.name }}"
 										 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}">
 									</label>
-									<label for="badge-check-{{ badgeResult.badge.slug }}">
+									<label for="badge-check-{{ badge.slug }}">
 										<div class="l-flex l-flex-column">
 											<p class="u-text-link u-text-bold u-text-breakword">
 												{{ badge.badgeClass.name }}
