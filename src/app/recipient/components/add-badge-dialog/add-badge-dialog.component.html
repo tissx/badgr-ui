@@ -1,6 +1,6 @@
 <dialog aria-labelledby="addBadgeDialog" aria-describedby="dialog1Desc" class="dialog dialog-is-active l-dialog dialog-clean" role="dialog">
 	<div class="dialog-x-box o-container">
-		<div class="dialog-x-header">
+		<div class="dialog-x-header u-background-light3">
 			<h2 id="addBadgeDialog" class="u-text-body-bold-caps text-dark1">
 				Add Badge
 			</h2>
@@ -11,8 +11,8 @@
 		</div>
 
 		
-		<form [formGroup]="addRecipientBadgeForm" (ngSubmit)="submitBadgeRecipientForm(addRecipientBadgeForm.value)">
-			<p class="u-margin-xaxis2x u-padding-yaxis2x border border-top border-light3 u-text-body">Add a badge you’ve already received by utilizing one of the options below.</p>
+		<form [formGroup]="addRecipientBadgeForm" (ngSubmit)="submitBadgeRecipientForm(addRecipientBadgeForm.value)" >
+			<p class="u-padding-all2x border-light3 u-text-body u-background-light3">Add a badge you’ve already received by utilizing one of the options below.</p>
 
 
 			<div class="tabbar">
@@ -32,7 +32,7 @@
 
 			<!-- Drag or upload Badge -->
 
-			<div *ngIf="currentDialogViewState === 'upload'" class="u-padding-all3x u-background-light2 border border-bottom">
+			<div *ngIf="currentDialogViewState === 'upload'" class="u-padding-all3x">
 				<bg-formfield-image imageLoaderName="basic" [placeholderImage]="uploadBadgeImageUrl" [control]="addRecipientBadgeForm.controls.image"
 				 (mouseup)="controlUpdated('image')" (drop)="controlUpdated('image' )" class="formimage-badgeUpload">
 
@@ -41,7 +41,7 @@
 
 			<!-- ------- Paste badge URL  -->
 
-			<div *ngIf="currentDialogViewState === 'url'" class="u-padding-all3x u-background-light2 border border-bottom">
+			<div *ngIf="currentDialogViewState === 'url'" class="u-padding-all3x">
 				<div class="forminput">
 					<bg-formfield-text urlField="true" [control]="addRecipientBadgeForm.controls.url" errorMessage="Please enter valid URL"
 					 (keyup)="controlUpdated('url')" includeLabelAsWrapper="true" placeholder="Enter URL" #urlField>
@@ -51,7 +51,7 @@
 
 			<!-- ------- Paste badge JSON  -->
 
-			<div *ngIf="currentDialogViewState === 'json'" class="u-padding-all3x u-background-light2 border border-bottom">
+			<div *ngIf="currentDialogViewState === 'json'" class="u-padding-all3x">
 				<div class="forminput">
 					<bg-formfield-text [control]="addRecipientBadgeForm.controls.assertion" errorMessage="Please enter valid JSON"
 					 placeholder="Enter JSON" (keyup)="controlUpdated('assertion')" [multiline]="true" [monospaced]="true" class="formfield-x-badgePasteJson-text-height"
