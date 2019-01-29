@@ -23,6 +23,16 @@
 		*ngIf="! embedService.isEmbedded">
 		<form-message></form-message>
 
+
+
+		<!--
+		<pre style="background:deepskyblue; color:white; font-weight:bold; padding:1rem;">
+			{{ badgeClass | json }}
+		</pre>
+		-->
+
+
+
 		<div class="badgedetail">
 			<div class="badgedetail-x-header">
 
@@ -80,85 +90,76 @@
 	            				</dd>
 							</div>
 						</div>
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">
-				    		<span *ngIf="!badgeClass.expiresAmount">EXPIRED</span>
-				    		<span *ngIf="badgeClass.expiresAmount">Expires after:</span>
-				    	</dt>
-				    	<dd class="u-text"
-				    		*ngIf="badgeClass.expiresAmount"
-			    		>{{ badgeClass.expiresAmount }} {{ badgeClass.expiresDuration }}</dd>
 					</dl>
 				</div>
-				<div class="badgedetail-x-desc">
-					<h2 class="u-text-h3-semibold u-margin-bottom2x u-hidden-mintablet">Description</h2>
-					<p class="u-text-body u-width-paragraph">{{ badgeClass.description }}</p>
-				</div>
-				<div class="badgedetail-x-body">
+			</div>
+			<div class="badgedetail-x-desc">
+				<h2 class="u-text-h3-semibold u-margin-bottom2x u-hidden-mintablet">Description</h2>
+				<p class="u-text-body u-width-paragraph">{{ badgeClass.description }}</p>
+			</div>
+			<div class="badgedetail-x-body">
 
-					<!-- criteria -->
-					<section *ngIf="badgeClass.criteria">
-						<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
-							*ngIf="badgeClass.criteria_url || badgeClass.criteria_text">
-							Criteria
-						</h3>
-						<show-more *ngIf="badgeClass.criteria.narrative">
-							<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
-						</show-more>
-						<div class="u-margin-bottom2x u-margin-top6x">
-							<a
-								*ngIf="badgeClass.criteria.criteriaUrl"
-								class="u-text-outlink"
-								[href]="badgeClass.criteria.criteriaUrl"
-								target="_blank"
-							>View external Criteria URL
+				<!-- criteria -->
+				<section *ngIf="badgeClass.criteria">
+					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+						*ngIf="badgeClass.criteria.id || badgeClass.criteria.narrative">
+						Criteria
+					</h3>
+					<show-more *ngIf="badgeClass.criteria.narrative">
+						<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
+					</show-more>
+					<div class="u-margin-bottom2x u-margin-top6x">
+						<a
+							*ngIf="badgeClass.criteria.id"
+							class="u-text-outlink"
+							[href]="badgeClass.criteria.id"
+							target="_blank"
+						>View external Criteria URL
+							<svg icon="icon_external_link"></svg>
+						</a>
+					</div>
+				</section>
+
+				<!-- alignment -->
+				<section>
+					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+						*ngIf="badgeClass.alignment && badgeClass?.alignment.length>0"
+					>Alignment</h3>
+					<div class="bordered l-padding-2x l-marginBottom-2x"
+					     *ngFor="let alignmentNode of badgeClass.alignment; let i=index">
+						<div class="l-flex l-flex-justifybetween">
+							<h4 class="u-text-body-bold u-margin-bottom1x">{{ alignmentNode.targetName }}</h4>
+							<small>{{ alignmentNode.targetCode }}</small>
+						</div>
+						<p class="u-break-word u-text-body u-width-paragraph"
+							*ngIf="alignmentNode.targetDescription"
+						>{{ alignmentNode.targetDescription }}</p>
+
+						<div *ngIf="alignmentNode.frameworkName">
+							<h4>Framework</h4>
+							{{ alignmentNode.frameworkName }}
+						</div>
+						<div class="u-margin-yaxis2x"
+							 *ngIf="alignmentNode.targetUrl">
+							<a class="u-text-outlink" target="_blank"
+								[href]="alignmentNode.targetUrl"
+							>View alignment URL
 								<svg icon="icon_external_link"></svg>
 							</a>
 						</div>
-					</section>
+					</div>
+				</section>
 
-					<!-- alignment -->
-					<section>
-						<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
-							*ngIf="badgeClass.alignment && badgeClass?.alignment.length>0"
-						>Alignment</h3>
-						<div class="bordered l-padding-2x l-marginBottom-2x"
-						     *ngFor="let alignment of badgeClass.alignment; let i=index">
-							<div class="l-flex l-flex-justifybetween">
-								<h4 class="u-text-body-bold u-margin-bottom1x">{{alignment.targetName}}</h4>
-								<small>{{alignment.targetCode}}</small>
-							</div>
-							<p class="u-break-word u-text-body u-width-paragraph"
-								[ngIf]="alignment.targetDescription"
-							>{{ alignment.targetDescription }}</p>
-
-							<div *ngIf="alignment.frameworkName">
-								<h4>Framework</h4>
-								{{ alignment.frameworkName }}
-							</div>
-							<div class="u-margin-yaxis2x"
-								 *ngIf="alignment.target_url">
-								<a class="u-text-outlink"
-									*ngIf="alignment.target_url"
-									[href]="alignment.target_url"
-									target="_blank"
-								>View alignment URL
-									<svg icon="icon_external_link"></svg>
-								</a>
-							</div>
-						</div>
-					</section>
-
-					<!-- tags -->
-					<section>
-						<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
-							*ngIf="badgeClass.tags && badgeClass.tags.length">Tags</h3>
-						<div class="l-tags">
-							<div class="tag"
-								*ngFor="let tag of badgeClass.tags; last as last"
-							>{{ tag }}</div>
-						</div>
-					</section>
-				</div>
+				<!-- tags -->
+				<section>
+					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+						*ngIf="badgeClass.tags && badgeClass.tags.length">Tags</h3>
+					<div class="l-tags">
+						<div class="tag"
+							*ngFor="let tag of badgeClass.tags; last as last"
+						>{{ tag }}</div>
+					</div>
+				</section>
 			</div>
 		</div>
 	</main>
