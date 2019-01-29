@@ -49,10 +49,10 @@
 							{{ collection.badges.length - 3 }}+
 						</div>
 					</div>
-					<div class="u-margin-top2x">
+					<div class="u-margin-top2x" *ngIf="collection.badges.length != 0">
 						<hr class="rule rule-hairline">
 					</div>
-					<div class="l-flex l-flex-aligncenter l-flex-justifybetween u-margin-top2x">
+					<div class="l-flex l-flex-aligncenter l-flex-justifybetween u-margin-top2x" *ngIf="collection.badges.length != 0">
 						<div class="switch">
 							<fieldset class="switch-x-container">
 								<div class="switch-x-inputcontainer">
