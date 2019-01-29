@@ -80,3 +80,8 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Was in old badgr-ui. Not sure what for.
  */
 // import 'ts-helpers';
+
+
+// Custom polyfills
+
+import 'inert-polyfill/inert-polyfill';

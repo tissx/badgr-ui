@@ -1,6 +1,6 @@
 import {inject, TestBed} from "@angular/core/testing";
 import {BadgeClass} from "./badgeclass.model";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {ApiBadgeClass} from "./badgeclass-api.model";
 
 describe('BadgeClass', () => {
@@ -75,7 +75,7 @@ export const apiBadgeClass2 = {
 	"json": {
 		"name": "DCI Training",
 		"image": "https://api.review.badgr.io/public/badges/dci-training/image",
-		"criteria_url": "https://api.review.badgr.io/public/badges/dci-training/criteria",
+		"criteriaUrl": "https://api.review.badgr.io/public/badges/dci-training/criteria",
 		"@context": "https://w3id.org/openbadges/v1",
 		"type": "BadgeClass",
 		"id": "https://api.review.badgr.io/public/badges/dci-training",
@@ -96,7 +96,7 @@ export const apiBadgeClass3 = {
 	"json": {
 		"name": "Rebel Extinguisher",
 		"image": "https://api.review.badgr.io/public/badges/rebel-extinguisher/image",
-		"criteria_url": "https://api.review.badgr.io/public/badges/rebel-extinguisher/criteria",
+		"criteriaUrl": "https://api.review.badgr.io/public/badges/rebel-extinguisher/criteria",
 		"@context": "https://w3id.org/openbadges/v1",
 		"type": "BadgeClass",
 		"id": "https://api.review.badgr.io/public/badges/rebel-extinguisher",

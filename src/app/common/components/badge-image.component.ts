@@ -1,9 +1,9 @@
-import {Component, Input} from "@angular/core";
+import { Component, Input } from "@angular/core";
 
-import {BadgeClassManager} from "../../issuer/services/badgeclass-manager.service";
-import {MessageService} from "../services/message.service";
-import {AbstractBadgeComponent} from "./abstract-badge.component";
-import {preloadImageURL} from "../util/file-util";
+import { BadgeClassManager } from "../../issuer/services/badgeclass-manager.service";
+import { MessageService } from "../services/message.service";
+import { AbstractBadgeComponent } from "./abstract-badge.component";
+import { preloadImageURL } from "../util/file-util";
 
 @Component({
 	selector: "badge-image",

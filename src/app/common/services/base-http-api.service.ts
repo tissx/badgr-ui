@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-//import { LoginService } from "../../auth/auth.service";
-import {AuthorizationToken, SessionService} from "./session.service";
-import {AppConfigService} from "../app-config.service";
-import {MessageService} from "./message.service";
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
-import {timeoutPromise} from "../util/promise-util";
-import {Observable} from "rxjs";
+import { Injectable } from "@angular/core";
+// import { LoginService } from "../../auth/auth.service";
+import { AuthorizationToken, SessionService } from "./session.service";
+import { AppConfigService } from "../app-config.service";
+import { MessageService } from "./message.service";
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
+import { timeoutPromise } from "../util/promise-util";
+import { Observable } from "rxjs";
 
 export class BadgrApiError extends Error {
 	constructor(
@@ -18,10 +18,30 @@ export class BadgrApiError extends Error {
 
 @Injectable()
 export abstract class BaseHttpApiService {
+
 	baseUrl: string;
 
+	static async addTestingDelay<T>(
+		value: T,
+		configService: AppConfigService
+	): Promise<T> {
+		let delayRange = configService.apiConfig.debugDelayRange;
+
+		if (delayRange) {
+			let delayMs = Math.floor(delayRange.minMs + (delayRange.maxMs - delayRange.minMs) * Math.random());
+
+			console.warn(`Delaying API response by ${delayMs}ms for debugging`, value);
+
+			await timeoutPromise(delayMs);
+
+			return value;
+		} else {
+			return value;
+		}
+	}
+
 	constructor(
-		//protected sessionService: LoginService,
+		// protected sessionService: LoginService,
 		protected sessionService: SessionService,
 		protected http: HttpClient,
 		protected configService: AppConfigService,
@@ -135,68 +155,17 @@ export abstract class BaseHttpApiService {
 		);
 	}
 
-	private augmentRequest<T>(o: Observable<HttpResponse<T>>): Promise<HttpResponse<T>> {
-		return o
-			.toPromise()
-			.then(r => this.addTestingDelay(r))
-			.finally(() => this.messageService.decrementPendingRequestCount())
-			.then<HttpResponse<T>>(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
-	}
-
-	private addJsonRequestHeader(headers: HttpHeaders) {
-		return headers.append('Content-Type', "application/json");
-	};
-
-	private addJsonResponseHeader(headers: HttpHeaders) {
-		return headers.append('Accept', 'application/json');
-	};
-
-	private addAuthTokenHeader(
-		headers: HttpHeaders,
-		token: AuthorizationToken
-	) {
-		return headers.append('Authorization', 'Bearer ' + token.access_token);
-	};
-
-	private async addTestingDelay<T>(value: T): Promise<T> {
-		return BaseHttpApiService.addTestingDelay(
-			value,
-			this.configService
-		);
-	}
-
-	static async addTestingDelay<T>(
-		value: T,
-		configService: AppConfigService
-	): Promise<T> {
-		let delayRange = configService.apiConfig.debugDelayRange;
-
-		if (delayRange) {
-			let delayMs = Math.floor(delayRange.minMs + (delayRange.maxMs - delayRange.minMs) * Math.random());
-
-			console.warn(`Delaying API response by ${delayMs}ms for debugging`, value);
-
-			await timeoutPromise(delayMs);
-
-			return value;
-		} else {
-			return value;
-		}
-	}
-
 	handleHttpErrors<T>(
 		response: any,
 		isError: boolean
 	): T | never {
 		if (response && response.status < 200 || response.status >= 300) {
 			if (response.status === 401 || response.status === 403) {
-				this.sessionService.logout();
-				window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
-			}
-			else if (response.status === 0) {
+				this.sessionService.handleAuthenticationError();
+			} else if (response.status === 0) {
 				this.messageService.reportFatalError(`Server Unavailable`);
-			}
-			else {
+			} else {
+				// TODO: Give nicer error messages!
 				throw new BadgrApiError(
 					`Expected 2xx response; got ${response.status}`,
 					response
@@ -209,5 +178,32 @@ export abstract class BaseHttpApiService {
 		} else {
 			return response;
 		}
+	}
+
+	private augmentRequest<T>(o: Observable<HttpResponse<T>>): Promise<HttpResponse<T>> {
+		return o
+			.toPromise()
+			.then(r => this.addTestingDelay(r))
+			.finally(() => this.messageService.decrementPendingRequestCount())
+			.then<HttpResponse<T>>(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
+	}
+
+	private addJsonRequestHeader(headers: HttpHeaders) {
+		return headers.append('Content-Type', "application/json");
+	}
+	private addJsonResponseHeader(headers: HttpHeaders) {
+		return headers.append('Accept', 'application/json');
+	}
+	private addAuthTokenHeader(
+		headers: HttpHeaders,
+		token: AuthorizationToken
+	) {
+		return headers.append('Authorization', 'Bearer ' + token.access_token);
+	}
+	private async addTestingDelay<T>(value: T): Promise<T> {
+		return BaseHttpApiService.addTestingDelay(
+			value,
+			this.configService
+		);
 	}
 }

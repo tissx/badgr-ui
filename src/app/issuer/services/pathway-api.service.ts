@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {BaseHttpApiService} from "../../common/services/base-http-api.service";
-import {SessionService} from "../../common/services/session.service";
-import {AppConfigService} from "../../common/app-config.service";
+import { Injectable } from "@angular/core";
+import { BaseHttpApiService } from "../../common/services/base-http-api.service";
+import { SessionService } from "../../common/services/session.service";
+import { AppConfigService } from "../../common/app-config.service";
 import {
 	ApiIssuerPathwayList,
 	ApiPathwayDetail,
@@ -10,9 +10,9 @@ import {
 	ApiPathwaySummary,
 	ApiPathwaySummaryForCreation
 } from "../models/pathway-api.model";
-import {BadgeClass} from "../models/badgeclass.model";
-import {MessageService} from "../../common/services/message.service";
-import {HttpClient} from "@angular/common/http";
+import { BadgeClass } from "../models/badgeclass.model";
+import { MessageService } from "../../common/services/message.service";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()

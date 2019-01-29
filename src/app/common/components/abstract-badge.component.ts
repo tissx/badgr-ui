@@ -1,11 +1,11 @@
-import {Input, OnChanges, SimpleChange} from "@angular/core";
-import {BadgeClassManager} from "../../issuer/services/badgeclass-manager.service";
-import {BadgeClass} from "../../issuer/models/badgeclass.model";
-import {MessageService} from "../services/message.service";
-import {IssuerUrl} from "../../issuer/models/issuer-api.model";
-import {BadgeClassRef, BadgeClassSlug, BadgeClassUrl} from "../../issuer/models/badgeclass-api.model";
-import {UpdatableSubject} from "../util/updatable-subject";
-import {Observable, Subject} from "rxjs";
+import { Input, OnChanges, SimpleChange } from "@angular/core";
+import { BadgeClassManager } from "../../issuer/services/badgeclass-manager.service";
+import { BadgeClass } from "../../issuer/models/badgeclass.model";
+import { MessageService } from "../services/message.service";
+import { IssuerUrl } from "../../issuer/models/issuer-api.model";
+import { BadgeClassRef, BadgeClassSlug, BadgeClassUrl } from "../../issuer/models/badgeclass-api.model";
+import { UpdatableSubject } from "../util/updatable-subject";
+import { Observable, Subject } from "rxjs";
 
 export interface BadgeLookupData {
 	badge?: BadgeClass;

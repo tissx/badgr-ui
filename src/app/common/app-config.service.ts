@@ -1,4 +1,4 @@
-import {Injectable, InjectionToken, Injector, NgZone} from '@angular/core';
+import { Injectable, InjectionToken, Injector, NgZone } from '@angular/core';
 import {
 	ApiConfig,
 	BadgrConfig,
@@ -6,27 +6,18 @@ import {
 	GoogleAnalyticsConfig,
 	HelpConfig
 } from "../../environments/badgr-config";
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {BadgrTheme} from '../../theming/badgr-theme';
+import { environment } from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { BadgrTheme } from '../../theming/badgr-theme';
 
 import * as deepmerge from 'deepmerge'
-import {animationFramePromise} from './util/promise-util';
-import {initializeTheme} from '../../theming/theme-setup';
+import { animationFramePromise } from './util/promise-util';
+import { initializeTheme } from '../../theming/theme-setup';
 
 const packageJsonVersion = require("../../../package.json").version;
 
 @Injectable()
 export class AppConfigService {
-	private config: BadgrConfig = defaultConfig;
-
-	constructor(
-		private injector: Injector,
-		private http: HttpClient,
-		private ngZone: NgZone
-	) {
-		window["initializeBadgrConfig"] = (...args) => ngZone.run(() => this.initializeConfig.apply(this, args));
-	}
 
 	get apiConfig(): ApiConfig {
 		return this.config.api;
@@ -50,6 +41,48 @@ export class AppConfigService {
 
 	get theme(): BadgrTheme {
 		return this.config.theme;
+	}
+	private config: BadgrConfig = defaultConfig;
+
+	constructor(
+		private injector: Injector,
+		private http: HttpClient,
+		private ngZone: NgZone
+	) {
+		window["initializeBadgrConfig"] = (...args) => ngZone.run(() => this.initializeConfig.apply(this, args));
+	}
+
+	async initializeConfig(configOverrides?: Partial<BadgrConfig>) {
+		// Build the canonical configuration object by deep merging all config contributors
+		this.config = deepmerge.all([
+			// The default, base configuration object
+			defaultConfig,
+
+			// Configuration overrides from the Angular environment
+			environment.config || {},
+
+			// Configuration overrides in Angular's dependency injection. Mostly used for tests.
+			this.injector.get(new InjectionToken<Partial<BadgrConfig>>('config'), null) || {},
+
+			// Remote configuration overrides, generally domain-specific from a config server
+			await this.loadRemoteConfig() || {},
+
+			// User-specified configuration overrides from local storage
+			JSON.parse(localStorage.getItem("config")) || {},
+
+			// User-specified configuration overrides from session storage
+			JSON.parse(sessionStorage.getItem("config")) || {},
+
+			// Programmatic Configuration Overrides
+			configOverrides || {}
+		], {
+			clone: true
+		}) as BadgrConfig;
+
+		// Initialize theming with the final configuration value
+		initializeTheme(this);
+
+		return this.config;
 	}
 
 
@@ -95,39 +128,6 @@ export class AppConfigService {
 				}
 			);
 	}
-
-	async initializeConfig(configOverrides?: Partial<BadgrConfig>) {
-		// Build the canonical configuration object by deep merging all config contributors
-		this.config = deepmerge.all([
-			// The default, base configuration object
-			defaultConfig,
-
-			// Configuration overrides from the Angular environment
-			environment.config || {},
-
-			// Configuration overrides in Angular's dependency injection. Mostly used for tests.
-			this.injector.get(new InjectionToken<Partial<BadgrConfig>>('config'), null) || {},
-
-			// Remote configuration overrides, generally domain-specific from a config server
-			await this.loadRemoteConfig() || {},
-
-			// User-specified configuration overrides from local storage
-			JSON.parse(localStorage.getItem("config")) || {},
-
-			// User-specified configuration overrides from session storage
-			JSON.parse(sessionStorage.getItem("config")) || {},
-
-			// Programmatic Configuration Overrides
-			configOverrides || {}
-		], {
-			clone: true
-		}) as BadgrConfig;
-
-		// Initialize theming with the final configuration value
-		initializeTheme(this);
-
-		return this.config;
-	}
 }
 
 export const defaultConfig: BadgrConfig = {
@@ -146,7 +146,7 @@ export const defaultConfig: BadgrConfig = {
 	assertionVerifyUrl: "https://badgecheck.io/",
 	theme: {
 		serviceName: "Badgr",
-		welcomeMessage: "### Welcome to Badgr!",
+		welcomeMessage: `### Welcome!`,
 		alternateLandingUrl: null,
 		showPoweredByBadgr: false,
 		showApiDocsLink: true,
@@ -155,8 +155,8 @@ export const defaultConfig: BadgrConfig = {
 		privacyPolicyLink: null,
 		providedBy: null,
 		logoImg: {
-			small: require("../../../node_modules/@concentricsky/badgr-style/dist/images/logo-small.svg"),
-			desktop: require("../../../node_modules/@concentricsky/badgr-style/dist/images/logo-large.svg"),
+			small: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-small.svg"),
+			desktop: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-large.svg"),
 		},
 		loadingImg: {
 			// Image is inlined here to avoid any external resource loading, at the expense of a larger initial file size. We only do this for the default theme.
@@ -165,6 +165,11 @@ export const defaultConfig: BadgrConfig = {
 			height: 48
 		},
 		favicons: [],
-		cssCustomProps: {}
+		useColorNavbar: false,
+		cssCustomProps: {
+			"--brand-hue": "351",
+			"--brand-saturation": "49%",
+			"--brand-lightness": "35%",
+		}
 	}
 };

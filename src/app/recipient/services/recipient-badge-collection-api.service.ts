@@ -1,13 +1,13 @@
-import {Injectable} from "@angular/core";
-import {SessionService} from "../../common/services/session.service";
-import {AppConfigService} from "../../common/app-config.service";
-import {BaseHttpApiService} from "../../common/services/base-http-api.service";
+import { Injectable } from "@angular/core";
+import { SessionService } from "../../common/services/session.service";
+import { AppConfigService } from "../../common/app-config.service";
+import { BaseHttpApiService } from "../../common/services/base-http-api.service";
 import {
 	ApiRecipientBadgeCollection,
 	ApiRecipientBadgeCollectionForCreation
 } from "../models/recipient-badge-collection-api.model";
-import {MessageService} from "../../common/services/message.service";
-import {HttpClient} from "@angular/common/http";
+import { MessageService } from "../../common/services/message.service";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class RecipientBadgeCollectionApiService extends BaseHttpApiService {

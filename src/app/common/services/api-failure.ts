@@ -1,6 +1,6 @@
-import {Response} from "@angular/http";
-import {BadgrApiError} from "./base-http-api.service";
-import {HttpResponse} from "@angular/common/http";
+import { Response } from "@angular/http";
+import { BadgrApiError } from "./base-http-api.service";
+import { HttpResponse } from "@angular/common/http";
 
 export class BadgrApiFailure {
 	private readonly payload: Response | Error | string;
@@ -89,7 +89,7 @@ export class BadgrApiFailure {
 		function errorFromJson(json) {
 			if (Array.isArray(json)) {
 				return json.map(a => errorFromJson(a) || {})
-					.reduce((a,b) => Object.assign(a, b), {});
+					.reduce((a, b) => Object.assign(a, b), {});
 			} else if (typeof(json) === "object") {
 				const result: { [name: string]: string } = {};
 

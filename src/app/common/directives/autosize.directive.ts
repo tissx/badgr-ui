@@ -8,7 +8,7 @@ import {
 	PLATFORM_ID,
 	Renderer2
 } from '@angular/core';
-import {isPlatformBrowser} from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * This file is derived from https://github.com/stevepapa/ng-autosize/blob/master/src/autosize.directive.ts released
@@ -83,7 +83,7 @@ export class AutosizeDirective implements AfterViewChecked {
 		this.adjust();
 	}
 
-	constructor(@Inject(PLATFORM_ID) private platformId: Object, private renderer: Renderer2, public element: ElementRef){
+	constructor(@Inject(PLATFORM_ID) private platformId: Object, private renderer: Renderer2, public element: ElementRef) {
 		this.el = element.nativeElement;
 		this._clientWidth = this.el.clientWidth;
 	}
@@ -93,10 +93,9 @@ export class AutosizeDirective implements AfterViewChecked {
 		if (isPlatformBrowser(this.platformId)) {
 			const style = window.getComputedStyle(this.el, null);
 			if (style.resize === 'both') {
-				this.renderer.setStyle(this.el, 'resize' ,'horizontal');
-			}
-			else if (style.resize === 'vertical') {
-				this.renderer.setStyle(this.el, 'resize' ,'none');
+				this.renderer.setStyle(this.el, 'resize' , 'horizontal');
+			} else if (style.resize === 'vertical') {
+				this.renderer.setStyle(this.el, 'resize' , 'none');
 			}
 			// run first adjust
 			this.adjust();

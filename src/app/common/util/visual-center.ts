@@ -53,9 +53,9 @@ function rgbMatrixFromCanvas(canvas: HTMLCanvasElement): RgbMatrix {
 	const data = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data;
 
 	let result: RgbMatrix = [];
-	for (var y = 0; y < canvas.height; y++) {
+	for (let y = 0; y < canvas.height; y++) {
 		result[y] = []
-		for (var x = 0; x < canvas.width; x++) {
+		for (let x = 0; x < canvas.width; x++) {
 			result[y][x] = {
 				r: data[y * canvas.width * 4 + x * 4],
 				g: data[y * canvas.width * 4 + x * 4 + 1],
@@ -91,8 +91,8 @@ function recursiveGetCoord(
 	const height = rgbMatrix.length;
 	const width = rgbMatrix[ 0 ].length;
 
-	var visualLeftToApply = visualLeft;
-	var visualTopToApply = visualTop;
+	let visualLeftToApply = visualLeft;
+	let visualTopToApply = visualTop;
 
 	const ops = {
 		bgColor,
@@ -103,8 +103,8 @@ function recursiveGetCoord(
 		maxDistance: getDistance([ 0, 0 ], [ width, height ])
 	};
 
-	var newVisualLeft = visualLeft;
-	var newVisualTop = visualTop;
+	let newVisualLeft = visualLeft;
+	let newVisualTop = visualTop;
 
 	if (currentAxis === 'X') {
 		newVisualLeft += stepSize
@@ -112,8 +112,8 @@ function recursiveGetCoord(
 		newVisualTop += stepSize
 	}
 
-	var oldCenterIntensity = getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops);
-	var newCenterIntensity = getCenterIntensity(rgbMatrix, newVisualLeft, newVisualTop, ops);
+	let oldCenterIntensity = getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops);
+	let newCenterIntensity = getCenterIntensity(rgbMatrix, newVisualLeft, newVisualTop, ops);
 
 	while (newCenterIntensity > oldCenterIntensity) {
 		visualLeftToApply = newVisualLeft;

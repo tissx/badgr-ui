@@ -1,6 +1,6 @@
-import {ApiEntityRef} from "../../common/model/entity-ref";
-import {BadgeClassUrl} from "./badgeclass-api.model";
-import {IssuerUrl} from "./issuer-api.model";
+import { ApiEntityRef } from "../../common/model/entity-ref";
+import { BadgeClassUrl } from "./badgeclass-api.model";
+import { IssuerUrl } from "./issuer-api.model";
 
 export type BadgeInstanceSlug = string;
 export type BadgeInstanceUrl = string;

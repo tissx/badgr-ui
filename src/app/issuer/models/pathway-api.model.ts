@@ -1,7 +1,7 @@
-import {BadgeClassRef, BadgeClassUrl} from "./badgeclass-api.model";
-import {IssuerRef} from "./issuer-api.model";
-import {RecipientGroupRef} from "./recipientgroup-api.model";
-import {ApiEntityRef} from "../../common/model/entity-ref";
+import { BadgeClassRef, BadgeClassUrl } from "./badgeclass-api.model";
+import { IssuerRef } from "./issuer-api.model";
+import { RecipientGroupRef } from "./recipientgroup-api.model";
+import { ApiEntityRef } from "../../common/model/entity-ref";
 
 export type PathwayUrl = string
 export type PathwaySlug = string
@@ -32,7 +32,7 @@ export interface ApiPathwaySummary extends ApiPathwaySummaryForCreation {
 	completionBadge?: BadgeClassRef;
 	rootChildCount: number;
 	elementCount: number;
-	
+
 	groups: RecipientGroupRef[];
 }
 

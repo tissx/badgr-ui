@@ -1,22 +1,22 @@
-import {Component, ElementRef, OnDestroy, OnInit} from "@angular/core";
-import {FlashMessage, MessageService} from "../services/message.service";
+import { Component, ElementRef, OnDestroy, OnInit } from "@angular/core";
+import { FlashMessage, MessageService } from "../services/message.service";
 
-import {Router} from "@angular/router";
-import {Subscription} from "rxjs";
-import {EventsService} from "../services/events.service";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { EventsService } from "../services/events.service";
 
 
 interface Notification {
 	submodule: "notification-warning" | "notification-success" | "";
 	icon: "icon_priority_high" | "icon_checkmark" | "icon_info";
-	title: "Attention" | "Success" | "Loading Error" | "Fatal Error";	
+	title: "Attention" | "Success" | "Loading Error" | "Fatal Error";
 }
 
 const MessageStatusTypeToNotificationMap: { [key in string]: Notification } = {
-	"error" : {submodule:"notification-warning", title: "Attention", icon: "icon_priority_high"},
-	"load-error" : {submodule:"notification-warning", title: "Loading Error", icon: "icon_priority_high"},
-	"fatal-error" : {submodule:"notification-warning", title: "Fatal Error", icon: "icon_priority_high"},
-	"success": {submodule:"notification-success", title: "Success", icon: "icon_checkmark"},
+	"error" : {submodule: "notification-warning", title: "Attention", icon: "icon_priority_high"},
+	"load-error" : {submodule: "notification-warning", title: "Loading Error", icon: "icon_priority_high"},
+	"fatal-error" : {submodule: "notification-warning", title: "Fatal Error", icon: "icon_priority_high"},
+	"success": {submodule: "notification-success", title: "Success", icon: "icon_checkmark"},
 };
 
 
@@ -84,7 +84,7 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 	toNotification(status: string): Notification {
 		return MessageStatusTypeToNotificationMap[status]
 	}
-	
+
 	setMessage(message: FlashMessage) {
 		this.messageDismissed = this.message && !message;
 

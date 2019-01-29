@@ -1,5 +1,5 @@
-import {FormControl} from '@angular/forms';
-import {ValidationResult} from "./email.validator";
+import { FormControl } from '@angular/forms';
+import { ValidationResult } from "./email.validator";
 
 export class DateValidator {
 	static validDate(control: FormControl): ValidationResult {

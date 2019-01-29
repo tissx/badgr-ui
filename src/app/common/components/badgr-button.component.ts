@@ -1,5 +1,5 @@
-import {Component, Input} from "@angular/core";
-import {MessageService} from "../services/message.service";
+import { Component, Input } from "@angular/core";
+import { MessageService } from "../services/message.service";
 
 @Component({
 	selector: 'button[loading-promises],.button[loading-promises],button[disabled-when-requesting],.button[disabled-when-requesting],button[loading-when-requesting],.button[loading-when-requesting]',
@@ -10,7 +10,7 @@ import {MessageService} from "../services/message.service";
 	},
 	template: `
 		<ng-content *ngIf="!showLoadindMessage"></ng-content>
-		<ng-template *ngIf="showLoadindMessage">{{ loadingMessage }}</ng-template>
+		<ng-container *ngIf="showLoadindMessage && loadingMessage">{{ loadingMessage }}</ng-container>
 	`,
 })
 export class BadgrButtonComponent {

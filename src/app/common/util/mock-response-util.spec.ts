@@ -1,6 +1,6 @@
-import {inject} from "@angular/core/testing";
-import {MockBackend, MockConnection} from "@angular/http/testing";
-import {RequestMethod, Response, ResponseOptions} from "@angular/http";
+import { inject } from "@angular/core/testing";
+import { MockBackend, MockConnection } from "@angular/http/testing";
+import { RequestMethod, Response, ResponseOptions } from "@angular/http";
 
 export function setupMockResponseReporting() {
 	beforeEach(inject([ MockBackend ], (mockBackend: MockBackend) => {
@@ -46,9 +46,9 @@ export function expectRequest(
 			manager.seenConnections.add(connection);
 
 			if ((url instanceof RegExp && url.exec(connection.request.url))
-				|| (String(url) == connection.request.url)
+				|| (String(url) === connection.request.url)
 			) {
-				if (!requestHandled && connection.request.method == method) {
+				if (!requestHandled && connection.request.method === method) {
 					requestHandled = true;
 
 					const helper = manager.helperFor(connection);
@@ -67,6 +67,10 @@ export function expectRequest(
 class MockConnectionHelperManager {
 	static managerMap = new Map<MockBackend, MockConnectionHelperManager>();
 
+	seenConnections = new Set<MockConnection>();
+	connectionHelperMap = new Map<MockConnection, MockConnectionHelper>();
+	patternRequestMap = new Map<[RequestMethod, string | RegExp], Set<MockConnectionHelper>>();
+
 	static managerFor(backend: MockBackend): MockConnectionHelperManager {
 		let manager = MockConnectionHelperManager.managerMap.get(backend);
 		if (! manager) {
@@ -75,10 +79,6 @@ class MockConnectionHelperManager {
 
 		return manager;
 	}
-
-	seenConnections = new Set<MockConnection>();
-	connectionHelperMap = new Map<MockConnection, MockConnectionHelper>();
-	patternRequestMap = new Map<[RequestMethod, string | RegExp], Set<MockConnectionHelper>>();
 
 	reset() {
 		this.seenConnections.clear();

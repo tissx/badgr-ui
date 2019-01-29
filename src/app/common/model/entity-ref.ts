@@ -6,7 +6,6 @@ export interface ApiEntityRef {
 export type AnyRefType = ApiEntityRef | EntityRef<any> | string;
 
 export class EntityRef<RefType extends ApiEntityRef> implements ApiEntityRef {
-	_ref: ApiEntityRef;
 
 	get "@id"() { return this._ref["@id"] }
 	get url() { return this._ref["@id"] }
@@ -15,26 +14,7 @@ export class EntityRef<RefType extends ApiEntityRef> implements ApiEntityRef {
 	get apiRef(): RefType { return this._ref as RefType }
 
 	get hasSlug(): boolean { return !! this.slug }
-
-	constructor(
-		ref: RefType | EntityRef<RefType> | string,
-		contextSlug?: string
-	) {
-		if (EntityRef.isRef(ref)) {
-			this._ref = ref.apiRef;
-		} else if (EntityRef.isApiRef(ref)) {
-			this._ref = Object.assign({}, ref);
-		} else {
-			this._ref = {
-				"@id": ref,
-				slug: contextSlug
-			}
-		}
-	}
-	
-	toJSON() {
-		return this.apiRef;
-	}
+	_ref: ApiEntityRef;
 
 	static refFrom<T extends ApiEntityRef>(id: EntityRef<T> | T | string): EntityRef<T> {
 		return EntityRef.isRef(id)
@@ -56,5 +36,25 @@ export class EntityRef<RefType extends ApiEntityRef> implements ApiEntityRef {
 		return EntityRef.isApiRef(id)
 			? id["@id"]
 			: id;
+	}
+
+	constructor(
+		ref: RefType | EntityRef<RefType> | string,
+		contextSlug?: string
+	) {
+		if (EntityRef.isRef(ref)) {
+			this._ref = ref.apiRef;
+		} else if (EntityRef.isApiRef(ref)) {
+			this._ref = Object.assign({}, ref);
+		} else {
+			this._ref = {
+				"@id": ref,
+				slug: contextSlug
+			}
+		}
+	}
+
+	toJSON() {
+		return this.apiRef;
 	}
 }

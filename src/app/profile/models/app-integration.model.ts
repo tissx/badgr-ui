@@ -1,4 +1,4 @@
-import {ManagedEntity} from "../../common/model/managed-entity";
+import { ManagedEntity } from "../../common/model/managed-entity";
 import {
 	ApiAppIntegration,
 	ApiAppIntegrationRef,
@@ -6,13 +6,34 @@ import {
 	ApiBadgebookCanvasLti1AppIntegration,
 	AppIntegrationType
 } from "./app-integration-api.model";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 
 export abstract class AppIntegration<T extends ApiAppIntegration> extends ManagedEntity<T, ApiAppIntegrationRef> {
+
+	abstract name: string;
+	abstract description: string;
+	abstract active: boolean;
+	abstract image: string;
+
+	static idForApiModel(apiModel: ApiAppIntegration): string {
+		return apiModel.integrationUid || apiModel.integrationType;
+	}
+
+	static integrationFor(
+		commonManager: CommonEntityManager,
+		apiModel: ApiAppIntegration
+	): AppIntegration<any> {
+		if (apiModel.integrationType === "canvas-lti1") {
+			return new BadebookLti1Integration(commonManager, apiModel);
+		} else {
+			return new UnknownLti1Integration(commonManager, apiModel);
+		}
+	}
+
 	constructor(
 		commonManager: CommonEntityManager,
 		initialEntity?: T,
-		onUpdateSubscribed?: ()=>void
+		onUpdateSubscribed?: () => void
 	) {
 		super(commonManager, onUpdateSubscribed);
 
@@ -20,11 +41,6 @@ export abstract class AppIntegration<T extends ApiAppIntegration> extends Manage
 			this.applyApiModel(initialEntity);
 		}
 	}
-
-	abstract name: string;
-	abstract description: string;
-	abstract active: boolean;
-	abstract image: string;
 
 	protected buildApiRef(): ApiAppIntegrationRef {
 		return {
@@ -45,20 +61,7 @@ export abstract class AppIntegration<T extends ApiAppIntegration> extends Manage
 		return this.apiModel.integrationData;
 	}
 
-	static idForApiModel(apiModel: ApiAppIntegration): string {
-		return apiModel.integrationUid || apiModel.integrationType;
-	}
 
-	static integrationFor(
-		commonManager: CommonEntityManager,
-		apiModel: ApiAppIntegration
-	): AppIntegration<any> {
-		if (apiModel.integrationType === "canvas-lti1") {
-			return new BadebookLti1Integration(commonManager, apiModel);
-		} else {
-			return new UnknownLti1Integration(commonManager, apiModel);
-		}
-	}
 }
 
 export class UnknownLti1Integration extends AppIntegration<ApiAppIntegration> {

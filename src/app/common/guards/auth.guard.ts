@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {SessionService} from "../services/session.service";
-import {OAuthManager} from "../services/oauth-manager.service";
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
+import { SessionService } from "../services/session.service";
+import { OAuthManager } from "../services/oauth-manager.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,8 +25,7 @@ export class AuthGuard implements CanActivate {
 		if (! this.sessionService.isLoggedIn) {
 			this.router.navigate(['/auth']);
 			return false;
-		}
-		else if (this.oAuthManager.isAuthorizationInProgress) {
+		} else if (this.oAuthManager.isAuthorizationInProgress) {
 			this.router.navigate(['/auth/oauth2/authorize']);
 			return false;
 		} else {

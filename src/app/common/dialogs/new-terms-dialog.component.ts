@@ -1,8 +1,8 @@
-import {Component, ElementRef, Renderer2} from "@angular/core";
-import {BaseDialog} from "./base-dialog";
-import {AppConfigService} from "../app-config.service";
-import {UserProfileManager} from "../services/user-profile-manager.service";
-import {UserProfile} from "../model/user-profile.model";
+import { Component, ElementRef, Renderer2 } from "@angular/core";
+import { BaseDialog } from "./base-dialog";
+import { AppConfigService } from "../app-config.service";
+import { UserProfileManager } from "../services/user-profile-manager.service";
+import { UserProfile } from "../model/user-profile.model";
 
 @Component({
 	selector: 'new-terms-dialog',
@@ -15,7 +15,7 @@ import {UserProfile} from "../model/user-profile.model";
 				</h2>
 			</div>
 			<div class="u-padding-all3x">
-			
+
 				<p class="u-text u-text-body u-margin-bottom2x">We’ve updated our <a target="_blank" [href]="termsOfServiceLink">Terms of Service</a>. </p>
 
 				<div class="u-background-light3 u-padding-all2x u-margin-bottom3x">
@@ -58,7 +58,7 @@ export class NewTermsDialog extends BaseDialog {
 		super(componentElem, renderer);
 	}
 
-	get agreedPromise():Promise<void> {
+	get agreedPromise(): Promise<void> {
 		if (!this._agreed_promise) {
 				this._agreed_promise = new Promise((resolve, reject) => {
 					this.resolveFunc = resolve;

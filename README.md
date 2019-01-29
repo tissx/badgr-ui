@@ -39,11 +39,15 @@ Then view it at http://localhost:8080/styleguide/
 
 ## Build Instructions (for deployment)
 
+### Configuration
+
+To build for production, a `environment.prod.ts` file must be present in `src/environments/`.
+Copy the example file, `environment.prod.ts.example` to `environment.prod.ts` and modify it as needed.
+
 ### Building
 
 Build the packaged files for deployment with `npm run build:prod`
 
 Run the tests with `npm run test:ci`
 
-All files in `dist` constitute the build artifact. A config.js must be included as well for the app to function.
-An example can be found in `src/configs/config.local.js`
+All files in `dist` constitute the build artifact.

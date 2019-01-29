@@ -1,6 +1,6 @@
-import {PathwayRef} from "./pathway-api.model";
-import {IssuerRef} from "./issuer-api.model";
-import {ApiEntityRef} from "../../common/model/entity-ref";
+import { PathwayRef } from "./pathway-api.model";
+import { IssuerRef } from "./issuer-api.model";
+import { ApiEntityRef } from "../../common/model/entity-ref";
 
 export type RecipientGroupUrl = string;
 export type RecipientGroupSlug = string;
@@ -18,7 +18,7 @@ export interface ApiIssuerRecipientGroupList {
 	issuer: IssuerRef
 }
 
-export interface ApiIssuerRecipientGroupDetailList extends ApiIssuerRecipientGroupList{
+export interface ApiIssuerRecipientGroupDetailList extends ApiIssuerRecipientGroupList {
 	recipientGroups: ApiRecipientGroup[];
 	issuer: IssuerRef
 }
@@ -49,7 +49,7 @@ export interface ApiRecipientGroupMemberForCreation {
 }
 
 
-export interface ApiRecipientGroupMember extends ApiRecipientGroupMemberForCreation{
+export interface ApiRecipientGroupMember extends ApiRecipientGroupMemberForCreation {
 	"@id": RecipientGroupMemberUrl;
 	slug: RecipientGroupMemberSlug;
 }

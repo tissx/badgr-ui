@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 
-import {FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
-import {UrlValidator} from '../validators/url.validator';
-import {CommonDialogsService} from '../services/common-dialogs.service';
+import { UrlValidator } from '../validators/url.validator';
+import { CommonDialogsService } from '../services/common-dialogs.service';
 
 @Component({
 	selector: 'bg-formfield-text',
@@ -13,7 +13,8 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 		'[class.forminput-is-error]': 'isErrorState',
 		'[class.forminput-locked]': 'isLockedState',
 		'[class.forminput-monospaced]': 'monospaced',
-		'[class.forminput-withbutton]': 'hasbutton',
+		'[class.forminput-withbutton]': 'inlineButtonText',
+		'[class.forminput-withsublabel]': 'sublabel'
 	},
 	template: `
 		<div class="forminput-x-labelrow">
@@ -22,12 +23,11 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 				<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
 				<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
 			</label>
-			<ng-content select="[label-additions]"></ng-content>
+			<ng-content class="forminput-x-helplink" select="[label-additions]"></ng-content>
 		</div>
+		<p class="forminput-x-sublabel" *ngIf="sublabel"><span *ngIf="remainingCharactersNum > 0">{{ remainingCharactersNum }}</span>{{ sublabel }}</p>
 
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
-
-		<p class="forminput-x-sublabel" *ngIf="description">{{ description }}</p>
 		<div class="forminput-x-inputs">
 			<input [type]="fieldType"
 			       *ngIf="! multiline"
@@ -35,28 +35,33 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 			       [id]="inputId"
 			       [formControl]="control"
 			       [placeholder]="placeholder || ''"
+			       [maxlength] = "maxchar"
 			       (change)="postProcessInput()"
 			       (focus)="cacheControlState()"
 			       (keypress)="handleKeyPress($event)"
+			       (keyup)="handleKeyUp($event)"
 			       #textInput
 			/>
-			<div class="forminput-x-button" *ngIf="hasbutton">
+			<div class="forminput-x-button" *ngIf="inlineButtonText">
 				<button class="button button-secondary button-informinput"
-				        (click)="buttonClicked.emit($event)"
+						(click)="buttonClicked.emit($event)"
+						type="submit"
 				        [disabled-when-requesting]="true"
 				        type="submit"
 				>
-					Add
+					{{inlineButtonText}}
 				</button>
 			</div>
 			<textarea *ngIf="multiline"
 			          [name]="inputName"
 			          [id]="inputId"
 			          [formControl]="control"
+			          [maxlength] = "maxchar"
 			          [placeholder]="placeholder || ''"
 			          (change)="postProcessInput()"
 			          (focus)="cacheControlState()"
 			          (keypress)="handleKeyPress($event)"
+			          (keyup)="handleKeyUp($event)"
 			          #textareaInput
 			></textarea>
 		</div>
@@ -64,36 +69,6 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 	`
 })
 export class FormFieldText implements OnChanges, AfterViewInit {
-	@Input() control: FormControl;
-	@Input() initialValue: string;
-	@Input() id: string;
-	@Input() label: string;
-	@Input() ariaLabel: string;
-	@Input() includeLabelAsWrapper: boolean = false; //includes label for layout purposes even if label text wasn't passed in.
-	@Input() formFieldAside: string; //Displays additional text above the field. I.E (optional)
-	@Input() errorMessage: CustomValidatorMessages;
-	@Input() multiline: boolean = false;
-	@Input() monospaced: boolean = false;
-	@Input() description: string;
-	@Input() placeholder: string;
-	@Input() fieldType: FormFieldTextInputType = 'text';
-	@Input() optional: boolean = false;
-	@Input() hasbutton: boolean = false;
-
-	@Output() buttonClicked = new EventEmitter<MouseEvent>();
-
-	@Input() errorGroup: FormGroup;
-	@Input() errorGroupMessage: CustomValidatorMessages;
-
-	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
-	@Input() urlField: boolean = false;
-
-	@Input() autofocus: boolean = false;
-
-	@ViewChild('textInput') textInput: ElementRef;
-	@ViewChild('textareaInput') textareaInput: ElementRef;
-
-	private _unlocked = false;
 	@Input()
 	set unlocked(unlocked: boolean) {
 		this._unlocked = unlocked;
@@ -103,8 +78,6 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	get unlocked() {
 		return this._unlocked;
 	}
-
-	private _locked = false;
 	@Input()
 	set locked(locked: boolean) {
 		this._locked = locked;
@@ -149,10 +122,6 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		return this.control.value;
 	}
 
-	private cachedErrorMessage = null;
-	private cachedErrorState = null;
-	private cachedDirtyState = null;
-
 	get controlErrorState() {
 		return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
 	}
@@ -169,21 +138,66 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		return this.locked && !this.unlocked;
 	}
 
-	private randomName = 'field' + Math.random();
-
 	get inputName() {
 		return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, '_').toLowerCase();
 	}
 
 	get inputId() {
-		return this.id || (this.label || this.placeholder || this.randomName).toLowerCase();
+		return this.id || (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase();
 	}
+	@Input() control: FormControl;
+	@Input() initialValue: string;
+	@Input() id: string;
+	@Input() label: string;
+	@Input() ariaLabel: string;
+	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
+	@Input() errorMessage: CustomValidatorMessages;
+	@Input() multiline: boolean = false;
+	@Input() monospaced: boolean = false;
+	@Input() sublabel: string;
+	@Input() placeholder: string;
+	@Input() fieldType: FormFieldTextInputType = 'text';
+	@Input() maxchar: number;
+	@Input() optional: boolean = false;
+	@Input() inlineButtonText: string;
+
+
+	@Output() buttonClicked = new EventEmitter<MouseEvent>();
+
+	@Input() errorGroup: FormGroup;
+	@Input() errorGroupMessage: CustomValidatorMessages;
+
+	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
+	@Input() urlField: boolean = false;
+
+	@Input() autofocus: boolean = false;
+
+	@ViewChild('textInput') textInput: ElementRef;
+	@ViewChild('textareaInput') textareaInput: ElementRef;
+
+	remainingCharactersNum = this.maxchar;
+
+	private _unlocked = false;
+
+	private _locked = false;
+
+	private cachedErrorMessage = null;
+	private cachedErrorState = null;
+	private cachedDirtyState = null;
+
+	private randomName = 'field' + Math.random();
 
 
 	constructor(
 		private dialogService: CommonDialogsService,
-		private elemRef: ElementRef
 	) {
+	}
+
+	ngOnInit() {
+		if (this.maxchar) {
+			this.remainingCharactersNum = this.maxchar - this.control.value.length;
+		}
 	}
 
 	ngAfterViewInit() {
@@ -246,18 +260,22 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		this.inputElement.select();
 	}
 
-	private postProcessInput() {
-		if (this.urlField) {
-			UrlValidator.addMissingHttpToControl(this.control);
-		}
-	}
-
 	handleKeyPress(event: KeyboardEvent) {
 		// This handles revalidating when hitting enter from within an input element. Ideally, we'd catch _all_ form submission
 		// events, but since the form supresses those if things aren't valid, that doesn't really work. So we do this hack.
-		if (event.keyCode == 13) {
+		if (event.code === 'Enter') {
 			this.control.markAsDirty();
 			this.cacheControlState();
+		}
+	}
+
+	handleKeyUp(event: KeyboardEvent) {
+		this.remainingCharactersNum = this.maxchar - this.control.value.length;
+	}
+
+	private postProcessInput() {
+		if (this.urlField) {
+			UrlValidator.addMissingHttpToControl(this.control);
 		}
 	}
 }

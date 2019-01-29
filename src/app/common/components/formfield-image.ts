@@ -1,19 +1,14 @@
-import {Component, ElementRef, Input} from "@angular/core";
-import {FormControl} from "@angular/forms";
-import {base64ByteSize, loadImageURL, preloadImageURL, readFileAsDataURL} from "../util/file-util";
-import {DomSanitizer} from '@angular/platform-browser';
-import {throwExpr} from "../util/throw-expr";
+import { Component, ElementRef, Input } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { base64ByteSize, loadImageURL, preloadImageURL, readFileAsDataURL } from "../util/file-util";
+import { DomSanitizer } from '@angular/platform-browser';
+import { throwExpr } from "../util/throw-expr";
 
 @Component({
 	selector: 'bg-formfield-image',
 	host: {
-		"[class.dropzone]": "! newDropZone",
-		"[class.formfield]": "newDropZone",
-		"[class.formfield-inlinelabel]": "newDropZone",
-
-		"[class.formimage-is-dragging]": "isDragging",
-		"[class.formimage-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
-
+		"[class.dropzone-is-dragging]": "isDragging",
+		"[class.dropzone-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
 		"(drag)": "stopEvent($event)",
 		"(dragstart)": "stopEvent($event)",
 		"(dragover)": "dragStart($event)",
@@ -23,106 +18,43 @@ import {throwExpr} from "../util/throw-expr";
 		"(drop)": "drop($event)",
 	},
 	template: `
-		<ng-template [ngIf]="newDropZone">
-			<label [attr.for]="'image_field' + uniqueIdSuffix">
-				{{ label }}
-				<ng-content select="[label-additions]"></ng-content>
-			</label>
+	<div class="forminput u-margin-bottom2x">
+        <label class="forminput-x-label u-margin-bottom1x" for="image_field{{ uniqueIdSuffix }}">{{label}}</label>
+		<input type="file"
+				accept="image/*"
+				name="image_field{{ uniqueIdSuffix }}"
+				id="image_field{{ uniqueIdSuffix }}"
+				(change)="fileInputChanged($event)"
+				class="visuallyhidden"
+		/>
 
-			<div class="l-dropzoneinput">
-				<div class="l-dropzoneinput-x-container">
-					<input type="file"
-					       accept="image/*"
-					       name="image_field{{ uniqueIdSuffix }}"
-					       id="image_field{{ uniqueIdSuffix }}"
-					       (change)="fileInputChanged($event)"
-					       class="visuallyhidden"
-					/>
-					
-					<label class="dropzone dropzone-alt1"
-					       [class.dropzone-is-error]="fileErrorMessage || (control.dirty && !control.valid)"
-					       [class.dropzone-is-dropped]="imageProvided"
-					       [class.dropzone-is-dragging]="isDragging"
-					       attr.aria-labelledby="image_field{{ uniqueIdSuffix }}" 
-					       for="image_field{{ uniqueIdSuffix }}"
-					>
-						<span class="dropzone-x-text" *ngIf="!imageLoading && !imageDataUrl && !imageErrorMessage">Upload Image</span>
-						
-						<img [src]="imageFailedSrc" width="142" alt="Invalid image" *ngIf="imageErrorMessage">
-						<img [src]="imageLoadingSrc" width="142" alt="Image preview" *ngIf="imageLoading">
-						<img [src]="unsafeImageDataUrl" width="142" alt="Image preview" *ngIf="imageDataUrl">
-					</label>
-					<label class="button button-tertiary"
-					       type="button"
-					       for="image_field{{ uniqueIdSuffix }}"
-					>Upload</label>
-					<p class="formfield-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
-				</div>
+		<label class="dropzone" [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" tabindex="0">
+
+			<div class="dropzone-x-preview" *ngIf="imageDataUrl">
+				<img [src]="imageDataUrl" alt="">
+				<p class="u-text-body">
+					{{imageName}}
+					<span class="u-text-link">Change</span>
+				</p>
 			</div>
-		</ng-template>
-		
-		<ng-template [ngIf]="! newDropZone">
-			<p class="formimage-x-title">
-				{{ label }}
-				<ng-content select="[label-additions]"></ng-content>
-			</p>
-			
-			<input type="file"
-			       accept="image/*"
-			       name="image_field{{ uniqueIdSuffix }}"
-			       id="image_field{{ uniqueIdSuffix }}"
-			       (change)="fileInputChanged($event)"
-			       class="visuallyhidden"
-			/>
-			
-			<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()">
-				<span class="formimage-x-image">
-					<img [src]="placeholderImage" alt="Placeholder image" *ngIf="!imageLoading && !imageDataUrl && !imageErrorMessage">
-					<img [src]="imageFailedSrc" alt="Invalid image" *ngIf="imageErrorMessage">
-					<img [src]="imageLoadingSrc" alt="Image preview" *ngIf="imageLoading">
-					<img [src]="unsafeImageDataUrl" alt="Image preview" *ngIf="imageDataUrl">
-				</span>
-				<span class="formimage-x-text">
-					<p *ngIf="!imageLoading && !imageDataUrl" class="u-text-body-bold">Drag or Upload Image</p>
 
-					<span *ngIf="imageLoading" class="formimage-x-label">Loading Image...</span> 
-					<span *ngIf="imageDataUrl" class="formimage-x-label">{{ imageName }}</span>
-					<span *ngIf="imageDataUrl" class="formimage-x-button button button-primaryghost l-offsetleft l-offsetbottom">Change</span>
-					
-					<span *ngIf="imageErrorMessage" class="formimage-x-error">{{ imageErrorMessage }}</span>
-				</span>
-			</label>
-			
-			<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
-		</ng-template>
+			<ng-container *ngIf="!imageDataUrl">
+				<svg class="dropzone-x-icon" icon="icon_upload"></svg>
+				<p class="dropzone-x-info1">Drag &amp; Drop File</p>
+				<p class="dropzone-x-info2">or <span class="text text-link">Select File to Upload</span></p>
+			</ng-container>
+
+		</label>
+		<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
+	</div>
 	`,
 
 })
 export class BgFormFieldImageComponent {
-	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
-	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
-
-	static uniqueNameCounter = 0;
-
-	@Input() control: FormControl;
-	@Input() label: string;
-	@Input() errorMessage: string = "Please provide a valid image file";
-	@Input() placeholderImage: string;
-	@Input() imageLoader: (file: File) => Promise<string> = basicImageLoader;
-
-	@Input() newDropZone: boolean = false;
 
 	@Input() set imageLoaderName(name: string) {
 		this.imageLoader = namedImageLoaders[name] || throwExpr(new Error(`Invalid image loader name ${name}`));
 	}
-
-	uniqueIdSuffix = BgFormFieldImageComponent.uniqueNameCounter++;
-
-	isDragging: boolean = false;
-
-	imageLoading: boolean = false;
-	imageProvided: boolean = false;
-	imageErrorMessage: string = null;
 
 	get imageDataUrl() {
 		return this.control.value;
@@ -134,18 +66,38 @@ export class BgFormFieldImageComponent {
 		return this.domSanitizer.bypassSecurityTrustUrl(this.imageDataUrl);
 	}
 
-	imageName: string;
-
 	get imageSize() { return base64ByteSize(this.imageDataUrl) }
+
+	private get element(): HTMLElement {
+		return this.elemRef.nativeElement as any;
+	}
+
+	static uniqueNameCounter = 0;
+	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
+	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
+
+	@Input() control: FormControl;
+	@Input() label: string;
+	@Input() errorMessage: string = "Please provide a valid image file";
+	@Input() placeholderImage: string;
+	@Input() imageLoader: (file: File) => Promise<string> = basicImageLoader;
+
+	@Input() newDropZone: boolean = false;
+
+	uniqueIdSuffix = BgFormFieldImageComponent.uniqueNameCounter++;
+
+	isDragging: boolean = false;
+
+	imageLoading: boolean = false;
+	imageProvided: boolean = false;
+	imageErrorMessage: string = null;
+
+	imageName: string;
 
 	constructor(
 		private elemRef: ElementRef,
 		private domSanitizer: DomSanitizer
 	) {}
-
-	private get element(): HTMLElement {
-		return this.elemRef.nativeElement as any;
-	}
 
 	clearFileInput() {
 		(this.element.querySelector("input[type='file']") as HTMLInputElement).value = null;
@@ -164,7 +116,7 @@ export class BgFormFieldImageComponent {
 		ev.preventDefault();
 		ev.stopPropagation();
 	}
-	
+
 	dragStart(ev: DragEvent) {
 		this.stopEvent(ev);
 		this.isDragging = true;
@@ -187,22 +139,22 @@ export class BgFormFieldImageComponent {
 		// From https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
 		function dataURItoBlob(dataURI): Blob {
 			// convert base64/URLEncoded data component to raw binary data held in a string
-			var byteString;
+			let byteString;
 			if (dataURI.split(',')[0].indexOf('base64') >= 0)
 				byteString = atob(dataURI.split(',')[1]);
 			else
 				byteString = decodeURIComponent(dataURI.split(',')[1]);
 
 			// separate out the mime component
-			var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+			let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
 			// write the bytes of the string to a typed array
-			var ia = new Uint8Array(byteString.length);
-			for (var i = 0; i < byteString.length; i++) {
+			let ia = new Uint8Array(byteString.length);
+			for (let i = 0; i < byteString.length; i++) {
 				ia[i] = byteString.charCodeAt(i);
 			}
 
-			return new Blob([ia], {type:mimeString});
+			return new Blob([ia], {type: mimeString});
 		}
 
 		const file: File = Object.assign(
@@ -250,7 +202,7 @@ export function basicImageLoader(file: File): Promise<string> {
 
 export function badgeImageLoader(file: File): Promise<string> {
 	// Max file size from https://github.com/mozilla/openbadges-backpack/blob/1193c04847c5fb9eb105c8fb508e1b7f6a39052c/controllers/backpack.js#L397
-	const maxFileSize = 1024*256;
+	const maxFileSize = 1024 * 256;
 	const startingMaxDimension = 512;
 
 	if (file.type === 'image/svg+xml' && file.size <= maxFileSize) {
@@ -269,9 +221,9 @@ export function badgeImageLoader(file: File): Promise<string> {
 					const context = canvas.getContext("2d");
 
 					// Inspired by https://stackoverflow.com/questions/26705803/image-object-crop-and-draw-in-center-of-canvas
-					var scaleFactor = Math.min(canvas.width / image.width, canvas.height / image.height);
-					var scaledWidth = image.width * scaleFactor;
-					var scaledHeight = image.height * scaleFactor;
+					let scaleFactor = Math.min(canvas.width / image.width, canvas.height / image.height);
+					let scaledWidth = image.width * scaleFactor;
+					let scaledHeight = image.height * scaleFactor;
 
 					context.drawImage(image,
 						0,
@@ -287,7 +239,7 @@ export function badgeImageLoader(file: File): Promise<string> {
 					dataURL = canvas.toDataURL("image/png");
 
 					// On the first try, guess a dimension based on the ratio of max pixel count to file size
-					if (maxDimension == startingMaxDimension) {
+					if (maxDimension === startingMaxDimension) {
 						maxDimension = Math.sqrt(maxFileSize * (Math.pow(maxDimension, 2) / base64ByteSize(dataURL)));
 					}
 
@@ -304,7 +256,7 @@ export function badgeImageLoader(file: File): Promise<string> {
 
 export function issuerImageLoader(file: File): Promise<string> {
 	// Max file size from https://github.com/mozilla/openbadges-backpack/blob/1193c04847c5fb9eb105c8fb508e1b7f6a39052c/controllers/backpack.js#L397
-	const maxFileSize = 1024*256;
+	const maxFileSize = 1024 * 256;
 	const startingMaxDimension = 512;
 
 	if (file.type === 'image/svg+xml' && file.size <= maxFileSize) {
@@ -319,14 +271,14 @@ export function issuerImageLoader(file: File): Promise<string> {
 				let maxDimension = startingMaxDimension;
 
 				do {
-					var scaleFactor = Math.min(
+					let scaleFactor = Math.min(
 						1,
 						maxDimension / image.width,
 						maxDimension / image.height
 					);
 
-					var scaledWidth = image.width * scaleFactor;
-					var scaledHeight = image.height * scaleFactor;
+					let scaledWidth = image.width * scaleFactor;
+					let scaledHeight = image.height * scaleFactor;
 
 					canvas.width = scaledWidth;
 					canvas.height = scaledHeight;
@@ -347,7 +299,7 @@ export function issuerImageLoader(file: File): Promise<string> {
 					dataURL =  canvas.toDataURL("image/png");
 
 					// On the first try, guess a dimension based on the ratio of max pixel count to file size
-					if (maxDimension == startingMaxDimension) {
+					if (maxDimension === startingMaxDimension) {
 						maxDimension = Math.sqrt(maxFileSize * (Math.pow(maxDimension, 2) / base64ByteSize(dataURL)));
 					}
 
@@ -358,7 +310,6 @@ export function issuerImageLoader(file: File): Promise<string> {
 				return dataURL;
 			})
 			.catch(e => { throw new Error(`${file.name} is not a valid image file`) });
-			;
 	}
 }
 

@@ -1,4 +1,4 @@
-import {deepAssign, jsonCopy, toJsonInclArrayProps} from "./deep-assign";
+import { deepAssign, jsonCopy, toJsonInclArrayProps } from "./deep-assign";
 
 const assign = Object.assign;
 
@@ -46,11 +46,11 @@ describe('deepAssign', () => {
 	});
 
 	it("should handle removing and adding values to arrays", () => {
-		var cases = [
+		let cases = [
 			[],
 			[1],
-			[1,2],
-			[1,2,3]
+			[1, 2],
+			[1, 2, 3]
 		];
 
 		cases.forEach(left => {
@@ -102,7 +102,7 @@ describe('deepAssign', () => {
 	});
 
 	it("should handle mixed object arrays", () => {
-		testPair({a : [1,2,3,4]}, { a: Object.assign([1,2,3], {a:10})});
+		testPair({a : [1, 2, 3, 4]}, { a: Object.assign([1, 2, 3], {a: 10})});
 	});
 
 	it("should error on new recursive trees", () => {

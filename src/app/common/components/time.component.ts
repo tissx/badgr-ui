@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {DatePipe} from "@angular/common";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { DatePipe } from "@angular/common";
 
 /**
  * Component that displays a date in a <time> element and minimizes the number of calls to the DatePipe, which is very

@@ -6,30 +6,12 @@ import {
 	BadgeClassRef,
 	BadgeClassUrl
 } from './badgeclass-api.model';
-import {IssuerUrl} from "./issuer-api.model";
-import {ManagedEntity} from "../../common/model/managed-entity";
-import {ApiEntityRef} from "../../common/model/entity-ref";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import { IssuerUrl } from "./issuer-api.model";
+import { ManagedEntity } from "../../common/model/managed-entity";
+import { ApiEntityRef } from "../../common/model/entity-ref";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 
 export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
-	constructor(
-		commonManager: CommonEntityManager,
-		initialEntity: ApiBadgeClass = null,
-		onUpdateSubscribed: () =>void = undefined
-	) {
-		super(commonManager, onUpdateSubscribed);
-
-		if (initialEntity != null) {
-			this.applyApiModel(initialEntity);
-		}
-	}
-
-	protected buildApiRef(): ApiEntityRef {
-		return {
-			"@id": this.badgeUrl,
-			slug: this.apiModel.slug
-		};
-	}
 
 	get badgeUrl(): BadgeClassUrl { return this.apiModel.json.id }
 
@@ -54,15 +36,15 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	get recipientCount(): number { return this.apiModel.recipient_count }
 
 	get criteria_text(): string { return this.apiModel.criteria_text }
-	set criteria_text(criteria_text: string) {
-		this.apiModel.json.criteria_text = criteria_text;
-		this.apiModel.criteria_text = criteria_text;
+	set criteria_text(criteriaText: string) {
+		this.apiModel.json.criteria_text = criteriaText;
+		this.apiModel.criteria_text = criteriaText;
 	}
 
 	get criteria_url(): string { return this.apiModel.criteria_url }
-	set criteria_url(criteria_url: string) {
-		this.apiModel.json.criteria_url = criteria_url;
-		this.apiModel.criteria_url = criteria_url;
+	set criteria_url(criteriaUrl: string) {
+		this.apiModel.json.criteriaUrl = criteriaUrl;
+		this.apiModel.criteria_url = criteriaUrl;
 	}
 
 	get tags(): string[] {
@@ -75,7 +57,7 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	get expiresDuration(): BadgeClassExpiresDuration | undefined {
 		return this.apiModel.expires ? this.apiModel.expires.duration : undefined;
 	}
-	set expiresDuration(duration: BadgeClassExpiresDuration | undefined){
+	set expiresDuration(duration: BadgeClassExpiresDuration | undefined) {
 		if (!this.apiModel.expires) {
 			this.apiModel.expires = {} as ApiBadgeClassExpiration
 		}
@@ -84,29 +66,13 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	get expiresAmount(): number | undefined {
 		return this.apiModel.expires ? this.apiModel.expires.amount : undefined;
 	}
-	set expiresAmount(amount: number | undefined){
+	set expiresAmount(amount: number | undefined) {
 		if (!this.apiModel.expires) {
 			this.apiModel.expires = {} as ApiBadgeClassExpiration
 		}
 		this.apiModel.expires.amount = amount;
 	}
-	clearExpires():void {
-		this.apiModel.expires = null;
-	}
 
-	expirationDateRelative(issuedOn?: Date): Date | undefined {
-		if (this.expiresAmount) {
-			let ret = issuedOn || new Date();
-			switch (this.expiresDuration) {
-				case 'days': ret.setDate(ret.getDate() + this.expiresAmount); break;
-				case 'months': ret.setMonth(ret.getMonth() + this.expiresAmount); break;
-				case 'weeks': ret.setDate(ret.getDate() + this.expiresAmount*7); break;
-				case 'years': ret.setFullYear(ret.getFullYear() + this.expiresAmount); break;
-			}
-			return new Date(ret);
-		}
-	}
-	
 
 	get issuerSlug(): string {
 		return BadgeClass.issuerSlugFromUrl(this.issuerUrl);
@@ -124,6 +90,45 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 		return BadgeClass.issuerSlugFromUrl(apiBadge.issuer);
 	}
 
+	private static issuerSlugFromUrl(issuerUrl: string) {
+		return (issuerUrl.match(/\/public\/issuers\/([^\/]+)/) || [])[ 1 ] || null;
+	}
+	constructor(
+		commonManager: CommonEntityManager,
+		initialEntity: ApiBadgeClass = null,
+		onUpdateSubscribed: () => void = undefined
+	) {
+		super(commonManager, onUpdateSubscribed);
+
+		if (initialEntity != null) {
+			this.applyApiModel(initialEntity);
+		}
+	}
+
+	protected buildApiRef(): ApiEntityRef {
+		return {
+			"@id": this.badgeUrl,
+			slug: this.apiModel.slug
+		};
+	}
+	clearExpires(): void {
+		this.apiModel.expires = null;
+	}
+
+	expirationDateRelative(issuedOn?: Date): Date | undefined {
+		if (this.expiresAmount) {
+			let ret = issuedOn || new Date();
+			switch (this.expiresDuration) {
+				case 'days': ret.setDate(ret.getDate() + this.expiresAmount); break;
+				case 'months': ret.setMonth(ret.getMonth() + this.expiresAmount); break;
+				case 'weeks': ret.setDate(ret.getDate() + this.expiresAmount * 7); break;
+				case 'years': ret.setFullYear(ret.getFullYear() + this.expiresAmount); break;
+				default: break;
+			}
+			return new Date(ret);
+		}
+	}
+
 	public update(): Promise<this> {
 		return this.badgeManager.badgeClassApi.getBadgeForIssuerSlugAndBadgeSlug(this.issuerSlug, this.slug).then(
 			apiBadge => this.applyApiModel(apiBadge)
@@ -137,10 +142,6 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 				throw e;
 			})
 			.then(apiBadge => this.applyApiModel(apiBadge));
-	}
-
-	private static issuerSlugFromUrl(issuerUrl: string) {
-		return (issuerUrl.match(/\/public\/issuers\/([^\/]+)/) || [])[ 1 ] || null;
 	}
 }
 

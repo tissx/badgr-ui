@@ -1,4 +1,4 @@
-import {ManagedEntity} from "./managed-entity";
+import { ManagedEntity } from "./managed-entity";
 import {
 	ApiUserProfile,
 	ApiUserProfileEmail,
@@ -8,44 +8,16 @@ import {
 	UserProfileRef,
 	UserProfileSocialAccountRef
 } from "./user-profile-api.model";
-import {StandaloneEntitySet} from "./managed-entity-set";
+import { StandaloneEntitySet } from "./managed-entity-set";
 
 /**
  * Logical interface to the current user's profile, providing access to personal information (as the entitiy) and
  * access to various managed profile objects.
  */
 export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
-	/**
-	 * List of emails associated with this user's account.
-	 *
-	 * @type {StandaloneEntitySet<UserProfileEmail, ApiUserProfileEmail>}
-	 */
-	emails = new StandaloneEntitySet<UserProfileEmail, ApiUserProfileEmail>(
-		apiEntity => new UserProfileEmail(this),
-		apiModel => apiModel.id+"",
-		() => this.profileService.fetchEmails()
-	);
-
-	/**
-	 * List of social accounts associated with this user's account.
-	 *
-	 * @type {StandaloneEntitySet<UserProfileSocialAccount, ApiUserProfileSocialAccount>}
-	 */
-	socialAccounts = new StandaloneEntitySet<UserProfileSocialAccount, ApiUserProfileSocialAccount>(
-		apiEntity => new UserProfileSocialAccount(this),
-		apiModel => apiModel.id+"",
-		() => this.profileService.fetchSocialAccounts()
-	);
 
 	protected get profileService() {
 		return this.commonManager.profileManager.profileService;
-	}
-
-	protected buildApiRef(): UserProfileRef {
-		return {
-			"@id": UserProfile.currentProfileId,
-			slug: UserProfile.currentProfileId
-		}
 	}
 
 	get isVerified(): boolean {
@@ -60,15 +32,45 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 
 	get agreedTermsVersion() { return this.apiModel.agreed_terms_version; }
 	get latestTermsVersion() { return this.apiModel.latest_terms_version; }
-	agreeToLatestTerms() {
-		this.apiModel.agreed_terms_version = this.apiModel.latest_terms_version;
-		return this.save();
-	}
 
 	get latestTermsDescription() { return this.apiModel.latest_terms_description; }
 
 	get marketingOptIn() { return this.apiModel.marketing_opt_in; }
 	set marketingOptIn(optedIn: boolean) { this.apiModel.marketing_opt_in = true }
+
+	static currentProfileId = "currentUserProfile";
+	/**
+	 * List of emails associated with this user's account.
+	 *
+	 * @type {StandaloneEntitySet<UserProfileEmail, ApiUserProfileEmail>}
+	 */
+	emails = new StandaloneEntitySet<UserProfileEmail, ApiUserProfileEmail>(
+		apiEntity => new UserProfileEmail(this),
+		apiModel => apiModel.id + "",
+		() => this.profileService.fetchEmails()
+	);
+
+	/**
+	 * List of social accounts associated with this user's account.
+	 *
+	 * @type {StandaloneEntitySet<UserProfileSocialAccount, ApiUserProfileSocialAccount>}
+	 */
+	socialAccounts = new StandaloneEntitySet<UserProfileSocialAccount, ApiUserProfileSocialAccount>(
+		apiEntity => new UserProfileSocialAccount(this),
+		apiModel => apiModel.id + "",
+		() => this.profileService.fetchSocialAccounts()
+	);
+
+	protected buildApiRef(): UserProfileRef {
+		return {
+			"@id": UserProfile.currentProfileId,
+			slug: UserProfile.currentProfileId
+		}
+	}
+	agreeToLatestTerms() {
+		this.apiModel.agreed_terms_version = this.apiModel.latest_terms_version;
+		return this.save();
+	}
 
 	save(): Promise<this> {
 		return this.profileService.updateProfile(this.apiModel)
@@ -89,8 +91,6 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 		return this.profileService.updatePassword(newPassword, currentPassword)
 			.then(() => this);
 	}
-
-	static currentProfileId = "currentUserProfile";
 }
 
 export class UserProfileEmail extends ManagedEntity<
@@ -220,7 +220,7 @@ export class UserProfileSocialAccount extends ManagedEntity<
 			.then(() => {
 				this.profile.socialAccounts.remove(this);
 				return this.profile;
-			});;
+			}); ;
 	}
 
 	protected buildApiRef(): UserProfileSocialAccountRef {

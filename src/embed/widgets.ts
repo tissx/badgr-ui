@@ -3,8 +3,7 @@ import {generateEmbedHtml} from "./generate-embed-html";
 
 const sha256 = require('tiny-sha256');
 
-function init(x) {
-	console.info(x);
+export function setupEmbeddedBadges() {
 	function messageToSha256HexString(message) {
 		return sha256(message);
 	}
@@ -83,12 +82,10 @@ function init(x) {
 						staticPrefix: staticPrefix,
 					});
 					badge.innerHTML = blockquote.innerHTML;
-					badge.setAttribute("style", 'border: none; font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 30px; position: unset; quotes: unset;');
+					badge.setAttribute("style", 'border: none; font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 0px; position: unset; quotes: unset;');
 				}
 			};
 			xhr.send();
 		}
 	}
 }
-
-init("DO THE INIT YO");

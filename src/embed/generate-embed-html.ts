@@ -46,10 +46,10 @@ export function generateEmbedHtml(embedOptions) {
         const dateP = document.createElement("p");
         dateP.className = "badgr-badge-date";
         const dateStrong = document.createElement("strong");
-        dateStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
+        dateStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #000;");
         dateStrong.innerHTML = "Awarded:";
         dateP.appendChild(dateStrong);
-        dateP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f;");
+        dateP.setAttribute("style", "margin: 0; font-size: 12px; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #555555;");
 
         dateP.innerHTML += " "+options.awardDate;
         blockquote.appendChild(dateP);
@@ -59,10 +59,10 @@ export function generateEmbedHtml(embedOptions) {
         const recipientP = document.createElement("p");
         recipientP.className = "badgr-badge-recipient";
         const recipientStrong = document.createElement("strong");
-        recipientStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #6c6b80;");
+        recipientStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #000;");
         recipientStrong.innerHTML = "Awarded To:";
         recipientP.appendChild(recipientStrong);
-        recipientP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #47587f; ");
+        recipientP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #555555; ");
 
         const recipientSpan = document.createElement("span");
         recipientSpan.style.display = "block";
@@ -79,7 +79,7 @@ export function generateEmbedHtml(embedOptions) {
         verifyTag.className = "badgr-badge-verify";
         verifyTag.setAttribute("target", "_blank");
         verifyTag.setAttribute("href", "https://badgecheck.io?url="+options.shareUrl);
-        verifyTag.setAttribute("style", "margin: 0; line-height: 14px; font-size:14px; font-weight: bold;  width: 48px; height: 16px; border-radius: 4px; background-color: #f7f7f7; border: solid 1px #a09eaf;   color: #49447f; text-decoration: none; padding: 6px 16px; margin: 16px 0; ");
+        verifyTag.setAttribute("style", "margin: 0; font-size:14px; font-weight: bold; width: 48px; height: 16px; border-radius: 4px; border: solid 1px black; text-decoration: none; padding: 6px 16px; margin: 16px 0; color: black; ");
         if (options.verified) {
             var svgUrl = (options.staticPrefix || window.location.origin)+checkmarkSvg;
             var checkImg = document.createElement("img");

@@ -1,6 +1,6 @@
 import {forwardRef, Inject, Injectable} from "@angular/core";
 import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {
 	ApiExternalTool,
 	ApiExternalToolLaunchInfo,

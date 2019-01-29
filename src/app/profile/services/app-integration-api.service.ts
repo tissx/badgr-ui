@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {SessionService} from "../../common/services/session.service";
-import {AppConfigService} from "../../common/app-config.service";
-import {BaseHttpApiService} from "../../common/services/base-http-api.service";
-import {ApiAppIntegration} from "../models/app-integration-api.model";
-import {flatten} from "../../common/util/array-reducers";
-import {MessageService} from "../../common/services/message.service";
-import {HttpClient} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { SessionService } from "../../common/services/session.service";
+import { AppConfigService } from "../../common/app-config.service";
+import { BaseHttpApiService } from "../../common/services/base-http-api.service";
+import { ApiAppIntegration } from "../models/app-integration-api.model";
+import { flatten } from "../../common/util/array-reducers";
+import { MessageService } from "../../common/services/message.service";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class AppIntegrationApiService extends BaseHttpApiService {

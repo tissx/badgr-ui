@@ -6,11 +6,11 @@ let nameUniquenessSeed = 0;
 export function randomNames(count: number, randomName: () => string, maxAttemptsPerName = 10) {
 	let names = new Set<string>();
 
-	for (let i=0; i<count*maxAttemptsPerName && names.size < count; i++) {
+	for (let i=0; i < count * maxAttemptsPerName && names.size < count; i++) {
 		names.add(randomName());
 	}
 
-	if (names.size != count) {
+	if (names.size !== count) {
 		throw new Error(`Could not generate ${count} names with ${maxAttemptsPerName} attempts per name using generator: ${randomName}`);
 	}
 
@@ -46,11 +46,11 @@ export function randomBadgeName(): string {
 }
 
 export function randomUuid(): string {
-	var d = new Date().getTime();
-	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-		var r = (d + Math.random()*16)%16 | 0;
-		d = Math.floor(d/16);
-		return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+	let d = new Date().getTime();
+	let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		let r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 	});
 	return uuid;
 }

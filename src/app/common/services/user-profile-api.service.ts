@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {AppConfigService} from "../app-config.service";
-import {BaseHttpApiService} from "./base-http-api.service";
-import {SessionService} from "./session.service";
-import {MessageService} from "./message.service";
-import {EventsService} from "./events.service";
-import {ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount} from "../model/user-profile-api.model";
-import {HttpClient} from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { AppConfigService } from "../app-config.service";
+import { BaseHttpApiService } from "./base-http-api.service";
+import { SessionService } from "./session.service";
+import { MessageService } from "./message.service";
+import { EventsService } from "./events.service";
+import { ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount } from "../model/user-profile-api.model";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()
@@ -25,9 +25,9 @@ export class UserProfileApiService extends BaseHttpApiService {
 			.get<ApiUserProfile>('/v1/user/profile').then(r => r.body);
 	}
 
-	updatePassword(new_password: string, current_password: string) {
+	updatePassword(newPassword: string, currentPassword: string) {
 		return this
-			.put<ApiUserProfile>('/v1/user/profile', { 'password': new_password, 'current_password': current_password })
+			.put<ApiUserProfile>('/v1/user/profile', { 'password': newPassword, 'current_password': currentPassword })
 			.then(r => r.body);
 	}
 
@@ -56,17 +56,17 @@ export class UserProfileApiService extends BaseHttpApiService {
 			.then(r => r.body);
 	}
 
-	removeEmail(email_id: number) {
-		return this.delete('/v1/user/emails/' + email_id);
+	removeEmail(emailId: number) {
+		return this.delete('/v1/user/emails/' + emailId);
 	}
 
 	removeSocialAccount(accountId: string) {
 		return this.delete('/v1/user/socialaccounts/' + accountId);
 	}
 
-	setPrimaryEmail(email_id: number) {
+	setPrimaryEmail(emailId: number) {
 		return this
-			.put<ApiUserProfileEmail>('/v1/user/emails/' + email_id, { 'primary': true })
+			.put<ApiUserProfileEmail>('/v1/user/emails/' + emailId, { 'primary': true })
 			.then(r => r.body);
 	}
 
