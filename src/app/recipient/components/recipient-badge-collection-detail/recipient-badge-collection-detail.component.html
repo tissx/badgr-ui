@@ -1,8 +1,5 @@
 <form-message></form-message>
 
-
-
-
 <header class="topbar">
 	<div class="l-containerxaxis">
 		<div class="topbar-x-wrap" *bgAwaitPromises="[ collectionLoadedPromise ]">
@@ -41,15 +38,6 @@
 		</div>
 	</div>
 </header>
-
-
-
-
-
-
-
-
-
 
 
 <section class="l-containerxaxis l-containeryaxis" *bgAwaitPromises="[ collectionLoadedPromise ]">
@@ -94,9 +82,7 @@
 					<td class="datatable-x-cell">{{ entry.badge.badgeClass.issuer.name }}</td>
 					<td class="datatable-x-cell"><time [date]="entry.badge.issueDate" format="longDate"></time></td>
 					<td class="datatable-x-cell">
-						<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-							<button class="u-text-link-small" type="button" (click)="removeEntry(entry)" [disabled-when-requesting]="true">Remove</button>
-						</div>
+						<button class="u-text-link-small u-margin-leftauto" type="button" (click)="removeEntry(entry)" [disabled-when-requesting]="true">Remove</button>
 					</td>
 				</tr>
 			</tbody>

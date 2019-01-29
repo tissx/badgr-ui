@@ -16,62 +16,7 @@ export interface RecipientBadgeCollectionSelectionDialogOptions {
 
 @Component({
 	selector: 'recipient-badge-collection-selection-dialog',
-	template: `
-			<dialog class="dialog dialog-large">
-			<section class="l-overflowlist">
-
-				<!-- Header and Search Area -->
-				<header class="l-childrenvertical l-childrenvertical-is-smalldesktop bordered bordered-bottom">
-					<h1 class="title">{{ dialogTitle }}</h1>
-					<div class="l-childrenhorizontal l-childrenhorizontal-stackmobile">
-						<input type="text"
-						       class="search l-childrenhorizontal-x-offset"
-						       placeholder="Filter your badges"
-						       [(ngModel)]="searchQuery"/>
-					</div>
-				</header>
-
-				<!-- Badge List -->
-				<div class="l-overflowlist-x-list">
-					<table class="table table-dialog" *bgAwaitPromises="[collectionListLoaded]">
-						<thead>
-							<tr>
-								<th colspan="3">Collection</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let collection of badgeCollectionsResults">
-								<td class="table-x-input">
-									<label htmlFor="collection-{{ collection.slug }}">
-										<input type="checkbox"
-											   #collectionsCheckbox
-										       id="collection-{{ collection.slug }}"
-										       name="collection-{{ collection.slug }}"
-										       (change)="updateCollection(collection, collectionsCheckbox.checked)">
-										<span class="formcheckbox-x-text">{{collection.name}}</span>
-									</label>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<footer class="bordered bordered-top">
-					<section class="l-overflowlist-x-selected">
-						<div>
-							<p class="small"
-			                    *ngIf="badgeCollectionsResults.length == 0">
-								No Available Collections
-							</p>
-						</div>
-					</section>
-					<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-						<button class="button button-primaryghost" (click)="cancelDialog()">Cancel</button>
-						<button class="button" (click)="saveDialog()">Apply</button>
-					</div>
-				</footer>
-			</section>
-		</dialog>
-		`
+	templateUrl: './recipient-badge-collection-selection-dialog.html',
 })
 export class RecipientBadgeCollectionSelectionDialog extends BaseDialog {
 	get searchQuery() { return this._searchQuery; }
