@@ -1,66 +1,73 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
-import { SystemConfigService } from "./config.service";
+import { AppConfigService } from "../app-config.service";
 import { BaseHttpApiService } from "./base-http-api.service";
 import { SessionService } from "./session.service";
 import { MessageService } from "./message.service";
 import { EventsService } from "./events.service";
 import { ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount } from "../model/user-profile-api.model";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()
 export class UserProfileApiService extends BaseHttpApiService {
 	constructor(
 		protected sessionService: SessionService,
-		protected http: Http,
-		protected configService: SystemConfigService,
+		protected http: HttpClient,
+		protected configService: AppConfigService,
 		protected messageService: MessageService,
 		protected eventsService: EventsService
 	) {
 		super(sessionService, http, configService, messageService);
 	}
 
-	getProfile(): Promise<ApiUserProfile> {
-		return this.get('/v1/user/profile').then(r => r.json());
+	getProfile() {
+		return this
+			.get<ApiUserProfile>('/v1/user/profile').then(r => r.body);
 	}
 
-	updatePassword(new_password: string, current_password: string): Promise<ApiUserProfile> {
-		return this.put('/v1/user/profile', { 'password': new_password, 'current_password': current_password })
-			.then(r => r.json());
+	updatePassword(newPassword: string, currentPassword: string) {
+		return this
+			.put<ApiUserProfile>('/v1/user/profile', { 'password': newPassword, 'current_password': currentPassword })
+			.then(r => r.body);
 	}
 
-	updateProfile(profile: ApiUserProfile): Promise<ApiUserProfile> {
-		return this.put('/v1/user/profile', profile)
-			.then(r => r.json());
+	updateProfile(profile: ApiUserProfile) {
+		return this
+			.put<ApiUserProfile>('/v1/user/profile', profile)
+			.then(r => r.body);
 	}
 
-	fetchEmails(): Promise<ApiUserProfileEmail[]> {
-		return this.get('/v1/user/emails')
-			.then(r => r.json());
+	fetchEmails() {
+		return this
+			.get<ApiUserProfileEmail[]>('/v1/user/emails')
+			.then(r => r.body);
 	}
 
-	fetchSocialAccounts(): Promise<ApiUserProfileSocialAccount[]> {
-		return this.get('/v1/user/socialaccounts')
-			.then(r => r.json());
+	fetchSocialAccounts() {
+		return this
+			.get<ApiUserProfileSocialAccount[]>('/v1/user/socialaccounts')
+			.then(r => r.body);
 	}
 
 
-	addEmail(email: string): Promise<ApiUserProfileEmail> {
-		return this.post('/v1/user/emails', { 'email': email })
-			.then(r => r.json());
+	addEmail(email: string) {
+		return this
+			.post<ApiUserProfileEmail>('/v1/user/emails', { 'email': email })
+			.then(r => r.body);
 	}
 
-	removeEmail(email_id: number) {
-		return this.delete('/v1/user/emails/' + email_id);
+	removeEmail(emailId: number) {
+		return this.delete('/v1/user/emails/' + emailId);
 	}
 
 	removeSocialAccount(accountId: string) {
 		return this.delete('/v1/user/socialaccounts/' + accountId);
 	}
 
-	setPrimaryEmail(email_id: number): Promise<ApiUserProfileEmail> {
-		return this.put('/v1/user/emails/' + email_id, { 'primary': true })
-			.then(r => r.json());
+	setPrimaryEmail(emailId: number) {
+		return this
+			.put<ApiUserProfileEmail>('/v1/user/emails/' + emailId, { 'primary': true })
+			.then(r => r.body);
 	}
 
 	resendVerificationEmail(emailIdToVerify: number) {

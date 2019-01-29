@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, Response, RequestOptionsArgs } from "@angular/http";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
-//import { LoginService } from "../../auth/auth.service";
+// import { LoginService } from "../../auth/auth.service";
 import { AuthorizationToken, SessionService } from "./session.service";
-import { SystemConfigService } from "./config.service";
+import { AppConfigService } from "../app-config.service";
 import { MessageService } from "./message.service";
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
+import { timeoutPromise } from "../util/promise-util";
+import { Observable } from "rxjs";
 
 export class BadgrApiError extends Error {
 	constructor(
 		public message: string,
-		public response: Response
+		public response: HttpResponse<any>
 	) {
 		super(message);
 	}
@@ -18,165 +18,159 @@ export class BadgrApiError extends Error {
 
 @Injectable()
 export abstract class BaseHttpApiService {
+
 	baseUrl: string;
 
-	constructor(
-		//protected sessionService: LoginService,
-		protected sessionService: SessionService,
-		protected http: Http,
-		protected configService: SystemConfigService,
-		protected messageService: MessageService
-	) {
-		this.baseUrl = this.configService.apiConfig.baseUrl;
-	}
-
-	get(
-		path: string,
-		queryParams: URLSearchParams | string | {[name: string]: string | string[]} | null = null,
-		requireAuth: boolean = true,
-		useAuth: boolean = true,
-		headers: Headers = new Headers()
-	): Promise<Response> {
-		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
-
-		if (useAuth && (requireAuth || this.sessionService.isLoggedIn))
-			this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
-
-		this.addJsonResponseHeader(headers);
-		this.messageService.incrementPendingRequestCount();
-
-		return this.http
-			.get(endpointUrl, { headers: headers, params: queryParams })
-			.toPromise()
-			.then(r => this.onRequestSuccess(r), e => this.onRequestFailure(e))
-			.then(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true))
-			.then(this.addTestingDelay<Response>());
-	}
-
-	private onRequestSuccess<T>(response: T): T {
-		this.messageService.decrementPendingRequestCount();
-		return response;
-	}
-
-	private onRequestFailure(error: any) {
-		this.messageService.decrementPendingRequestCount();
-		throw error;
-	}
-
-	post(
-		path: string,
-		payload: any,
-		queryParams: URLSearchParams | string | {[name: string]: string | string[]} | null = null,
-		headers: Headers = new Headers()
-	): Promise<Response> {
-		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
-
-		this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
-		this.addJsonRequestHeader(headers);
-		this.addJsonResponseHeader(headers);
-		this.messageService.incrementPendingRequestCount();
-
-		return this.http.post(endpointUrl, JSON.stringify(payload), { headers: headers, params: queryParams })
-			.toPromise()
-			.then(this.addTestingDelay<Response>())
-			.then(r => this.onRequestSuccess(r), e => this.onRequestFailure(e))
-			.then(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
-	}
-
-	put(
-		path: string,
-		payload: any,
-		queryParams: URLSearchParams | string | {[name: string]: string | string[]} | null = null,
-		headers: Headers = new Headers()
-	): Promise<Response> {
-		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
-
-		this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
-		this.addJsonRequestHeader(headers);
-		this.addJsonResponseHeader(headers);
-		this.messageService.incrementPendingRequestCount();
-
-		return this.http.put(endpointUrl, JSON.stringify(payload), { headers: headers, params: queryParams }).toPromise()
-			.then(this.addTestingDelay<Response>())
-			.then(r => this.onRequestSuccess(r), e => this.onRequestFailure(e))
-			.then(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
-	}
-
-	delete(
-		path: string,
-		payload: any = null,
-		queryParams: URLSearchParams | string | {[name: string]: string | string[]} | null = null,
-		headers: Headers = new Headers()
-	): Promise<Response> {
-		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
-		this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
-		this.addJsonRequestHeader(headers);
-		this.addJsonResponseHeader(headers);
-		this.messageService.incrementPendingRequestCount();
-
-		const options: RequestOptionsArgs = { headers: headers, params: queryParams };
-		if (payload) {
-			options['body'] = JSON.stringify(payload)
-		}
-		return this.http.delete(endpointUrl, options).toPromise()
-			.then(this.addTestingDelay<Response>())
-			.then(r => this.onRequestSuccess(r), e => this.onRequestFailure(e))
-			.then(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
-	}
-
-	private addJsonRequestHeader(headers: Headers) {
-		headers.append('Content-Type', "application/json");
-	};
-
-	private addJsonResponseHeader(headers: Headers) {
-		headers.append('Accept', 'application/json');
-	};
-
-	private addAuthTokenHeader(
-		headers: Headers,
-		token: AuthorizationToken
-	) {
-		headers.append('Authorization', 'Bearer ' + token.access_token);
-	};
-
-	private addTestingDelay<T>(): (result: T) => (Promise<T> | T) {
-		return BaseHttpApiService.addTestingDelay<T>(this.configService);
-	}
-
-	static addTestingDelay<T>(configService: SystemConfigService): (result: T) => (Promise<T> | T) {
+	static async addTestingDelay<T>(
+		value: T,
+		configService: AppConfigService
+	): Promise<T> {
 		let delayRange = configService.apiConfig.debugDelayRange;
 
 		if (delayRange) {
 			let delayMs = Math.floor(delayRange.minMs + (delayRange.maxMs - delayRange.minMs) * Math.random());
 
-			return (result: T) => (
-				console.warn(`Delaying API response by ${delayMs}ms for debugging`, result),
-				new Promise<T>(resolve => setTimeout(() => resolve(result), delayMs))
-			);
+			console.warn(`Delaying API response by ${delayMs}ms for debugging`, value);
+
+			await timeoutPromise(delayMs);
+
+			return value;
 		} else {
-			return r => r;
+			return value;
 		}
 	}
 
-	handleHttpErrors(
+	constructor(
+		// protected sessionService: LoginService,
+		protected sessionService: SessionService,
+		protected http: HttpClient,
+		protected configService: AppConfigService,
+		protected messageService: MessageService
+	) {
+		this.baseUrl = this.configService.apiConfig.baseUrl;
+	}
+
+	get<T = Object>(
+		path: string,
+		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
+		requireAuth: boolean = true,
+		useAuth: boolean = true,
+		headers: HttpHeaders = new HttpHeaders()
+	): Promise<HttpResponse<T>> {
+		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
+
+		if (useAuth && (requireAuth || this.sessionService.isLoggedIn))
+			headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+
+		headers = this.addJsonResponseHeader(headers);
+		this.messageService.incrementPendingRequestCount();
+
+		return this.augmentRequest<T>(
+			this.http.get<T>(endpointUrl, {
+				observe: 'response',
+				headers: headers,
+				params: queryParams,
+				responseType: 'json'
+			})
+		);
+	}
+
+	post<T = Object>(
+		path: string,
+		payload: any,
+		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
+		headers: HttpHeaders = new HttpHeaders()
+	): Promise<HttpResponse<T>> {
+		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
+
+		headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+		headers = this.addJsonRequestHeader(headers);
+		headers = this.addJsonResponseHeader(headers);
+		this.messageService.incrementPendingRequestCount();
+
+		return this.augmentRequest<T>(
+			this.http.post<T>(
+				endpointUrl,
+				JSON.stringify(payload),
+				{
+					observe: 'response',
+					headers: headers,
+					params: queryParams,
+					responseType: 'json'
+				}
+			)
+		);
+	}
+
+	put<T = Object>(
+		path: string,
+		payload: any,
+		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
+		headers: HttpHeaders = new HttpHeaders()
+	): Promise<HttpResponse<T>> {
+		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
+
+		headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+		headers = this.addJsonRequestHeader(headers);
+		headers = this.addJsonResponseHeader(headers);
+		this.messageService.incrementPendingRequestCount();
+
+		return this.augmentRequest<T>(
+			this.http.put<T>(
+				endpointUrl,
+				JSON.stringify(payload),
+				{
+					observe: 'response',
+					headers: headers,
+					params: queryParams,
+					responseType: 'json'
+				}
+			)
+		);
+	}
+
+	delete<T = Object>(
+		path: string,
+		payload: any = null,
+		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
+		headers: HttpHeaders = new HttpHeaders()
+	): Promise<HttpResponse<T>> {
+		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
+		headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+		headers = this.addJsonRequestHeader(headers);
+		headers = this.addJsonResponseHeader(headers);
+		this.messageService.incrementPendingRequestCount();
+
+		return this.augmentRequest<T>(
+			this.http.delete<T>(
+				endpointUrl,
+				{
+					observe: 'response',
+					headers: headers,
+					params: queryParams,
+					responseType: 'json',
+					...payload ? {body: JSON.stringify(payload)} : {}
+				}
+			)
+		);
+	}
+
+	handleHttpErrors<T>(
 		response: any,
 		isError: boolean
-	): Response {
+	): T | never {
 		if (response && response.status < 200 || response.status >= 300) {
 			if (response.status === 401 || response.status === 403) {
-				this.sessionService.logout();
-				window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
-			}
-			else if (response.status === 0) {
+				this.sessionService.handleAuthenticationError();
+			} else if (response.status === 0) {
 				this.messageService.reportFatalError(`Server Unavailable`);
-			}
-			else {
+			} else {
+				// TODO: Give nicer error messages!
 				throw new BadgrApiError(
 					`Expected 2xx response; got ${response.status}`,
 					response
 				);
 			}
-
 		}
 
 		if (isError) {
@@ -184,5 +178,32 @@ export abstract class BaseHttpApiService {
 		} else {
 			return response;
 		}
+	}
+
+	private augmentRequest<T>(o: Observable<HttpResponse<T>>): Promise<HttpResponse<T>> {
+		return o
+			.toPromise()
+			.then(r => this.addTestingDelay(r))
+			.finally(() => this.messageService.decrementPendingRequestCount())
+			.then<HttpResponse<T>>(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
+	}
+
+	private addJsonRequestHeader(headers: HttpHeaders) {
+		return headers.append('Content-Type', "application/json");
+	}
+	private addJsonResponseHeader(headers: HttpHeaders) {
+		return headers.append('Accept', 'application/json');
+	}
+	private addAuthTokenHeader(
+		headers: HttpHeaders,
+		token: AuthorizationToken
+	) {
+		return headers.append('Authorization', 'Bearer ' + token.access_token);
+	}
+	private async addTestingDelay<T>(value: T): Promise<T> {
+		return BaseHttpApiService.addTestingDelay(
+			value,
+			this.configService
+		);
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnChanges, ElementRef } from "@angular/core";
+import { Component, ElementRef, Input, OnChanges } from "@angular/core";
 
 
 import { Issuer } from "../../issuer/models/issuer.model";

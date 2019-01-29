@@ -1,10 +1,16 @@
-import { Injectable, forwardRef, Inject } from "@angular/core";
+import {forwardRef, Inject, Injectable} from "@angular/core";
 import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {ApiExternalTool, ExternalToolLaunchpointName, ApiExternalToolLaunchpoint, ApiExternalToolLaunchInfo} from "../models/externaltools-api.model";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
+import {
+	ApiExternalTool,
+	ApiExternalToolLaunchInfo,
+	ApiExternalToolLaunchpoint,
+	ExternalToolLaunchpointName
+} from "../models/externaltools-api.model";
 import {ExternalTool} from "../models/externaltools.model";
 import {ExternalToolsApiService} from "./externaltools-api.service";
-import { Observable } from "rxjs/Observable";
+import {Observable} from "rxjs";
+import {first, map} from "rxjs/operators";
 
 @Injectable()
 export class ExternalToolsManager {
@@ -21,11 +27,11 @@ export class ExternalToolsManager {
 	) { }
 
 	get allExternalTools$(): Observable<ExternalTool[]> {
-		return this.externaltoolsList.loaded$.map(l => l.entities);
+		return this.externaltoolsList.loaded$.pipe(map(l => l.entities));
 	}
 
 	getToolLaunchpoints(launchpointName: ExternalToolLaunchpointName): Promise<ApiExternalToolLaunchpoint[]> {
-		return this.allExternalTools$.first().toPromise().then(externaltools =>
+		return this.allExternalTools$.pipe(first()).toPromise().then(externaltools =>
 			externaltools.map(tool => tool.launchpoints[launchpointName] as ApiExternalToolLaunchpoint).filter(Boolean)
 		)
 	}

@@ -9,35 +9,36 @@ import { CustomValidatorMessages, messagesForValidationError } from "./formfield
 	selector: 'bg-formfield-select',
 
 	host: {
-		'class': "formfield",
+		'class': "forminput",
 		'[class.formfield-is-error]': "isErrorState",
 		'[class.formfield-locked]': "isLockedState",
 	},
 	template: `
-		<label class="select" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
+		<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
 			{{ label }}
 			<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
 			<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
 			<ng-content select="[label-additions]"></ng-content>
 		</label>
-		
+
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 
-		<p class="formfield-x-description" *ngIf="description">{{ description }}</p>
+		<div class="forminput-x-sublabel" *ngIf="description">{{ description }}</div>
+		<div class="forminput-x-inputs">
+			<select
+				[name]="inputName"
+				[id]="inputName"
+				[formControl]="control"
+				(focus)="cacheControlState()"
+				(keypress)="handleKeyPress($event)"
+				#selectInput
+			>
+				<option *ngIf="placeholder" selected value="">{{ placeholder }}</option>
+				<option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+			</select>
+		</div>
 
-		<select
-			[name]="inputName"
-			[id]="inputName"
-			[formControl]="control"
-			(focus)="cacheControlState()"
-			(keypress)="handleKeyPress($event)"
-			#selectInput
-		>
-			<option *ngIf="placeholder" selected value="">{{ placeholder }}</option>
-			<option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
-		</select>
-
-		<p class="formfield-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
+		<p class="forminput-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
 	`
 })
 export class FormFieldSelect implements OnChanges, AfterViewInit {
@@ -45,8 +46,8 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 	@Input() initialValue: string;
 	@Input() label: string;
 	@Input() ariaLabel: string | null = null;
-	@Input() includeLabelAsWrapper: boolean = false; //includes label for layout purposes even if label text wasn't passed in.
-	@Input() formFieldAside: string; //Displays additional text above the field. I.E (optional)
+	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
 	@Input() multiline: boolean = false;
 	@Input() description: string;

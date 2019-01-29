@@ -26,18 +26,18 @@ Markup:
 }
 
 .pathway {
-  background-color: $color-light3;
-  box-shadow: 0 0 0 1px $color-dark4 inset;
+  background-color: var(--color-light3);
+  box-shadow: 0 0 0 1px var(--color-dark4 inset);
   display: block;
   position: relative;
 
   .pathway-x-move {
     animation: pathway-x-move $transition-duration $transition-easing forwards;
-    background-color: $color-light1;
-    border: 1px dashed $color-primary;
-    box-shadow: 0 0 $gridspacing * 3 0 rgba($color-primary, .2);
+    background-color: var(--color-light1);
+    border: 1px dashed var(--color-primary);
+    box-shadow: 0 0 $gridspacing * 3 0 var(--color-primary-a2);
     box-sizing: border-box;
-    color: $color-primary;
+    color: var(--color-primary);
     font-size: $font-size-small1;
     font-weight: bold;
     padding: $gridspacing * 2;
@@ -76,9 +76,9 @@ Markup:
 
     &.pathway-is-dropzone,
     &.pathway-is-addchild {
-      box-shadow: 0 1px 0 0 $color-dark4 inset,
-                  0 -1px 0 0 $color-dark4 inset,
-                  -1px 0 0 0 $color-dark4 inset;
+      box-shadow: 0 1px 0 0 var(--color-dark4 inset),
+                  0 -1px 0 0 var(--color-dark4 inset),
+                  -1px 0 0 0 var(--color-dark4 inset);
       padding-bottom: $gridspacing;
       padding-top: $gridspacing;
     }
@@ -86,8 +86,8 @@ Markup:
   }
 
   &.pathway-is-activemove {
-    background: $color-primary-light;
-    border: 1px dashed $color-primary;
+    background: var(--color-primary-light);
+    border: 1px dashed var(--color-primary);
 
     // Displays "cancel move" button if in move mode for small screens
 
@@ -102,13 +102,13 @@ Markup:
 
     .pathway,
     .pathwaydetail {
-      box-shadow: 0 0 0 1px $color-primary inset;
+      box-shadow: 0 0 0 1px var(--color-primary inset);
     }
 
     .pathway-is-inactivemove {
 
       .pathwaydetail {
-        background-color: $color-light1;
+        background-color: var(--color-light1);
       }
 
     }
@@ -141,7 +141,7 @@ Markup:
 .pathway-root {
 
   > .pathway {
-    border-radius: $border-radius;
+    border-radius: var(--border-radius);
     overflow: hidden;
     position: relative;
 

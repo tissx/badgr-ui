@@ -1,4 +1,4 @@
-import { CommonEntityManager } from "./common-entity-manager.service";
+import { CommonEntityManager } from "./services/common-entity-manager.service";
 import { NgModule } from "@angular/core";
 import { BadgrCommonModule } from "../common/badgr-common.module";
 

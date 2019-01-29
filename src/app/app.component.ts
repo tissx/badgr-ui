@@ -1,151 +1,47 @@
-import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { MessageService } from "./common/services/message.service";
-import { SessionService } from "./common/services/session.service";
-import { CommonDialogsService } from "./common/services/common-dialogs.service";
-import { SystemConfigService } from "./common/services/config.service";
-import { ShareSocialDialog } from "./common/dialogs/share-social-dialog.component";
-import { ConfirmDialog } from "./common/dialogs/confirm-dialog.component";
+import { MessageService } from './common/services/message.service';
+import { SessionService } from './common/services/session.service';
+import { CommonDialogsService } from './common/services/common-dialogs.service';
+import { AppConfigService } from './common/app-config.service';
+import { ShareSocialDialog } from './common/dialogs/share-social-dialog/share-social-dialog.component';
+import { ConfirmDialog } from './common/dialogs/confirm-dialog.component';
 
-import "../thirdparty/scopedQuerySelectorShim";
-import { EventsService } from "./common/services/events.service";
-import { OAuthManager } from "./common/services/oauth-manager.service";
-import { EmbedService } from "./common/services/embed.service";
-import { InitialLoadingIndicatorService } from "./common/services/initial-loading-indicator.service";
-import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
+import '../thirdparty/scopedQuerySelectorShim';
+import { EventsService } from './common/services/events.service';
+import { OAuthManager } from './common/services/oauth-manager.service';
+import { EmbedService } from './common/services/embed.service';
+import { InitialLoadingIndicatorService } from './common/services/initial-loading-indicator.service';
+import { Angulartics2GoogleTagManager } from 'angulartics2/gtm';
 
-import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
-import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
+import { ApiExternalToolLaunchpoint } from 'app/externaltools/models/externaltools-api.model';
+import { ExternalToolsManager } from 'app/externaltools/services/externaltools-manager.service';
 
-
-import { detect } from "detect-browser";
-import {UserProfileManager} from "./common/services/user-profile-manager.service";
-import {NewTermsDialog} from "./common/dialogs/new-terms-dialog.component";
-import {QueryParametersService} from "./common/services/query-parameters.service";
+import { UserProfileManager } from './common/services/user-profile-manager.service';
+import { NewTermsDialog } from './common/dialogs/new-terms-dialog.component';
+import { QueryParametersService } from './common/services/query-parameters.service';
+import { Title } from '@angular/platform-browser';
+import { MarkdownHintsDialog } from './common/dialogs/markdown-hints-dialog.component';
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
 // https://stackoverflow.com/questions/3680876/using-queryselectorall-to-retrieve-direct-children/21126966#21126966
 
 @Component({
-	selector: "app",
+	selector: 'app-root',
 	host: {
 		'(document:click)': 'onDocumentClick($event)',
-		'[class.app-is-hidden-chrome]': '! showAppChrome'
+		'[class.l-stickyfooter-chromeless]': '! showAppChrome'
 	},
-	template: `
-		<header class="header l-containerhorizontal" *ngIf="showAppChrome">
-
-			<a class="logo" [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : thm.alternateLandingUrl || '/'">
-				<picture>
-					<source media="(min-width: 640px)" [srcset]="logoDesktop">
-					<img [src]="logoSmall" alt="Logo">
-				</picture>
-			</a>
-
-			<a class="header-x-menu"
-			   href="javascript:void(0)"
-			   onclick="document.getElementById('menu').scrollIntoView(false)">Main Navigation</a>
-		</header>
-
-		<!--<form-message></form-message>-->
-		
-		<div *ngIf="isUnsupportedBrowser" class="l-formmessage formmessage formmessage-is-{{status}}"
-		     [class.formmessage-is-active]="isUnsupportedBrowser">
-		    <p>The Browser you are using isn’t fully supported. It may not display correctly and some features may not be accessible or function properly.</p>
-		    <button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
-		</div>
-
-		<article *ngIf="hasFatalError" class="emptyillustration l-containervertical">
-			<h1 *ngIf="fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">{{fatalMessage}}</h1>
-			<h1 *ngIf="fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">{{fatalMessageDetail}}</h1>
-			<h1 *ngIf="!fatalMessage" class="title title-bold title-center title-is-smallmobile title-line-height-large emptyillustration-x-no-margin-bottom">Whoops! <span class='title title-x-linebreak'>The server has failed to respond.</span></h1>
-			<h1 *ngIf="!fatalMessageDetail" class="title title-bold title-center title-is-smallmobile title-line-height-large">Please refresh and try again.</h1>
-			<img [src]="unavailableImageSrc">
-		</article>
-		
-		<router-outlet *ngIf="!hasFatalError"></router-outlet>
-
-		<confirm-dialog #confirmDialog></confirm-dialog>
-		<new-terms-dialog #newTermsDialog></new-terms-dialog>
-		<share-social-dialog #shareSocialDialog></share-social-dialog>
-
-		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
-			<div class="footer">
-				<ul>
-					<li *ngIf="thm.showPoweredByBadgr === undefined || thm.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
-					<li *ngIf="thm.providedBy">
-						Provided by <a href="{{ thm.providedBy.url}}"target="_blank">{{ thm.providedBy.name }}</a>
-					</li>
-					
-					<li><a [href]="thm.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
-					<li><a [href]="thm.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy Policy</a></li>
-				</ul>
-				<a href="https://support.badgr.io/docs/" *ngIf="thm.showApiDocsLink === undefined || thm.showApiDocsLink" target="_blank">Documentation</a>
-			</div>
-		</footer>
-
-		<nav class="menu" id="menu" *ngIf="showAppChrome">
-			<h1 class="visuallyhidden">Main Navigation</h1>
-
-			<ul>
-				<!-- Non-Authenticated Menu -->
-				<ng-template [ngIf]="! loggedIn">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/auth/login']">Sign In</a></li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/signup']">Create Account</a></li>
-					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
-						<button>Apps</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints"  routerLinkActive="menuitem-is-active">
-								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
-							</li>
-						</ul>
-					</li>
-				</ng-template>
-
-				<!-- Authenticated Menu -->
-				<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badges']">Backpack</a></li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/recipient/badge-collections']">Collections</a>
-					</li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/issuer']">Issuers</a></li>
-					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
-						<button>Apps</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints"  routerLinkActive="menuitem-is-active">
-								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
-							</li>
-						</ul>
-					</li>
-					<li class="menuitem" *ngIf="thm.customMenu">
-						<button>{{ thm.customMenu.label }}</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let item of thm.customMenu.items">
-								<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
-						</ul>
-					</li>
-					<li class="menuitem" routerLinkActive="menuitem-is-active">
-						<button>Account</button>
-						<ul>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/profile/profile']">Profile</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/profile/app-integrations']">App Integrations</a></li>
-							<li class="menuitem menuitem-secondary" routerLinkActive="menuitem-is-active">
-								<a [routerLink]="['/auth/logout']">Sign Out</a></li>
-						</ul>
-					</li>
-				</ng-template>
-			</ul>
-		</nav>
-	`
+	templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit, AfterViewInit {
 	title = "Badgr Angular";
 	loggedIn: boolean = false;
+	mobileNavOpen: boolean = false;
 	isUnsupportedBrowser: boolean = false;
-	launchpoints: ApiExternalToolLaunchpoint[];
+	launchpoints?: ApiExternalToolLaunchpoint[];
 
 	copyrightYear = new Date().getFullYear();
 
@@ -158,6 +54,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 	@ViewChild("shareSocialDialog")
 	private shareSocialDialog: ShareSocialDialog;
 
+	@ViewChild("markdownHintsDialog")
+	private markdownHintsDialog: MarkdownHintsDialog;
+
 	@ViewChild("issuerLink")
 	private issuerLink: any;
 
@@ -165,7 +64,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return ! this.embedService.isEmbedded;
 	}
 
-	get thm() { return this.configService.thm }
+	get theme() { return this.configService.theme }
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
@@ -181,14 +80,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return (this.messageService.message ? this.messageService.message.detail : undefined);
 	}
 
-	readonly unavailableImageSrc = require("../breakdown/static/images/badgr-unavailable.svg");
+	readonly unavailableImageSrc = require("../../node_modules/@concentricsky/badgr-style/dist/images/image-error.svg");
 
 	constructor(
 		private sessionService: SessionService,
 		private profileManager: UserProfileManager,
 		private router: Router,
 		private messageService: MessageService,
-		private configService: SystemConfigService,
+		private configService: AppConfigService,
 		private commonDialogsService: CommonDialogsService,
 		private eventService: EventsService,
 		private oAuthManager: OAuthManager,
@@ -197,21 +96,26 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private queryParams: QueryParametersService,
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
-		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager   // required for angulartics to work
-
+		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,   // required for angulartics to work
+		private titleService: Title
 	) {
 		messageService.useRouter(router);
+
+		titleService.setTitle(this.configService.theme['serviceName'] || "Badgr");
 
 		this.initScrollFix();
 		this.initAnalytics();
 
 		const authCode = this.queryParams.queryStringValue("authCode", true);
 		if (sessionService.isLoggedIn && !authCode) {
-			profileManager.userProfilePromise.then(profile => {
-				if (profile.agreedTermsVersion != profile.latestTermsVersion) {
+			profileManager.userProfileSet.changed$.subscribe(set => {
+				if (set.entities.length && set.entities[0].agreedTermsVersion != set.entities[0].latestTermsVersion) {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
 			});
+
+			// Load the profile
+			this.profileManager.userProfileSet.loadedPromise;
 		}
 
 		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
@@ -222,19 +126,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 			// Enable the embedded indicator class on the body
 			renderer.addClass(document.body, "embeddedcontainer")
 		}
-
-		var browser = detect();
-		if (browser) {
-			if (browser.name.toLowerCase() == "ie") {
-				this.isUnsupportedBrowser = true;
-			}
-		}
 	}
 
 	dismissUnsupportedBrowserMessage() {
 		this.isUnsupportedBrowser = false;
 	}
-
+	toggleMobileNav() {
+		this.mobileNavOpen = !this.mobileNavOpen;
+	}
 	get isOAuthAuthorizationInProcess() {
 		return this.oAuthManager.isAuthorizationInProgress;
 	}
@@ -250,6 +149,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	private initScrollFix() {
 		// Scroll the header into view after navigation, mainly for mobile where the menu is at the bottom of the display
 		this.router.events.subscribe(url => {
+			this.mobileNavOpen = false;
 			let header = document.querySelector("header") as HTMLElement;
 			if (header) {
 				header.scrollIntoView();
@@ -287,12 +187,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.commonDialogsService.init(
 			this.confirmDialog,
 			this.shareSocialDialog,
-			this.newTermsDialog
+			this.newTermsDialog,
+			this.markdownHintsDialog,
 		);
 	}
 
 	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
 	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
-	get logoSmall() { return this.thm['logoImg'] ? this.thm['logoImg']['small'] : this.defaultLogoSmall }
-	get logoDesktop() { return this.thm['logoImg'] ? this.thm['logoImg']['desktop'] : this.defaultLogoDesktop }
+	get logoSmall() { return this.theme['logoImg'] ? this.theme['logoImg']['small'] : this.defaultLogoSmall }
+	get logoDesktop() { return this.theme['logoImg'] ? this.theme['logoImg']['desktop'] : this.defaultLogoDesktop }
 }

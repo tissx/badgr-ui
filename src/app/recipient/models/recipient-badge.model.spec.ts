@@ -1,6 +1,5 @@
-
-import { TestBed, inject } from "@angular/core/testing";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { inject, TestBed } from "@angular/core/testing";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 import { RecipientBadgeInstance } from "./recipient-badge.model";
 import { ApiRecipientBadgeInstance } from "./recipient-badge-api.model";
 
@@ -14,7 +13,7 @@ describe('RecipientBadge', () => {
 		inject(
 			[ CommonEntityManager ],
 			(commonManager: CommonEntityManager) => {
-				new RecipientBadgeInstance(commonManager)
+				let RBI = new RecipientBadgeInstance(commonManager)
 			}
 		)
 	);
@@ -71,6 +70,7 @@ export function buildTestRecipientBadges() {
 				"criteria_url": "http://localhost:8000/public/badges/issuer2-is-awesome/criteria",
 				"criteria_text": "Some Criteria",
 				tags: ['qwerty', 'boberty', 'BanannaFanna'],
+				"alignment": "",
 				"issuer": {
 					"id": "http://localhost:8000/public/issuers/issuer-2",
 					"type": "Issuer",
@@ -111,6 +111,7 @@ export function buildTestRecipientBadges() {
 				"criteria_url": "http://localhost:8000/public/badges/science-ribbon/criteria",
 				"criteria_text": "Some Criteria",
 				tags: ['qwerty', 'boberty', 'BanannaFanna'],
+				"alignment": "",
 				"issuer": {
 					"id": "http://localhost:8000/public/issuers/big-image-issuer",
 					"type": "Issuer",
@@ -156,6 +157,7 @@ export function buildTestRecipientBadges() {
 				"criteria_url": "http://nowhere.com",
 				"criteria_text": "Some Criteria",
 				tags: ['qwerty', 'boberty', 'BanannaFanna'],
+				"alignment": "",
 				"issuer": {
 					"id": "http://localhost:8000/public/issuers/big-image-issuer",
 					"type": "Issuer",
@@ -187,6 +189,6 @@ export function buildTestRecipientBadges() {
 		apiBadge1,
 		apiBadge2,
 		apiBadge3,
-		apiBadges: [ apiBadge1, apiBadge2, apiBadge3, ]
+		apiBadges: [ apiBadge1, apiBadge2, apiBadge3 ]
 	};
 }

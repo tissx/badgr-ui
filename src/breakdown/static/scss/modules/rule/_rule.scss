@@ -7,7 +7,7 @@
 
   &::after {
     @include pseudobase;
-    background: $color-dark4;
+    background: var(--color-dark4);
     height: 1px;
     left: 0;
     position: absolute;

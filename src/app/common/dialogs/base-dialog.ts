@@ -1,14 +1,15 @@
-import { ElementRef, ViewChild, AfterViewInit, Renderer, Renderer2 } from "@angular/core";
-import { registerDialog, HTMLDialogElement } from "dialog-polyfill/dialog-polyfill";
+import { AfterViewInit, ElementRef, Renderer2 } from "@angular/core";
+import { HTMLDialogElement, registerDialog } from "dialog-polyfill/dialog-polyfill";
+import { throwExpr } from '../util/throw-expr';
 
 export abstract class BaseDialog implements AfterViewInit {
 	constructor(
-		protected componentElem: ElementRef,
+		protected componentElem: ElementRef<HTMLElement>,
 		protected renderer: Renderer2
 	) {}
 
-	private get dialogElem(): HTMLDialogElement {
-		return (this.componentElem.nativeElement as HTMLElement).querySelector("dialog") as any;
+	private get dialogElem() {
+		return this.componentElem.nativeElement.querySelector<HTMLDialogElement>("dialog");
 	}
 
 	ngAfterViewInit() {

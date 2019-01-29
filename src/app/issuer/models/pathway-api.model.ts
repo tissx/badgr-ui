@@ -1,4 +1,4 @@
-import { BadgeClassUrl, BadgeClassRef } from "./badgeclass-api.model";
+import { BadgeClassRef, BadgeClassUrl } from "./badgeclass-api.model";
 import { IssuerRef } from "./issuer-api.model";
 import { RecipientGroupRef } from "./recipientgroup-api.model";
 import { ApiEntityRef } from "../../common/model/entity-ref";
@@ -32,7 +32,7 @@ export interface ApiPathwaySummary extends ApiPathwaySummaryForCreation {
 	completionBadge?: BadgeClassRef;
 	rootChildCount: number;
 	elementCount: number;
-	
+
 	groups: RecipientGroupRef[];
 }
 

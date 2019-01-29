@@ -1,5 +1,6 @@
 import { Response } from "@angular/http";
 import { BadgrApiError } from "./base-http-api.service";
+import { HttpResponse } from "@angular/common/http";
 
 export class BadgrApiFailure {
 	private readonly payload: Response | Error | string;
@@ -58,14 +59,14 @@ export class BadgrApiFailure {
 
 		if (this.payload instanceof BadgrApiError) {
 			try {
-				const json = this.payload.response.json();
+				const json = this.payload.response.body;
 				return errorFromJson(json)
 			} catch (e) {
 				return "Unknown server error";
 			}
-		} else if (this.payload instanceof Response) {
+		} else if (this.payload instanceof HttpResponse) {
 			try {
-				const json = this.payload.json();
+				const json = this.payload.body;
 				return errorFromJson(json)
 			} catch (e) {
 				return "Unknown server error";
@@ -88,7 +89,7 @@ export class BadgrApiFailure {
 		function errorFromJson(json) {
 			if (Array.isArray(json)) {
 				return json.map(a => errorFromJson(a) || {})
-					.reduce((a,b) => Object.assign(a, b), {});
+					.reduce((a, b) => Object.assign(a, b), {});
 			} else if (typeof(json) === "object") {
 				const result: { [name: string]: string } = {};
 
@@ -112,7 +113,7 @@ export class BadgrApiFailure {
 
 		try {
 			if (this.payload instanceof BadgrApiError) {
-				return errorFromJson(this.payload.response.json());
+				return errorFromJson(this.payload.response.body);
 			} else if (this.payload instanceof Response) {
 				return errorFromJson(this.payload.json());
 			} else {

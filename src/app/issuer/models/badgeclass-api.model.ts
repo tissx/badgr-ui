@@ -16,7 +16,7 @@ export interface ApiBadgeClassJsonld {
 	name: string
 	image: string
 	description: string
-	criteria_url: string
+	criteriaUrl: string
 	criteria_text: string
 	issuer: string
 }

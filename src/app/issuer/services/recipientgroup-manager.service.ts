@@ -1,10 +1,10 @@
-import { Injectable, Inject, forwardRef } from "@angular/core";
-import { RecipientGroup, IssuerRecipientGroups } from "../models/recipientgroup.model";
+import { forwardRef, Inject, Injectable } from "@angular/core";
+import { IssuerRecipientGroups, RecipientGroup } from "../models/recipientgroup.model";
 import { ApiRecipientGroupForCreation } from "../models/recipientgroup-api.model";
 import { RecipientGroupApiService } from "./recipientgroup-api.service";
 import { MessageService } from "../../common/services/message.service";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
-import "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import "../../entity-manager/services/common-entity-manager.service";
 
 @Injectable()
 export class RecipientGroupManager {
@@ -44,7 +44,7 @@ export class RecipientGroupManager {
 	): Promise<RecipientGroup> {
 		return this.loadRecipientGroupsForIssuer(issuerSlug)
 			.then(issuerRecipientGroups => {
-				var existing = issuerRecipientGroups.entityForSlug(recipientGroupSlug);
+				let existing = issuerRecipientGroups.entityForSlug(recipientGroupSlug);
 
 				if (!existing) {
 					return Promise.reject<RecipientGroup>(`Issuer ${issuerSlug} has no recipientGroup ${recipientGroupSlug}`);

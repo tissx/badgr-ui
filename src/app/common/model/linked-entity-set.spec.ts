@@ -1,13 +1,11 @@
-import { TestBed, inject } from "@angular/core/testing";
+import { inject, TestBed } from "@angular/core/testing";
 import { BidirectionallyLinkedEntitySet, ListBackedLinkedEntitySet } from "./linked-entity-set";
-import {
-	TestEntity,
-	ApiTestEntity, TestEntityRef, buildTestEntities, TestApiEntities
-} from "./managed-entity.spec";
+import { ApiTestEntity, buildTestEntities, TestApiEntities, TestEntity, TestEntityRef } from "./managed-entity.spec";
 import { ManagedEntitySet, StandaloneEntitySet } from "./managed-entity-set";
 import { ManagedEntity } from "./managed-entity";
-import { ApiEntityRef, EntityRef, AnyRefType } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { AnyRefType, ApiEntityRef, EntityRef } from "./entity-ref";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { first } from "rxjs/operators";
 
 describe('ListBackedLinkedEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -30,7 +28,7 @@ describe('ListBackedLinkedEntitySet', () => {
 					url => allEntities.entityForUrl(url)
 				);
 
-				return list.loaded$.first().toPromise().then(() => {
+				return list.loaded$.pipe(first()).toPromise().then(() => {
 					expect(list.entities.length).toBe(1);
 					expect(urls).toEqual([ EntityRef.refFrom(testApiEntity2.id) ]);
 				});
@@ -54,7 +52,7 @@ describe('ListBackedLinkedEntitySet', () => {
 					url => allEntities.entityForUrl(url)
 				);
 
-				return list.loaded$.first().toPromise().then(() => {
+				return list.loaded$.pipe(first()).toPromise().then(() => {
 					expect(list.entities.length).toBe(2);
 
 					expect(list.has(allEntities.entityForApiEntity(testApiEntity2))).toBe(true);
@@ -84,7 +82,7 @@ describe('ListBackedLinkedEntitySet', () => {
 				expect(list.entities.length).toBe(0);
 				owner.applyApiModel(testApiEntity1);
 
-				return list.loaded$.first().toPromise().then(() => {
+				return list.loaded$.pipe(first()).toPromise().then(() => {
 					verifySet(list.entities, allEntities.entitiesForApiEntities([ testApiEntity2 ]));
 
 					list.add(allEntities.entityForApiEntity(testApiEntity3));
@@ -121,7 +119,7 @@ describe('ListBackedLinkedEntitySet', () => {
 				expect(list.entities.length).toBe(0);
 				owner.applyApiModel(testApiEntity1);
 
-				return list.loaded$.first().toPromise().then(() => {
+				return list.loaded$.pipe(first()).toPromise().then(() => {
 					expect(list.entities.length).toBe(1);
 
 					function testArray(array: ApiTestEntity[]) {
@@ -175,8 +173,8 @@ describe('BidirectionallyLinkedEntitySet', () => {
 				));
 
 				return Promise.all([
-					entity1.friends.loaded$.first().toPromise(),
-					entity2.friends.loaded$.first().toPromise()
+					entity1.friends.loaded$.pipe(first()).toPromise(),
+					entity2.friends.loaded$.pipe(first()).toPromise()
 				]).then(() => {
 					verifySet(entity1.friends.entities, allEntities.entitiesForUrls([ testApiEntity2.id ]));
 					verifySet(entity2.friends.entities, allEntities.entitiesForUrls([ testApiEntity1.id ]));
@@ -218,8 +216,8 @@ describe('BidirectionallyLinkedEntitySet', () => {
 					));
 
 					return Promise.all([
-						entity1.friends.loaded$.first().toPromise(),
-						entity2.friends.loaded$.first().toPromise()
+						entity1.friends.loaded$.pipe(first()).toPromise(),
+						entity2.friends.loaded$.pipe(first()).toPromise()
 					]).then(() => {
 						verifySet(entity1.friends.entities, allEntities.entitiesForUrls(newFriends));
 

@@ -1,5 +1,4 @@
 import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from "@angular/core";
-import { animate, state, style, transition, trigger } from "@angular/animations";
 
 @Component({
 	selector: 'show-more',
@@ -9,16 +8,16 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 		"[class.showmore-is-loaded]": "loaded"
 	},
 	template: `
-		<div #container 
+		<div #container
 		     class="showmore-x-container"
 		>
 			<div #content class="showmore-x-content">
 				<ng-content></ng-content>
 			</div>
 		</div>
-		
+
 		<button class="showmore-x-button" (click)="toggleOpen()">
-			<span>{{ isOpen ? "Show Less" : "Show More" }}</span>
+			<div class="showmore-x-buttoninside">{{ isOpen ? "Show Less" : "Show More" }}</div>
 		</button>
 	`
 })

@@ -1,5 +1,5 @@
 .text{
-  font-size: $font-size;
+  font-size: var(--font-size);
   line-height: $line-height-large2;
 
   strong {
@@ -7,8 +7,8 @@
   }
 
   &.text-is-error {
-    color: map-get($states, error);
-    font-size: $font-size-small2;
+    color: var(--color-error);
+    font-size: var(--font-size-small2);
     margin-top: $gridspacing;
     transition: opacity 125ms ease-out;
   }
@@ -17,16 +17,16 @@
 
 .text-quiet {
   color: #78768d; // TODO One-off, should be resolved
-  font-size: $font-size-small1;
+  font-size: var(--font-size-small1);
   line-height: 22px;
 }
 
 .text-small {
-  font-size: $font-size-small1;
+  font-size: var(--font-size-small1);
   line-height: $line-height-large2;
 }
 
 .text-small2 {
-  font-size: $font-size-small2;
+  font-size: var(--font-size-small2);
   line-height: $line-height-large2;
 }

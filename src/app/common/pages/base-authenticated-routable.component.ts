@@ -1,10 +1,7 @@
 import { BaseRoutableComponent } from "./base-routable.component";
-import { OnInit, Inject, Component } from "@angular/core";
-import { Router, ActivatedRoute, UrlSegment } from "@angular/router";
-//import { LoginService } from "../../auth/auth.service";
+import { OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 import { SessionService } from "../services/session.service";
-
-import "rxjs/operator/skip"
 
 /**
  * Base class for all routable components (pages in the applications) that require authentication.

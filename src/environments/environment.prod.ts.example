@@ -1,0 +1,11 @@
+import { BadgrEnvironment } from './badgr-environment';
+
+export const environment: BadgrEnvironment = {
+		production: true,
+		config: {
+			api: {
+				baseUrl: "//some-badgr-server.tld",
+			},
+		}
+	}
+;

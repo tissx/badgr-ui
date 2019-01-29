@@ -1,8 +1,8 @@
-import { Injectable, forwardRef, Inject } from "@angular/core";
+import { forwardRef, Inject, Injectable } from "@angular/core";
 import { BadgeClassInstances, BadgeInstance } from "../models/badgeinstance.model";
 import { BadgeInstanceApiService } from "./badgeinstance-api.service";
-import { ApiBadgeInstanceForCreation, ApiBadgeInstanceForBatchCreation } from "../models/badgeinstance-api.model";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { ApiBadgeInstanceForBatchCreation, ApiBadgeInstanceForCreation } from "../models/badgeinstance-api.model";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 
 @Injectable()
 export class BadgeInstanceManager {
@@ -19,7 +19,7 @@ export class BadgeInstanceManager {
 		if (badgeClassSlug in this.instancesByBadgeClass) {
 			return this.instancesByBadgeClass[ badgeClassSlug ].loadedPromise;
 		} else {
-			var instanceList = this.instancesByBadgeClass[ badgeClassSlug ] = new BadgeClassInstances(this, issuerSlug, badgeClassSlug);
+			let instanceList = this.instancesByBadgeClass[ badgeClassSlug ] = new BadgeClassInstances(this, issuerSlug, badgeClassSlug);
 			return instanceList.loadedPromise;
 		}
 	}

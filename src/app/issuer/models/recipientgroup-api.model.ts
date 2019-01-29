@@ -18,7 +18,7 @@ export interface ApiIssuerRecipientGroupList {
 	issuer: IssuerRef
 }
 
-export interface ApiIssuerRecipientGroupDetailList extends ApiIssuerRecipientGroupList{
+export interface ApiIssuerRecipientGroupDetailList extends ApiIssuerRecipientGroupList {
 	recipientGroups: ApiRecipientGroup[];
 	issuer: IssuerRef
 }
@@ -49,7 +49,7 @@ export interface ApiRecipientGroupMemberForCreation {
 }
 
 
-export interface ApiRecipientGroupMember extends ApiRecipientGroupMemberForCreation{
+export interface ApiRecipientGroupMember extends ApiRecipientGroupMemberForCreation {
 	"@id": RecipientGroupMemberUrl;
 	slug: RecipientGroupMemberSlug;
 }

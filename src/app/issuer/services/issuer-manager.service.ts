@@ -1,10 +1,11 @@
-import { Injectable, forwardRef, Inject } from "@angular/core";
+import { forwardRef, Inject, Injectable } from "@angular/core";
 import { IssuerApiService } from "./issuer-api.service";
 import { Issuer } from "../models/issuer.model";
-import { ApiIssuerForCreation, ApiIssuerForEditing, IssuerSlug, ApiIssuer } from "../models/issuer-api.model";
-import { Observable } from "rxjs/Observable";
+import { ApiIssuer, ApiIssuerForCreation, ApiIssuerForEditing, IssuerSlug } from "../models/issuer-api.model";
+import { Observable } from "rxjs";
 import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { first, map } from "rxjs/operators";
 
 @Injectable()
 export class IssuerManager {
@@ -19,7 +20,7 @@ export class IssuerManager {
 		@Inject(forwardRef(() => CommonEntityManager))
 		public commonEntityManager: CommonEntityManager
 	) { }
-	
+
 	createIssuer(
 		initialIssuer: ApiIssuerForCreation
 	): Promise<Issuer> {
@@ -28,7 +29,7 @@ export class IssuerManager {
 	}
 
 	get allIssuers$(): Observable<Issuer[]> {
-		return this.issuersList.loaded$.map(l => l.entities);
+		return this.issuersList.loaded$.pipe(map(l => l.entities));
 	}
 
 	editIssuer(
@@ -40,10 +41,13 @@ export class IssuerManager {
 	}
 
 	issuerBySlug(issuerSlug: IssuerSlug): Promise<Issuer> {
-		return this.allIssuers$.first().toPromise().then(issuers =>
-			issuers.find(i => i.slug == issuerSlug)
-			|| this.throwError(`Issuer Slug '${issuerSlug}' not found`)
-		);
+		return this.allIssuers$
+			.pipe(first())
+			.toPromise()
+			.then(issuers =>
+				issuers.find(i => i.slug === issuerSlug)
+				|| this.throwError(`Issuer Slug '${issuerSlug}' not found`)
+			);
 	}
 
 	private throwError(message: string): never {

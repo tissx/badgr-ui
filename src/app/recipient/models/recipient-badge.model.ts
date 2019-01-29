@@ -1,10 +1,11 @@
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
 import {
-	ApiRecipientBadgeInstance, RecipientBadgeInstanceRef,
-	ApiRecipientBadgeClass, ApiRecipientBadgeRecipient
+	ApiRecipientBadgeClass,
+	ApiRecipientBadgeInstance,
+	RecipientBadgeInstanceRef
 } from "./recipient-badge-api.model";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 import { LinkedEntitySet } from "../../common/model/linked-entity-set";
 import { RecipientBadgeCollection } from "./recipient-badge-collection.model";
 import { RecipientBadgeCollectionRef } from "./recipient-badge-collection-api.model";
@@ -12,6 +13,39 @@ import { RecipientBadgeCollectionRef } from "./recipient-badge-collection-api.mo
 type BadgeMostRelevantStatusType = "new" | "expired";
 
 export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInstance, RecipientBadgeInstanceRef> {
+
+	get type(): string { return this.apiModel.json.type }
+	get recipientEmail(): string { return this.apiModel.recipient_identifier }
+	get badgeClass(): ApiRecipientBadgeClass { return this.apiModel.json.badge }
+	get issueDate(): Date { return this._issueDate ? this._issueDate : (this._issueDate = new Date(this.apiModel.json.issuedOn)) }
+	get image(): string { return this.apiModel.image }
+	get imagePreview(): string { return this.apiModel.imagePreview.id }
+	get narrative(): string { return this.apiModel.narrative }
+	get evidence_items(): any[] { return this.apiModel.evidence_items }
+
+	get expiresDate(): Date { return this._expiresDate ? this._expiresDate : (this._expiresDate = this.apiModel.json.expires && new Date(this.apiModel.json.expires) || null) }
+
+	get shareUrl(): string { return this.apiModel.shareUrl }
+
+	get isNew(): boolean { return this.apiModel.acceptance === "Unaccepted" }
+
+	get isExpired(): boolean { return this.mostRelevantStatus === "expired" }
+
+	get mostRelevantStatus(): BadgeMostRelevantStatusType | null {
+		if (this.expiresDate && this.expiresDate < new Date()) {
+			return "expired"
+		} else if (this.apiModel.acceptance === "Unaccepted") {
+			return "new"
+		}
+	}
+
+	get issuerId(): string {
+		return this.apiModel.json.badge.issuer.id;
+	}
+
+	get criteriaUrl(): string {
+		return this.badgeClass.criteria_url || this.badgeClass.criteria || null;
+	}
 	/**
 	 * Cached copy of the immutable issueDate for optimization
 	 */
@@ -21,11 +55,6 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	 * Cached copy of the immutable expiresDate for optimization
 	 */
 	_expiresDate: Date | null = null;
-
-	/**
-	 * List of collection that we've modified to either include or exclude ourselves from.
-	 */
-	private modifiedCollections: RecipientBadgeCollection[] = [];
 
 	collections = new LinkedEntitySet<
 		RecipientBadgeInstance,
@@ -40,10 +69,15 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 		c => { c.removeBadge(this); this.modifiedCollections.push(c); }
 	);
 
+	/**
+	 * List of collection that we've modified to either include or exclude ourselves from.
+	 */
+	private modifiedCollections: RecipientBadgeCollection[] = [];
+
 	constructor(
 		commonManager: CommonEntityManager,
 		initialEntity: ApiRecipientBadgeInstance = null,
-		onUpdateSubscribed: ()=>void = undefined
+		onUpdateSubscribed: () => void = undefined
 	) {
 		super(commonManager, onUpdateSubscribed);
 
@@ -74,31 +108,6 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 		return super.revertChanges();
 	}
 
-	get type(): string { return this.apiModel.json.type }
-	get recipientEmail(): string { return this.apiModel.recipient_identifier }
-	get badgeClass(): ApiRecipientBadgeClass { return this.apiModel.json.badge }
-	get issueDate(): Date { return this._issueDate ? this._issueDate : (this._issueDate = new Date(this.apiModel.json.issuedOn)) }
-	get image(): string { return this.apiModel.image }
-	get imagePreview(): string { return this.apiModel.imagePreview.id }
-	get narrative(): string { return this.apiModel.narrative }
-	get evidence_items(): any[] { return this.apiModel.evidence_items }
-
-	get expiresDate(): Date { return this._expiresDate ? this._expiresDate : (this._expiresDate = this.apiModel.json.expires && new Date(this.apiModel.json.expires) || null) }
-
-	get shareUrl(): string { return this.apiModel.shareUrl }
-
-	get isNew(): boolean { return this.apiModel.acceptance === "Unaccepted" }
-	
-	get isExpired(): boolean { return this.mostRelevantStatus === "expired" }
-	
-	get mostRelevantStatus(): BadgeMostRelevantStatusType | null {
-		if (this.expiresDate && this.expiresDate < new Date()) {
-			return "expired"
-		} else if (this.apiModel.acceptance === "Unaccepted") {
-			return "new"
-		}
-	}
-	
 
 	markAccepted(): Promise<this> {
 		if (this.isNew) {
@@ -112,18 +121,10 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 		}
 	}
 
-	get issuerId(): string {
-		return this.apiModel.json.badge.issuer.id;
-	}
-
-	get criteriaUrl(): string {
-		return this.badgeClass.criteria_url || this.badgeClass.criteria || null;
-	}
-
-	hasExtension(extensionName:string) {
+	hasExtension(extensionName: string) {
 		return (this.apiModel.extensions && extensionName in this.apiModel.extensions);
 	}
-	getExtension(extensionName:string, defaultValue) {
+	getExtension(extensionName: string, defaultValue) {
 		return this.hasExtension(extensionName) ? this.apiModel.extensions[extensionName] : defaultValue;
 	}
 }

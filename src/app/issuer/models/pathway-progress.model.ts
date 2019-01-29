@@ -1,5 +1,6 @@
 import { LearningPathway, LearningPathwayElement } from "./pathway.model";
 import { EntityRef } from "../../common/model/entity-ref";
+
 export class PathwayEarnerProgressDetail {
 	earnedBadgeIds: string[] = [];
 	requiredBadgeIds: string[] = [];
@@ -18,7 +19,7 @@ export class PathwayEarnerProgressDetail {
 			const requiredIds = elem.requirements.requiredBadgeIds || [];
 			requiredIds.forEach(id => overallRequiredBadgeIds.add(id));
 
-			if (elem.requirements.junctionType == "Disjunction") {
+			if (elem.requirements.junctionType === "Disjunction") {
 				// If one of the required IDs has been required, then we only declare that requirement
 				// Otherwise, we'll just declare the first one... which is kind of a hack but it will give basically accurate percentages for demoing
 				const completedId = requiredIds.find(requiredId => badgeIds.indexOf(requiredId) >= 0);
@@ -55,7 +56,7 @@ export class PathwayEarnerProgressDetail {
 		pathwayProgress.requiredBadgeIds = Array.from(overallRequiredBadgeIds);
 		pathwayProgress.earnedBadgeIds = badgeIds.filter(id => overallRequiredBadgeIds.has(id));
 
-		for (let i=0; i<20 && elemProgresses.filter(p => ! p.complete).reduce((earnedBadgeListModified,e) => {
+		for (let i=0; i < 20 && elemProgresses.filter(p => ! p.complete).reduce((earnedBadgeListModified, e) => {
 			if (e.recompute()) {
 				const badgeId = e.element.completionBadge.entityRef && EntityRef.urlForRef(e.element.completionBadge.entityRef);
 				if (badgeId && overallRequiredBadgeIds.has(badgeId) && pathwayProgress.earnedBadgeIds.indexOf(badgeId) < 0) {
@@ -85,7 +86,7 @@ export class PathwayElementEarnerProgressDetail {
 		const wasComplete = this.complete;
 
 		this.earnedBadgeIds = this.pathwayProgress.earnedBadgeIds.filter(id => this.requiredBadgeIds.indexOf(id) >= 0);
-		this.complete = (this.requiredBadgeIds.length > 0 && this.earnedBadgeIds.length == this.requiredBadgeIds.length);
+		this.complete = (this.requiredBadgeIds.length > 0 && this.earnedBadgeIds.length === this.requiredBadgeIds.length);
 
 		return !wasComplete && this.complete;
 	}

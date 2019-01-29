@@ -1,7 +1,6 @@
-import {ApiExternalTool, ApiExternalToolLaunchpoint, ExternalToolRef} from "./externaltools-api.model";
+import {ApiExternalTool} from "./externaltools-api.model";
 import {ManagedEntity} from "../../common/model/managed-entity";
-import {CommonEntityManager} from "../../entity-manager/common-entity-manager.service";
-import {ApiIssuer} from "../../issuer/models/issuer-api.model";
+import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
 import {ApiEntityRef} from "../../common/model/entity-ref";
 
 

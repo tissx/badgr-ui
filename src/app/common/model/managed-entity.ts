@@ -1,6 +1,7 @@
 import { UpdatableSubject } from "../util/updatable-subject";
 import { ApiEntityRef, EntityRef } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import { first } from "rxjs/operators";
 
 export type AnyManagedEntity = ManagedEntity<any, any>;
 
@@ -9,30 +10,10 @@ export type AnyManagedEntity = ManagedEntity<any, any>;
 // TODO: Managed Entities - provide mechanism for delegating to a "detail" entity when it is loaded
 
 export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRef> {
-	private _apiModel: ApiModelType;
-	private _apiModelJson: string;
-
-	private _ref: EntityRef<ApiRefType>;
-
-	private loadedSubject: UpdatableSubject<this>;
 	public get loaded$() { return this.loadedSubject.asObservable() }
-
-	private changedSubject: UpdatableSubject<this> = new UpdatableSubject<this>();
 	public get changed$() { return this.changedSubject.asObservable() }
-	
-	public get loadedPromise(): Promise<this> { return this.loadedSubject.first().toPromise() }
 
-	constructor(
-		private _commonManager: CommonEntityManager,
-		onUpdateSubscribed: () => void = undefined
-	) {
-		this.loadedSubject = new UpdatableSubject<this>(onUpdateSubscribed);
-		this.changedSubject.subscribe(this.loadedSubject);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Core Model Properties
-	protected abstract buildApiRef(): ApiRefType;
+	public get loadedPromise(): Promise<this> { return this.loadedSubject.pipe(first()).toPromise() }
 
 	get slug() { return this._ref ? this._ref.slug : null }
 
@@ -53,7 +34,7 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 	public get pathwayManager() { return this._commonManager.pathwayManager }
 
 	public get recipientGroupManager() { return this._commonManager.recipientGroupManager }
-	
+
 	public get badgeInstanceManager() { return this._commonManager.badgeInstanceManager }
 
 	public get recipientBadgeManager() { return this._commonManager.recipientBadgeManager }
@@ -63,6 +44,37 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 	public get profileManager() { return this._commonManager.profileManager }
 
 	public get oAuthManager() { return this._commonManager.oAuthManager }
+
+	public get loaded(): boolean { return !! this.apiModel }
+
+	public get hasChanges(): boolean {
+		return this._apiModelJson != JSON.stringify(this._apiModel);
+	}
+
+	public get apiModel() {
+		return this._apiModel;
+	}
+;
+	private _apiModel: ApiModelType;
+	private _apiModelJson: string;
+
+	private _ref: EntityRef<ApiRefType>;
+
+	private loadedSubject: UpdatableSubject<this>;
+
+	private changedSubject: UpdatableSubject<this> = new UpdatableSubject<this>();
+
+	constructor(
+		private _commonManager: CommonEntityManager,
+		onUpdateSubscribed: () => void = undefined
+	) {
+		this.loadedSubject = new UpdatableSubject<this>(onUpdateSubscribed);
+		this.changedSubject.subscribe(this.loadedSubject);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Core Model Properties
+	protected abstract buildApiRef(): ApiRefType;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Model Updating
@@ -86,16 +98,6 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 		}
 	}
 
-	public get loaded(): boolean { return !! this.apiModel }
-
-	public get hasChanges(): boolean {
-		return this._apiModelJson != JSON.stringify(this._apiModel);
-	}
-
-	public get apiModel() {
-		return this._apiModel;
-	}
-
 	/**
 	 * Update the internal model of this entity with the given api model.
 	 *
@@ -112,6 +114,7 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 		return this.handleChangedModel();
 	}
 
+	protected onApiModelChanged() {}
 	private handleChangedModel(): this {
 		this._ref = new EntityRef<ApiRefType>(this.buildApiRef());
 		this.onApiModelChanged();
@@ -119,8 +122,6 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 
 		return this;
 	}
-
-	protected onApiModelChanged() {};
 }
 
 export abstract class LoadingManagedEntity<ApiModelType, ApiRefType extends ApiEntityRef> extends ManagedEntity<ApiModelType, ApiRefType> {

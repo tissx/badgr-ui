@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import { Router, NavigationEnd } from "@angular/router";
+import { Observable } from "rxjs";
+import { NavigationEnd, Router } from "@angular/router";
 import { UpdatableSubject } from "../util/updatable-subject";
 
 export interface FlashMessage {
@@ -138,7 +138,7 @@ export class MessageService {
 		}
 	}
 
-	get hasFatalError() : boolean {
+	get hasFatalError(): boolean {
 		return this.fatalErrorPresent
 	}
 

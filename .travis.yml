@@ -1,5 +1,5 @@
 language: node_js
 
 script:
-    - npm run build:prod
+    - cp src/environments/environment.prod.ts{.example,} npm run build
     - npm run test

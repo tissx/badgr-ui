@@ -1,6 +1,8 @@
 import { ManagedEntity } from "./managed-entity";
 import { UpdatableSubject } from "../util/updatable-subject";
 import { ApiEntityRef } from "./entity-ref";
+import { first } from "rxjs/operators";
+import { MemoizedProperty } from '../util/memoized-property-decorator';
 
 /**
  * Represents a many-to-one connection between entities. Wraps an EntityRef from API data and handles loading and
@@ -17,6 +19,8 @@ export class EntityLink<
 	protected loadedSubject = new UpdatableSubject<EntityType>(
 		() => this.updateLink()
 	);
+
+	protected _loadedPromise: Promise<EntityType> | null = null;
 
 	public get loaded$() {
 		return this.loadedSubject.asObservable();
@@ -35,7 +39,12 @@ export class EntityLink<
 		return !! this.entityRef;
 	}
 
-	public get loadedPromise() { return this.loaded$.first().toPromise(); }
+	@MemoizedProperty()
+	public get loadedPromise() {
+		if (! this._loadedPromise)
+			this._loadedPromise = this.loaded$.pipe(first()).toPromise(); ;
+		return this._loadedPromise;
+	}
 
 	public get entityRef(): RefType { return this.getRef(); }
 
@@ -45,6 +54,7 @@ export class EntityLink<
 		protected getRef: () => RefType
 	) {
 		this.changedSubject.subscribe(this.loadedSubject);
+		this.changedSubject.subscribe(() => this._loadedPromise = null);
 	}
 
 	protected updateLink() {

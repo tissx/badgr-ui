@@ -1,7 +1,7 @@
 import { ManagedEntity } from "./managed-entity";
-import { TestBed, inject } from "@angular/core/testing";
+import { inject, TestBed } from "@angular/core/testing";
 import { ApiEntityRef } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 
 export interface TestApiEntities {
 	testApiEntity1: ApiTestEntity,

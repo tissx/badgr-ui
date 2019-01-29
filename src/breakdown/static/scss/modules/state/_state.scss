@@ -14,28 +14,39 @@ Default - Not used
 .state {
   font-weight: 600;
 
-  @each $state, $color in $states {
-    &.state-is-#{$state} {
-      color: $color;
-    }
+  &.state-is-error {
+    color:var(--color-error);;
+  }
+
+  &.state-is-pending {
+    color: var(--color-pending);
+  }
+
+  &.state-is-success {
+    color: var(--color-success);
   }
 
 }
 
 .state-pill {
-  border-radius: $border-radius;
-  color: $color-light1;
-  font-size: $font-size-small2;
+  border-radius: var(--border-radius);
+  color: var(--color-light1);
+  font-size: var(--font-size-small2);
   font-weight: bold;
   line-height: 1;
   padding: 5px;
   text-transform: uppercase;
 
-  @each $state, $color in $states {
-    &.state-is-#{$state} {
-      background-color: $color;
-      color: $color-light1;
-    }
+  &.state-is-error {
+    color:var(--color-error);;
+  }
+
+  &.state-is-pending {
+    color: var(--color-pending);
+  }
+
+  &.state-is-success {
+    color: var(--color-success);
   }
 
 }

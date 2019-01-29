@@ -2,6 +2,8 @@
  * TypeScript type information for a portion of the Open Badges v2.0 Specification, from
  * https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html
  */
+import { BadgeClass } from "../../issuer/models/badgeclass.model";
+import { Issuer } from "../../issuer/models/issuer.model";
 
 export interface PublicApiBadgeAssertion {
 	"@context": "https://w3id.org/openbadges/v2";
@@ -41,14 +43,17 @@ export interface PublicApiBadgeClass {
 	description: string;
 	type: "BadgeClass";
 	id: string;
+	hostedUrl: string;
 	name: string;
 	issuer: string | PublicApiIssuer;
 	image: string;
 	criteria: {
 		id: string;
-		narrative: string
+		narrative: string;
+		criteriaUrl: string;
 	} | string;
 	alignment: Array<{
+		frameworkName?: string;
 		targetName: string;
 		targetUrl: string;
 		targetDescription?: string;
@@ -61,6 +66,9 @@ export interface PublicApiBadgeClass {
 }
 export interface PublicApiBadgeClassWithIssuer extends  PublicApiBadgeClass {
 	issuer: PublicApiIssuer;
+	badgeClass: BadgeClass;
+	issueDate: string;
+	mostRelevantStatus: string;
 }
 
 export interface PublicApiIssuer {
@@ -73,13 +81,14 @@ export interface PublicApiIssuer {
 	name: string;
 	image?: string;
 	// Extension to the spec containing the original URL of this assertion if it is not stored by Badgr
-	sourceUrl?: string
+	sourceUrl?: string;
+	hostedUrl?: string;
 }
 
 export interface PublicApiBadgeCollectionWithBadgeClassAndIssuer {
 	entityId: string;
 	entityType: "SharedCollection";
-
+	id: string
 	name: string;
 	description: string;
 	badges: PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer[];

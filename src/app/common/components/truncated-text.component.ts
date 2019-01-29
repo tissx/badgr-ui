@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 
 @Component({
 	selector: '[truncatedText]',
@@ -7,7 +7,7 @@ import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, Simp
 	},
 	template: `{{ processedText }}`
 })
-export class TruncatedTextComponent implements OnChanges{
+export class TruncatedTextComponent implements OnChanges {
 	@Input("truncatedText")
 	rawText: string;
 

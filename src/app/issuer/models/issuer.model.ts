@@ -1,10 +1,7 @@
-import {
-	IssuerRef, ApiIssuer, IssuerUrl, ApiIssuerStaff, IssuerStaffRoleSlug,
-	IssuerStaffRef
-} from "./issuer-api.model";
+import { ApiIssuer, ApiIssuerStaff, IssuerRef, IssuerStaffRef, IssuerStaffRoleSlug, IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
-import { CommonEntityManager } from "../../entity-manager/common-entity-manager.service";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 import { EmbeddedEntitySet } from "../../common/model/managed-entity-set";
 
 
@@ -26,7 +23,7 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 	constructor(
 		commonManager: CommonEntityManager,
 		initialEntity: ApiIssuer = null,
-		onUpdateSubscribed: ()=>void = undefined
+		onUpdateSubscribed: () => void = undefined
 	) {
 		super(commonManager, onUpdateSubscribed);
 
@@ -61,7 +58,7 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 	get recipientCount(): number {
 		const recipientGroups = this.commonManager.recipientGroupManager.recipientGroupsForIssuer(this.slug);
 		return recipientGroups.loaded
-			? recipientGroups.entities.map(g => g.memberCount).reduce((a,b)=>a+b, 0)
+			? recipientGroups.entities.map(g => g.memberCount).reduce((a, b) => a + b, 0)
 			: this.apiModel.recipientCount;
 	}
 
@@ -76,7 +73,7 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 		const badges = this.commonManager.badgeManager.badgesList;
 
 		return badges.loaded
-			? badges.entities.filter(b => b.issuerSlug == this.slug).length
+			? badges.entities.filter(b => b.issuerSlug === this.slug).length
 			: this.apiModel.badgeClassCount
 	}
 
@@ -114,7 +111,7 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 
 			return this.staff.entities.find(
 				staffMember => !!emails.find(
-					profileEmail => profileEmail.email == staffMember.email
+					profileEmail => profileEmail.email === staffMember.email
 				)
 			) || null;
 		} else {
@@ -124,9 +121,6 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 }
 
 export class IssuerStaffMember extends ManagedEntity<ApiIssuerStaff, IssuerStaffRef> {
-	constructor(public issuer: Issuer) {
-		super(issuer.commonManager);
-	}
 
 	get roleSlug() { return this.apiModel.role }
 	get roleInfo() { return issuerRoleInfoFor(this.roleSlug) }
@@ -170,15 +164,18 @@ export class IssuerStaffMember extends ManagedEntity<ApiIssuerStaff, IssuerStaff
 		}
 	}
 
+	static urlFromApiModel(apiStaff: ApiIssuerStaff) {
+		return apiStaff.user.email;
+	}
+	constructor(public issuer: Issuer) {
+		super(issuer.commonManager);
+	}
+
 	protected buildApiRef(): IssuerStaffRef {
 		return {
 			"@id": IssuerStaffMember.urlFromApiModel(this.apiModel),
 			"slug": IssuerStaffMember.urlFromApiModel(this.apiModel),
 		};
-	}
-
-	static urlFromApiModel(apiStaff: ApiIssuerStaff) {
-		return apiStaff.user.email;
 	}
 
 	async save(): Promise<IssuerStaffMember> {
@@ -225,5 +222,5 @@ export const issuerStaffRoles = [
 	},
 ];
 export function issuerRoleInfoFor(slug: IssuerStaffRoleSlug) {
-	return issuerStaffRoles.find(r => r.slug == slug);
+	return issuerStaffRoles.find(r => r.slug === slug);
 }

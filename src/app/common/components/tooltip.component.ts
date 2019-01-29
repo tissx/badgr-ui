@@ -1,4 +1,4 @@
-import {ElementRef, Input, HostListener, Component, AfterViewInit, ViewChild, OnDestroy} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild } from '@angular/core';
 
 import * as Tether from 'tether';
 
@@ -25,8 +25,8 @@ export class TooltipComponent implements AfterViewInit, OnDestroy {
     };
     @Input() offset: string = '-30px -15px';
     @Input() trigger;
-    @ViewChild('anchor') anchor:ElementRef;
-    @ViewChild('tooltip') tooltip:ElementRef;
+    @ViewChild('anchor') anchor: ElementRef;
+    @ViewChild('tooltip') tooltip: ElementRef;
 
 	active: boolean = false;
     tether: any = null;
@@ -45,10 +45,10 @@ export class TooltipComponent implements AfterViewInit, OnDestroy {
 
 	constructor(private el: ElementRef) {}
 
-	updateTip(open: boolean){
+	updateTip(open: boolean) {
         this.active = open;
         // poke the positioning to set the correct class for arrow
-        if(this.tether) this.tether.position();
+        if (this.tether) this.tether.position();
     }
 
 	ngAfterViewInit() {

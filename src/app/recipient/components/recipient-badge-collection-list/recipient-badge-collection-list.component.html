@@ -1,0 +1,81 @@
+<main>
+		<form-message></form-message>
+	
+		<div class="topbar">
+			<div class="l-containerxaxis topbar-x-wrap">
+				<h2 class="topbar-x-heading">
+					Collections
+					<span class="topbar-x-internalheading" *ngIf="!! badgeCollections">
+						{{ badgeCollections.length }} {{ badgeCollections.length == 1 ? "Collection" : "Collections" }}
+					</span>
+				</h2>
+				<button class="button topbar-x-button" [routerLink]="['/recipient/badge-collections/create']"
+				 [disabled-when-requesting]="true">
+					Add Collection
+				</button>
+			</div>
+		</div>
+	
+		<ng-template [bgAwaitPromises]="[ collectionListLoaded ]">
+			<!--  Empty state - collection has not badges -->
+	
+	
+			<div class="l-containerxaxis l-containeryaxis" *ngIf="badgeCollections.length == 0">
+				<h2 class="u-text-h3-bold u-text-center u-margin-bottom1x">
+					You have no collections
+				</h2>
+				<p class="u-text-body u-text-center u-margin-bottom3x">
+					Collections are a way to organize badges you've earned to share them together.
+				</p>
+				<div class="l-flex l-flex-justifycenter">
+					<img class="u-width-mediumimage u-display-block" [src]="noCollectionsImageUrl" alt="Illustration">
+				</div>
+			</div>
+	
+	
+			<!--  Collection of Badges -->
+			<div *ngIf="badgeCollections.length > 0" class="l-containerxaxis l-containeryaxis l-grid l-grid-medium">
+	
+				<div class="collectioncard" *ngFor="let collection of badgeCollections">
+					<a class="collectioncard-x-headline" [routerLink]="[ '/recipient/badge-collections/collection', collection.slug ]" >{{ collection.name }}</a>
+					<p class="collectioncard-x-label">{{ collection.badgeEntries.length == 1 ? '1 Badge' :
+						(collection.badgeEntries.length + ' Badges') }}</p>
+					<div class="l-grid l-grid-badgeimages u-margin-top4x">
+						<img *ngFor="let entry of collection.badgeEntries.entities | slice:0:(collection.badgeEntries.length > 3 ? 3 : 4)"
+						 class="badgeimage badgeimage-48px" [loaded-src]="entry.badge?.image" [loading-src]="badgeLoadingImageUrl"
+						 [error-src]="badgeFailedImageUrl" alt="{{ entry.badge?.badgeClass.name }} Image" [ngStyle]="entry.badge?.isExpired && {'filter':'grayscale(1)'}"
+						 width="40">
+						<div class="badgecount" *ngIf="collection.badges.length > 3">
+							{{ collection.badges.length - 3 }}+
+						</div>
+					</div>
+					<div class="u-margin-top2x" *ngIf="collection.badges.length != 0">
+						<hr class="rule rule-hairline">
+					</div>
+					<div class="l-flex l-flex-aligncenter l-flex-justifybetween u-margin-top2x" *ngIf="collection.badges.length != 0">
+						<div class="switch">
+							<fieldset class="switch-x-container">
+								<div class="switch-x-inputcontainer">
+									<label class="switch-x-label">
+										<input class="switch-x-toggletrack" type="checkbox" type="checkbox" id="collection-{{ collection.slug }}-published-switch"
+										 name="collection-{{ collection.slug }}-published-switch" [checked]="collection.published" (change)="togglePublishCollection(collection)">
+										<span class="switch-x-labeltext">Public</span>
+										<div class="switch-x-toggle"></div>
+									</label>
+								</div>
+							</fieldset>
+						</div>
+						<button class="u-text-link-small" *ngIf="collection.published" type="button" (click)="shareCollection(collection)">Share</button>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</main>
+
+	
+
+
+
+
+
+	

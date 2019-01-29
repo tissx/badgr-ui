@@ -1,6 +1,4 @@
-import { Directive, ElementRef, Renderer, OnChanges, Input } from "@angular/core";
-import { Router } from "@angular/router";
-import Timer = NodeJS.Timer;
+import { Directive, ElementRef, Input, OnChanges } from "@angular/core";
 
 const defaultLoadingImage = require("../../../breakdown/static/images/image-placeholder.svg");
 const defaultErrorImage = require("../../../breakdown/static/images/image-failed.svg");
@@ -11,6 +9,36 @@ const defaultErrorImage = require("../../../breakdown/static/images/image-failed
 	exportAs: "image-status-placeholder",
 })
 export class BgImageStatusPlaceholderDirective implements OnChanges {
+
+	protected get loadingSrc(): string {
+		return this.loadingSrcAttr || defaultLoadingImage;
+	}
+
+	protected get loadedSrc(): string {
+		return this.loadedSrcAttr || this.loadingSrc;
+	}
+
+	protected get errorSrc(): string {
+		return this.errorSrcAttr || defaultErrorImage;
+	}
+
+	protected get elem(): HTMLImageElement {
+		return this.elemRef.nativeElement;
+	}
+
+	isOpen: boolean = false;
+
+	image: HTMLImageElement = new Image();
+	/**
+	 * Keep the last value we set the image src to because the image.src property is modified after settings, and we
+	 * need to be able to tell if it's changed.
+	 */
+	lastImageSource: string = null;
+
+	loading = true;
+	failed = false;
+
+	loadingTimeout: number;
 	@Input("loading-src")
 	private loadingSrcAttr: string;
 
@@ -19,18 +47,6 @@ export class BgImageStatusPlaceholderDirective implements OnChanges {
 
 	@Input("error-src")
 	private errorSrcAttr: string;
-	
-	isOpen: boolean = false;
-	
-	image: HTMLImageElement = new Image();
-	/**
-	 * Keep the last value we set the image src to because the image.src property is modified after settings, and we
-	 * need to be able to tell if it's changed.
-	 */
-	lastImageSource: string = null;
-	
-	loading = true;
-	failed = false;
 
 	constructor(
 		private elemRef: ElementRef
@@ -38,24 +54,22 @@ export class BgImageStatusPlaceholderDirective implements OnChanges {
 		this.image.onload = () => this.imageLoaded();
 		this.image.onerror = () => this.imageErrored();
 	}
-	
+
 	ngOnChanges(changes: {}) {
 		this.updateState();
 	}
-	
+
 	private imageLoaded() {
 		this.loading = false;
 		this.failed = false;
 		this.updateState();
 	}
-	
+
 	private imageErrored() {
 		this.loading = false;
 		this.failed = true;
 		this.updateState();
 	}
-
-	loadingTimeout: number;
 
 	private updateState() {
 		if (this.loadedSrc != this.lastImageSource) {
@@ -87,21 +101,5 @@ export class BgImageStatusPlaceholderDirective implements OnChanges {
 		} else {
 			this.elem.src = this.image.src;
 		}
-	}
-
-	protected get loadingSrc(): string {
-		return this.loadingSrcAttr || defaultLoadingImage;
-	}
-
-	protected get loadedSrc(): string {
-		return this.loadedSrcAttr || this.loadingSrc;
-	}
-
-	protected get errorSrc(): string {
-		return this.errorSrcAttr || defaultErrorImage;
-	}
-
-	protected get elem(): HTMLImageElement {
-		return this.elemRef.nativeElement;
 	}
 }

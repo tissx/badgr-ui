@@ -12,9 +12,9 @@ export function isPositiveInteger(n) {
  */
 export function toJsonInclArrayProps(o) {
 	// Uncomment to respect custom toJSON functions
-	//if (typeof(o) === "object" && typeof[o["toJSON"]] === "function") {
-	//	o = o.toJSON();
-	//}
+	// if (typeof(o) === "object" && typeof[o["toJSON"]] === "function") {
+	// 	o = o.toJSON();
+	// }
 
 	if (Array.isArray(o)) {
 		let indexedProps = [];
@@ -83,8 +83,7 @@ export function deepAssign(
 				delete dest[ key ];
 			}
 		}
-	}
-	else {
+	} else {
 		for (let key in dest) {
 			if (dest.hasOwnProperty(key) && !source.hasOwnProperty(key)) {
 				delete dest[ key ];

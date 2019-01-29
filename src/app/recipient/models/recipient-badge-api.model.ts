@@ -1,4 +1,4 @@
-//export type RecipientBadgeClassSlug = string;
+// export type RecipientBadgeClassSlug = string;
 export type RecipientBadgeInstanceUrl = string;
 export type RecipientBadgeInstanceSlug = string;
 export type RecipientBadgeAcceptance = "Accepted" | "Rejected" | "Unaccepted";
@@ -33,7 +33,7 @@ export interface ApiRecipientBadgeInstance {
 	acceptance: RecipientBadgeAcceptance;
 	narrative: string;
 	evidence_items: any[];
-	alignment: any[];
+	alignment?: any[];
 	imagePreview: {
 		type: "image",
 		id: string
@@ -53,6 +53,7 @@ export interface ApiRecipientBadgeRecipient {
 
 export interface ApiRecipientBadgeClass {
 	id: ApiBadgeRecipientClassBadgeUrl
+	alignment: string
 	type: string
 	name: string
 	description: string

@@ -1,8 +1,9 @@
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { UpdatableSubject } from "../util/updatable-subject";
-import { ManagedEntity, AnyManagedEntity } from "./managed-entity";
+import { AnyManagedEntity, ManagedEntity } from "./managed-entity";
 import { AnyRefType, EntityRef } from "./entity-ref";
 import { EntitySet, EntitySetUpdate } from "./entity-set";
+import { first, map } from "rxjs/operators";
 
 /**
  * Manages a set of entities based on API data. This set and its children act as the primary holders and creators of
@@ -16,29 +17,7 @@ export class ManagedEntitySet<
 	EntityType extends ManagedEntity<ApiEntityType, any>,
 	ApiEntityType
 > implements EntitySet<EntityType> {
-	protected _entities: EntityType[] = [];
-	private urlEntityMap: { [url: string]: EntityType } = {};
-	private slugEntityMap: { [slug: string]: EntityType } = {};
-
-	private loadedSubject = new UpdatableSubject<EntitySetUpdate<EntityType, this>>(
-		() => this.onFirstListRequest()
-	);
-
-	private changedSubject = new UpdatableSubject<EntitySetUpdate<EntityType, this>>();
-
-	private _loadedPromise: Promise<this> = null
-
-	constructor(
-		protected entityFactory: (apiModel: ApiEntityType) => EntityType,
-		protected urlForApiModel: (apiModel: ApiEntityType) => string
-	) {
-		this.changedSubject.map(u => u.entitySet).subscribe(this.loadedSubject);
-	}
-
-	/**
-	 * Called the first time a request is made for the entity set, can be used to initialize.
-	 */
-	protected onFirstListRequest() { /* For subclasses */ };
+;
 
 	/**
 	 * Observable for updates to this entire entity list. Updates are sent upon subscription (like a promise) if the
@@ -63,7 +42,7 @@ export class ManagedEntitySet<
 	get loadedPromise(): Promise<this> {
 		return this._loadedPromise
 			? this._loadedPromise
-			: (this._loadedPromise = this.loaded$.first().toPromise())
+			: (this._loadedPromise = this.loaded$.pipe(first()).toPromise())
 	}
 
 	get loaded() {
@@ -73,15 +52,41 @@ export class ManagedEntitySet<
 	get entities() { return this._entities; }
 	get length(): number { return this.entities.length }
 
+	get entityByUrlMap() { return this.urlEntityMap; }
+	protected _entities: EntityType[] = [];
+
+	protected _loadedPromise: Promise<this> = null;
+	private urlEntityMap: { [url: string]: EntityType } = {};
+	private slugEntityMap: { [slug: string]: EntityType } = {};
+
+	private loadedSubject = new UpdatableSubject<EntitySetUpdate<EntityType, this>>(
+		() => this.onFirstListRequest()
+	);
+
+	private changedSubject = new UpdatableSubject<EntitySetUpdate<EntityType, this>>();
+
+	constructor(
+		protected entityFactory: (apiModel: ApiEntityType) => EntityType,
+		protected urlForApiModel: (apiModel: ApiEntityType) => string
+	) {
+		this.changedSubject
+			.pipe(map(u => u.entitySet))
+			.subscribe(this.loadedSubject);
+	}
+
+	/**
+	 * Called the first time a request is made for the entity set, can be used to initialize.
+	 */
+	protected onFirstListRequest() { /* For subclasses */ }
 	protected updateSetUsingApiModels(
 		apiEntities: ApiEntityType[]
 	) {
 		if (apiEntities) {
-			var inputByUrl: {[url: string]: ApiEntityType} = {};
+			let inputByUrl: {[url: string]: ApiEntityType} = {};
 			apiEntities.forEach(i => inputByUrl[ this.urlForApiModel(i) ] = i);
 
-			var apiEntityUrls = Object.keys(inputByUrl);
-			var existingUrls = Object.keys(this.urlEntityMap);
+			let apiEntityUrls = Object.keys(inputByUrl);
+			let existingUrls = Object.keys(this.urlEntityMap);
 
 			const updateInfo = new EntitySetUpdate<EntityType, this>(this);
 
@@ -89,7 +94,7 @@ export class ManagedEntitySet<
 				if (id in this.urlEntityMap) {
 					this.urlEntityMap[ id ].applyApiModel(inputByUrl[ id ]);
 				} else {
-					var newEntity = this.urlEntityMap[ id ] = this.entityFactory(inputByUrl[ id ]);
+					let newEntity = this.urlEntityMap[ id ] = this.entityFactory(inputByUrl[ id ]);
 					newEntity.applyApiModel(inputByUrl[ id ]);
 					this.entities.push(newEntity);
 					updateInfo.added.push(newEntity);
@@ -101,8 +106,7 @@ export class ManagedEntitySet<
 			existingUrls.forEach(previousUrl => {
 				if (previousUrl in inputByUrl) {
 					/* Old Id still present, no action */
-				}
-				else {
+				} else {
 					updateInfo.removed.push(this.urlEntityMap[ previousUrl ]);
 					delete this.urlEntityMap[ previousUrl ];
 				}
@@ -117,21 +121,6 @@ export class ManagedEntitySet<
 	}
 
 	protected onEntityAdded(entity: EntityType) { /* For subclasses */ }
-
-	private notifySubjects(updateInfo: EntitySetUpdate<EntityType, this>) {
-		this.changedSubject.safeNext(updateInfo);
-	}
-
-	private updateSlugMap() {
-		Object.keys(this.slugEntityMap).forEach(
-			slug => { delete this.slugEntityMap[ slug ] }
-		);
-		this.entities.forEach(
-			entity => this.slugEntityMap[ entity.slug ] = entity
-		);
-	}
-
-	get entityByUrlMap() { return this.urlEntityMap; }
 
 	entityForUrl(url: AnyRefType): EntityType { return this.urlEntityMap[ EntityRef.urlForRef(url) ]; }
 	entitiesForUrls(urls: AnyRefType[]): EntityType[] {
@@ -150,6 +139,19 @@ export class ManagedEntitySet<
 
 	[Symbol.iterator](): Iterator<EntityType> {
 		return this.entities[Symbol.iterator]()
+	}
+
+	private notifySubjects(updateInfo: EntitySetUpdate<EntityType, this>) {
+		this.changedSubject.safeNext(updateInfo);
+	}
+
+	private updateSlugMap() {
+		Object.keys(this.slugEntityMap).forEach(
+			slug => { delete this.slugEntityMap[ slug ] }
+		);
+		this.entities.forEach(
+			entity => this.slugEntityMap[ entity.slug ] = entity
+		);
 	}
 }
 
@@ -302,10 +304,10 @@ export class StandaloneEntitySet<
 	private listInvalidatedSinceLastUpdate = false;
 
 	constructor(
-		entityFactory: (apiModel: ApiEntityType)=>EntityType,
-		idForApiModel: (apiModel: ApiEntityType)=>string,
+		entityFactory: (apiModel: ApiEntityType) => EntityType,
+		idForApiModel: (apiModel: ApiEntityType) => string,
 
-		protected loadEntireList: ()=>Promise<ApiEntityType[]>
+		protected loadEntireList: () => Promise<ApiEntityType[]>
 	) {
 		super(
 			() => this._apiEntities,
@@ -379,6 +381,7 @@ export class StandaloneEntitySet<
 		this.listInvalidatedSinceLastUpdate = true;
 
 		this._apiEntities = [];
+		this._loadedPromise = null;
 
 		this.onBackingListChanged();
 	}

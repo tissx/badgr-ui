@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import isURL from 'validator/lib/isURL';
 import { ValidationResult } from "./email.validator";
 
