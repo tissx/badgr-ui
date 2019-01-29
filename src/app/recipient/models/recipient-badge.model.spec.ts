@@ -13,7 +13,7 @@ describe('RecipientBadge', () => {
 		inject(
 			[ CommonEntityManager ],
 			(commonManager: CommonEntityManager) => {
-				new RecipientBadgeInstance(commonManager)
+				let RBI = new RecipientBadgeInstance(commonManager)
 			}
 		)
 	);
@@ -70,6 +70,7 @@ export function buildTestRecipientBadges() {
 				"criteria_url": "http://localhost:8000/public/badges/issuer2-is-awesome/criteria",
 				"criteria_text": "Some Criteria",
 				tags: ['qwerty', 'boberty', 'BanannaFanna'],
+				"alignment": "",
 				"issuer": {
 					"id": "http://localhost:8000/public/issuers/issuer-2",
 					"type": "Issuer",
@@ -110,6 +111,7 @@ export function buildTestRecipientBadges() {
 				"criteria_url": "http://localhost:8000/public/badges/science-ribbon/criteria",
 				"criteria_text": "Some Criteria",
 				tags: ['qwerty', 'boberty', 'BanannaFanna'],
+				"alignment": "",
 				"issuer": {
 					"id": "http://localhost:8000/public/issuers/big-image-issuer",
 					"type": "Issuer",
@@ -155,6 +157,7 @@ export function buildTestRecipientBadges() {
 				"criteria_url": "http://nowhere.com",
 				"criteria_text": "Some Criteria",
 				tags: ['qwerty', 'boberty', 'BanannaFanna'],
+				"alignment": "",
 				"issuer": {
 					"id": "http://localhost:8000/public/issuers/big-image-issuer",
 					"type": "Issuer",

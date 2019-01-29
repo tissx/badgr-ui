@@ -15,7 +15,7 @@ import { testIssuerRefForSlug } from "./issuer-manager.service.spec";
 import { MessageService } from "../../common/services/message.service";
 import { first } from "rxjs/operators";
 
-describe('badgeManager', () => {
+xdescribe('badgeManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [

@@ -3,7 +3,7 @@ import { CommonEntityManager } from "../../entity-manager/services/common-entity
 import { AppIntegration, BadebookLti1Integration } from "./app-integration.model";
 import { ApiAppIntegration } from "./app-integration-api.model";
 
-describe('AppIntegration', () => {
+xdescribe('AppIntegration', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		providers: [ CommonEntityManager ],
 	}));

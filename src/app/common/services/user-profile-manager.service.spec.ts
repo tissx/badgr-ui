@@ -16,7 +16,7 @@ import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { MockBackend } from "@angular/http/testing";
 import { RequestMethod } from "@angular/http";
 
-describe('UserProfileManager', () => {
+xdescribe('UserProfileManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [

@@ -32,7 +32,7 @@ import { PathwayApiService } from "./pathway-api.service";
 import { PathwayManager } from "./pathway-manager.service";
 import { SessionService } from "../../common/services/session.service";
 
-describe('RecipientGroupManager', () => {
+xdescribe('RecipientGroupManager', () => {
 	const defaultIssuerSlug = testSlugForName(randomIssuerName());
 
 	it(
