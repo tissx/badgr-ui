@@ -28,9 +28,9 @@
 	<div class="l-containerxaxis l-containeryaxis">
 		<div class="l-stack l-stack-2x u-margin-bottom2x" *ngIf="isCurrentUserIssuerOwner">
 			<p class="u-text-h3-bold">Staff Members</p>
-			<form [formGroup]="staffCreateForm" (ngSubmit)="submitStaffCreate(staffCreateForm.value)" class="l-flex l-flex-1x">
+			<form [formGroup]="staffCreateForm" (ngSubmit)="submitStaffCreate(staffCreateForm.value)" class="l-stack l-stack-right">
 				<bg-formfield-text [control]="staffCreateForm.controls.staffEmail" [errorMessage]="'Please enter valid email address'"
-				 placeholder="Staff Email" [inlineButtonText]="'Add Member'" class="forminput-withbutton forminput-light1 u-width-formsmall"></bg-formfield-text>
+				 placeholder="Staff Email" [inlineButtonText]="'<span>Add Member</span>'" class="forminput-withbutton forminput-light1 u-width-formsmall"></bg-formfield-text>
 				 <bg-formfield-select [control]="staffCreateForm.controls.staffRole"
 									[options]="issuerStaffRoleOptions"
 									[errorMessage]="'Please select a staff role'"
