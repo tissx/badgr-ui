@@ -73,8 +73,11 @@
 					<dd class="u-text"><time [date]="badge?.issueDate" format="mediumDate"></time></dd>
 			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Awarded to:</dt>
 			    	<dd class="u-text u-break-all">{{ badge.recipientEmail }}</dd>
-			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Expires on:</dt>
-			    	<dd *ngIf="badge.expiresDate && !isExpired" class="u-text"><time [date]="badge?.expiresDate" format="mediumDate"></time></dd>
+			    	<div
+			    		*ngIf="badge.expiresDate && !isExpired">
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Expires on:</dt>
+				    	<dd class="u-text"><time [date]="badge?.expiresDate" format="mediumDate"></time></dd>
+				    </div>
 			    </dl>
 			</div>
 		</div>
@@ -85,22 +88,20 @@
 		<div class="badgedetail-x-body">
 
 			<!-- criteria -->
-			<section>
+			<section
+				*ngIf="badge.badgeClass.criteria_url || badge.badgeClass.criteria_text || badge.badgeClass.criteria">
 				<h3
-					*ngIf="badge.badgeClass.criteria_url || badge.badgeClass.criteria_text || badge.badgeClass.criteria"
 					class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
 				>Criteria</h3>
-
-				<show-more *ngIf="badge.badgeClass.criteria_text">
-					<markdown-display [value]="badge.badgeClass.criteria_text"></markdown-display>
+				<show-more class="u-margin-bottom8x"
+					*ngIf="badge.badgeClass.criteria_text">
+					<markdown-display
+						[value]="badge.badgeClass.criteria_text"></markdown-display>
 				</show-more>
-
-				<div class="u-margin-bottom2x u-margin-top6x">
-					<a
-						*ngIf="badge.criteriaUrl"
-						class="u-text-outlink"
-						[href]="badge.criteriaUrl"
-						target="_blank"
+				<div class="u-margin-yaxis2x"
+					*ngIf="badge.badgeClass.criteria_url">
+					<a class="u-text-outlink" target="_blank"
+						[href]="badge.badgeClass.criteria_url"
 					>View external Criteria URL
 						<svg icon="icon_external_link"></svg>
 					</a>
@@ -137,8 +138,9 @@
 			</section>
 
 			<!-- tags -->
-			<section>
-			<h3 *ngIf="badge.badgeClass.tags" class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Tags</h3>
+			<section
+				*ngIf="badge.badgeClass.tags.length > 0">
+			<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Tags</h3>
 			<div class="l-tags">
 				<div class="tag"
 					*ngFor="let tag of badge.badgeClass.tags; last as last"
