@@ -19,43 +19,11 @@ import { BadgeInstanceManager } from "../../services/badgeinstance-manager.servi
 import { BadgeClassInstances, BadgeInstance } from "../../models/badgeinstance.model";
 import { EventsService } from "../../../common/services/events.service";
 import { AppConfigService } from "../../../common/app-config.service";
+import { LinkEntry } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 @Component({
 	selector: 'badgeclass-edit',
-	template: `
-		<main *bgAwaitPromises="[issuerLoaded]">
-
-			<form-message></form-message>
-
-			<header class="wrap wrap-light l-containerhorizontal l-heading">
-
-				<nav>
-					<h1 class="visuallyhidden">Breadcrumbs</h1>
-					<ul class="breadcrumb">
-						<li><a [routerLink]="['/issuer']">Issuers</a></li>
-						<li><a [routerLink]="['/issuer/issuers/', issuerSlug]">{{issuer.name}}</a></li>
-						<li class="breadcrumb-x-current">Edit Badge Class</li>
-					</ul>
-				</nav>
-
-				<div class="heading">
-					<div class="heading-x-text">
-						<h1>Edit Badge Class</h1>
-						<p>Edit the information about this achievement.</p>
-					</div>
-				</div>
-
-			</header>
-
-			<badgeclass-edit-form (save)="badgeClassSaved($event)"
-			                      (cancel)="editingCanceled($event)"
-			                      [issuerSlug]="issuerSlug"
-			                      [badgeClass]="badgeClass"
-			                      submitText="Save Changes"
-			                      submittingText="Saving..."
-			></badgeclass-edit-form>
-		</main>
-	`,
+	templateUrl: './badgeclass-edit.component.html',
 
 })
 export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
@@ -79,6 +47,15 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 	editBadgeClassFinished: Promise<any>;
 	badgeClassLoaded: Promise<any>;
 	issuerLoaded: Promise<any>;
+
+
+
+	editBadgeCrumbs: LinkEntry[];
+
+	// <li><a [routerLink]="['/issuer']">Issuers</a></li>
+	// <li><a [routerLink]="['/issuer/issuers/', issuerSlug]">{{issuer.name}}</a></li>
+	// <li class="breadcrumb-x-current">Edit Badge Class</li>
+
 
 	@ViewChild("badgeStudio")
 	badgeStudio: BadgeStudioComponent;
@@ -118,7 +95,13 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 		);
 
 		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
-			issuer => this.issuer = issuer,
+			issuer => {
+				this.issuer = issuer;
+				this.editBadgeCrumbs = [{title: "Issuers", routerLink: ['/issuer']},
+										{title: issuer.name, routerLink: ['/issuer/issuers/', this.issuerSlug]},
+										{title: 'Edit Badge Class'}]
+				return issuer;
+			},
 			error => this.messageService.reportLoadingError(`Cannot find issuer ${this.issuerSlug}`, error)
 		);
 	}

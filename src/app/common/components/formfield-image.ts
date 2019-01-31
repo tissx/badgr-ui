@@ -33,9 +33,9 @@ import { throwExpr } from "../util/throw-expr";
 			<div class="dropzone-x-preview" *ngIf="imageDataUrl">
 				<img [src]="imageDataUrl" alt="">
 				<p class="u-text-body">
-					{{imageName}}
-					<span class="u-text-link">Change</span>
+					{{ imageName }}
 				</p>
+				<div class="u-text-link">Change</div>
 			</div>
 
 			<ng-container *ngIf="!imageDataUrl">
