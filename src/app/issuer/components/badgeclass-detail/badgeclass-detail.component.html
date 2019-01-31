@@ -65,11 +65,15 @@
 						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Created on:</dt>
 						<dd class="u-text"><time [date]="badgeClass.createdAt" format="MM/dd/y"></time></dd>
 						-->
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">
-				    		<span *ngIf="!badgeClass.expiresAmount">EXPIRED</span>
-				    		<span *ngIf="badgeClass.expiresAmount">Expires after:</span>
-				    	</dt>
-				    	<dd *ngIf="badgeClass.expiresAmount" class="u-text">{{ badgeClass.expiresAmount }} {{ badgeClass.expiresDuration }}</dd>
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3"
+				    		*ngIf="badgeClass.expiresAmount"
+				    		>Expires after:</dt>
+				    	<dd class="u-text"
+				    		*ngIf="badgeClass.expiresAmount > 1"
+			    		>{{ badgeClass.expiresAmount }} {{ badgeClass.expiresDuration }}</dd>
+				    	<dd class="u-text"
+				    		*ngIf="badgeClass.expiresAmount == 1"
+			    		>{{ badgeClass.expiresAmount }} {{ badgeClass.expiresDuration.slice(0, -1) }}</dd>
 					</dl>
 				</div>
 			</div>
@@ -80,30 +84,29 @@
 			<div class="badgedetail-x-body">
 
 				<!-- criteria -->
-				<section>
+				<section
+					*ngIf="badgeClass.criteria_url || badgeClass.criteria_text">
 					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
-						*ngIf="badgeClass.criteria_url || badgeClass.criteria_text">
-						Criteria
-					</h3>
-					<show-more *ngIf="badgeClass.criteria_text">
-						<markdown-display [value]="badgeClass.criteria_text"></markdown-display>
-
+					>Criteria</h3>
+					<show-more>
+						<markdown-display
+							*ngIf="badgeClass.criteria_text"
+							[value]="badgeClass.criteria_text">
+						</markdown-display>
+						<div class="u-margin-bottom2x"
+							*ngIf="badgeClass.criteria_url">
+							<a class="u-text-outlink" target="_blank"
+								[href]="badgeClass.criteria_url"
+							>View external Criteria URL
+								<svg icon="icon_external_link"></svg>
+							</a>
+						</div>
 					</show-more>
-					<div class="u-margin-bottom2x u-margin-top6x">
-						<a
-							*ngIf="badgeClass.criteria_url"
-							class="u-text-outlink"
-							[href]="badgeClass.criteria_url"
-							target="_blank"
-						>View external Criteria URL
-							<svg icon="icon_external_link"></svg>
-						</a>
-					</div>
 				</section>
 
 				<!-- alignment -->
 				<section>
-					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+					<h3 class="u-text-h3-semibold u-margin-yaxis2x"
 						*ngIf="badgeClass.alignments && badgeClass?.alignments.length>0"
 						>Alignment</h3>
 
@@ -142,7 +145,8 @@
 				</section>
 
 				<!-- recipients -->
-				<div class="l-stack u-margin-bottom2x u-margin-top4x">
+				<div class="l-stack u-margin-bottom2x u-margin-top4x"
+					*ngIf="instanceResults?.length">
 	                <h2 class="u-text-h3-semibold">({{ recipientCount }}) Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
 	                <div class="forminput">
 	                    <div class="forminput-x-inputs">
@@ -154,9 +158,10 @@
 	                </div>
 	            </div>
 				<p *ngIf="showAssertionCount">{{ instanceResults.length }} awards shown. You may use the Next/Previous buttons below to view more awards or you may search for awards by exact email address/recipient identifier.</p>
-				<ng-template [bgAwaitPromises]="[badgeInstancesLoaded, assertionsLoaded]">
-					<table class="datatable datatable-roundheaders datatable-onlyfirstcolumn"
-						*ngIf="instanceResults?.length">
+				<ng-template
+					[bgAwaitPromises]="[badgeInstancesLoaded, assertionsLoaded]"
+					*ngIf="instanceResults?.length">
+					<table class="datatable datatable-roundheaders datatable-onlyfirstcolumn">
 						<thead class="datatable-x-head">
 							<tr class="datatable-x-header">
 								<th class="datatable-x-cell" scope="col">Email Address</th>
