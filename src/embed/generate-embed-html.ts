@@ -51,7 +51,7 @@ export function generateEmbedHtml(embedOptions) {
         dateP.appendChild(dateStrong);
         dateP.setAttribute("style", "margin: 0; font-size: 12px; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #555555;");
 
-        dateP.innerHTML += " "+options.awardDate;
+        dateP.innerHTML += " " + options.awardDate;
         blockquote.appendChild(dateP);
     }
 
@@ -62,11 +62,11 @@ export function generateEmbedHtml(embedOptions) {
         recipientStrong.setAttribute("style", "font-size: 12px; font-weight: bold; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #000;");
         recipientStrong.innerHTML = "Awarded To:";
         recipientP.appendChild(recipientStrong);
-        recipientP.setAttribute("style", "margin: 0; font-size: 12px; font-weight: 600; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #555555; ");
+        recipientP.setAttribute("style", "margin: 0; font-size: 12px; font-style: normal; font-stretch: normal; line-height: 1.67; letter-spacing: normal; text-align: left; color: #555555;");
 
         const recipientSpan = document.createElement("span");
         recipientSpan.style.display = "block";
-        recipientSpan.innerHTML = options.recipientName;
+        recipientSpan.innerHTML = " " + options.recipientName;
         recipientP.appendChild(recipientSpan);
         blockquote.appendChild(recipientP);
     }
