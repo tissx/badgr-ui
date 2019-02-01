@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { base64ByteSize, loadImageURL, preloadImageURL, readFileAsDataURL } from "../util/file-util";
 import { DomSanitizer } from '@angular/platform-browser';
@@ -19,7 +19,10 @@ import { throwExpr } from "../util/throw-expr";
 	},
 	template: `
 	<div class="forminput u-margin-bottom2x">
-        <label class="forminput-x-label u-margin-bottom1x" for="image_field{{ uniqueIdSuffix }}">{{label}}</label>
+		<div class="forminput-x-labelrow">
+			<label class="forminput-x-label u-margin-bottom1x" for="image_field{{ uniqueIdSuffix }}">{{label}}</label>
+			<a (click)="$event.preventDefault();generateRandomImage.emit()" class="forminput-x-helplink" href="#">Generate Random</a>
+		</div>
 		<input type="file"
 				accept="image/*"
 				name="image_field{{ uniqueIdSuffix }}"
@@ -55,6 +58,8 @@ export class BgFormFieldImageComponent {
 	@Input() set imageLoaderName(name: string) {
 		this.imageLoader = namedImageLoaders[name] || throwExpr(new Error(`Invalid image loader name ${name}`));
 	}
+
+	@Output() generateRandomImage: EventEmitter<any> = new EventEmitter();
 
 	get imageDataUrl() {
 		return this.control.value;

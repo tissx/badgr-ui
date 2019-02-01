@@ -29,14 +29,12 @@
 					label="Image"
 					imageLoaderName="badge"
 					[newDropZone]="true"
+					(generateRandomImage)="generateRandomImage()"
 					class="l-formimageupload-x-upload"
 					[placeholderImage]="badgeClassPlaceholderImageUrl"
 					[control]="badgeClassForm.controls.badge_image">
-					<span label-additions>
-						<span>(<button type="button" (click)="generateRandomImage()">generate random<span class="visuallyhidden"> badge image</span></button>)</span>
-					</span>
 				</bg-formfield-image>
-
+				<badge-studio #badgeStudio [hidden]="true"></badge-studio>
 			</div>
 
 			<div class="forminput u-margin-bottom2x">
@@ -155,7 +153,10 @@
 				Alignment
 				<span>(Optional)</span>
 			</h2>
-			<button class="buttonicon buttonicon-clean">
+			<button
+				type="button"
+				(click)="disableAlignments()"
+				class="buttonicon buttonicon-clean">
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
 			</button>
@@ -172,59 +173,60 @@
 		<div class="formsection-x-body">
 
 			<ng-template ngFor let-alignment [ngForOf]="alignments.controls" let-i="index" let-last="last">
-			<div class="l-flex l-flex-1x l-flex-justifybetween u-margin-bottom2x">
-				<h3 class="u-text-body-bold u-text-dark1">{{ alignment.controls.target_name.value }}</h3>
-				<button
-					(click)="disableAlignments()"
-					class="u-text-link">Remove</button>
-			</div>
-			<div class="forminput u-margin-bottom6x">
-				<div class="forminput-x-inputs">
-
-					<bg-formfield-text
-						[control]="alignment.controls.target_name"
-						label="Name"
-						[errorMessage]="{required:'Please enter an alignment name'}"
-						id="alignment_name_{{ i }}"
-					></bg-formfield-text>
-
-					<bg-formfield-text
-						[control]="alignment.controls.target_url"
-						label="URL"
-						[errorMessage]="{required:'Please enter an alignment URL'}"
-						[urlField]="true"
-						id="alignment_url_{{ i }}"
-					></bg-formfield-text>
-
-					<bg-formfield-text
-						[control]="alignment.controls.target_description"
-						label="Short Description"
-						[multiline]="true"
-						id="alignment_description_{{ i }}"
-					></bg-formfield-text>
-
+				<div class="l-flex l-flex-1x l-flex-justifybetween u-margin-bottom2x">
+					<h3 class="u-text-body-bold u-text-dark1">{{ alignment.controls.target_name.value }}</h3>
 					<button
-						*ngIf="!showAdvanced[i]"
-						(click)="showAdvanced[i] = true"
 						type="button"
-						class="u-text-link-small u-margin-yaxis2x">Show Advanced Options</button>
+						(click)="removeAlignment(alignment)"
+						class="u-text-link">Remove</button>
+				</div>
+				<div class="forminput u-margin-bottom6x">
+					<div class="forminput-x-inputs">
 
-					<ng-template [ngIf]="showAdvanced[i]">
+						<bg-formfield-text
+							[control]="alignment.controls.target_name"
+							label="Name"
+							[errorMessage]="{required:'Please enter an alignment name'}"
+							id="alignment_name_{{ i }}"
+						></bg-formfield-text>
+
+						<bg-formfield-text
+							[control]="alignment.controls.target_url"
+							label="URL"
+							[errorMessage]="{required:'Please enter an alignment URL'}"
+							[urlField]="true"
+							id="alignment_url_{{ i }}"
+						></bg-formfield-text>
+
+						<bg-formfield-text
+							[control]="alignment.controls.target_description"
+							label="Short Description"
+							[multiline]="true"
+							id="alignment_description_{{ i }}"
+						></bg-formfield-text>
+
 						<button
-							(click)="showAdvanced[i] = false"
+							*ngIf="!showAdvanced[i]"
+							(click)="showAdvanced[i] = true"
 							type="button"
-							class="u-text-link-small u-margin-yaxis2x">Hide Advanced Options</button>
+							class="u-text-link-small u-margin-yaxis2x">Show Advanced Options</button>
 
-						<label class="forminput-x-label u-margin-top2x" for="forminput2">Framework</label>
-						<input type="text" id="forminput2" name="forminput2">
+						<ng-template [ngIf]="showAdvanced[i]">
+							<button
+								(click)="showAdvanced[i] = false"
+								type="button"
+								class="u-text-link-small u-margin-yaxis2x">Hide Advanced Options</button>
 
-						<label class="forminput-x-label u-margin-top2x" for="url">Code</label>
-						<input type="text" id="url" name="url">
-					</ng-template>
+							<label class="forminput-x-label u-margin-top2x" for="forminput2">Framework</label>
+							<input type="text" id="forminput2" name="forminput2">
+
+							<label class="forminput-x-label u-margin-top2x" for="url">Code</label>
+							<input type="text" id="url" name="url">
+						</ng-template>
+
+					</div>
 
 				</div>
-
-			</div>
 			</ng-template>
 
 			<div class="l-stack">
@@ -324,7 +326,7 @@
 			<div class="l-spacestack">
 				<bg-formfield-text
 					[control]="expirationForm.controls.expires_amount"
- 					label="Number"></bg-formfield-text>
+					label="Number"></bg-formfield-text>
 				<bg-formfield-select
 					ariaLabel="Select Duration"
 					[control]="expirationForm.controls.expires_duration"
@@ -348,10 +350,14 @@
 						<p class="u-text-body-semibold u-text-dark1">Alignment</p>
 					</div>
 					<button
+						type="button"
 						(click)="enableAlignments()"
 						*ngIf="!alignmentsEnabled"
 						class="u-text-link-small">Add</button>
-					<button *ngIf="alignmentsEnabled" class="u-text-link-small u-text-light4">Added</button>
+					<button
+						type="button"
+						*ngIf="alignmentsEnabled"
+						class="u-text-link-small u-text-light4">Added</button>
 				</li>
 				<li class="l-flex l-flex-justifybetween l-flex-aligncenter border border-top border-light3 u-padding-yaxis2x">
 					<div class="l-flex l-flex-2x">
@@ -359,10 +365,14 @@
 						<p class="u-text-body-semibold u-text-dark1">Tags</p>
 					</div>
 					<button
+						type="button"
 						(click)="enableTags()"
 						*ngIf="!tagsEnabled"
 						class="u-text-link-small">Add</button>
-					<button *ngIf="tagsEnabled" class="u-text-link-small u-text-light4">Added</button>
+					<button
+						type="button"
+						*ngIf="tagsEnabled"
+						class="u-text-link-small u-text-light4">Added</button>
 				</li>
 				<li class="l-flex l-flex-justifybetween l-flex-aligncenter border border-top border-light3 u-padding-yaxis2x">
 					<div class="l-flex l-flex-2x">
@@ -370,10 +380,14 @@
 						<p class="u-text-body-semibold u-text-dark1">Expiration</p>
 					</div>
 					<button
+						type="button"
 						(click)="enableExpiration()"
 						*ngIf="!expirationEnabled"
 						class="u-text-link-small">Add</button>
-					<button *ngIf="expirationEnabled" class="u-text-link-small u-text-light4">Added</button>
+					<button
+						type="button"
+						*ngIf="expirationEnabled"
+						class="u-text-link-small u-text-light4">Added</button>
 				</li>
 			</ul>
 		</div>
@@ -381,6 +395,7 @@
 
 	<div class="l-stack l-stack-right u-margin-top3x">
 		<button
+			type="button"
 			[disabled-when-requesting]="true"
 			(click)="cancelClicked()"
 			class="button button-secondary">Cancel</button>
