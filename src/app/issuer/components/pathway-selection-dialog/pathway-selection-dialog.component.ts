@@ -1,11 +1,11 @@
-import {Component, ElementRef, Renderer2} from "@angular/core";
+import { Component, ElementRef, Renderer2 } from "@angular/core";
 
 
-import {MessageService} from "../../../common/services/message.service";
-import {IssuerPathways, LearningPathway} from "../../models/pathway.model";
-import {PathwayManager} from "../../services/pathway-manager.service";
-import {StringMatchingUtil} from "../../../common/util/string-matching-util";
-import {BaseDialog} from "../../../common/dialogs/base-dialog";
+import { MessageService } from "../../../common/services/message.service";
+import { IssuerPathways, LearningPathway } from "../../models/pathway.model";
+import { PathwayManager } from "../../services/pathway-manager.service";
+import { StringMatchingUtil } from "../../../common/util/string-matching-util";
+import { BaseDialog } from "../../../common/dialogs/base-dialog";
 
 
 export interface PathwaySelectionDialogOptions {
@@ -26,7 +26,7 @@ type PathwaySortBy = "name" | "newest-first" | "oldest-first";
 		<dialog class="dialog dialog-large">
 
 		<section class="l-overflowlist">
-	
+
 			<!-- Header and Search Area -->
 			<header class="l-childrenvertical l-childrenvertical-is-smalldesktop bordered bordered-bottom">
 				<h1 class="title">{{ dialogTitle }}</h1>
@@ -36,10 +36,10 @@ type PathwaySortBy = "name" | "newest-first" | "oldest-first";
 				       [(ngModel)]="searchQuery"
 				/>
 			</header>
-	
+
 			<!-- Pathway List -->
 			<div class="l-overflowlist-x-list">
-	
+
 					<table class="table table-dialog" [class.table-aligntop]="pathwayResults.length > 0">
 						<thead>
 							<tr>
@@ -84,48 +84,54 @@ type PathwaySortBy = "name" | "newest-first" | "oldest-first";
 							</tr>
 						</tbody>
 					</table>
-	
+
 			</div>
-	
+
 			<!-- Selected Pathways and Buttons -->
 			<footer class="bordered bordered-top">
-	
+
 				<section class="l-overflowlist-x-selected"
 				         *ngIf="multiSelectMode"
 				>
 					<h1 class="title title-small-3x">Selected Pathways</h1>
 					<div>
-	
+
 						<div class="selecteditem"
 						     *ngFor="let selectedPathway of selectedPathways"
 						>
 							<span>{{ selectedPathway.name }}</span>
 							<button (click)="updatePathwaySelection(selectedPathway, false)">Unselect Pathway</button>
 						</div>
-	
+
 						<p class="small"
 							 *ngIf="selectedPathways.size == 0">
 							No Selected Pathways
 						</p>
-	
+
 					</div>
 				</section>
-	
+
 				<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
 					<button class="button button-primaryghost" (click)="cancelDialog()">Cancel</button>
 					<button class="button" (click)="saveDialog()">Save Changes</button>
 				</div>
-	
+
 			</footer>
-	
+
 		</section>
-	
+
 	</dialog>
 
 	`,
 
 })
 export class PathwaySelectionDialog extends BaseDialog {
+	get searchQuery() { return this._searchQuery; }
+
+	set searchQuery(query) {
+		this._searchQuery = query;
+		this.updateResults();
+	}
 	dialogId: string = "pathwayDialog";
 	dialogTitle: string = "Select Pathways";
 
@@ -133,7 +139,6 @@ export class PathwaySelectionDialog extends BaseDialog {
 	issuerSlug: string = null;
 
 	selectedPathways = new Set<LearningPathway>();
-	private resolveFunc: { (pathways: LearningPathway[]): void };
 
 	maxDisplayedResults = 100;
 	pathwayResults: LearningPathway[] = [];
@@ -141,14 +146,9 @@ export class PathwaySelectionDialog extends BaseDialog {
 	allPathways: LearningPathway[];
 
 	hasMultipleIssuers: boolean = true;
+	private resolveFunc: { (pathways: LearningPathway[]): void };
 
 	private _searchQuery: string = "";
-	get searchQuery() { return this._searchQuery; }
-
-	set searchQuery(query) {
-		this._searchQuery = query;
-		this.updateResults();
-	}
 
 	private loadedData = false;
 
