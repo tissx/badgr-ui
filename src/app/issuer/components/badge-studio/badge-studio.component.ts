@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import "font-awesome/css/font-awesome.css";
+// import "font-awesome/css/font-awesome.css";
 import * as FontFaceObserver from "fontfaceobserver";
 import { canvasVisualCenter } from "../../../common/util/visual-center";
 import { HttpClient } from "@angular/common/http";
@@ -12,7 +12,11 @@ import { HttpClient } from "@angular/common/http";
 	host: {},
 	template: `
 		<canvas #canvas width="400" height="400"></canvas>
-	`
+	`,
+	styleUrls: [
+		'../../../../../node_modules/font-awesome/css/font-awesome.css'
+	]
+
 })
 export class BadgeStudioComponent implements OnInit {
 
