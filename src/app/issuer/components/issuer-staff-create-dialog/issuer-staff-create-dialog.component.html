@@ -1,0 +1,38 @@
+<dialog class="dialog dialog-is-active dialog l-dialog">
+	<div class="dialog-x-box o-container">
+		<div class="u-padding-all3x">
+
+			<div class="l-flex l-flex-justifybetween u-margin-bottom2x">
+				<h2 class="u-text-body-bold-caps text-dark1">
+					Add Staff
+				</h2>
+			</div>
+
+			<form
+				[formGroup]="staffCreateForm"
+				(ngSubmit)="submitStaffCreate(staffCreateForm.value)">
+				<bg-formfield-text
+					[control]="staffCreateForm.controls.staffEmail"
+					[errorMessage]="'Please enter valid email address'"
+					placeholder="Staff Email"
+					class="forminput-light1 u-width-formsmall"></bg-formfield-text>
+				<br>
+				<bg-formfield-select
+					[control]="staffCreateForm.controls.staffRole"
+					[options]="issuerStaffRoleOptions"
+					[errorMessage]="'Please select a staff role'"
+				></bg-formfield-select>
+
+				<div class="l-stack l-stack-buttons u-margin-top3x">
+					<button
+						class="button">Add Staff</button>
+					<button
+						class="button button-secondary"
+						type="button"
+						(click)="closeModal()">Cancel</button>
+				</div>
+
+			</form>
+		</div>
+	</div>
+</dialog>
