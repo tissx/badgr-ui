@@ -29,7 +29,7 @@
 					<button
 						class="button button-secondary"
 						type="button"
-						(click)="closeModal()">Cancel</button>
+						(click)="$event.preventDefault();closeModal();">Cancel</button>
 				</div>
 
 			</form>
