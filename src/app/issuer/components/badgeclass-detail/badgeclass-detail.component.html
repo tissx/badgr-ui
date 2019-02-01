@@ -18,13 +18,13 @@
 				        <span class="visuallyhidden">More</span>
 				    </button>
 					<bg-popup-menu #moreMenu>
+						<button class="menuitem" type="button"
+					    	[routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'edit']"
+				        ><svg icon="icon_edit"></svg>Edit</button>
 						<button class="menuitem"
 						(click)="deleteBadge()"
 						[disabled-when-requesting]="true"
-						>Delete Badge</button>
-						<button class="menuitem" type="button"
-					    	[routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'edit']"
-				        >Edit</button>
+						><svg icon="icon_remove"></svg>Delete</button>
 				        <!--
 				        	TODO: Add 'share' action
 				        -->
@@ -185,10 +185,10 @@
 											<bg-popup-menu #mobileTableMoreMenu>
 												<button type="button" class="menuitem"
 													(click)="shareInstance(instance)"
-												>Share</button>
+												><svg icon="icon_share"></svg>Share</button>
 												<button type="button" class="menuitem"
 													(click)="revokeInstance(instance)"
-												>Revoke</button>
+												><svg icon="icon_remove"></svg>Revoke</button>
 												<ng-container *ngIf="launchpoints">
 													<button class="menuitem" type="button"
 											  			*ngFor="let lp of launchpoints"
@@ -213,10 +213,10 @@
 										<bg-popup-menu #tableMoreMenu>
 											<button type="button" class="menuitem"
 												(click)="shareInstance(instance)"
-											>Share</button>
+											><svg icon="icon_share"></svg>Share</button>
 											<button type="button" class="menuitem"
 												(click)="revokeInstance(instance)"
-											>Revoke</button>
+											><svg icon="icon_remove"></svg>Revoke</button>
 											<ng-container *ngIf="launchpoints">
 												<button class="menuitem" type="button"
 										  			*ngFor="let lp of launchpoints"

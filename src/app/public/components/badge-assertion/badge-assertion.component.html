@@ -44,16 +44,16 @@
 					<bg-popup-menu #moreMenu>
 						<a class="menuitem"
 							[href]="v2JsonUrl"
-						>Download Badge JSON v2.0</a>
+						><svg icon="icon_external_link"></svg>Download JSON</a>
 						<a class="menuitem"
 							[href]="v2BakedUrl"
 							download=true
 							target="_blank"
-						>Download Badge Baked Image v2.0</a>
+						><svg icon="icon_external_link"></svg>Download Baked Image</a>
 						<a class="menuitem"
 							*ngIf="assertion.sourceUrl"
 							[href]="assertion.sourceUrl"
-						>View Original</a>
+						><svg icon="icon_external_link"></svg>View Original</a>
 					</bg-popup-menu>
 				</div>
 			</div>

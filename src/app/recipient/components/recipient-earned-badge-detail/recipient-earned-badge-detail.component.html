@@ -19,24 +19,18 @@
 				<bg-popup-menu #moreMenu>
 					<a class="menuitem"
 						[href]="verifyUrl"
-						>Verify Badge</a>
+						><svg icon="icon_checkmark"></svg>Verify</a>
 					<!--<a class="menuitem"
-						[href]="v1JsonUrl"
-						>Download Badge JSON v1.1</a>
-					<a class="menuitem"
 						[href]="v2JsonUrl"
-						>Download Badge JSON v2.0</a>
-					<a class="menuitem"
-						[href]="v1BakedUrl"
-						>Download Badge Baked Image v1.1</a>
+						>Download JSON</a>
 					<a class="menuitem"
 						[href]="v2BakedUrl"
-						>Download Badge Baked Image v2.0</a>
+						>Download Baked Image</a>
 					-->
 					<button class="menuitem"
 						 (click)="deleteBadge(badge)"
 						 [disabled-when-requesting]="true"
-						>Delete Badge</button>
+						><svg icon="icon_remove"></svg>Delete</button>
 					<ng-container *ngIf="launchpoints">
 						<a class="menuitem" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" (click)="clickLaunchpoint(lp)">
 							{{lp.label}}
