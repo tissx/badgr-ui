@@ -31,14 +31,14 @@ import { throwExpr } from "../util/throw-expr";
 				class="visuallyhidden"
 		/>
 
-		<label class="dropzone" [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" tabindex="0">
+		<label class="dropzone" #imageLabel [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" tabindex="0">
 
 			<div class="dropzone-x-preview" *ngIf="imageDataUrl">
 				<img [src]="imageDataUrl" alt="">
 				<p class="u-text-body">
 					{{ imageName }}
+					<button (click)="imageLabel.click()" type="button" class="u-text-link">Change Image</button>
 				</p>
-				<div class="u-text-link">Change</div>
 			</div>
 
 			<ng-container *ngIf="!imageDataUrl">
@@ -59,8 +59,6 @@ export class BgFormFieldImageComponent {
 		this.imageLoader = namedImageLoaders[name] || throwExpr(new Error(`Invalid image loader name ${name}`));
 	}
 
-	@Output() generateRandomImage: EventEmitter<any> = new EventEmitter();
-
 	get imageDataUrl() {
 		return this.control.value;
 	}
@@ -78,6 +76,8 @@ export class BgFormFieldImageComponent {
 	}
 
 	static uniqueNameCounter = 0;
+
+	@Output() generateRandomImage: EventEmitter<any> = new EventEmitter();
 	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
 	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
 
