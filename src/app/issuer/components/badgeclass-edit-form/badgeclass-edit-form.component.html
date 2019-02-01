@@ -30,6 +30,7 @@
 					label="Image"
 					imageLoaderName="badge"
 					[newDropZone]="true"
+					[generateRandom]="true"
 					(generateRandomImage)="generateRandomImage()"
 					class="l-formimageupload-x-upload"
 					[placeholderImage]="badgeClassPlaceholderImageUrl"
@@ -121,7 +122,7 @@
 					<div class="mdeditor-x-editor">
 						<p
 							[hidden]="!alignmentFieldDirty || !badgeClassForm.hasError('criteriaRequired')"
-							class="text text-is-error">Either text or URL is required.</p>
+							class="u-text u-margin-bottom2x u-text-error">Either text or URL is required.</p>
 
 						<bg-formfield-markdown
 							[control]="badgeClassForm.controls.badge_criteria_text"

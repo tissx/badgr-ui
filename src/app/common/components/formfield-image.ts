@@ -21,7 +21,11 @@ import { throwExpr } from "../util/throw-expr";
 	<div class="forminput u-margin-bottom2x">
 		<div class="forminput-x-labelrow">
 			<label class="forminput-x-label u-margin-bottom1x" for="image_field{{ uniqueIdSuffix }}">{{label}}</label>
-			<a (click)="$event.preventDefault();generateRandomImage.emit()" class="forminput-x-helplink" href="#">Generate Random</a>
+			<a
+				*ngIf="generateRandom"
+				(click)="$event.preventDefault();generateRandomImage.emit()"
+				class="forminput-x-helplink"
+				href="#">Generate Random</a>
 		</div>
 		<input type="file"
 				accept="image/*"
@@ -58,7 +62,7 @@ export class BgFormFieldImageComponent {
 	@Input() set imageLoaderName(name: string) {
 		this.imageLoader = namedImageLoaders[name] || throwExpr(new Error(`Invalid image loader name ${name}`));
 	}
-
+	@Input() generateRandom = false;
 	get imageDataUrl() {
 		return this.control.value;
 	}
