@@ -233,8 +233,15 @@
 			<div class="l-tags">
 				<div
 					*ngFor="let tag of tags"
-					(click)="removeTag(tag)"
-					class="tag">{{ tag }}</div>
+					class="tag tag-withclose">
+					{{ tag }}
+					<button class="buttonicon buttonicon-link">
+						<svg
+							icon="icon_close"
+						 	(click)="removeTag(tag)"></svg>
+						<span class="visuallyhidden">Remove</span>
+					</button>
+				</div>
 			</div>
 
 			<div class="forminput forminput-withbutton forminput-light1 u-width-formsmall u-margin-top3x">
@@ -246,6 +253,7 @@
 						(keypress)="handleTagInputKeyPress($event)"
 						#newTagInput
 						type="text"
+						maxlength="50"
 						placeholder="New Tag...">
 					<div class="forminput-x-button">
 						<button
