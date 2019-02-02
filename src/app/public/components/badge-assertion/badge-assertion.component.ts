@@ -26,7 +26,7 @@ export class PublicBadgeAssertionComponent {
 
 	assertionIdParam: LoadedRouteParam<PublicApiBadgeAssertionWithBadgeClass>;
 	assertionId: string;
-
+	awardedToDisplayName: string;
 	routerLinkForUrl = routerLinkForUrl;
 
 	constructor(
@@ -54,6 +54,9 @@ export class PublicBadgeAssertionComponent {
 						}
 					} else if (this.showDownload) {
 						this.openSaveDialog(assertion);
+					}
+					if (assertion["extensions:recipientProfile"] && assertion["extensions:recipientProfile"].name) {
+						this.awardedToDisplayName = assertion["extensions:recipientProfile"].name;
 					}
 					return assertion;
 				})

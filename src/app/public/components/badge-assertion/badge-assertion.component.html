@@ -21,7 +21,6 @@
 			<div class="badgedetail-x-header">
 				<!-- Badge Name -->
 				<h1>
-					<!--<a [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">{{ badgeClass.name }}</a>-->
 					{{ badgeClass.name }}
 				</h1>
 
@@ -54,6 +53,9 @@
 							*ngIf="assertion.sourceUrl"
 							[href]="assertion.sourceUrl"
 						><svg icon="icon_external_link"></svg>View Original</a>
+						<a class="menuitem"
+							[routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">
+							<svg icon="icon_badge"></svg>View Badge Class</a>
 					</bg-popup-menu>
 				</div>
 			</div>
@@ -88,8 +90,8 @@
 						</div>
 						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Created on:</dt>
 						<dd class="u-text"><time [date]="assertion.issuedOn" format="mediumDate"></time></dd>
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Awarded to:</dt>
-				    	<dd class="u-text u-break-all">{{ assertion.badge.recipientId }}</dd>
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3" *ngIf="awardedToDisplayName">Awarded to:</dt>
+				    	<dd class="u-text u-break-all">{{ awardedToDisplayName }}</dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3"
 				    		*ngIf="assertion.expires">
 				    		<span *ngIf="assertion.expires && isExpired">EXPIRED</span>
@@ -105,22 +107,6 @@
 				<h2 class="u-text-h3-semibold u-margin-bottom2x u-hidden-mintablet">Description</h2>
 				<p class="u-text-body u-width-paragraph">{{ assertion.badge.description }}</p>
 			</div>
-
-			
-
-			<!--
-			<pre style="background:deepskyblue; color:white; font-weight:bold; padding:1rem;">
-				{{ assertion | json }}
-			</pre>
-
-			<pre style="background:tomato; color:white; font-weight:bold; padding:1rem;">
-				{{ assertion.extensions | json }}
-			</pre>
-			-->
-			
-
-			
-
 			<div class="badgedetail-x-body">
 
 				<!-- criteria -->
@@ -129,10 +115,6 @@
 						*ngIf="badgeClass.criteria.id || badgeClass.criteria.narrative || badgeClass.criteria"
 						class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
 					>Criteria</h3>
-					<show-more
-						*ngIf="badgeClass.criteria.narrative">
-						<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
-					</show-more>
 					<div class="u-margin-bottom2x"
 						*ngIf="badgeClass.criteria.id">
 						<a class="u-text-outlink" target="_blank"
