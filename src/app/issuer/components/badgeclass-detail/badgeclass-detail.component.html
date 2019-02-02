@@ -28,13 +28,6 @@
 				        <!--
 				        	TODO: Add 'share' action
 				        -->
-						<!--
-						<a class="menuitem"
-							*ngIf="badgeClass.criteria_url"
-							[href]="badgeClass.criteria_url"
-							target="_blank"
-						>View external Criteria</a>
-						-->
 					</bg-popup-menu>
 				</div>
 			</div>
@@ -61,10 +54,8 @@
 	            				</dd>
 							</div>
 						</div>
-						<!--
 						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Created on:</dt>
 						<dd class="u-text"><time [date]="badgeClass.createdAt" format="MM/dd/y"></time></dd>
-						-->
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3"
 				    		*ngIf="badgeClass.expiresAmount"
 				    		>Expires after:</dt>
