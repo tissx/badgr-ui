@@ -25,7 +25,7 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			</label>
 			<ng-content class="forminput-x-helplink" select="[label-additions]"></ng-content>
 		</div>
-		<p class="forminput-x-sublabel" *ngIf="sublabel"><span *ngIf="remainingCharactersNum > 0">{{ remainingCharactersNum }}</span>{{ sublabel }}</p>
+		<p class="forminput-x-sublabel" *ngIf="sublabel"><span *ngIf="remainingCharactersNum >= 0">{{ remainingCharactersNum }}</span>{{ sublabel }}</p>
 
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 		<div class="forminput-x-inputs">

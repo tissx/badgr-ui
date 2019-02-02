@@ -6,44 +6,7 @@ import { RecipientBadgeCollection } from "../../models/recipient-badge-collectio
 
 @Component({
 	selector: 'recipient-badge-collection-edit-form',
-	template: `
-		<div *ngIf="isEditing">
-			<form class="l-form l-form-image"
-			      [formGroup]="badgeCollectionForm"
-			      (ngSubmit)="submitForm(badgeCollectionForm.value)"
-			      novalidate>
-				<fieldset>
-					<bg-formfield-text [control]="badgeCollectionForm.controls.collectionName"
-					                   [label]="'Name'"
-					                   [errorMessage]="{required: 'Please enter a collection name'}"
-					                   [autofocus]="true">
-                       <span label-additions>Max 128 characters</span>
-					</bg-formfield-text>
-
-					<bg-formfield-text [control]="badgeCollectionForm.controls.collectionDescription"
-									   [label]="'Description'"
-									   class="u-margin-top3x"
-					                   [errorMessage]="{required: 'Please enter a description'}"
-					                   [multiline]="true"
-					><span label-additions>Max 255 characters</span></bg-formfield-text>
-
-					<div class="l-flex l-flex-2x u-margin-top2x">
-						<a class="button button-secondary"
-						   [disabled-when-requesting]="true"
-						   (click)="cancelEditing()"
-						>Cancel</a>
-						<button type="submit"
-						        class="button"
-						        [disabled]="!! savePromise"
-						        (click)="validateForm($event)"
-						        [loading-promises]="[ savePromise ]"
-						        loading-message="Saving"
-						>Save</button>
-					</div>
-				</fieldset>
-			</form>
-			</div>
-		`
+	templateUrl: './recipient-badge-collection-edit-form.component.html'
 })
 export class RecipientBadgeCollectionEditFormComponent {
 	@Input() badgeCollection: RecipientBadgeCollection;
