@@ -5,36 +5,35 @@
 		<div class="l-containerxaxis topbar-x-wrap">
 			<h2 class="topbar-x-heading">
 				Backpack
-				<span class="topbar-x-internalheading" *ngIf="!! allBadges">
-				{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}
-			</span>
+				<span class="topbar-x-internalheading"
+					*ngIf="!! allBadges"
+				>{{ allBadges.length }} {{ allBadges.length == 1 ? "Badge" : "Badges" }}</span>
 			</h2>
-			<button class="button topbar-x-button" (click)="addBadge()" [disabled-when-requesting]="true">
-				Add Badge
-			</button>
+			<button class="button topbar-x-button"
+				(click)="addBadge()"
+				[disabled-when-requesting]="true"
+			>Add Badge</button>
 		</div>
 	</div>
 
 	<ng-template [bgAwaitPromises]="[ badgesLoaded ]">
 
 		<!-- No badges, empty state! -->
-		<div class="l-containerxaxis l-containeryaxis" *ngIf="allBadges.length == 0">
-			<h2 class="u-text-h3-bold u-text-center u-margin-bottom1x">
-				You have no badges
-			</h2>
-			<p class="u-text-body u-text-center u-margin-bottom3x">
-				Collect and share digital badges you've earned from {{configService.theme['serviceName'] || "Badgr"}} or any
-				Open Badges issuer.
-				<a href="https://openbadges.org/" class="u-text-outlink">Learn more
-					<svg icon="icon_external_link"></svg>
-				</a> about Open Badges.
-			</p>
-			<div class="l-flex l-flex-justifycenter">
-				<img class="u-width-mediumimage u-display-block"
-				     [src]="noBadgesImageUrl"
-				     alt="Illustration of backpack with badges">
+		<section class="emptysection" *ngIf="allBadges.length == 0">
+			<h2 class="emptysection-x-headline">
+				You have no badges</h2>
+			<p class="emptysection-x-copy">
+				But wait! You can earn a badge in less than 5 min. Promise.</p>
+			<div class="emptysection-x-buttons">
+				<button class="button button-secondary">
+					Earn a Badge</button>
 			</div>
-		</div>
+			<div class="emptysection-x-imagecontainer">
+				<img class="emptysection-x-image"
+					[src]="noBadgesImageUrl"
+					alt="Illustration of backpack with badges">
+			</div>
+		</section>
 
 		<!-- Badge Search, group and grid/list toggle -->
 		<div class="l-containerxaxis l-containeryaxis" *ngIf="allBadges.length > 0">
@@ -47,26 +46,24 @@
 				</div>
 				<div class="l-actionbar-x-groupby">
 					<label class="checkbox checkbox-small">
-						<input name="groupby" type="checkbox" [(ngModel)]="groupByIssuer">
-						<span class="checkbox-x-text">
-								Group by Issuer
-							</span>
+						<input name="groupby" type="checkbox"
+							[(ngModel)]="groupByIssuer">
+						<span class="checkbox-x-text"
+						>Group by Issuer</span>
 					</label>
 				</div>
-				<div class="viewtoggle l-actionbar-x-viewtoggle" [class.viewtoggle-is-listview]="badgesDisplay=='list'">
+				<div class="viewtoggle l-actionbar-x-viewtoggle"
+					[class.viewtoggle-is-listview]="badgesDisplay=='list'">
 					<label class="viewtoggle-x-grid">
 						<span class="visuallyhidden">grid</span>
-						<input type="radio"
-						       name="radiobutton"
-						       id="radiobutton1"
-						       [(ngModel)]="badgesDisplay"
-						       checked="checked"
-						       value="grid">
+						<input checked="checked" name="radiobutton" id="radiobutton1" type="radio" value="grid"
+							[(ngModel)]="badgesDisplay">
 						<svg icon="icon_grid"></svg>
 					</label>
 					<label class="viewtoggle-x-list">
 						<span class="visuallyhidden">list</span>
-						<input type="radio" name="radiobutton" id="radiobutton2" [(ngModel)]="badgesDisplay" value="list">
+						<input type="radio" name="radiobutton" id="radiobutton2" value="list"
+							[(ngModel)]="badgesDisplay">
 						<svg icon="icon_list"></svg>
 					</label>
 				</div>
@@ -78,36 +75,36 @@
 				<ng-template [ngIf]="! groupByIssuer">
 					<div class="l-grid l-grid-large">
 						<!-- TODO: Fix the badgecard link for sharing and routing -->
-						<bg-badgecard *ngFor="let badgeResult of badgeResults"
-						              [badgeTitle]="badgeResult.badge.badgeClass.name"
-						              [badgeImage]="badgeResult.badge.image"
-						              [badgeDescription]="badgeResult.badge.badgeClass.description"
-						              [badgeIssueDate]="badgeResult?.badge?.issueDate"
-						              [mostRelevantStatus]="badgeResult.badge.mostRelevantStatus"
-						              [issuerTitle]="badgeResult.badge.badgeClass.issuer.name"
-									  [badgeSlug]="badgeResult.badge.slug"
-									  (shareClicked)="shareBadge(badgeResult.badge)"
-						>
-						</bg-badgecard>
+						<bg-badgecard
+							*ngFor="let badgeResult of badgeResults"
+							[badgeTitle]="badgeResult.badge.badgeClass.name"
+							[badgeImage]="badgeResult.badge.image"
+							[badgeDescription]="badgeResult.badge.badgeClass.description"
+							[badgeIssueDate]="badgeResult?.badge?.issueDate"
+							[mostRelevantStatus]="badgeResult.badge.mostRelevantStatus"
+							[issuerTitle]="badgeResult.badge.badgeClass.issuer.name"
+							[badgeSlug]="badgeResult.badge.slug"
+							(shareClicked)="shareBadge(badgeResult.badge)"
+						></bg-badgecard>
 					</div>
 				</ng-template>
 				<!-- ------------------ GROUP BY ISSUER ------------------  -->
 				<ng-template [ngIf]="groupByIssuer">
 					<div *ngFor="let issuerGroup of issuerResults">
-						<h3 class="u-text-h3-semibold u-margin-yaxis2x u-text-dark1" >{{ issuerGroup.issuer.name }} <span class="u-text-small-semibold-caps u-text-dark4 u-margin-left2x">{{ issuerGroup.badges.length }} {{
+						<h3 class="u-text-h3-semibold u-margin-yaxis2x u-text-dark1">{{ issuerGroup.issuer.name }} <span class="u-text-small-semibold-caps u-text-dark4 u-margin-left2x">{{ issuerGroup.badges.length }} {{
 									issuerGroup.badges.length == 1 ? "Badge" : "Badges" }}</span></h3>
 						<div class="l-grid l-grid-large">
-							<bg-badgecard *ngFor="let badge of issuerGroup.badges"
-							              [badgeTitle]="badge.badgeClass.name"
-							              [badgeImage]="badge.image"
-							              [badgeDescription]="badge.badgeClass.description"
-							              [badgeIssueDate]="badge.issueDate"
-							              [mostRelevantStatus]="badge.mostRelevantStatus"
-							              [issuerTitle]=" badge.badgeClass.issuer.name "
-										  [badgeSlug]="badge.slug"
-										  (shareClicked)="shareBadge(badge)"
-							>
-							</bg-badgecard>
+							<bg-badgecard
+								*ngFor="let badge of issuerGroup.badges"
+								[badgeTitle]="badge.badgeClass.name"
+								[badgeImage]="badge.image"
+								[badgeDescription]="badge.badgeClass.description"
+								[badgeIssueDate]="badge.issueDate"
+								[mostRelevantStatus]="badge.mostRelevantStatus"
+								[issuerTitle]="badge.badgeClass.issuer.name"
+								[badgeSlug]="badge.slug"
+								(shareClicked)="shareBadge(badge)"
+							></bg-badgecard>
 						</div>
 					</div>
 				</ng-template>
@@ -135,25 +132,26 @@
 								<tr class="datatable-x-row">
 									<td class="datatable-x-cell">
 										<div class="l-flex l-flex-2x l-flex-aligncenter">
-											<img [loaded-src]="badge.image"
-											     [loading-src]="badgeLoadingImageUrl"
-											     [error-src]="badgeFailedImageUrl"
-											     width="40"
-											     class="badgeimage badgeimage-{{badge.mostRelevantStatus}} badgeimage-small u-margin-right2x" />
-
-											<a [routerLink]="['../earned-badge', badge.slug]" class="u-text u-text-link">{{ badge.badgeClass.name }}</a>
-											<div *ngIf="badge.mostRelevantStatus"
-											     class="datatable-x-status badgestatus badgestatus-intable badgestatus-{{badge.mostRelevantStatus}}">
-												{{badge.mostRelevantStatus}}
-											</div>
+											<img class="badgeimage badgeimage-{{badge.mostRelevantStatus}} badgeimage-small u-margin-right2x" width="40"
+												[loading-src]="badgeLoadingImageUrl" 
+												[error-src]="badgeFailedImageUrl"
+												[loaded-src]="badge.image" />
+											<a class="u-text u-text-link"
+											[routerLink]="['../earned-badge', badge.slug]"
+											>{{ badge.badgeClass.name }}</a>
+											<div class="datatable-x-status badgestatus badgestatus-intable badgestatus-{{badge.mostRelevantStatus}}"
+												*ngIf="badge.mostRelevantStatus"
+											>{{badge.mostRelevantStatus}}</div>
 										</div>
 									</td>
-									<td class="datatable-x-cell u-text-body">{{ badge.badgeClass.issuer.name }}</td>
-									<td class="datatable-x-cell u-text-body">
-										<time [date]="badge?.issueDate" format="mediumDate"></time>
-									</td>
+									<td class="datatable-x-cell u-text-body"
+									>{{ badge.badgeClass.issuer.name }}</td>
+									<td class="datatable-x-cell u-text-body"
+									><time [date]="badge?.issueDate" format="mediumDate"></time></td>
 									<td class="datatable-x-cell">
-										<button class="u-text-link-small u-text-bold u-margin-leftauto" (click)="shareBadge(badge)">Share</button>
+										<button class="u-text-link-small u-text-bold u-margin-leftauto"
+											(click)="shareBadge(badge)"
+										>Share</button>
 									</td>
 								</tr>
 							</ng-template>
