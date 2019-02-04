@@ -12,7 +12,7 @@ import { BaseDialog } from './base-dialog';
 			<h2 id="markdownHintsDialog" class="u-text-body-bold-caps text-dark1">
 				Supported Markdown
 			</h2>
-			<button class="buttonicon buttonicon-clean" (click)="closeDialog()">
+			<button class="buttonicon buttonicon-link" (click)="closeDialog()">
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
 			</button>

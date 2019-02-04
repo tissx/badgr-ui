@@ -29,7 +29,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 			   (change)="fileInputChanged($event)"
 			   class="visuallyhidden"
 		/>
-		<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()">
+		<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" class="l-flex l-flex-column l-flex-aligncenter">
 		<svg class="dropzone-x-icon" icon="icon_upload"></svg>
 			<div class="dropzone-x-text" *ngIf="! fileErrorMessage">
 				<div *ngIf="! fileProvided && ! fileLoading" class="u-text-link">Drop file or browse.</div>

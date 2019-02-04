@@ -56,7 +56,7 @@ import * as marked from 'marked';
 		</div>
 		<div class="mdeditor-x-help">
 			<div class="l-flex l-flex-1x l-flex-aligncenter">
-				<button class="buttonicon buttonicon-clean" type="button" (click)="openMarkdownHintsDialog()">
+				<button class="buttonicon buttonicon-link" type="button" (click)="openMarkdownHintsDialog()">
 					<svg class="icon l-flex-shrink0" icon="icon_markdown"></svg>
 				</button>
 				<button (click)="openMarkdownHintsDialog()" type="button" class="u-text-link-small u-hidden-maxmobile">Markdown Supported</button>
