@@ -1,5 +1,5 @@
 <dialog class="dialog dialog-is-active dialog-clean l-dialog">
-	<div class="dialog-x-box">
+	<div class="dialog-x-box o-container">
 
 		<!-- Header -->
 		<div class="dialog-x-header u-background-light3">
@@ -14,7 +14,6 @@
 
 		<!-- Tab Navigation Bar -->
 		<nav aria-labelledby="heading-share-options" class="tabbar">
-			<h3 class="visuallyhidden" id="heading-share-options">Share Options</h3>
 			<button
 				[class.tab-is-active]="currentTabId === 'link'"
 				(click)="openTab('link')"
@@ -43,7 +42,7 @@
 		</nav>
 
 		<!-- Link Tab -->
-		<div class="u-padding-all2x" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
+		<div class="u-responsivepadding-yaxis u-responsivepadding-xaxis" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
 
 			<ng-template [ngIf]="options.showRecipientOptions" >
 				<p class="u-text-bold u-margin-bottom3x">Badge Options:</p>
@@ -144,7 +143,7 @@
 		</div>
 
 		<!-- Social Tab -->
-		<div class="u-padding-all2x"
+		<div class="u-padding-yaxis2x u-responsivepadding-xaxis"
 				tabindex="-1"
 				id="sharelinksocial"
 				*ngIf="currentTabId === 'social'"
@@ -192,7 +191,7 @@
 		</div>
 
 		<!-- Embed Tab -->
-		<div class="u-padding-all2x"
+		<div class="u-padding-yaxis2x u-responsivepadding-xaxis"
 				tabindex="-1"
 				id="sharelinkembed"
 				*ngIf="currentTabId === 'embed'"
@@ -274,7 +273,7 @@
 
 			</ng-template>
 
-			<p class="u-text-small-bold u-margin-bottom0p5x u-margin-top5x">Preview</p>
+			<p class="u-text-small-bold u-margin-bottom0p5x u-margin-top2x">Preview</p>
 
 			<iframe src="about:blank"
 							class="previewIframe"

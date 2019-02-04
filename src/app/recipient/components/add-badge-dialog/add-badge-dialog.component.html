@@ -12,7 +12,7 @@
 
 		
 		<form [formGroup]="addRecipientBadgeForm" (ngSubmit)="submitBadgeRecipientForm(addRecipientBadgeForm.value)" >
-			<p class="u-padding-all2x border-light3 u-text-body u-background-light3">Add a badge you’ve already received by utilizing one of the options below.</p>
+			<p class="u-padding-yaxis2x u-responsivepadding-xaxis border-light3 u-text-body u-background-light3">Add a badge you’ve already received by utilizing one of the options below.</p>
 
 
 			<div class="tabbar">
@@ -61,7 +61,7 @@
 			</div>
 
 
-			<div class="u-padding-all3x l-stack l-stack-right">
+			<div class="u-responsivepadding-xaxis u-responsivepadding-yaxis l-stack l-stack-right">
 				<button class="button" type="submit" [loading-promises]="[ badgeUploadPromise ]" loading-message="Adding">
 					Add Badge
 				</button>
