@@ -24,6 +24,7 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 	issuer: Issuer;
 	issuerSlug: string;
 	issuerLoaded: Promise<Issuer>;
+	error: string = null;
 
 	private _issuerStaffRoleOptions: FormFieldSelectOption[];
 	constructor(
@@ -46,7 +47,8 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 	get issuerStaffRoleOptions() {
 		return this._issuerStaffRoleOptions || (this._issuerStaffRoleOptions = issuerStaffRoles.map(r => ({
 			label: r.label,
-			value: r.slug
+			value: r.slug,
+			description: r.description
 		})));
 	}
 
@@ -73,12 +75,13 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 			formData.staffEmail
 		).then(
 			() => {
+				this.error = null;
 				this.messageService.reportMinorSuccess(`Added ${formData.staffEmail} as ${formData.staffRole}`);
 				// this.initStaffCreateForm();
 				this.closeModal();
 			},
-			error => this.messageService.reportHandledError(`Failed to add member: ${BadgrApiFailure.from(error).firstMessage}`)
-		);
+				error => this.error = `Failed to add member: ${BadgrApiFailure.from(error).firstMessage}`
+		)
 	}
 }
 

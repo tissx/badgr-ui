@@ -16,6 +16,7 @@ import { TooltipComponent } from "./components/tooltip.component";
 
 import { FormMessageComponent } from "./components/form-message.component";
 import { FormFieldText } from "./components/formfield-text";
+import { FormFieldRadio } from "./components/formfield-radio";
 import { FormFieldMarkdown } from "./components/formfield-markdown";
 import { FormFieldSelect } from "./components/formfield-select";
 import { LoadingDotsComponent } from "./components/loading-dots.component";
@@ -88,6 +89,7 @@ const COMPONENTS = [
 	FormFieldMarkdown,
 	FormFieldSelect,
 	FormFieldText,
+	FormFieldRadio,
 	FormMessageComponent,
 	LoadingDotsComponent,
 	LoadingErrorComponent,

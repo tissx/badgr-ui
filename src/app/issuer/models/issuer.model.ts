@@ -208,17 +208,20 @@ export const issuerStaffRoles = [
 	{
 		slug: "owner",
 		label: "Owner",
-		indefiniteLabel: "an owner"
+		indefiniteLabel: "an owner",
+		description: "Ability to add and remove staff. Full rights to create, delete, and award badges. Ability to edit issuer details."
 	},
 	{
 		slug: "editor",
 		label: "Editor",
-		indefiniteLabel: "an editor"
+		indefiniteLabel: "an editor",
+		description: "Full rights to create, delete, and award badges. Ability to edit issuer details."
 	},
 	{
 		slug: "staff",
 		label: "Staff Member",
-		indefiniteLabel: "a staff member"
+		indefiniteLabel: "a staff member",
+		description: "Ability to issue badges created by Owners and Editors."
 	},
 ];
 export function issuerRoleInfoFor(slug: IssuerStaffRoleSlug) {
