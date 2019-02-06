@@ -5,6 +5,12 @@
 		<!-- Header and Search Area -->
 		<header class="dialog-x-header">
 			<h1>{{ dialogTitle }}</h1>
+			<button
+				(click)="cancelDialog()"
+				class="buttonicon buttonicon-link">
+				<svg icon="icon_close"></svg>
+				<span class="visuallyhidden">Close</span>
+			</button>
 		</header>
 
 		<!-- Badge List -->

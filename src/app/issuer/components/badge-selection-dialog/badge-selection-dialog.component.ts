@@ -51,6 +51,13 @@ export interface BadgeSelectionDialogSettings {
 							<span class="formcheckbox-x-text">Group by Issuer</span>
 						</label>
 					</div>
+					<button
+						(click)="cancelDialog()"
+						class="buttonicon buttonicon-link">
+						<svg icon="icon_close"></svg>
+						<span class="visuallyhidden">Close</span>
+					</button>
+
 				</header>
 
 				<!-- Badge List -->

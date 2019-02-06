@@ -1,20 +1,20 @@
-import {Component, ElementRef, Renderer2} from "@angular/core";
+import { Component, ElementRef, Renderer2 } from "@angular/core";
 
 
-import {MessageService} from "../../../common/services/message.service";
-import {StringMatchingUtil} from "../../../common/util/string-matching-util";
-import {IssuerRecipientGroups, RecipientGroup, RecipientGroupMember} from "../../models/recipientgroup.model";
-import {RecipientGroupManager} from "../../services/recipientgroup-manager.service";
-import {SettingsService} from "../../../common/services/settings.service";
-import {RecipientGroupMemberUrl, RecipientGroupUrl} from "../../models/recipientgroup-api.model";
-import {flatten} from "../../../common/util/array-reducers";
-import {BaseDialog} from "../../../common/dialogs/base-dialog";
+import { MessageService } from "../../../common/services/message.service";
+import { StringMatchingUtil } from "../../../common/util/string-matching-util";
+import { IssuerRecipientGroups, RecipientGroup, RecipientGroupMember } from "../../models/recipientgroup.model";
+import { RecipientGroupManager } from "../../services/recipientgroup-manager.service";
+import { SettingsService } from "../../../common/services/settings.service";
+import { RecipientGroupMemberUrl, RecipientGroupUrl } from "../../models/recipientgroup-api.model";
+import { flatten } from "../../../common/util/array-reducers";
+import { BaseDialog } from "../../../common/dialogs/base-dialog";
 
 
 export interface RecipientSelectionDialogOptions {
 	dialogId: string;
 	dialogTitle: string;
-	
+
 	issuerSlug: string;
 
 	excludedGroupUrls: RecipientGroupUrl[];
@@ -36,7 +36,7 @@ export interface RecipientSelectionDialogSettings {
 	selector: 'recipient-selection-dialog',
 	template: `
 		<dialog class="dialog dialog-large">
-		
+
 			<section class="l-overflowlist">
 				<!-- Header and Search Area -->
 				<header class="l-childrenvertical l-childrenvertical-is-smalldesktop bordered bordered-bottom">
@@ -49,10 +49,10 @@ export interface RecipientSelectionDialogSettings {
 						/>
 					</div>
 				</header>
-		
+
 				<!-- Recipient List -->
 				<div class="l-overflowlist-x-list">
-		
+
 						<table class="table table-dialog" *bgAwaitPromises="[ recipientsPromise ]">
 							<thead>
 								<tr>
@@ -111,9 +111,9 @@ export interface RecipientSelectionDialogSettings {
 								</tr>
 							</tbody>
 						</table>
-		
+
 				</div>
-		
+
 				<!-- Selected Recipients and Buttons -->
 				<footer class="bordered bordered-top">
 					<section class="l-overflowlist-x-selected"
@@ -121,20 +121,20 @@ export interface RecipientSelectionDialogSettings {
 					>
 						<h1 class="title title-small-3x">Recipient(s) to be imported</h1>
 						<div>
-		
+
 							<div class="selecteditem"
 							     *ngFor="let selectedRecipient of selectedRecipients"
 							>
 								<span>{{ selectedRecipient.memberName }}</span>
 								<button (click)="updateRecipientSelection(selectedRecipient, false)">Unselect Recipient</button>
 							</div>
-		
+
 							<p class="small"
 								 *ngIf="selectedRecipients.size == 0"
 							>
 								No Selected Recipients
 							</p>
-		
+
 						</div>
 					</section>
 					<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
@@ -148,30 +148,6 @@ export interface RecipientSelectionDialogSettings {
 
 })
 export class RecipientSelectionDialog extends BaseDialog {
-	dialogId: string = "recipientDialog";
-	dialogTitle: string = "Select Recipients";
-	
-	issuerSlug: string;
-	excludedGroupUrls: RecipientGroupUrl[];
-	excludedMemberEmails: string[];
-
-	multiSelectMode: boolean = false;
-	restrictToGroupUrl: string = null;
-
-	recipientsPromise: Promise<any>;
-
-	private selectedRecipients = new Set<RecipientGroupMember>();
-	private resolveFunc: { (recipients: RecipientGroupMember[]): void };
-
-	maxDisplayedResults = 100;
-	recipientResults: RecipientResult[] = [];
-	groupResults: MatchingGroupRecipients[] = [];
-
-	allRecipientGroups: RecipientGroup[];
-
-	hasMultipleGroups: boolean = true;
-
-	private _searchQuery: string = "";
 	get searchQuery() { return this._searchQuery; }
 
 	set searchQuery(query) {
@@ -182,12 +158,6 @@ export class RecipientSelectionDialog extends BaseDialog {
 	get isRestrictedToSingleGroup(): boolean {
 		return !!this.restrictToGroupUrl;
 	}
-
-	static defaultSettings: RecipientSelectionDialogSettings = {
-		groupByGroup: true,
-		recipientSortBy: "name"
-	};
-	settings: RecipientSelectionDialogSettings = Object.assign({}, RecipientSelectionDialog.defaultSettings);
 
 	get recipientSortBy() { return this.settings.recipientSortBy; }
 
@@ -203,6 +173,36 @@ export class RecipientSelectionDialog extends BaseDialog {
 		this.settings.groupByGroup = value;
 		this.saveSettings();
 	}
+
+	static defaultSettings: RecipientSelectionDialogSettings = {
+		groupByGroup: true,
+		recipientSortBy: "name"
+	};
+	dialogId: string = "recipientDialog";
+	dialogTitle: string = "Select Recipients";
+
+	issuerSlug: string;
+	excludedGroupUrls: RecipientGroupUrl[];
+	excludedMemberEmails: string[];
+
+	multiSelectMode: boolean = false;
+	restrictToGroupUrl: string = null;
+
+	recipientsPromise: Promise<any>;
+
+	maxDisplayedResults = 100;
+	recipientResults: RecipientResult[] = [];
+	groupResults: MatchingGroupRecipients[] = [];
+
+	allRecipientGroups: RecipientGroup[];
+
+	hasMultipleGroups: boolean = true;
+	settings: RecipientSelectionDialogSettings = Object.assign({}, RecipientSelectionDialog.defaultSettings);
+
+	private selectedRecipients = new Set<RecipientGroupMember>();
+	private resolveFunc: { (recipients: RecipientGroupMember[]): void };
+
+	private _searchQuery: string = "";
 
 	private loadedData = false;
 
@@ -244,7 +244,7 @@ export class RecipientSelectionDialog extends BaseDialog {
 		this.loadSettings();
 		this.updateData();
 
-		return new Promise<RecipientGroupMember[]>((resolve, reject) => {
+		return new Promise<RecipientGroupMember[]>((resolve) => {
 			this.resolveFunc = resolve;
 		});
 	}
@@ -264,6 +264,20 @@ export class RecipientSelectionDialog extends BaseDialog {
 		} else {
 			this.selectedRecipients.delete(member);
 		}
+	}
+
+	applySorting() {
+		const recipientSorter = (a: RecipientGroupMember, b: RecipientGroupMember) => {
+			if (this.recipientSortBy === "name") {
+				let aName = a.memberName.toLowerCase();
+				let bName = b.memberName.toLowerCase();
+
+				return aName === bName ? 0 : (aName < bName ? -1 : 1);
+			}
+		};
+
+		(this.recipientResults || []).sort((a, b) => recipientSorter(a.recipient, b.recipient));
+		(this.groupResults || []).forEach(i => i.recipients.sort(recipientSorter));
 	}
 
 	private loadSettings() {
@@ -328,7 +342,7 @@ export class RecipientSelectionDialog extends BaseDialog {
 			}
 
 			// Restrict to group
-			if (this.restrictToGroupUrl && recipient.group.url != this.restrictToGroupUrl) {
+			if (this.restrictToGroupUrl && recipient.group.url !== this.restrictToGroupUrl) {
 				return false;
 			}
 
@@ -343,7 +357,7 @@ export class RecipientSelectionDialog extends BaseDialog {
 			groupResults.addRecipient(recipient);
 
 
-			if (!this.recipientResults.find(r => r.recipient == recipient)) {
+			if (!this.recipientResults.find(r => r.recipient === recipient)) {
 				this.recipientResults.push(new RecipientResult(recipient, groupResults.group));
 			}
 
@@ -358,25 +372,11 @@ export class RecipientSelectionDialog extends BaseDialog {
 			.filter(MatchingAlgorithm.groupMatcher(this.searchQuery))
 			.forEach(addGroupToResults);
 
-		(this.allRecipientGroups.map(g=>g.members.entities).reduce(flatten<RecipientGroupMember>(), []))
+		(this.allRecipientGroups.map(g => g.members.entities).reduce(flatten<RecipientGroupMember>(), []))
 			.filter(MatchingAlgorithm.recipientMatcher(this.searchQuery))
 			.forEach(addRecipientToResults);
 
 		this.applySorting();
-	}
-
-	applySorting() {
-		const recipientSorter = (a: RecipientGroupMember, b: RecipientGroupMember) => {
-			if (this.recipientSortBy === "name") {
-				var aName = a.memberName.toLowerCase();
-				var bName = b.memberName.toLowerCase();
-
-				return aName == bName ? 0 : (aName < bName ? -1 : 1);
-			}
-		};
-
-		(this.recipientResults || []).sort((a, b) => recipientSorter(a.recipient, b.recipient));
-		(this.groupResults || []).forEach(i => i.recipients.sort(recipientSorter));
 	}
 }
 
@@ -394,7 +394,7 @@ class MatchingGroupRecipients {
 	) {}
 
 	addRecipient(recipient: RecipientGroupMember) {
-		if (recipient.group == this.group) {
+		if (recipient.group === this.group) {
 			if (this.recipients.indexOf(recipient) < 0) {
 				this.recipients.push(recipient);
 			}

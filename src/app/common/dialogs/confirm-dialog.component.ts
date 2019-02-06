@@ -20,6 +20,13 @@ export interface ConfirmDialogOptions {
 					<h2 class="u-text-body-bold-caps text-dark1">
 						{{ options.dialogTitle }}
 					</h2>
+					<button
+						(click)="closeDialog()"
+						class="buttonicon buttonicon-link">
+						<svg icon="icon_close"></svg>
+						<span class="visuallyhidden">Close</span>
+					</button>
+
 				</div>
 				<p class="u-text-body" [innerHTML]="options.dialogBody"></p>
 

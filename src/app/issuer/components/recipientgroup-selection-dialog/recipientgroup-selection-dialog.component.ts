@@ -1,9 +1,9 @@
-import {Component, ElementRef, Renderer2} from "@angular/core";
-import {MessageService} from "../../../common/services/message.service";
-import {IssuerRecipientGroups, RecipientGroup} from "../../models/recipientgroup.model";
-import {RecipientGroupManager} from "../../services/recipientgroup-manager.service";
-import {StringMatchingUtil} from "../../../common/util/string-matching-util";
-import {BaseDialog} from "../../../common/dialogs/base-dialog";
+import { Component, ElementRef, Renderer2 } from "@angular/core";
+import { MessageService } from "../../../common/services/message.service";
+import { IssuerRecipientGroups, RecipientGroup } from "../../models/recipientgroup.model";
+import { RecipientGroupManager } from "../../services/recipientgroup-manager.service";
+import { StringMatchingUtil } from "../../../common/util/string-matching-util";
+import { BaseDialog } from "../../../common/dialogs/base-dialog";
 
 
 export interface RecipientGroupSelectionDialogOptions {
@@ -33,8 +33,14 @@ export interface RecipientGroupSelectionDialogOptions {
 						       [(ngModel)]="searchQuery"
 						/>
 					</div>
+					<button
+						(click)="cancelDialog()"
+						class="buttonicon buttonicon-link">
+						<svg icon="icon_close"></svg>
+						<span class="visuallyhidden">Close</span>
+					</button>
 				</header>
-		
+
 				<!-- RecipientGroup List -->
 				<div class="l-overflowlist-x-list">
 					<table class="table table-dialog">
@@ -81,7 +87,7 @@ export interface RecipientGroupSelectionDialogOptions {
 						</tbody>
 					</table>
 				</div>
-		
+
 				<!-- Selected RecipientGroups and Buttons -->
 				<footer class="bordered bordered-top">
 					<section class="l-overflowlist-x-selected"
@@ -95,7 +101,7 @@ export interface RecipientGroupSelectionDialogOptions {
 								{{ selectedRecipientGroup.name }}
 								<button (click)="updateRecipientGroupSelection(selectedRecipientGroup, false)">Unselect Recipient Group</button>
 							</div>
-		
+
 							<p class="small"
 								 *ngIf="selectedRecipientGroups.size == 0"
 							>
@@ -114,6 +120,12 @@ export interface RecipientGroupSelectionDialogOptions {
 
 })
 export class RecipientGroupSelectionDialog extends BaseDialog {
+	get searchQuery() { return this._searchQuery; }
+
+	set searchQuery(query) {
+		this._searchQuery = query;
+		this.updateResults();
+	}
 	dialogId: string = "recipientGroupDialog";
 	dialogTitle: string = "Select RecipientGroups";
 
@@ -121,7 +133,6 @@ export class RecipientGroupSelectionDialog extends BaseDialog {
 	issuerSlug: string = null;
 
 	selectedRecipientGroups = new Set<RecipientGroup>();
-	private resolveFunc: { (recipientGroups: RecipientGroup[]): void };
 
 	maxDisplayedResults = 100;
 	recipientGroupResults: RecipientGroup[] = [];
@@ -130,14 +141,9 @@ export class RecipientGroupSelectionDialog extends BaseDialog {
 	omittedRecipientGroups: RecipientGroup[];
 
 	hasMultipleIssuers: boolean = true;
+	private resolveFunc: { (recipientGroups: RecipientGroup[]): void };
 
 	private _searchQuery: string = "";
-	get searchQuery() { return this._searchQuery; }
-
-	set searchQuery(query) {
-		this._searchQuery = query;
-		this.updateResults();
-	}
 
 	private loadedData = false;
 

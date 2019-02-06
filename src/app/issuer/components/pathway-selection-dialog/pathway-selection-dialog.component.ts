@@ -35,6 +35,12 @@ type PathwaySortBy = "name" | "newest-first" | "oldest-first";
 				       placeholder="Search pathways"
 				       [(ngModel)]="searchQuery"
 				/>
+				<button
+					(click)="cancelDialog()"
+					class="buttonicon buttonicon-link">
+					<svg icon="icon_close"></svg>
+					<span class="visuallyhidden">Close</span>
+				</button>
 			</header>
 
 			<!-- Pathway List -->
