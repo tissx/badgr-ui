@@ -155,6 +155,15 @@ export abstract class BaseHttpApiService {
 		);
 	}
 
+	isJson = (str) => {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
+		}
+		return true;
+	};
+
 	handleHttpErrors<T>(
 		response: any,
 		isError: boolean
@@ -164,6 +173,12 @@ export abstract class BaseHttpApiService {
 				this.sessionService.handleAuthenticationError();
 			} else if (response.status === 0) {
 				this.messageService.reportFatalError(`Server Unavailable`);
+			// TODO: Is this going to cause trouble?
+			} else if (response.error && (typeof response.error === "string") && (!this.isJson(response.error))) {
+				throw new BadgrApiError(
+					response.error,
+					response
+				);
 			} else {
 				// TODO: Give nicer error messages!
 				throw new BadgrApiError(
