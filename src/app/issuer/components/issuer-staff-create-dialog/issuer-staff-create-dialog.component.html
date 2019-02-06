@@ -13,17 +13,18 @@
 
 		<div class="u-padding-all3x">
 
-			<div class="l-flex l-flex-justifybetween u-margin-bottom2x">
-				<p>New Staff Members must create a Badgr account prior to being added to an issuer.</p>
+			<div class="l-flex l-flex-justifybetween u-margin-bottom3x">
+				<p class="u-text-body">New Staff Members must create a Badgr account prior to being added to an issuer.</p>
 			</div>
 
-			<h3 class="u-margin-bottom1x">Choose Role</h3>
+			<h3 class="u-margin-bottom2x u-text-small-bold">Choose Role:</h3>
 			<form
 				[formGroup]="staffCreateForm"
 				(ngSubmit)="submitStaffCreate(staffCreateForm.value)">
 				<bg-formfield-radio
 					*ngFor="let role of issuerStaffRoleOptions"
 					[control]="staffCreateForm.controls.staffRole"
+					[name]="'role'"
 					[label]="role.label"
 					[sublabel]="role.description"
 					[radioValue]="role.value"
@@ -34,7 +35,7 @@
 					[label]="'New Member Email'"
 					[errorMessage]="'Please enter valid email address'"
 					placeholder="Staff Email"
-					class="forminput-light1 u-width-formsmall u-margin-top2x"></bg-formfield-text>
+					class="forminput-light1 u-width-formsmall u-margin-top3x"></bg-formfield-text>
 				<br>
 
 				<div class="notification notification-warning notification-is-active" *ngIf="error">
@@ -53,7 +54,7 @@
 					</div>
 				</div>
 
-				<div class="l-stack l-stack-buttons u-margin-top3x">
+				<div class="l-stack l-stack-buttons u-margin-top4x">
 					<button
 						class="button">Add Member</button>
 					<button

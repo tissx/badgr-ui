@@ -19,61 +19,13 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 	template: `
 		<div class="">
 			<label class="radio">
-				<input name="gadzooks" type="radio">
+				<input [name]="name" type="radio">
 				<span class="radio-x-text">{{ label }}</span>
 			</label>
 
-			<p class="u-margin-left4x" *ngIf="sublabel">{{ sublabel }}</p>
+			<p class="u-margin-left3p5x u-text-small u-margin-bottom2x" *ngIf="sublabel">{{ sublabel }}</p>
 
 
-
-
-			<!--<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
-				{{ label }}  <span *ngIf="optional">(OPTIONAL)</span>
-				<span *ngIf="formFieldAside">{{ formFieldAside }}</span>
-				<button type="button" *ngIf="isLockedState" (click)="unlock()">(unlock)</button>
-			</label>
-			<ng-content class="forminput-x-helplink" select="[label-additions]"></ng-content>
-		</div>
-		<p class="forminput-x-sublabel" *ngIf="sublabel"><span *ngIf="remainingCharactersNum > 0">{{ remainingCharactersNum }}</span>{{ sublabel }}</p>
-
-		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
-		<div class="forminput-x-inputs">
-			<input [type]="fieldType"
-			       *ngIf="! multiline"
-			       [name]="inputName"
-			       [id]="inputId"
-			       [formControl]="control"
-			       [placeholder]="placeholder || ''"
-			       [maxlength] = "maxchar"
-			       (change)="postProcessInput()"
-			       (focus)="cacheControlState()"
-			       (keypress)="handleKeyPress($event)"
-			       (keyup)="handleKeyUp($event)"
-			       #textInput
-			/>
-			<div class="forminput-x-button" *ngIf="inlineButtonText">
-				<button class="button button-secondary button-informinput"
-						(click)="buttonClicked.emit($event)"
-						type="submit"
-				        [disabled-when-requesting]="true"
-				        type="submit"
-				>
-					{{inlineButtonText}}
-				</button>
-			</div>
-			<textarea *ngIf="multiline"
-			          [name]="inputName"
-			          [id]="inputId"
-			          [formControl]="control"
-			          [maxlength] = "maxchar"
-			          [placeholder]="placeholder || ''"
-			          (change)="postProcessInput()"
-			          (focus)="cacheControlState()"
-			          (keypress)="handleKeyPress($event)"
-			          (keyup)="handleKeyUp($event)"
-			          #textareaInput
-			></textarea>-->
 		</div>
 		<p class="forminput-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
 	`
@@ -161,6 +113,7 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 	@Input() initialValue: string;
 	@Input() id: string;
 	@Input() label: string;
+	@Input() name: string;
 	@Input() ariaLabel: string;
 	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
 	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
