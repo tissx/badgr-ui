@@ -38,7 +38,7 @@ import { UserProfile } from "../model/user-profile.model";
 
 				<div class="l-flex l-flex-2x">
 					<button class="button" (click)="submitAgreement()">Continue</button>
-					<a class="button button-secondary" *ngIf="termsHelpLink" [href]="termsHelpLink">Need Help?</a>
+					<a class="button button-secondary" *ngIf="termsHelpLink" [href]="termsHelpLink" target="_blank">Need Help?</a>
 				</div>
 			</div>
 		</div>
