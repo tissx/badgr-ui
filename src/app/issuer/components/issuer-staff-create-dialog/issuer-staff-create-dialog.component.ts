@@ -54,7 +54,7 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 
 	protected initStaffCreateForm() {
 		this.staffCreateForm = this.formBuilder.group({
-			staffRole: [ 'staff', Validators.required ],
+			staffRole: [ '', Validators.required ],
 			staffEmail: [
 				'', Validators.compose([
 					Validators.required,

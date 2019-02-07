@@ -1,8 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
-
 import { FormControl, FormGroup } from '@angular/forms';
-
-import { UrlValidator } from '../validators/url.validator';
 import { CommonDialogsService } from '../services/common-dialogs.service';
 
 @Component({
@@ -19,20 +16,25 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 	template: `
 		<div class="">
 			<label class="radio">
-				<input [name]="name" type="radio">
+				<input
+					type="radio"
+					[id]="inputId"
+					[name]="name"
+					[value]="value"
+					[formControl]="control"
+					#radioInput>
 				<span class="radio-x-text">{{ label }}</span>
 			</label>
 
 			<p class="u-margin-left3p5x u-text-small u-margin-bottom2x" *ngIf="sublabel">{{ sublabel }}</p>
 
-
 		</div>
-		<p class="forminput-x-error" *ngIf="isErrorState">{{ errorMessageForDisplay }}</p>
+		<p
+			class="forminput-x-error"
+			*ngIf="!control.valid && control.dirty && last">{{ errorMessageForDisplay }}</p>
 	`
 })
 export class FormFieldRadio implements OnChanges, AfterViewInit {
-
-	@Input() radioValue: string;
 
 	set unlocked(unlocked: boolean) {
 		this._unlocked = unlocked;
@@ -53,13 +55,7 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 	}
 
 	get inputElement(): HTMLInputElement | HTMLTextAreaElement {
-		if (this.textInput && this.textInput.nativeElement) {
-			return this.textInput.nativeElement;
-		}
-		if (this.textareaInput && this.textareaInput.nativeElement) {
-			return this.textareaInput.nativeElement;
-		}
-		return null;
+		return this.radioInput.nativeElement;
 	}
 
 	get hasFocus(): boolean {
@@ -82,35 +78,23 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 		))[0]; // Only display the first error
 	}
 
-	get value() {
-		return this.control.value;
-	}
-
 	get controlErrorState() {
-		return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
+		return !this.control.valid;
 	}
 
 	get isErrorState() {
-		if (this.hasFocus && this.cachedErrorState !== null) {
-			return this.cachedErrorState;
-		} else {
-			return this.controlErrorState;
-		}
+		return (!this.optional && !this.control.valid);
 	}
 
 	get isLockedState() {
 		return this.locked && !this.unlocked;
 	}
 
-	get inputName() {
-		return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, '_').toLowerCase();
-	}
-
 	get inputId() {
-		return this.id || (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase();
+		return this.id || (this.label || this.randomName).replace(/[^\w]+/g, "_").toLowerCase();
 	}
 	@Input() control: FormControl;
-	@Input() initialValue: string;
+	@Input() value: string;
 	@Input() id: string;
 	@Input() label: string;
 	@Input() name: string;
@@ -118,14 +102,11 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
 	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
-	@Input() multiline: boolean = false;
 	@Input() monospaced: boolean = false;
 	@Input() sublabel: string;
-	@Input() placeholder: string;
-	@Input() fieldType: FormFieldTextInputType = 'text';
-	@Input() maxchar: number;
 	@Input() optional: boolean = false;
 	@Input() inlineButtonText: string;
+	@Input() last: boolean;
 
 
 	@Output() buttonClicked = new EventEmitter<MouseEvent>();
@@ -134,14 +115,10 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 	@Input() errorGroupMessage: CustomValidatorMessages;
 
 	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
-	@Input() urlField: boolean = false;
 
 	@Input() autofocus: boolean = false;
 
-	@ViewChild('textInput') textInput: ElementRef;
-	@ViewChild('textareaInput') textareaInput: ElementRef;
-
-	remainingCharactersNum = this.maxchar;
+	@ViewChild('radioInput') radioInput: ElementRef;
 
 	private _unlocked = false;
 
@@ -160,9 +137,6 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 	}
 
 	ngOnInit() {
-		if (this.maxchar) {
-			this.remainingCharactersNum = this.maxchar - this.control.value.length;
-		}
 	}
 
 	ngAfterViewInit() {
@@ -225,32 +199,10 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 		this.inputElement.select();
 	}
 
-	handleKeyPress(event: KeyboardEvent) {
-		// This handles revalidating when hitting enter from within an input element. Ideally, we'd catch _all_ form submission
-		// events, but since the form supresses those if things aren't valid, that doesn't really work. So we do this hack.
-		if (event.code === 'Enter') {
-			this.control.markAsDirty();
-			this.cacheControlState();
-		}
-	}
-
-	handleKeyUp(event: KeyboardEvent) {
-		this.remainingCharactersNum = this.maxchar - this.control.value.length;
-	}
-
-	private postProcessInput() {
-		if (this.urlField) {
-			UrlValidator.addMissingHttpToControl(this.control);
-		}
-	}
 }
 
-/**
- * Allowable HTML input type for text based inputs.
- */
-export type FormFieldTextInputType = 'text' | 'email' | 'url' | 'tel' | 'password' | 'search';
 
-export type ValidatorKey = 'required' | 'maxlength' | 'validUrl';
+export type ValidatorKey = 'required';
 
 export type CustomValidatorMessages = string | { [validatorKey: string]: string };
 
@@ -261,15 +213,6 @@ export const defaultValidatorMessages: {
 	[validatorKey: string]: (label: string, result?: any) => string
 } = {
 	'required': (label: string) => `${label} is required`,
-	'validUrl': () => `Please enter a valid URL`,
-	'invalidTelephone': () => `Please enter a valid phone number`,
-	'invalidEmail': () => `Please enter a valid email address`,
-	'maxlength': (
-		label: string,
-		{actualLength, requiredLength}: { actualLength: number; requiredLength: number }
-	) => (actualLength && requiredLength)
-		? `${label} exceeds maximum length of ${requiredLength} by ${actualLength - requiredLength} characters`
-		: `${label} exceeds maximum length.`
 };
 
 export function messagesForValidationError(
