@@ -18,91 +18,15 @@ import { FormFieldSelectOption } from "../../../common/components/formfield-sele
 import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
 import { UserProfileEmail } from "../../../common/model/user-profile.model";
 import { AppConfigService } from "../../../common/app-config.service";
+import { LinkEntry } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 @Component({
 	selector: 'issuer-edit',
-	template: `
-		<main>
-		  <form-message></form-message>
-		  <header class="wrap wrap-light l-containerhorizontal l-heading">
-
-		    <nav>
-		      <h1 class="visuallyhidden">Breadcrumbs</h1>
-		      <ul class="breadcrumb">
-		        <li><a [routerLink]="['/issuer']">Issuers</a></li>
-			      <li *ngIf="issuer"><a [routerLink]="['/issuer/issuers', issuerSlug]">{{ issuer.name }}</a></li>
-		        <li class="breadcrumb-x-current">Edit Issuer</li>
-		      </ul>
-		    </nav>
-
-		    <div class="heading">
-		      <div class="heading-x-text">
-		        <h1>Edit Issuer</h1>
-		        <p>Edit the information associated with this issuer profile.</p>
-		      </div>
-		    </div>
-
-		  </header>
-
-		  <div class="l-containerhorizontal l-containervertical l-childrenvertical wrap">
-
-		    <form (ngSubmit)="onSubmit(issuerForm.value)" class="l-form" novalidate>
-
-		      <fieldset>
-		        <bg-formfield-image #imageField
-		                            label="Image (Optional)"
-		                            imageLoaderName="issuer"
-		                            [placeholderImage]="issuerImagePlacholderUrl"
-		                            [control]="issuerForm.controls.issuer_image"></bg-formfield-image>
-
-		        <bg-formfield-text [control]="issuerForm.controls.issuer_name"
-		                           [label]="'Name'"
-		                           [errorMessage]="{required:'Please enter an issuer name'}"
-		                           [autofocus]="true"
-		        ></bg-formfield-text>
-
-		        <bg-formfield-text [control]="issuerForm.controls.issuer_url"
-		                           [label]="'Website URL'"
-		                           [errorMessage]="'Please enter a valid URL'"
-		                           [urlField]="true"
-		        ></bg-formfield-text>
-
-		        <bg-formfield-select [control]="issuerForm.controls.issuer_email"
-		                           [label]="'Contact Email'"
-		                           [placeholder]="'Please select a verified email'"
-		                           [options]="emailsOptions"
-		                           [errorMessage]="{required:'Please select a verified email'}"
-		        ></bg-formfield-select>
-
-		        <bg-formfield-text [control]="issuerForm.controls.issuer_description"
-		                           [label]="'Description'"
-		                           [errorMessage]="{ required: 'Please enter a description'}"
-		                           [multiline]="true"
-		        ></bg-formfield-text>
-
-		        <div class="l-form-x-offset l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-		          <a [routerLink]="['/issuer/issuers', issuerSlug]"
-		             class="button button-primaryghost"
-		             [disabled-when-requesting]="true"
-		          >Cancel</a>
-		          <button type="submit"
-		                  class="button"
-		                  [disabled]="!! editIssuerFinished"
-		                  (click)="clickSubmit($event)"
-		                  [loading-promises]="[ editIssuerFinished ]"
-		                  loading-message="Adding"
-		          >Save</button>
-		        </div>
-
-		      </fieldset>
-		    </form>
-		  </div>
-		</main>
-	`
+	templateUrl: './issuer-edit.component.html',
 })
 export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
-
+	
 	issuer: Issuer;
 	issuerSlug: string;
 
@@ -113,6 +37,8 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	editIssuerFinished: Promise<any>;
 	emailsLoaded: Promise<any>;
 	issuerLoaded: Promise<any>;
+
+	editIssuerCrumbs: LinkEntry[];
 
 	constructor(
 		loginService: SessionService,
@@ -165,6 +91,11 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then(
 			(issuer) => {
 				this.issuer = issuer;
+
+				this.editIssuerCrumbs = [{title: "Issuers", routerLink: ['/issuer']},
+										{title: issuer.name, routerLink: ['/issuer/issuers/', this.issuerSlug]},
+										{title: 'Edit Issuer'}]
+
 
 				this.editControls.issuer_name.setValue(this.issuer.name, { emitEvent: false });
 				this.editControls.issuer_description.setValue(this.issuer.description, { emitEvent: false });
