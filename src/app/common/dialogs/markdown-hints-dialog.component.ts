@@ -47,11 +47,7 @@ export class MarkdownHintsDialog extends BaseDialog {
 	) {
 		super(componentElem, renderer);
 	}
-	openDialog() {
-		console.log('yo!')
-		this.showModal();
-	}
-	closeDialog() {
-		this.closeModal();
-	}
+	openDialog = () => this.showModal();
+
+	closeDialog = () => this.closeModal();
 }

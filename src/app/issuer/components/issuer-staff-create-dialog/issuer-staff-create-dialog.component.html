@@ -4,7 +4,7 @@
 		<div class="dialog-x-header">
 			<h1>Add Member</h1>
 			<button
-				(click)="closeModal()"
+				(click)="close()"
 				class="buttonicon buttonicon-link">
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
@@ -22,12 +22,13 @@
 				[formGroup]="staffCreateForm"
 				(ngSubmit)="submitStaffCreate(staffCreateForm.value)">
 				<bg-formfield-radio
-					*ngFor="let role of issuerStaffRoleOptions"
+					*ngFor="let role of issuerStaffRoleOptions; last as last;"
 					[control]="staffCreateForm.controls.staffRole"
-					[name]="'role'"
+					[name]="'staffRole'"
 					[label]="role.label"
+					[value]="role.value"
 					[sublabel]="role.description"
-					[radioValue]="role.value"
+					[last]="last"
 					[errorMessage]="'Please select a staff role'"
 				></bg-formfield-radio>
 				<bg-formfield-text
