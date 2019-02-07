@@ -11,14 +11,14 @@
 		<p class="collectioncard-x-label">{{ collection.name }}</p>
 		<div class="l-grid l-grid-badgeimages u-margin-top4x">
 			<img
-				*ngFor="let badge of collection.badges | slice:0:(collection.badges.length > 4 ? 2 : 3)"
+				*ngFor="let badge of collection.badges | slice:0:(collection.badges.length > 3 ? 3 : 4)"
 				class="badgeimage badgeimage-48px"
 				[loaded-src]="badge.image"
 				[loading-src]="badgeLoadingImageUrl"
 				[error-src]="badgeFailedImageUrl"
 				alt="">
-			<div *ngIf="collection.badges.length > 3">
-				<span>{{ collection.badges.length - 3 }}<span> More</span></span>
+			<div class="badgecount" *ngIf="collection.badges.length > 3">
+				<span>{{ collection.badges.length - 3 }}<span>+</span></span>
 			</div>
 		</div>
 	</div>
