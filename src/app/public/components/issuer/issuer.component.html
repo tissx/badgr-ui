@@ -1,0 +1,97 @@
+<ng-template [bgAwaitPromises]="issuerIdParam">
+	<!-- Embedded View -->
+	<div class="l-cardembedded" *ngIf="embedService.isEmbedded">
+		<div class="card card-largeimage">
+			<a class="card-x-main" [href]="issuer.id" target="_blank">
+				<div class="card-x-image">
+					<img [loaded-src]="issuer.image || issuerImagePlaceholderUrl"
+					     [loading-src]="badgeLoadingImageUrl"
+					     [error-src]="badgeFailedImageUrl"
+					     alt="Logo for issuer {{ issuer.name }}"
+					     width="60" height="60" />
+				</div>
+				<div class="card-x-text">
+					<h1>{{ issuer.name }}</h1>
+					<small *ngIf="issuer.url"><a [href]="issuer.url">{{ issuer.url }}</a></small>
+				</div>
+			</a>
+		</div>
+	</div>
+
+	<!-- Regular View -->
+	<main *ngIf="! embedService.isEmbedded">
+		<form-message></form-message>
+		<header class="topbar topbar-withimage">
+			<div class="l-container-x-axis">
+				<div class="topbar-x-wrap">
+					<img [loaded-src]="issuer.image || issuerImagePlaceholderUrl"
+					     [loading-src]="badgeLoadingImageUrl"
+					     [error-src]="badgeFailedImageUrl"
+					     alt="Logo for issuer {{ issuer.name }}"
+					     class="topbar-x-image"
+					     width="60" height="60" />
+				    <h1 class="topbar-x-heading">{{ issuer.name }}</h1>
+					<div class="topbar-x-subheading">
+						<p class="u-text-small-bold">{{ issuer.email }}<br class="u-hidden-minmobile" />
+							<span class="u-hidden-maxmobile"> | </span>Your Role: Owner</p>
+						<p class="u-margin-top1x u-width-paragraph">
+							{{ issuer.description }}
+						</p>
+						<div class="u-margin-top1x u-margin-bottom3x">
+							<a class="u-text-outlink" target="_blank"
+								[href]="issuer.url"
+							>Visit Website<svg><use xlink:href="/images/icons.svg#icon_external_link"></use></svg></a>
+						</div>
+					</div>
+				</div>
+				<div class="heading-x-text">
+					<div class="l-childrenhorizontal">
+						<a class="button button-primaryghost l-offsetleft" href="mailto:{{ issuer.email }}">Contact Issuer</a>
+						<a class="button button-primaryghost" [href]="v1JsonUrl" target="_blank">View v1.1 JSON</a>
+						<a class="button button-primaryghost" [href]="v2JsonUrl" target="_blank">View v2.0 JSON</a>
+
+						<a class="button button-primaryghost"
+						   [href]="issuer.sourceUrl"
+						   target="_blank"
+						   *ngIf="issuer.sourceUrl"
+						>View Original</a>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="wrap l-containerhorizontal l-headeredsection" *ngIf="badgeClasses && badgeClasses.length > 0">
+			<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
+				<h2 class="title title-is-smallmobile">Badge Classes</h2>
+			</header>
+
+			<div class="l-overflowhorizontal">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Badge</th>
+							<!-- BGR-1044: Hiding this until and if we decide to include creation dates in the public badge api -->
+							<!--<th class="hidden hidden-is-desktop" scope="col">Created</th>-->
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let badgeClass of badgeClasses">
+							<th scope="row">
+								<div class="l-childrenhorizontal l-childrenhorizontal-small">
+									<img class="l-childrenhorizontal-x-offset"
+									     [src]="badgeClass.image"
+									     [alt]="badgeClass.name"
+									     width="40">
+									<a [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">{{ badgeClass.name }}</a>
+								</div>
+							</th>
+							<!--<td class="hidden hidden-is-desktop">-->
+								<!--<time [date]="badgeClass.created_at" format="mediumDate"></time>-->
+							<!--</td>-->
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</main>
+</ng-template>
