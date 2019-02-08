@@ -1,10 +1,7 @@
 <div class="l-containerxaxis l-containeryaxis l-flex l-flex-justifycenter">
     <div class="shadowcontainer u-animate-dropfade">
-		<markdown-display 
-			[value]="theme.welcomeMessage || '### Welcome to Badgr'" 
-		>
-		</markdown-display>
-
+    	<h3 class="u-text-h3-bold">
+    		{{ theme.welcomeMessage || 'Welcome to Badgr' }}</h3>
 		<ng-template [ngIf]="! sessionService.enabledExternalAuthProviders.length">
 			<p class="u-text u-text-body u-margin-top1x">
 				Sign in with your email and password. Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
@@ -12,34 +9,21 @@
 		</ng-template>	
 		<ng-template [ngIf]="sessionService.enabledExternalAuthProviders.length">
 			<p class="u-text-body u-margin-top1x">
-				Choose your sign in method to get started.
-			</p>
-			<h3 class="ruleheadline">
-				<span>Sign in With</span>
-			</h3>
-
-			<div class="l-socialbuttons">
-				<button
-					type="button"
+				Choose your sign in method to get started.</p>
+			<h3 class="l-ruleheadline ruleheadline">
+				Sign in With</h3>
+			<div class="l-socialbuttons u-margin-top2x">
+				<button class="socialbutton socialbutton-{{ provider.slug }}" type="button"
 					*ngFor="let provider of sessionService.enabledExternalAuthProviders"
-					class="socialbutton socialbutton-{{ provider.slug }}"
 					(click)="sessionService.initiateUnauthenticatedExternalAuth(provider)"
-				>
-					{{ provider.name }}
-				</button>
+				>{{ provider.name }}</button>
 			</div>
-
-			<h3 class="ruleheadline">
-				<span>Or</span>
-			</h3>
+			<h3 class="l-ruleheadline ruleheadline">
+				Or</h3>
 		</ng-template>
-
-        <form
-            class="u-margin-top2x"
+        <form class="u-margin-top2x"
             (ngSubmit)="submitAuth()"
-            novalidate
-        >
-
+            novalidate>
             <bg-formfield-text
                 [control]="loginForm.controls.username"
                 label="Email"
@@ -49,52 +33,36 @@
                 [initialValue]="verifiedEmail || ''"
                 #usernameField
             ></bg-formfield-text>
-
             <bg-formfield-text
                 [control]="loginForm.controls.password"
                 label="Password"
                 class="u-margin-top2x"
                 [errorMessage]="'Please enter your password'"
                 fieldType="password"
-                #passwordField
-            >
+                #passwordField>
                 <span label-additions>
-                    <a
-                        class="forminput-x-helplink"
-                        href="#"
-                        tabindex="-1"
+                    <a class="forminput-x-helplink" href="#" tabindex="-1"
                         [routerLink]="['/auth/request-password-reset', usernameField.value]"
-                    >
-                        Forgot Password?
-                    </a>
+                    >Forgot Password?</a>
                 </span>
             </bg-formfield-text>
-
-            <div class="l-flex u-margin-top2x">
-                <button
-                    class="button"
-                    type="submit"
+            <div class="l-stack l-stack-buttons l-stack-2x u-margin-top2x">
+                <button class="button" type="submit"
                     [disabled]="!! loginFinished"
                     [loading-promises]="[ loginFinished ]"
                     loading-message="Signing In"
                     (click)="clickSubmit($event)"
-                >
-                    Sign In
-                </button>
-                <label class="checkbox l-flex l-flex-aligncenter l-flex-x-selfcenter u-margin-left2x">
-                    <input
-                        name="remember-me"
-                        id="remember-me"
-                        type="checkbox"
-                        [formControl]="loginForm.controls.rememberMe"
-                    >
-                    <span class="checkbox-x-text">Remember me</span>
+                >Sign In</button>
+                <label class="checkbox">
+                    <input id="remember-me" name="remember-me" type="checkbox"
+                        [formControl]="loginForm.controls.rememberMe">
+                    <span class="checkbox-x-text"
+                    >Remember me</span>
                 </label>
             </div>
         </form>
     </div>
 </div>
-
 <form-message></form-message>
 
 <!-- <div class="forminput">
