@@ -22,7 +22,7 @@
 	<main *ngIf="! embedService.isEmbedded">
 		<form-message></form-message>
 		<header class="topbar topbar-withimage">
-			<div class="l-container-x-axis">
+			<div class="l-containerxaxis">
 				<div class="topbar-x-wrap">
 					<img [loaded-src]="issuer.image || issuerImagePlaceholderUrl"
 					     [loading-src]="badgeLoadingImageUrl"
@@ -32,65 +32,97 @@
 					     width="60" height="60" />
 				    <h1 class="topbar-x-heading">{{ issuer.name }}</h1>
 					<div class="topbar-x-subheading">
-						<p class="u-text-small-bold">{{ issuer.email }}<br class="u-hidden-minmobile" />
-							<span class="u-hidden-maxmobile"> | </span>Your Role: Owner</p>
+						<p class="u-text-small-bold">
+							{{ issuer.email }}
+							<br class="u-hidden-minmobilelarge" />
+							<span class="u-hidden-maxmobilelarge"
+							> | </span>
+							Your Role: Owner</p>
 						<p class="u-margin-top1x u-width-paragraph">
-							{{ issuer.description }}
-						</p>
-						<div class="u-margin-top1x u-margin-bottom3x">
+							{{ issuer.description }}</p>
+						<div class="u-margin-top1x">
 							<a class="u-text-outlink" target="_blank"
 								[href]="issuer.url"
-							>Visit Website<svg><use xlink:href="/images/icons.svg#icon_external_link"></use></svg></a>
-						</div>
+							>Visit Website<svg icon="icon_external_link"></svg></a></div>
 					</div>
-				</div>
-				<div class="heading-x-text">
-					<div class="l-childrenhorizontal">
-						<a class="button button-primaryghost l-offsetleft" href="mailto:{{ issuer.email }}">Contact Issuer</a>
-						<a class="button button-primaryghost" [href]="v1JsonUrl" target="_blank">View v1.1 JSON</a>
-						<a class="button button-primaryghost" [href]="v2JsonUrl" target="_blank">View v2.0 JSON</a>
-
-						<a class="button button-primaryghost"
-						   [href]="issuer.sourceUrl"
-						   target="_blank"
-						   *ngIf="issuer.sourceUrl"
-						>View Original</a>
+					<div class="topbar-x-buttons">
+						<div class="l-primarymore">
+							<a class="button" href="mailto:{{ issuer.email }}">Contact Issuer</a>
+							<button class="buttonicon buttonicon-secondary" id="actionstrigger"
+							[bgPopupMenuTrigger]="moreMenu">
+								<svg icon="icon_more"></svg>
+								<span class="visuallyhidden"
+								>More</span></button>
+							<bg-popup-menu #moreMenu>
+								<a class="menuitem" target="_blank"
+								[href]="v2JsonUrl"
+								><svg icon="icon_external_link"></svg
+								>View JSON</a>
+								<a class="menuitem" target="_blank"
+								   [href]="issuer.sourceUrl"
+								   *ngIf="issuer.sourceUrl"
+								><svg icon="icon_external_link"></svg
+								>View Original</a>
+							</bg-popup-menu>
+						</div>
 					</div>
 				</div>
 			</div>
 		</header>
-
-		<div class="wrap l-containerhorizontal l-headeredsection" *ngIf="badgeClasses && badgeClasses.length > 0">
-			<header class="l-childrenhorizontal l-childrenhorizontal-spacebetween l-childrenhorizontal-spacebetween">
-				<h2 class="title title-is-smallmobile">Badge Classes</h2>
-			</header>
-
-			<div class="l-overflowhorizontal">
-				<table class="table">
-					<thead>
-						<tr>
-							<th scope="col">Badge</th>
-							<!-- BGR-1044: Hiding this until and if we decide to include creation dates in the public badge api -->
-							<!--<th class="hidden hidden-is-desktop" scope="col">Created</th>-->
+		<div class="l-containerxaxis l-containeryaxis">
+			<div *ngIf="badgeClasses && badgeClasses.length > 0">
+				<header class=" u-margin-top1x">
+					<h3 class="u-text-h3-bold"
+					>{{ badgeClasses.length }} Badge Classes</h3></header>
+				<table class="datatable datatable-roundheaders datatable-singlecolumn datatable-verticalalignmiddle u-margin-top2x">
+					<thead class="datatable-x-head">
+						<tr class="datatable-x-header">
+							<th class="datatable-x-cell" scope="col">Badge</th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr *ngFor="let badgeClass of badgeClasses">
-							<th scope="row">
-								<div class="l-childrenhorizontal l-childrenhorizontal-small">
-									<img class="l-childrenhorizontal-x-offset"
+					<tbody class="datatable-x-body">
+						<tr class="datatable-x-row"
+							*ngFor="let badgeClass of badgeClasses">
+							<th class="datatable-x-cell" scope="row">
+								<div class="l-flex l-flex-aligncenter l-flex-1x">
+									<img class="l-flex-x-shrink0 badge-image badgeimage-small"
 									     [src]="badgeClass.image"
 									     [alt]="badgeClass.name"
 									     width="40">
-									<a [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">{{ badgeClass.name }}</a>
+									<a class="u-text"
+									   [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)"
+									>{{ badgeClass.name }}</a>
 								</div>
 							</th>
-							<!--<td class="hidden hidden-is-desktop">-->
-								<!--<time [date]="badgeClass.created_at" format="mediumDate"></time>-->
-							<!--</td>-->
 						</tr>
 					</tbody>
 				</table>
+				<!--
+				
+				TO DO: Add API support for pagination and implement the following pattern
+
+				<div class="u-margin-yaxis4x">
+					<nav class="pagination">
+					    <h3 class="visuallyhidden"
+					    >Pagination</h3>
+					    <div class="pagination-x-pages">
+					        <a class="page pagination-x-previous page-is-disabled" href="#" disabled>Previous</a>
+					        <a class="page page-is-active" href="#">1</a>
+					        <a class="page" href="#">2</a>
+					        <a class="page" href="#">3</a>
+					        <a class="page" href="#">4</a>
+					        <a class="page" href="#">5</a>
+					        <a class="page" href="#">6</a>
+					        <a class="page" href="#">7</a>
+					        <a class="page" href="#">8</a>
+					        <a class="page" href="#">9</a>
+					        <p class="page page-hellip">&hellip;</p>
+					        <a class="page" href="#">200</a>
+					    </div>
+					    <a class="page" href="#">Next</a>
+					</nav>
+				</div>
+				-->
 			</div>
 		</div>
 	</main>
