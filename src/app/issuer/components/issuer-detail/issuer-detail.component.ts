@@ -29,6 +29,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	readonly issuerImagePlaceHolderUrl = preloadImageURL(
 		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg')
 	);
+	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg');
 
 	issuer: Issuer;
 	issuerSlug: string;

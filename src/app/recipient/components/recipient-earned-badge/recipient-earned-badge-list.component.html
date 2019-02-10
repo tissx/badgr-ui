@@ -19,19 +19,19 @@
 	<ng-template [bgAwaitPromises]="[ badgesLoaded ]">
 
 		<!-- No badges, empty state! -->
-		<section class="emptysection" *ngIf="allBadges.length == 0">
+		<section class="emptysection l-emptysection"
+				 *ngIf="allBadges.length == 0">
 			<h2 class="emptysection-x-headline">
 				You have no badges</h2>
 			<p class="emptysection-x-copy">
 				But wait! You can earn a badge in less than 5 min. Promise.</p>
 			<div class="emptysection-x-buttons">
-				<button class="button button-secondary">
-					Earn a Badge</button>
+				<a class="button button-secondary" href="https://explore.badgr.io/" target="_blank">
+					Earn a Badge</a>
 			</div>
 			<div class="emptysection-x-imagecontainer">
-				<img class="emptysection-x-image"
-					[src]="noBadgesImageUrl"
-					alt="Illustration of backpack with badges">
+				<img alt="Illustration of backpack with badges" class="emptysection-x-image"
+					 [src]="noBadgesImageUrl">
 			</div>
 		</section>
 

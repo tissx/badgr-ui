@@ -44,11 +44,24 @@
 
 	<!-- Empty State for badges -->
 	<ng-container *ngIf="collection.badgeEntries.length === 0">
-		<p class="u-text u-margin-bottom3x">Looks like you do not have any badges in this collection. Add some!</p>
-		<button class="button button-secondary" type="button" (click)="manageBadges()">Add Badges</button>
+		<div class="emptysection l-emptysection">
+			<h2 class="emptysection-x-headline">
+				Collection Empty</h2>
+			<p class="emptysection-x-copy">
+				Looks like you do not have any badges in this collection. Add some!</p>
+			<div class="emptysection-x-buttons">
+			    <button class="button button-secondary" type="button"
+			    		(click)="manageBadges()"
+				>Add Badges</button>
+		  	</div>
+			<div class="emptysection-x-imagecontainer">
+				<img alt="Illustration" class="emptysection-x-image"
+					 [src]="noCollectionsImageUrl">
+			</div>
+		</div>
 	</ng-container>
 
-	<!-- List of Badges in COllection -->
+	<!-- List of Badges in Collection -->
 	<ng-container *ngIf="collection.badgeEntries.length > 0">
 		<div class="l-stack u-margin-bottom2x">
 			<h2 class="u-text-h3-semibold">{{badgesInCollectionCount}}</h2>

@@ -21,6 +21,8 @@ import { AppConfigService } from "../../../common/app-config.service";
 export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg');
 	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg');
+	readonly noBadgesImageUrl = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-backpack.svg');
+	readonly noCollectionsImageUrl = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-collection.svg');
 
 	@ViewChild("recipientBadgeDialog")
 	recipientBadgeDialog: RecipientBadgeSelectionDialog;
