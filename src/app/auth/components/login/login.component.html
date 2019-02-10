@@ -3,12 +3,12 @@
     	<h3 class="u-text-h3-bold">
     		{{ theme.welcomeMessage || 'Welcome to Badgr' }}</h3>
 		<ng-template [ngIf]="! sessionService.enabledExternalAuthProviders.length">
-			<p class="u-text u-text-body u-margin-top1x">
+			<p class="u-text u-text-body u-responsivemargin-top1x2x">
 				Sign in with your email and password. Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
 			</p>
 		</ng-template>	
 		<ng-template [ngIf]="sessionService.enabledExternalAuthProviders.length">
-			<p class="u-text-body u-margin-top1x">
+			<p class="u-text-body u-responsivemargin-top1x2x">
 				Choose your sign in method to get started.</p>
 			<h3 class="l-ruleheadline ruleheadline">
 				Sign in With</h3>

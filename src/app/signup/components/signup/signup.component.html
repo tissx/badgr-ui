@@ -13,15 +13,14 @@
             Create a {{ theme.serviceName || "Badgr" }} Account
         </h3>
         <p
-            class="u-text u-text-body u-margin-top1x"
+            class="u-text u-text-body u-responsivemargin-top1x2x"
             *ngIf="! oAuthManager.currentAuthorization"
         >
             Already have an account?
-            <a [routerLink]="['/auth/login']">Sign in</a>
-            .
+            <a [routerLink]="['/auth/login']">Sign in</a>.
         </p>
         <p
-            class="u-text u-text-body u-margin-top1x"
+            class="u-text u-text-body u-responsivemargin-top1x2x"
             *ngIf="oAuthManager.currentAuthorization"
         >
             The application
@@ -31,8 +30,7 @@
             would
 			like to sign you in using {{ theme.serviceName || "Badgr"}}.
 			Already have an account?
-            <a [routerLink]="['/login']">Sign in</a>
-            !
+            <a [routerLink]="['/login']">Sign in</a>!
         </p>
         <h3
             class="ruleheadline l-ruleheadline"
@@ -86,7 +84,7 @@
                 </legend>
 
                 <bg-formfield-text
-                    class="u-margin-bottom1x"
+                    class="u-margin-bottom2x"
                     [control]="signupForm.controls.username"
                     [label]="'Email'"
                     fieldType="email"
@@ -95,21 +93,21 @@
                 ></bg-formfield-text>
 
                 <bg-formfield-text
-                    class="u-margin-bottom1x"
+                    class="u-margin-bottom2x"
                     [control]="signupForm.controls.firstName"
                     [label]="'First Name'"
                     [errorMessage]="'Please enter a first name'"
                 ></bg-formfield-text>
 
                 <bg-formfield-text
-                    class="u-margin-bottom1x"
+                    class="u-margin-bottom2x"
                     [control]="signupForm.controls.lastName"
                     [label]="'Last Name'"
                     [errorMessage]="'Please enter a last name'"
                 ></bg-formfield-text>
 
                 <bg-formfield-text
-                    class="u-margin-bottom1x"
+                    class="u-margin-bottom2x"
                     [control]="passwordGroup.controls.password"
                     [label]="'Password (Must be at least 8 characters)'"
                     fieldType="password"
@@ -117,7 +115,6 @@
                 ></bg-formfield-text>
 
                 <bg-formfield-text
-                    class="u-margin-bottom1x"
                     [control]="passwordGroup.controls.passwordConfirm"
                     [label]="'Confirm Password'"
                     fieldType="password"
@@ -126,9 +123,9 @@
                 ></bg-formfield-text>
             </fieldset>
 
-            <div class="u-margin-top2x">
+            <div>
                 <label
-                    class="checkbox checkbox-small l-flex"
+                    class="checkbox checkbox-small l-flex u-margin-top2p5x"
                     [class.checkbox-is-error]="signupForm.controls.agreedTermsService.dirty && !signupForm.controls.agreedTermsService.valid"
                 >
                     <input
@@ -155,7 +152,7 @@
 
                 </label>
                 <label
-                    class="checkbox l-flex u-margin-top2x"
+                    class="checkbox checkbox-light l-flex u-margin-top2p5x"
                     for="news"
                     *ngIf="showMarketingOptIn"
                 >
@@ -171,7 +168,7 @@
 						services, upcoming webinars, news and events from {{configService.theme['serviceName'] || "Badgr"}}.
                     </span>
                 </label>
-                <div class="l-stack l-stack-buttons u-margin-top3x">
+                <div class="l-stack l-stack-2x l-stack-buttons u-margin-top3x">
                     <button class="button button-secondary" type="button"
                         *ngIf="oAuthManager.currentAuthorization"
                         (click)="oAuthManager.cancelCurrentAuthorization()"
@@ -182,6 +179,9 @@
                         [loading-promises]="[ signupFinished ]"
                         loading-message="Signing Up..."
                     >Create Account</button>
+                    <!-- TO DO: Add a destination -->
+                    <!--<a class="u-text-link-small" href="#"
+                    >Change my Badgr location</a>-->
                 </div>
             </div>
         </form>
