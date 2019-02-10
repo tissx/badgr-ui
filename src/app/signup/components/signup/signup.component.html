@@ -35,14 +35,14 @@
             !
         </p>
         <h3
-            class="ruleheadline"
+            class="ruleheadline l-ruleheadline"
             *ngIf="sessionService.enabledExternalAuthProviders.length > 0"
         >
-            <span>Sign Up With</span>
+            Sign Up With
         </h3>
 
         <div
-            class="l-socialbuttons"
+            class="l-socialbuttons u-margin-top2x"
             *ngIf="sessionService.enabledExternalAuthProviders.length > 0"
         >
             <button
@@ -54,6 +54,12 @@
                 {{ provider.name }}
             </button>
         </div>
+        <h3
+            class="ruleheadline l-ruleheadline"
+            *ngIf="sessionService.enabledExternalAuthProviders.length > 0"
+        >
+            Or
+        </h3>
 
         <!-- Sign Up Form -->
         <form
@@ -64,13 +70,6 @@
             (ngSubmit)="onSubmit(signupForm.value)"
             novalidate
         >
-
-            <h3
-                class="ruleheadline"
-                *ngIf="sessionService.enabledExternalAuthProviders.length"
-            >
-                <span>or</span>
-            </h3>
 
             <!-- Signup Controls -->
             <fieldset
@@ -172,25 +171,17 @@
 						services, upcoming webinars, news and events from {{configService.theme['serviceName'] || "Badgr"}}.
                     </span>
                 </label>
-                <div class="l-flex l-flex-1x u-margin-top3x">
-                    <button
+                <div class="l-stack l-stack-buttons u-margin-top3x">
+                    <button class="button button-secondary" type="button"
                         *ngIf="oAuthManager.currentAuthorization"
-                        class="button button-secondary"
-                        type="button"
                         (click)="oAuthManager.cancelCurrentAuthorization()"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        class="button"
-                        type="submit"
+                    >Cancel</button>
+                    <button class="button" type="submit"
                         [disabled]="!! signupFinished"
                         (click)="clickSubmit($event)"
                         [loading-promises]="[ signupFinished ]"
                         loading-message="Signing Up..."
-                    >
-                        Create Account
-                    </button>
+                    >Create Account</button>
                 </div>
             </div>
         </form>
