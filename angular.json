@@ -48,7 +48,8 @@
 				"serve": {
 					"builder": "@angular-builders/dev-server:generic",
 					"options": {
-						"browserTarget": "badgr-ui-cli:build"
+						"browserTarget": "badgr-ui-cli:build",
+						"aot": true
 					},
 					"configurations": {
 						"production": {
