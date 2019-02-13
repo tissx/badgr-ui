@@ -21,7 +21,7 @@ export interface ConfirmDialogOptions {
 						{{ options.dialogTitle }}
 					</h2>
 					<button
-						(click)="closeDialog()"
+						(click)="closeDialog(true)"
 						class="buttonicon buttonicon-link">
 						<svg icon="icon_close"></svg>
 						<span class="visuallyhidden">Close</span>
