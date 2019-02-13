@@ -21,7 +21,7 @@ export interface ConfirmDialogOptions {
 						{{ options.dialogTitle }}
 					</h2>
 					<button
-						(click)="closeDialog(true)"
+						(click)="rejectDialog()"
 						class="buttonicon buttonicon-link">
 						<svg icon="icon_close"></svg>
 						<span class="visuallyhidden">Close</span>
@@ -31,10 +31,10 @@ export interface ConfirmDialogOptions {
 				<p class="u-text-body" [innerHTML]="options.dialogBody"></p>
 
 				<div class="l-stack l-stack-buttons u-margin-top3x">
-					<button class="button" (click)="closeDialog(true)">{{ options.resolveButtonLabel }}</button>
+					<button class="button" (click)="resolveDialog()">{{ options.resolveButtonLabel }}</button>
 					<button *ngIf="options.showRejectButton"
 							class="button button-secondary"
-							(click)="closeDialog(false)">{{ options.rejectButtonLabel }}</button>
+							(click)="rejectDialog()">{{ options.rejectButtonLabel }}</button>
 				</div>
 			</div>
 		</div>
@@ -100,13 +100,12 @@ export class ConfirmDialog extends BaseDialog {
 			.then(() => true, () => false);
 	}
 
-	closeDialog(result: boolean) {
+	rejectDialog() {
 		this.closeModal();
-
-		if (result) {
-			this.resolveFunc();
-		} else {
-			this.rejectFunc();
-		}
+		this.rejectFunc();
+	}
+	resolveDialog() {
+		this.closeModal();
+		this.resolveFunc();
 	}
 }
