@@ -4,7 +4,7 @@
 		<div class="dialog-x-header">
 			<h1>Add Member</h1>
 			<button
-				(click)="close()"
+				(click)="closeDialog()"
 				class="buttonicon buttonicon-link">
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
@@ -61,7 +61,7 @@
 					<button
 						class="button button-secondary"
 						type="button"
-						(click)="$event.preventDefault();closeModal();">Cancel</button>
+						(click)="$event.preventDefault();closeDialog();">Cancel</button>
 				</div>
 
 			</form>

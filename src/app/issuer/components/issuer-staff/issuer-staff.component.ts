@@ -120,7 +120,7 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	// Staff Creation
 
 	addStaff() {
-		this.issuerStaffCreateDialog.open();
+		this.issuerStaffCreateDialog.openDialog();
 		// this.issuerStaffCreateDialog._issuerStaffRoleOptions = this._issuerStaffRoleOptions;
 		this.issuerStaffCreateDialog.issuer = this.issuer;
 	}

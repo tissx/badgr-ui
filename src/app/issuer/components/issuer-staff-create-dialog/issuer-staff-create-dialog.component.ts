@@ -41,8 +41,12 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 		this.initStaffCreateForm();
 	}
 
-	open = () => this.showModal();
-	close = () => this.closeModal();
+	openDialog() {
+		this.showModal();
+	}
+	closeDialog() {
+		this.closeModal();
+	}
 
 	get issuerStaffRoleOptions() {
 		return this._issuerStaffRoleOptions || (this._issuerStaffRoleOptions = issuerStaffRoles.map(r => ({
