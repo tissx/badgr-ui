@@ -1,4 +1,7 @@
-import { BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment } from "./badgeclass-api.model";
+import {
+	BadgeClassUrl, ApiBadgeClass, BadgeClassRef, ApiBadgeClassAlignment, BadgeClassExpiresDuration,
+	ApiBadgeClassExpiration
+} from './badgeclass-api.model';
 import { IssuerUrl } from "./issuer-api.model";
 import { ManagedEntity } from "../../common/model/managed-entity";
 import { ApiEntityRef } from "../../common/model/entity-ref";
@@ -64,6 +67,42 @@ export class BadgeClass extends ManagedEntity<ApiBadgeClass, BadgeClassRef> {
 	set tags(tags: string[]) {
 		this.apiModel.tags = tags;
 	}
+
+	get expiresDuration(): BadgeClassExpiresDuration | undefined {
+		return this.apiModel.expires ? this.apiModel.expires.duration : undefined;
+	}
+	set expiresDuration(duration: BadgeClassExpiresDuration | undefined){
+		if (!this.apiModel.expires) {
+			this.apiModel.expires = {} as ApiBadgeClassExpiration
+		}
+		this.apiModel.expires.duration = duration;
+	}
+	get expiresAmount(): number | undefined {
+		return this.apiModel.expires ? this.apiModel.expires.amount : undefined;
+	}
+	set expiresAmount(amount: number | undefined){
+		if (!this.apiModel.expires) {
+			this.apiModel.expires = {} as ApiBadgeClassExpiration
+		}
+		this.apiModel.expires.amount = amount;
+	}
+	clearExpires():void {
+		this.apiModel.expires = null;
+	}
+
+	expirationDateRelative(issuedOn?: Date): Date | undefined {
+		if (this.expiresAmount) {
+			let ret = issuedOn || new Date();
+			switch (this.expiresDuration) {
+				case 'days': ret.setDate(ret.getDate() + this.expiresAmount); break;
+				case 'months': ret.setMonth(ret.getMonth() + this.expiresAmount); break;
+				case 'weeks': ret.setDate(ret.getDate() + this.expiresAmount*7); break;
+				case 'years': ret.setFullYear(ret.getFullYear() + this.expiresAmount); break;
+			}
+			return new Date(ret);
+		}
+	}
+	
 
 	get issuerSlug(): string {
 		return BadgeClass.issuerSlugFromUrl(this.issuerUrl);

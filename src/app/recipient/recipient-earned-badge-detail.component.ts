@@ -17,6 +17,7 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
 import { EventsService } from "../common/services/events.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'recipient-earned-badge-detail',
@@ -36,11 +37,16 @@ import { EventsService } from "../common/services/events.service";
 				</nav>
 				<div class="heading">
 					<div class="heading-x-imageLarge">
-						<div class="badge badge-flat">
+						<div class="badge badge-flat u-grid">
 							<img [loaded-src]="badge.image"
 							     [loading-src]="badgeLoadingImageUrl"
-							     [error-src]="badgeFailedImageUrl"
-				           width="200" />
+								 [error-src]="badgeFailedImageUrl"
+								 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
+								 width="200" 
+						    />
+						   <div class="u-margin-auto status status-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus">
+								{{badge.mostRelevantStatus}}
+							</div>
 						</div>
 					</div>
 					<div class="heading-x-text">
@@ -51,14 +57,19 @@ import { EventsService } from "../common/services/events.service";
 								<img [loaded-src]="badge.badgeClass?.issuer?.image"
 	                 [loading-src]="issuerImagePlacholderUrl"
 	                 [error-src]="issuerImagePlacholderUrl"
-	                 width="80" />
+					 width="80" />
 							</div>
 							<div class="stack-x-text">
 								<h2>{{ badge.badgeClass.issuer.name }}</h2>
 								<small>{{ issuerBadgeCount }}</small>
 							</div>
 						</a>
+
+						<p *ngIf="badge.expiresDate && isExpired" class="heading-x-meta-callout">
+							Expired on <time [date]="badge.expiresDate" format="mediumDate"></time>
+						</p>
 						<p><small>Awarded <time [date]="badge?.issueDate" format="mediumDate"></time> to {{ badge.recipientEmail }}</small></p>
+						<p *ngIf="badge.expiresDate && !isExpired"><small>Expires <time [date]="badge?.expiresDate" format="mediumDate"></time></small></p>
 
 						<p style="font-size: 16px">{{ badge.badgeClass.description }}</p>
 
@@ -198,6 +209,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		private messageService: MessageService,
 		private eventService: EventsService,
 		private dialogService: CommonDialogsService,
+		private configService: SystemConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);
@@ -241,6 +253,10 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		);
 	}
 
+	get isExpired() {
+		return (this.badge && this.badge.expiresDate && this.badge.expiresDate < new Date());
+	}
+
 	manageCollections() {
 		this.collectionSelectionDialog.openDialog({
 			dialogId: "recipient-badge-collec",
@@ -271,7 +287,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	}
 
 	private updateData(){
-		this.title.setTitle("Backpack - Badgr - " + this.badge.badgeClass.name);
+		this.title.setTitle(`Backpack - ${this.badge.badgeClass.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.badge.markAccepted();
 
@@ -342,13 +358,13 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 		],
 
 		versionInfoTitle: "We Support Open Badges v2.0!",
-		versionInfoBody: "Badgr is testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.",
+		versionInfoBody: "We are testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.",
 
 
 		embedOptions: [
 			{
 				label: "Card",
-				embedTitle: "Badgr Badge: " + options.badgeClassName,
+				embedTitle: "Badge: " + options.badgeClassName,
 				embedType: "iframe",
 				embedSize: { width: 330, height: 186 },
 				embedVersion: 1,
@@ -359,7 +375,7 @@ export function badgeShareDialogOptions(options:BadgeShareOptions): ShareSocialD
 
 			{
 				label: "Badge",
-				embedTitle: "Badgr Badge: " + options.badgeClassName,
+				embedTitle: "Badge: " + options.badgeClassName,
 				embedType: "image",
 				embedSize: { width: 128, height: 128},
 				embedVersion: 1,

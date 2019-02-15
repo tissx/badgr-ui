@@ -15,6 +15,8 @@ import { SystemConfigService } from "../common/services/config.service";
 import { FormFieldText } from "../common/components/formfield-text";
 import { QueryParametersService } from "../common/services/query-parameters.service";
 import { OAuthManager } from "../common/services/oauth-manager.service";
+import {ExternalToolsManager} from "../externaltools/services/externaltools-manager.service";
+import {UserProfileManager} from "../common/services/user-profile-manager.service";
 
 
 @Component({
@@ -27,7 +29,10 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 				<!-- Non-OAuth Welcome Message -->
 				<ng-template [ngIf]="! oAuthManager.currentAuthorization">
 					<ng-template [ngIf]="! verifiedName">
-						<h3 class="l-auth-x-title title title-bold" id="heading-form">{{ currentTheme.welcomeMessage }}</h3>
+						<markdown-display id="heading-form" 
+						                  [value]="thm.welcomeMessage || '## Welcome to Badgr'" 
+						                  [login]="true"
+						></markdown-display>
 						<p class="l-auth-x-text text text-quiet" *ngIf="sessionService.enabledExternalAuthProviders.length">
 							Choose your sign in method to get started.
 						</p>
@@ -36,10 +41,11 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 							Don't have an account yet? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
-					<ng-template [ngIf]="verifiedName">
+					<ng-template [ngIf]="verifiedName">					
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, {{ currentTheme.welcomeMessage }}
+							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr" }}
 						</h3>
+
 						<p class="l-auth-x-text text text-quiet">
 							Your email address, {{ verifiedEmail }}, has been verified. Enter your password below to get started.
 						</p>
@@ -52,21 +58,21 @@ import { OAuthManager } from "../common/services/oauth-manager.service";
 	
 					<ng-template [ngIf]="! verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							Sign in to your {{ currentTheme.serviceName }} Account
+							Sign in to your {{ thm.serviceName || "Badgr" }} Account
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
 							The application <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ currentTheme.serviceName }} account.
-							Not using {{ currentTheme.serviceName }}? <a [routerLink]="['/signup']">Create an account</a>!
+							sign you in using your {{ thm.serviceName || "Badgr" }} account.
+							Not using {{ thm.serviceName || "Badgr"}}? <a [routerLink]="['/signup']">Create an account</a>!
 						</p>
 					</ng-template>
 					<ng-template [ngIf]="verifiedName">
 						<h3 class="l-auth-x-title title title-bold" id="heading-form">
-							{{ verifiedName | ucfirst }}, welcome to {{ currentTheme.serviceName }}!
+							{{ verifiedName | ucfirst }}, welcome to {{ thm.serviceName || "Badgr"}}!
 						</h3>
 						<p class="l-auth-x-text text text-quiet">
 							The application  <strong>{{ oAuthManager.currentAuthorization.application.name }}</strong> would like to 
-							sign you in using your {{ currentTheme.serviceName }} account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
+							sign you in using your {{ thm.serviceName || "Badgr"}} account. Your email address, {{ verifiedEmail }}, has been verified. Enter your
 							password below to continue.
 						</p>
 					</ng-template>
@@ -169,7 +175,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	initFinished: Promise<any> = new Promise(() => {});
 	loginFinished: Promise<any>;
 
-	get currentTheme() { return this.configService.currentTheme }
+	get thm() { return this.configService.thm }
 
 	constructor(
 		private fb: FormBuilder,
@@ -179,13 +185,13 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		private configService: SystemConfigService,
 		private queryParams: QueryParametersService,
 		public oAuthManager: OAuthManager,
+		private externalToolsManager: ExternalToolsManager,
+		private profileManager: UserProfileManager,
 		router: Router,
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		let serviceName: string;
-		serviceName = this.configService.currentTheme.serviceName;
-		title.setTitle("Login - " + serviceName);
+		title.setTitle(`Login - ${this.configService.thm['serviceName'] || "Badgr"}`);
 		this.handleQueryParamCases();
 	}
 
@@ -218,6 +224,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
+					this.externalToolsManager.externaltoolsList.updateIfLoaded();
 					this.initFinished = this.router.navigate([ 'recipient' ]);
 				});
 				return;
@@ -229,6 +236,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
 
+				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
 			}
@@ -241,6 +249,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 
 			// Handle already logged-in case
 			else if (this.sessionService.isLoggedIn) {
+				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
 			}
@@ -269,16 +278,41 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		this.loginFinished = this.sessionService.login(credential)
 			.then(
 				() => {
-					if (this.oAuthManager.isAuthorizationInProgress) {
-						this.router.navigate([ '/auth/oauth2/authorize' ]);
-					} else {
-						this.router.navigate([ 'recipient' ]);
-					}
+					this.profileManager.userProfilePromise.then((profile) => {
+						// fetch user profile and emails to check if they are verified
+						profile.emails.updateList().then(() => {
+							if (profile.isVerified) {
+								if (this.oAuthManager.isAuthorizationInProgress) {
+									this.router.navigate([ '/auth/oauth2/authorize' ]);
+								} else {
+									this.externalToolsManager.externaltoolsList.updateIfLoaded();
+									this.router.navigate([ 'recipient' ]);
+								}
+							} else {
+								this.router.navigate([ 'signup/success', { email: profile.emails.entities[0].email } ]);
+							}
+
+						})
+					});
+
 				},
-				error => this.messageService.reportHandledError(
-					"Login failed. Please check your email and password and try again.",
-					error
-				)
+				(error) => {
+					const body = error.json();
+					let msg = "Login failed. Please check your email and password and try again.";
+					if (body['error'] == 'login attempts throttled') {
+						if (body['expires']) {
+							if (body['expires'] > 60) {
+								msg = `Too many login attempts. Try again in ${Math.ceil(body['expires'] / 60)} minutes.`;
+							} else {
+								msg = `Too many login attempts. Try again in ${body['expires']} seconds.`
+							}
+						}
+						else {
+							msg = "Too many login attempts. Please wait and try again."
+						}
+					}
+					this.messageService.reportHandledError(msg, error);
+				}
 			)
 			.then(() => this.loginFinished = null);
 	}

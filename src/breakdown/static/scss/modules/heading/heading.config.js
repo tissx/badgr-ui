@@ -33,6 +33,10 @@ module.exports = {
 			},
 			label: 'With Aside (Example)',
 			name: 'withasideexample'
+		},
+		{
+			name: 'Expiration Date (Example)',
+		    view: 'heading--example.hbs'
 		}
 	]
 };

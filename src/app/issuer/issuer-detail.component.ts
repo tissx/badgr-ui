@@ -22,6 +22,7 @@ import { CommonEntityManager } from "../entity-manager/common-entity-manager.ser
 
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -268,11 +269,12 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected badgeClassService: BadgeClassManager,
 		protected recipientGroupManager: RecipientGroupManager,
 		protected profileManager: UserProfileManager,
+		private configService: SystemConfigService,
 		private externalToolsManager: ExternalToolsManager
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("Issuer Detail - Badgr");
+		title.setTitle(`Issuer Detail - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.issuerSlug = this.route.snapshot.params['issuerSlug'];
 
@@ -283,12 +285,16 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then(
 			(issuer) => {
 				this.issuer = issuer;
-				this.title.setTitle("Issuer - " + this.issuer.name + " - Badgr");
+				this.title.setTitle(`Issuer - ${this.issuer.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 				this.badgesLoaded = new Promise((resolve, reject) => {
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(
 						badgesByIssuer => {
+							const cmp = (a,b) => a == b ? 0 : (a < b ? -1 : 1);
 							this.badges = badgesByIssuer[ this.issuer.issuerUrl ];
+							if (this.badges) {
+								this.badges = this.badges.sort((a,b) => cmp(b.createdAt, a.createdAt));
+							}
 							resolve();
 						},
 						error => {

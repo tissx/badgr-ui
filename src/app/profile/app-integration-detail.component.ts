@@ -6,6 +6,7 @@ import { Title } from "@angular/platform-browser";
 import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authenticated-routable.component";
 import { AppIntegration } from "./models/app-integration.model";
 import { AppIntegrationManager } from "./services/app-integration-manager.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 export abstract class AppIntegrationDetailComponent<
 	T extends AppIntegration<any>
@@ -20,10 +21,11 @@ export abstract class AppIntegrationDetailComponent<
 
 		private title: Title,
 		private messageService: MessageService,
-		private appIntegrationManager: AppIntegrationManager
+		private appIntegrationManager: AppIntegrationManager,
+		private configService: SystemConfigService
 	) {
 		super(router, route, loginService);
-		title.setTitle("App Integrations - Badgr");
+		title.setTitle(`App Integrations - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.integrationPromise = appIntegrationManager.appIntegrations.loadedPromise.then(
 			list => {

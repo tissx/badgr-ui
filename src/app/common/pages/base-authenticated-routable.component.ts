@@ -23,7 +23,7 @@ export class BaseAuthenticatedRoutableComponent extends BaseRoutableComponent im
 
 		if (! this.sessionService.isLoggedIn) {
 			// Do a hard browser redirect to avoid any corrupted state from not being logged in
-			window.location.assign(`/auth/login?authError=${encodeURIComponent("Please log in to Badgr first")}`);
+			window.location.assign(`/auth/login?authError=${encodeURIComponent("Please log in first")}`);
 
 			throw new Error("Not logged in");
 		}

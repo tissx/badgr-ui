@@ -11,6 +11,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { RecipientGroupSelectionDialog } from "./recipientgroup-selection-dialog.component";
 import { RecipientGroup } from "./models/recipientgroup.model";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -107,11 +108,12 @@ export class PathwayGroupSubscriptionComponent extends BaseAuthenticatedRoutable
 		protected title: Title,
 		protected pathwayManager: PathwayManager,
 		protected issuerManager: IssuerManager,
+		protected configService: SystemConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("Pathway Group Subscription - Badgr");
+		title.setTitle(`Pathway Group Subscription - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.pathwayLoaded = this.pathwayManager
 			.pathwaySummaryFor(this.issuerSlug, this.pathwaySlug)

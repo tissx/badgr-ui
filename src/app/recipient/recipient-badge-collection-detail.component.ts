@@ -11,6 +11,7 @@ import { BaseAuthenticatedRoutableComponent } from "../common/pages/base-authent
 import { SessionService } from "../common/services/session.service";
 import { ShareSocialDialogOptions } from "../common/dialogs/share-social-dialog.component";
 import { addQueryParamsToUrl } from "../common/util/url-util";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -88,12 +89,19 @@ import { addQueryParamsToUrl } from "../common/util/url-util";
 										<span class="stack-x-image">
 											<img [loaded-src]="entry.badge.image"
 											     [loading-src]="badgeLoadingImageUrl"
-											     [error-src]="badgeFailedImageUrl"
+												 [error-src]="badgeFailedImageUrl"
+												 [ngStyle]="entry.badge.isExpired && {'filter':'grayscale(1)'}"
 											     width="40" />
 										</span>
 										<span class="stack-x-text">
-											<span class="stack-x-title">{{ entry.badge.badgeClass.name }}</span>
+											<span class="stack-x-title">
+												<span *ngIf="entry.badge.mostRelevantStatus" class="u-margin-right1x status status-{{entry.badge.mostRelevantStatus}}">
+													{{entry.badge.mostRelevantStatus}}
+												</span> 	
+												{{ entry.badge.badgeClass.name }}
+											</span>
 										</span>
+										
 									</a>
 								</th>
 								<td class="hidden hidden-is-desktop" >{{ entry.badge.badgeClass.issuer.name }}</td>
@@ -134,11 +142,12 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 		private messageService: MessageService,
 		private recipientBadgeManager: RecipientBadgeManager,
 		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager,
+		private configService: SystemConfigService,
 		private dialogService: CommonDialogsService
 	) {
 		super(router, route, loginService);
 
-		title.setTitle("Collections - Badgr");
+		title.setTitle(`Collections - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		this.collectionLoadedPromise = Promise.all([
 				this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,
@@ -256,7 +265,7 @@ export function shareCollectionDialogOptionsFor(collection: RecipientBadgeCollec
 		embedOptions: [
 			{
 				label: "Card",
-				embedTitle: "Badgr Badge Collection: " + collection.name,
+				embedTitle: "Badge Collection: " + collection.name,
 				embedType: "iframe",
 				embedSize: { width: 330, height: 186 },
 				embedVersion: 1,

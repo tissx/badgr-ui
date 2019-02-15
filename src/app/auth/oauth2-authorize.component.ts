@@ -10,6 +10,7 @@ import { throwExpr } from "../common/util/throw-expr";
 import { flatten } from "../common/util/array-reducers";
 import { Title } from "@angular/platform-browser";
 import { InitialLoadingIndicatorService } from "../common/services/initial-loading-indicator.service";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -23,7 +24,7 @@ import { InitialLoadingIndicatorService } from "../common/services/initial-loadi
 					<div><img [src]="oAuthManager.currentAuthorization.application.image"
 					          alt="{{ authorizingApp.application.name }} Logo"
 					          height="72" /></div>
-					<div><img [src]="authLinkBadgrLogoSrc" height="72" alt="Badgr Logo" /></div>
+					<div><img [src]="authLinkBadgrLogoSrc" height="72" alt="Logo" /></div>
 				</div>
 				<table class="l-auth-x-permissions table">
 					<thead>
@@ -78,11 +79,11 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 		protected loginService: SessionService,
 		protected oAuthManager: OAuthManager,
 		protected queryParams: QueryParametersService,
+		private configService: SystemConfigService,
 		protected initialLoadingIndicatorService: InitialLoadingIndicatorService
 	) {
 		super(router, route);
-
-		title.setTitle("Authorize - Badgr");
+		title.setTitle(`Authorize - ${this.configService.thm['serviceName'] || "Badgr"}`);
 	}
 
 	get authorizingApp() {
@@ -126,7 +127,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 						.then(
 							state => {
 								if (state == AuthAttemptResult.AUTHORIZATION_REQUIRED) {
-									this.title.setTitle(`Authorize ${this.authorizingApp.application.name} - Badgr`);
+									this.title.setTitle(`Authorize ${this.authorizingApp.application.name} - ${this.configService.thm['serviceName'] || "Badgr"}`);
 									// We'll stay on this page to perform the authorization
 								} else if (state == AuthAttemptResult.LOGIN_REQUIRED) {
 									return this.router.navigate([ '/auth/login' ]);

@@ -13,7 +13,7 @@ import { EventsService } from "./common/services/events.service";
 import { OAuthManager } from "./common/services/oauth-manager.service";
 import { EmbedService } from "./common/services/embed.service";
 import { InitialLoadingIndicatorService } from "./common/services/initial-loading-indicator.service";
-import { Angulartics2GoogleAnalytics } from "angulartics2";
+import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
 
 import { ApiExternalToolLaunchpoint } from "app/externaltools/models/externaltools-api.model";
 import { ExternalToolsManager } from "app/externaltools/services/externaltools-manager.service";
@@ -37,10 +37,10 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 	template: `
 		<header class="header l-containerhorizontal" *ngIf="showAppChrome">
 
-			<a class="logo" [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : currentTheme.alternateLandingUrl || '/'">
+			<a class="logo" [class.logo-is-loading]="isRequestPending" [href]="isOAuthAuthorizationInProcess ? '#' : thm.alternateLandingUrl || '/'">
 				<picture>
-					<source media="(min-width: 640px)" [srcset]="currentTheme.logoImg.desktop">
-					<img [src]="currentTheme.logoImg.small" alt="Badgr logo">
+					<source media="(min-width: 640px)" [srcset]="logoDesktop">
+					<img [src]="logoSmall" alt="Logo">
 				</picture>
 			</a>
 
@@ -53,7 +53,7 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 		
 		<div *ngIf="isUnsupportedBrowser" class="l-formmessage formmessage formmessage-is-{{status}}"
 		     [class.formmessage-is-active]="isUnsupportedBrowser">
-		    <p>The Browser you are using isn’t fully supported. Badgr may not display correctly and some features may not be accessible or function properly.</p>
+		    <p>The Browser you are using isn’t fully supported. It may not display correctly and some features may not be accessible or function properly.</p>
 		    <button type="button" (click)="dismissUnsupportedBrowserMessage()">Dismiss</button>
 		</div>
 
@@ -74,16 +74,15 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 		<footer class="wrap l-containerhorizontal" *ngIf="showAppChrome">
 			<div class="footer">
 				<ul>
-					<li *ngIf="currentTheme.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
-					<li *ngIf="currentTheme.providedBy">
-						Provided by <a href="{{ currentTheme.providedBy.url}}"target="_blank">{{ currentTheme.providedBy.name }}</a>
+					<li *ngIf="thm.showPoweredByBadgr === undefined || thm.showPoweredByBadgr">Powered by <a href="https://badgr.io">Badgr</a></li>
+					<li *ngIf="thm.providedBy">
+						Provided by <a href="{{ thm.providedBy.url}}"target="_blank">{{ thm.providedBy.name }}</a>
 					</li>
 					
-					<li><a [href]="currentTheme.termsOfServiceLink ? currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html'" target="_blank">Terms of Service</a></li>
-					<li><a [href]="currentTheme.privacyPolicyLink ? currentTheme.privacyPolicyLink : 'http://info.badgr.io/privacy-policy.html'" target="_blank">Privacy Policy</a></li>
+					<li><a [href]="thm.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
+					<li><a [href]="thm.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy Policy</a></li>
 				</ul>
-				<!--<a href="{{ apiBaseUrl }}/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">API documentation</a>-->
-				<a href="https://support.badgr.io/docs/" *ngIf="currentTheme.showApiDocsLink" target="_blank">Documentation</a>
+				<a href="https://support.badgr.io/docs/" *ngIf="thm.showApiDocsLink === undefined || thm.showApiDocsLink" target="_blank">Documentation</a>
 			</div>
 		</footer>
 
@@ -95,6 +94,14 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 				<ng-template [ngIf]="! loggedIn">
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/auth/login']">Sign In</a></li>
 					<li class="menuitem" routerLinkActive="menuitem-is-active"><a [routerLink]="['/signup']">Create Account</a></li>
+					<li class="menuitem" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active">
+						<button>Apps</button>
+						<ul>
+							<li class="menuitem menuitem-secondary" *ngFor="let lp of launchpoints"  routerLinkActive="menuitem-is-active">
+								<a href="{{lp.launch_url}}" target="_blank">{{lp.label}}</a>
+							</li>
+						</ul>
+					</li>
 				</ng-template>
 
 				<!-- Authenticated Menu -->
@@ -111,10 +118,10 @@ import {QueryParametersService} from "./common/services/query-parameters.service
 							</li>
 						</ul>
 					</li>
-					<li class="menuitem" *ngIf="currentTheme.customMenu">
-						<button>{{ currentTheme.customMenu.label }}</button>
+					<li class="menuitem" *ngIf="thm.customMenu">
+						<button>{{ thm.customMenu.label }}</button>
 						<ul>
-							<li class="menuitem menuitem-secondary" *ngFor="let item of currentTheme.customMenu.items">
+							<li class="menuitem menuitem-secondary" *ngFor="let item of thm.customMenu.items">
 								<a [href]="item.url" target="_blank">{{ item.label }}</a></li>
 						</ul>
 					</li>
@@ -158,7 +165,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		return ! this.embedService.isEmbedded;
 	}
 
-	get currentTheme() { return this.configService.currentTheme }
+	get thm() { return this.configService.thm }
 
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
@@ -190,7 +197,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private queryParams: QueryParametersService,
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
-		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics   // required for angulartics to work
+		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager   // required for angulartics to work
 
 	) {
 		messageService.useRouter(router);
@@ -205,12 +212,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
 			});
-
-			this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
-				this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
-			})
 		}
 
+		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
+			this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
+		});
 
 		if (this.embedService.isEmbedded) {
 			// Enable the embedded indicator class on the body
@@ -263,9 +269,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 				a.async = 1;
 				a.src = g;
 				m.parentNode.insertBefore(a, m)
-			})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+			})(window, document, 'script', '//www.googletagmanager.com/gtag/js', 'gtag');
 
-			window[ "ga" ]('create', this.configService.googleAnalyticsConfig.trackingId, 'auto');
+			window[ "gtag" ]('config', this.configService.googleAnalyticsConfig.trackingId);
 		}
 	}
 
@@ -284,4 +290,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 			this.newTermsDialog
 		);
 	}
+
+	defaultLogoSmall = require("../breakdown/static/images/logo.svg");
+	defaultLogoDesktop = require("../breakdown/static/images/logo-desktop.svg");
+	get logoSmall() { return this.thm['logoImg'] ? this.thm['logoImg']['small'] : this.defaultLogoSmall }
+	get logoDesktop() { return this.thm['logoImg'] ? this.thm['logoImg']['desktop'] : this.defaultLogoDesktop }
 }

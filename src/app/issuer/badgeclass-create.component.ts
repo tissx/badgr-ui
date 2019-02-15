@@ -13,6 +13,7 @@ import { IssuerManager } from "./services/issuer-manager.service";
 import { BadgrApiFailure } from "../common/services/api-failure";
 import { CommonDialogsService } from "../common/services/common-dialogs.service";
 import { BadgeClass } from "./models/badgeclass.model";
+import {SystemConfigService} from "../common/services/config.service";
 
 
 @Component({
@@ -61,10 +62,11 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 		protected messageService: MessageService,
 		protected issuerManager: IssuerManager,
 		protected badgeClassManager: BadgeClassManager,
+		private configService: SystemConfigService,
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, sessionService);
-		title.setTitle("Create Badge Class - Badgr");
+		title.setTitle(`Create Badge Class - ${this.configService.thm['serviceName'] || "Badgr"}`);
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then((issuer) => {

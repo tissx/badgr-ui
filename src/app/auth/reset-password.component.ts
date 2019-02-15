@@ -7,6 +7,7 @@ import { MessageService } from "../common/services/message.service";
 import { Title } from "@angular/platform-browser";
 import { markControlsDirty } from "../common/util/form-util";
 import { BaseRoutableComponent } from "../common/pages/base-routable.component";
+import {SystemConfigService} from "../common/services/config.service";
 
 @Component({
 	selector: 'change-password',
@@ -79,11 +80,12 @@ export class ResetPasswordComponent extends BaseRoutableComponent {
 		private sessionService: SessionService,
 		route: ActivatedRoute,
 		router: Router,
+		private configService: SystemConfigService,
 		private _messageService: MessageService
 	) {
 		super(router, route);
 
-		title.setTitle("Reset Password - Badgr");
+		title.setTitle(`Reset Password - ${this.configService.thm['serviceName'] || "Badgr"}`);
 
 		if (! this.resetToken) {
 			this._messageService.reportHandledError("No reset token provided. Please try the reset link again.");

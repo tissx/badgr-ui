@@ -65,11 +65,11 @@ export class NewTermsDialog extends BaseDialog {
 	}
 
 	get termsOfServiceLink() {
-		return this.configService.currentTheme.termsOfServiceLink ? this.configService.currentTheme.termsOfServiceLink : 'http://info.badgr.io/terms-of-service.html';
+		return this.configService.thm['termsOfServiceLink'] || 'https://badgr.org/missing-terms';
 	}
 
 	get termsHelpLink() {
-		return this.configService.currentTheme.termsHelpLink;
+		return this.configService.thm['termsHelpLink'] || 'https://badgr.org/missing-terms-help';
 	}
 
 	get isErrorState(): boolean {

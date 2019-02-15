@@ -111,7 +111,7 @@ export class BadgeInstance extends ManagedEntity<ApiBadgeInstance, BadgeInstance
 		};
 	}
 
-	get instanceUrl(): BadgeInstanceUrl { return this.apiModel.json.id }
+	get instanceUrl(): BadgeInstanceUrl { return this.apiModel.public_url || this.apiModel.json.id }
 
 	get issuerUrl(): IssuerUrl { return this.apiModel.issuer }
 
@@ -128,6 +128,8 @@ export class BadgeInstance extends ManagedEntity<ApiBadgeInstance, BadgeInstance
 	get imagePreview(): string { return `${this.apiModel.json.image}?type=png` }
 
 	get issuedOn(): Date { return new Date(this.apiModel.json.issuedOn) }
+	get expires(): Date { return this.apiModel.expires ? new Date(this.apiModel.expires) : undefined }
+	get isExpired(): boolean { return this.expires && this.expires < new Date(); }
 
 	get createdAt(): Date { return new Date(this.apiModel.created_at) }
 

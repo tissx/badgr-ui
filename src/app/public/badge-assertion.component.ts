@@ -56,11 +56,13 @@ import { saveAs } from "file-saver";
 					<div class="heading">
 						<!-- Badge Assertion Image -->
 						<div class="heading-x-imageLarge">
-							<div class="badge badge-flat">
+							<div class="badge badge-flat u-grid">
 								<img [loaded-src]="assertion.image"
 								     [loading-src]="badgeLoadingImageUrl"
-								     [error-src]="badgeFailedImageUrl"
-								     width="200" />
+									 [error-src]="badgeFailedImageUrl"
+									 [ngStyle]="(assertion.expires && isExpired) && {'filter':'grayscale(1)'}"
+									 width="200" />
+									 <div *ngIf="assertion.expires && isExpired" class="status status-expired u-margin-auto">Expired</div>
 							</div>
 						</div>
 	
@@ -74,7 +76,7 @@ import { saveAs } from "file-saver";
 									<img [loaded-src]="issuer.image"
 									     [loading-src]="issuerImagePlacholderUrl"
 									     [error-src]="issuerImagePlacholderUrl"
-									     width="80" />
+										 width="80" />
 								</div>
 								<div class="stack-x-text">
 									<h2>{{ issuer.name }}</h2>
@@ -296,20 +298,27 @@ export class PublicBadgeAssertionComponent {
 		return url;
 	}
 
-	generateFileName(assertion) {
-		return `${assertion.badge.name} - ${assertion.recipient.identity}`
+	generateFileName(assertion, fileExtension): string {
+		return `${assertion.badge.name} - ${assertion.recipient.identity}${fileExtension}`
 	}
 
-	openSaveDialog(assertion) {
+	openSaveDialog(assertion): void {
 		const xhr = new XMLHttpRequest();
 		xhr.open("GET", assertion.image, true);
 		xhr.responseType = "blob";
 		xhr.onload = (e) => {
 			if (xhr.status == 200) {
-				let name = this.generateFileName(assertion);
-				saveAs( xhr.response, name);
+				let fileExtension = this.mimeToExtension(xhr.response.type);
+				let name = this.generateFileName(assertion, fileExtension);
+				saveAs(xhr.response, name);
 			}
 		};
 		xhr.send();
+	}
+
+	mimeToExtension(mimeType: string): string {
+		if (mimeType.indexOf('svg') != -1) return ".svg"
+		if (mimeType.indexOf('png') != -1) return ".png"
+		return ""
 	}
 }
