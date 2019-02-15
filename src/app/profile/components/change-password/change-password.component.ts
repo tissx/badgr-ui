@@ -19,6 +19,7 @@ import { AppConfigService } from "../../../common/app-config.service";
 export class ChangePasswordComponent extends BaseRoutableComponent {
 	changePasswordForm: FormGroup;
 	profile: UserProfile;
+	passwordsDoNotMatch = false;
 
 	constructor(
 		private fb: FormBuilder,
@@ -47,7 +48,13 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 
 	submitChange() {
 		const NEW_PASSWORD: string = this.changePasswordForm.controls[ 'password1' ].value;
+		const NEW_PASSWORD_2: string = this.changePasswordForm.controls[ 'password2' ].value;
 		const CURRENT_PASSWORD: string = this.changePasswordForm.controls[ 'current_password' ].value;
+
+		if (NEW_PASSWORD !== NEW_PASSWORD_2) {
+			this.passwordsDoNotMatch = true;
+			return false;
+		}
 
 		this.profile.updatePassword(NEW_PASSWORD, CURRENT_PASSWORD)
 			.then(
