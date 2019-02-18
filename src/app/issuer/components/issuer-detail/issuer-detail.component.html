@@ -13,7 +13,7 @@
 				<div class="topbar-x-subheading">
 					<p class="u-text u-text-small">
 						<strong [truncatedText]="issuer.email" [maxLength]="64"></strong>
-						<br class="u-hidden-minmobile"><span class="u-hidden-maxmobile">
+						<br class="u-hidden-minmobilelarge"><span class="u-hidden-maxmobile">
 							— </span>Your Role: {{ issuer?.currentUserStaffMember?.roleInfo?.label }}
 					</p>
 					<p class="u-margin-top1x u-width-paragraph">
@@ -92,7 +92,7 @@
 							<div class="l-flex l-flex-aligncenter l-flex-1x">
 								<img class="l-flex-x-shrink0 badgeimage badgeimage-small" src="{{badge.image}}" alt="{{badge.description}}" width="40">
 								<a class="u-text" [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
-								<div class="u-hidden-minmobile l-flex-x-selfcenter u-margin-leftauto">
+								<div class="u-hidden-minmobilelarge l-flex-x-selfcenter u-margin-leftauto">
 									<a class="u-text-link-small" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
 								</div>
 							</div>
