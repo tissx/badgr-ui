@@ -134,8 +134,8 @@ export class BadgeStudioComponent implements OnInit {
 									iconColor,
 									iconSize,
 									{
-										x: (.5 - center.visualLeft) * this.canvas.width,
-										y: (.5 - center.visualTop) * this.canvas.height
+										x: (.5 - center.visualLeft) * this.canvas.width + (iconCanvas.width / centerSize) / 2,
+										y: (.5 - center.visualTop) * this.canvas.height + (iconCanvas.height / centerSize) / 2
 									}
 								);
 							}
@@ -218,7 +218,7 @@ const shapeImages = [
 // Created from http://fontawesome.io/cheatsheet/
 // Each character is followed by a number indicating if it should be geometrically (1) or visually centered (0).
 // This is used instead of a more readable data array to save program space.
-const fontAwesomeIconData = "10011111111011100000001111111111111" +
+const fontAwesomeIconData = "10011111111011110000001111111111111" +
 	"1111110111100011111111111111001101011111011000" +
 	"10001000000111111111000000000000010111010001110" +
 	"1111011011101111111111001111011100111111111110" +
