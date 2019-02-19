@@ -220,5 +220,5 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 export interface FormFieldSelectOption {
 	label: string
 	value: string
-	description: string;
+	description?: string;
 }
