@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from '@angular/core';
 // import { LoginService } from "../../auth/auth.service";
-import { AuthorizationToken, SessionService } from "./session.service";
-import { AppConfigService } from "../app-config.service";
-import { MessageService } from "./message.service";
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
-import { timeoutPromise } from "../util/promise-util";
-import { Observable } from "rxjs";
+import {AuthorizationToken, SessionService} from './session.service';
+import {AppConfigService} from '../app-config.service';
+import {MessageService} from './message.service';
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import {timeoutPromise} from '../util/promise-util';
+import {Observable} from 'rxjs';
 
 export class BadgrApiError extends Error {
 	constructor(
@@ -164,57 +164,58 @@ export abstract class BaseHttpApiService {
 		return true;
 	};
 
-	handleHttpErrors<T>(
-		response: any,
-		isError: boolean
-	): T | never {
-		if (response && response.status < 200 || response.status >= 300) {
-			if (response.status === 401 || response.status === 403) {
-				this.sessionService.handleAuthenticationError();
-			} else if (response.status === 0) {
-				this.messageService.reportFatalError(`Server Unavailable`);
-			// TODO: Is this going to cause trouble?
-			} else if (response.error && (typeof response.error === "string") && (!this.isJson(response.error))) {
-				throw new BadgrApiError(
-					response.error,
-					response
-				);
-			} else {
-				// TODO: Give nicer error messages!
-				throw new BadgrApiError(
-					`Expected 2xx response; got ${response.status}`,
-					response
-				);
-			}
-		}
-
-		if (isError) {
-			throw response;
-		} else {
-			return response;
-		}
-	}
-
 	private augmentRequest<T>(o: Observable<HttpResponse<T>>): Promise<HttpResponse<T>> {
+		const detectAndHandleResponseErrors = <T>(
+			response: any
+		): T | never => {
+			if (response && response.status < 200 || response.status >= 300) {
+				if (response.status === 401 || response.status === 403) {
+					this.sessionService.handleAuthenticationError();
+				} else if (response.status === 0) {
+					this.messageService.reportFatalError(`Server Unavailable`);
+					// TODO: Is this going to cause trouble?
+				} else if (response.error && (typeof response.error === "string") && (!this.isJson(response.error))) {
+					throw new BadgrApiError(
+						response.error,
+						response
+					);
+				} else {
+					// TODO: Give nicer error messages!
+					throw new BadgrApiError(
+						`Expected 2xx response; got ${response.status}`,
+						response
+					);
+				}
+			}
+
+			return response;
+		};
+
 		return o
 			.toPromise()
 			.then(r => this.addTestingDelay(r))
 			.finally(() => this.messageService.decrementPendingRequestCount())
-			.then<HttpResponse<T>>(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
+			.then<HttpResponse<T>>(
+				r => detectAndHandleResponseErrors(r),
+					r => { throw detectAndHandleResponseErrors(r) }
+			);
 	}
 
 	private addJsonRequestHeader(headers: HttpHeaders) {
 		return headers.append('Content-Type', "application/json");
 	}
+
 	private addJsonResponseHeader(headers: HttpHeaders) {
 		return headers.append('Accept', 'application/json');
 	}
+
 	private addAuthTokenHeader(
 		headers: HttpHeaders,
 		token: AuthorizationToken
 	) {
 		return headers.append('Authorization', 'Bearer ' + token.access_token);
 	}
+
 	private async addTestingDelay<T>(value: T): Promise<T> {
 		return BaseHttpApiService.addTestingDelay(
 			value,
