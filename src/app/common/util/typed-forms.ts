@@ -5,6 +5,7 @@ import { markControlsDirty } from "./form-util";
  * A function that exercises the typed forms to ensure they compile correctly.
  */
 function typedFormExample() {
+	// Create a typed form whose type is dynamically constructed by the builder calls
 	const group = new TypedFormGroup()
 		.add("firstName", typedControl("", Validators.required))
 		.add("lastName", typedControl("", Validators.required))
@@ -14,11 +15,20 @@ function typedFormExample() {
 				.add("street", typedControl("2557 Kincaid"))
 				.add("city", typedControl("Eugene"))
 				.add("zip", typedControl("97405"))
-		);
+		)
+		.addArray(
+			"items",
+			typedGroup()
+				.addControl("itemName", "")
+				.addControl("itemId", 0)
+		)
+	;
 
+	// All these are type checked:
 	group.value.address.street.trim();
 	group.controls.firstName.value;
 	group.untypedControls.firstName.value;
+	group.value.items[0].itemId;
 }
 
 /**
@@ -83,11 +93,22 @@ export abstract class TypedFormItem<ValueType> {
 	get touched() { return this.untypedControl.touched }
 	get untouched() { return this.untypedControl.untouched }
 
+	/**
+	 * Marks all controls in this tree dirty.
+	 */
 	public markTreeDirty() {
 		markControlsDirty(this.untypedControl);
 	}
 
+	/**
+	 * Recursively creates a copy of this TypedFormItem tree with all values intact.
+	 */
 	abstract clone(): this
+
+	/**
+	 * Resets the value of this TypedFormItem tree to the original default values passed in at creation.
+	 */
+	abstract reset();
 }
 
 /**
@@ -96,10 +117,16 @@ export abstract class TypedFormItem<ValueType> {
 export class TypedFormControl<ValueType> extends TypedFormItem<ValueType> {
 	readonly untypedControl: FormControl;
 
-	constructor(value: ValueType, validator?: ValidatorFn | ValidatorFn[]) {
+	constructor(
+		private initialValue: ValueType,
+		validator?: ValidatorFn | ValidatorFn[]
+	) {
 		super();
 
-		this.untypedControl = new FormControl(value, Array.isArray(validator) ? Validators.compose(validator) : validator);
+		this.untypedControl = new FormControl(
+			initialValue,
+			Array.isArray(validator) ? Validators.compose(validator) : validator
+		);
 	}
 
 	clone(): this {
@@ -107,6 +134,10 @@ export class TypedFormControl<ValueType> extends TypedFormItem<ValueType> {
 			this.value,
 			this.untypedControl.validator
 		) as this
+	}
+
+	reset() {
+		this.untypedControl.reset(this.initialValue);
 	}
 }
 
@@ -181,6 +212,10 @@ export class TypedFormGroup<
 		Object.entries(this.controls).forEach(([name, value]) => group.add(name, value.clone()));
 		return group as this;
 	}
+
+	reset() {
+		Object.entries(this.controls).forEach(([name, value]) => value.reset());
+	}
 }
 
 /**
@@ -223,6 +258,10 @@ export class TypedFormArray<
 		const array = new TypedFormArray(this.templateItem);
 		this.controls.forEach(item => array.push(item.clone()));
 		return array as this;
+	}
+
+	reset() {
+		this.controls.forEach(item => item.reset());
 	}
 
 	removeAt(i: number): ItemType {
