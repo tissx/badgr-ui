@@ -158,6 +158,13 @@ export class TypedFormGroup<
 	readonly untypedControl = new FormGroup({});
 	controls = {} as ControlsType;
 
+	/**
+	 * Provides a read-only array of the child controls of this group.
+	 */
+	get controlsArray() {
+		return Object.values(this.controls);
+	}
+
 	get untypedControls(): UntypedGroupOf<ControlsType> {
 		return this.untypedControl.controls as any;
 	}
