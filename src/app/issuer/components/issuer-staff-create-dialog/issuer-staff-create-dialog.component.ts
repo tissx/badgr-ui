@@ -1,32 +1,33 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { BaseDialog } from "../../../common/dialogs/base-dialog";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { EmailValidator } from "../../../common/validators/email.validator";
-import { markControlsDirty } from "../../../common/util/form-util";
-import { IssuerStaffRoleSlug } from "../../models/issuer-api.model";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
-import { MessageService } from "../../../common/services/message.service";
-import { IssuerManager } from "../../services/issuer-manager.service";
-import { Issuer, issuerStaffRoles } from "../../models/issuer.model";
-import { FormFieldSelectOption } from "../../../common/components/formfield-select";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { AppConfigService } from "../../../common/app-config.service";
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {BaseDialog} from '../../../common/dialogs/base-dialog';
+import {FormBuilder, Validators} from '@angular/forms';
+import {EmailValidator} from '../../../common/validators/email.validator';
+import {IssuerStaffRoleSlug} from '../../models/issuer-api.model';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
+import {MessageService} from '../../../common/services/message.service';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {Issuer, issuerStaffRoles} from '../../models/issuer.model';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {AppConfigService} from '../../../common/app-config.service';
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {typedGroup} from '../../../common/util/typed-forms';
+import {MemoizedProperty} from '../../../common/util/memoized-property-decorator';
 
 @Component({
-  selector: 'issuer-staff-create-dialog',
-  templateUrl: './issuer-staff-create-dialog.component.html',
-  styleUrls: ['./issuer-staff-create-dialog.component.css']
+	selector: 'issuer-staff-create-dialog',
+	templateUrl: './issuer-staff-create-dialog.component.html',
+	styleUrls: ['./issuer-staff-create-dialog.component.css']
 })
 export class IssuerStaffCreateDialogComponent extends BaseDialog {
+	staffCreateForm = typedGroup()
+		.addControl('staffRole', 'staff' as IssuerStaffRoleSlug, Validators.required)
+		.addControl('staffEmail', '', [Validators.required, EmailValidator.validEmail]);
 
-	staffCreateForm: FormGroup;
 	issuer: Issuer;
 	issuerSlug: string;
 	issuerLoaded: Promise<Issuer>;
 	error: string = null;
 
-	private _issuerStaffRoleOptions: FormFieldSelectOption[];
 	constructor(
 		componentElem: ElementRef,
 		renderer: Renderer2,
@@ -38,58 +39,44 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 		protected dialogService: CommonDialogsService,
 	) {
 		super(componentElem, renderer);
-		this.initStaffCreateForm();
 	}
 
 	openDialog() {
 		this.showModal();
 	}
+
 	closeDialog() {
 		this.closeModal();
+		this.staffCreateForm.reset();
 	}
 
+	@MemoizedProperty()
 	get issuerStaffRoleOptions() {
-		return this._issuerStaffRoleOptions || (this._issuerStaffRoleOptions = issuerStaffRoles.map(r => ({
+		return issuerStaffRoles.map(r => ({
 			label: r.label,
 			value: r.slug,
 			description: r.description
-		})));
+		}));
 	}
 
-	protected initStaffCreateForm() {
-		this.staffCreateForm = this.formBuilder.group({
-			staffRole: [ '', Validators.required ],
-			staffEmail: [
-				'', Validators.compose([
-					Validators.required,
-					EmailValidator.validEmail
-				])
-			],
-		} as StaffCreateForm<any[]>);
-	}
-
-	submitStaffCreate(formData: StaffCreateForm<string>) {
+	submitStaffCreate() {
 		if (!this.staffCreateForm.valid) {
-			markControlsDirty(this.staffCreateForm);
+			this.staffCreateForm.markTreeDirty();
 			return;
 		}
 
+		const formData = this.staffCreateForm.value;
+
 		return this.issuer.addStaffMember(
-			formData.staffRole as IssuerStaffRoleSlug,
+			formData.staffRole,
 			formData.staffEmail
 		).then(
 			() => {
 				this.error = null;
 				this.messageService.reportMinorSuccess(`Added ${formData.staffEmail} as ${formData.staffRole}`);
-				// this.initStaffCreateForm();
 				this.closeModal();
 			},
-				error => this.error = `Failed to add member: ${BadgrApiFailure.from(error).firstMessage}`
-		)
+			error => this.error = `Failed to add member: ${BadgrApiFailure.from(error).firstMessage}`
+		);
 	}
-}
-
-interface StaffCreateForm<T> {
-	staffRole: T;
-	staffEmail: T;
 }
