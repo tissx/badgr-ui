@@ -57,8 +57,7 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 	}
 
 	submitEdit() {
-		if (! this.profileEditForm.valid) {
-			this.profileEditForm.markTreeDirty();
+		if (! this.profileEditForm.markTreeDirtyAndValidate()) {
 			return;
 		}
 

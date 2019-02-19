@@ -94,6 +94,14 @@ export abstract class TypedFormItem<ValueType> {
 	get untouched() { return this.rawControl.untouched }
 
 	/**
+	 * Marks all controls in this tree dirty and returns true if the form is valid.
+	 */
+	public markTreeDirtyAndValidate() {
+		markControlsDirty(this.rawControl);
+		return this.valid;
+	}
+
+	/**
 	 * Marks all controls in this tree dirty.
 	 */
 	public markTreeDirty() {
