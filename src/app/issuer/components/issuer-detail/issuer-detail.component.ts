@@ -12,7 +12,6 @@ import { Title } from '@angular/platform-browser';
 import { preloadImageURL } from '../../../common/util/file-util';
 import { UserProfileManager } from '../../../common/services/user-profile-manager.service';
 import { UserProfileEmail } from '../../../common/model/user-profile.model';
-
 import { ApiExternalToolLaunchpoint } from 'app/externaltools/models/externaltools-api.model';
 import { ExternalToolsManager } from 'app/externaltools/services/externaltools-manager.service';
 import { AppConfigService } from '../../../common/app-config.service';

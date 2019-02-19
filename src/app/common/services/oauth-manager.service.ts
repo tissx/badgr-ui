@@ -96,7 +96,7 @@ export class OAuthManager {
 		redirectUrl += "error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied";
 		redirectUrl += "&state=" + encodeURIComponent(this.oAuthState.stateString);
 
-		window.location.href = redirectUrl;
+		window.location.replace(redirectUrl);
 		this.oAuthState = null;
 	}
 

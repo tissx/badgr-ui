@@ -20,7 +20,7 @@ export class LogoutComponent extends BaseRoutableComponent {
 		super.ngOnInit();
 
 		this.loginService.logout();
-		window.location.assign('/auth')
+		window.location.replace('/auth')
 	}
 }
 

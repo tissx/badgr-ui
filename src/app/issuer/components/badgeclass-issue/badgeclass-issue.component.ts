@@ -184,6 +184,10 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	}
 
 	onSubmit() {
+		if (! this.issueForm.markTreeDirtyAndValidate()) {
+			return;
+		}
+
 		const formState = this.issueForm.value;
 		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative !== "" || e.evidence_url !== "");
 		const cleanedName = striptags(formState.recipientprofile_name);
@@ -238,12 +242,4 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			this.issueForm.controls.evidence_items.removeAt(i);
 		}
 	}
-
-	clickSubmit(ev: Event) {
-		if (!this.issueForm.valid) {
-			ev.preventDefault();
-			this.issueForm.markTreeDirty();
-		}
-	}
-
 }

@@ -191,11 +191,11 @@ export class SessionService {
 
 		if (this.navService.currentRouteData.publiclyAccessible !== true) {
 			// If we're not on a public page, send the user to the login page with an error
-			window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
+			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
 		} else {
 			// If we _are_ on a public page, reload the page after clearing the session token, because that will clear any messy error states from
 			// api errors.
-			window.location.assign(window.location.toString());
+			window.location.replace(window.location.toString());
 		}
 	}
 }

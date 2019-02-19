@@ -60,8 +60,7 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 	}
 
 	submitStaffCreate() {
-		if (!this.staffCreateForm.valid) {
-			this.staffCreateForm.markTreeDirty();
+		if (! this.staffCreateForm.markTreeDirtyAndValidate()) {
 			return;
 		}
 

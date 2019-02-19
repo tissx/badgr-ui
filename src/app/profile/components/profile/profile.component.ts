@@ -136,8 +136,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	// Emails
 
 	submitEmailForm() {
-		if (! this.emailForm.valid) {
-			this.emailForm.markTreeDirty();
+		if (! this.emailForm.markTreeDirtyAndValidate()) {
 			return;
 		}
 
