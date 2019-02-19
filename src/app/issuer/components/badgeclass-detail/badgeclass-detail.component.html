@@ -238,8 +238,12 @@
 							>Next</button>
 						</nav>
 					</div>
-					<p class="empty" *ngIf="! allBadgeInstances?.length">No recipients.</p>
-					<p class="empty" *ngIf="allBadgeInstances?.length && ! instanceResults?.length">No recipients matching filter.</p>
+					<p	class="u-text-body"
+						*ngIf="! allBadgeInstances?.length"
+					>No recipients.</p>
+					<p	class="u-text-body"
+						*ngIf="allBadgeInstances?.length && ! instanceResults?.length"
+					>No recipients matching filter.</p>
 				</ng-template>
 			</div>
 		</div>
