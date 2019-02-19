@@ -31,10 +31,6 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 
 	public get badgeManager() { return this._commonManager.badgeManager }
 
-	public get pathwayManager() { return this._commonManager.pathwayManager }
-
-	public get recipientGroupManager() { return this._commonManager.recipientGroupManager }
-
 	public get badgeInstanceManager() { return this._commonManager.badgeInstanceManager }
 
 	public get recipientBadgeManager() { return this._commonManager.recipientBadgeManager }

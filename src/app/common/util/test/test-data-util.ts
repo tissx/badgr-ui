@@ -64,23 +64,6 @@ export function randomIssuerName(): string {
 	]);
 }
 
-export function randomPathwayName(): string {
-	return randomNameFromData([
-		["Continuing", "Learning"],
-		["Tree Pruning", "Water Skiing", "Rock Climbing", "Kart Racing", "Mathematics"],
-		["Course", "Education", "Program"]
-	]);
-}
-
-export function randomRecipientGroupName(): string {
-	return randomNameFromData([
-		["Freshman", "Sophomore", "Junior", "Senior", "Continuing Ed"],
-		["Class", "Cohort", "Students"],
-		["of"],
-		["1024", "2048", "4096"]
-	]);
-}
-
 export function randomPersonName() {
 	return randomNameFromData([
 		[

@@ -48,27 +48,6 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 
 	get createdBy(): string { return this.apiModel.created_by }
 
-	get pathwayCount(): number {
-		const pathways = this.commonManager.pathwayManager.pathwaysForIssuer(this.slug);
-		return pathways.loaded
-			? pathways.length
-			: this.apiModel.pathwayCount;
-	}
-
-	get recipientCount(): number {
-		const recipientGroups = this.commonManager.recipientGroupManager.recipientGroupsForIssuer(this.slug);
-		return recipientGroups.loaded
-			? recipientGroups.entities.map(g => g.memberCount).reduce((a, b) => a + b, 0)
-			: this.apiModel.recipientCount;
-	}
-
-	get recipientGroupCount(): number {
-		const recipientGroups = this.commonManager.recipientGroupManager.recipientGroupsForIssuer(this.slug);
-		return recipientGroups.loaded
-			? recipientGroups.length
-			: this.apiModel.recipientGroupCount;
-	}
-
 	get badgeClassCount(): number {
 		const badges = this.commonManager.badgeManager.badgesList;
 

@@ -13,12 +13,8 @@ import { IssuerManager } from "./issuer-manager.service";
 import { ApiIssuer, ApiIssuerStaff, ApiIssuerStaffOperation } from "../models/issuer-api.model";
 import { apiIssuer1, apiIssuer2, apiIssuer3 } from "../models/issuer.model.spec";
 import { verifyEntitySetWhenLoaded, verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { PathwayApiService } from "./pathway-api.service";
-import { RecipientGroupApiService } from "./recipientgroup-api.service";
-import { RecipientGroupManager } from "./recipientgroup-manager.service";
 import { BadgeClassApiService } from "./badgeclass-api.service";
 import { BadgeClassManager } from "./badgeclass-manager.service";
-import { PathwayManager } from "./pathway-manager.service";
 import { MessageService } from "../../common/services/message.service";
 import { SessionService } from "../../common/services/session.service";
 import { first } from "rxjs/operators";
@@ -42,12 +38,6 @@ xdescribe('IssuerManager', () => {
 			CommonEntityManager,
 			IssuerApiService,
 			IssuerManager,
-
-			PathwayApiService,
-		  PathwayManager,
-
-		  RecipientGroupApiService,
-		  RecipientGroupManager,
 
 		  BadgeClassApiService,
 		  BadgeClassManager,
@@ -92,9 +82,6 @@ xdescribe('IssuerManager', () => {
 						.then(list => {
 							/*list.entities.forEach(issuer => {
 								issuer.badgeClassCount;
-								issuer.pathwayCount;
-								issuer.recipientCount;
-								issuer.recipientGroupCount;
 							});*/
 						})
 				])

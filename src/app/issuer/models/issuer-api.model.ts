@@ -30,9 +30,6 @@ export interface ApiIssuer {
 	created_by: string
 	staff: ApiIssuerStaff[]
 
-	pathwayCount: number;
-	recipientCount: number;
-	recipientGroupCount: number;
 	badgeClassCount: number;
 
 	json: ApiIssuerJsonld

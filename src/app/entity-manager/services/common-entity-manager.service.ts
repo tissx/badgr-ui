@@ -1,7 +1,5 @@
 import { Injectable, Injector } from "@angular/core";
-import { PathwayManager } from "../../issuer/services/pathway-manager.service";
 import { BadgeClassManager } from "../../issuer/services/badgeclass-manager.service";
-import { RecipientGroupManager } from "../../issuer/services/recipientgroup-manager.service";
 import { MessageService } from "../../common/services/message.service";
 import { BadgeInstanceManager } from "../../issuer/services/badgeinstance-manager.service";
 import { RecipientBadgeManager } from "../../recipient/services/recipient-badge-manager.service";
@@ -23,14 +21,6 @@ export class CommonEntityManager {
 
 	get badgeManager(): BadgeClassManager {
 		return this.injector.get(BadgeClassManager);
-	}
-
-	get pathwayManager(): PathwayManager {
-		return this.injector.get(PathwayManager);
-	}
-
-	get recipientGroupManager(): RecipientGroupManager {
-		return this.injector.get(RecipientGroupManager);
 	}
 
 	get recipientBadgeManager(): RecipientBadgeManager {

@@ -9,10 +9,6 @@ import { BadgeClassManager } from '../../services/badgeclass-manager.service';
 import { Issuer } from '../../models/issuer.model';
 import { BadgeClass } from '../../models/badgeclass.model';
 import { Title } from '@angular/platform-browser';
-import { LearningPathway } from '../../models/pathway.model';
-import { PathwayManager } from '../../services/pathway-manager.service';
-import { RecipientGroup } from '../../models/recipientgroup.model';
-import { RecipientGroupManager } from '../../services/recipientgroup-manager.service';
 import { preloadImageURL } from '../../../common/util/file-util';
 import { UserProfileManager } from '../../../common/services/user-profile-manager.service';
 import { UserProfileEmail } from '../../../common/model/user-profile.model';
@@ -34,16 +30,11 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	issuer: Issuer;
 	issuerSlug: string;
 	badges: Array<BadgeClass>;
-	confirmingRecipientGroup: RecipientGroup;
 	launchpoints: ApiExternalToolLaunchpoint[];
 
-	pathways: LearningPathway[] = [];
-	recipientGroups: RecipientGroup[] = [];
 	profileEmails: UserProfileEmail[] = [];
 
 	issuerLoaded: Promise<any>;
-	groupsLoaded: Promise<any>;
-	pathwaysLoaded: Promise<any>;
 	badgesLoaded: Promise<any>;
 
 	profileEmailsLoaded: Promise<any>;
@@ -55,9 +46,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected messageService: MessageService,
 		protected title: Title,
 		protected issuerManager: IssuerManager,
-		protected pathwayManager: PathwayManager,
 		protected badgeClassService: BadgeClassManager,
-		protected recipientGroupManager: RecipientGroupManager,
 		protected profileManager: UserProfileManager,
 		private configService: AppConfigService,
 		private externalToolsManager: ExternalToolsManager
@@ -102,17 +91,6 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 			}
 		);
 
-		this.groupsLoaded = this.recipientGroupManager.loadRecipientGroupsForIssuer(this.issuerSlug).then(
-			(groups) => {
-				this.recipientGroups = groups.entities;
-			},
-			(error) => this.messageService.reportAndThrowError(`Failed to fetch Recipient Groups`, error)
-		);
-
-		this.pathwaysLoaded = this.pathwayManager
-			.loadPathwaysForIssuer(this.issuerSlug)
-			.then((pathways) => (this.pathways = pathways.entities));
-
 		this.profileEmailsLoaded = this.profileManager.userProfilePromise
 			.then((profile) => profile.emails.loadedPromise)
 			.then((emails) => (this.profileEmails = emails.entities));
@@ -120,35 +98,5 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 	ngOnInit() {
 		super.ngOnInit();
-	}
-
-	get legacyPathwaysVisible(): boolean {
-		return this.pathwaysLoaded && this.pathways.length > 0;
-	}
-
-	deleteRecipientGroup(group: RecipientGroup) {
-		group
-			.deleteRecipientGroup()
-			.then(
-				() => this.messageService.reportMinorSuccess(`Deleted recipient group ${group.name}`),
-				(error) => this.messageService.reportAndThrowError(`Failed to delete recipient group ${group.name}`)
-			);
-	}
-
-	updateGroupActiveState(recipientGroup: RecipientGroup, active: boolean) {
-		recipientGroup.active = active;
-		recipientGroup
-			.save()
-			.then(
-				() =>
-					this.messageService.reportMinorSuccess(
-						`${active ? 'Activated' : 'Deactivated'} recipient group ${recipientGroup.name}`
-					),
-				(error) =>
-					this.messageService.reportAndThrowError(
-						`Failed to ${active ? 'activate' : 'deactivate'} recipient group ${recipientGroup.name}`,
-						error
-					)
-			);
 	}
 }
