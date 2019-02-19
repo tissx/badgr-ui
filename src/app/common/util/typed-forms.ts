@@ -27,7 +27,7 @@ function typedFormExample() {
 	// All these are type checked:
 	group.value.address.street.trim();
 	group.controls.firstName.value;
-	group.untypedControls.firstName.value;
+	group.rawControlMap.firstName.value;
 	group.value.items[0].itemId;
 }
 
@@ -78,27 +78,40 @@ export function typedArray<
  * Base class for typed form items. Knows what it's own value type is.
  */
 export abstract class TypedFormItem<ValueType> {
-	abstract readonly untypedControl: AbstractControl;
+	abstract readonly rawControl: AbstractControl;
 
-	get value(): ValueType { return this.untypedControl.value }
-	get status() { return this.untypedControl.status }
-	get valid() { return this.untypedControl.valid }
-	get invalid() { return this.untypedControl.invalid }
-	get pending() { return this.untypedControl.pending }
-	get disabled() { return this.untypedControl.disabled }
-	get enabled() { return this.untypedControl.enabled }
-	get errors() { return this.untypedControl.errors }
-	get pristine() { return this.untypedControl.pristine }
-	get dirty() { return this.untypedControl.dirty }
-	get touched() { return this.untypedControl.touched }
-	get untouched() { return this.untypedControl.untouched }
+	get value(): ValueType { return this.rawControl.value }
+	get status() { return this.rawControl.status }
+	get valid() { return this.rawControl.valid }
+	get invalid() { return this.rawControl.invalid }
+	get pending() { return this.rawControl.pending }
+	get disabled() { return this.rawControl.disabled }
+	get enabled() { return this.rawControl.enabled }
+	get errors() { return this.rawControl.errors }
+	get pristine() { return this.rawControl.pristine }
+	get dirty() { return this.rawControl.dirty }
+	get touched() { return this.rawControl.touched }
+	get untouched() { return this.rawControl.untouched }
 
 	/**
 	 * Marks all controls in this tree dirty.
 	 */
 	public markTreeDirty() {
-		markControlsDirty(this.untypedControl);
+		markControlsDirty(this.rawControl);
 	}
+
+	/**
+	 * Sets the value of this form item.
+	 */
+	abstract setValue(
+		value: ValueType,
+		options?: {
+			onlySelf?: boolean;
+			emitEvent?: boolean;
+			emitModelToViewChange?: boolean;
+			emitViewToModelChange?: boolean;
+		}
+	);
 
 	/**
 	 * Recursively creates a copy of this TypedFormItem tree with all values intact.
@@ -115,7 +128,7 @@ export abstract class TypedFormItem<ValueType> {
  * Typed control, wraps a [[FormControl]] and holds the type of the control.
  */
 export class TypedFormControl<ValueType> extends TypedFormItem<ValueType> {
-	readonly untypedControl: FormControl;
+	readonly rawControl: FormControl;
 
 	constructor(
 		private initialValue: ValueType,
@@ -123,7 +136,7 @@ export class TypedFormControl<ValueType> extends TypedFormItem<ValueType> {
 	) {
 		super();
 
-		this.untypedControl = new FormControl(
+		this.rawControl = new FormControl(
 			initialValue,
 			Array.isArray(validator) ? Validators.compose(validator) : validator
 		);
@@ -132,16 +145,28 @@ export class TypedFormControl<ValueType> extends TypedFormItem<ValueType> {
 	clone(): this {
 		return new TypedFormControl(
 			this.value,
-			this.untypedControl.validator
+			this.rawControl.validator
 		) as this
 	}
 
 	reset() {
-		this.untypedControl.reset(this.initialValue);
+		this.rawControl.reset(this.initialValue);
+	}
+
+	setValue(
+		value: ValueType,
+		options?: {
+			onlySelf?: boolean;
+			emitEvent?: boolean;
+			emitModelToViewChange?: boolean;
+			emitViewToModelChange?: boolean
+		}
+	) {
+		this.rawControl.setValue(value);
 	}
 }
 
-type UntypedGroupOf<T> = {
+type RawGroupOf<T> = {
 	[F in keyof T]: AbstractControl
 }
 
@@ -155,7 +180,7 @@ export class TypedFormGroup<
 	ValueType = {},
 	ControlsType = {}
 > extends TypedFormItem<ValueType> {
-	readonly untypedControl = new FormGroup({});
+	readonly rawControl = new FormGroup({});
 	controls = {} as ControlsType;
 
 	/**
@@ -165,8 +190,8 @@ export class TypedFormGroup<
 		return Object.values(this.controls);
 	}
 
-	get untypedControls(): UntypedGroupOf<ControlsType> {
-		return this.untypedControl.controls as any;
+	get rawControlMap(): RawGroupOf<ControlsType> {
+		return this.rawControl.controls as any;
 	}
 
 	addControl<
@@ -210,7 +235,7 @@ export class TypedFormGroup<
 		ControlsType & Record<NameType, ItemType>
 	> {
 		(this.controls as any)[name] = typedItem;
-		this.untypedControl.addControl(name, typedItem.untypedControl);
+		this.rawControl.addControl(name, typedItem.rawControl);
 		return this as any;
 	}
 
@@ -223,6 +248,20 @@ export class TypedFormGroup<
 	reset() {
 		Object.entries(this.controls).forEach(([name, value]) => value.reset());
 	}
+
+	setValue(
+		value: ValueType,
+		options?: {
+			onlySelf?: boolean;
+			emitEvent?: boolean;
+			emitModelToViewChange?: boolean;
+			emitViewToModelChange?: boolean
+		}
+	) {
+		Object.keys(this.controls).forEach(key => {
+			this.controls[key].setValue(value[key]);
+		});
+	}
 }
 
 /**
@@ -233,7 +272,7 @@ export class TypedFormArray<
 	ItemValueType,
 	ItemType extends TypedFormItem<ItemValueType>
 > extends TypedFormItem<ItemValueType[]> {
-	readonly untypedControl = new FormArray([]);
+	readonly rawControl = new FormArray([]);
 
 	controls: ItemType[] = [];
 
@@ -243,17 +282,17 @@ export class TypedFormArray<
 		super();
 	}
 
-	get untypedControls(): AbstractControl[] {
-		return this.untypedControl.controls;
+	get rawControls(): AbstractControl[] {
+		return this.rawControl.controls;
 	}
 
 	get length() {
-		return this.untypedControls.length;
+		return this.rawControls.length;
 	}
 
 	push(item: ItemType): this {
 		this.controls.push(item);
-		this.untypedControl.push(item.untypedControl);
+		this.rawControl.push(item.rawControl);
 		return this;
 	}
 
@@ -274,7 +313,21 @@ export class TypedFormArray<
 	removeAt(i: number): ItemType {
 		const control = this.controls[i];
 		this.controls.splice(i, 1);
-		this.untypedControl.removeAt(i);
+		this.rawControl.removeAt(i);
 		return control;
+	}
+
+	setValue(
+		value: ItemValueType[],
+		options?: {
+			onlySelf?: boolean;
+			emitEvent?: boolean;
+			emitModelToViewChange?: boolean;
+			emitViewToModelChange?: boolean
+		}
+	) {
+		this.controls.forEach(
+			(control, i) => control.setValue(value[i])
+		);
 	}
 }

@@ -29,7 +29,7 @@
 
 
 	<div class="l-containerxaxis l-containeryaxis">
-		<form class="l-responsivelist" [formGroup]="issueForm.untypedControl" (ngSubmit)="onSubmit()" novalidate>
+		<form class="l-responsivelist" [formGroup]="issueForm.rawControl" (ngSubmit)="onSubmit()" novalidate>
 			<!-- Recipient Information -->
 			<div class="formsection" role="group" aria-labelledby="heading-recipientinformation">
 				<h3 class="formsection-x-title" id="heading-recipientinformation">
@@ -48,7 +48,7 @@
 				<div class="formsection-x-body">
 					<div class="forminput">
 						<label class="forminput-x-label">Recipient Name (optional)</label>
-						<bg-formfield-text [control]="issueForm.untypedControls.recipientprofile_name" ariaLabel="Recipient Name (optional)"></bg-formfield-text>
+						<bg-formfield-text [control]="issueForm.rawControlMap.recipientprofile_name" ariaLabel="Recipient Name (optional)"></bg-formfield-text>
 						<p class="u-text u-text-small u-text-dark4 u-margin-top1x u-margin-bottom2x">
 							<strong>Note</strong>
 							: The Recipient Name will appear in the awarded badge
@@ -58,15 +58,15 @@
 					<div class="forminput forminput-full">
 						<label class="forminput-x-label">Identifier</label>
 						<div class="l-spacestack l-spacestack-auto">
-							<bg-formfield-select ariaLabel="Select Options" [control]="issueForm.untypedControls.recipient_type" [optionMap]="identifierOptionMap"></bg-formfield-select>
+							<bg-formfield-select ariaLabel="Select Options" [control]="issueForm.rawControlMap.recipient_type" [optionMap]="identifierOptionMap"></bg-formfield-select>
 
-							<bg-formfield-text [control]="issueForm.untypedControls.recipient_identifier" ariaLabel="Recipient Identifier"
-							 [autofocus]="true" [fieldType]="recipientIdentifierFieldType"></bg-formfield-text>
+							<bg-formfield-text [control]="issueForm.rawControlMap.recipient_identifier" ariaLabel="Recipient Identifier"
+							                   [autofocus]="true" [fieldType]="recipientIdentifierFieldType"></bg-formfield-text>
 						</div>
 					</div>
 					<div class="l-formsection-x-checkbox" *ngIf="issueForm.controls.recipient_type.value == 'email'">
 						<label class="checkbox checkbox-center u-margin-top2x" for="notifybyemail">
-							<input name="notifybyemail" id="notifybyemail" type="checkbox" [formControl]="issueForm.untypedControls.notify_earner">
+							<input name="notifybyemail" id="notifybyemail" type="checkbox" [formControl]="issueForm.rawControlMap.notify_earner">
 							<span class="checkbox-x-text">Notify Recipient by Email</span>
 						</label>
 					</div>
@@ -96,7 +96,7 @@
 					</a>
 				</div>
 				<div class="formsection-x-body">
-					<bg-formfield-markdown class="l-formsection-x-inputoffset" [control]="issueForm.untypedControls.narrative" label="How did the recipient earn this badge?"></bg-formfield-markdown>
+					<bg-formfield-markdown class="l-formsection-x-inputoffset" [control]="issueForm.rawControlMap.narrative" label="How did the recipient earn this badge?"></bg-formfield-markdown>
 				</div>
 			</div>
 
@@ -135,9 +135,9 @@
 								Remove
 							</button>
 						</div>
-						<bg-formfield-markdown [control]="evidence.untypedControls.narrative" label="How is this badge earned?"></bg-formfield-markdown>
-						<bg-formfield-text class="u-margin-top2x u-margin-bottom6x" [control]="evidence.untypedControls.evidence_url" label="URL to Evidence Page"
-						 fieldType="url" [urlField]="true" errorMessage="Please enter a valid URL"></bg-formfield-text>
+						<bg-formfield-markdown [control]="evidence.rawControlMap.narrative" label="How is this badge earned?"></bg-formfield-markdown>
+						<bg-formfield-text class="u-margin-top2x u-margin-bottom6x" [control]="evidence.rawControlMap.evidence_url" label="URL to Evidence Page"
+						                   fieldType="url" [urlField]="true" errorMessage="Please enter a valid URL"></bg-formfield-text>
 					</ng-container>
 
 					<div class="l-stack">
@@ -176,7 +176,7 @@
 				<div class="formsection-x-body">
 
 					<div *ngIf="!defaultExpiration || expirationDateEditable" class="formfield">
-						<bg-formfield-text label="Expiration Date" fieldType="date" [control]="issueForm.untypedControls.expires"
+						<bg-formfield-text label="Expiration Date" fieldType="date" [control]="issueForm.rawControlMap.expires"
 						 ariaLabel="Expiration date" [errorMessage]="'Please enter a date in the format YYYY/mm/dd'"></bg-formfield-text>
 					</div>
 					<div *ngIf="defaultExpiration && !expirationDateEditable" class="forminput">

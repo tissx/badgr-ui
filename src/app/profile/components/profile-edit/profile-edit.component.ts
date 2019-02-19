@@ -11,13 +11,18 @@ import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-a
 import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
 import { UserProfile } from "../../../common/model/user-profile.model";
 import { AppConfigService } from "../../../common/app-config.service";
+import {typedGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	templateUrl: './profile-edit.component.html',
 })
 export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	profile: UserProfile;
-	profileEditForm: FormGroup;
+	profileEditForm = typedGroup()
+		.addControl("firstName", "", Validators.required)
+		.addControl("lastName", "", Validators.required)
+	;
+
 	profileLoaded: Promise<any>;
 
 	constructor(
@@ -41,26 +46,26 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 			)
 		);
 
-		this.profileEditForm = this.formBuilder.group({
-			firstName: [ '', Validators.required ],
-			lastName: [ '', Validators.required ],
-		} as ProfileEditFormControls<any[]>);
-
 		this.profileLoaded.then(() => this.startEditing());
 	}
 
-	get editControls(): ProfileEditFormControls<FormControl> {
-		return this.profileEditForm.controls as any;
-	}
-
 	startEditing() {
-		this.editControls.firstName.setValue(this.profile.firstName, { emitEvent: false });
-		this.editControls.lastName.setValue(this.profile.lastName, { emitEvent: false });
+		this.profileEditForm.setValue(
+			this.profile,
+			{ emitEvent: false }
+		);
 	}
 
-	submitEdit(formState: ProfileEditFormControls<string>) {
-		this.profile.firstName = formState.firstName;
-		this.profile.lastName = formState.lastName;
+	submitEdit() {
+		if (! this.profileEditForm.valid) {
+			this.profileEditForm.markTreeDirty();
+			return;
+		}
+
+		let formValue = this.profileEditForm.value;
+
+		this.profile.firstName = formValue.firstName;
+		this.profile.lastName = formValue.lastName;
 
 		this.profile.save().then(
 			success => {
@@ -72,17 +77,4 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 			}
 		);
 	}
-
-	validateEditForm(ev) {
-		if (! this.profileEditForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.profileEditForm);
-		}
-	}
-}
-
-
-interface ProfileEditFormControls<T> {
-	firstName: T;
-	lastName: T;
 }

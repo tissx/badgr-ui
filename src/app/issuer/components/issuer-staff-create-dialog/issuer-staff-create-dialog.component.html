@@ -19,11 +19,11 @@
 
 			<h3 class="u-margin-bottom2x u-text-small-bold">Choose Role</h3>
 			<form
-				[formGroup]="staffCreateForm.untypedControl"
+				[formGroup]="staffCreateForm.rawControl"
 				(ngSubmit)="submitStaffCreate()">
 				<bg-formfield-radio
 					*ngFor="let role of issuerStaffRoleOptions; last as last;"
-					[control]="staffCreateForm.untypedControls.staffRole"
+					[control]="staffCreateForm.rawControlMap.staffRole"
 					[name]="'staffRole'"
 					[label]="role.label"
 					[value]="role.value"
@@ -32,7 +32,7 @@
 					[errorMessage]="'Please select a staff role'"
 				></bg-formfield-radio>
 				<bg-formfield-text
-					[control]="staffCreateForm.untypedControls.staffEmail"
+					[control]="staffCreateForm.rawControlMap.staffEmail"
 					[label]="'New Member Email'"
 					[errorMessage]="'Please enter valid email address'"
 					placeholder="Staff Email"

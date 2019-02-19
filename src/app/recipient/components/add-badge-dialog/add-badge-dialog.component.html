@@ -19,7 +19,7 @@
 		</div>
 
 
-		<form [formGroup]="addRecipientBadgeForm.untypedControl"
+		<form [formGroup]="addRecipientBadgeForm.rawControl"
 		      (ngSubmit)="submitBadgeRecipientForm()"
 		>
 			<p class="u-padding-yaxis2x u-responsivepadding-xaxis border-light3 u-text-body u-background-light3">
@@ -59,7 +59,7 @@
 			>
 				<bg-formfield-image imageLoaderName="basic"
 				                    [placeholderImage]="uploadBadgeImageUrl"
-				                    [control]="addRecipientBadgeForm.untypedControls.image"
+				                    [control]="addRecipientBadgeForm.rawControlMap.image"
 				                    (change)="controlUpdated(addRecipientBadgeForm.controls.image)"
 				                    class="formimage-badgeUpload"
 				></bg-formfield-image>
@@ -72,7 +72,7 @@
 			>
 				<div class="forminput">
 					<bg-formfield-text urlField="true"
-					                   [control]="addRecipientBadgeForm.untypedControls.url"
+					                   [control]="addRecipientBadgeForm.rawControlMap.url"
 					                   errorMessage="Please enter valid URL"
 					                   (change)="controlUpdated(addRecipientBadgeForm.controls.url)"
 					                   includeLabelAsWrapper="true"
@@ -89,7 +89,7 @@
 			     class="u-padding-all3x"
 			>
 				<div class="forminput">
-					<bg-formfield-text [control]="addRecipientBadgeForm.untypedControls.assertion"
+					<bg-formfield-text [control]="addRecipientBadgeForm.rawControlMap.assertion"
 					                   errorMessage="Please enter valid JSON"
 					                   placeholder="Enter JSON"
 					                   (change)="controlUpdated(addRecipientBadgeForm.controls.assertion)"

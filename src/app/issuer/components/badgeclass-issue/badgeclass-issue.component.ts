@@ -71,8 +71,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	issueForm = typedGroup()
 		.addControl("expires", "", this['expirationValidator'])
 		.addControl("recipient_type", "email" as RecipientIdentifierType, [ Validators.required ], control => {
-			control.untypedControl.valueChanges.subscribe(() => {
-				this.issueForm.controls.recipient_identifier.untypedControl.updateValueAndValidity()
+			control.rawControl.valueChanges.subscribe(() => {
+				this.issueForm.controls.recipient_identifier.rawControl.updateValueAndValidity()
 			})
 		})
 		.addControl("recipient_identifier", "", [ Validators.required, this['idValidator'] ])
@@ -156,7 +156,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				if (badgeClass.expiresDuration && badgeClass.expiresAmount) {
 					this.expirationEnabled = true;
 				}
-				this.issueForm.untypedControls.expires.setValue(this.defaultExpiration);
+				this.issueForm.rawControlMap.expires.setValue(this.defaultExpiration);
 
 				this.title.setTitle(`Award Badge - ${badgeClass.name} - ${this.configService.theme['serviceName'] || "Badgr"}`);
 			});
