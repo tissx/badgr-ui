@@ -68,7 +68,7 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 		this.profile.lastName = formValue.lastName;
 
 		this.profile.save().then(
-			success => {
+			() => {
 				this.messageService.reportMinorSuccess(`Saved profile changes`);
 				this.router.navigate(['/profile/profile']);
 			},

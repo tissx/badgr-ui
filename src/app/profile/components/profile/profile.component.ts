@@ -18,13 +18,17 @@ import { Subscription } from "rxjs";
 import { QueryParametersService } from "../../../common/services/query-parameters.service";
 import { OAuthApiService } from "../../../common/services/oauth-api.service";
 import { AppConfigService } from "../../../common/app-config.service";
+import {typedGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'userProfile',
 	templateUrl: './profile.component.html'
 })
 export class ProfileComponent extends BaseAuthenticatedRoutableComponent implements OnInit, OnDestroy {
-	emailForm: FormGroup;
+	emailForm = typedGroup()
+		.addControl("email", "", [ Validators.required, EmailValidator.validEmail ])
+	;
+
 	profile: UserProfile;
 	emails: UserProfileEmail[];
 
@@ -53,16 +57,6 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 ) {
 		super(router, route, sessionService);
 		title.setTitle(`Profile - ${this.configService.theme['serviceName'] || "Badgr"}`);
-
-		this.emailForm = this.formBuilder.group({
-			'email': [
-				'',
-				Validators.compose([
-					Validators.required,
-					EmailValidator.validEmail
-				])
-			]
-		});
 
 		this.profileLoaded = this.profileManager.userProfilePromise.then(
 			profile => {
@@ -141,11 +135,18 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Emails
 
-	onSubmit(formState) {
+	submitEmailForm() {
+		if (! this.emailForm.valid) {
+			this.emailForm.markTreeDirty();
+			return;
+		}
+
+		const formState = this.emailForm.value;
+
 		this.profile.addEmail(formState.email).then(
 			email => {
 				this.messageService.setMessage("New email is currently pending.", "success");
-				const emailControl: FormControl = <FormControl>this.emailForm.controls[ 'email' ];
+				const emailControl = this.emailForm.rawControlMap.email;
 
 				emailControl.setValue('', { emitEvent: false });
 				emailControl.setErrors(null, { emitEvent: false });
@@ -158,13 +159,6 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 				}
 			}
 		);
-	}
-
-	clickAddEmail(ev: MouseEvent) {
-		if (!this.emailForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.emailForm);
-		}
 	}
 
 	// initialed displayed remove button.
