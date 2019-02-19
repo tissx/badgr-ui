@@ -7,8 +7,6 @@ import { throwExpr } from "../util/throw-expr";
 @Component({
 	selector: 'bg-formfield-image',
 	host: {
-		"[class.dropzone-is-dragging]": "isDragging",
-		"[class.dropzone-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
 		"(drag)": "stopEvent($event)",
 		"(dragstart)": "stopEvent($event)",
 		"(dragover)": "dragStart($event)",
@@ -35,8 +33,13 @@ import { throwExpr } from "../util/throw-expr";
 				class="visuallyhidden"
 		/>
 
-		<label class="dropzone" #imageLabel [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" tabindex="0">
-
+		<label class="dropzone" 
+		       #imageLabel 
+		       [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" 
+		       tabindex="0"
+		       [class.dropzone-is-dragging]="isDragging"
+		       [class.dropzone-is-error]="imageErrorMessage || (control.dirty && !control.valid)"
+		>
 			<div class="dropzone-x-preview" *ngIf="imageDataUrl">
 				<img [src]="imageDataUrl" alt="">
 				<p class="u-text-body">
@@ -139,7 +142,7 @@ export class BgFormFieldImageComponent {
 	drop(ev: DragEvent) {
 		this.dragStop(ev);
 
-		if (ev.dataTransfer && ev.dataTransfer.files) {
+		if (ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files.length) {
 			this.updateFiles(ev.dataTransfer.files);
 		}
 	}

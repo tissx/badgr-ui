@@ -109,7 +109,7 @@ export class BgFormFieldFileComponent {
 
 	drop(ev: DragEvent) {
 		this.dragStop(ev);
-		if (ev.dataTransfer && ev.dataTransfer.files) {
+		if (ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files.length) {
 			this.updateFiles(ev.dataTransfer.files);
 		}
 	}
