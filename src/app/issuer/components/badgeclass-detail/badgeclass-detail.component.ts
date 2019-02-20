@@ -71,6 +71,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	badgeClass: BadgeClass;
 	allBadgeInstances: BadgeClassInstances;
 	instanceResults: BadgeInstance[] = [];
+	popInstance: BadgeInstance | null = null;
 	resultsPerPage = 100;
 	issuer: Issuer;
 
