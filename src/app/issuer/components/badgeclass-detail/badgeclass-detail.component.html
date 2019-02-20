@@ -137,7 +137,7 @@
 
 				<!-- recipients -->
 				<div class="l-stack u-margin-bottom2x u-margin-top4x">
-	                <h2 class="u-text-h3-semibold">({{ recipientCount }}) Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
+	                <h2 class="u-text-h3-semibold">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
 	                <div class="forminput forminput-hasicon">
                     	<p class="forminput-x-sublabel"
                         >Search by full email address</p>
@@ -168,7 +168,7 @@
 									<div class="l-flex l-flex-2x l-flex-aligncenter">
 										<span *ngIf="instance.isExpired" class="status status-expired u-margin-right1x">expired</span>
 										<span class="l-flex-x-grow u-overflow-ellipsis">{{ instance.recipientIdentifier }}</span>
-										<span class="l-flex l-flex-justifyend l-flex-aligncenter l-flex-1x u-hidden-minmobilelargelarge">
+										<span class="l-flex l-flex-justifyend l-flex-aligncenter l-flex-1x u-hidden-minmobilelarge">
 								          	<button class="buttonicon buttonicon-link"
 								          		[bgPopupMenuTrigger]="mobileTableMoreMenu">
 								            	<svg icon="icon_more"></svg>
