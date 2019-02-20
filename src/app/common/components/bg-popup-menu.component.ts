@@ -112,6 +112,14 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 
 		if (this.popper) {
 			this.popper.destroy();
+			this.popper = null;
+
+			if (this.removeWindowClickListener) {
+				this.removeWindowClickListener();
+				this.removeWindowClickListener = null;
+			}
+
+			this.hideElem();
 		}
 	}
 
