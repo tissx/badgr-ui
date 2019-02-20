@@ -79,20 +79,14 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 		this.componentElem.classList.toggle("menu-is-open", false);
 
 		if (this.popper) {
-			this.popper.destroy();
+			this.cleanUp();
 			this.popper = null;
-
-			if (this.removeWindowClickListener) {
-				this.removeWindowClickListener();
-				this.removeWindowClickListener = null;
-			}
-
 			this.hideElem();
 		}
 	}
 
 	toggle(triggerElem: HTMLElement) {
-		if (!this.isOpen || this.lastTriggerElem != triggerElem) {
+		if (!this.isOpen || this.lastTriggerElem !== triggerElem) {
 			if (this.isOpen) this.close();
 
 			this.open(triggerElem);
@@ -109,19 +103,16 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.componentElem && this.componentElem.remove();
-
-		if (this.popper) {
-			this.popper.destroy();
-			this.popper = null;
-
-			if (this.removeWindowClickListener) {
-				this.removeWindowClickListener();
-				this.removeWindowClickListener = null;
-			}
-
-			this.hideElem();
-		}
+		if (this.popper) this.cleanUp();
 	}
+
+	cleanUp = () => {
+		this.popper.destroy();
+		if (this.removeWindowClickListener) {
+			this.removeWindowClickListener();
+			this.removeWindowClickListener = null;
+		}
+	};
 
 	handleClick(event: Event) {
 		if (this.componentElem) {
