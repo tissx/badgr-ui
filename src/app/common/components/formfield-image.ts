@@ -55,7 +55,8 @@ import { throwExpr } from "../util/throw-expr";
 			</ng-container>
 
 		</label>
-		<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
+		
+		<p class="forminput-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
 	</div>
 	`,
 
