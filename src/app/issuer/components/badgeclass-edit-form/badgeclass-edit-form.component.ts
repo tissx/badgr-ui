@@ -98,8 +98,8 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	// Expiration
 	expirationEnabled = false;
 	expirationForm = typedGroup()
-		.addControl("expires_amount", "", [Validators.required, this.positiveInteger])
-		.addControl("expires_duration", "", Validators.required);
+		.addControl('expires_amount', '', [Validators.required, this.positiveInteger])
+		.addControl('expires_duration', '', Validators.required);
 
 	durationOptions: { [key in BadgeClassExpiresDuration]: string } = {
 		days: 'Days',
@@ -134,30 +134,32 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	initFormFromExisting() {
 		const badgeClass = this.existingBadgeClass;
 
-		this.badgeClassForm.setValue(
-			{
-				badge_name: badgeClass.name,
-				badge_image: badgeClass.image,
-				badge_description: badgeClass.description,
-				badge_criteria_url: badgeClass.criteria_url,
-				badge_criteria_text: badgeClass.criteria_text,
-				alignments: this.badgeClass.alignments.map(alignment => ({
-					target_name: alignment.target_name,
-					target_url: alignment.target_url,
-					target_description: alignment.target_description,
-					target_framework: alignment.target_framework,
-					target_code: alignment.target_code,
-				}))
+		if (badgeClass) {
+			this.badgeClassForm.setValue(
+				{
+					badge_name: badgeClass.name,
+					badge_image: badgeClass.image,
+					badge_description: badgeClass.description,
+					badge_criteria_url: badgeClass.criteria_url,
+					badge_criteria_text: badgeClass.criteria_text,
+					alignments: this.badgeClass.alignments.map(alignment => ({
+						target_name: alignment.target_name,
+						target_url: alignment.target_url,
+						target_description: alignment.target_description,
+						target_framework: alignment.target_framework,
+						target_code: alignment.target_code,
+					}))
+				}
+			);
+
+			this.tags = new Set();
+			this.badgeClass.tags.forEach(t => this.tags.add(t));
+
+			this.tagsEnabled = this.tags.size > 0;
+			this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
+			if (badgeClass.expiresAmount && badgeClass.expiresDuration) {
+				this.enableExpiration();
 			}
-		);
-
-		this.tags = new Set();
-		this.badgeClass.tags.forEach(t => this.tags.add(t));
-
-		this.tagsEnabled = this.tags.size > 0;
-		this.alignmentsEnabled = this.badgeClass.alignments.length > 0;
-		if (badgeClass.expiresAmount && badgeClass.expiresDuration) {
-			this.enableExpiration();
 		}
 	}
 
@@ -235,16 +237,16 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		this.badgeClassForm.controls.alignments.reset();
 	}
 
-	async removeAlignment(alignment: this["badgeClassForm"]["controls"]["alignments"]["controls"][0]) {
+	async removeAlignment(alignment: this['badgeClassForm']['controls']['alignments']['controls'][0]) {
 		const value = alignment.value;
 
-		if ((value.target_name||"").trim().length > 0
-			|| (value.target_url||"").trim().length > 0
-			|| (value.target_description||"").trim().length > 0
-			|| (value.target_framework||"").trim().length > 0
-			|| (value.target_code||"").trim().length > 0
+		if ((value.target_name || '').trim().length > 0
+			|| (value.target_url || '').trim().length > 0
+			|| (value.target_description || '').trim().length > 0
+			|| (value.target_framework || '').trim().length > 0
+			|| (value.target_code || '').trim().length > 0
 		) {
-			if (! await this.dialogService.confirmDialog.openTrueFalseDialog({
+			if (!await this.dialogService.confirmDialog.openTrueFalseDialog({
 				dialogTitle: 'Remove Alignment?',
 				dialogBody: 'Are you sure you want to remove this alignment? This action cannot be undone.',
 				resolveButtonLabel: 'Remove Alignment',
@@ -258,14 +260,14 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	criteriaRequired(): { [id: string]: boolean } | null {
-		if (! this.badgeClassForm) return null;
+		if (!this.badgeClassForm) return null;
 
 		const value = this.badgeClassForm.value;
 
-		const criteriaUrl = (value.badge_criteria_url || "").trim();
-		const criteriaText = (value.badge_criteria_text || "").trim();
+		const criteriaUrl = (value.badge_criteria_url || '').trim();
+		const criteriaText = (value.badge_criteria_text || '').trim();
 
-		if (! criteriaUrl.length && ! criteriaText.length) {
+		if (!criteriaUrl.length && !criteriaText.length) {
 			return {'criteriaRequired': true};
 		} else {
 			return null;
@@ -278,11 +280,11 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 			this.expirationForm.markTreeDirty();
 		}
 
-		if (! this.badgeClassForm.valid || (this.expirationEnabled && !this.expirationForm.valid)) {
-			const firstInvalidInput = this.formElem.nativeElement.querySelector(".ng-invalid,.dropzone-is-error,.u-text-error");
+		if (!this.badgeClassForm.valid || (this.expirationEnabled && !this.expirationForm.valid)) {
+			const firstInvalidInput = this.formElem.nativeElement.querySelector('.ng-invalid,.dropzone-is-error,.u-text-error');
 			if (firstInvalidInput) {
-				if (typeof firstInvalidInput["focus"] === "function") {
-					firstInvalidInput["focus"]();
+				if (typeof firstInvalidInput['focus'] === 'function') {
+					firstInvalidInput['focus']();
 				}
 
 				firstInvalidInput.scrollIntoView({behavior: 'smooth'});
