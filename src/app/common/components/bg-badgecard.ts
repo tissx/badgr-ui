@@ -27,7 +27,7 @@ declare function require(path: string): string;
 				<div class="badgecard-x-date">
 					<time [date]="badgeIssueDate" format="mediumDate"></time>
 				</div>
-				
+
 				<!-- Show Verify or Share Button -->
 				<button class="badgecard-x-sharelink" *ngIf="!verifyUrl"
 				        (click)="shareClicked.emit($event)">
