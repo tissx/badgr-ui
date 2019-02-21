@@ -43,6 +43,7 @@ export interface BadgrTheme {
 	 */
 	termsOfServiceLink?: string;
 	privacyPolicyLink?: string;
+	dataProcessorTermsLink?: string;
 
 	/*
 	 * Help link shown in new terms of service modal dialog
