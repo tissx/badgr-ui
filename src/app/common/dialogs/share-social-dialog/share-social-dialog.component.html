@@ -200,11 +200,11 @@
 					*ngIf="options.embedOptions.length > 1"
 			>
 				<ng-template ngFor let-embedOption [ngForOf]="options.embedOptions" let-i="index">
-					<label class="radio" for="embed-type-{{i}}">
+					<label class="radio" [attr.for]="'embed-type-' + i">
 						<input
 							type="radio"
-							name="embed-type-{{i}}"
-							id="embed-type-{{i}}"
+							[name]="'embed-type-' + i"
+							[id]="'embed-type-' + i"
 							[value]="embedOption"
 							[(ngModel)]="selectedEmbedOption"
 							(ngModelChange)="updateEmbedHtml()"/>

@@ -97,7 +97,7 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 				clearTimeout(this.timeout);
 				this.timeout = null;
 			}
-			if (this.status == "success") {
+			if (this.status === "success") {
 				this.timeout = setTimeout(() => {
 					this.dismissMessage();
 					this.timeout = null;

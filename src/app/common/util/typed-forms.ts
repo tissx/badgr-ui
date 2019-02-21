@@ -1,4 +1,13 @@
-import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
+import {
+	AbstractControl,
+	AbstractControlOptions,
+	AsyncValidatorFn,
+	FormArray,
+	FormControl,
+	FormGroup,
+	ValidatorFn,
+	Validators
+} from '@angular/forms';
 import { markControlsDirty } from "./form-util";
 
 /**
@@ -55,8 +64,11 @@ export function typedControl<ValueType>(
  *
  * @returns {TypedFormGroup<{}, {}>}
  */
-export function typedGroup(): TypedFormGroup<{}, {}> {
-	return new TypedFormGroup();
+export function typedGroup(
+	validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
+	asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
+): TypedFormGroup<{}, {}> {
+	return new TypedFormGroup(validatorOrOpts, asyncValidator);
 }
 
 /**
@@ -188,8 +200,16 @@ export class TypedFormGroup<
 	ValueType = {},
 	ControlsType = {}
 > extends TypedFormItem<ValueType> {
-	readonly rawControl = new FormGroup({});
+	readonly rawControl: FormGroup;
 	controls = {} as ControlsType;
+
+	constructor(
+		validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
+		asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
+	) {
+		super();
+		this.rawControl = new FormGroup({}, validatorOrOpts, asyncValidator);
+	}
 
 	/**
 	 * Provides a read-only array of the child controls of this group.
@@ -270,6 +290,10 @@ export class TypedFormGroup<
 			this.controls[key].setValue(value[key]);
 		});
 	}
+
+	hasError(errorCode: string, path?: Array<string | number> | string) {
+		return this.rawControl.hasError(errorCode, path);
+	}
 }
 
 /**
@@ -334,6 +358,14 @@ export class TypedFormArray<
 			emitViewToModelChange?: boolean
 		}
 	) {
+		while (this.controls.length < value.length) {
+			this.addFromTemplate();
+		}
+
+		while (this.controls.length > value.length) {
+			this.removeAt(this.controls.length - 1);
+		}
+
 		this.controls.forEach(
 			(control, i) => control.setValue(value[i])
 		);

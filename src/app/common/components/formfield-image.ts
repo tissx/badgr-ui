@@ -33,9 +33,9 @@ import { throwExpr } from "../util/throw-expr";
 				class="visuallyhidden"
 		/>
 
-		<label class="dropzone" 
-		       #imageLabel 
-		       [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" 
+		<label class="dropzone"
+		       #imageLabel
+		       [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()"
 		       tabindex="0"
 		       [class.dropzone-is-dragging]="isDragging"
 		       [class.dropzone-is-error]="imageErrorMessage || (control.dirty && !control.valid)"
@@ -55,7 +55,8 @@ import { throwExpr } from "../util/throw-expr";
 			</ng-container>
 
 		</label>
-		<p class="formimage-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
+
+		<p class="forminput-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
 	</div>
 	`,
 
@@ -65,7 +66,6 @@ export class BgFormFieldImageComponent {
 	@Input() set imageLoaderName(name: string) {
 		this.imageLoader = namedImageLoaders[name] || throwExpr(new Error(`Invalid image loader name ${name}`));
 	}
-	@Input() generateRandom = false;
 	get imageDataUrl() {
 		return this.control.value;
 	}
@@ -83,6 +83,7 @@ export class BgFormFieldImageComponent {
 	}
 
 	static uniqueNameCounter = 0;
+	@Input() generateRandom = false;
 
 	@Output() generateRandomImage: EventEmitter<any> = new EventEmitter();
 	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));

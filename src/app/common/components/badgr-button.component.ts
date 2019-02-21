@@ -50,7 +50,7 @@ export class BadgrButtonComponent {
 	) {}
 
 	private updatePromises(promises: Promise<any>[]) {
-		if (promises.length == 0) {
+		if (promises.length === 0) {
 			this.loadingPromise = null;
 			this.promiseLoading = false;
 		} else {
@@ -60,12 +60,12 @@ export class BadgrButtonComponent {
 
 			ourPromise.then(
 				() => {
-					if (ourPromise == this.loadingPromise) {
+					if (ourPromise === this.loadingPromise) {
 						this.promiseLoading = false;
 					}
 				},
 				() => {
-					if (ourPromise == this.loadingPromise) {
+					if (ourPromise === this.loadingPromise) {
 						this.promiseLoading = false;
 					}
 				}

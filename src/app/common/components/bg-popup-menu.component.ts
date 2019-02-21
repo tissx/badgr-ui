@@ -10,7 +10,6 @@ import Popper, { Placement } from "popper.js";
 	template: '<ng-content></ng-content>',
 	host: {
 		"class": "menu",
-		"(window:click)": "handleClick($event)",
 		"[attr.inert]": "(! isOpen) || undefined"
 	}
 })
@@ -33,6 +32,8 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 	menuPlacement: Placement = "bottom-end";
 	private popper: Popper | null = null;
 	private lastTriggerElem: HTMLElement | null = null;
+
+	private removeWindowClickListener?: (() => void) | null = null;
 
 	constructor(
 		private componentElemRef: ElementRef,
@@ -60,6 +61,14 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 					}
 				);
 			});
+
+			// Bind the window click handler only on open because there is a performance overhead for each window-level event handler created.
+			// This handler should be removed when the popup menu is closed.
+			this.removeWindowClickListener = this.renderer.listen(
+				"window",
+				"click",
+				(event) => this.handleClick(event)
+			);
 		}
 
 		this.componentElem.style.display = "";
@@ -70,15 +79,14 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 		this.componentElem.classList.toggle("menu-is-open", false);
 
 		if (this.popper) {
-			this.popper.destroy();
+			this.cleanUp();
 			this.popper = null;
-
 			this.hideElem();
 		}
 	}
 
 	toggle(triggerElem: HTMLElement) {
-		if (!this.isOpen || this.lastTriggerElem != triggerElem) {
+		if (!this.isOpen || this.lastTriggerElem !== triggerElem) {
 			if (this.isOpen) this.close();
 
 			this.open(triggerElem);
@@ -95,11 +103,16 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.componentElem && this.componentElem.remove();
-
-		if (this.popper) {
-			this.popper.destroy();
-		}
+		if (this.popper) this.cleanUp();
 	}
+
+	cleanUp = () => {
+		this.popper.destroy();
+		if (this.removeWindowClickListener) {
+			this.removeWindowClickListener();
+			this.removeWindowClickListener = null;
+		}
+	};
 
 	handleClick(event: Event) {
 		if (this.componentElem) {
