@@ -1,20 +1,22 @@
-import { Component } from "@angular/core";
+import {Component} from '@angular/core';
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../../../common/util/form-util";
-import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
-import { AppConfigService } from "../../../common/app-config.service";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {Title} from '@angular/platform-browser';
+import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
+import {AppConfigService} from '../../../common/app-config.service';
+import {typedGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'change-password',
 	templateUrl: './reset-password.component.html'
 })
 export class ResetPasswordComponent extends BaseRoutableComponent {
-	changePasswordForm: FormGroup;
+	changePasswordForm = typedGroup()
+		.addControl("password1", "", Validators.required)
+		.addControl("password2", "", [ Validators.required, this.passwordsMatch.bind(this) ]);
 
 	get resetToken(): string {
 		return this.route.snapshot.params['token'];
@@ -40,20 +42,17 @@ export class ResetPasswordComponent extends BaseRoutableComponent {
 
 	ngOnInit() {
 		super.ngOnInit();
-
-		this.changePasswordForm = this.fb.group({
-				password1: [ '', Validators.required ],
-				password2: [ '', Validators.required ]
-			}, { validator: this.passwordsMatch }
-		);
 	}
 
 	submitChange() {
-		const TOKEN: string = this.resetToken;
-		const NEW_PASSWORD: string = this.changePasswordForm.controls[ 'password1' ].value;
+		if (! this.changePasswordForm.markTreeDirtyAndValidate())
+			return;
 
-		if (TOKEN) {
-			this.sessionService.submitForgotPasswordChange(NEW_PASSWORD, TOKEN)
+		const token = this.resetToken;
+		const newPassword = this.changePasswordForm.controls.password1.value;
+
+		if (token) {
+			this.sessionService.submitForgotPasswordChange(newPassword, token)
 				.then(
 					() => {
 						// TODO: We should get the user's name and auth so we can send them to the auth page pre-populated
@@ -62,13 +61,6 @@ export class ResetPasswordComponent extends BaseRoutableComponent {
 					},
 					err => this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
 				);
-		}
-	}
-
-	clickSubmit(ev: Event) {
-		if (!this.changePasswordForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.changePasswordForm);
 		}
 	}
 
