@@ -126,6 +126,6 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	get dataProcessorUrl() {
-		return this.configService.theme['dataProcessorTermsLink'] || 'https://badgr.com/en-us/data-processing.html';
+		return this.configService.theme.dataProcessorTermsLink || 'https://badgr.com/en-us/data-processing.html';
 	}
 }
