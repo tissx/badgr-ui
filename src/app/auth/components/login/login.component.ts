@@ -18,6 +18,7 @@ import { ExternalToolsManager } from "../../../externaltools/services/externalto
 import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
 import { HttpErrorResponse } from '@angular/common/http';
 import { AppConfigService } from "../../../common/app-config.service";
+import {typedGroup} from '../../../common/util/typed-forms';
 
 
 @Component({
@@ -27,7 +28,12 @@ import { AppConfigService } from "../../../common/app-config.service";
 export class LoginComponent extends BaseRoutableComponent implements OnInit, AfterViewInit {
 
 	get theme() { return this.configService.theme }
-	loginForm: FormGroup;
+	loginForm = typedGroup()
+		.addControl("username", "", [ Validators.required, EmailValidator.validEmail ])
+		.addControl("password", "", Validators.required)
+		.addControl("rememberMe", false)
+	;
+
 	verifiedName: string;
 	verifiedEmail: string;
 
@@ -58,23 +64,11 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	ngOnInit() {
 		super.ngOnInit();
 
-		let email: string;
-
 		this.initVerifiedData();
 
-		email = this.verifiedEmail || '';
-
-		this.loginForm = this.fb.group({
-			'username': [
-				email,
-				Validators.compose([
-					Validators.required,
-					EmailValidator.validEmail
-				])
-			],
-			'password': [ '', Validators.required ],
-			'rememberMe': 'false',
-		});
+		if (this.verifiedEmail) {
+			this.loginForm.controls.username.setValue(this.verifiedEmail);
+		}
 	}
 
 	ngAfterViewInit(): void {
@@ -84,6 +78,10 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	}
 
 	submitAuth() {
+		if (! this.loginForm.markTreeDirtyAndValidate()) {
+			return;
+		}
+
 		let credential: UserCredential = new UserCredential(
 			this.loginForm.value.username, this.loginForm.value.password);
 
@@ -127,13 +125,6 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				}
 			)
 			.then(() => this.loginFinished = null);
-	}
-
-	clickSubmit(ev) {
-		if (!this.loginForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.loginForm);
-		}
 	}
 
 	private handleQueryParamCases() {
