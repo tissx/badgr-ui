@@ -1,6 +1,6 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { BadgeInstanceManager } from "./badgeinstance-manager.service";
-import { MockBackend } from "@angular/http/testing";
+import {inject, TestBed} from '@angular/core/testing';
+import {BadgeInstanceManager} from './badgeinstance-manager.service';
+import {MockBackend} from '@angular/http/testing';
 import {
 	randomBadgeName,
 	randomEmail,
@@ -8,19 +8,19 @@ import {
 	randomNames,
 	randomUuid,
 	testSlugForName
-} from "../../common/util/test/test-data-util";
-import { ApiBadgeInstance, ApiBadgeInstanceJsonld } from "../models/badgeinstance-api.model";
-import { testIssuerRefForSlug } from "./issuer-manager.service.spec";
-import { testBadgeClassRefForSlugs } from "./badgeclass-manager.service.spec";
-import { expectRequestAndRespondWith } from "../../common/util/mock-response-util.spec";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { BadgeInstance } from "../models/badgeinstance.model";
-import { verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { AppConfigService } from "../../common/app-config.service";
-import { SessionService } from "../../common/services/session.service";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { BadgeInstanceApiService } from "./badgeinstance-api.service";
-import { MessageService } from "../../common/services/message.service";
+} from '../../common/util/test/test-data-util';
+import {ApiBadgeInstance, ApiBadgeInstanceJsonld} from '../models/badgeinstance-api.model';
+import {testIssuerRefForSlug} from './issuer-manager.service.spec';
+import {testBadgeClassRefForSlugs} from './badgeclass-manager.service.spec';
+import {expectRequestAndRespondWith} from '../../common/util/mock-response-util.spec';
+import {BaseRequestOptions, Http, RequestMethod} from '@angular/http';
+import {BadgeInstance} from '../models/badgeinstance.model';
+import {verifyManagedEntitySet} from '../../common/model/managed-entity-set.spec';
+import {AppConfigService} from '../../common/app-config.service';
+import {SessionService} from '../../common/services/session.service';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {BadgeInstanceApiService} from './badgeinstance-api.service';
+import {MessageService} from '../../common/services/message.service';
 
 xdescribe('BadgeInstanceManager', () => {
 	const defaultIssuerSlug = testSlugForName(randomIssuerName());
@@ -60,7 +60,7 @@ xdescribe('BadgeInstanceManager', () => {
 				const apiInstances = randomNames(3, randomUuid).map(slug =>
 					generateTestBadgeInstance({
 						issuerSlug: defaultIssuerSlug,
-						badgeClassSlug: badgeClassSlug,
+						badgeClassSlug,
 						badgeInstanceSlug: slug
 					})
 				);
@@ -69,7 +69,7 @@ xdescribe('BadgeInstanceManager', () => {
 					expectBadgeInstanceListRequest(mockBackend, defaultIssuerSlug, badgeClassSlug, apiInstances),
 					badgeInstanceManager.instancesForBadgeClass(defaultIssuerSlug, badgeClassSlug)
 						.then(list => {
-							verifyManagedEntitySet(list, apiInstances, verifyBadgeInstance)
+							verifyManagedEntitySet(list, apiInstances, verifyBadgeInstance);
 						})
 				]);
 
@@ -85,7 +85,7 @@ xdescribe('BadgeInstanceManager', () => {
 				const email = randomEmail();
 				const newApiInstance = generateTestBadgeInstance({
 					issuerSlug: defaultIssuerSlug,
-					badgeClassSlug: badgeClassSlug,
+					badgeClassSlug,
 					recipientIdentifier: email,
 				});
 
@@ -107,7 +107,7 @@ xdescribe('BadgeInstanceManager', () => {
 							recipient_identifier: email
 						}
 					).then(instance => {
-						verifyBadgeInstance(instance, newApiInstance)
+						verifyBadgeInstance(instance, newApiInstance);
 					})
 
 				]);
@@ -123,7 +123,7 @@ xdescribe('BadgeInstanceManager', () => {
 				const apiInstances = randomNames(2, randomUuid).map(slug =>
 					generateTestBadgeInstance({
 						issuerSlug: defaultIssuerSlug,
-						badgeClassSlug: badgeClassSlug,
+						badgeClassSlug,
 						badgeInstanceSlug: slug
 					})
 				);
@@ -142,7 +142,7 @@ xdescribe('BadgeInstanceManager', () => {
 									"success"
 								),
 								instanceToRevoke.revokeBadgeInstance("BadgeInstanceManager Testing Revoke").then(() => {
-									verifyManagedEntitySet(list, [ apiInstances[ 1 ] ], verifyBadgeInstance)
+									verifyManagedEntitySet(list, [ apiInstances[ 1 ] ], verifyBadgeInstance);
 								})
 
 							]);
@@ -165,7 +165,7 @@ function expectBadgeInstanceListRequest(
 		RequestMethod.Get,
 		`/v1/issuer/issuers/${issuerSlug}/badges/${badgeClassSlug}/assertions?num=100`,
 		instances
-	)
+	);
 }
 
 export function verifyBadgeInstance(
@@ -189,7 +189,7 @@ function generateTestBadgeInstance(
 		recipientIdentifier = randomEmail()
 	}
 ): ApiBadgeInstance {
-	return <ApiBadgeInstance>{
+	return {
 		"slug": badgeInstanceSlug,
 		"image": "",
 		"recipient_identifier": recipientIdentifier,
@@ -197,12 +197,12 @@ function generateTestBadgeInstance(
 		"issuer": testIssuerRefForSlug(issuerSlug)[ "@id" ],
 		"badge_class": testBadgeClassRefForSlugs(issuerSlug, badgeClassSlug)[ "@id" ],
 		"created_at": "2015-09-18T17:47:47Z",
-		"json": <ApiBadgeInstanceJsonld>{
+		"json": {
 			"type": "Assertion",
 			"id": testBadgeInstanceRefForSlugs(issuerSlug, badgeClassSlug, badgeInstanceSlug)[ "@id" ],
 			"uid": badgeInstanceSlug,
-		},
-	};
+		} as ApiBadgeInstanceJsonld,
+	} as ApiBadgeInstance;
 }
 
 

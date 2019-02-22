@@ -1,10 +1,10 @@
-import { SimpleChange } from "@angular/core";
+import {SimpleChange} from '@angular/core';
 
 export class ChangeDetectionUtil {
 	static typedChangesFor<T>(
 		changes: { [propName: string]: SimpleChange }
 	): T {
-		let result: T = {} as T;
+		const result: T = {} as T;
 
 		Object.keys(changes)
 			.forEach(key => result[ key ] = changes[ key ].currentValue);
@@ -17,7 +17,7 @@ export class ChangeDetectionUtil {
 		propName: string,
 		watcher: (T1, T2) => any
 	) {
-		let dataPropName = "_" + propName;
+		const dataPropName = "_" + propName;
 
 		Object.defineProperties(
 			object,
@@ -29,9 +29,9 @@ export class ChangeDetectionUtil {
 				},
 				propName: {
 					configurable: true,
-					get: function () { return object[ dataPropName ]; },
-					set: function (newValue) {
-						let oldValue = object[ dataPropName ];
+					get () { return object[ dataPropName ]; },
+					set (newValue) {
+						const oldValue = object[ dataPropName ];
 						if (newValue !== oldValue) {
 							object[ dataPropName ] = newValue;
 							watcher(newValue, oldValue);
@@ -39,7 +39,7 @@ export class ChangeDetectionUtil {
 					}
 				}
 			}
-		)
+		);
 	}
 
 	static watchProperties<T1, T2 extends T1>(

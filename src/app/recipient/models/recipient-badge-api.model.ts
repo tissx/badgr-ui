@@ -37,65 +37,65 @@ export interface ApiRecipientBadgeInstance {
 	imagePreview: {
 		type: "image",
 		id: string
-	}
+	};
 	issuerImagePreview?: {
 		type: "image",
 		id: string
-	}
+	};
 	shareUrl?: string;
 	extensions?: object;
 }
 
 export interface ApiRecipientBadgeRecipient {
-	type: string
-	recipient: ApiRecipientBadgeRecipientEmail
+	type: string;
+	recipient: ApiRecipientBadgeRecipientEmail;
 }
 
 export interface ApiRecipientBadgeClass {
-	id: ApiBadgeRecipientClassBadgeUrl
-	alignment: string
-	type: string
-	name: string
-	description: string
-	image: string
-	criteria?: string
-	criteria_text?: string
-	criteria_url?: string
-	tags: string[]
-	issuer: ApiRecipientBadgeIssuer
+	id: ApiBadgeRecipientClassBadgeUrl;
+	alignment: string;
+	type: string;
+	name: string;
+	description: string;
+	image: string;
+	criteria?: string;
+	criteria_text?: string;
+	criteria_url?: string;
+	tags: string[];
+	issuer: ApiRecipientBadgeIssuer;
 }
 
 export interface ApiRecipientBadgeInstanceJson {
-	id: RecipientBadgeInstanceUrl
-	type: string
-	uid: string
-	recipient: ApiRecipientBadgeRecipient
-	badge: ApiRecipientBadgeClass
-	issuedOn: string
-	image: string
-	evidence?: string
-	narrative?: string
-	expires?: string
+	id: RecipientBadgeInstanceUrl;
+	type: string;
+	uid: string;
+	recipient: ApiRecipientBadgeRecipient;
+	badge: ApiRecipientBadgeClass;
+	issuedOn: string;
+	image: string;
+	evidence?: string;
+	narrative?: string;
+	expires?: string;
 }
 
 export interface ApiRecipientBadgeIssuer {
-	id: string
-	type: string
-	name: string
-	url: string
-	description: string
-	email: string
+	id: string;
+	type: string;
+	name: string;
+	url: string;
+	description: string;
+	email: string;
 	image?: string;
 }
 
 export type RecipientBadgeInstanceCreationInfo = RecipientBadgeInstanceFromHostedUrl | RecipientBadgeInstanceFromImage | RecipientBadgeInstanceFromJson;
 
 export interface RecipientBadgeInstanceFromHostedUrl {
-	url: string
+	url: string;
 }
 export interface RecipientBadgeInstanceFromImage {
-	image: string
+	image: string;
 }
 export interface RecipientBadgeInstanceFromJson {
-	assertion: string
+	assertion: string;
 }

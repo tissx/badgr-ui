@@ -1,25 +1,19 @@
-import { forwardRef, Inject, Injectable } from "@angular/core";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
-import { BadgeClass } from "../models/badgeclass.model";
-import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
-import {
-	ApiBadgeClass,
-	ApiBadgeClassForCreation,
-	BadgeClassRef,
-	BadgeClassSlug,
-	BadgeClassUrl
-} from "../models/badgeclass-api.model";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { BadgeClassApiService } from "./badgeclass-api.service";
-import { IssuerSlug, IssuerUrl } from "../models/issuer-api.model";
-import { AnyRefType, EntityRef } from "../../common/model/entity-ref";
-import { ManagedEntityGrouping } from "../../common/model/entity-set";
-import { MessageService } from "../../common/services/message.service";
-import { Observable } from "rxjs";
-import { HttpClient } from "@angular/common/http";
-import { first, map } from "rxjs/operators";
+import {forwardRef, Inject, Injectable} from '@angular/core';
+import {BaseHttpApiService} from '../../common/services/base-http-api.service';
+import {SessionService} from '../../common/services/session.service';
+import {AppConfigService} from '../../common/app-config.service';
+import {BadgeClass} from '../models/badgeclass.model';
+import {StandaloneEntitySet} from '../../common/model/managed-entity-set';
+import {ApiBadgeClass, ApiBadgeClassForCreation, BadgeClassRef, BadgeClassSlug, BadgeClassUrl} from '../models/badgeclass-api.model';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {BadgeClassApiService} from './badgeclass-api.service';
+import {IssuerSlug, IssuerUrl} from '../models/issuer-api.model';
+import {AnyRefType, EntityRef} from '../../common/model/entity-ref';
+import {ManagedEntityGrouping} from '../../common/model/entity-set';
+import {MessageService} from '../../common/services/message.service';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {first, map} from 'rxjs/operators';
 
 @Injectable()
 export class BadgeClassManager extends BaseHttpApiService {
@@ -34,7 +28,7 @@ export class BadgeClassManager extends BaseHttpApiService {
 		badgeClass => badgeClass.issuerUrl
 	);
 
-	get badgeClasses() { return this.badgesList.entities }
+	get badgeClasses() { return this.badgesList.entities; }
 
 	get badgeClassesByIssuerUrl(): { [issuerUrl: string]: BadgeClass[] } {
 		return this.badgesByIssuerUrl.grouped;

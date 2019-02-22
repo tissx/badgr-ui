@@ -1,16 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../../../common/services/message.service";
-import { SessionService } from "../../../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../../../common/util/form-util";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessageService} from '../../../common/services/message.service';
+import {SessionService} from '../../../common/services/session.service';
+import {Title} from '@angular/platform-browser';
 
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { UserProfile } from "../../../common/model/user-profile.model";
-import { AppConfigService } from "../../../common/app-config.service";
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {UserProfile} from '../../../common/model/user-profile.model';
+import {AppConfigService} from '../../../common/app-config.service';
 import {typedGroup} from '../../../common/util/typed-forms';
 
 @Component({
@@ -61,7 +60,7 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 			return;
 		}
 
-		let formValue = this.profileEditForm.value;
+		const formValue = this.profileEditForm.value;
 
 		this.profile.firstName = formValue.firstName;
 		this.profile.lastName = formValue.lastName;

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from '@angular/core';
 
 /**
  * Service to manage the initial loading indicator, allowing customizations to when it is hidden.
@@ -8,7 +8,7 @@ export class InitialLoadingIndicatorService {
 	private _initialLoadedPromise: Promise<any>;
 
 	get initialLoadedPromise() {
-		return this._initialLoadedPromise
+		return this._initialLoadedPromise;
 	}
 
 	set initialLoadedPromise(
@@ -33,7 +33,7 @@ export class InitialLoadingIndicatorService {
 	private hideIndicator() {
 		const indicatorElem = document.getElementById("initial-loading-indicator");
 		if (indicatorElem) {
-			indicatorElem.style.display = "none"
+			indicatorElem.style.display = "none";
 		}
 	}
 }

@@ -1,13 +1,13 @@
-import { Component, ElementRef, Renderer2, ViewChild } from "@angular/core";
-import { RecipientBadgeManager } from "../../services/recipient-badge-manager.service";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { UrlValidator } from "../../../common/validators/url.validator";
-import { JsonValidator } from "../../../common/validators/json.validator";
-import { MessageService } from "../../../common/services/message.service";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
-import { BaseDialog } from "../../../common/dialogs/base-dialog";
-import { preloadImageURL } from "../../../common/util/file-util";
-import { FormFieldText } from "../../../common/components/formfield-text";
+import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
+import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
+import {FormBuilder} from '@angular/forms';
+import {UrlValidator} from '../../../common/validators/url.validator';
+import {JsonValidator} from '../../../common/validators/json.validator';
+import {MessageService} from '../../../common/services/message.service';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
+import {BaseDialog} from '../../../common/dialogs/base-dialog';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {FormFieldText} from '../../../common/components/formfield-text';
 import {TypedFormControl, typedGroup} from '../../../common/util/typed-forms';
 
 
@@ -31,7 +31,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 		.addControl("assertion", "", JsonValidator.validJson)
 	;
 
-	showAdvance: boolean = false;
+	showAdvance = false;
 	formError: string;
 
 	currentTab: AddBadgeDialogTabName = "upload";
@@ -86,7 +86,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 	get formHasBadgeValue() {
 		const formState = this.addRecipientBadgeForm.value;
 
-		return !!(formState.assertion || formState.image || formState.url)
+		return !!(formState.assertion || formState.image || formState.url);
 	}
 
 	submitBadgeRecipientForm() {
@@ -96,7 +96,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 			this.badgeUploadPromise = this.recipientBadgeManager
 				.createRecipientBadge(formState)
 				.then(instance => {
-					this.messageService.reportMajorSuccess("Badge successfully imported.")
+					this.messageService.reportMajorSuccess("Badge successfully imported.");
 					this.closeDialog();
 				})
 				.catch(err => {
@@ -120,7 +120,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 				.catch(e => {
 					this.closeModal();
 					this.rejectFunc(e);
-				})
+				});
 		} else {
 			this.formError = "At least one badge input is required";
 		}
@@ -134,7 +134,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 					control.reset();
 				}
 			}
-		)
+		);
 	}
 
 	clearFormError() {

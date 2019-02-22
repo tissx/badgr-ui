@@ -1,17 +1,17 @@
-import { Component, ElementRef, Renderer2 } from "@angular/core";
+import {Component, ElementRef, Renderer2} from '@angular/core';
 
 
-import { IssuerManager } from "../../services/issuer-manager.service";
-import { BadgeClassManager } from "../../services/badgeclass-manager.service";
-import { BadgeClass } from "../../models/badgeclass.model";
-import { BadgeClassUrl } from "../../models/badgeclass-api.model";
-import { Issuer } from "../../models/issuer.model";
-import { MessageService } from "../../../common/services/message.service";
-import { combineLatest } from "rxjs";
-import { StringMatchingUtil } from "../../../common/util/string-matching-util";
-import { SettingsService } from "../../../common/services/settings.service";
-import { BaseDialog } from "../../../common/dialogs/base-dialog";
-import { first } from "rxjs/operators";
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {BadgeClassManager} from '../../services/badgeclass-manager.service';
+import {BadgeClass} from '../../models/badgeclass.model';
+import {BadgeClassUrl} from '../../models/badgeclass-api.model';
+import {Issuer} from '../../models/issuer.model';
+import {MessageService} from '../../../common/services/message.service';
+import {combineLatest} from 'rxjs';
+import {StringMatchingUtil} from '../../../common/util/string-matching-util';
+import {SettingsService} from '../../../common/services/settings.service';
+import {BaseDialog} from '../../../common/dialogs/base-dialog';
+import {first} from 'rxjs/operators';
 
 
 export interface BadgeSelectionDialogOptions {
@@ -205,7 +205,7 @@ export class BadgeSelectionDialog extends BaseDialog {
 		this.saveSettings();
 	}
 
-	get groupByIssuer() { return this.settings.groupByIssuer }
+	get groupByIssuer() { return this.settings.groupByIssuer; }
 
 	set groupByIssuer(value: boolean) {
 		this.settings.groupByIssuer = value;
@@ -216,10 +216,10 @@ export class BadgeSelectionDialog extends BaseDialog {
 		groupByIssuer: true,
 		badgeSortBy: "newest-first"
 	};
-	dialogId: string = "badgeDialog";
-	dialogTitle: string = "Select Badges";
+	dialogId = "badgeDialog";
+	dialogTitle = "Select Badges";
 
-	multiSelectMode: boolean = false;
+	multiSelectMode = false;
 	restrictToIssuerId: string = null;
 
 	selectedBadges = new Set<BadgeClass>();
@@ -232,7 +232,7 @@ export class BadgeSelectionDialog extends BaseDialog {
 	allBadges: BadgeClass[];
 	allIssuers: Issuer[];
 
-	hasMultipleIssuers: boolean = true;
+	hasMultipleIssuers = true;
 
 	badgesLoaded: Promise<any>;
 	settings: BadgeSelectionDialogSettings = Object.assign({}, BadgeSelectionDialog.defaultSettings);
@@ -240,7 +240,7 @@ export class BadgeSelectionDialog extends BaseDialog {
 
 	private resolveFunc: { (badges: BadgeClass[]): void };
 
-	private _searchQuery: string = "";
+	private _searchQuery = "";
 
 	private loadedData = false;
 
@@ -304,8 +304,8 @@ export class BadgeSelectionDialog extends BaseDialog {
 	applySorting() {
 		const badgeSorter = (a: BadgeClass, b: BadgeClass) => {
 			if (this.badgeSortBy === "name") {
-				let aName = a.name.toLowerCase();
-				let bName = b.name.toLowerCase();
+				const aName = a.name.toLowerCase();
+				const bName = b.name.toLowerCase();
 
 				return aName === bName ? 0 : (aName < bName ? -1 : 1);
 			} else if (this.badgeSortBy === "newest-first") {
@@ -364,8 +364,8 @@ export class BadgeSelectionDialog extends BaseDialog {
 		this.badgeResults.length = 0;
 		this.issuerResults.length = 0;
 
-		let issuerResultsByIssuer: {[issuerUrl: string]: MatchingIssuerBadges} = {};
-		let addedBadgeIds = new Set<BadgeClassUrl>();
+		const issuerResultsByIssuer: {[issuerUrl: string]: MatchingIssuerBadges} = {};
+		const addedBadgeIds = new Set<BadgeClassUrl>();
 
 		const addBadgeToResults = (badge: BadgeClass) => {
 
@@ -445,8 +445,8 @@ class MatchingIssuerBadges {
 
 class MatchingAlgorithm {
 	static issuerMatcher(inputPattern: string): (issuer: Issuer) => boolean {
-		let patternStr = StringMatchingUtil.normalizeString(inputPattern);
-		let patternExp = StringMatchingUtil.tryRegExp(patternStr);
+		const patternStr = StringMatchingUtil.normalizeString(inputPattern);
+		const patternExp = StringMatchingUtil.tryRegExp(patternStr);
 
 		return issuer => (
 			StringMatchingUtil.stringMatches(issuer.slug, patternStr, patternExp) ||
@@ -455,8 +455,8 @@ class MatchingAlgorithm {
 	}
 
 	static badgeMatcher(inputPattern: string): (badge: BadgeClass) => boolean {
-		let patternStr = StringMatchingUtil.normalizeString(inputPattern);
-		let patternExp = StringMatchingUtil.tryRegExp(patternStr);
+		const patternStr = StringMatchingUtil.normalizeString(inputPattern);
+		const patternExp = StringMatchingUtil.tryRegExp(patternStr);
 
 		return badge => (
 			StringMatchingUtil.stringMatches(badge.slug, patternStr, patternExp) ||

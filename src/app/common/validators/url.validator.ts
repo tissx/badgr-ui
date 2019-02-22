@@ -1,6 +1,6 @@
-import { FormControl } from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import isURL from 'validator/lib/isURL';
-import { ValidationResult } from "./email.validator";
+import {ValidationResult} from './email.validator';
 
 export class UrlValidator {
 	static validUrl(control: FormControl): ValidationResult {
@@ -23,7 +23,7 @@ export class UrlValidator {
 	static addMissingHttpToControl(control: FormControl): void {
 		const url = control.value;
 		if (url && url.search(/https?:/) === -1) {
-			control.setValue('http://' + url)
+			control.setValue('http://' + url);
 		}
 	}
 }

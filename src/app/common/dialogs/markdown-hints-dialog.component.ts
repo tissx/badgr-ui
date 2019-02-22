@@ -1,5 +1,5 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { BaseDialog } from './base-dialog';
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {BaseDialog} from './base-dialog';
 
 
 @Component ({

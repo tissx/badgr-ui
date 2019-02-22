@@ -25,10 +25,10 @@ export abstract class BaseHttpApiService {
 		value: T,
 		configService: AppConfigService
 	): Promise<T> {
-		let delayRange = configService.apiConfig.debugDelayRange;
+		const delayRange = configService.apiConfig.debugDelayRange;
 
 		if (delayRange) {
-			let delayMs = Math.floor(delayRange.minMs + (delayRange.maxMs - delayRange.minMs) * Math.random());
+			const delayMs = Math.floor(delayRange.minMs + (delayRange.maxMs - delayRange.minMs) * Math.random());
 
 			console.warn(`Delaying API response by ${delayMs}ms for debugging`, value);
 
@@ -53,14 +53,15 @@ export abstract class BaseHttpApiService {
 	get<T = Object>(
 		path: string,
 		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
-		requireAuth: boolean = true,
-		useAuth: boolean = true,
+		requireAuth = true,
+		useAuth = true,
 		headers: HttpHeaders = new HttpHeaders()
 	): Promise<HttpResponse<T>> {
 		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
 
-		if (useAuth && (requireAuth || this.sessionService.isLoggedIn))
+		if (useAuth && (requireAuth || this.sessionService.isLoggedIn)) {
 			headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+		}
 
 		headers = this.addJsonResponseHeader(headers);
 		this.messageService.incrementPendingRequestCount();
@@ -68,7 +69,7 @@ export abstract class BaseHttpApiService {
 		return this.augmentRequest<T>(
 			this.http.get<T>(endpointUrl, {
 				observe: 'response',
-				headers: headers,
+				headers,
 				params: queryParams,
 				responseType: 'json'
 			})
@@ -94,7 +95,7 @@ export abstract class BaseHttpApiService {
 				JSON.stringify(payload),
 				{
 					observe: 'response',
-					headers: headers,
+					headers,
 					params: queryParams,
 					responseType: 'json'
 				}
@@ -121,7 +122,7 @@ export abstract class BaseHttpApiService {
 				JSON.stringify(payload),
 				{
 					observe: 'response',
-					headers: headers,
+					headers,
 					params: queryParams,
 					responseType: 'json'
 				}
@@ -146,7 +147,7 @@ export abstract class BaseHttpApiService {
 				endpointUrl,
 				{
 					observe: 'response',
-					headers: headers,
+					headers,
 					params: queryParams,
 					responseType: 'json',
 					...payload ? {body: JSON.stringify(payload)} : {}
@@ -197,7 +198,7 @@ export abstract class BaseHttpApiService {
 			.finally(() => this.messageService.decrementPendingRequestCount())
 			.then<HttpResponse<T>>(
 				r => detectAndHandleResponseErrors(r),
-					r => { throw detectAndHandleResponseErrors(r) }
+					r => { throw detectAndHandleResponseErrors(r); }
 			);
 	}
 

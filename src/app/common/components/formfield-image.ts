@@ -1,8 +1,8 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { base64ByteSize, loadImageURL, preloadImageURL, readFileAsDataURL } from "../util/file-util";
-import { DomSanitizer } from '@angular/platform-browser';
-import { throwExpr } from "../util/throw-expr";
+import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {base64ByteSize, loadImageURL, preloadImageURL, readFileAsDataURL} from '../util/file-util';
+import {DomSanitizer} from '@angular/platform-browser';
+import {throwExpr} from '../util/throw-expr';
 
 @Component({
 	selector: 'bg-formfield-image',
@@ -76,7 +76,7 @@ export class BgFormFieldImageComponent {
 		return this.domSanitizer.bypassSecurityTrustUrl(this.imageDataUrl);
 	}
 
-	get imageSize() { return base64ByteSize(this.imageDataUrl) }
+	get imageSize() { return base64ByteSize(this.imageDataUrl); }
 
 	private get element(): HTMLElement {
 		return this.elemRef.nativeElement as any;
@@ -91,18 +91,18 @@ export class BgFormFieldImageComponent {
 
 	@Input() control: FormControl;
 	@Input() label: string;
-	@Input() errorMessage: string = "Please provide a valid image file";
+	@Input() errorMessage = "Please provide a valid image file";
 	@Input() placeholderImage: string;
 	@Input() imageLoader: (file: File) => Promise<string> = basicImageLoader;
 
-	@Input() newDropZone: boolean = false;
+	@Input() newDropZone = false;
 
 	uniqueIdSuffix = BgFormFieldImageComponent.uniqueNameCounter++;
 
-	isDragging: boolean = false;
+	isDragging = false;
 
-	imageLoading: boolean = false;
-	imageProvided: boolean = false;
+	imageLoading = false;
+	imageProvided = false;
 	imageErrorMessage: string = null;
 
 	imageName: string;
@@ -148,21 +148,23 @@ export class BgFormFieldImageComponent {
 		}
 	}
 
-	useDataUrl(dataUrl: string, name: string = "Unknown") {
+	useDataUrl(dataUrl: string, name = "Unknown") {
 		// From https://stackoverflow.com/questions/4998908/convert-data-uri-to-file-then-append-to-formdata
 		function dataURItoBlob(dataURI): Blob {
 			// convert base64/URLEncoded data component to raw binary data held in a string
 			let byteString;
-			if (dataURI.split(',')[0].indexOf('base64') >= 0)
+			if (dataURI.split(',')[0].indexOf('base64') >= 0) {
 				byteString = atob(dataURI.split(',')[1]);
-			else
+			}
+			else {
 				byteString = decodeURIComponent(dataURI.split(',')[1]);
+			}
 
 			// separate out the mime component
-			let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+			const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
 			// write the bytes of the string to a typed array
-			let ia = new Uint8Array(byteString.length);
+			const ia = new Uint8Array(byteString.length);
 			for (let i = 0; i < byteString.length; i++) {
 				ia[i] = byteString.charCodeAt(i);
 			}
@@ -173,7 +175,7 @@ export class BgFormFieldImageComponent {
 		const file: File = Object.assign(
 			dataURItoBlob(dataUrl),
 			{
-				name: name,
+				name,
 				lastModifiedDate: new Date()
 			}
 		) as any;
@@ -203,14 +205,14 @@ export class BgFormFieldImageComponent {
 					this.imageErrorMessage = error.message;
 					this.imageLoading = false;
 				}
-			)
+			);
 	}
 }
 
 export function basicImageLoader(file: File): Promise<string> {
 	return readFileAsDataURL(file)
 		.then(url => loadImageURL(url).then(() => url))
-		.catch(e => { throw new Error(`${file.name} is not a valid image file`) });
+		.catch(e => { throw new Error(`${file.name} is not a valid image file`); });
 }
 
 export function badgeImageLoader(file: File): Promise<string> {
@@ -234,9 +236,9 @@ export function badgeImageLoader(file: File): Promise<string> {
 					const context = canvas.getContext("2d");
 
 					// Inspired by https://stackoverflow.com/questions/26705803/image-object-crop-and-draw-in-center-of-canvas
-					let scaleFactor = Math.min(canvas.width / image.width, canvas.height / image.height);
-					let scaledWidth = image.width * scaleFactor;
-					let scaledHeight = image.height * scaleFactor;
+					const scaleFactor = Math.min(canvas.width / image.width, canvas.height / image.height);
+					const scaledWidth = image.width * scaleFactor;
+					const scaledHeight = image.height * scaleFactor;
 
 					context.drawImage(image,
 						0,
@@ -262,7 +264,7 @@ export function badgeImageLoader(file: File): Promise<string> {
 
 				return dataURL;
 			})
-			.catch(e => { throw new Error(`${file.name} is not a valid image file`) });
+			.catch(e => { throw new Error(`${file.name} is not a valid image file`); });
 	}
 }
 
@@ -284,14 +286,14 @@ export function issuerImageLoader(file: File): Promise<string> {
 				let maxDimension = startingMaxDimension;
 
 				do {
-					let scaleFactor = Math.min(
+					const scaleFactor = Math.min(
 						1,
 						maxDimension / image.width,
 						maxDimension / image.height
 					);
 
-					let scaledWidth = image.width * scaleFactor;
-					let scaledHeight = image.height * scaleFactor;
+					const scaledWidth = image.width * scaleFactor;
+					const scaledHeight = image.height * scaleFactor;
 
 					canvas.width = scaledWidth;
 					canvas.height = scaledHeight;
@@ -322,7 +324,7 @@ export function issuerImageLoader(file: File): Promise<string> {
 
 				return dataURL;
 			})
-			.catch(e => { throw new Error(`${file.name} is not a valid image file`) });
+			.catch(e => { throw new Error(`${file.name} is not a valid image file`); });
 	}
 }
 

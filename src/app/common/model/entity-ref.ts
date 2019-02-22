@@ -7,13 +7,13 @@ export type AnyRefType = ApiEntityRef | EntityRef<any> | string;
 
 export class EntityRef<RefType extends ApiEntityRef> implements ApiEntityRef {
 
-	get "@id"() { return this._ref["@id"] }
-	get url() { return this._ref["@id"] }
-	get slug() { return this._ref.slug }
+	get "@id"() { return this._ref["@id"]; }
+	get url() { return this._ref["@id"]; }
+	get slug() { return this._ref.slug; }
 
-	get apiRef(): RefType { return this._ref as RefType }
+	get apiRef(): RefType { return this._ref as RefType; }
 
-	get hasSlug(): boolean { return !! this.slug }
+	get hasSlug(): boolean { return !! this.slug; }
 	_ref: ApiEntityRef;
 
 	static refFrom<T extends ApiEntityRef>(id: EntityRef<T> | T | string): EntityRef<T> {
@@ -50,7 +50,7 @@ export class EntityRef<RefType extends ApiEntityRef> implements ApiEntityRef {
 			this._ref = {
 				"@id": ref,
 				slug: contextSlug
-			}
+			};
 		}
 	}
 

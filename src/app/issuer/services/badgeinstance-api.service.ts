@@ -1,16 +1,12 @@
-import { Injectable } from "@angular/core";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
-import { IssuerSlug } from "../models/issuer-api.model";
-import { BadgeClassSlug } from "../models/badgeclass-api.model";
-import {
-	ApiBadgeInstance,
-	ApiBadgeInstanceForBatchCreation,
-	ApiBadgeInstanceForCreation
-} from "../models/badgeinstance-api.model";
-import { MessageService } from "../../common/services/message.service";
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BaseHttpApiService} from '../../common/services/base-http-api.service';
+import {SessionService} from '../../common/services/session.service';
+import {AppConfigService} from '../../common/app-config.service';
+import {IssuerSlug} from '../models/issuer-api.model';
+import {BadgeClassSlug} from '../models/badgeclass-api.model';
+import {ApiBadgeInstance, ApiBadgeInstanceForBatchCreation, ApiBadgeInstanceForCreation} from '../models/badgeinstance-api.model';
+import {MessageService} from '../../common/services/message.service';
+import {HttpClient, HttpResponse} from '@angular/common/http';
 
 
 export class PaginationResults {
@@ -18,10 +14,10 @@ export class PaginationResults {
 
 	constructor(linkHeader?: string) {
 		if (linkHeader) {
-			this.parseLinkHeader(linkHeader)
+			this.parseLinkHeader(linkHeader);
 		}
 	}
-	public parseLinkHeader(linkHeader: string) {
+	parseLinkHeader(linkHeader: string) {
 		const re = /<([^>]+)>; rel="([^"]+)"/g;
 		let match;
 		do {
@@ -42,8 +38,8 @@ export class PaginationResults {
 	get prevUrl() { return this._links['prev']; }
 }
 export class BadgeInstanceResultSet {
-	public instances: ApiBadgeInstance[];
-	public links: PaginationResults;
+	instances: ApiBadgeInstance[];
+	links: PaginationResults;
 }
 
 @Injectable()
@@ -75,10 +71,10 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 			.then(r => r.body);
 	}
 
-	listBadgeInstances(issuerSlug: string, badgeSlug: string, query?: string, num: number = 100): Promise<BadgeInstanceResultSet> {
+	listBadgeInstances(issuerSlug: string, badgeSlug: string, query?: string, num = 100): Promise<BadgeInstanceResultSet> {
 		let url = `/v1/issuer/issuers/${issuerSlug}/badges/${badgeSlug}/assertions?num=${num}`;
 		if (query) {
-			url += `&recipient=${query}`
+			url += `&recipient=${query}`;
 		}
 		return this.get(url).then(this.handleAssertionResult);
 	}
@@ -102,10 +98,10 @@ export class BadgeInstanceApiService extends BaseHttpApiService {
 	}
 
 	private handleAssertionResult = (r: HttpResponse<ApiBadgeInstance[]>) => {
-			let resultset = new BadgeInstanceResultSet();
+			const resultset = new BadgeInstanceResultSet();
 
 			if (r.headers.has('link')) {
-				let link = r.headers.get('link');
+				const link = r.headers.get('link');
 
 				resultset.links = new PaginationResults(link);
 			}

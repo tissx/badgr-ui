@@ -1,4 +1,4 @@
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {ApiEntityRef} from '../../common/model/entity-ref';
 
 export type AppIntegrationType = "canvas-lti1";
 
@@ -22,5 +22,5 @@ export interface ApiBadgebookCanvasLti1AppIntegration extends ApiAppIntegration 
 			client_id: string;
 		}
 		config_url: string;
-	}
+	};
 }

@@ -1,6 +1,5 @@
-import { AfterViewInit, ElementRef, Renderer2 } from "@angular/core";
-import { HTMLDialogElement, registerDialog } from "dialog-polyfill/dialog-polyfill";
-import { throwExpr } from '../util/throw-expr';
+import {AfterViewInit, ElementRef, Renderer2} from '@angular/core';
+import {HTMLDialogElement, registerDialog} from 'dialog-polyfill/dialog-polyfill';
 
 export abstract class BaseDialog implements AfterViewInit {
 	constructor(

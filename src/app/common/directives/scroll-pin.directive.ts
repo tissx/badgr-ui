@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, Renderer } from "@angular/core";
+import {AfterViewInit, Directive, ElementRef, Renderer} from '@angular/core';
 
 @Directive({
 	selector: '.l-scrollpin'

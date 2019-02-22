@@ -1,7 +1,7 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from "@angular/core";
-import { ApiExternalToolLaunchInfo } from "../../externaltools/models/externaltools-api.model";
-import { EventsService } from "../services/events.service";
-import { Subscription } from "rxjs";
+import {Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {ApiExternalToolLaunchInfo} from '../../externaltools/models/externaltools-api.model';
+import {EventsService} from '../services/events.service';
+import {Subscription} from 'rxjs';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class ExternalToolLaunchComponent implements OnDestroy {
 			this.toolLaunchInfo = launchInfo;
 			setTimeout(_ => {
 				this.toolLaunchForm.nativeElement.submit();
-			})
+			});
 		});
 	}
 

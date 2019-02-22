@@ -1,4 +1,4 @@
-import { Directive, Input } from "@angular/core";
+import {Directive, Input} from '@angular/core';
 
 const defaultLoadingImage = require("../../../breakdown/static/images/image-placeholder.svg");
 const defaultErrorImage = require("../../../breakdown/static/images/image-failed.svg");

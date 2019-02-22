@@ -1,18 +1,12 @@
-import { Injectable, InjectionToken, Injector, NgZone } from '@angular/core';
-import {
-	ApiConfig,
-	BadgrConfig,
-	FeaturesConfig,
-	GoogleAnalyticsConfig,
-	HelpConfig
-} from "../../environments/badgr-config";
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { BadgrTheme } from '../../theming/badgr-theme';
+import {Injectable, InjectionToken, Injector, NgZone} from '@angular/core';
+import {ApiConfig, BadgrConfig, FeaturesConfig, GoogleAnalyticsConfig, HelpConfig} from '../../environments/badgr-config';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {BadgrTheme} from '../../theming/badgr-theme';
 
-import * as deepmerge from 'deepmerge'
-import { animationFramePromise } from './util/promise-util';
-import { initializeTheme } from '../../theming/theme-setup';
+import * as deepmerge from 'deepmerge';
+import {animationFramePromise} from './util/promise-util';
+import {initializeTheme} from '../../theming/theme-setup';
 
 const packageJsonVersion = require("../../../package.json").version;
 
@@ -96,7 +90,7 @@ export class AppConfigService {
 			return (allowQueryParam && queryParams.get(name))
 				|| window.localStorage.getItem(name)
 				|| window.sessionStorage.getItem(name)
-				|| (() => { const m = document.querySelector(`meta[name=${name}]`); return m && m.getAttribute("content")})();
+				|| (() => { const m = document.querySelector(`meta[name=${name}]`); return m && m.getAttribute("content");})();
 		}
 
 		// SECURITY NOTE: We do _not_ allow overriding the remote configuration baseUrl with a query param because it could allow an attacker

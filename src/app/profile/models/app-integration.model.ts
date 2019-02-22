@@ -1,12 +1,12 @@
-import { ManagedEntity } from "../../common/model/managed-entity";
+import {ManagedEntity} from '../../common/model/managed-entity';
 import {
 	ApiAppIntegration,
 	ApiAppIntegrationRef,
 	ApiAppIntegrationUid,
 	ApiBadgebookCanvasLti1AppIntegration,
 	AppIntegrationType
-} from "./app-integration-api.model";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+} from './app-integration-api.model';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
 
 export abstract class AppIntegration<T extends ApiAppIntegration> extends ManagedEntity<T, ApiAppIntegrationRef> {
 
@@ -81,7 +81,7 @@ export class BadebookLti1Integration extends AppIntegration<ApiBadgebookCanvasLt
 	active = true;
 	image = require("../../../breakdown/static/images/canvas-icon.svg");
 
-	get consumerKey() { return this.apiModel.integrationData.credential.client_id }
-	get sharedSecret() { return this.apiModel.integrationData.credential.client_secret }
-	get configUrl() { return this.apiModel.integrationData.config_url }
+	get consumerKey() { return this.apiModel.integrationData.credential.client_id; }
+	get sharedSecret() { return this.apiModel.integrationData.credential.client_secret; }
+	get configUrl() { return this.apiModel.integrationData.config_url; }
 }

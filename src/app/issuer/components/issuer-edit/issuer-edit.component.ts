@@ -1,24 +1,24 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
 
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { IssuerManager } from "../../services/issuer-manager.service";
-import { UrlValidator } from "../../../common/validators/url.validator";
-import { Title } from "@angular/platform-browser";
-import { ApiIssuerForEditing } from "../../models/issuer-api.model";
-import { markControlsDirty } from "../../../common/util/form-util";
-import { Issuer } from "../../models/issuer.model";
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {UrlValidator} from '../../../common/validators/url.validator';
+import {Title} from '@angular/platform-browser';
+import {ApiIssuerForEditing} from '../../models/issuer-api.model';
+import {markControlsDirty} from '../../../common/util/form-util';
+import {Issuer} from '../../models/issuer.model';
 
-import { preloadImageURL } from "../../../common/util/file-util";
-import { FormFieldSelectOption } from "../../../common/components/formfield-select";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { UserProfileEmail } from "../../../common/model/user-profile.model";
-import { AppConfigService } from "../../../common/app-config.service";
-import { LinkEntry } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {FormFieldSelectOption} from '../../../common/components/formfield-select';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {UserProfileEmail} from '../../../common/model/user-profile.model';
+import {AppConfigService} from '../../../common/app-config.service';
+import {LinkEntry} from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 @Component({
 	selector: 'issuer-edit',
@@ -31,7 +31,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	issuerSlug: string;
 
 	issuerForm: FormGroup;
-	emails: Array<UserProfileEmail>;
+	emails: UserProfileEmail[];
 	emailsOptions: FormFieldSelectOption[];
 
 	editIssuerFinished: Promise<any>;
@@ -94,7 +94,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 
 				this.editIssuerCrumbs = [{title: "Issuers", routerLink: ['/issuer']},
 										{title: issuer.name, routerLink: ['/issuer/issuers/', this.issuerSlug]},
-										{title: 'Edit Issuer'}]
+										{title: 'Edit Issuer'}];
 
 
 				this.editControls.issuer_name.setValue(this.issuer.name, { emitEvent: false });
@@ -132,7 +132,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 					return {
 						label: e.email,
 						value: e.email,
-					}
+					};
 				});
 			});
 	}
@@ -146,7 +146,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	}
 
 	onSubmit(formState) {
-		let issuer: ApiIssuerForEditing = {
+		const issuer: ApiIssuerForEditing = {
 			'name': formState.issuer_name,
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
@@ -173,7 +173,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	}
 
 	urlBlurred(ev) {
-		let control: FormControl = <FormControl>this.issuerForm.controls[ 'issuer_url' ];
+		const control: FormControl = this.issuerForm.controls[ 'issuer_url' ] as FormControl;
 		UrlValidator.addMissingHttpToControl(control);
 	}
 }

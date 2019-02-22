@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild} from '@angular/core';
 
 import * as Tether from 'tether';
 
@@ -23,12 +23,12 @@ export class TooltipComponent implements AfterViewInit, OnDestroy {
         attachment: 'bottom left',
         targetAttachment: 'middle right'
     };
-    @Input() offset: string = '-30px -15px';
+    @Input() offset = '-30px -15px';
     @Input() trigger;
     @ViewChild('anchor') anchor: ElementRef;
     @ViewChild('tooltip') tooltip: ElementRef;
 
-	active: boolean = false;
+	active = false;
     tether: any = null;
 
     toggleTip() {

@@ -29,14 +29,14 @@ export function initializeTheme(
 
 	setupLoadingScreen(selectedTheme);
 	writeFavicons(selectedTheme);
-	setCssCustomPropColors(selectedTheme)
+	setCssCustomPropColors(selectedTheme);
 }
 
 function writeFavicons(theme: BadgrTheme) {
 	if (theme.favicons && theme.favicons.length && theme.favicons.length > 0) {
 		for (let i=0; i < theme.favicons.length; i++) {
-			let favicon = theme.favicons[i];
-			let link = document.createElement("link");
+			const favicon = theme.favicons[i];
+			const link = document.createElement("link");
 			link.setAttribute("rel", favicon.rel);
 			link.setAttribute("href", favicon.href);
 			if (favicon.sizes) {
@@ -52,15 +52,15 @@ function setCssCustomPropColors(theme: BadgrTheme) {
 		document.documentElement.style.setProperty(
 			propName,
 			theme.cssCustomProps[propName]
-		)
+		);
 	}
 }
 
 
 function setupLoadingScreen(theme: BadgrTheme) {
-	let images = document.querySelectorAll("img.initial-loading-image");
+	const images = document.querySelectorAll("img.initial-loading-image");
 	if (images && images.length > 0) {
-		let img = images[0] as HTMLImageElement;
+		const img = images[0] as HTMLImageElement;
 
 		img.src = theme.loadingImg.imageUrl;
 		if (theme.loadingImg.width) {

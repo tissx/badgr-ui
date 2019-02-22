@@ -1,17 +1,17 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { RecipientBadgeSelectionDialog } from "../recipient-badge-selection-dialog/recipient-badge-selection-dialog.component";
-import { RecipientBadgeCollection, RecipientBadgeCollectionEntry } from "../../models/recipient-badge-collection.model";
-import { RecipientBadgeCollectionManager } from "../../services/recipient-badge-collection-manager.service";
-import { RecipientBadgeManager } from "../../services/recipient-badge-manager.service";
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { SessionService } from "../../../common/services/session.service";
-import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog/share-social-dialog.component";
-import { addQueryParamsToUrl } from "../../../common/util/url-util";
-import { AppConfigService } from "../../../common/app-config.service";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessageService} from '../../../common/services/message.service';
+import {Title} from '@angular/platform-browser';
+import {RecipientBadgeSelectionDialog} from '../recipient-badge-selection-dialog/recipient-badge-selection-dialog.component';
+import {RecipientBadgeCollection, RecipientBadgeCollectionEntry} from '../../models/recipient-badge-collection.model';
+import {RecipientBadgeCollectionManager} from '../../services/recipient-badge-collection-manager.service';
+import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {SessionService} from '../../../common/services/session.service';
+import {ShareSocialDialogOptions} from '../../../common/dialogs/share-social-dialog/share-social-dialog.component';
+import {addQueryParamsToUrl} from '../../../common/util/url-util';
+import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
@@ -68,7 +68,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 			restrictToIssuerId: null,
 			omittedCollection: this.collection.badges
 		}).then(selectedBadges => {
-			let  badgeCollection = selectedBadges.concat(this.collection.badges)
+			const  badgeCollection = selectedBadges.concat(this.collection.badges);
 
 			badgeCollection.forEach(badge => badge.markAccepted());
 
@@ -76,8 +76,8 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 			this.collection.save().then(
 				success => this.messageService.reportMinorSuccess(`Collection ${this.collection.name} badges saved successfully`),
 				failure => this.messageService.reportHandledError(`Failed to save Collection`, failure)
-			)
-		})
+			);
+		});
 	}
 
 	deleteCollection() {
@@ -97,7 +97,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 				);
 			},
 			() => {}
-		)
+		);
 	}
 
 	removeEntry(entry: RecipientBadgeCollectionEntry) {
@@ -115,11 +115,11 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 				);
 			},
 			() => {}
-		)
+		);
 	}
 
 	get badgesInCollectionCount(): string {
-		return `${this.collection.badgeEntries.length } ${this.collection.badgeEntries.length === 1 ? 'Badge' : 'Badges'}`
+		return `${this.collection.badgeEntries.length } ${this.collection.badgeEntries.length === 1 ? 'Badge' : 'Badges'}`;
 	}
 
 	get collectionPublished() {

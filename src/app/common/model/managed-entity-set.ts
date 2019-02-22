@@ -1,9 +1,9 @@
-import { Observable } from "rxjs";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { AnyManagedEntity, ManagedEntity } from "./managed-entity";
-import { AnyRefType, EntityRef } from "./entity-ref";
-import { EntitySet, EntitySetUpdate } from "./entity-set";
-import { first, map } from "rxjs/operators";
+import {Observable} from 'rxjs';
+import {UpdatableSubject} from '../util/updatable-subject';
+import {AnyManagedEntity, ManagedEntity} from './managed-entity';
+import {AnyRefType, EntityRef} from './entity-ref';
+import {EntitySet, EntitySetUpdate} from './entity-set';
+import {first, map} from 'rxjs/operators';
 
 /**
  * Manages a set of entities based on API data. This set and its children act as the primary holders and creators of
@@ -17,7 +17,7 @@ export class ManagedEntitySet<
 	EntityType extends ManagedEntity<ApiEntityType, any>,
 	ApiEntityType
 > implements EntitySet<EntityType> {
-;
+
 
 	/**
 	 * Observable for updates to this entire entity list. Updates are sent upon subscription (like a promise) if the
@@ -42,7 +42,7 @@ export class ManagedEntitySet<
 	get loadedPromise(): Promise<this> {
 		return this._loadedPromise
 			? this._loadedPromise
-			: (this._loadedPromise = this.loaded$.pipe(first()).toPromise())
+			: (this._loadedPromise = this.loaded$.pipe(first()).toPromise());
 	}
 
 	get loaded() {
@@ -50,7 +50,7 @@ export class ManagedEntitySet<
 	}
 
 	get entities() { return this._entities; }
-	get length(): number { return this.entities.length }
+	get length(): number { return this.entities.length; }
 
 	get entityByUrlMap() { return this.urlEntityMap; }
 	protected _entities: EntityType[] = [];
@@ -82,11 +82,11 @@ export class ManagedEntitySet<
 		apiEntities: ApiEntityType[]
 	) {
 		if (apiEntities) {
-			let inputByUrl: {[url: string]: ApiEntityType} = {};
+			const inputByUrl: {[url: string]: ApiEntityType} = {};
 			apiEntities.forEach(i => inputByUrl[ this.urlForApiModel(i) ] = i);
 
-			let apiEntityUrls = Object.keys(inputByUrl);
-			let existingUrls = Object.keys(this.urlEntityMap);
+			const apiEntityUrls = Object.keys(inputByUrl);
+			const existingUrls = Object.keys(this.urlEntityMap);
 
 			const updateInfo = new EntitySetUpdate<EntityType, this>(this);
 
@@ -94,7 +94,7 @@ export class ManagedEntitySet<
 				if (id in this.urlEntityMap) {
 					this.urlEntityMap[ id ].applyApiModel(inputByUrl[ id ]);
 				} else {
-					let newEntity = this.urlEntityMap[ id ] = this.entityFactory(inputByUrl[ id ]);
+					const newEntity = this.urlEntityMap[ id ] = this.entityFactory(inputByUrl[ id ]);
 					newEntity.applyApiModel(inputByUrl[ id ]);
 					this.entities.push(newEntity);
 					updateInfo.added.push(newEntity);
@@ -138,7 +138,7 @@ export class ManagedEntitySet<
 	}
 
 	[Symbol.iterator](): Iterator<EntityType> {
-		return this.entities[Symbol.iterator]()
+		return this.entities[Symbol.iterator]();
 	}
 
 	private notifySubjects(updateInfo: EntitySetUpdate<EntityType, this>) {
@@ -147,7 +147,7 @@ export class ManagedEntitySet<
 
 	private updateSlugMap() {
 		Object.keys(this.slugEntityMap).forEach(
-			slug => { delete this.slugEntityMap[ slug ] }
+			slug => { delete this.slugEntityMap[ slug ]; }
 		);
 		this.entities.forEach(
 			entity => this.slugEntityMap[ entity.slug ] = entity
@@ -180,7 +180,7 @@ export class ListBackedEntitySet<
 		});
 	}
 
-	public addOrUpdate(newModel: ApiEntityType): EntityType {
+	addOrUpdate(newModel: ApiEntityType): EntityType {
 		const newUrl = this.urlForApiModel(newModel);
 		const modelIndex = this.apiModelList.findIndex(m => this.urlForApiModel(m) == newUrl);
 
@@ -195,7 +195,7 @@ export class ListBackedEntitySet<
 		return this.entityForApiEntity(newModel);
 	}
 
-	public remove(entity: EntityType): boolean {
+	remove(entity: EntityType): boolean {
 		if (! entity) {
 			return false;
 		}
@@ -211,7 +211,7 @@ export class ListBackedEntitySet<
 		}
 	}
 
-	public removeAll(entities: EntityType[]): boolean {
+	removeAll(entities: EntityType[]): boolean {
 		let changed = false;
 		entities.forEach(entity => {
 			const index = this.apiModelList.findIndex(a => this.urlForApiModel(a) == entity.url);
@@ -229,7 +229,7 @@ export class ListBackedEntitySet<
 		return changed;
 	}
 
-	get apiModelList(): ApiEntityType[] { return this.getBackingList() }
+	get apiModelList(): ApiEntityType[] { return this.getBackingList(); }
 
 	protected onBackingListChanged() {
 		this.updateSetUsingApiModels(this.apiModelList);
@@ -256,7 +256,7 @@ export class EmbeddedEntitySet<
 
 		owner.changed$.subscribe(
 			() => this.onBackingListChanged()
-		)
+		);
 	}
 }
 
@@ -285,7 +285,7 @@ export class LazyEmbeddedEntitySet<
 	protected onFirstListRequest() {
 		this.loadApiList().then(
 			apiEntities => this.updateSetUsingApiModels(apiEntities)
-		)
+		);
 	}
 }
 
@@ -316,7 +316,7 @@ export class StandaloneEntitySet<
 		);
 	}
 
-	public applyApiData(
+	applyApiData(
 		newApiData: ApiEntityType[]
 	) {
 		this._apiEntities.length = 0;
@@ -338,7 +338,7 @@ export class StandaloneEntitySet<
 	 *
 	 * @returns {Promise<ManagedEntitySet>}
 	 */
-	public updateList(): Promise<this> {
+	updateList(): Promise<this> {
 		this.listInvalidatedSinceLastUpdate = false;
 
 		return this.loadEntireList()
@@ -353,8 +353,8 @@ export class StandaloneEntitySet<
 					}
 				},
 				error => {
-					console.error(`Failed to load list ${error}`)
-					throw error
+					console.error(`Failed to load list ${error}`);
+					throw error;
 				}
 			);
 	}
@@ -364,7 +364,7 @@ export class StandaloneEntitySet<
 	 *
 	 * @returns {Promise<StandaloneEntitySet>} if reloading is necessary, otherwise null
 	 */
-	public updateIfLoaded(): Promise<this> | null {
+	updateIfLoaded(): Promise<this> | null {
 		if (this.entireListRequested) {
 			return this.updateList();
 		} else {
@@ -375,7 +375,7 @@ export class StandaloneEntitySet<
 	/**
 	 * Requests that the contents of this list be invalidated (removed).
 	 */
-	public invalidateList() {
+	invalidateList() {
 		this.entireListRequested = false;
 		this.entireListLoaded = false;
 		this.listInvalidatedSinceLastUpdate = true;

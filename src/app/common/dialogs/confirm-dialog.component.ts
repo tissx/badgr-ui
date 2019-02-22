@@ -1,5 +1,5 @@
-import { Component, ElementRef, Renderer2 } from "@angular/core";
-import { BaseDialog } from "./base-dialog";
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {BaseDialog} from './base-dialog';
 
 export interface ConfirmDialogOptions {
 	dialogTitle?: string;
@@ -74,8 +74,9 @@ export class ConfirmDialog extends BaseDialog {
 	openResolveRejectDialog(
 		options: ConfirmDialogOptions
 	): Promise<void> {
-		if (this.isOpen)
+		if (this.isOpen) {
 			return Promise.reject(new Error("Cannot open dialog, because it is already open. Old options" + JSON.stringify(this.options) + "; new options: " + JSON.stringify(options)));
+		}
 
 		this.options = Object.assign({}, ConfirmDialog.defaultOptions, options);
 		this.showModal();

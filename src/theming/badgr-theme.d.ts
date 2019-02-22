@@ -31,7 +31,7 @@ export interface BadgrTheme {
 	providedBy?: {
 		name: string;
 		url: string
-	}
+	};
 
 	/**
 	 * Shows the "API Documentation" link
@@ -56,7 +56,7 @@ export interface BadgrTheme {
 	logoImg: {
 		small: string;
 		desktop: string;
-	}
+	};
 
 	/**
 	 * A data URL containing the loading image -- may be a data url so it loads immediately
@@ -72,20 +72,20 @@ export interface BadgrTheme {
 	 */
 	customMenu?: {
 		label: string;
-		items: {
+		items: Array<{
 			label: string;
 			url: string;
-		}[];
-	},
+		}>;
+	};
 
 	/**
 	 * Custom Favicons
 	 */
-	favicons?: {
+	favicons?: Array<{
 		rel: string;
 		href: string;
 		sizes?: string;
-	}[],
+	}>;
 
 	useColorNavbar: boolean;
 	/**
@@ -96,5 +96,5 @@ export interface BadgrTheme {
 		"--brand-saturation"?: string;
 		"--brand-lightness"?: string;
 		"--color-theme"?: string;
-	},
+	};
 }

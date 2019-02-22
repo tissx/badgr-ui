@@ -1,15 +1,15 @@
-import { Component, Injector } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {Component, Injector} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
-import { preloadImageURL } from "../../../common/util/file-util";
-import { PublicApiService } from "../../services/public-api.service";
-import { LoadedRouteParam } from "../../../common/util/loaded-route-param";
-import { PublicApiBadgeClassWithIssuer, PublicApiIssuer } from "../../models/public-api.model";
-import { EmbedService } from "../../../common/services/embed.service";
-import { addQueryParamsToUrl, stripQueryParamsFromUrl } from "../../../common/util/url-util";
-import { routerLinkForUrl } from "../public/public.component";
-import { AppConfigService } from '../../../common/app-config.service';
-import { Title } from '@angular/platform-browser';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {PublicApiService} from '../../services/public-api.service';
+import {LoadedRouteParam} from '../../../common/util/loaded-route-param';
+import {PublicApiBadgeClassWithIssuer, PublicApiIssuer} from '../../models/public-api.model';
+import {EmbedService} from '../../../common/services/embed.service';
+import {addQueryParamsToUrl, stripQueryParamsFromUrl} from '../../../common/util/url-util';
+import {routerLinkForUrl} from '../public/public.component';
+import {AppConfigService} from '../../../common/app-config.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
 	templateUrl: './badgeclass.component.html'
@@ -36,14 +36,14 @@ export class PublicBadgeClassComponent {
 			"badgeId",
 			paramValue => {
 				const service: PublicApiService = injector.get(PublicApiService);
-				return service.getBadgeClass(paramValue)
+				return service.getBadgeClass(paramValue);
 			}
 		);
 	}
 
-	get badgeClass(): PublicApiBadgeClassWithIssuer { return this.badgeIdParam.value }
+	get badgeClass(): PublicApiBadgeClassWithIssuer { return this.badgeIdParam.value; }
 
-	get issuer(): PublicApiIssuer { return this.badgeClass.issuer }
+	get issuer(): PublicApiIssuer { return this.badgeClass.issuer; }
 
 	private get rawJsonUrl() {
 		return stripQueryParamsFromUrl(this.badgeClass.id) + ".json";

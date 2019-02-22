@@ -1,11 +1,11 @@
-import { forwardRef, Inject, Injectable } from "@angular/core";
-import { IssuerApiService } from "./issuer-api.service";
-import { Issuer } from "../models/issuer.model";
-import { ApiIssuer, ApiIssuerForCreation, ApiIssuerForEditing, IssuerSlug } from "../models/issuer-api.model";
-import { Observable } from "rxjs";
-import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { first, map } from "rxjs/operators";
+import {forwardRef, Inject, Injectable} from '@angular/core';
+import {IssuerApiService} from './issuer-api.service';
+import {Issuer} from '../models/issuer.model';
+import {ApiIssuer, ApiIssuerForCreation, ApiIssuerForEditing, IssuerSlug} from '../models/issuer-api.model';
+import {Observable} from 'rxjs';
+import {StandaloneEntitySet} from '../../common/model/managed-entity-set';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {first, map} from 'rxjs/operators';
 
 @Injectable()
 export class IssuerManager {
@@ -25,7 +25,7 @@ export class IssuerManager {
 		initialIssuer: ApiIssuerForCreation
 	): Promise<Issuer> {
 		return this.issuerApiService.createIssuer(initialIssuer)
-			.then(newIssuer => this.issuersList.addOrUpdate(newIssuer))
+			.then(newIssuer => this.issuersList.addOrUpdate(newIssuer));
 	}
 
 	get allIssuers$(): Observable<Issuer[]> {
@@ -37,7 +37,7 @@ export class IssuerManager {
 		initialIssuer: ApiIssuerForEditing
 	): Promise<Issuer> {
 		return this.issuerApiService.editIssuer(issuerSlug, initialIssuer)
-			.then(newIssuer => this.issuersList.addOrUpdate(newIssuer))
+			.then(newIssuer => this.issuersList.addOrUpdate(newIssuer));
 	}
 
 	issuerBySlug(issuerSlug: IssuerSlug): Promise<Issuer> {

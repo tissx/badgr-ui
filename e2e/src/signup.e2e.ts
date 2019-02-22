@@ -26,28 +26,28 @@ class SignupPage {
     }
 
     checkSubmitDisabled() {
-        expect(this.submitButton.getAttribute('class')).toMatch('button-is-disabled')
+        expect(this.submitButton.getAttribute('class')).toMatch('button-is-disabled');
     }
     checkSubmitEnabled() {
-        expect(this.submitButton.getAttribute('class')).not.toMatch('button-is-disabled')
+        expect(this.submitButton.getAttribute('class')).not.toMatch('button-is-disabled');
     }
 
     attemptSignup(email, timeout=15000, prefix=null) {
-        var prefix = prefix || Date.now().toString();
-        var test_email = prefix+email;
+        const prefix = prefix || Date.now().toString();
+        const test_email = prefix+email;
         this.checkSubmitDisabled();
         this.signup(test_email);
 
         browser.driver.wait(() => {
             return browser.driver.getCurrentUrl().then((url) => {
                 return url == browser.baseUrl+'#/signup/success;email='+test_email;
-            })
+            });
         }, timeout);
     }
 }
 
 describe('Signup Page', () => {
-    var signupPage = new SignupPage();
+    const signupPage = new SignupPage();
 
     it('should signup a user successfully', () => {
         signupPage.open();

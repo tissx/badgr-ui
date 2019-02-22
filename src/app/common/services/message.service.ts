@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { NavigationEnd, Router } from "@angular/router";
-import { UpdatableSubject } from "../util/updatable-subject";
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {NavigationEnd, Router} from '@angular/router';
+import {UpdatableSubject} from '../util/updatable-subject';
 
 export interface FlashMessage {
-	message: string
-	timestamp: number
-	status: string
-	detail?: string
+	message: string;
+	timestamp: number;
+	status: string;
+	detail?: string;
 }
 
 type MessageStatusType = "success" | "error" | "load-error" | "fatal-error";
@@ -21,11 +21,11 @@ export class MessageService {
 	message: FlashMessage;
 	subject = new UpdatableSubject<FlashMessage>();
 
-	private _pendingRequestCount: number = 0;
+	private _pendingRequestCount = 0;
 
 	private retainMessageOnNextRouteChange = false;
 
-	private fatalErrorPresent: boolean = false;
+	private fatalErrorPresent = false;
 
 	get message$(): Observable<FlashMessage> { return this.subject; }
 
@@ -94,9 +94,9 @@ export class MessageService {
 		status: MessageStatusType = "success"
 	) {
 		this.message = {
-			message: message,
+			message,
 			timestamp: Date.now(),
-			status: status
+			status
 		};
 		this.publish_message();
 		return this.message;
@@ -139,7 +139,7 @@ export class MessageService {
 	}
 
 	get hasFatalError(): boolean {
-		return this.fatalErrorPresent
+		return this.fatalErrorPresent;
 	}
 
 	/**
@@ -152,7 +152,7 @@ export class MessageService {
 	reportAndThrowError(
 		message: string,
 		exception?: any,
-		retainAfterNextNav: boolean = false
+		retainAfterNextNav = false
 	): never {
 		this.reportHandledError(message, exception, retainAfterNextNav);
 		throw new Error(message);
@@ -170,7 +170,7 @@ export class MessageService {
 	reportHandledError(
 		message: string,
 		exception?: any,
-		retainAfterNextNav: boolean = false
+		retainAfterNextNav = false
 	) {
 		console.error(message, exception);
 		this.setMessage(
@@ -204,7 +204,7 @@ export class MessageService {
 	 */
 	reportMajorSuccess(
 		message: string,
-		retainAfterNextNav: boolean = false
+		retainAfterNextNav = false
 	) {
 		this.setMessage(
 			message,

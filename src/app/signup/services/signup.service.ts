@@ -36,7 +36,7 @@ export class SignupService {
 			{
 				observe: 'body',
 				responseType: 'json',
-				headers: headers
+				headers
 			}
 		).toPromise();
 	}

@@ -1,13 +1,13 @@
-import { Component, ElementRef, Renderer2 } from "@angular/core";
-import { MessageService } from "../../../common/services/message.service";
-import { StringMatchingUtil } from "../../../common/util/string-matching-util";
-import { SettingsService } from "../../../common/services/settings.service";
-import { ApiRecipientBadgeIssuer } from "../../models/recipient-badge-api.model";
-import { RecipientBadgeManager } from "../../services/recipient-badge-manager.service";
-import { RecipientBadgeInstance } from "../../models/recipient-badge.model";
-import { BadgeInstanceUrl } from "../../../issuer/models/badgeinstance-api.model";
-import { groupIntoArray, groupIntoObject } from "../../../common/util/array-reducers";
-import { BaseDialog } from "../../../common/dialogs/base-dialog";
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {MessageService} from '../../../common/services/message.service';
+import {StringMatchingUtil} from '../../../common/util/string-matching-util';
+import {SettingsService} from '../../../common/services/settings.service';
+import {ApiRecipientBadgeIssuer} from '../../models/recipient-badge-api.model';
+import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
+import {RecipientBadgeInstance} from '../../models/recipient-badge.model';
+import {BadgeInstanceUrl} from '../../../issuer/models/badgeinstance-api.model';
+import {groupIntoArray, groupIntoObject} from '../../../common/util/array-reducers';
+import {BaseDialog} from '../../../common/dialogs/base-dialog';
 
 export interface RecipientBadgeSelectionDialogOptions {
 	dialogId: string;
@@ -48,7 +48,7 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 		this.saveSettings();
 	}
 
-	get groupByIssuer() { return this.settings.groupByIssuer }
+	get groupByIssuer() { return this.settings.groupByIssuer; }
 
 	set groupByIssuer(value: boolean) {
 		this.settings.groupByIssuer = value;
@@ -59,10 +59,10 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 		groupByIssuer: true,
 		badgeSortBy: "newest-first"
 	};
-	dialogId: string = "recipientBadgeDialog";
-	dialogTitle: string = "Select Badges";
+	dialogId = "recipientBadgeDialog";
+	dialogTitle = "Select Badges";
 
-	multiSelectMode: boolean = false;
+	multiSelectMode = false;
 	restrictToIssuerId: string = null;
 	selectedBadges = new Set<RecipientBadgeInstance>();
 
@@ -74,7 +74,7 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 	allBadges: RecipientBadgeInstance[];
 	allIssuers: ApiRecipientBadgeIssuer[];
 
-	hasMultipleIssuers: boolean = true;
+	hasMultipleIssuers = true;
 
 	badgesLoaded: Promise<any>;
 	settings: RecipientBadgeSelectionDialogSettings = Object.assign({}, RecipientBadgeSelectionDialog.defaultSettings);
@@ -82,7 +82,7 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 	private omittedCollection: RecipientBadgeInstance[];
 	private resolveFunc: { (badges: RecipientBadgeInstance[]): void };
 
-	private _searchQuery: string = "";
+	private _searchQuery = "";
 
 	private loadedData = false;
 
@@ -143,8 +143,8 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 	applySorting() {
 		const badgeSorter = (a: RecipientBadgeInstance, b: RecipientBadgeInstance) => {
 			if (this.badgeSortBy === "name") {
-				let aName = a.badgeClass.name.toLowerCase();
-				let bName = b.badgeClass.name.toLowerCase();
+				const aName = a.badgeClass.name.toLowerCase();
+				const bName = b.badgeClass.name.toLowerCase();
 
 				return aName === bName ? 0 : (aName < bName ? -1 : 1);
 			} else if (this.badgeSortBy === "newest-first") {
@@ -197,8 +197,8 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 		this.badgeResults.length = 0;
 		this.issuerResults.length = 0;
 
-		let issuerResultsByIssuer: {[issuerUrl: string]: MatchingIssuerBadges} = {};
-		let addedBadgeUrls = new Set<BadgeInstanceUrl>();
+		const issuerResultsByIssuer: {[issuerUrl: string]: MatchingIssuerBadges} = {};
+		const addedBadgeUrls = new Set<BadgeInstanceUrl>();
 
 		const addBadgeToResults = (badge: RecipientBadgeInstance) => {
 			if (addedBadgeUrls.has(badge.url)) {
@@ -278,8 +278,8 @@ class MatchingIssuerBadges {
 
 class MatchingAlgorithm {
 	static issuerMatcher(inputPattern: string): (issuer: ApiRecipientBadgeIssuer) => boolean {
-		let patternStr = StringMatchingUtil.normalizeString(inputPattern);
-		let patternExp = StringMatchingUtil.tryRegExp(patternStr);
+		const patternStr = StringMatchingUtil.normalizeString(inputPattern);
+		const patternExp = StringMatchingUtil.tryRegExp(patternStr);
 
 		return issuer => (
 			StringMatchingUtil.stringMatches(issuer.name, patternStr, patternExp)
@@ -287,8 +287,8 @@ class MatchingAlgorithm {
 	}
 
 	static badgeMatcher(inputPattern: string): (badge: RecipientBadgeInstance) => boolean {
-		let patternStr = StringMatchingUtil.normalizeString(inputPattern);
-		let patternExp = StringMatchingUtil.tryRegExp(patternStr);
+		const patternStr = StringMatchingUtil.normalizeString(inputPattern);
+		const patternExp = StringMatchingUtil.tryRegExp(patternStr);
 
 		return badge => (
 			StringMatchingUtil.stringMatches(badge.badgeClass.name, patternStr, patternExp)

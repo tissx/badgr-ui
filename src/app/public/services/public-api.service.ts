@@ -1,17 +1,17 @@
-import { Injectable } from "@angular/core";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
-import { MessageService } from "../../common/services/message.service";
+import {Injectable} from '@angular/core';
+import {BaseHttpApiService} from '../../common/services/base-http-api.service';
+import {SessionService} from '../../common/services/session.service';
+import {AppConfigService} from '../../common/app-config.service';
+import {MessageService} from '../../common/services/message.service';
 import {
 	PublicApiBadgeAssertionWithBadgeClass,
 	PublicApiBadgeClass,
 	PublicApiBadgeClassWithIssuer,
 	PublicApiBadgeCollectionWithBadgeClassAndIssuer,
 	PublicApiIssuer
-} from "../models/public-api.model";
-import { stripQueryParamsFromUrl } from "../../common/util/url-util";
-import { HttpClient } from "@angular/common/http";
+} from '../models/public-api.model';
+import {stripQueryParamsFromUrl} from '../../common/util/url-util';
+import {HttpClient} from '@angular/common/http';
 
 
 @Injectable()
@@ -85,7 +85,7 @@ export class PublicApiService extends BaseHttpApiService {
 		return Promise.all([
 			this.getIssuer(issuerId),
 			this.getIssuerBadges(issuerId)
-		]).then(([issuer, badges]) => ({ issuer, badges }))
+		]).then(([issuer, badges]) => ({ issuer, badges }));
 	}
 
 	getBadgeCollection(

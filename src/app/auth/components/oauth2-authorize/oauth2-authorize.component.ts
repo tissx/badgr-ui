@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
-import { AuthAttemptResult, OAuthManager } from "../../../common/services/oauth-manager.service";
-import { QueryParametersService } from "../../../common/services/query-parameters.service";
-import { MessageService } from "../../../common/services/message.service";
-import { OAuth2RequestParams } from "../../../common/model/oauth-api.model";
-import { throwExpr } from "../../../common/util/throw-expr";
-import { Title } from "@angular/platform-browser";
-import { InitialLoadingIndicatorService } from "../../../common/services/initial-loading-indicator.service";
-import { AppConfigService } from "../../../common/app-config.service";
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
+import {AuthAttemptResult, OAuthManager} from '../../../common/services/oauth-manager.service';
+import {QueryParametersService} from '../../../common/services/query-parameters.service';
+import {MessageService} from '../../../common/services/message.service';
+import {OAuth2RequestParams} from '../../../common/model/oauth-api.model';
+import {throwExpr} from '../../../common/util/throw-expr';
+import {Title} from '@angular/platform-browser';
+import {InitialLoadingIndicatorService} from '../../../common/services/initial-loading-indicator.service';
+import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
@@ -66,7 +66,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 	authorizeApp() {
 		this.oAuthManager.authorizeCurrentApp().catch(
 			error => this.messageService.reportAndThrowError("Failed to Authorize " + this.authorizingApp.application.name, error)
-		)
+		);
 	}
 
 	ngOnInit() {
@@ -78,7 +78,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 			this.loadingPromise = Promise.resolve()
 				.then(() => {
 					if (this.queryParams.queryStringValue("response_type") != "code") {
-						new Error("Only response_type='code' is supported")
+						new Error("Only response_type='code' is supported");
 					}
 
 					const request: OAuth2RequestParams = {
@@ -107,7 +107,7 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 				.catch(error => this.messageService.reportAndThrowError(
 					"Invalid OAuth2 Request. Please contact technical support.",
 					error
-				))
+				));
 		} else if (this.oAuthManager.isAuthorizationInProgress) {
 			// We're already performing an authorization... nothing to do
 		} else {

@@ -39,12 +39,12 @@ export function canvasVisualCenter(
 	const { visualLeft, visualTop } = calculateVisualCenter(rgbMatrix);
 
 	return {
-		visualTop: visualTop,
-		visualLeft: visualLeft,
+		visualTop,
+		visualLeft,
 
-		bgColor: bgColor,
-		width: width,
-		height: height
+		bgColor,
+		width,
+		height
 	};
 }
 
@@ -52,16 +52,16 @@ function rgbMatrixFromCanvas(canvas: HTMLCanvasElement): RgbMatrix {
 	const ctx = canvas.getContext("2d");
 	const data = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data;
 
-	let result: RgbMatrix = [];
+	const result: RgbMatrix = [];
 	for (let y = 0; y < canvas.height; y++) {
-		result[y] = []
+		result[y] = [];
 		for (let x = 0; x < canvas.width; x++) {
 			result[y][x] = {
 				r: data[y * canvas.width * 4 + x * 4],
 				g: data[y * canvas.width * 4 + x * 4 + 1],
 				b: data[y * canvas.width * 4 + x * 4 + 2],
 				a: data[y * canvas.width * 4 + x * 4 + 3]
-			}
+			};
 		}
 	}
 
@@ -107,9 +107,9 @@ function recursiveGetCoord(
 	let newVisualTop = visualTop;
 
 	if (currentAxis === 'X') {
-		newVisualLeft += stepSize
+		newVisualLeft += stepSize;
 	} else {
-		newVisualTop += stepSize
+		newVisualTop += stepSize;
 	}
 
 	let oldCenterIntensity = getCenterIntensity(rgbMatrix, visualLeft, visualTop, ops);
@@ -131,7 +131,7 @@ function recursiveGetCoord(
 	return {
 		visualLeft: visualLeftToApply,
 		visualTop: visualTopToApply
-	}
+	};
 }
 
 function getCenterIntensity(
@@ -151,19 +151,19 @@ function getCenterIntensity(
 				const cellColorDiff = rgbDiff(bgColor, col, maxDiff);
 
 				if (!cellColorDiff) {
-					return resCol
+					return resCol;
 				}
 
 				const cellDistance = getDistance(centerPoint, [ rowIdx, colIdx ]);
 				const cellColorWeight = cellColorDiff * Math.pow((1 - cellDistance / maxDistance), 0.5) * 1000;
 
 				return resCol + cellColorWeight;
-			}, 0)
-	}, 0)
+			}, 0);
+	}, 0);
 }
 
 function getDistance(pointA: Point, pointB: Point): number {
-	return Math.pow(Math.pow(pointA[ 0 ] - pointB[ 0 ], 2) + Math.pow(pointA[ 1 ] - pointB[ 1 ], 2), 0.5)
+	return Math.pow(Math.pow(pointA[ 0 ] - pointB[ 0 ], 2) + Math.pow(pointA[ 1 ] - pointB[ 1 ], 2), 0.5);
 }
 
 function normalizeColor(color: MatrixColor): MatrixColor {
@@ -172,12 +172,12 @@ function normalizeColor(color: MatrixColor): MatrixColor {
 		g: Math.floor(color.g * (color.a / 255) + 255 * (1 - (color.a / 255))),
 		b: Math.floor(color.b * (color.a / 255) + 255 * (1 - (color.a / 255))),
 		a: 255
-	}
+	};
 }
 
 function rgbDiff(baseColor: MatrixColor, testColor: MatrixColor, maxDiff: number): number {
 	if (testColor.a === 0) {
-		return 0
+		return 0;
 	}
 
 	const diff = Math.abs(baseColor.r - testColor.r) + Math.abs(baseColor.g - testColor.g) + Math.abs(baseColor.b - testColor.b);

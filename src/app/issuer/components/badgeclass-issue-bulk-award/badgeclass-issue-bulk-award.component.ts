@@ -1,21 +1,21 @@
-import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SessionService } from '../../../common/services/session.service';
-import { MessageService } from '../../../common/services/message.service';
-import { Title } from '@angular/platform-browser';
-import { BaseAuthenticatedRoutableComponent } from '../../../common/pages/base-authenticated-routable.component';
-import { IssuerManager } from '../../services/issuer-manager.service';
-import { BadgeClass } from '../../models/badgeclass.model';
-import { Issuer } from '../../models/issuer.model';
-import { BadgeClassManager } from '../../services/badgeclass-manager.service';
-import { AppConfigService } from '../../../common/app-config.service';
-import { LinkEntry, BgBreadcrumbsComponent } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
+import {Component} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {BadgeClass} from '../../models/badgeclass.model';
+import {Issuer} from '../../models/issuer.model';
+import {BadgeClassManager} from '../../services/badgeclass-manager.service';
+import {AppConfigService} from '../../../common/app-config.service';
+import {LinkEntry} from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 export interface TransformedImportData {
 	duplicateRecords: BulkIssueData[];
 	validRowsTransformed: Set<BulkIssueData>;
-	invalidRowsTransformed: Array<BulkIssueData>;
+	invalidRowsTransformed: BulkIssueData[];
 }
 
 export interface BulkIssueImportPreviewData {
@@ -54,7 +54,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 	issuer: Issuer;
 	issuerLoaded: Promise<any>;
 
-	breadcrumbLinkEntries: LinkEntry[] = []
+	breadcrumbLinkEntries: LinkEntry[] = [];
 
 	constructor(
 		protected badgeClassManager: BadgeClassManager,
@@ -125,7 +125,7 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 	}
 
 	createRange(size: number) {
-		let items: string[] = [];
+		const items: string[] = [];
 		for (let i = 1; i <= size; i++) {
 			items.push('');
 		}

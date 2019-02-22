@@ -1,8 +1,8 @@
-import { Component, Input } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { MessageService } from "../../../common/services/message.service";
-import { markControlsDirty } from "../../../common/util/form-util";
-import { RecipientBadgeCollection } from "../../models/recipient-badge-collection.model";
+import {Component, Input} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageService} from '../../../common/services/message.service';
+import {markControlsDirty} from '../../../common/util/form-util';
+import {RecipientBadgeCollection} from '../../models/recipient-badge-collection.model';
 
 @Component({
 	selector: 'recipient-badge-collection-edit-form',
@@ -14,7 +14,7 @@ export class RecipientBadgeCollectionEditFormComponent {
 	badgeCollectionForm: FormGroup;
 	savePromise: Promise<any>;
 
-	isEditing: boolean = false;
+	isEditing = false;
 
 	constructor(
 		formBuilder: FormBuilder,
@@ -62,12 +62,12 @@ export class RecipientBadgeCollectionEditFormComponent {
 				.then(
 					success => {
 						this.isEditing = false;
-						this.messageService.reportMinorSuccess(`Saved changes to collection ${this.badgeCollection.name}`)
+						this.messageService.reportMinorSuccess(`Saved changes to collection ${this.badgeCollection.name}`);
 					},
 					failure => this.messageService.reportHandledError(`Failed to save changes to collection ${this.badgeCollection.name}`)
 				).then(
 					() => this.savePromise = null
-				)
+				);
 		}
 	}
 

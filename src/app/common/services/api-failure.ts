@@ -1,6 +1,6 @@
-import { Response } from "@angular/http";
-import { BadgrApiError } from "./base-http-api.service";
-import { HttpResponse } from "@angular/common/http";
+import {Response} from '@angular/http';
+import {BadgrApiError} from './base-http-api.service';
+import {HttpResponse} from '@angular/common/http';
 
 export class BadgrApiFailure {
 	private readonly payload: Response | Error | string;
@@ -60,14 +60,14 @@ export class BadgrApiFailure {
 		if (this.payload instanceof BadgrApiError) {
 			try {
 				const json = this.payload.response.body;
-				return errorFromJson(json)
+				return errorFromJson(json);
 			} catch (e) {
 				return "Unknown server error";
 			}
 		} else if (this.payload instanceof HttpResponse) {
 			try {
 				const json = this.payload.body;
-				return errorFromJson(json)
+				return errorFromJson(json);
 			} catch (e) {
 				return "Unknown server error";
 			}

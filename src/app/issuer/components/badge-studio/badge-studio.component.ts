@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 // import "font-awesome/css/font-awesome.css";
-import * as FontFaceObserver from "fontfaceobserver";
-import { canvasVisualCenter } from "../../../common/util/visual-center";
-import { HttpClient } from "@angular/common/http";
+import * as FontFaceObserver from 'fontfaceobserver';
+import {canvasVisualCenter} from '../../../common/util/visual-center';
+import {HttpClient} from '@angular/common/http';
 
 // The FabricJs Import does not work as expected. Instead of getting a "fabric" variable with properties for the various
 // fabric classes, it contains another nested "fabric" property with those values. This seems to be the only way to get
@@ -28,7 +28,7 @@ export class BadgeStudioComponent implements OnInit {
 		return this.canvas.getContext("2d");
 	}
 
-	public dataUrl: string;
+	dataUrl: string;
 	@ViewChild("canvas")
 	private canvasElem: ElementRef;
 
@@ -146,7 +146,7 @@ export class BadgeStudioComponent implements OnInit {
 						svgImage.src = svgDataUrl;
 					});
 			})
-		)
+		);
 	}
 
 	private renderIcon(

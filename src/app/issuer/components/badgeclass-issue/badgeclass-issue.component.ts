@@ -1,31 +1,31 @@
-import { Component, OnInit } from "@angular/core";
-import { FormControl, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Title } from "@angular/platform-browser";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { EmailValidator, ValidationResult } from "../../../common/validators/email.validator";
-import { UrlValidator } from "../../../common/validators/url.validator";
-import { MdImgValidator } from "../../../common/validators/md-img.validator";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Title} from '@angular/platform-browser';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {EmailValidator, ValidationResult} from '../../../common/validators/email.validator';
+import {UrlValidator} from '../../../common/validators/url.validator';
+import {MdImgValidator} from '../../../common/validators/md-img.validator';
 
-import { BadgeInstanceManager } from "../../services/badgeinstance-manager.service";
-import { BadgeClassManager } from "../../services/badgeclass-manager.service";
-import { IssuerManager } from "../../services/issuer-manager.service";
+import {BadgeInstanceManager} from '../../services/badgeinstance-manager.service';
+import {BadgeClassManager} from '../../services/badgeclass-manager.service';
+import {IssuerManager} from '../../services/issuer-manager.service';
 
-import { Issuer } from "../../models/issuer.model";
-import { BadgeClass } from "../../models/badgeclass.model";
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
-import { RecipientIdentifierType } from "../../models/badgeinstance-api.model";
-import { typedGroup } from "../../../common/util/typed-forms";
-import { TelephoneValidator } from "../../../common/validators/telephone.validator";
-import { EventsService } from "../../../common/services/events.service";
-import { FormFieldTextInputType } from '../../../common/components/formfield-text';
-import * as striptags from 'striptags'
-import { DateValidator } from "../../../common/validators/date.validator";
-import { AppConfigService } from "../../../common/app-config.service";
-import { LinkEntry } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
+import {Issuer} from '../../models/issuer.model';
+import {BadgeClass} from '../../models/badgeclass.model';
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
+import {RecipientIdentifierType} from '../../models/badgeinstance-api.model';
+import {typedGroup} from '../../../common/util/typed-forms';
+import {TelephoneValidator} from '../../../common/validators/telephone.validator';
+import {EventsService} from '../../../common/services/events.service';
+import {FormFieldTextInputType} from '../../../common/components/formfield-text';
+import * as striptags from 'striptags';
+import {DateValidator} from '../../../common/validators/date.validator';
+import {AppConfigService} from '../../../common/app-config.service';
+import {LinkEntry} from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 
 @Component({
@@ -38,16 +38,16 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	get defaultExpiration(): string {
 		if (this.badgeClass && this.badgeClass.expiresDuration && this.badgeClass.expiresAmount) {
-			return this.badgeClass.expirationDateRelative().toISOString().replace(/T.*/, '')
+			return this.badgeClass.expirationDateRelative().toISOString().replace(/T.*/, '');
 		}
 	}
 
 	get issuerSlug() {
-		return this.route.snapshot.params[ 'issuerSlug' ]
+		return this.route.snapshot.params[ 'issuerSlug' ];
 	}
 
 	get badgeSlug() {
-		return this.route.snapshot.params[ 'badgeSlug' ]
+		return this.route.snapshot.params[ 'badgeSlug' ];
 	}
 
 	get recipientIdentifierFieldType(): FormFieldTextInputType {
@@ -65,15 +65,15 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 	}
 
-	expirationDateEditable: boolean = false;
+	expirationDateEditable = false;
 
 	issuer: Issuer;
 	issueForm = typedGroup()
 		.addControl("expires", "", this['expirationValidator'])
 		.addControl("recipient_type", "email" as RecipientIdentifierType, [ Validators.required ], control => {
 			control.rawControl.valueChanges.subscribe(() => {
-				this.issueForm.controls.recipient_identifier.rawControl.updateValueAndValidity()
-			})
+				this.issueForm.controls.recipient_identifier.rawControl.updateValueAndValidity();
+			});
 		})
 		.addControl("recipient_identifier", "", [ Validators.required, this['idValidator'] ])
 		.addControl("recipientprofile_name", "")
@@ -115,7 +115,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	};
 	expirationValidator: (control: FormControl) => ValidationResult = (control) => {
 		if (this.expirationEnabled) {
-			return Validators.compose([Validators.required, DateValidator.validDate])(control)
+			return Validators.compose([Validators.required, DateValidator.validDate])(control);
 		} else {
 			return null;
 		}
@@ -189,11 +189,11 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 
 		const formState = this.issueForm.value;
-		let cleanedEvidence = formState.evidence_items.filter(e => e.narrative !== "" || e.evidence_url !== "");
+		const cleanedEvidence = formState.evidence_items.filter(e => e.narrative !== "" || e.evidence_url !== "");
 		const cleanedName = striptags(formState.recipientprofile_name);
 
 		const recipientProfileContextUrl = "https://openbadgespec.org/extensions/recipientProfile/context.json";
-		let extensions = formState.recipientprofile_name ? {
+		const extensions = formState.recipientprofile_name ? {
 			"extensions:recipientProfile": {
 				"@context": recipientProfileContextUrl,
 				"type": ["Extension", "extensions:RecipientProfile"],
@@ -201,7 +201,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			}
 		} : undefined;
 
-		let expires = (this.expirationEnabled && formState.expires) ? new Date(formState.expires).toISOString() : undefined;
+		const expires = (this.expirationEnabled && formState.expires) ? new Date(formState.expires).toISOString() : undefined;
 
 		this.issueBadgeFinished = this.badgeInstanceManager.createBadgeInstance(
 			this.issuerSlug,
@@ -214,8 +214,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				narrative: this.narrativeEnabled ? formState.narrative : "",
 				create_notification: formState.notify_earner,
 				evidence_items: this.evidenceEnabled ? cleanedEvidence : [],
-				extensions: extensions,
-				expires: expires,
+				extensions,
+				expires,
 			}
 		).then(() => this.badgeClass.update())
 			.then(() => {
@@ -226,7 +226,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			this.messageService.setMessage("Badge awarded to " + formState.recipient_identifier, "success");
 		}, error => {
 			this.messageService.setMessage("Unable to award badge: " + BadgrApiFailure.from(error).firstMessage, "error");
-		}).then(() => this.issueBadgeFinished = null)
+		}).then(() => this.issueBadgeFinished = null);
 	}
 
 	async removeEvidence(i: number) {

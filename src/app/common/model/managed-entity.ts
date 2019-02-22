@@ -1,7 +1,7 @@
-import { UpdatableSubject } from "../util/updatable-subject";
-import { ApiEntityRef, EntityRef } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { first } from "rxjs/operators";
+import {UpdatableSubject} from '../util/updatable-subject';
+import {ApiEntityRef, EntityRef} from './entity-ref';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {first} from 'rxjs/operators';
 
 export type AnyManagedEntity = ManagedEntity<any, any>;
 
@@ -10,47 +10,47 @@ export type AnyManagedEntity = ManagedEntity<any, any>;
 // TODO: Managed Entities - provide mechanism for delegating to a "detail" entity when it is loaded
 
 export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRef> {
-	public get loaded$() { return this.loadedSubject.asObservable() }
-	public get changed$() { return this.changedSubject.asObservable() }
+	get loaded$() { return this.loadedSubject.asObservable(); }
+	get changed$() { return this.changedSubject.asObservable(); }
 
-	public get loadedPromise(): Promise<this> { return this.loadedSubject.pipe(first()).toPromise() }
+	get loadedPromise(): Promise<this> { return this.loadedSubject.pipe(first()).toPromise(); }
 
-	get slug() { return this._ref ? this._ref.slug : null }
+	get slug() { return this._ref ? this._ref.slug : null; }
 
-	get url() { return this._ref ? this._ref.url : null }
+	get url() { return this._ref ? this._ref.url : null; }
 
-	get ref(): EntityRef<ApiRefType> { return this._ref }
+	get ref(): EntityRef<ApiRefType> { return this._ref; }
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Manager Accessors
-	public get commonManager() { return this._commonManager }
+	get commonManager() { return this._commonManager; }
 
-	public get messageService() { return this._commonManager.messageService }
+	get messageService() { return this._commonManager.messageService; }
 
-	public get issuerManager() { return this._commonManager.issuerManager }
+	get issuerManager() { return this._commonManager.issuerManager; }
 
-	public get badgeManager() { return this._commonManager.badgeManager }
+	get badgeManager() { return this._commonManager.badgeManager; }
 
-	public get badgeInstanceManager() { return this._commonManager.badgeInstanceManager }
+	get badgeInstanceManager() { return this._commonManager.badgeInstanceManager; }
 
-	public get recipientBadgeManager() { return this._commonManager.recipientBadgeManager }
+	get recipientBadgeManager() { return this._commonManager.recipientBadgeManager; }
 
-	public get recipientBadgeCollectionManager() { return this._commonManager.recipientBadgeCollectionManager }
+	get recipientBadgeCollectionManager() { return this._commonManager.recipientBadgeCollectionManager; }
 
-	public get profileManager() { return this._commonManager.profileManager }
+	get profileManager() { return this._commonManager.profileManager; }
 
-	public get oAuthManager() { return this._commonManager.oAuthManager }
+	get oAuthManager() { return this._commonManager.oAuthManager; }
 
-	public get loaded(): boolean { return !! this.apiModel }
+	get loaded(): boolean { return !! this.apiModel; }
 
-	public get hasChanges(): boolean {
+	get hasChanges(): boolean {
 		return this._apiModelJson != JSON.stringify(this._apiModel);
 	}
 
-	public get apiModel() {
+	get apiModel() {
 		return this._apiModel;
 	}
-;
+
 	private _apiModel: ApiModelType;
 	private _apiModelJson: string;
 
@@ -75,7 +75,7 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Model Updating
 
-	public revertChanges(): boolean {
+	revertChanges(): boolean {
 		if (this.hasChanges) {
 			// Clear out the existing model and replace all properties with the saved ones from JSON
 			// Note that for now, we're not using deepAssign because it has the potential to create unpredictable edge cases
@@ -101,7 +101,7 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 	 * @param externalChange True if the change is external, and subsequent changes should revert to this value. False
 	 *    if the change should itself be revertable.
 	 */
-	public applyApiModel(model: ApiModelType, externalChange: boolean = true): this {
+	applyApiModel(model: ApiModelType, externalChange = true): this {
 		if (externalChange) {
 			this._apiModelJson = JSON.stringify(model);
 		}
@@ -123,7 +123,7 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 export abstract class LoadingManagedEntity<ApiModelType, ApiRefType extends ApiEntityRef> extends ManagedEntity<ApiModelType, ApiRefType> {
 	private updateRequested = false;
 
-	public get loadRequested() { return this.updateRequested }
+	get loadRequested() { return this.updateRequested; }
 
 	constructor(commonManager: CommonEntityManager, initialEntity?: ApiModelType) {
 		super(
@@ -143,6 +143,6 @@ export abstract class LoadingManagedEntity<ApiModelType, ApiRefType extends ApiE
 		return this.doUpdate().then(
 			model => this.applyApiModel(model),
 			error => this.messageService.reportAndThrowError("Failed to load entity", error)
-		)
+		);
 	}
 }

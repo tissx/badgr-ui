@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { BgBreadcrumbsComponent } from './bg-breadcrumbs.component';
-import { queueComponentIndexForCheck } from '@angular/core/src/render3/instructions';
+import {BgBreadcrumbsComponent} from './bg-breadcrumbs.component';
 
 describe('BgBreadcrumbsComponent', () => {
 

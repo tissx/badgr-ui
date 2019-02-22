@@ -1,8 +1,8 @@
-import { ManagedEntity } from "./managed-entity";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { ApiEntityRef } from "./entity-ref";
-import { first } from "rxjs/operators";
-import { MemoizedProperty } from '../util/memoized-property-decorator';
+import {ManagedEntity} from './managed-entity';
+import {UpdatableSubject} from '../util/updatable-subject';
+import {ApiEntityRef} from './entity-ref';
+import {first} from 'rxjs/operators';
+import {MemoizedProperty} from '../util/memoized-property-decorator';
 
 /**
  * Represents a many-to-one connection between entities. Wraps an EntityRef from API data and handles loading and
@@ -22,31 +22,32 @@ export class EntityLink<
 
 	protected _loadedPromise: Promise<EntityType> | null = null;
 
-	public get loaded$() {
+	get loaded$() {
 		return this.loadedSubject.asObservable();
 	}
 
-	public get changed$() {
+	get changed$() {
 		return this.changedSubject.asObservable();
 	}
 
-	public get entity() {
+	get entity() {
 		// Calling this.promise will ensure that we load the entity
 		return this.loadedPromise && this._entity;
 	}
 
-	public get isPresent(): boolean {
+	get isPresent(): boolean {
 		return !! this.entityRef;
 	}
 
 	@MemoizedProperty()
-	public get loadedPromise() {
-		if (! this._loadedPromise)
-			this._loadedPromise = this.loaded$.pipe(first()).toPromise(); ;
+	get loadedPromise() {
+		if (! this._loadedPromise) {
+			this._loadedPromise = this.loaded$.pipe(first()).toPromise();
+		} 
 		return this._loadedPromise;
 	}
 
-	public get entityRef(): RefType { return this.getRef(); }
+	get entityRef(): RefType { return this.getRef(); }
 
 	constructor(
 		protected owningEntity: ManagedEntity<any, any>,
@@ -101,15 +102,15 @@ export class MutableEntityLink<
 
 	// NOTE: We must duplicate the getters for entity and entityRef, otherwise they will be missing due to
 	// TypeScript issue: https://github.com/Microsoft/TypeScript/issues/338
-	public get entity() {
+	get entity() {
 		return this.loadedPromise && this._entity;
 	}
-	public set entity(entity: EntityType) {
-		this.entityRef = entity.ref.apiRef
+	set entity(entity: EntityType) {
+		this.entityRef = entity.ref.apiRef;
 	}
 
-	public get entityRef(): RefType { return this.getRef(); }
-	public set entityRef(newRef: RefType) {
+	get entityRef(): RefType { return this.getRef(); }
+	set entityRef(newRef: RefType) {
 		this.setRef(newRef);
 		this.updateLink();
 	}

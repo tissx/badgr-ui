@@ -1,7 +1,7 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { Issuer } from "./issuer.model";
-import { ApiIssuer } from "./issuer-api.model";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import {inject, TestBed} from '@angular/core/testing';
+import {Issuer} from './issuer.model';
+import {ApiIssuer} from './issuer-api.model';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
 
 
 xdescribe('Issuer', () => {
@@ -14,7 +14,7 @@ xdescribe('Issuer', () => {
 		inject(
 			[ CommonEntityManager ],
 			(commonManager: CommonEntityManager) => {
-				let i = new Issuer(commonManager)
+				const i = new Issuer(commonManager);
 			}
 		)
 	);
@@ -26,8 +26,8 @@ xdescribe('Issuer', () => {
 			(commonManager: CommonEntityManager) => {
 
 				[ apiIssuer1, apiIssuer2, apiIssuer3 ].forEach(apiIssuer => {
-					let issuer = new Issuer(commonManager, apiIssuer);
-					verifyIssuer(issuer, apiIssuer)
+					const issuer = new Issuer(commonManager, apiIssuer);
+					verifyIssuer(issuer, apiIssuer);
 				});
 			}
 		)

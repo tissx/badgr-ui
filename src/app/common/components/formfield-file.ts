@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { preloadImageURL, readFileAsText } from "../util/file-util";
-import { DomSanitizer } from "@angular/platform-browser";
+import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {preloadImageURL, readFileAsText} from '../util/file-util';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
 	selector: 'bg-formfield-file',
@@ -57,23 +57,23 @@ export class BgFormFieldFileComponent {
 
 	@Input() control: FormControl;
 	@Input() label: string;
-	@Input() errorMessage: string = "Please provide a valid file";
+	@Input() errorMessage = "Please provide a valid file";
 	@Input() placeholderImage: string;
 	@Input() fileLoader: (file: File) => Promise<string> = basicFileLoader;
-	@Input() validFileTypes: string = "";
+	@Input() validFileTypes = "";
 
 	@Output() fileData: EventEmitter<string> = new EventEmitter<string>();
 
 	uniqueIdSuffix = BgFormFieldFileComponent.uniqueNameCounter++;
 
-	isDragging: boolean = false;
+	isDragging = false;
 
-	fileLoading: boolean = false;
-	fileProvided: boolean = false;
+	fileLoading = false;
+	fileProvided = false;
 	fileErrorMessage: string = null;
 
 	// new
-	fileName: string = "";
+	fileName = "";
 
 	constructor(
 		private elemRef: ElementRef,
@@ -140,7 +140,7 @@ export class BgFormFieldFileComponent {
 					this.fileProvided = false;
 					this.fileLoading = false;
 				}
-			)
+			);
 	}
 
 	private emitFileData(fileData: string) {
@@ -151,5 +151,5 @@ export class BgFormFieldFileComponent {
 export function basicFileLoader(file: File): Promise<string> {
 	return readFileAsText(file)
 		.then(text => text) // Placeholder for more file manipulation - just returning text passed in for now.
-		.catch(e => {throw new Error(e) })
+		.catch(e => {throw new Error(e); });
 }

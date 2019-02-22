@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Directive, ElementRef, Input, NgZone, Renderer2 } from "@angular/core";
-import { OnDestroy } from "@angular/core/src/metadata/lifecycle_hooks";
-import Popper, { Placement } from "popper.js";
+import {AfterViewInit, Component, Directive, ElementRef, Input, NgZone, Renderer2} from '@angular/core';
+import {OnDestroy} from '@angular/core/src/metadata/lifecycle_hooks';
+import Popper, {Placement} from 'popper.js';
 
 /**
  * Directive that implements popper.js-based popup menus
@@ -15,18 +15,18 @@ import Popper, { Placement } from "popper.js";
 })
 export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 
-	get componentElem(): HTMLElement { return this.componentElemRef.nativeElement ! as HTMLElement }
+	get componentElem(): HTMLElement { return this.componentElemRef.nativeElement ! as HTMLElement; }
 
 	get isOpen() {
 		return this.componentElem && this.componentElem.classList.contains("menu-is-open");
 	}
-	public triggerData: any = null;
+	triggerData: any = null;
 
 	@Input()
-	closeOnOutsideClick: boolean = true;
+	closeOnOutsideClick = true;
 
 	@Input()
-	closeOnInsideClick: boolean = true;
+	closeOnInsideClick = true;
 
 	@Input()
 	menuPlacement: Placement = "bottom-end";

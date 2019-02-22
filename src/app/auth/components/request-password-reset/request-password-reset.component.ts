@@ -46,7 +46,7 @@ export class RequestPasswordResetComponent extends BaseRoutableComponent {
 			return;
 		}
 
-		let email: string = this.requestPasswordResetForm.value.username;
+		const email: string = this.requestPasswordResetForm.value.username;
 
 		this.sessionService.submitResetPasswordRequest(email).then(
 			response => this.router.navigate(['/auth/reset-password-sent']),

@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { preloadImageURL } from "../util/file-util";
+import {Component, Input} from '@angular/core';
+import {preloadImageURL} from '../util/file-util';
 
 declare function require(path: string): string;
 

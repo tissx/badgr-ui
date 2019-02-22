@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {Injectable} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 
 @Injectable()
@@ -16,7 +16,7 @@ export class QueryParametersService  {
 	 * @param checkInitialParams If true, the initial query string params used to load the page will also be checked
 	 * @returns {string}
 	 */
-	queryStringValue(name: string, checkInitialParams: boolean = false): string | null {
+	queryStringValue(name: string, checkInitialParams = false): string | null {
 		// First look in our angular route
 		if (this.route.snapshot.params[ name ]) {
 			return decodeURIComponent(this.route.snapshot.params[ name ]);

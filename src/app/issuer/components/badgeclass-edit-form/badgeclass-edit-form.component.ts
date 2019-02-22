@@ -312,7 +312,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 			this.savePromise = this.existingBadgeClass.save();
 		} else {
-			let badgeClassData = {
+			const badgeClassData = {
 				name: formState.badge_name,
 				description: formState.badge_description,
 				image: formState.badge_image,

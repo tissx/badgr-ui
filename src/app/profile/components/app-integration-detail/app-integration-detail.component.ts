@@ -1,12 +1,12 @@
-import { OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../../../common/services/message.service";
-import { SessionService } from "../../../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { AppIntegration } from "../../models/app-integration.model";
-import { AppIntegrationManager } from "../../services/app-integration-manager.service";
-import { AppConfigService } from "../../../common/app-config.service";
+import {OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessageService} from '../../../common/services/message.service';
+import {SessionService} from '../../../common/services/session.service';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {AppIntegration} from '../../models/app-integration.model';
+import {AppIntegrationManager} from '../../services/app-integration-manager.service';
+import {AppConfigService} from '../../../common/app-config.service';
 
 export abstract class AppIntegrationDetailComponent<
 	T extends AppIntegration<any>

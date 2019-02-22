@@ -72,14 +72,14 @@ export function setupEmbeddedBadges() {
 						imageUrl: data.image,
 						includeBadgeClassName: includeBadgeName,
 						includeRecipientName: includeRecipientName && recipientName,
-						includeAwardDate: includeAwardDate,
-						includeVerifyButton: includeVerifyButton,
+						includeAwardDate,
+						includeVerifyButton,
 						badgeClassName: data.badge.name,
-						recipientName: recipientName,
+						recipientName,
 						awardDate: format_date(data.issuedOn),
-						verified: verified,
+						verified,
 						includeScript: false,
-						staticPrefix: staticPrefix,
+						staticPrefix,
 					});
 					badge.innerHTML = blockquote.innerHTML;
 					badge.setAttribute("style", 'border: none; font-family: Helvetica, Roboto, \"Segoe UI\", Calibri, sans-serif; border-radius: 4px; max-width: 500px; margin: 0; padding: 0px; position: unset; quotes: unset;');

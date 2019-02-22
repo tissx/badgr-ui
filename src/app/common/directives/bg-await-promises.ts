@@ -1,6 +1,6 @@
-import { ComponentFactoryResolver, Directive, Input, TemplateRef, ViewContainerRef } from "@angular/core";
-import { LoadingDotsComponent } from "../components/loading-dots.component";
-import { LoadingErrorComponent } from "../components/loading-error.component";
+import {ComponentFactoryResolver, Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
+import {LoadingDotsComponent} from '../components/loading-dots.component';
+import {LoadingErrorComponent} from '../components/loading-error.component';
 
 /**
  *
@@ -39,7 +39,7 @@ export class BgAwaitPromises {
 				.map((value: any) => ("loadedPromise" in value) ? value["loadedPromise"] : value);
 
 		} else if (newValue && "loadedPromise" in newValue) {
-			newPromises = [(newValue as any)["loadedPromise"]]
+			newPromises = [(newValue as any)["loadedPromise"]];
 		} else if (newValue) {
 			newPromises = [newValue as any];
 		}
@@ -51,7 +51,7 @@ export class BgAwaitPromises {
 			this.currentPromise = Promise.all(newPromises).then(
 				() => this.showTemplate(),
 				error => this.showError(error)
-			)
+			);
 		} else {
 			// no promises given, display template
 			this.showTemplate();
@@ -68,20 +68,20 @@ export class BgAwaitPromises {
 	}
 
 	private showError(error: any) {
-		let factory = this.componentResolver.resolveComponentFactory(LoadingErrorComponent);
+		const factory = this.componentResolver.resolveComponentFactory(LoadingErrorComponent);
 
 		this.viewContainer.clear();
 
-		let componentRef = this.viewContainer.createComponent(factory);
+		const componentRef = this.viewContainer.createComponent(factory);
 		componentRef.instance.className = this.indicatorClassName;
 		componentRef.instance.errorMessage = error["message"] || error;
 	}
 
 	private showLoadingAnimation(): void {
-		let factory = this.componentResolver.resolveComponentFactory(LoadingDotsComponent);
+		const factory = this.componentResolver.resolveComponentFactory(LoadingDotsComponent);
 
 		this.viewContainer.clear();
-		let componentRef = this.viewContainer.createComponent(factory);
+		const componentRef = this.viewContainer.createComponent(factory);
 		componentRef.instance.className = this.indicatorClassName;
 	}
 }

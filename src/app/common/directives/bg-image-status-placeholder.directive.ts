@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnChanges } from "@angular/core";
+import {Directive, ElementRef, Input, OnChanges} from '@angular/core';
 
 const defaultLoadingImage = require("../../../breakdown/static/images/image-placeholder.svg");
 const defaultErrorImage = require("../../../breakdown/static/images/image-failed.svg");
@@ -26,7 +26,7 @@ export class BgImageStatusPlaceholderDirective implements OnChanges {
 		return this.elemRef.nativeElement;
 	}
 
-	isOpen: boolean = false;
+	isOpen = false;
 
 	image: HTMLImageElement = new Image();
 	/**

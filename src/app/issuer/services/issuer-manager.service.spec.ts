@@ -1,23 +1,19 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { AppConfigService } from "../../common/app-config.service";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import {
-	expectRequest,
-	expectRequestAndRespondWith,
-	setupMockResponseReporting
-} from "../../common/util/mock-response-util.spec";
-import { IssuerApiService } from "./issuer-api.service";
-import { IssuerManager } from "./issuer-manager.service";
-import { ApiIssuer, ApiIssuerStaff, ApiIssuerStaffOperation } from "../models/issuer-api.model";
-import { apiIssuer1, apiIssuer2, apiIssuer3 } from "../models/issuer.model.spec";
-import { verifyEntitySetWhenLoaded, verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { BadgeClassApiService } from "./badgeclass-api.service";
-import { BadgeClassManager } from "./badgeclass-manager.service";
-import { MessageService } from "../../common/services/message.service";
-import { SessionService } from "../../common/services/session.service";
-import { first } from "rxjs/operators";
+import {inject, TestBed} from '@angular/core/testing';
+import {AppConfigService} from '../../common/app-config.service';
+import {MockBackend, MockConnection} from '@angular/http/testing';
+import {BaseRequestOptions, Http, RequestMethod} from '@angular/http';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {expectRequest, expectRequestAndRespondWith, setupMockResponseReporting} from '../../common/util/mock-response-util.spec';
+import {IssuerApiService} from './issuer-api.service';
+import {IssuerManager} from './issuer-manager.service';
+import {ApiIssuer, ApiIssuerStaff, ApiIssuerStaffOperation} from '../models/issuer-api.model';
+import {apiIssuer1, apiIssuer2, apiIssuer3} from '../models/issuer.model.spec';
+import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from '../../common/model/managed-entity-set.spec';
+import {BadgeClassApiService} from './badgeclass-api.service';
+import {BadgeClassManager} from './badgeclass-manager.service';
+import {MessageService} from '../../common/services/message.service';
+import {SessionService} from '../../common/services/session.service';
+import {first} from 'rxjs/operators';
 
 xdescribe('IssuerManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -60,7 +56,7 @@ xdescribe('IssuerManager', () => {
 				return Promise.all([
 					expectAllIssuersRequest(mockBackend),
 					verifyEntitySetWhenLoaded(issuerManager.issuersList, allApiIssuers)
-				])
+				]);
 			}
 		)
 	);
@@ -84,7 +80,7 @@ xdescribe('IssuerManager', () => {
 								issuer.badgeClassCount;
 							});*/
 						})
-				])
+				]);
 			}
 		)
 	);
@@ -96,9 +92,9 @@ xdescribe('IssuerManager', () => {
 				return Promise.all([
 					expectAllIssuersRequest(mockBackend),
 					issuerManager.allIssuers$.pipe(first()).toPromise().then(() => {
-						verifyManagedEntitySet(issuerManager.issuersList, allApiIssuers)
+						verifyManagedEntitySet(issuerManager.issuersList, allApiIssuers);
 					})
-				])
+				]);
 			}
 		)
 	);
@@ -107,9 +103,9 @@ xdescribe('IssuerManager', () => {
 		inject(
 			[ IssuerManager, SessionService, MockBackend ],
 			(issuerManager: IssuerManager, loginService: SessionService, mockBackend: MockBackend) => {
-				let existingIssuer = apiIssuer1;
-				let newIssuer = apiIssuer2;
-				let newIssuerForCreation = {
+				const existingIssuer = apiIssuer1;
+				const newIssuer = apiIssuer2;
+				const newIssuerForCreation = {
 					name: apiIssuer2.name,
 					description: apiIssuer2.description,
 					image: apiIssuer2.image,
@@ -129,7 +125,7 @@ xdescribe('IssuerManager', () => {
 					verifyEntitySetWhenLoaded(issuerManager.issuersList, [ existingIssuer ])
 						.then(issuersList => issuerManager.createIssuer(newIssuerForCreation))
 						.then(() => verifyManagedEntitySet(issuerManager.issuersList, [ newIssuer, existingIssuer ]))
-				])
+				]);
 			}
 		)
 	);
@@ -182,7 +178,7 @@ xdescribe('IssuerManager', () => {
 						.then(issuer => {
 							expect(issuer.staff.entityForApiEntity(newStaffMember).apiModel).toEqual(newStaffMember);
 						})
-				])
+				]);
 			}
 		)
 	);
@@ -235,7 +231,7 @@ xdescribe('IssuerManager', () => {
 						.then(member => {
 							expect(member.apiModel).toEqual(modifiedStaffMember);
 						})
-				])
+				]);
 			}
 		)
 	);
@@ -279,13 +275,13 @@ xdescribe('IssuerManager', () => {
 						.then(issuer => {
 							expect(issuer.staff.entities.map(s => s.apiModel)).not.toContain(staffMemberToRemove);
 						})
-				])
+				]);
 			}
 		)
 	);
 });
 
-let allApiIssuers = [ apiIssuer1, apiIssuer2, apiIssuer3 ];
+const allApiIssuers = [ apiIssuer1, apiIssuer2, apiIssuer3 ];
 
 function expectAllIssuersRequest(mockBackend: MockBackend, issuers: ApiIssuer[] = allApiIssuers) {
 	return expectRequestAndRespondWith(

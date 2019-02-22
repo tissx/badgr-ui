@@ -1,17 +1,17 @@
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SignupModel } from '../../models/signup-model.type';
-import { SignupService } from '../../services/signup.service';
-import { SessionService } from '../../../common/services/session.service';
-import { BaseRoutableComponent } from '../../../common/pages/base-routable.component';
-import { MessageService } from '../../../common/services/message.service';
-import { EmailValidator } from '../../../common/validators/email.validator';
-import { Title } from '@angular/platform-browser';
-import { markControlsDirty } from '../../../common/util/form-util';
-import { AppConfigService } from '../../../common/app-config.service';
-import { OAuthManager } from '../../../common/services/oauth-manager.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SignupModel} from '../../models/signup-model.type';
+import {SignupService} from '../../services/signup.service';
+import {SessionService} from '../../../common/services/session.service';
+import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
+import {MessageService} from '../../../common/services/message.service';
+import {EmailValidator} from '../../../common/validators/email.validator';
+import {Title} from '@angular/platform-browser';
+import {markControlsDirty} from '../../../common/util/form-util';
+import {AppConfigService} from '../../../common/app-config.service';
+import {OAuthManager} from '../../../common/services/oauth-manager.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
 	selector: 'sign-up',
@@ -23,7 +23,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 
 	signupFinished: Promise<any>;
 
-	agreedTermsService: boolean = false;
+	agreedTermsService = false;
 
 	get theme() {
 		return this.configService.theme;
@@ -72,7 +72,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	}
 
 	onSubmit(formState) {
-		let signupUser = new SignupModel(
+		const signupUser = new SignupModel(
 			formState.username,
 			formState.firstName,
 			formState.lastName,
@@ -107,7 +107,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	}
 
 	sendSignupConfirmation(email) {
-		this.router.navigate(['signup/success', {email: email}]);
+		this.router.navigate(['signup/success', {email}]);
 	}
 
 	clickSubmit(ev) {

@@ -1,11 +1,11 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { BidirectionallyLinkedEntitySet, ListBackedLinkedEntitySet } from "./linked-entity-set";
-import { ApiTestEntity, buildTestEntities, TestApiEntities, TestEntity, TestEntityRef } from "./managed-entity.spec";
-import { ManagedEntitySet, StandaloneEntitySet } from "./managed-entity-set";
-import { ManagedEntity } from "./managed-entity";
-import { AnyRefType, ApiEntityRef, EntityRef } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { first } from "rxjs/operators";
+import {inject, TestBed} from '@angular/core/testing';
+import {BidirectionallyLinkedEntitySet, ListBackedLinkedEntitySet} from './linked-entity-set';
+import {ApiTestEntity, buildTestEntities, TestApiEntities, TestEntity, TestEntityRef} from './managed-entity.spec';
+import {ManagedEntitySet, StandaloneEntitySet} from './managed-entity-set';
+import {ManagedEntity} from './managed-entity';
+import {AnyRefType, ApiEntityRef, EntityRef} from './entity-ref';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {first} from 'rxjs/operators';
 
 describe('ListBackedLinkedEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -32,7 +32,7 @@ describe('ListBackedLinkedEntitySet', () => {
 					expect(list.entities.length).toBe(1);
 					expect(urls).toEqual([ EntityRef.refFrom(testApiEntity2.id) ]);
 				});
-			})
+			});
 		})
 	);
 
@@ -58,7 +58,7 @@ describe('ListBackedLinkedEntitySet', () => {
 					expect(list.has(allEntities.entityForApiEntity(testApiEntity2))).toBe(true);
 					expect(list.has(allEntities.entityForApiEntity(testApiEntity3))).toBe(true);
 				});
-			})
+			});
 		})
 	);
 
@@ -95,7 +95,7 @@ describe('ListBackedLinkedEntitySet', () => {
 					verifySet(list.entities, allEntities.entitiesForApiEntities([ testApiEntity3 ]));
 					verifyRefSet(urls, [ testApiEntity3.id ]);
 				});
-			})
+			});
 		})
 	);
 
@@ -138,7 +138,7 @@ describe('ListBackedLinkedEntitySet', () => {
 					// Test setting to empty
 					testArray([]);
 				});
-			})
+			});
 		})
 	);
 });
@@ -192,7 +192,7 @@ describe('BidirectionallyLinkedEntitySet', () => {
 					verifySet(entity2.friends.entities, allEntities.entitiesForUrls([ testApiEntity1.id ]));
 					verifySet(entity3.friends.entities, allEntities.entitiesForUrls([ testApiEntity1.id ]));
 				});
-			})
+			});
 		})
 	);
 
@@ -231,7 +231,7 @@ describe('BidirectionallyLinkedEntitySet', () => {
 					.then(() => testNewArray([ EntityRef.refFrom(testApiEntity2.id) ]))
 					.then(() => testNewArray([ ]))
 					;
-			})
+			});
 		})
 	);
 });
@@ -281,7 +281,7 @@ export interface ApiBilinkedTestEntity extends ApiTestEntity {
 }
 
 export class BilinkedTestEntity extends ManagedEntity<ApiBilinkedTestEntity, TestEntityRef> {
-	get friendIds(): TestEntityRef[] { return (this.apiModel.friends = this.apiModel.friends || []) }
+	get friendIds(): TestEntityRef[] { return (this.apiModel.friends = this.apiModel.friends || []); }
 
 	friends = new BidirectionallyLinkedEntitySet<BilinkedTestEntity, BilinkedTestEntity, TestEntityRef>(
 		this,
@@ -290,11 +290,11 @@ export class BilinkedTestEntity extends ManagedEntity<ApiBilinkedTestEntity, Tes
 		e => e.friends
 	);
 
-	get name() { return this.apiModel.name }
-	set name(name: string) { this.apiModel.name = name }
+	get name() { return this.apiModel.name; }
+	set name(name: string) { this.apiModel.name = name; }
 
-	get value() { return this.apiModel.value }
-	set value(value: number) { this.apiModel.value = value }
+	get value() { return this.apiModel.value; }
+	set value(value: number) { this.apiModel.value = value; }
 
 	constructor(
 		commonManager: CommonEntityManager,

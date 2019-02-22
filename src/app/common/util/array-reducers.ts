@@ -12,7 +12,7 @@ export function groupIntoObject<ValueType>(keyFor: (ValueType) => string): (
 		const group = grouped[ key ] || (grouped[ key ] = []);
 		group.push(value);
 		return grouped;
-	}
+	};
 }
 
 export interface GroupedPair<K, V> {
@@ -21,23 +21,23 @@ export interface GroupedPair<K, V> {
 }
 
 export function groupIntoArray<ValueType, KeyType>(keyFor: (ValueType) => KeyType): (
-	grouped: GroupedPair<KeyType, ValueType>[],
+	grouped: Array<GroupedPair<KeyType, ValueType>>,
 	value: ValueType
-) => GroupedPair<KeyType, ValueType>[] {
+) => Array<GroupedPair<KeyType, ValueType>> {
 	return (grouped, value) => {
 		grouped = Array.isArray(grouped) ? grouped : [];
 		const key = keyFor(value);
 
 		let group: GroupedPair<KeyType, ValueType> = grouped.find(g => g.key == key);
 		if (!group) {
-			group = { key: key, values: [] } as GroupedPair<KeyType, ValueType>;
+			group = { key, values: [] } as GroupedPair<KeyType, ValueType>;
 			grouped.push(group);
 		}
 
 		group.values.push(value);
 
 		return grouped;
-	}
+	};
 }
 
 export function flatten<T>(): (result: T[], value: T[]) => T[]

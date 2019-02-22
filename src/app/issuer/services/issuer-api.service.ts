@@ -1,10 +1,10 @@
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { Injectable } from "@angular/core";
-import { AppConfigService } from "../../common/app-config.service";
-import { SessionService } from "../../common/services/session.service";
-import { ApiIssuer, ApiIssuerForCreation, ApiIssuerStaffOperation, IssuerSlug } from "../models/issuer-api.model";
-import { MessageService } from "../../common/services/message.service";
-import { HttpClient } from "@angular/common/http";
+import {BaseHttpApiService} from '../../common/services/base-http-api.service';
+import {Injectable} from '@angular/core';
+import {AppConfigService} from '../../common/app-config.service';
+import {SessionService} from '../../common/services/session.service';
+import {ApiIssuer, ApiIssuerForCreation, ApiIssuerStaffOperation, IssuerSlug} from '../models/issuer-api.model';
+import {MessageService} from '../../common/services/message.service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class IssuerApiService extends BaseHttpApiService {
@@ -21,7 +21,7 @@ export class IssuerApiService extends BaseHttpApiService {
 		creationIssuer: ApiIssuerForCreation
 	) {
 		return this.post<ApiIssuer>(`/v1/issuer/issuers`, creationIssuer)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 
 	editIssuer(
@@ -29,7 +29,7 @@ export class IssuerApiService extends BaseHttpApiService {
 		editingIssuer: ApiIssuerForCreation
 	) {
 		return this.put<ApiIssuer>(`/v1/issuer/issuers/${issuerSlug}`, editingIssuer)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 
 	listIssuers() {
@@ -50,6 +50,6 @@ export class IssuerApiService extends BaseHttpApiService {
 	) {
 		return this
 			.post(`/v1/issuer/issuers/${issuerSlug}/staff`, updateOp)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 }

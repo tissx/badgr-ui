@@ -1,18 +1,18 @@
-import { Component, Injector } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import {Component, Injector} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
-import { preloadImageURL } from "../../../common/util/file-util";
-import { PublicApiService } from "../../services/public-api.service";
-import { LoadedRouteParam } from "../../../common/util/loaded-route-param";
-import { PublicApiBadgeAssertionWithBadgeClass, PublicApiBadgeClass, PublicApiIssuer } from "../../models/public-api.model";
-import { EmbedService } from "../../../common/services/embed.service";
-import { addQueryParamsToUrl } from "../../../common/util/url-util";
-import { routerLinkForUrl } from "../public/public.component";
-import { QueryParametersService } from "../../../common/services/query-parameters.service";
-import { MessageService } from "../../../common/services/message.service";
-import { AppConfigService } from "../../../common/app-config.service";
-import { saveAs } from "file-saver";
-import { Title } from '@angular/platform-browser';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {PublicApiService} from '../../services/public-api.service';
+import {LoadedRouteParam} from '../../../common/util/loaded-route-param';
+import {PublicApiBadgeAssertionWithBadgeClass, PublicApiBadgeClass, PublicApiIssuer} from '../../models/public-api.model';
+import {EmbedService} from '../../../common/services/embed.service';
+import {addQueryParamsToUrl} from '../../../common/util/url-util';
+import {routerLinkForUrl} from '../public/public.component';
+import {QueryParametersService} from '../../../common/services/query-parameters.service';
+import {MessageService} from '../../../common/services/message.service';
+import {AppConfigService} from '../../../common/app-config.service';
+import {saveAs} from 'file-saver';
+import {Title} from '@angular/platform-browser';
 
 
 @Component({
@@ -48,7 +48,7 @@ export class PublicBadgeAssertionComponent {
 				return service.getBadgeAssertion(paramValue).then(assertion => {
 					if (assertion.revoked) {
 						if (assertion.revocationReason) {
-							messageService.reportFatalError("Assertion has been revoked:", assertion.revocationReason)
+							messageService.reportFatalError("Assertion has been revoked:", assertion.revocationReason);
 						} else {
 							messageService.reportFatalError("Assertion has been revoked.", "");
 						}
@@ -59,20 +59,20 @@ export class PublicBadgeAssertionComponent {
 						this.awardedToDisplayName = assertion["extensions:recipientProfile"].name;
 					}
 					return assertion;
-				})
+				});
 			}
 		);
 	}
 
 	get showDownload() {
-		return this.queryParametersService.queryStringValue("action") === "download"
+		return this.queryParametersService.queryStringValue("action") === "download";
 	}
 
-	get assertion(): PublicApiBadgeAssertionWithBadgeClass { return this.assertionIdParam.value }
+	get assertion(): PublicApiBadgeAssertionWithBadgeClass { return this.assertionIdParam.value; }
 
-	get badgeClass(): PublicApiBadgeClass { return this.assertion.badge }
+	get badgeClass(): PublicApiBadgeClass { return this.assertion.badge; }
 
-	get issuer(): PublicApiIssuer { return this.assertion.badge.issuer }
+	get issuer(): PublicApiIssuer { return this.assertion.badge.issuer; }
 
 	get isExpired(): boolean {
 		return !this.assertion.expires || new Date(this.assertion.expires) < new Date();
@@ -95,11 +95,11 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	get v1BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"})
+		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"});
 	}
 
 	get v2BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"})
+		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"});
 	}
 
 	get verifyUrl() {
@@ -107,8 +107,8 @@ export class PublicBadgeAssertionComponent {
 		const ASSERTION_URL = v === "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
 		let url = `${this.configService.assertionVerifyUrl}?url=${ASSERTION_URL}`;
 
-		for (let IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
-			let identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE)
+		for (const IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
+			const identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE);
 			if (identity) {
 				url = `${url}&${IDENTITY_TYPE}=${identity}`;
 			}
@@ -120,8 +120,8 @@ export class PublicBadgeAssertionComponent {
 		const i = this.queryParametersService.queryStringValue("i");
 		let recipientIdentifierString = i;
 
-		for (let IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
-			let identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE)
+		for (const IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
+			const identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE);
 			if (identity) {
 				recipientIdentifierString = `${i}&${IDENTITY_TYPE}=${identity}`;
 			}
@@ -130,7 +130,7 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	generateFileName(assertion, fileExtension): string {
-		return `${assertion.badge.name} - ${assertion.recipient.identity}${fileExtension}`
+		return `${assertion.badge.name} - ${assertion.recipient.identity}${fileExtension}`;
 	}
 
 	openSaveDialog(assertion): void {
@@ -139,8 +139,8 @@ export class PublicBadgeAssertionComponent {
 		xhr.responseType = "blob";
 		xhr.onload = (e) => {
 			if (xhr.status === 200) {
-				let fileExtension = this.mimeToExtension(xhr.response.type);
-				let name = this.generateFileName(assertion, fileExtension);
+				const fileExtension = this.mimeToExtension(xhr.response.type);
+				const name = this.generateFileName(assertion, fileExtension);
 				saveAs(xhr.response, name);
 			}
 		};
@@ -148,8 +148,8 @@ export class PublicBadgeAssertionComponent {
 	}
 
 	mimeToExtension(mimeType: string): string {
-		if (mimeType.indexOf('svg') !== -1) return ".svg"
-		if (mimeType.indexOf('png') !== -1) return ".png"
-		return ""
+		if (mimeType.indexOf('svg') !== -1) return ".svg";
+		if (mimeType.indexOf('png') !== -1) return ".png";
+		return "";
 	}
 }

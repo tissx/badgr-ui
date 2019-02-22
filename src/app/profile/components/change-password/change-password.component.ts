@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {FormBuilder, FormControl, ValidationErrors, Validators} from '@angular/forms';
+import {FormBuilder, ValidationErrors, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SessionService} from '../../../common/services/session.service';
 import {MessageService} from '../../../common/services/message.service';

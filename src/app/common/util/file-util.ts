@@ -9,7 +9,7 @@ export function readFile<T>(
 	const promise = new Promise<T>((res, rej) => { resolve = res; reject = rej; });
 
 	reader.onload = e => {
-		const fr: FileReader = <FileReader>e.target;
+		const fr: FileReader = e.target as FileReader;
 		resolve(fr.result as unknown as T);
 	};
 	reader.onerror = e => {
@@ -63,8 +63,9 @@ export function loadImageURL(imageUrl: string): Promise<HTMLImageElement> {
 }
 
 export function preloadImageURL(imageURL: string): string {
-	if (! imagePromises[imageURL])
+	if (! imagePromises[imageURL]) {
 		imagePromises[imageURL] = loadImageURL(imageURL);
+	}
 
 	return imageURL;
 }

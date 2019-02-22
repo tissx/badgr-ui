@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
-import { SessionService } from '../../../common/services/session.service';
-import { BaseAuthenticatedRoutableComponent } from '../../../common/pages/base-authenticated-routable.component';
-import { MessageService } from '../../../common/services/message.service';
-import { IssuerManager } from '../../services/issuer-manager.service';
-import { BadgeClassManager } from '../../services/badgeclass-manager.service';
-import { Issuer } from '../../models/issuer.model';
-import { BadgeClass } from '../../models/badgeclass.model';
-import { Title } from '@angular/platform-browser';
-import { preloadImageURL } from '../../../common/util/file-util';
-import { UserProfileManager } from '../../../common/services/user-profile-manager.service';
-import { UserProfileEmail } from '../../../common/model/user-profile.model';
-import { ApiExternalToolLaunchpoint } from 'app/externaltools/models/externaltools-api.model';
-import { ExternalToolsManager } from 'app/externaltools/services/externaltools-manager.service';
-import { AppConfigService } from '../../../common/app-config.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {MessageService} from '../../../common/services/message.service';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {BadgeClassManager} from '../../services/badgeclass-manager.service';
+import {Issuer} from '../../models/issuer.model';
+import {BadgeClass} from '../../models/badgeclass.model';
+import {Title} from '@angular/platform-browser';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {UserProfileEmail} from '../../../common/model/user-profile.model';
+import {ApiExternalToolLaunchpoint} from 'app/externaltools/models/externaltools-api.model';
+import {ExternalToolsManager} from 'app/externaltools/services/externaltools-manager.service';
+import {AppConfigService} from '../../../common/app-config.service';
 
 @Component({
 	selector: 'issuer-detail',
@@ -28,7 +28,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 	issuer: Issuer;
 	issuerSlug: string;
-	badges: Array<BadgeClass>;
+	badges: BadgeClass[];
 	launchpoints: ApiExternalToolLaunchpoint[];
 
 	profileEmails: UserProfileEmail[] = [];

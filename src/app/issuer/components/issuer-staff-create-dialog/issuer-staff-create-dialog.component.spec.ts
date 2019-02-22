@@ -1,8 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { IssuerStaffCreateDialogComponent } from './issuer-staff-create-dialog.component';
+import {IssuerStaffCreateDialogComponent} from './issuer-staff-create-dialog.component';
 import {BadgrCommonModule, COMMON_IMPORTS} from '../../../common/badgr-common.module';
-import {ReactiveFormsModule} from '@angular/forms';
 import {CommonEntityManagerModule} from '../../../entity-manager/entity-manager.module';
 
 describe('IssuerStaffCreateDialogComponent', () => {

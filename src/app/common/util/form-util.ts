@@ -1,4 +1,4 @@
-import {AbstractControl, FormArray, FormGroup} from "@angular/forms";
+import {AbstractControl, FormArray, FormGroup} from '@angular/forms';
 
 export function markControlsDirty(control: AbstractControl) {
 	walkControls(control, c => c.markAsDirty());
