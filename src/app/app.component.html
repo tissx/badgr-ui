@@ -156,7 +156,7 @@
 				<li><a [href]="theme.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
 				<li><a [href]="theme.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy
 						Policy</a></li>
-				<li><a href="https://support.badgr.io/docs/" *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink"
+				<li *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink"><a href="https://support.badgr.io/docs/" 
 					 target="_blank">Documentation</a></li>
 			</ul>
 
