@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 // import { LoginService } from "../../auth/auth.service";
-import {AuthorizationToken, SessionService} from './session.service';
-import {AppConfigService} from '../app-config.service';
-import {MessageService} from './message.service';
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
-import {timeoutPromise} from '../util/promise-util';
-import {Observable} from 'rxjs';
+import { AuthorizationToken, SessionService } from './session.service';
+import { AppConfigService } from '../app-config.service';
+import { MessageService } from './message.service';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { timeoutPromise } from '../util/promise-util';
+import { Observable } from 'rxjs';
 
 export class BadgrApiError extends Error {
 	constructor(
@@ -173,14 +173,20 @@ export abstract class BaseHttpApiService {
 					this.sessionService.handleAuthenticationError();
 				} else if (response.status === 0) {
 					this.messageService.reportFatalError(`Server Unavailable`);
-					// TODO: Is this going to cause trouble?
+				// Sometimes API returns strings!
 				} else if (response.error && (typeof response.error === "string") && (!this.isJson(response.error))) {
 					throw new BadgrApiError(
 						response.error,
 						response
 					);
+				// sometimes objects!
+				} else if (response.error && typeof response.error === "object") {
+					throw new BadgrApiError(
+						JSON.stringify(response.error),
+						response
+					);
+				// and sometimes we give up and just dump the status!
 				} else {
-					// TODO: Give nicer error messages!
 					throw new BadgrApiError(
 						`Expected 2xx response; got ${response.status}`,
 						response

@@ -42,6 +42,16 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 			.then(profile => this.profile = profile);
 	}
 
+	isJson = (str) => {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
+		}
+		return true;
+	};
+
+
 	submitChange() {
 		if (! this.changePasswordForm.markTreeDirtyAndValidate()) {
 			return;
@@ -56,7 +66,15 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 					this._messageService.reportMajorSuccess('Your password has been changed successfully.', true);
 					this.router.navigate([ "/profile/profile" ]);
 				},
-				err => this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
+				(err) => {
+					console.warn(err.message, JSON.parse(err.message).hasOwnProperty('currrent_password'))
+					if (err.message && this.isJson(err.message) && JSON.parse(err.message).hasOwnProperty('currrent_password')) {
+						console.warn(JSON.parse(err.message).currrent_password)
+						this._messageService.reportAndThrowError(JSON.parse(err.message).currrent_password, err)
+					} else {
+						this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
+					}
+				}
 			);
 	}
 
