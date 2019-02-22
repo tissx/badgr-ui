@@ -1,16 +1,16 @@
-import {forwardRef, Inject, Injectable} from "@angular/core";
-import {StandaloneEntitySet} from "../../common/model/managed-entity-set";
-import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
+import { forwardRef, Inject, Injectable } from "@angular/core";
+import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
+import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
 import {
 	ApiExternalTool,
 	ApiExternalToolLaunchInfo,
 	ApiExternalToolLaunchpoint,
 	ExternalToolLaunchpointName
 } from "../models/externaltools-api.model";
-import {ExternalTool} from "../models/externaltools.model";
-import {ExternalToolsApiService} from "./externaltools-api.service";
-import {Observable} from "rxjs";
-import {first, map} from "rxjs/operators";
+import { ExternalTool } from "../models/externaltools.model";
+import { ExternalToolsApiService } from "./externaltools-api.service";
+import { Observable } from "rxjs";
+import { first, map } from "rxjs/operators";
 
 @Injectable()
 export class ExternalToolsManager {
