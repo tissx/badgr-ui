@@ -72,18 +72,18 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 				},
 				(err) => {
 					if (err.message && this.isJson(err.message)) {
-						let errors = JSON.parse(err.message);
-						for (let key in errors) {
+						const errors = JSON.parse(err.message);
+						for (const key in errors) {
 							if (errors.hasOwnProperty(key)) {
 								this.errors[key] = errors[key];
-								let c = this.changePasswordForm.controls[key].rawControl.valueChanges.subscribe(val => {
+								const c = this.changePasswordForm.controls[key].rawControl.valueChanges.subscribe(val => {
 									this.errors[key] = false;
 									c.unsubscribe();
 								});
 							}
 						}
 					} else {
-						this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
+						this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err);
 					}
 				}
 			);
