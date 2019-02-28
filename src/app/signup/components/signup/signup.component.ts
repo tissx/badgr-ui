@@ -1,4 +1,4 @@
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SignupModel} from '../../models/signup-model.type';
@@ -12,14 +12,25 @@ import {markControlsDirty} from '../../../common/util/form-util';
 import {AppConfigService} from '../../../common/app-config.service';
 import {OAuthManager} from '../../../common/services/oauth-manager.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {typedGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'sign-up',
 	templateUrl: './signup.component.html',
 })
 export class SignupComponent extends BaseRoutableComponent implements OnInit {
-	signupForm: FormGroup;
-	passwordGroup: FormGroup;
+	signupForm = typedGroup()
+		.addControl('username', '', [
+			Validators.required,
+			EmailValidator.validEmail
+		])
+		.addControl('firstName', '', Validators.required)
+		.addControl('lastName', '', Validators.required)
+		.addControl('password', '', [ Validators.required, Validators.minLength(8) ])
+		.addControl('passwordConfirm', '', [ Validators.required, this.passwordsMatch.bind(this) ])
+		.addControl('agreedTermsService', false, Validators.requiredTrue)
+		.addControl('marketingOptIn', false)
+	;
 
 	signupFinished: Promise<unknown>;
 
@@ -42,27 +53,6 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	) {
 		super(router, route);
 		title.setTitle(`Signup - ${this.configService.theme['serviceName'] || 'Badgr'}`);
-
-		this.passwordGroup = fb.group({
-				'password': ['', Validators.compose([Validators.required, passwordValidator])],
-				'passwordConfirm': ['', Validators.required],
-			}, {validator: passwordsMatchValidator}
-		);
-		this.signupForm = fb.group({
-				'username': [
-					'',
-					Validators.compose([
-						Validators.required,
-						EmailValidator.validEmail
-					])
-				],
-				'firstName': ['', Validators.required],
-				'lastName': ['', Validators.required],
-				'passwords': this.passwordGroup,
-				'agreedTermsService': [false, Validators.requiredTrue],
-				'marketingOptIn': [false],
-			}
-		);
 	}
 
 	ngOnInit() {
@@ -71,12 +61,18 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		}
 	}
 
-	onSubmit(formState) {
+	onSubmit() {
+		if (! this.signupForm.markTreeDirtyAndValidate()) {
+			return;
+		}
+
+		const formState = this.signupForm.value;
+
 		const signupUser = new SignupModel(
 			formState.username,
 			formState.firstName,
 			formState.lastName,
-			formState.passwords.password,
+			formState.password,
 			formState.agreedTermsService,
 			formState.marketingOptIn
 		);
@@ -110,29 +106,20 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		this.router.navigate(['signup/success', {email}]);
 	}
 
-	clickSubmit(ev) {
-		let controlName: string;
-
-		if (!this.signupForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.signupForm);
-			markControlsDirty(this.passwordGroup);
-		}
-	}
-
 	get showMarketingOptIn() {
 		return !!!this.theme['hideMarketingOptIn'];
 	}
-}
 
-function passwordValidator(control: FormControl): { [errorName: string]: unknown } {
-	if (control.value.length < 8) {
-		return {'weakPassword': 'Password must be at least 8 characters'};
-	}
-}
+	passwordsMatch(): ValidationErrors | null {
+		if (! this.signupForm) return null;
 
-function passwordsMatchValidator(group: FormGroup): { [errorName: string]: unknown } {
-	if (group.controls['password'].value !== group.controls['passwordConfirm'].value) {
-		return {passwordsMatch: 'Passwords do not match'};
+		const p1 = this.signupForm.controls.password.value;
+		const p2 = this.signupForm.controls.passwordConfirm.value;
+
+		if (p1 && p2 && p1 !== p2) {
+			return { passwordsMatch: "Passwords do not match" };
+		}
+
+		return null;
 	}
 }
