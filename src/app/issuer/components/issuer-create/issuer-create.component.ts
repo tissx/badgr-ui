@@ -1,32 +1,34 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MessageService} from "../../../common/services/message.service";
-import {IssuerManager} from "../../services/issuer-manager.service";
-import {BaseAuthenticatedRoutableComponent} from "../../../common/pages/base-authenticated-routable.component";
-import {UrlValidator} from "../../../common/validators/url.validator";
-import {Title} from "@angular/platform-browser";
-import {ApiIssuerForCreation} from "../../models/issuer-api.model";
-import {markControlsDirty} from "../../../common/util/form-util";
-import {SessionService} from "../../../common/services/session.service";
-import {preloadImageURL} from "../../../common/util/file-util";
-import {UserProfileManager} from "../../../common/services/user-profile-manager.service";
-import {UserProfileEmail} from "../../../common/model/user-profile.model";
-import {FormFieldSelectOption} from "../../../common/components/formfield-select";
-import {AppConfigService} from "../../../common/app-config.service";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessageService} from '../../../common/services/message.service';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {UrlValidator} from '../../../common/validators/url.validator';
+import {Title} from '@angular/platform-browser';
+import {ApiIssuerForCreation} from '../../models/issuer-api.model';
+import {markControlsDirty} from '../../../common/util/form-util';
+import {SessionService} from '../../../common/services/session.service';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {UserProfileEmail} from '../../../common/model/user-profile.model';
+import {FormFieldSelectOption} from '../../../common/components/formfield-select';
+import {AppConfigService} from '../../../common/app-config.service';
 
 @Component({
 	selector: 'issuer-create',
 	templateUrl: './issuer-create.component.html'
 })
 export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
+	readonly issuerImagePlacholderUrl = preloadImageURL(
+		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
+	);
 
 	issuerForm: FormGroup;
 	emails: UserProfileEmail[];
 	emailsOptions: FormFieldSelectOption[];
-	addIssuerFinished: Promise<any>;
-	emailsLoaded: Promise<any>;
+	addIssuerFinished: Promise<unknown>;
+	emailsLoaded: Promise<unknown>;
 
 	constructor(
 		loginService: SessionService,
@@ -84,7 +86,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 					return {
 						label: e.email,
 						value: e.email,
-					}
+					};
 				});
 			});
 	}
@@ -94,7 +96,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	onSubmit(formState) {
-		var issuer: ApiIssuerForCreation = {
+		const issuer: ApiIssuerForCreation = {
 			'name': formState.issuer_name,
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
@@ -121,7 +123,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	urlBlurred(ev) {
-		var control: FormControl = <FormControl>this.issuerForm.controls[ 'issuer_url' ];
+		const control: FormControl = this.issuerForm.controls[ 'issuer_url' ] as FormControl;
 		UrlValidator.addMissingHttpToControl(control);
 	}
 

@@ -1,9 +1,9 @@
-import { ManagedEntity } from "./managed-entity";
-import { ListBackedEntitySet, ManagedEntitySet, StandaloneEntitySet } from "./managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { ApiTestEntity, buildTestEntities, TestEntity } from "./managed-entity.spec";
-import { inject, TestBed } from "@angular/core/testing";
-import { filter, first } from "rxjs/operators";
+import {ManagedEntity} from './managed-entity';
+import {ListBackedEntitySet, ManagedEntitySet, StandaloneEntitySet} from './managed-entity-set';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {ApiTestEntity, buildTestEntities, TestEntity} from './managed-entity.spec';
+import {inject, TestBed} from '@angular/core/testing';
+import {filter, first} from 'rxjs/operators';
 
 describe('StandaloneEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -13,14 +13,14 @@ describe('StandaloneEntitySet', () => {
 	it(
 		'should be constructable',
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
-			new TestEntitySet(commonManager)
+			new TestEntitySet(commonManager);
 		})
 	);
 
 	it(
 		'should report initial state correctly',
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
-			let list = new TestEntitySet(commonManager);
+			const list = new TestEntitySet(commonManager);
 
 			expect(list.loaded).toBe(false);
 			expect(list.entities.length).toBe(0);
@@ -36,7 +36,7 @@ describe('StandaloneEntitySet', () => {
 
 			const { testApiEntities } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => {
 					resolveLoadedCalled();
@@ -55,16 +55,16 @@ describe('StandaloneEntitySet', () => {
 	it(
 		'should update entities from updateIfLoaded() if already loaded',
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
-			let loadRequestedCallbacks: Array<() => void> = [];
+			const loadRequestedCallbacks: Array<() => void> = [];
 			let loadRequestedCount = 0;
-			let loadRequestedPromises = [
+			const loadRequestedPromises = [
 				new Promise(r => loadRequestedCallbacks[0] = r),
 				new Promise(r => loadRequestedCallbacks[1] = r)
 			];
 
 			const { testApiEntities } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => {
 					loadRequestedCallbacks[loadRequestedCount++]();
@@ -91,7 +91,7 @@ describe('StandaloneEntitySet', () => {
 
 			const { testApiEntities } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => {
 					loadRequested = true;
@@ -108,12 +108,12 @@ describe('StandaloneEntitySet', () => {
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
 			const { testApiEntity1, testApiEntity2 } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => Promise.resolve([ testApiEntity1 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l =>
 						list.applyApiData([ testApiEntity1, testApiEntity2 ])
@@ -135,12 +135,12 @@ describe('StandaloneEntitySet', () => {
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
 			const { testApiEntity1, testApiEntity2 } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => Promise.resolve([ testApiEntity1, testApiEntity2 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l =>
 						list.applyApiData([ testApiEntity1 ])
@@ -163,12 +163,12 @@ describe('StandaloneEntitySet', () => {
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
 			const { testApiEntity1, testApiEntity2 } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => Promise.resolve([ testApiEntity1, testApiEntity2 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l => {
 						const entityToRemove = l.entityForApiEntity(testApiEntity2);
@@ -193,12 +193,12 @@ describe('StandaloneEntitySet', () => {
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
 			const { testApiEntity1, testApiEntity2, testApiEntity3 } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => Promise.resolve([ testApiEntity1, testApiEntity2, testApiEntity3 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l => {
 						const entitiesToRemove = [ l.entityForApiEntity(testApiEntity2), l.entityForApiEntity(testApiEntity3) ];
@@ -224,12 +224,12 @@ describe('StandaloneEntitySet', () => {
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
 			const { testApiEntity1, testApiEntity2 } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => Promise.resolve([ testApiEntity1 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l =>
 						list.addOrUpdate(testApiEntity2)
@@ -251,7 +251,7 @@ describe('StandaloneEntitySet', () => {
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
 			const { testApiEntity1, testApiEntity2 } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => Promise.resolve([ testApiEntity1, testApiEntity2 ])
 			);
@@ -272,7 +272,7 @@ describe('StandaloneEntitySet', () => {
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
 			const { testApiEntity1, testApiEntity2 } = buildTestEntities();
 
-			let list = new TestEntitySet(
+			const list = new TestEntitySet(
 				commonManager,
 				() => Promise.resolve([ testApiEntity1, testApiEntity2 ])
 			);
@@ -327,7 +327,7 @@ export function verifyManagedEntitySet<
 	);
 
 	if (entitySet instanceof ListBackedEntitySet) {
-		const apiModelList: ApiEntityType[] = (entitySet as any).apiModelList;
+		const apiModelList: ApiEntityType[] = (entitySet as ListBackedEntitySet).apiModelList;
 
 		// TODO: Implement better comparison of underlying lists
 		expect(apiModelList.length).toEqual(apiData.length);
@@ -347,5 +347,5 @@ export function verifyEntitySetWhenLoaded<
 ): Promise<SetType> {
 	return entitySet.loadedPromise.then(
 		list => verifyManagedEntitySet(list, apiData, additionalVerifier)
-	)
+	);
 }

@@ -1,13 +1,13 @@
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
 /**
  * Helper class for controllers whose route parameters specify entities that need to be loaded.
  */
 export class LoadedRouteParam<Type> {
-	public loadedPromise: Promise<Type>;
-	public value: Type | null = null;
-	public loaded: boolean = false;
-	public failed: boolean = false;
+	loadedPromise: Promise<Type>;
+	value: Type | null = null;
+	loaded = false;
+	failed = false;
 
 	constructor(
 		route: ActivatedRoute,

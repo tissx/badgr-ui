@@ -5,18 +5,18 @@ import {
 	ApiBadgeInstanceForCreation,
 	BadgeInstanceRef,
 	BadgeInstanceUrl
-} from "./badgeinstance-api.model";
-import { BadgeClassUrl } from "./badgeclass-api.model";
-import { IssuerUrl } from "./issuer-api.model";
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { ApiEntityRef } from "../../common/model/entity-ref";
-import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
-import { BadgeInstanceManager } from "../services/badgeinstance-manager.service";
-import { PaginationResults } from "../services/badgeinstance-api.service";
+} from './badgeinstance-api.model';
+import {BadgeClassUrl} from './badgeclass-api.model';
+import {IssuerUrl} from './issuer-api.model';
+import {ManagedEntity} from '../../common/model/managed-entity';
+import {ApiEntityRef} from '../../common/model/entity-ref';
+import {StandaloneEntitySet} from '../../common/model/managed-entity-set';
+import {BadgeInstanceManager} from '../services/badgeinstance-manager.service';
+import {PaginationResults} from '../services/badgeinstance-api.service';
 
 
 export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiBadgeInstance> {
-	public lastPaginationResult: PaginationResults = null;
+	lastPaginationResult: PaginationResults = null;
 
 	constructor(
 		public badgeInstanceManager: BadgeInstanceManager,
@@ -45,14 +45,14 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 			.createBadgeInstance(this.issuerSlug, this.badgeClassSlug, initialBadgeInstance)
 			.then((newApiInstance) => {
 				this.addOrUpdate(newApiInstance);
-				return this.entityForSlug(newApiInstance.slug)
+				return this.entityForSlug(newApiInstance.slug);
 			});
 	}
 
 	createBadgeInstanceBatched(
 		badgeInstanceBatch: ApiBadgeInstanceForBatchCreation
 	): Promise<BadgeInstance[]> {
-		let badgeInstances: BadgeInstance[] = [];
+		const badgeInstances: BadgeInstance[] = [];
 		return this.badgeInstanceManager.badgeInstanceApiService
 			.createBadgeInstanceBatched(this.issuerSlug, this.badgeClassSlug, badgeInstanceBatch)
 			.then((newApiInstance) => {
@@ -60,21 +60,21 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 					this.addOrUpdate(apiInstance);
 					badgeInstances.push(
 						this.entityForSlug(apiInstance.slug)
-					)
-				})
+					);
+				});
 				return badgeInstances;
 			});
 	}
 
 	loadNextPage() {
 		if (this.lastPaginationResult && this.lastPaginationResult.hasNext) {
-			return this.loadPage(this.lastPaginationResult.nextUrl)
+			return this.loadPage(this.lastPaginationResult.nextUrl);
 		}
 	}
 
 	loadPrevPage() {
 		if (this.lastPaginationResult && this.lastPaginationResult.hasPrev) {
-			return this.loadPage(this.lastPaginationResult.prevUrl)
+			return this.loadPage(this.lastPaginationResult.prevUrl);
 		}
 	}
 
@@ -84,7 +84,7 @@ export class BadgeClassInstances extends StandaloneEntitySet<BadgeInstance, ApiB
 					this.lastPaginationResult = resultset.links;
 				}
 				this.updateSetUsingApiModels(resultset.instances);
-			})
+			});
 	}
 }
 
@@ -111,35 +111,35 @@ export class BadgeInstance extends ManagedEntity<ApiBadgeInstance, BadgeInstance
 		};
 	}
 
-	get instanceUrl(): BadgeInstanceUrl { return this.apiModel.public_url || this.apiModel.json.id }
+	get instanceUrl(): BadgeInstanceUrl { return this.apiModel.public_url || this.apiModel.json.id; }
 
-	get issuerUrl(): IssuerUrl { return this.apiModel.issuer }
+	get issuerUrl(): IssuerUrl { return this.apiModel.issuer; }
 
 	get issuerSlug(): string { return this.badgeClassInstances.issuerSlug; }
 
-	get badgeClassUrl(): BadgeClassUrl { return this.apiModel.badge_class }
+	get badgeClassUrl(): BadgeClassUrl { return this.apiModel.badge_class; }
 
 	get badgeClassSlug(): string { return this.badgeClassInstances.badgeClassSlug; }
 
-	get recipientIdentifier(): string { return this.apiModel.recipient_identifier }
-	get recipientType(): string { return this.apiModel.recipient_type }
+	get recipientIdentifier(): string { return this.apiModel.recipient_identifier; }
+	get recipientType(): string { return this.apiModel.recipient_type; }
 
-	get image(): string { return this.apiModel.image }
-	get imagePreview(): string { return `${this.apiModel.json.image}?type=png` }
+	get image(): string { return this.apiModel.image; }
+	get imagePreview(): string { return `${this.apiModel.json.image}?type=png`; }
 
-	get issuedOn(): Date { return new Date(this.apiModel.json.issuedOn) }
-	get expires(): Date { return this.apiModel.expires ? new Date(this.apiModel.expires) : undefined }
+	get issuedOn(): Date { return new Date(this.apiModel.json.issuedOn); }
+	get expires(): Date { return this.apiModel.expires ? new Date(this.apiModel.expires) : undefined; }
 	get isExpired(): boolean { return this.expires && this.expires < new Date(); }
 
-	get createdAt(): Date { return new Date(this.apiModel.created_at) }
+	get createdAt(): Date { return new Date(this.apiModel.created_at); }
 
-	get createdBy(): string { return this.apiModel.created_by }
+	get createdBy(): string { return this.apiModel.created_by; }
 
-	get isRevoked(): boolean { return this.apiModel.revoked }
+	get isRevoked(): boolean { return this.apiModel.revoked; }
 
-	get revocationReason(): string { return this.apiModel.revocation_reason }
+	get revocationReason(): string { return this.apiModel.revocation_reason; }
 
-	get evidenceItems(): ApiBadgeInstanceEvidenceItem[] { return this.apiModel.evidence_items }
+	get evidenceItems(): ApiBadgeInstanceEvidenceItem[] { return this.apiModel.evidence_items; }
 
 	revokeBadgeInstance(revocationReason: string): Promise<BadgeClassInstances> {
 		return this.badgeInstanceManager.badgeInstanceApiService.revokeBadgeInstance(

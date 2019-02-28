@@ -1,4 +1,6 @@
 
+// tslint:disable
+
 // From https://stackoverflow.com/questions/10834796/validate-that-a-string-is-a-positive-integer
 export function isPositiveInteger(n) {
 	return n >>> 0 === parseFloat(n);
@@ -17,10 +19,10 @@ export function toJsonInclArrayProps(o) {
 	// }
 
 	if (Array.isArray(o)) {
-		let indexedProps = [];
-		let namedProps = [];
+		const indexedProps = [];
+		const namedProps = [];
 
-		for (let key in o) {
+		for (const key in o) {
 			if (o.hasOwnProperty(key)) {
 				if (isPositiveInteger(key)) {
 					indexedProps[key] = toJsonInclArrayProps(o[key]);
@@ -32,9 +34,9 @@ export function toJsonInclArrayProps(o) {
 
 		return '[ ' + indexedProps.concat(namedProps).join(', ') + ' ]';
 	} else if (typeof(o) === "object") {
-		let namedProps = [];
+		const namedProps = [];
 
-		for (let key in o) {
+		for (const key in o) {
 			if (o.hasOwnProperty(key)) {
 				namedProps.push(`${key}: ${toJsonInclArrayProps(o[key])}`);
 			}
@@ -78,26 +80,26 @@ export function deepAssign(
 		const sourceArray = Array.isArray(source) ? source : Object.assign([], source);
 		dest.length = sourceArray.length;
 
-		for (let key in dest) {
+		for (const key in dest) {
 			if (!isPositiveInteger(key) && dest.hasOwnProperty(key) && !source.hasOwnProperty(key)) {
 				delete dest[ key ];
 			}
 		}
 	} else {
-		for (let key in dest) {
+		for (const key in dest) {
 			if (dest.hasOwnProperty(key) && !source.hasOwnProperty(key)) {
 				delete dest[ key ];
 			}
 		}
 	}
 
-	for (let key in source) {
+	for (const key in source) {
 		if (source.hasOwnProperty(key)) {
-			let s = source[key];
-			let d = dest[key];
+			const s = source[key];
+			const d = dest[key];
 
-			let sType = Array.isArray(s) ? "array" : typeof(s);
-			let dType = Array.isArray(d) ? "array" : typeof(d);
+			const sType = Array.isArray(s) ? "array" : typeof(s);
+			const dType = Array.isArray(d) ? "array" : typeof(d);
 
 			if (sType === "object" || sType === "array") {
 				// Handle preexisting objects in the dest
@@ -110,7 +112,7 @@ export function deepAssign(
 							dest[key] = {};
 						}
 
-						for (let dKey in d) {
+						for (const dKey in d) {
 							if (d.hasOwnProperty(dKey)) {
 								dest[key][dKey] = d[dKey];
 							}
@@ -129,3 +131,4 @@ export function deepAssign(
 
 	return dest;
 }
+// tslint:enable

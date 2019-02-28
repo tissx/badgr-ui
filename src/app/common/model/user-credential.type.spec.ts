@@ -1,4 +1,4 @@
-import { UserCredential } from "./user-credential.type";
+import {UserCredential} from './user-credential.type';
 
 
 describe('UserCredential', () => {
@@ -15,4 +15,4 @@ describe('UserCredential', () => {
 		userCredential = new UserCredential('none', 'password');
 		expect(userCredential.password).toEqual('password');
 	});
-})
+});

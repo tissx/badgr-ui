@@ -1,13 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { EmailValidator } from "../../../common/validators/email.validator";
-import { TransformedImportData, ViewState } from "../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component"
-import { UrlValidator } from "../../../common/validators/url.validator";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {EmailValidator} from '../../../common/validators/email.validator';
+import {TransformedImportData, ViewState} from '../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component';
+import {UrlValidator} from '../../../common/validators/url.validator';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class BadgeclassIssueBulkAwardError extends BaseAuthenticatedRoutableComp
 
 	initImportErrorForm() {
 		const createFormArray = () => {
-			let formArray = [];
+			const formArray = [];
 			this.transformedImportData.invalidRowsTransformed.forEach(row => {
 				formArray.push(
 					this.formBuilder.group(
@@ -64,7 +64,7 @@ export class BadgeclassIssueBulkAwardError extends BaseAuthenticatedRoutableComp
 							]
 						}
 					)
-				)
+				);
 			});
 			return formArray;
 		};
@@ -74,7 +74,7 @@ export class BadgeclassIssueBulkAwardError extends BaseAuthenticatedRoutableComp
 			users: this.formBuilder.array(
 				createFormArray()
 			)
-		})
+		});
 	}
 
 	continueButtonAction() {
@@ -88,7 +88,7 @@ export class BadgeclassIssueBulkAwardError extends BaseAuthenticatedRoutableComp
 							evidence: row["evidence"] ? row["evidence"].trim() : null,
 							email: row["email"] ? row["email"].trim() : null
 						}
-					)
+					);
 			});
 			this.removeDuplicateEmails();
 			this.updateViewState("importConformation");
@@ -100,7 +100,7 @@ export class BadgeclassIssueBulkAwardError extends BaseAuthenticatedRoutableComp
 	}
 
 	removeDuplicateEmails() {
-		let tempRow = new Set<string>();
+		const tempRow = new Set<string>();
 		this.transformedImportData.validRowsTransformed.forEach( row => {
 			if (tempRow.has(row.email)) {
 				this.transformedImportData.duplicateRecords.push(row);
@@ -108,17 +108,17 @@ export class BadgeclassIssueBulkAwardError extends BaseAuthenticatedRoutableComp
 			} else {
 				tempRow.add(row.email);
 			}
-		})
+		});
 	}
 
 	markFormControllsAsDirty() {
-		let formArray: FormArray = <FormArray>this.importErrorForm.controls["users"];
+		const formArray: FormArray = this.importErrorForm.controls["users"] as FormArray;
 
 		formArray.controls.forEach((group: FormGroup) => {
 			Object.getOwnPropertyNames(group.controls).forEach(controlName => {
-				group.controls[controlName].markAsDirty()
-			})
-		})
+				group.controls[controlName].markAsDirty();
+			});
+		});
 	}
 
 	removeButtonErrorState(row: number) {
@@ -131,7 +131,7 @@ export class BadgeclassIssueBulkAwardError extends BaseAuthenticatedRoutableComp
 	}
 
 	removeErrorFormControll(controlIndex: number) {
-		const control = <FormArray>this.importErrorForm.controls['users'];
+		const control = this.importErrorForm.controls['users'] as FormArray;
 		control.removeAt(controlIndex);
 	}
 }

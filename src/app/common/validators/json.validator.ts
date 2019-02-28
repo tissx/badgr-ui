@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import {FormControl} from '@angular/forms';
 
 interface ValidationResult {
 	[errorName: string]: boolean;
@@ -10,7 +10,7 @@ export class JsonValidator {
 			try {
 				JSON.parse(control.value);
 			} catch (err) {
-				return { 'invalidJson': true }
+				return { 'invalidJson': true };
 			}
 		}
 

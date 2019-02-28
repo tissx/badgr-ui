@@ -1,12 +1,12 @@
-import { Component, Input } from "@angular/core";
-import { BadebookLti1Integration } from "../../models/app-integration.model";
-import { AppIntegrationDetailComponent } from "../app-integration-detail/app-integration-detail.component";
-import { SessionService } from "../../../common/services/session.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Title } from "@angular/platform-browser";
-import { MessageService } from "../../../common/services/message.service";
-import { AppIntegrationManager } from "../../services/app-integration-manager.service";
-import { AppConfigService } from "../../../common/app-config.service";
+import {Component, Input} from '@angular/core';
+import {BadebookLti1Integration} from '../../models/app-integration.model';
+import {AppIntegrationDetailComponent} from '../app-integration-detail/app-integration-detail.component';
+import {SessionService} from '../../../common/services/session.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Title} from '@angular/platform-browser';
+import {MessageService} from '../../../common/services/message.service';
+import {AppIntegrationManager} from '../../services/app-integration-manager.service';
+import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
@@ -63,8 +63,8 @@ export class IntegrationImageComponent {
 	}
 
 	imageClick() {
-		let width = this.image && (this.image.width/2) || 640;
-		let height = this.image && (this.image.height/2) || 480;
+		const width = this.image && (this.image.width/2) || 640;
+		const height = this.image && (this.image.height/2) || 480;
 
 		window.open(
 			this.imagePath,

@@ -1,11 +1,11 @@
-import { Response } from "@angular/http";
-import { BadgrApiError } from "./base-http-api.service";
-import { HttpResponse } from "@angular/common/http";
+import {Response} from '@angular/http';
+import {BadgrApiError} from './base-http-api.service';
+import {HttpErrorResponse, HttpResponse, HttpResponseBase} from '@angular/common/http';
 
 export class BadgrApiFailure {
-	private readonly payload: Response | Error | string;
+	private readonly payload: HttpResponseBase | Error | string;
 
-	static from(error: any): BadgrApiFailure {
+	static from(error: BadgrApiFailure | HttpResponseBase | Error | string | null | undefined): BadgrApiFailure {
 		if (error instanceof BadgrApiFailure) {
 			return error;
 		} else {
@@ -14,7 +14,7 @@ export class BadgrApiFailure {
 	}
 
 	constructor(
-		payload: Response | Error | string
+		payload: HttpResponseBase | Error | string | null | undefined
 	) {
 		this.payload = payload;
 	}
@@ -45,7 +45,7 @@ export class BadgrApiFailure {
 	 * @returns {any}
 	 */
 	get overallMessage(): string | null {
-		function errorFromJson(json: any): string {
+		function errorFromJson(json: unknown): string {
 			// Global errors return a single array with the error as the first element
 			if (Array.isArray(json) && typeof json[0] === "string") {
 				return json.join(" ");
@@ -59,15 +59,15 @@ export class BadgrApiFailure {
 
 		if (this.payload instanceof BadgrApiError) {
 			try {
-				const json = this.payload.response.body;
-				return errorFromJson(json)
+				const json = bodyFromResponse(this.payload.response);
+				return errorFromJson(json);
 			} catch (e) {
 				return "Unknown server error";
 			}
-		} else if (this.payload instanceof HttpResponse) {
+		} else if (this.payload instanceof HttpResponseBase) {
 			try {
-				const json = this.payload.body;
-				return errorFromJson(json)
+				const json = bodyFromResponse(this.payload);
+				return errorFromJson(json);
 			} catch (e) {
 				return "Unknown server error";
 			}
@@ -113,14 +113,23 @@ export class BadgrApiFailure {
 
 		try {
 			if (this.payload instanceof BadgrApiError) {
-				return errorFromJson(this.payload.response.body);
-			} else if (this.payload instanceof Response) {
-				return errorFromJson(this.payload.json());
+				return errorFromJson(bodyFromResponse(this.payload.response));
+			} else if (this.payload instanceof HttpResponseBase) {
+				return errorFromJson(bodyFromResponse(this.payload));
 			} else {
 				return null;
 			}
 		} catch (e) {
 			return { error: "Unknown server error" };
 		}
+	}
+}
+
+
+function bodyFromResponse(res: HttpResponseBase): string | null {
+	if (res instanceof HttpResponse) {
+		return res.body ? (""+res.body) : null;
+	} else if (res instanceof HttpErrorResponse) {
+		return res.error ? (""+res.error) : null;
 	}
 }

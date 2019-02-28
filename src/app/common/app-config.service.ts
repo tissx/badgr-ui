@@ -1,20 +1,15 @@
-import { Injectable, InjectionToken, Injector, NgZone } from '@angular/core';
-import {
-	ApiConfig,
-	BadgrConfig,
-	FeaturesConfig,
-	GoogleAnalyticsConfig,
-	HelpConfig
-} from "../../environments/badgr-config";
-import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
-import { BadgrTheme } from '../../theming/badgr-theme';
+import {Injectable, InjectionToken, Injector, NgZone} from '@angular/core';
+import {ApiConfig, BadgrConfig, FeaturesConfig, GoogleAnalyticsConfig, HelpConfig} from '../../environments/badgr-config';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {BadgrTheme} from '../../theming/badgr-theme';
 
-import * as deepmerge from 'deepmerge'
-import { animationFramePromise } from './util/promise-util';
-import { initializeTheme } from '../../theming/theme-setup';
+import * as deepmerge from 'deepmerge';
+import {animationFramePromise} from './util/promise-util';
+import {initializeTheme} from '../../theming/theme-setup';
+import {PackageJson} from 'license-webpack-plugin/dist/PackageJson';
 
-const packageJsonVersion = require("../../../package.json").version;
+const packageJsonVersion = (require("../../../package.json") as PackageJson).version;
 
 @Injectable()
 export class AppConfigService {
@@ -96,7 +91,7 @@ export class AppConfigService {
 			return (allowQueryParam && queryParams.get(name))
 				|| window.localStorage.getItem(name)
 				|| window.sessionStorage.getItem(name)
-				|| (() => { const m = document.querySelector(`meta[name=${name}]`); return m && m.getAttribute("content")})();
+				|| (() => { const m = document.querySelector(`meta[name=${name}]`); return m && m.getAttribute("content");})();
 		}
 
 		// SECURITY NOTE: We do _not_ allow overriding the remote configuration baseUrl with a query param because it could allow an attacker
@@ -155,8 +150,8 @@ export const defaultConfig: BadgrConfig = {
 		privacyPolicyLink: null,
 		providedBy: null,
 		logoImg: {
-			small: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-small.svg"),
-			desktop: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-large.svg"),
+			small: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-small.svg") as string,
+			desktop: require("../../../node_modules/@concentricsky/badgr-style/dist/images/os-logo-large.svg") as string,
 		},
 		loadingImg: {
 			// Image is inlined here to avoid any external resource loading, at the expense of a larger initial file size. We only do this for the default theme.

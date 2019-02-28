@@ -1,16 +1,11 @@
-import { Injectable } from "@angular/core";
-import { SessionService } from "./session.service";
-import { AppConfigService } from "../app-config.service";
-import { MessageService } from "./message.service";
-import { BaseHttpApiService } from "./base-http-api.service";
-import {
-	ApiOAuth2AppAuthorization,
-	ApiOAuth2ClientAuthorized,
-	ApiOAuthResponse,
-	OAuth2RequestParams
-} from "../model/oauth-api.model";
-import { SocialAccountProviderInfo } from "../model/user-profile-api.model";
-import { HttpClient } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {SessionService} from './session.service';
+import {AppConfigService} from '../app-config.service';
+import {MessageService} from './message.service';
+import {BaseHttpApiService} from './base-http-api.service';
+import {ApiOAuth2AppAuthorization, ApiOAuth2ClientAuthorized, ApiOAuthResponse, OAuth2RequestParams} from '../model/oauth-api.model';
+import {SocialAccountProviderInfo} from '../model/user-profile-api.model';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class OAuthApiService extends BaseHttpApiService {
@@ -72,6 +67,6 @@ export class OAuthApiService extends BaseHttpApiService {
 	connectProvider(provider: SocialAccountProviderInfo) {
 		return this
 			.get<{ url: string }>(`/v1/user/socialaccounts/connect?provider=${provider.slug}`)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 }

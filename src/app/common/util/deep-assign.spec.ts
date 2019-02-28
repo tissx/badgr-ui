@@ -1,19 +1,19 @@
-import { deepAssign, jsonCopy, toJsonInclArrayProps } from "./deep-assign";
+import {deepAssign, jsonCopy, toJsonInclArrayProps} from './deep-assign';
 
 const assign = Object.assign;
 
-export function toObject(array: any[]): any {
+export function toObject(array: Array<unknown>): unknown {
 	return Object.assign({}, array);
 }
 
-export function toArray(obj: any): any[] {
+export function toArray(obj: unknown): Array<unknown> {
 	return Object.assign([], obj);
 }
 
 describe('deepAssign', () => {
 	function testPair(
-		dest: any,
-		source: any
+		dest: unknown,
+		source: unknown
 	) {
 		const origDestStr = toJsonInclArrayProps(dest);
 		const sourceStr = toJsonInclArrayProps(source);
@@ -31,7 +31,7 @@ describe('deepAssign', () => {
 				if (destKeyStr !== sourceKeyStr) {
 					fail(`Applying ${sourceStr} to ${origDestStr} resulted in dest[${key}] equaling ${destKeyStr} instead of ${sourceKeyStr}`);
 				}
-			})
+			});
 		} else {
 			if (sourceStr !== destStr) {
 				fail(`Applying ${sourceStr} to ${origDestStr} resulted in ${destStr}`);
@@ -46,7 +46,7 @@ describe('deepAssign', () => {
 	});
 
 	it("should handle removing and adding values to arrays", () => {
-		let cases = [
+		const cases = [
 			[],
 			[1],
 			[1, 2],
@@ -70,7 +70,7 @@ describe('deepAssign', () => {
 					testPair(jsonCopy(actual), { a: jsonCopy(expected) });
 					testPair({ a: jsonCopy(actual) }, { a: jsonCopy(expected) });
 				});
-			})
+			});
 		});
 	});
 
@@ -81,7 +81,7 @@ describe('deepAssign', () => {
 	it("should handle changed nested properties without changing references", () => {
 		const a = { b : 20 };
 
-		const [source, dest] = testPair({a : a}, { a: { b: 10 }});
+		const [source, dest] = testPair({a}, { a: { b: 10 }});
 		expect(dest.a).toBe(a);
 	});
 
@@ -89,7 +89,7 @@ describe('deepAssign', () => {
 		const b = { c : 20 };
 		Object.defineProperty(b, "id", { value: 1, enumerable: false });
 
-		const [source, dest] = testPair({a : { b: b }}, { a: toArray({ b: { c: 20 } })});
+		const [source, dest] = testPair({a : { b }}, { a: toArray({ b: { c: 20 } })});
 		expect(dest.a.b).toBe(b);
 	});
 
@@ -106,15 +106,15 @@ describe('deepAssign', () => {
 	});
 
 	it("should error on new recursive trees", () => {
-		const source = { a : { b : 10 }} as any;
-		source.a.b = source;
+		const source = { a : { b : 10 }};
+		(source.a as unknown as {b: object}).b = source;
 
 		expect(() => testPair({ }, source)).toThrow();
 	});
 
 	it("should error on existing recursive trees", () => {
-		const source = { a : { b : 10 } } as any;
-		source.a.b = source;
+		const source = { a : { b : 10 }};
+		(source.a as unknown as {b: object}).b = source;
 
 		expect(() => testPair({ a : { b : 10 } }, source)).toThrow();
 	});

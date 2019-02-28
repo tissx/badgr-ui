@@ -15,7 +15,12 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "version": "npm run build",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+
+		"lint": "tslint src/**/*.ts",
+    "gts-check": "gts check",
+    "gts-clean": "gts clean",
+    "gts-fix": "gts fix"
   },
   "private": true,
   "license": "ISC",
@@ -113,7 +118,8 @@
     "typescript": "^3.2.2",
     "uglify-js": "^3.4.9",
     "url-loader": "^1.1.2",
-    "webpack-cli": "^3.2.1"
+    "webpack-cli": "^3.2.1",
+    "gts": "^0.9.0"
   },
   "browserslist": [
     "> 1%",

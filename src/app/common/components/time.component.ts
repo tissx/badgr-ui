@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
-import { DatePipe } from "@angular/common";
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {DatePipe} from '@angular/common';
 
 /**
  * Component that displays a date in a <time> element and minimizes the number of calls to the DatePipe, which is very
@@ -21,8 +21,8 @@ export class TimeComponent implements OnChanges {
 	@Input()
 	format: string;
 
-	htmlDateStr: string = "";
-	userDateStr: string = "";
+	htmlDateStr = "";
+	userDateStr = "";
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if ("date" in changes || "format" in changes) {

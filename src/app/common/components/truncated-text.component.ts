@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
 	selector: '[truncatedText]',
@@ -12,7 +12,7 @@ export class TruncatedTextComponent implements OnChanges {
 	rawText: string;
 
 	@Input()
-	maxLength: number = 100;
+	maxLength = 100;
 
 	processedText: string;
 

@@ -1,6 +1,6 @@
-import { inject } from "@angular/core/testing";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { RequestMethod, Response, ResponseOptions } from "@angular/http";
+import {inject} from '@angular/core/testing';
+import {MockBackend, MockConnection} from '@angular/http/testing';
+import {RequestMethod, Response, ResponseOptions} from '@angular/http';
 
 export function setupMockResponseReporting() {
 	beforeEach(inject([ MockBackend ], (mockBackend: MockBackend) => {
@@ -16,9 +16,9 @@ export function expectRequestAndRespondWith(
 	mockBackend: MockBackend,
 	method: RequestMethod,
 	url: RegExp | string,
-	response: any,
-	responseCode: number = 200
-): Promise<any> {
+	response: unknown,
+	responseCode = 200
+): Promise<unknown> {
 	return expectRequest(mockBackend, method, url)
 		.then(c => c.respondWithJson(response, responseCode));
 }
@@ -137,7 +137,7 @@ export class MockConnectionHelper {
 		return JSON.parse(this.connection.request.text() as string) as T;
 	}
 
-	respondWithJson(json: any, statusCode: number = 200) {
+	respondWithJson(json: unknown, statusCode = 200) {
 		if (typeof(json) === "string") {
 			this.respondWithText(json, statusCode);
 		} else {
@@ -145,7 +145,7 @@ export class MockConnectionHelper {
 		}
 	}
 
-	respondWithText(text: string, statusCode: number = 200) {
+	respondWithText(text: string, statusCode = 200) {
 		const response = new Response(new ResponseOptions({
 			body: text,
 			status: statusCode

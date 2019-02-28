@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { CommonDialogsService } from '../services/common-dialogs.service';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {CommonDialogsService} from '../services/common-dialogs.service';
 
 @Component({
 	selector: 'bg-formfield-radio',
@@ -99,12 +99,12 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 	@Input() label: string;
 	@Input() name: string;
 	@Input() ariaLabel: string;
-	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() includeLabelAsWrapper = false; // includes label for layout purposes even if label text wasn't passed in.
 	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
-	@Input() monospaced: boolean = false;
+	@Input() monospaced = false;
 	@Input() sublabel: string;
-	@Input() optional: boolean = false;
+	@Input() optional = false;
 	@Input() inlineButtonText: string;
 	@Input() last: boolean;
 
@@ -114,9 +114,9 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 	@Input() errorGroup: FormGroup;
 	@Input() errorGroupMessage: CustomValidatorMessages;
 
-	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
+	@Input() unlockConfirmText = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
 
-	@Input() autofocus: boolean = false;
+	@Input() autofocus = false;
 
 	@ViewChild('radioInput') radioInput: ElementRef;
 
@@ -145,7 +145,7 @@ export class FormFieldRadio implements OnChanges, AfterViewInit {
 		}
 	}
 
-	ngOnChanges(changes: SimpleChanges): any {
+	ngOnChanges(changes: SimpleChanges) {
 		// Unlocked by default when there is no value
 		if (!this.control.value) {
 			this.unlocked = true;
@@ -210,7 +210,7 @@ export type CustomValidatorMessages = string | { [validatorKey: string]: string 
  * Default validation message generators for input fields.
  */
 export const defaultValidatorMessages: {
-	[validatorKey: string]: (label: string, result?: any) => string
+	[validatorKey: string]: (label: string, result?: unknown) => string
 } = {
 	'required': (label: string) => `${label} is required`,
 };

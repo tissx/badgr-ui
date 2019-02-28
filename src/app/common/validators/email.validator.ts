@@ -1,9 +1,9 @@
-import { FormControl } from '@angular/forms';
+import {FormControl} from '@angular/forms';
 import isEmail from 'validator/lib/isEmail';
 
 export type ValidationResult = null | {
 	[errorName: string]: boolean;
-}
+};
 
 export class EmailValidator {
 	static validEmail(control: FormControl): ValidationResult {

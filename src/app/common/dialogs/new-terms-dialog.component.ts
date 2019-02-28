@@ -1,8 +1,8 @@
-import { Component, ElementRef, Renderer2 } from "@angular/core";
-import { BaseDialog } from "./base-dialog";
-import { AppConfigService } from "../app-config.service";
-import { UserProfileManager } from "../services/user-profile-manager.service";
-import { UserProfile } from "../model/user-profile.model";
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {BaseDialog} from './base-dialog';
+import {AppConfigService} from '../app-config.service';
+import {UserProfileManager} from '../services/user-profile-manager.service';
+import {UserProfile} from '../model/user-profile.model';
 
 @Component({
 	selector: 'new-terms-dialog',
@@ -46,13 +46,13 @@ import { UserProfile } from "../model/user-profile.model";
 })
 export class NewTermsDialog extends BaseDialog {
 
-	agreedToTerms: boolean = false;
+	agreedToTerms = false;
 
 	resolveFunc: () => void;
 	rejectFunc: () => void;
-	_agreed_promise: Promise<void> = null;
+	_agreedPromise: Promise<void> = null;
 
-	hasSubmitted: boolean = false;
+	hasSubmitted = false;
 
 	profile: UserProfile;
 
@@ -66,13 +66,13 @@ export class NewTermsDialog extends BaseDialog {
 	}
 
 	get agreedPromise(): Promise<void> {
-		if (!this._agreed_promise) {
-				this._agreed_promise = new Promise((resolve, reject) => {
+		if (!this._agreedPromise) {
+				this._agreedPromise = new Promise((resolve, reject) => {
 					this.resolveFunc = resolve;
 					this.rejectFunc = reject;
 				});
 		}
-		return this._agreed_promise;
+		return this._agreedPromise;
 	}
 
 	get termsOfServiceLink() {
@@ -91,7 +91,7 @@ export class NewTermsDialog extends BaseDialog {
 
 		this.hasSubmitted = true;
 		if (this.agreedToTerms ) {
-			let profile = this.profile ? this.profile : this.profileManager.userProfile;
+			const profile = this.profile ? this.profile : this.profileManager.userProfile;
 			profile.agreeToLatestTerms().then(_ => {
 				this.closeDialog();
 				if (this.resolveFunc) {
@@ -105,7 +105,7 @@ export class NewTermsDialog extends BaseDialog {
 	openDialog() {
 		this.profileManager.userProfilePromise.then(profile => {
 			this.profile = profile;
-		})
+		});
 		this.showModal();
 	}
 

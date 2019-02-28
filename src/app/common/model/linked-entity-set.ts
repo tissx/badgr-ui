@@ -1,9 +1,9 @@
-import { AnyManagedEntity } from "./managed-entity";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { AnyRefType, ApiEntityRef, EntityRef } from "./entity-ref";
-import { EntitySet, EntitySetUpdate } from "./entity-set";
-import { Observable } from "rxjs";
-import { first, map } from "rxjs/operators";
+import {AnyManagedEntity} from './managed-entity';
+import {UpdatableSubject} from '../util/updatable-subject';
+import {AnyRefType, ApiEntityRef, EntityRef} from './entity-ref';
+import {EntitySet, EntitySetUpdate} from './entity-set';
+import {Observable} from 'rxjs';
+import {first, map} from 'rxjs/operators';
 
 export class LinkedEntitySet<
 	OwnerType extends AnyManagedEntity,
@@ -11,11 +11,11 @@ export class LinkedEntitySet<
 	ChildRefType extends ApiEntityRef
 	> implements EntitySet<EntityType> {
 
-	public get loaded$(): Observable<this> { return this.loadedSubject.asObservable() }
-	public get changed$(): Observable<EntitySetUpdate<EntityType, this>> { return this.changedSubject.asObservable() }
+	get loaded$(): Observable<this> { return this.loadedSubject.asObservable(); }
+	get changed$(): Observable<EntitySetUpdate<EntityType, this>> { return this.changedSubject.asObservable(); }
 
-	get loadedPromise(): Promise<this> { return this.loaded$.pipe(first()).toPromise() }
-	get loaded(): boolean { return this.loadedSubject.isLoaded }
+	get loadedPromise(): Promise<this> { return this.loaded$.pipe(first()).toPromise(); }
+	get loaded(): boolean { return this.loadedSubject.isLoaded; }
 
 	get length() {
 		this.ensureLoaded();
@@ -25,7 +25,7 @@ export class LinkedEntitySet<
 	/**
 	 * Returns an iterable set of the entities managed by this set.
 	 */
-	public get entities(): EntityType[] {
+	get entities(): EntityType[] {
 		this.ensureLoaded();
 		return this._entities;
 	}
@@ -57,13 +57,13 @@ export class LinkedEntitySet<
 		}
 	}
 
-	public updateLinkedSet(): Promise<this> {
+	updateLinkedSet(): Promise<this> {
 		if (! this._requested) {
 			this._requested = true;
 			this.owner.changed$.subscribe(() => this.updateLinkedSet());
 		}
 
-		let ourFetchPromise: Promise<EntityType[]> = this.fetchEntities();
+		const ourFetchPromise: Promise<EntityType[]> = this.fetchEntities();
 
 		// Additional updates may show up while we're updating. Only the most recent one should take effect.
 		this.mostRecentRefUpdatePromise = ourFetchPromise;
@@ -71,7 +71,7 @@ export class LinkedEntitySet<
 		return ourFetchPromise.then(
 			(updatedEntities: EntityType[]) => {
 				// Defer to the most recent update request if another one has come in
-				if (ourFetchPromise != this.mostRecentRefUpdatePromise) {
+				if (ourFetchPromise !== this.mostRecentRefUpdatePromise) {
 					return this.mostRecentRefUpdatePromise.then(() => this);
 				}
 
@@ -100,10 +100,10 @@ export class LinkedEntitySet<
 				return this;
 			},
 			error => { console.error(`Error occurred while updating entity list: `, error, "Owner:", this.owner); throw error; }
-		)
+		);
 	}
 
-	public remove(entity: EntityType, notify: boolean = true): boolean {
+	remove(entity: EntityType, notify = true): boolean {
 		if (this.has(entity)) {
 			this.entities.splice(this.entities.indexOf(entity), 1);
 			this.detachEntity(entity);
@@ -117,11 +117,11 @@ export class LinkedEntitySet<
 		}
 	}
 
-	public has(entity: EntityType): boolean {
+	has(entity: EntityType): boolean {
 		return this._entities.indexOf(entity) >= 0;
 	}
 
-	public add(entity: EntityType, notify: boolean = true): boolean {
+	add(entity: EntityType, notify = true): boolean {
 		if (!this.has(entity)) {
 			this._entities.push(entity);
 			this.attachEntity(entity);
@@ -135,17 +135,17 @@ export class LinkedEntitySet<
 		}
 	}
 
-	public addAll(newEntities: EntityType[] | Iterable<EntityType>) {
-		for (const newEntity of newEntities as any) {
+	addAll(newEntities: EntityType[] | Iterable<EntityType>) {
+		for (const newEntity of newEntities) {
 			this.add(newEntity);
 		}
 	}
 
-	public setTo(newEntities: EntityType[] | Iterable<EntityType>) {
+	setTo(newEntities: EntityType[] | Iterable<EntityType>) {
 		const entitiesToRemove = new Set<EntityType>(this._entities);
 		const updateInfo = new EntitySetUpdate<EntityType, this>(this);
 
-		for (const newEntity of newEntities as any) {
+		for (const newEntity of newEntities) {
 			if (entitiesToRemove.has(newEntity)) {
 				entitiesToRemove.delete(newEntity);
 			} else {
@@ -167,14 +167,14 @@ export class LinkedEntitySet<
 		}
 	}
 
-	public entityForRef(ref: AnyRefType): EntityType {
-		let url = EntityRef.urlForRef(ref);
+	entityForRef(ref: AnyRefType): EntityType {
+		const url = EntityRef.urlForRef(ref);
 
-		return this._entities.find(e => e.url == url);
+		return this._entities.find(e => e.url === url);
 	}
 
-	public [Symbol.iterator](): Iterator<EntityType> {
-		return this.entities[Symbol.iterator]()
+	[Symbol.iterator](): Iterator<EntityType> {
+		return this.entities[Symbol.iterator]();
 	}
 }
 
@@ -186,7 +186,7 @@ export class ListBackedLinkedEntitySet<
 	constructor(
 		protected owner: OwnerType,
 		public getEntityRefs: () => ChildRefType[],
-		protected entityForUrl: (ChildRefType) => (EntityType | Promise<EntityType>)
+		protected entityForUrl: (r: string) => (EntityType | Promise<EntityType>)
 	) {
 		super(
 			owner,
@@ -196,11 +196,11 @@ export class ListBackedLinkedEntitySet<
 		);
 	}
 
-	public get entityRefs(): AnyRefType[] {
+	get entityRefs(): AnyRefType[] {
 		return this.getEntityRefs();
 	}
 
-	public has(entity: EntityType): boolean {
+	has(entity: EntityType): boolean {
 		return !! this.entityRefs.find(r => EntityRef.urlForRef(r) === entity.url);
 	}
 }
@@ -214,10 +214,10 @@ export class BidirectionallyLinkedEntitySet<
 	constructor(
 		owner: OwnerType,
 		getEntityUrls: () => ChildRefType[],
-		entityForRef: (ChildRefType) => (ChildType | Promise<ChildType>),
-		private listForEntity: (ChildType) => ListBackedLinkedEntitySet<any, OwnerType, any>
+		entityForUrl: (r: string) => (ChildType | Promise<ChildType>),
+		private listForEntity: (r: ChildType) => ListBackedLinkedEntitySet<AnyManagedEntity, OwnerType, ApiEntityRef>
 	) {
-		super(owner, getEntityUrls, entityForRef);
+		super(owner, getEntityUrls, entityForUrl);
 
 		this.changed$.subscribe(update => {
 			update.removed.forEach(entity => this.listForEntity(entity).remove(this.owner));

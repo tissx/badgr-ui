@@ -20,7 +20,7 @@ export function MemoizedProperty() {
 					}
 				);
 				return value;
-			}
+			};
 		}
-	}
+	};
 }

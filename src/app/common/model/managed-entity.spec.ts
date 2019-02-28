@@ -1,14 +1,14 @@
-import { ManagedEntity } from "./managed-entity";
-import { inject, TestBed } from "@angular/core/testing";
-import { ApiEntityRef } from "./entity-ref";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
+import {ManagedEntity} from './managed-entity';
+import {inject, TestBed} from '@angular/core/testing';
+import {ApiEntityRef} from './entity-ref';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
 
 export interface TestApiEntities {
-	testApiEntity1: ApiTestEntity,
-	testApiEntity2: ApiTestEntity,
-	testApiEntity3: ApiTestEntity,
-	testApiEntity4: ApiTestEntity,
-	testApiEntities: ApiTestEntity[]
+	testApiEntity1: ApiTestEntity;
+	testApiEntity2: ApiTestEntity;
+	testApiEntity3: ApiTestEntity;
+	testApiEntity4: ApiTestEntity;
+	testApiEntities: ApiTestEntity[];
 }
 
 export function buildTestEntities(): TestApiEntities {
@@ -73,7 +73,7 @@ describe('ManagedEntity', () => {
 	it(
 		'should be constructable',
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
-			new TestEntity(commonManager)
+			new TestEntity(commonManager);
 		})
 	);
 	it(
@@ -149,13 +149,13 @@ export class TestEntity extends ManagedEntity<ApiTestEntity, TestEntityRef> {
 		}
 	}
 
-	get name() { return this.apiModel.name }
+	get name() { return this.apiModel.name; }
 
-	set name(name: string) { this.apiModel.name = name }
+	set name(name: string) { this.apiModel.name = name; }
 
-	get value() { return this.apiModel.value }
+	get value() { return this.apiModel.value; }
 
-	set value(value: number) { this.apiModel.value = value }
+	set value(value: number) { this.apiModel.value = value; }
 
 	protected buildApiRef(): ApiEntityRef {
 		return {

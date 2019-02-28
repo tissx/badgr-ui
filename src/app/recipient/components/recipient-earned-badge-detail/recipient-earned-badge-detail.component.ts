@@ -1,46 +1,46 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Title} from '@angular/platform-browser';
 
-import { MessageService } from "../../../common/services/message.service";
-import { SessionService } from "../../../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
+import {MessageService} from '../../../common/services/message.service';
+import {SessionService} from '../../../common/services/session.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 
-import { RecipientBadgeInstance } from "../../models/recipient-badge.model";
-import { RecipientBadgeCollection } from "../../models/recipient-badge-collection.model";
-import { RecipientBadgeManager } from "../../services/recipient-badge-manager.service";
-import { RecipientBadgeCollectionSelectionDialog } from "../recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog";
-import { preloadImageURL } from "../../../common/util/file-util";
-import { ShareSocialDialogOptions } from "../../../common/dialogs/share-social-dialog/share-social-dialog.component";
-import { addQueryParamsToUrl } from "../../../common/util/url-util";
-import { EventsService } from "../../../common/services/events.service";
-import { AppConfigService } from "../../../common/app-config.service";
-import { ApiExternalToolLaunchpoint } from "../../../externaltools/models/externaltools-api.model";
-import { ExternalToolsManager } from "../../../externaltools/services/externaltools-manager.service";
-import { QueryParametersService } from "../../../common/services/query-parameters.service";
+import {RecipientBadgeInstance} from '../../models/recipient-badge.model';
+import {RecipientBadgeCollection} from '../../models/recipient-badge-collection.model';
+import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
+import {RecipientBadgeCollectionSelectionDialog} from '../recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {ShareSocialDialogOptions} from '../../../common/dialogs/share-social-dialog/share-social-dialog.component';
+import {addQueryParamsToUrl} from '../../../common/util/url-util';
+import {EventsService} from '../../../common/services/events.service';
+import {AppConfigService} from '../../../common/app-config.service';
+import {ApiExternalToolLaunchpoint} from '../../../externaltools/models/externaltools-api.model';
+import {ExternalToolsManager} from '../../../externaltools/services/externaltools-manager.service';
+import {QueryParametersService} from '../../../common/services/query-parameters.service';
 
 @Component({
 	selector: 'recipient-earned-badge-detail',
 	templateUrl: './recipient-earned-badge-detail.component.html'
 })
 export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
-	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg');
-	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg');
+	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string);
+	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg') as string;
+	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg') as string;
 
 	@ViewChild("collectionSelectionDialog")
 	collectionSelectionDialog: RecipientBadgeCollectionSelectionDialog;
 
-	badgesLoaded: Promise<any>;
-	badges: Array<RecipientBadgeInstance> = [];
+	badgesLoaded: Promise<unknown>;
+	badges: RecipientBadgeInstance[] = [];
 	badge: RecipientBadgeInstance;
 	issuerBadgeCount: string;
 	launchpoints: ApiExternalToolLaunchpoint[];
 
 
 	get badgeSlug(): string { return this.route.snapshot.params['badgeSlug']; }
-	get recipientBadgeInstances() { return this.recipientBadgeManager.recipientBadgeList }
+	get recipientBadgeInstances() { return this.recipientBadgeManager.recipientBadgeList; }
 
 	constructor(
 		router: Router,
@@ -59,13 +59,13 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.then( r => {
-				this.updateBadge(r)
+				this.updateBadge(r);
 			})
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));
 
 		this.externalToolsManager.getToolLaunchpoints("earner_assertion_action").then(launchpoints => {
 			this.launchpoints = launchpoints;
-		})
+		});
 	}
 
 	ngOnInit() {
@@ -89,7 +89,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 					this.router.navigate([ '/recipient']);
 				},
 				error => {
-					this.messageService.reportHandledError(`Failed to delete ${badge.badgeClass.name}`, error)
+					this.messageService.reportHandledError(`Failed to delete ${badge.badgeClass.name}`, error);
 				}
 			),
 			() => {}
@@ -113,11 +113,11 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	}
 
 	get v1BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"})
+		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"});
 	}
 
 	get v2BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"})
+		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"});
 	}
 
 	get verifyUrl() {
@@ -125,8 +125,8 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		const ASSERTION_URL = v === "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
 		let url = `${this.configService.assertionVerifyUrl}?url=${ASSERTION_URL}`;
 
-		for (let IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
-			let identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE)
+		for (const IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
+			const identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE);
 			if (identity) {
 				url = `${url}&${IDENTITY_TYPE}=${identity}`;
 			}
@@ -145,18 +145,18 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 			omittedCollection: this.badge
 		})
 		.then( recipientBadgeCollection => {
-			this.badge.collections.addAll(recipientBadgeCollection)
+			this.badge.collections.addAll(recipientBadgeCollection);
 			this.badge.save()
 				.then(  success => this.messageService.reportMinorSuccess(`Collection ${this.badge.badgeClass.name} badges saved successfully`))
-				.catch( failure => this.messageService.reportHandledError(`Failed to save Collection`, failure))
-		})
+				.catch( failure => this.messageService.reportHandledError(`Failed to save Collection`, failure));
+		});
 	}
 
 	removeCollection(collection: RecipientBadgeCollection) {
 		this.badge.collections.remove(collection);
 		this.badge.save()
 			.then(  success => this.messageService.reportMinorSuccess(`Collection removed successfully from ${this.badge.badgeClass.name}`))
-			.catch( failure => this.messageService.reportHandledError(`Failed to remove Collection from badge`, failure))
+			.catch( failure => this.messageService.reportHandledError(`Failed to remove Collection from badge`, failure));
 	}
 
 	private updateBadge(results) {
@@ -173,18 +173,18 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		this.badge.markAccepted();
 
 		const issuerBadgeCount = () => {
-			let count = this.badges
+			const count = this.badges
 				.filter(instance => instance.issuerId === this.badge.issuerId)
 				.length;
 			return count === 1 ? "1 Badge" : `${count} Badges`;
-		}
+		};
 		this.issuerBadgeCount = issuerBadgeCount();
 	}
 
 	private clickLaunchpoint(launchpoint: ApiExternalToolLaunchpoint) {
 		this.externalToolsManager.getLaunchInfo(launchpoint, this.badgeSlug).then(launchInfo => {
 			this.eventService.externalToolLaunch.next(launchInfo);
-		})
+		});
 	}
 }
 
@@ -267,5 +267,5 @@ export function badgeShareDialogOptions(options: BadgeShareOptions): ShareSocial
 				embedRecipientName: options.recipientName,
 			}
 		]
-	}
+	};
 }

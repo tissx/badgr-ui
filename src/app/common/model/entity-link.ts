@@ -1,15 +1,15 @@
-import { ManagedEntity } from "./managed-entity";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { ApiEntityRef } from "./entity-ref";
-import { first } from "rxjs/operators";
-import { MemoizedProperty } from '../util/memoized-property-decorator';
+import {ManagedEntity} from './managed-entity';
+import {UpdatableSubject} from '../util/updatable-subject';
+import {ApiEntityRef} from './entity-ref';
+import {first} from 'rxjs/operators';
+import {MemoizedProperty} from '../util/memoized-property-decorator';
 
 /**
  * Represents a many-to-one connection between entities. Wraps an EntityRef from API data and handles loading and
  * maintaining the reference to the linked entity.
  */
 export class EntityLink<
-	EntityType extends ManagedEntity<any, RefType>,
+	EntityType extends ManagedEntity<unknown, RefType>,
 	RefType extends ApiEntityRef
 > {
 	protected _requested = false;
@@ -22,35 +22,36 @@ export class EntityLink<
 
 	protected _loadedPromise: Promise<EntityType> | null = null;
 
-	public get loaded$() {
+	get loaded$() {
 		return this.loadedSubject.asObservable();
 	}
 
-	public get changed$() {
+	get changed$() {
 		return this.changedSubject.asObservable();
 	}
 
-	public get entity() {
+	get entity() {
 		// Calling this.promise will ensure that we load the entity
 		return this.loadedPromise && this._entity;
 	}
 
-	public get isPresent(): boolean {
+	get isPresent(): boolean {
 		return !! this.entityRef;
 	}
 
 	@MemoizedProperty()
-	public get loadedPromise() {
-		if (! this._loadedPromise)
-			this._loadedPromise = this.loaded$.pipe(first()).toPromise(); ;
+	get loadedPromise() {
+		if (! this._loadedPromise) {
+			this._loadedPromise = this.loaded$.pipe(first()).toPromise();
+		} 
 		return this._loadedPromise;
 	}
 
-	public get entityRef(): RefType { return this.getRef(); }
+	get entityRef(): RefType { return this.getRef(); }
 
 	constructor(
-		protected owningEntity: ManagedEntity<any, any>,
-		protected fetchEntity: (RefType) => Promise<EntityType>,
+		protected owningEntity: ManagedEntity<unknown, ApiEntityRef>,
+		protected fetchEntity: (ref: RefType) => Promise<EntityType>,
 		protected getRef: () => RefType
 	) {
 		this.changedSubject.subscribe(this.loadedSubject);
@@ -87,29 +88,29 @@ export class EntityLink<
  * An EntityLink that supports mutation of the link.
  */
 export class MutableEntityLink<
-	EntityType extends ManagedEntity<any, RefType>,
+	EntityType extends ManagedEntity<unknown, RefType>,
 	RefType extends ApiEntityRef
 > extends EntityLink<EntityType, RefType> {
 	constructor(
-		owningEntity: ManagedEntity<any, any>,
-		fetchEntity: (RefType) => Promise<EntityType>,
+		owningEntity: ManagedEntity<unknown, ApiEntityRef>,
+		fetchEntity: (ref: RefType) => Promise<EntityType>,
 		getRef: () => RefType,
-		protected setRef: (RefType) => void
+		protected setRef: (ref: RefType) => void
 	) {
 		super(owningEntity, fetchEntity, getRef);
 	}
 
 	// NOTE: We must duplicate the getters for entity and entityRef, otherwise they will be missing due to
 	// TypeScript issue: https://github.com/Microsoft/TypeScript/issues/338
-	public get entity() {
+	get entity() {
 		return this.loadedPromise && this._entity;
 	}
-	public set entity(entity: EntityType) {
-		this.entityRef = entity.ref.apiRef
+	set entity(entity: EntityType) {
+		this.entityRef = entity.ref.apiRef;
 	}
 
-	public get entityRef(): RefType { return this.getRef(); }
-	public set entityRef(newRef: RefType) {
+	get entityRef(): RefType { return this.getRef(); }
+	set entityRef(newRef: RefType) {
 		this.setRef(newRef);
 		this.updateLink();
 	}

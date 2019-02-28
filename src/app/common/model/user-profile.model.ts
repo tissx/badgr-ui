@@ -1,4 +1,4 @@
-import { ManagedEntity } from "./managed-entity";
+import {ManagedEntity} from './managed-entity';
 import {
 	ApiUserProfile,
 	ApiUserProfileEmail,
@@ -7,8 +7,8 @@ import {
 	UserProfileEmailRef,
 	UserProfileRef,
 	UserProfileSocialAccountRef
-} from "./user-profile-api.model";
-import { StandaloneEntitySet } from "./managed-entity-set";
+} from './user-profile-api.model';
+import {StandaloneEntitySet} from './managed-entity-set';
 
 /**
  * Logical interface to the current user's profile, providing access to personal information (as the entitiy) and
@@ -21,14 +21,14 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 	}
 
 	get isVerified(): boolean {
-		return this.emails.entities.filter(x => x.verified).length > 0
+		return this.emails.entities.filter(x => x.verified).length > 0;
 	}
 
-	get firstName() { return this.apiModel.first_name }
-	set firstName(firstName: string) { this.apiModel.first_name = firstName }
+	get firstName() { return this.apiModel.first_name; }
+	set firstName(firstName: string) { this.apiModel.first_name = firstName; }
 
-	get lastName() { return this.apiModel.last_name }
-	set lastName(lastName: string) { this.apiModel.last_name = lastName }
+	get lastName() { return this.apiModel.last_name; }
+	set lastName(lastName: string) { this.apiModel.last_name = lastName; }
 
 	get agreedTermsVersion() { return this.apiModel.agreed_terms_version; }
 	get latestTermsVersion() { return this.apiModel.latest_terms_version; }
@@ -36,7 +36,7 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 	get latestTermsDescription() { return this.apiModel.latest_terms_description; }
 
 	get marketingOptIn() { return this.apiModel.marketing_opt_in; }
-	set marketingOptIn(optedIn: boolean) { this.apiModel.marketing_opt_in = true }
+	set marketingOptIn(optedIn: boolean) { this.apiModel.marketing_opt_in = true; }
 
 	static currentProfileId = "currentUserProfile";
 	/**
@@ -65,7 +65,7 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 		return {
 			"@id": UserProfile.currentProfileId,
 			slug: UserProfile.currentProfileId
-		}
+		};
 	}
 	agreeToLatestTerms() {
 		this.apiModel.agreed_terms_version = this.apiModel.latest_terms_version;
@@ -107,10 +107,10 @@ export class UserProfileEmail extends ManagedEntity<
 		return this.commonManager.profileManager.profileService;
 	}
 
-	get numericId() { return this.apiModel.id }
-	get email() { return this.apiModel.email }
-	get primary() { return this.apiModel.primary }
-	get verified() { return this.apiModel.verified }
+	get numericId() { return this.apiModel.id; }
+	get email() { return this.apiModel.email; }
+	get primary() { return this.apiModel.primary; }
+	get verified() { return this.apiModel.verified; }
 
 	remove(): Promise<UserProfile> {
 		return this.profileService.removeEmail(this.numericId)
@@ -152,34 +152,34 @@ export class UserProfileSocialAccount extends ManagedEntity<
 		return this.commonManager.profileManager.profileService;
 	}
 
-	get providerSlug() { return this.apiModel.provider }
+	get providerSlug() { return this.apiModel.provider; }
 
-	get providerInfo() { return socialAccountProviderInfoForSlug(this.providerSlug) }
+	get providerInfo() { return socialAccountProviderInfoForSlug(this.providerSlug); }
 
 	/**
 	 * Date when account was linked to provider
 	 */
-	get dateAdded() { return new Date(this.apiModel.dateAdded) }
+	get dateAdded() { return new Date(this.apiModel.dateAdded); }
 
 	/**
 	 * User id from provider (probably not human readable)
 	 */
-	get uid() { return this.apiModel.uid }
+	get uid() { return this.apiModel.uid; }
 
 	/**
 	 * First name from provider (at time of first login)
 	 */
-	get firstName() { return this.apiModel.firstName }
+	get firstName() { return this.apiModel.firstName; }
 
 	/**
 	 * Last name from provider (at time of first login)
 	 */
-	get lastName() { return this.apiModel.lastName }
+	get lastName() { return this.apiModel.lastName; }
 
 	/**
 	 * Primary email provided by provider (at time of first login)
 	 */
-	get primaryEmail() { return this.apiModel.primaryEmail }
+	get primaryEmail() { return this.apiModel.primaryEmail; }
 
 	/**
 	 * Returns a label to use for this account based on the name if it's available (e.g. "Luke Skywalker"), or the email
@@ -220,7 +220,7 @@ export class UserProfileSocialAccount extends ManagedEntity<
 			.then(() => {
 				this.profile.socialAccounts.remove(this);
 				return this.profile;
-			}); ;
+			}); 
 	}
 
 	protected buildApiRef(): UserProfileSocialAccountRef {

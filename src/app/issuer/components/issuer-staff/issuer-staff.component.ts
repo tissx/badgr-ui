@@ -1,23 +1,23 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
 
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { IssuerManager } from "../../services/issuer-manager.service";
-import { Title } from "@angular/platform-browser";
-import { Issuer, IssuerStaffMember, issuerStaffRoles } from "../../models/issuer.model";
-import { preloadImageURL } from "../../../common/util/file-util";
-import { FormFieldSelectOption } from "../../../common/components/formfield-select";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { UserProfileEmail } from "../../../common/model/user-profile.model";
-import { IssuerStaffRoleSlug } from "../../models/issuer-api.model";
-import { AppConfigService } from "../../../common/app-config.service";
-import { LinkEntry } from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
-import { IssuerStaffCreateDialogComponent } from "../issuer-staff-create-dialog/issuer-staff-create-dialog.component";
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {Title} from '@angular/platform-browser';
+import {Issuer, IssuerStaffMember, issuerStaffRoles} from '../../models/issuer.model';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {FormFieldSelectOption} from '../../../common/components/formfield-select';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {UserProfileEmail} from '../../../common/model/user-profile.model';
+import {IssuerStaffRoleSlug} from '../../models/issuer-api.model';
+import {AppConfigService} from '../../../common/app-config.service';
+import {LinkEntry} from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
+import {IssuerStaffCreateDialogComponent} from '../issuer-staff-create-dialog/issuer-staff-create-dialog.component';
 
 
 @Component({
@@ -32,11 +32,12 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	}
 
 	get isCurrentUserIssuerOwner() {
-		return this.issuer && this.issuer.currentUserStaffMember && this.issuer.currentUserStaffMember.isOwner
+		return this.issuer && this.issuer.currentUserStaffMember && this.issuer.currentUserStaffMember.isOwner;
 	}
 
 	readonly issuerImagePlaceHolderUrl = preloadImageURL(require(
-		'../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
+		'../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
+	);
 
 	issuer: Issuer;
 	issuerSlug: string;
@@ -74,7 +75,7 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 					{title: issuer.name, routerLink: ['/issuer/issuers', this.issuerSlug]},
 					{title: this.isCurrentUserIssuerOwner ? 'Manage Staff' : 'View Staff'}
 				];
-				return issuer
+				return issuer;
 			});
 
 		this.profileEmailsLoaded = this.profileManager.userProfilePromise

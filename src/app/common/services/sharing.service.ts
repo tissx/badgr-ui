@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Angulartics2 } from "angulartics2";
-import { RecipientBadgeApiService } from "../../recipient/services/recipient-badges-api.service";
+import {Injectable} from '@angular/core';
+import {Angulartics2} from 'angulartics2';
+import {RecipientBadgeApiService} from '../../recipient/services/recipient-badges-api.service';
 
 @Injectable()
 export class SharingService {
@@ -35,7 +35,7 @@ export class SharingService {
 			(url) => {
 				window.open(url, "_blank", provider_features[shareServiceType]);
 			},
-		)
+		);
 	}
 
 	private reportShare(

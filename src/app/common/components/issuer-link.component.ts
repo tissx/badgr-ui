@@ -1,8 +1,8 @@
-import { Component, ElementRef, Input, OnChanges } from "@angular/core";
+import {Component, ElementRef, Input, OnChanges} from '@angular/core';
 
 
-import { Issuer } from "../../issuer/models/issuer.model";
-import { preloadImageURL } from "../util/file-util";
+import {Issuer} from '../../issuer/models/issuer.model';
+import {preloadImageURL} from '../util/file-util';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { preloadImageURL } from "../util/file-util";
 
 })
 export class BgIssuerLinkComponent implements OnChanges {
-	readonly issuerPlaceholderImageSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-issuer.svg"));
+	readonly issuerPlaceholderImageSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-issuer.svg") as string);
 
 	@Input('bgIssuerLink')
 	bgIssuerLink: Issuer;
@@ -29,7 +29,7 @@ export class BgIssuerLinkComponent implements OnChanges {
 		private elemRef: ElementRef
 	) {}
 
-	ngOnChanges(changes: {}): any {
+	ngOnChanges(changes: {}) {
 		if (! this.bgIssuerLink || !this.bgIssuerLink.websiteUrl) {
 			this.elem.removeAttribute("href");
 		} else {

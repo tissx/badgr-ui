@@ -58,13 +58,13 @@ export interface FeaturesConfig {
 	/**
 	 * Enables the initial landing page redirect
 	 */
-	alternateLandingRedirect?: boolean
+	alternateLandingRedirect?: boolean;
 
 	/**
 	 * Allows configuration of a specific set of social providers smaller than the default. If omitted, all providers
 	 * will be enabled.
 	 */
-	socialAccountProviders?: Array<string>
+	socialAccountProviders?: string[];
 }
 
 /**

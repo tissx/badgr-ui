@@ -1,23 +1,20 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { EmailValidator } from "../../../common/validators/email.validator";
-import { UserCredential } from "../../../common/model/user-credential.type";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
-
-
-import { markControlsDirty } from "../../../common/util/form-util";
-import { FormFieldText } from "../../../common/components/formfield-text";
-import { QueryParametersService } from "../../../common/services/query-parameters.service";
-import { OAuthManager } from "../../../common/services/oauth-manager.service";
-import { ExternalToolsManager } from "../../../externaltools/services/externaltools-manager.service";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { HttpErrorResponse } from '@angular/common/http';
-import { AppConfigService } from "../../../common/app-config.service";
+import {FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {EmailValidator} from '../../../common/validators/email.validator';
+import {UserCredential} from '../../../common/model/user-credential.type';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
+import {Title} from '@angular/platform-browser';
+import {FormFieldText} from '../../../common/components/formfield-text';
+import {QueryParametersService} from '../../../common/services/query-parameters.service';
+import {OAuthManager} from '../../../common/services/oauth-manager.service';
+import {ExternalToolsManager} from '../../../externaltools/services/externaltools-manager.service';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {AppConfigService} from '../../../common/app-config.service';
 import {typedGroup} from '../../../common/util/typed-forms';
 
 
@@ -27,7 +24,7 @@ import {typedGroup} from '../../../common/util/typed-forms';
 })
 export class LoginComponent extends BaseRoutableComponent implements OnInit, AfterViewInit {
 
-	get theme() { return this.configService.theme }
+	get theme() { return this.configService.theme; }
 	loginForm = typedGroup()
 		.addControl("username", "", [ Validators.required, EmailValidator.validEmail ])
 		.addControl("password", "", Validators.required)
@@ -40,8 +37,8 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	@ViewChild("passwordField")
 	passwordField: FormFieldText;
 
-	initFinished: Promise<any> = new Promise(() => {});
-	loginFinished: Promise<any>;
+	initFinished: Promise<unknown> = new Promise(() => {});
+	loginFinished: Promise<unknown>;
 
 	constructor(
 		private fb: FormBuilder,
@@ -82,7 +79,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			return;
 		}
 
-		let credential: UserCredential = new UserCredential(
+		const credential: UserCredential = new UserCredential(
 			this.loginForm.value.username, this.loginForm.value.password);
 
 		this.loginFinished = this.sessionService.login(credential)
@@ -102,25 +99,29 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 								this.router.navigate([ 'signup/success', { email: profile.emails.entities[0].email } ]);
 							}
 
-						})
+						});
 					});
 
 				},
 				(response: HttpErrorResponse) => {
-					const body = response.error as any;
+					const body = response.error as {
+						error?: string;
+						expires?: number;
+					};
 
 					let msg = "Login failed. Please check your email and password and try again.";
-					if (body['error'] === 'login attempts throttled') {
-						if (body['expires']) {
-							if (body['expires'] > 60) {
-								msg = `Too many login attempts. Try again in ${Math.ceil(body['expires'] / 60)} minutes.`;
+					if (body.error === 'login attempts throttled') {
+						if (body.expires) {
+							if (body.expires > 60) {
+								msg = `Too many login attempts. Try again in ${Math.ceil(body.expires / 60)} minutes.`;
 							} else {
-								msg = `Too many login attempts. Try again in ${body['expires']} seconds.`
+								msg = `Too many login attempts. Try again in ${body.expires} seconds.`;
 							}
 						} else {
-							msg = "Too many login attempts. Please wait and try again."
+							msg = "Too many login attempts. Please wait and try again.";
 						}
 					}
+
 					this.messageService.reportHandledError(msg, response);
 				}
 			)

@@ -1,42 +1,42 @@
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {ManagedEntity} from '../../common/model/managed-entity';
+import {ApiEntityRef} from '../../common/model/entity-ref';
 import {
 	ApiRecipientBadgeCollection,
 	ApiRecipientBadgeCollectionEntry,
 	RecipientBadgeCollectionEntryRef,
 	RecipientBadgeCollectionRef,
 	RecipientBadgeCollectionUrl
-} from "./recipient-badge-collection-api.model";
-import { RecipientBadgeInstance } from "./recipient-badge.model";
-import { EmbeddedEntitySet } from "../../common/model/managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { RecipientBadgeInstanceSlug } from "./recipient-badge-api.model";
+} from './recipient-badge-collection-api.model';
+import {RecipientBadgeInstance} from './recipient-badge.model';
+import {EmbeddedEntitySet} from '../../common/model/managed-entity-set';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {RecipientBadgeInstanceSlug} from './recipient-badge-api.model';
 
 export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCollection, RecipientBadgeCollectionRef> {
 
-	get name(): string { return this.apiModel.name }
-	set name(name: string) { this.apiModel.name = name }
+	get name(): string { return this.apiModel.name; }
+	set name(name: string) { this.apiModel.name = name; }
 
-	get description(): string { return this.apiModel.description }
-	set description(description: string) { this.apiModel.description = description }
+	get description(): string { return this.apiModel.description; }
+	set description(description: string) { this.apiModel.description = description; }
 
-	get slug(): string { return this.apiModel.slug }
-	get shareHash(): string { return this.apiModel.share_hash }
-	get shareUrl(): string { return this.apiModel.share_url }
+	get slug(): string { return this.apiModel.slug; }
+	get shareHash(): string { return this.apiModel.share_hash; }
+	get shareUrl(): string { return this.apiModel.share_url; }
 
 	set published(published: boolean) { this.apiModel.published = published; }
 	get published(): boolean { return this.apiModel.published; }
 
-	get badges(): RecipientBadgeInstance[] { return this.badgeEntries.entities.map(e => e.badge) }
+	get badges(): RecipientBadgeInstance[] { return this.badgeEntries.entities.map(e => e.badge); }
 	get badgesPromise(): Promise<RecipientBadgeInstance[]> {
 		return Promise.all([
 			this.badgeEntries.loadedPromise,
 			this.recipientBadgeManager.recipientBadgeList.loadedPromise
 		]).then(
 			([list]) => list.entities.map(e => e.badge)
-		)
+		);
 	}
-	public badgeEntries = new EmbeddedEntitySet<
+	badgeEntries = new EmbeddedEntitySet<
 		RecipientBadgeCollection,
 		RecipientBadgeCollectionEntry,
 		ApiRecipientBadgeCollectionEntry
@@ -55,7 +55,7 @@ export class RecipientBadgeCollection extends ManagedEntity<ApiRecipientBadgeCol
 		return {
 			"@id": RecipientBadgeCollection.urlForApiModel(this.apiModel),
 			slug: this.apiModel.slug,
-		}
+		};
 	}
 
 
@@ -183,6 +183,6 @@ export class RecipientBadgeCollectionEntry extends ManagedEntity<
 		return {
 			"@id": RecipientBadgeCollectionEntry.urlFromApiModel(this.collection, this.apiModel),
 			slug: `badge-collection-${this.collection.slug}-entry-${this.apiModel.id}`,
-		}
+		};
 	}
 }

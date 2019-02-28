@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { MessageService } from "../../../common/services/message.service";
-import { IssuerManager } from "../../services/issuer-manager.service";
-import { BadgeClassManager } from "../../services/badgeclass-manager.service";
-import { Issuer } from "../../models/issuer.model";
-import { BadgeClass } from "../../models/badgeclass.model";
-import { Title } from "@angular/platform-browser";
-import { preloadImageURL } from "../../../common/util/file-util";
-import { AppConfigService } from "../../../common/app-config.service";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {MessageService} from '../../../common/services/message.service';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {BadgeClassManager} from '../../services/badgeclass-manager.service';
+import {Issuer} from '../../models/issuer.model';
+import {BadgeClass} from '../../models/badgeclass.model';
+import {Title} from '@angular/platform-browser';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
@@ -17,15 +17,15 @@ import { AppConfigService } from "../../../common/app-config.service";
 	templateUrl: './issuer-list.component.html',
 })
 export class IssuerListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly issuerPlaceholderSrc = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
-	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg');
+	readonly issuerPlaceholderSrc = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string);
+	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg') as string;
 
-	issuers: Array<Issuer>;
-	badges: Array<BadgeClass>;
+	issuers: Issuer[];
+	badges: BadgeClass[];
 	issuerToBadgeInfo: {[issuerId: string]: IssuerBadgesInfo} = {};
 
-	issuersLoaded: Promise<any>;
-	badgesLoaded: Promise<any>;
+	issuersLoaded: Promise<unknown>;
+	badgesLoaded: Promise<unknown>;
 
 	constructor(
 		protected title: Title,
@@ -64,7 +64,7 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 				this.issuerToBadgeInfo = {};
 
 				Object.keys(badges).forEach(issuerSlug => {
-					let issuerBadges = badges[ issuerSlug ];
+					const issuerBadges = badges[ issuerSlug ];
 
 					this.issuerToBadgeInfo[ issuerSlug ] = new IssuerBadgesInfo(
 						issuerBadges.reduce((sum, badge) => sum + badge.recipientCount, 0),
@@ -85,7 +85,7 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 
 class IssuerBadgesInfo {
 	constructor(
-		public totalBadgeIssuanceCount: number = 0,
+		public totalBadgeIssuanceCount = 0,
 		public badges: BadgeClass[] = []
 	) {}
 }

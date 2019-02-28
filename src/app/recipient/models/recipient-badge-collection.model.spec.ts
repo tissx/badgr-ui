@@ -1,15 +1,15 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { RecipientBadgeCollection } from "./recipient-badge-collection.model";
-import { ApiRecipientBadgeCollection } from "./recipient-badge-collection-api.model";
-import { BaseRequestOptions, Http } from "@angular/http";
-import { MockBackend } from "@angular/http/testing";
-import { AppConfigService } from "../../common/app-config.service";
-import { RecipientBadgeApiService } from "../services/recipient-badges-api.service";
-import { RecipientBadgeManager } from "../services/recipient-badge-manager.service";
-import { MessageService } from "../../common/services/message.service";
-import { EventsService } from "../../common/services/events.service";
-import { SessionService } from "../../common/services/session.service";
+import {inject, TestBed} from '@angular/core/testing';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {RecipientBadgeCollection} from './recipient-badge-collection.model';
+import {ApiRecipientBadgeCollection} from './recipient-badge-collection-api.model';
+import {BaseRequestOptions, Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
+import {AppConfigService} from '../../common/app-config.service';
+import {RecipientBadgeApiService} from '../services/recipient-badges-api.service';
+import {RecipientBadgeManager} from '../services/recipient-badge-manager.service';
+import {MessageService} from '../../common/services/message.service';
+import {EventsService} from '../../common/services/events.service';
+import {SessionService} from '../../common/services/session.service';
 
 xdescribe('RecipientBadgeCollection', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -40,7 +40,7 @@ xdescribe('RecipientBadgeCollection', () => {
 		inject(
 			[ CommonEntityManager ],
 			(commonManager: CommonEntityManager) => {
-				new RecipientBadgeCollection(commonManager)
+				new RecipientBadgeCollection(commonManager);
 			}
 		)
 	);
@@ -53,8 +53,8 @@ xdescribe('RecipientBadgeCollection', () => {
 				const { apiCollection1, apiCollection2, apiCollection3 } = buildTestRecipientBadgeCollections();
 
 				[ apiCollection1, apiCollection2, apiCollection3 ].forEach(apiCollection => {
-					let badge = new RecipientBadgeCollection(commonManager, apiCollection);
-					verifyRecipientBadgeCollection(badge, apiCollection)
+					const badge = new RecipientBadgeCollection(commonManager, apiCollection);
+					verifyRecipientBadgeCollection(badge, apiCollection);
 				});
 			}
 		)

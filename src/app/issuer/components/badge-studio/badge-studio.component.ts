@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 // import "font-awesome/css/font-awesome.css";
-import * as FontFaceObserver from "fontfaceobserver";
-import { canvasVisualCenter } from "../../../common/util/visual-center";
-import { HttpClient } from "@angular/common/http";
+import * as FontFaceObserver from 'fontfaceobserver';
+import {canvasVisualCenter} from '../../../common/util/visual-center';
+import {HttpClient} from '@angular/common/http';
 
 // The FabricJs Import does not work as expected. Instead of getting a "fabric" variable with properties for the various
 // fabric classes, it contains another nested "fabric" property with those values. This seems to be the only way to get
@@ -28,13 +28,13 @@ export class BadgeStudioComponent implements OnInit {
 		return this.canvas.getContext("2d");
 	}
 
-	public dataUrl: string;
+	dataUrl: string;
 	@ViewChild("canvas")
 	private canvasElem: ElementRef;
 
 	// private ready: boolean;
 
-	private fontPromise: Promise<any>;
+	private fontPromise: Promise<unknown>;
 
 	constructor(
 		protected http: HttpClient
@@ -146,7 +146,7 @@ export class BadgeStudioComponent implements OnInit {
 						svgImage.src = svgDataUrl;
 					});
 			})
-		)
+		);
 	}
 
 	private renderIcon(
@@ -205,14 +205,14 @@ const shapeColors = [
 ];
 
 const shapeImages = [
-	require("../../../../breakdown/static/badgestudio/shapes/circle.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/diamond.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/hex.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/round-bottom.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/round-top.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/square.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/triangle-bottom.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/triangle-top.svg"),
+	require("../../../../breakdown/static/badgestudio/shapes/circle.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/diamond.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/hex.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/round-bottom.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/round-top.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/square.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/triangle-bottom.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/triangle-top.svg") as string,
 ];
 
 // Created from http://fontawesome.io/cheatsheet/

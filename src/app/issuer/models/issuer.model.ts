@@ -1,12 +1,12 @@
-import { ApiIssuer, ApiIssuerStaff, IssuerRef, IssuerStaffRef, IssuerStaffRoleSlug, IssuerUrl } from "./issuer-api.model";
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { ApiEntityRef } from "../../common/model/entity-ref";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { EmbeddedEntitySet } from "../../common/model/managed-entity-set";
+import {ApiIssuer, ApiIssuerStaff, IssuerRef, IssuerStaffRef, IssuerStaffRoleSlug, IssuerUrl} from './issuer-api.model';
+import {ManagedEntity} from '../../common/model/managed-entity';
+import {ApiEntityRef} from '../../common/model/entity-ref';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {EmbeddedEntitySet} from '../../common/model/managed-entity-set';
 
 
 export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
-	public readonly staff = new EmbeddedEntitySet(
+	readonly staff = new EmbeddedEntitySet(
 		this,
 		() => this.apiModel.staff,
 		apiEntry => new IssuerStaffMember(this),
@@ -17,7 +17,7 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 		return {
 			"@id": this.issuerUrl,
 			slug: this.apiModel.slug,
-		}
+		};
 	}
 
 	constructor(
@@ -32,7 +32,7 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 		}
 	}
 
-	get issuerUrl(): IssuerUrl { return this.apiModel.json.id }
+	get issuerUrl(): IssuerUrl { return this.apiModel.json.id; }
 
 	get name(): string { return this.apiModel.name; }
 
@@ -44,16 +44,16 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 
 	get websiteUrl(): string { return this.apiModel.json.url; }
 
-	get createdAt(): Date { return new Date(this.apiModel.created_at) }
+	get createdAt(): Date { return new Date(this.apiModel.created_at); }
 
-	get createdBy(): string { return this.apiModel.created_by }
+	get createdBy(): string { return this.apiModel.created_by; }
 
 	get badgeClassCount(): number {
 		const badges = this.commonManager.badgeManager.badgesList;
 
 		return badges.loaded
 			? badges.entities.filter(b => b.issuerSlug === this.slug).length
-			: this.apiModel.badgeClassCount
+			: this.apiModel.badgeClassCount;
 	}
 
 	async update(): Promise<this> {
@@ -61,7 +61,7 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 			await this.issuerApiService.getIssuer(this.slug),
 			true
 		);
-		return this
+		return this;
 	}
 
 	private get issuerApiService() {
@@ -76,8 +76,8 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 			this.slug,
 			{
 				action: "add",
-				email: email,
-				role: role,
+				email,
+				role,
 			}
 		);
 
@@ -101,17 +101,17 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 
 export class IssuerStaffMember extends ManagedEntity<ApiIssuerStaff, IssuerStaffRef> {
 
-	get roleSlug() { return this.apiModel.role }
-	get roleInfo() { return issuerRoleInfoFor(this.roleSlug) }
-	get email() { return this.apiModel.user.email }
-	get firstName() { return this.apiModel.user.first_name }
-	get lastName() { return this.apiModel.user.last_name }
+	get roleSlug() { return this.apiModel.role; }
+	get roleInfo() { return issuerRoleInfoFor(this.roleSlug); }
+	get email() { return this.apiModel.user.email; }
+	get firstName() { return this.apiModel.user.first_name; }
+	get lastName() { return this.apiModel.user.last_name; }
 
 	set roleSlug(role: IssuerStaffRoleSlug) {
 		this.apiModel.role = role;
 	}
 
-	get isOwner() { return this.roleSlug === "owner" }
+	get isOwner() { return this.roleSlug === "owner"; }
 
 
 	/**

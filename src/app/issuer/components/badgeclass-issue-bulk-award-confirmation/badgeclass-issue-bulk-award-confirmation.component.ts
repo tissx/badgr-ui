@@ -1,15 +1,15 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { TransformedImportData, ViewState } from "../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component"
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {TransformedImportData, ViewState} from '../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component';
 
-import { BadgeInstanceManager } from "../../services/badgeinstance-manager.service";
-import { BadgeInstanceBatchAssertion } from "../../models/badgeinstance-api.model";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
+import {BadgeInstanceManager} from '../../services/badgeinstance-manager.service';
+import {BadgeInstanceBatchAssertion} from '../../models/badgeinstance-api.model';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
 
 @Component({
 	selector: 'badgeclass-issue-bulk-award-confirmation',
@@ -25,9 +25,9 @@ export class BadgeclassIssueBulkAwardConformation extends BaseAuthenticatedRouta
 	buttonDisabledClass = true;
 	buttonDisabledAttribute = true;
 	issuer: string;
-	notifyEarner: boolean = true;
+	notifyEarner = true;
 
-	issueBadgeFinished: Promise<any>;
+	issueBadgeFinished: Promise<unknown>;
 
 	constructor(
 		protected badgeInstanceManager: BadgeInstanceManager,
@@ -55,7 +55,7 @@ export class BadgeclassIssueBulkAwardConformation extends BaseAuthenticatedRouta
 	dataConfirmed() {
 		this.disableActionButton();
 
-		let assertions: BadgeInstanceBatchAssertion[] = [];
+		const assertions: BadgeInstanceBatchAssertion[] = [];
 
 		this.transformedImportData.validRowsTransformed.forEach(row => {
 			let assertion: BadgeInstanceBatchAssertion;
@@ -63,13 +63,13 @@ export class BadgeclassIssueBulkAwardConformation extends BaseAuthenticatedRouta
 				assertion = {
 					recipient_identifier: row.email,
 					evidence_items: [{evidence_url: row.evidence}]
-				}
+				};
 			} else {
 				assertion = {
 					recipient_identifier: row.email
-				}
+				};
 			}
-			assertions.push(assertion)
+			assertions.push(assertion);
 		});
 
 		this.badgeInstanceManager.createBadgeInstanceBatched(
@@ -79,7 +79,7 @@ export class BadgeclassIssueBulkAwardConformation extends BaseAuthenticatedRouta
 				issuer: this.issuerSlug,
 				badge_class: this.badgeSlug,
 				create_notification: this.notifyEarner,
-				assertions: assertions
+				assertions
 			}
 		).then(result => {
 			this.router.navigate(
@@ -87,7 +87,7 @@ export class BadgeclassIssueBulkAwardConformation extends BaseAuthenticatedRouta
 			);
 		}, error => {
 			this.messageService.setMessage("Unable to award badge: " + BadgrApiFailure.from(error).firstMessage, "error");
-		})
+		});
 	}
 
 	updateViewState(state: ViewState) {

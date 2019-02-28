@@ -1,4 +1,4 @@
-import { groupIntoArray, groupIntoObject } from "./array-reducers";
+import {groupIntoArray, groupIntoObject} from './array-reducers';
 
 describe("groupIntoObject", () => {
 	it("should group an array correctly", () => {
@@ -6,7 +6,7 @@ describe("groupIntoObject", () => {
 			.toEqual({
 				"0": [ 2, 4 ],
 				"1": [ 1, 3, 5 ]
-			})
+			});
 	});
 
 	it("should handle a falsey initial value", () => {
@@ -15,7 +15,7 @@ describe("groupIntoObject", () => {
 			.toEqual({
 				"0": [ 2, 4 ],
 				"1": [ 1, 3, 5 ]
-			})
+			});
 	});
 });
 
@@ -26,7 +26,7 @@ describe("groupIntoArray", () => {
 			.toEqual([
 				{ key: "1", values: [ 1, 3, 5 ] },
 				{ key: "0", values: [ 2, 4 ] }
-			])
+			]);
 	});
 
 	it("should handle a falsey initial value", () => {
@@ -35,6 +35,6 @@ describe("groupIntoArray", () => {
 			.toEqual([
 				{ key: "1", values: [ 1, 3, 5 ] },
 				{ key: "0", values: [ 2, 4 ] },
-			])
+			]);
 	});
 });

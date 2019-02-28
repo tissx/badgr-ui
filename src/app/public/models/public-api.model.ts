@@ -2,8 +2,8 @@
  * TypeScript type information for a portion of the Open Badges v2.0 Specification, from
  * https://www.imsglobal.org/sites/default/files/Badges/OBv2p0/index.html
  */
-import { BadgeClass } from "../../issuer/models/badgeclass.model";
-import { Issuer } from "../../issuer/models/issuer.model";
+import {BadgeClass} from '../../issuer/models/badgeclass.model';
+import {Issuer} from '../../issuer/models/issuer.model';
 
 export interface PublicApiBadgeAssertion {
 	"@context": "https://w3id.org/openbadges/v2";
@@ -31,11 +31,11 @@ export interface PublicApiBadgeAssertion {
 		identity: string;
 	};
 	// Extension to the spec containing the original URL of this assertion if it is not stored by Badgr
-	sourceUrl?: string
+	sourceUrl?: string;
 }
 
 export interface PublicApiBadgeAssertionWithBadgeClass extends PublicApiBadgeAssertion {
-	badge: PublicApiBadgeClassWithIssuer
+	badge: PublicApiBadgeClassWithIssuer;
 }
 
 export interface PublicApiBadgeClass {
@@ -62,7 +62,7 @@ export interface PublicApiBadgeClass {
 	}>;
 	tags: string[];
 	// Extension to the spec containing the original URL of this assertion if it is not stored by Badgr
-	sourceUrl?: string
+	sourceUrl?: string;
 }
 export interface PublicApiBadgeClassWithIssuer extends  PublicApiBadgeClass {
 	issuer: PublicApiIssuer;
@@ -88,7 +88,7 @@ export interface PublicApiIssuer {
 export interface PublicApiBadgeCollectionWithBadgeClassAndIssuer {
 	entityId: string;
 	entityType: "SharedCollection";
-	id: string
+	id: string;
 	name: string;
 	description: string;
 	badges: PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer[];
@@ -96,7 +96,7 @@ export interface PublicApiBadgeCollectionWithBadgeClassAndIssuer {
 	owner: {
 		firstName: string;
 		lastName: string;
-	}
+	};
 }
 
 export interface PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer {
@@ -119,7 +119,7 @@ export interface PublicApiBadgeCollectionEntryWithBadgeClassAndIssuer {
 		type: string;
 		hashed: boolean;
 		identity: string;
-	}
+	};
 
 	sourceUrl?: string;
 	hostedUrl?: string;

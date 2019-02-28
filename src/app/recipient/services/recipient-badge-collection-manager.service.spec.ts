@@ -1,19 +1,19 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { AppConfigService } from "../../common/app-config.service";
-import { MockBackend } from "@angular/http/testing";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { expectRequestAndRespondWith } from "../../common/util/mock-response-util.spec";
-import { verifyEntitySetWhenLoaded, verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { RecipientBadgeCollectionApiService } from "./recipient-badge-collection-api.service";
-import { RecipientBadgeCollectionManager } from "./recipient-badge-collection-manager.service";
-import { buildTestRecipientBadgeCollections } from "../models/recipient-badge-collection.model.spec";
-import { ApiRecipientBadgeCollection } from "../models/recipient-badge-collection-api.model";
-import { RecipientBadgeApiService } from "./recipient-badges-api.service";
-import { RecipientBadgeManager } from "./recipient-badge-manager.service";
-import { MessageService } from "../../common/services/message.service";
-import { EventsService } from "../../common/services/events.service";
-import { SessionService } from "../../common/services/session.service";
+import {inject, TestBed} from '@angular/core/testing';
+import {AppConfigService} from '../../common/app-config.service';
+import {MockBackend} from '@angular/http/testing';
+import {BaseRequestOptions, Http, RequestMethod} from '@angular/http';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {expectRequestAndRespondWith} from '../../common/util/mock-response-util.spec';
+import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from '../../common/model/managed-entity-set.spec';
+import {RecipientBadgeCollectionApiService} from './recipient-badge-collection-api.service';
+import {RecipientBadgeCollectionManager} from './recipient-badge-collection-manager.service';
+import {buildTestRecipientBadgeCollections} from '../models/recipient-badge-collection.model.spec';
+import {ApiRecipientBadgeCollection} from '../models/recipient-badge-collection-api.model';
+import {RecipientBadgeApiService} from './recipient-badges-api.service';
+import {RecipientBadgeManager} from './recipient-badge-manager.service';
+import {MessageService} from '../../common/services/message.service';
+import {EventsService} from '../../common/services/events.service';
+import {SessionService} from '../../common/services/session.service';
 
 xdescribe('RecipientBadgeCollectionManger', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -56,7 +56,7 @@ xdescribe('RecipientBadgeCollectionManger', () => {
 				return Promise.all([
 					expectAllCollectionsRequest(mockBackend, testData.apiCollections),
 					verifyEntitySetWhenLoaded(recipientBadgeCollectionManager.recipientBadgeCollectionList, testData.apiCollections)
-				])
+				]);
 			}
 		)
 	);
@@ -70,9 +70,9 @@ xdescribe('RecipientBadgeCollectionManger', () => {
 				return Promise.all([
 					expectAllCollectionsRequest(mockBackend, testData.apiCollections),
 					recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise.then(() => {
-						verifyManagedEntitySet(recipientBadgeCollectionManager.recipientBadgeCollectionList, testData.apiCollections)
+						verifyManagedEntitySet(recipientBadgeCollectionManager.recipientBadgeCollectionList, testData.apiCollections);
 					})
-				])
+				]);
 			}
 		)
 	);
@@ -83,8 +83,8 @@ xdescribe('RecipientBadgeCollectionManger', () => {
 			(recipientBadgeCollectionManager: RecipientBadgeCollectionManager, mockBackend: MockBackend) => {
 				const testData = buildTestRecipientBadgeCollections();
 
-				let existingRecipientBadgeCollection = testData.apiCollection1;
-				let newRecipientBadgeCollection = testData.apiCollection2;
+				const existingRecipientBadgeCollection = testData.apiCollection1;
+				const newRecipientBadgeCollection = testData.apiCollection2;
 
 				return Promise.all([
 					expectAllCollectionsRequest(mockBackend, [ existingRecipientBadgeCollection ]),
@@ -92,7 +92,7 @@ xdescribe('RecipientBadgeCollectionManger', () => {
 					verifyEntitySetWhenLoaded(recipientBadgeCollectionManager.recipientBadgeCollectionList, [ existingRecipientBadgeCollection ])
 						.then(recipientBadgeCollectionsList => recipientBadgeCollectionManager.createRecipientBadgeCollection(newRecipientBadgeCollection))
 						.then(() => verifyManagedEntitySet(recipientBadgeCollectionManager.recipientBadgeCollectionList, [ newRecipientBadgeCollection, existingRecipientBadgeCollection ]))
-				])
+				]);
 			}
 		)
 	);
@@ -121,7 +121,7 @@ xdescribe('RecipientBadgeCollectionManger', () => {
 					verifyEntitySetWhenLoaded(recipientBadgeCollectionManager.recipientBadgeCollectionList, startingCollections)
 						.then(recipientBadgeCollectionsList => recipientBadgeCollectionManager.recipientBadgeCollectionList.entityForApiEntity(toDelete).deleteCollection())
 						.then(() => verifyManagedEntitySet(recipientBadgeCollectionManager.recipientBadgeCollectionList, endingCollections))
-				])
+				]);
 			}
 		)
 	);

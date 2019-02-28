@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
-import { MessageService } from "../services/message.service";
-import { OAuthManager } from "../services/oauth-manager.service";
+import {Component} from '@angular/core';
+import {MessageService} from '../services/message.service';
+import {OAuthManager} from '../services/oauth-manager.service';
 
 
 @Component({
@@ -20,15 +20,15 @@ import { OAuthManager } from "../services/oauth-manager.service";
 export class OAuthBannerComponent {
 	readonly authLinkBadgrLogoSrc = require("../../../breakdown/static/images/logo.svg");
 
-	public get authInfo() {
+	get authInfo() {
 		return this.oAuthManager.currentAuthorization;
 	}
 
-	public get appInfo() {
+	get appInfo() {
 		return this.oAuthManager.currentAuthorization.application;
 	}
 
-	public get isAuthorizing() {
+	get isAuthorizing() {
 		return this.oAuthManager.isAuthorizationInProgress;
 	}
 

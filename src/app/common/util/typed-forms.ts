@@ -8,7 +8,7 @@ import {
 	ValidatorFn,
 	Validators
 } from '@angular/forms';
-import { markControlsDirty } from "./form-util";
+import {markControlsDirty} from './form-util';
 
 /**
  * A function that exercises the typed forms to ensure they compile correctly.
@@ -35,9 +35,9 @@ function typedFormExample() {
 
 	// All these are type checked:
 	group.value.address.street.trim();
-	group.controls.firstName.value;
-	group.rawControlMap.firstName.value;
-	group.value.items[0].itemId;
+	const a = group.controls.firstName.value;
+	const b = group.rawControlMap.firstName.value;
+	const c = group.value.items[0].itemId;
 }
 
 /**
@@ -92,23 +92,23 @@ export function typedArray<
 export abstract class TypedFormItem<ValueType> {
 	abstract readonly rawControl: AbstractControl;
 
-	get value(): ValueType { return this.rawControl.value }
-	get status() { return this.rawControl.status }
-	get valid() { return this.rawControl.valid }
-	get invalid() { return this.rawControl.invalid }
-	get pending() { return this.rawControl.pending }
-	get disabled() { return this.rawControl.disabled }
-	get enabled() { return this.rawControl.enabled }
-	get errors() { return this.rawControl.errors }
-	get pristine() { return this.rawControl.pristine }
-	get dirty() { return this.rawControl.dirty }
-	get touched() { return this.rawControl.touched }
-	get untouched() { return this.rawControl.untouched }
+	get value(): ValueType { return this.rawControl.value; }
+	get status() { return this.rawControl.status; }
+	get valid() { return this.rawControl.valid; }
+	get invalid() { return this.rawControl.invalid; }
+	get pending() { return this.rawControl.pending; }
+	get disabled() { return this.rawControl.disabled; }
+	get enabled() { return this.rawControl.enabled; }
+	get errors() { return this.rawControl.errors; }
+	get pristine() { return this.rawControl.pristine; }
+	get dirty() { return this.rawControl.dirty; }
+	get touched() { return this.rawControl.touched; }
+	get untouched() { return this.rawControl.untouched; }
 
 	/**
 	 * Marks all controls in this tree dirty and returns true if the form is valid.
 	 */
-	public markTreeDirtyAndValidate() {
+	markTreeDirtyAndValidate() {
 		markControlsDirty(this.rawControl);
 		return this.valid;
 	}
@@ -116,7 +116,7 @@ export abstract class TypedFormItem<ValueType> {
 	/**
 	 * Marks all controls in this tree dirty.
 	 */
-	public markTreeDirty() {
+	markTreeDirty() {
 		markControlsDirty(this.rawControl);
 	}
 
@@ -136,7 +136,7 @@ export abstract class TypedFormItem<ValueType> {
 	/**
 	 * Recursively creates a copy of this TypedFormItem tree with all values intact.
 	 */
-	abstract clone(): this
+	abstract clone(): this;
 
 	/**
 	 * Resets the value of this TypedFormItem tree to the original default values passed in at creation.
@@ -166,7 +166,7 @@ export class TypedFormControl<ValueType> extends TypedFormItem<ValueType> {
 		return new TypedFormControl(
 			this.value,
 			this.rawControl.validator
-		) as this
+		) as this;
 	}
 
 	reset() {
@@ -188,7 +188,7 @@ export class TypedFormControl<ValueType> extends TypedFormItem<ValueType> {
 
 type RawGroupOf<T> = {
 	[F in keyof T]: AbstractControl
-}
+};
 
 /**
  * Typed group of control. Wraps a [[FormGroup]] and keeps track of the type of the value object and controls object.
@@ -219,7 +219,7 @@ export class TypedFormGroup<
 	}
 
 	get rawControlMap(): RawGroupOf<ControlsType> {
-		return this.rawControl.controls as any;
+		return this.rawControl.controls as RawGroupOf<ControlsType>;
 	}
 
 	addControl<
@@ -262,9 +262,12 @@ export class TypedFormGroup<
 		ValueType & Record<NameType, ItemValueType>,
 		ControlsType & Record<NameType, ItemType>
 	> {
-		(this.controls as any)[name] = typedItem;
+		(this.controls as unknown as {[name: string]: TypedFormItem<unknown>})[name] = typedItem;
 		this.rawControl.addControl(name, typedItem.rawControl);
-		return this as any;
+		return this as unknown as TypedFormGroup<
+			ValueType & Record<NameType, ItemValueType>,
+			ControlsType & Record<NameType, ItemType>
+			>;
 	}
 
 	clone(): this {
@@ -328,7 +331,7 @@ export class TypedFormArray<
 		return this;
 	}
 
-	public addFromTemplate() {
+	addFromTemplate() {
 		this.push(this.templateItem.clone());
 	}
 

@@ -1,14 +1,5 @@
-import {
-	AfterViewChecked,
-	Directive,
-	ElementRef,
-	HostListener,
-	Inject,
-	Input,
-	PLATFORM_ID,
-	Renderer2
-} from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import {AfterViewChecked, Directive, ElementRef, HostListener, Inject, Input, PLATFORM_ID, Renderer2} from '@angular/core';
+import {isPlatformBrowser} from '@angular/common';
 
 /**
  * This file is derived from https://github.com/stevepapa/ng-autosize/blob/master/src/autosize.directive.ts released

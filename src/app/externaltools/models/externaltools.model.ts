@@ -1,7 +1,7 @@
-import { ApiExternalTool } from "./externaltools-api.model";
-import { ManagedEntity } from "../../common/model/managed-entity";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { ApiEntityRef } from "../../common/model/entity-ref";
+import {ApiExternalTool} from './externaltools-api.model';
+import {ManagedEntity} from '../../common/model/managed-entity';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {ApiEntityRef} from '../../common/model/entity-ref';
 
 
 export class ExternalTool extends ManagedEntity<ApiExternalTool, ApiEntityRef> {
@@ -10,7 +10,7 @@ export class ExternalTool extends ManagedEntity<ApiExternalTool, ApiEntityRef> {
 		return {
 			"@id": this.apiModel.slug,
 			"slug": this.apiModel.slug,
-		}
+		};
 	}
 
 	constructor(

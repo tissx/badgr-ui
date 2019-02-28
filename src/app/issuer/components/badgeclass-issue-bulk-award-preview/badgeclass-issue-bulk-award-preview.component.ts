@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {FormBuilder} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
 
 import {
 	BulkIssueData,
@@ -12,7 +12,7 @@ import {
 	DestSelectOptions,
 	TransformedImportData,
 	ViewState
-} from "../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component"
+} from '../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component';
 
 @Component({
 	selector: 'Badgeclass-issue-bulk-award-preview',
@@ -25,7 +25,7 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 	@Output() updateStateEmitter  = new EventEmitter<ViewState>();
 	@Output() transformedImportDataEmitter = new EventEmitter();
 
-	MAX_ROWS_TO_DISPLAY: number = 5;
+	MAX_ROWS_TO_DISPLAY = 5;
 
 	buttonDisabledAttribute = true;
 	buttonDisabledClass = true;
@@ -80,11 +80,11 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 	}
 
 	emitTransformedData() {
-		let transformedImportData: TransformedImportData = {
+		const transformedImportData: TransformedImportData = {
 			duplicateRecords : this.duplicateRecords,
 			validRowsTransformed: this.validRowsTransformed,
 			invalidRowsTransformed: this.invalidRowsTransformed
-		}
+		};
 
 		this.transformedImportDataEmitter.emit(transformedImportData);
 	}
@@ -105,7 +105,7 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 	}
 
 	removeFromInvalidRowsWithEmptyOptionalCells() {
-		let invalidRow = [];
+		const invalidRow = [];
 		let emptyCellsAreOptional: boolean;
 
 		this.importPreviewData.invalidRows
@@ -125,12 +125,12 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 							return false;
 						}
 					}
-				)
+				);
 
 			emptyCellsAreOptional
 			? this.importPreviewData.validRows.push(row)
 			: invalidRow.push(row);
-		})
+		});
 
 		this.importPreviewData.invalidRows = invalidRow;
 
@@ -146,7 +146,7 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 							evidence: this.getEvidenceFromRow(row),
 							email: this.getEmailFromRow(row)
 						}
-					)
+					);
 			});
 	}
 
@@ -159,20 +159,20 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 							evidence: this.getEvidenceFromRow(row),
 							email: this.getEmailFromRow(row)
 						}
-					)
-			})
+					);
+			});
 	}
 
 	removeDuplicateEmails() {
-		let tempRow = new Set<string>();
+		const tempRow = new Set<string>();
 		this.validRowsTransformed.forEach( row => {
 			if ( tempRow.has(row.email)) {
-				this.duplicateRecords.push(row)
+				this.duplicateRecords.push(row);
 				this.validRowsTransformed.delete(row);
 			} else {
 				tempRow.add(row.email);
 			}
-		})
+		});
 	}
 
 	mapDestNameToSourceName(columnHeaderId: number, selected: DestSelectOptions) {
@@ -188,7 +188,7 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 				if (columnId === columnHeaderId.toString()) {
 					this.importPreviewData.columnHeaders[ columnId ].destColumn = selected;
 				}
-			})
+			});
 
 		this.isEmailColumnHeaderMapped() ? this.enableActionButton() : this.disableActionButton();
 	}
@@ -213,11 +213,11 @@ export class BadgeClassIssueBulkAwardPreviewComponent extends BaseAuthenticatedR
 				if (this.importPreviewData.columnHeaders[ key ].destColumn !== "NA") {
 					this.destNameToColumnHeaderMap[ this.importPreviewData.columnHeaders[ key ].destColumn ] = Number(key);
 				}
-			})
+			});
 	}
 
 	createRange(size: number) {
-		let items: string[] = [];
+		const items: string[] = [];
 		for (let i = 1; i <= size; i++) {
 			items.push("");
 		}

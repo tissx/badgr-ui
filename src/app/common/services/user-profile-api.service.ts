@@ -1,11 +1,11 @@
-import { Injectable } from "@angular/core";
-import { AppConfigService } from "../app-config.service";
-import { BaseHttpApiService } from "./base-http-api.service";
-import { SessionService } from "./session.service";
-import { MessageService } from "./message.service";
-import { EventsService } from "./events.service";
-import { ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount } from "../model/user-profile-api.model";
-import { HttpClient } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {AppConfigService} from '../app-config.service';
+import {BaseHttpApiService} from './base-http-api.service';
+import {SessionService} from './session.service';
+import {MessageService} from './message.service';
+import {EventsService} from './events.service';
+import {ApiUserProfile, ApiUserProfileEmail, ApiUserProfileSocialAccount} from '../model/user-profile-api.model';
+import {HttpClient} from '@angular/common/http';
 
 
 @Injectable()

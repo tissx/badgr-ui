@@ -45,8 +45,9 @@ export class ResetPasswordComponent extends BaseRoutableComponent {
 	}
 
 	submitChange() {
-		if (! this.changePasswordForm.markTreeDirtyAndValidate())
+		if (! this.changePasswordForm.markTreeDirtyAndValidate()) {
 			return;
+		}
 
 		const token = this.resetToken;
 		const newPassword = this.changePasswordForm.controls.password1.value;
@@ -68,9 +69,9 @@ export class ResetPasswordComponent extends BaseRoutableComponent {
 		let valid = true;
 		let val: string;
 
-		for (let name in group.controls) {
+		for (const name in group.controls) {
 			if (val === undefined) {
-				val = group.controls[ name ].value
+				val = group.controls[ name ].value;
 			} else {
 				if (val !== group.controls[ name ].value) {
 					valid = false;
