@@ -181,7 +181,7 @@ export abstract class BaseHttpApiService {
 						response
 					);
 				// sometimes objects!
-				} else if (response.error && typeof response.error === "object") {
+				} else if (response instanceof HttpErrorResponse && response.error && typeof response.error === "object") {
 					throw new BadgrApiError(
 						JSON.stringify(response.error),
 						response
