@@ -84,8 +84,8 @@ interface WebpackModule {
     dispose(callback?: (data?: unknown) => void): void;
     addDisposeHandler(callback?: (data?: unknown) => void): void;
     removeDisposeHandler(callback?: (data?: unknown) => void): void;
-    check(autoApply?: unknown, callback?: (err?: Error, outdatedModules?: unknown[]) => void): void;
-    apply(options?: unknown, callback?: (err?: Error, outdatedModules?: unknown[]) => void): void;
+    check(autoApply?: unknown, callback?: (err?: Error, outdatedModules?: Array<unknown>) => void): void;
+    apply(options?: unknown, callback?: (err?: Error, outdatedModules?: Array<unknown>) => void): void;
     status(callback?: (status?: string) => void): void | string;
     removeStatusHandler(callback?: (status?: string) => void): void;
   };
@@ -94,7 +94,7 @@ interface WebpackModule {
 
 interface WebpackRequire {
     (id: string): unknown;
-    (paths: string[], callback: (...modules: unknown[]) => void): void;
+    (paths: string[], callback: (...modules: Array<unknown>) => void): void;
     ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
     context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
 }
