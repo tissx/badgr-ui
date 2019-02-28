@@ -111,7 +111,7 @@ export class MessageService {
 	 */
 	reportLoadingError(
 		message: string,
-		exception?: any
+		exception?: unknown
 	) {
 		console.error("Loading Error: " + message, exception);
 
@@ -129,7 +129,7 @@ export class MessageService {
 	reportFatalError(
 		message: string,
 		detail?: string,
-		exception?: any
+		exception?: unknown
 	) {
 		this.fatalErrorPresent = true;
 		if (message) {
@@ -151,7 +151,7 @@ export class MessageService {
 	 */
 	reportAndThrowError(
 		message: string,
-		exception?: any,
+		exception?: unknown,
 		retainAfterNextNav = false
 	): never {
 		this.reportHandledError(message, exception, retainAfterNextNav);
@@ -169,7 +169,7 @@ export class MessageService {
 	 */
 	reportHandledError(
 		message: string,
-		exception?: any,
+		exception?: unknown,
 		retainAfterNextNav = false
 	) {
 		console.error(message, exception);

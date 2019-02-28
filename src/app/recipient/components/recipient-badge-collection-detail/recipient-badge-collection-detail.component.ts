@@ -27,7 +27,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 	@ViewChild("recipientBadgeDialog")
 	recipientBadgeDialog: RecipientBadgeSelectionDialog;
 
-	collectionLoadedPromise: Promise<any>;
+	collectionLoadedPromise: Promise<unknown>;
 	collection: RecipientBadgeCollection;
 
 	constructor(

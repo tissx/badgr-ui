@@ -10,7 +10,7 @@ export interface ApiAppIntegration {
 	integrationType: AppIntegrationType;
 	integrationUid?: string;
 
-	integrationData: any;
+	integrationData: object;
 }
 
 export interface ApiBadgebookCanvasLti1AppIntegration extends ApiAppIntegration {
@@ -23,4 +23,8 @@ export interface ApiBadgebookCanvasLti1AppIntegration extends ApiAppIntegration 
 		}
 		config_url: string;
 	};
+}
+
+export function isApiBadgebookCanvasLti1AppIntegration(integration: object): integration is ApiBadgebookCanvasLti1AppIntegration {
+	return integration["integrationType"] === "canvas-lti1";
 }

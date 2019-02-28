@@ -19,6 +19,7 @@ import {AuthGuard} from './common/guards/auth.guard';
 import {RecipientBadgeApiService} from './recipient/services/recipient-badges-api.service';
 import {AppConfigService} from './common/app-config.service';
 import {initializeTheme} from '../theming/theme-setup';
+import {timeoutPromise} from './common/util/promise-util';
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
@@ -105,6 +106,8 @@ export const appInitializerFn = (configService: AppConfigService) => {
 		const config = await configPromise;
 
 		window["badgrConfig"] = config;
+
+		await timeoutPromise(1000);
 
 		initializeTheme(configService);
 	};

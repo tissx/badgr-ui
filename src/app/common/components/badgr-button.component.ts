@@ -14,7 +14,7 @@ import {MessageService} from '../services/message.service';
 	`,
 })
 export class BadgrButtonComponent {
-	loadingPromise: Promise<any>;
+	loadingPromise: Promise<unknown>;
 	promiseLoading = false;
 
 	@Input('disabled-when-requesting')
@@ -27,7 +27,7 @@ export class BadgrButtonComponent {
 	loadingMessage = "Loading";
 
 	@Input('loading-promises')
-	set inputPromises(promises: Promise<any> | Array<Promise<any>> | null) {
+	set inputPromises(promises: Promise<unknown> | Array<Promise<unknown>> | null) {
 		this.updatePromises(
 			promises
 				? Array.isArray(promises)
@@ -49,7 +49,7 @@ export class BadgrButtonComponent {
 		private messageService: MessageService
 	) {}
 
-	private updatePromises(promises: Array<Promise<any>>) {
+	private updatePromises(promises: Array<Promise<unknown>>) {
 		if (promises.length === 0) {
 			this.loadingPromise = null;
 			this.promiseLoading = false;

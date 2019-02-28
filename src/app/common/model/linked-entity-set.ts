@@ -71,7 +71,7 @@ export class LinkedEntitySet<
 		return ourFetchPromise.then(
 			(updatedEntities: EntityType[]) => {
 				// Defer to the most recent update request if another one has come in
-				if (ourFetchPromise != this.mostRecentRefUpdatePromise) {
+				if (ourFetchPromise !== this.mostRecentRefUpdatePromise) {
 					return this.mostRecentRefUpdatePromise.then(() => this);
 				}
 
@@ -136,7 +136,7 @@ export class LinkedEntitySet<
 	}
 
 	addAll(newEntities: EntityType[] | Iterable<EntityType>) {
-		for (const newEntity of newEntities as any) {
+		for (const newEntity of newEntities) {
 			this.add(newEntity);
 		}
 	}
@@ -145,7 +145,7 @@ export class LinkedEntitySet<
 		const entitiesToRemove = new Set<EntityType>(this._entities);
 		const updateInfo = new EntitySetUpdate<EntityType, this>(this);
 
-		for (const newEntity of newEntities as any) {
+		for (const newEntity of newEntities) {
 			if (entitiesToRemove.has(newEntity)) {
 				entitiesToRemove.delete(newEntity);
 			} else {
@@ -170,7 +170,7 @@ export class LinkedEntitySet<
 	entityForRef(ref: AnyRefType): EntityType {
 		const url = EntityRef.urlForRef(ref);
 
-		return this._entities.find(e => e.url == url);
+		return this._entities.find(e => e.url === url);
 	}
 
 	[Symbol.iterator](): Iterator<EntityType> {
@@ -186,7 +186,7 @@ export class ListBackedLinkedEntitySet<
 	constructor(
 		protected owner: OwnerType,
 		public getEntityRefs: () => ChildRefType[],
-		protected entityForUrl: (ChildRefType) => (EntityType | Promise<EntityType>)
+		protected entityForUrl: (r: string) => (EntityType | Promise<EntityType>)
 	) {
 		super(
 			owner,
@@ -214,10 +214,10 @@ export class BidirectionallyLinkedEntitySet<
 	constructor(
 		owner: OwnerType,
 		getEntityUrls: () => ChildRefType[],
-		entityForRef: (ChildRefType) => (ChildType | Promise<ChildType>),
-		private listForEntity: (ChildType) => ListBackedLinkedEntitySet<any, OwnerType, any>
+		entityForUrl: (r: string) => (ChildType | Promise<ChildType>),
+		private listForEntity: (r: ChildType) => ListBackedLinkedEntitySet<AnyManagedEntity, OwnerType, ApiEntityRef>
 	) {
-		super(owner, getEntityUrls, entityForRef);
+		super(owner, getEntityUrls, entityForUrl);
 
 		this.changed$.subscribe(update => {
 			update.removed.forEach(entity => this.listForEntity(entity).remove(this.owner));

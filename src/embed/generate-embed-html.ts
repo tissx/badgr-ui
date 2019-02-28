@@ -116,9 +116,9 @@ export function generateEmbedHtml(embedOptions) {
 			verifyButtonStyle
 		);
 		if (options.verified) {
-			let svgUrl =
+			const svgUrl =
 				(options.staticPrefix || window.location.origin) + checkmarkSvg;
-			let checkImg = document.createElement("img");
+			const checkImg = document.createElement("img");
 			checkImg.src = svgUrl;
 			verifyTag.appendChild(checkImg);
 			verifyTag.innerHTML += " VERIFIED!";
@@ -132,7 +132,7 @@ export function generateEmbedHtml(embedOptions) {
 	}
 
 	if (options.includeScript) {
-		let scriptUrl =
+		const scriptUrl =
 			(options.staticPrefix || window.location.origin) + "/widgets.bundle.js";
 		const widgetTag = document.createElement("script");
 		widgetTag.setAttribute("async", "async");

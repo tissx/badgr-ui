@@ -35,9 +35,9 @@ function typedFormExample() {
 
 	// All these are type checked:
 	group.value.address.street.trim();
-	group.controls.firstName.value;
-	group.rawControlMap.firstName.value;
-	group.value.items[0].itemId;
+	const a = group.controls.firstName.value;
+	const b = group.rawControlMap.firstName.value;
+	const c = group.value.items[0].itemId;
 }
 
 /**
@@ -219,7 +219,7 @@ export class TypedFormGroup<
 	}
 
 	get rawControlMap(): RawGroupOf<ControlsType> {
-		return this.rawControl.controls as any;
+		return this.rawControl.controls as RawGroupOf<ControlsType>;
 	}
 
 	addControl<
@@ -262,9 +262,12 @@ export class TypedFormGroup<
 		ValueType & Record<NameType, ItemValueType>,
 		ControlsType & Record<NameType, ItemType>
 	> {
-		(this.controls as any)[name] = typedItem;
+		(this.controls as unknown as {[name: string]: TypedFormItem<unknown>})[name] = typedItem;
 		this.rawControl.addControl(name, typedItem.rawControl);
-		return this as any;
+		return this as unknown as TypedFormGroup<
+			ValueType & Record<NameType, ItemValueType>,
+			ControlsType & Record<NameType, ItemType>
+			>;
 	}
 
 	clone(): this {

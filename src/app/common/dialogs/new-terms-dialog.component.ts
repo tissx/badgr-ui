@@ -50,7 +50,7 @@ export class NewTermsDialog extends BaseDialog {
 
 	resolveFunc: () => void;
 	rejectFunc: () => void;
-	_agreed_promise: Promise<void> = null;
+	_agreedPromise: Promise<void> = null;
 
 	hasSubmitted = false;
 
@@ -66,13 +66,13 @@ export class NewTermsDialog extends BaseDialog {
 	}
 
 	get agreedPromise(): Promise<void> {
-		if (!this._agreed_promise) {
-				this._agreed_promise = new Promise((resolve, reject) => {
+		if (!this._agreedPromise) {
+				this._agreedPromise = new Promise((resolve, reject) => {
 					this.resolveFunc = resolve;
 					this.rejectFunc = reject;
 				});
 		}
-		return this._agreed_promise;
+		return this._agreedPromise;
 	}
 
 	get termsOfServiceLink() {

@@ -17,15 +17,15 @@ import {AppConfigService} from '../../../common/app-config.service';
 	templateUrl: './issuer-list.component.html',
 })
 export class IssuerListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly issuerPlaceholderSrc = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
-	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg');
+	readonly issuerPlaceholderSrc = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string);
+	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg') as string;
 
 	issuers: Issuer[];
 	badges: BadgeClass[];
 	issuerToBadgeInfo: {[issuerId: string]: IssuerBadgesInfo} = {};
 
-	issuersLoaded: Promise<any>;
-	badgesLoaded: Promise<any>;
+	issuersLoaded: Promise<unknown>;
+	badgesLoaded: Promise<unknown>;
 
 	constructor(
 		protected title: Title,

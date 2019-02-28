@@ -60,13 +60,15 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		const badges = this.badgeManager.badgesByIssuerUrl.lookup(this.issuer.issuerUrl);
 		return badges && badges.length;
 	}
-	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
+	readonly issuerImagePlacholderUrl = preloadImageURL(
+		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
+	);
 	launchpoints: ApiExternalToolLaunchpoint[];
 
-	badgeClassLoaded: Promise<any>;
-	badgeInstancesLoaded: Promise<any>;
-	assertionsLoaded: Promise<any>;
-	issuerLoaded: Promise<any>;
+	badgeClassLoaded: Promise<unknown>;
+	badgeInstancesLoaded: Promise<unknown>;
+	assertionsLoaded: Promise<unknown>;
+	issuerLoaded: Promise<unknown>;
 	showAssertionCount = false;
 	badgeClass: BadgeClass;
 	allBadgeInstances: BadgeClassInstances;

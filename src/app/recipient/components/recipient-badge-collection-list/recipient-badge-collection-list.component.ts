@@ -25,7 +25,7 @@ export class RecipientBadgeCollectionListComponent extends BaseAuthenticatedRout
 		return this.recipientBadgeCollectionManager.recipientBadgeCollectionList.entities;
 	}
 
-	collectionListLoaded: Promise<any>;
+	collectionListLoaded: Promise<unknown>;
 
 	constructor(
 		router: Router,

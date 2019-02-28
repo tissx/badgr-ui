@@ -21,7 +21,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	signupForm: FormGroup;
 	passwordGroup: FormGroup;
 
-	signupFinished: Promise<any>;
+	signupFinished: Promise<unknown>;
 
 	agreedTermsService = false;
 
@@ -125,13 +125,13 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	}
 }
 
-function passwordValidator(control: FormControl): { [errorName: string]: any } {
+function passwordValidator(control: FormControl): { [errorName: string]: unknown } {
 	if (control.value.length < 8) {
 		return {'weakPassword': 'Password must be at least 8 characters'};
 	}
 }
 
-function passwordsMatchValidator(group: FormGroup): { [errorName: string]: any } {
+function passwordsMatchValidator(group: FormGroup): { [errorName: string]: unknown } {
 	if (group.controls['password'].value !== group.controls['passwordConfirm'].value) {
 		return {passwordsMatch: 'Passwords do not match'};
 	}

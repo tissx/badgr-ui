@@ -20,10 +20,8 @@ type AddBadgeDialogTabName = "upload" | "url" | "json";
 })
 export class AddBadgeDialogComponent extends BaseDialog {
 	static defaultOptions = {} as AddBadgeDialogOptions;
-	readonly uploadBadgeImageUrl = require('../../../../breakdown/static/images/image-uplodBadge.svg');
-	readonly pasteBadgeImageUrl = preloadImageURL(require('../../../../breakdown/static/images/image-uplodBadgeUrl.svg'));
-
-	EMPTY_FORM_ERROR = "At least one input is required to add a badge.";
+	readonly uploadBadgeImageUrl = require('../../../../breakdown/static/images/image-uplodBadge.svg') as string;
+	readonly pasteBadgeImageUrl = preloadImageURL(require('../../../../breakdown/static/images/image-uplodBadgeUrl.svg') as string);
 
 	addRecipientBadgeForm = typedGroup()
 		.addControl("image", null)
@@ -38,9 +36,9 @@ export class AddBadgeDialogComponent extends BaseDialog {
 
 	options: AddBadgeDialogOptions = AddBadgeDialogComponent.defaultOptions;
 	resolveFunc: () => void;
-	rejectFunc: (err?: any) => void;
+	rejectFunc: (err?: unknown) => void;
 
-	badgeUploadPromise: Promise<any>;
+	badgeUploadPromise: Promise<unknown>;
 
 	@ViewChild("jsonField")
 	private jsonField: FormFieldText;

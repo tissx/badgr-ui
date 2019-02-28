@@ -22,7 +22,7 @@ import {LinkEntry} from '../../../common/components/bg-breadcrumbs/bg-breadcrumb
 export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	issuerSlug: string;
 	issuer: Issuer;
-	issuerLoaded: Promise<any>;
+	issuerLoaded: Promise<unknown>;
 	breadcrumbLinkEntries: LinkEntry [] = [];
 
 	constructor(

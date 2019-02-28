@@ -20,13 +20,15 @@ import {AppConfigService} from '../../../common/app-config.service';
 	templateUrl: './issuer-create.component.html'
 })
 export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
+	readonly issuerImagePlacholderUrl = preloadImageURL(
+		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
+	);
 
 	issuerForm: FormGroup;
 	emails: UserProfileEmail[];
 	emailsOptions: FormFieldSelectOption[];
-	addIssuerFinished: Promise<any>;
-	emailsLoaded: Promise<any>;
+	addIssuerFinished: Promise<unknown>;
+	emailsLoaded: Promise<unknown>;
 
 	constructor(
 		loginService: SessionService,
@@ -94,7 +96,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	onSubmit(formState) {
-		let issuer: ApiIssuerForCreation = {
+		const issuer: ApiIssuerForCreation = {
 			'name': formState.issuer_name,
 			'description': formState.issuer_description,
 			'email': formState.issuer_email,
@@ -121,7 +123,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	}
 
 	urlBlurred(ev) {
-		let control: FormControl = this.issuerForm.controls[ 'issuer_url' ] as FormControl;
+		const control: FormControl = this.issuerForm.controls[ 'issuer_url' ] as FormControl;
 		UrlValidator.addMissingHttpToControl(control);
 	}
 

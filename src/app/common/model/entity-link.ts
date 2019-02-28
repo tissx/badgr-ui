@@ -9,7 +9,7 @@ import {MemoizedProperty} from '../util/memoized-property-decorator';
  * maintaining the reference to the linked entity.
  */
 export class EntityLink<
-	EntityType extends ManagedEntity<any, RefType>,
+	EntityType extends ManagedEntity<unknown, RefType>,
 	RefType extends ApiEntityRef
 > {
 	protected _requested = false;
@@ -50,8 +50,8 @@ export class EntityLink<
 	get entityRef(): RefType { return this.getRef(); }
 
 	constructor(
-		protected owningEntity: ManagedEntity<any, any>,
-		protected fetchEntity: (RefType) => Promise<EntityType>,
+		protected owningEntity: ManagedEntity<unknown, ApiEntityRef>,
+		protected fetchEntity: (ref: RefType) => Promise<EntityType>,
 		protected getRef: () => RefType
 	) {
 		this.changedSubject.subscribe(this.loadedSubject);
@@ -88,14 +88,14 @@ export class EntityLink<
  * An EntityLink that supports mutation of the link.
  */
 export class MutableEntityLink<
-	EntityType extends ManagedEntity<any, RefType>,
+	EntityType extends ManagedEntity<unknown, RefType>,
 	RefType extends ApiEntityRef
 > extends EntityLink<EntityType, RefType> {
 	constructor(
-		owningEntity: ManagedEntity<any, any>,
-		fetchEntity: (RefType) => Promise<EntityType>,
+		owningEntity: ManagedEntity<unknown, ApiEntityRef>,
+		fetchEntity: (ref: RefType) => Promise<EntityType>,
 		getRef: () => RefType,
-		protected setRef: (RefType) => void
+		protected setRef: (ref: RefType) => void
 	) {
 		super(owningEntity, fetchEntity, getRef);
 	}

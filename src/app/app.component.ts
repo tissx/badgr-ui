@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 	private markdownHintsDialog: MarkdownHintsDialog;
 
 	@ViewChild("issuerLink")
-	private issuerLink: any;
+	private issuerLink: unknown;
 
 	get showAppChrome() {
 		return ! this.embedService.isEmbedded;
@@ -109,13 +109,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 		const authCode = this.queryParams.queryStringValue("authCode", true);
 		if (sessionService.isLoggedIn && !authCode) {
 			profileManager.userProfileSet.changed$.subscribe(set => {
-				if (set.entities.length && set.entities[0].agreedTermsVersion != set.entities[0].latestTermsVersion) {
+				if (set.entities.length && set.entities[0].agreedTermsVersion !== set.entities[0].latestTermsVersion) {
 					this.commonDialogsService.newTermsDialog.openDialog();
 				}
 			});
 
 			// Load the profile
-			this.profileManager.userProfileSet.loadedPromise;
+			this.profileManager.userProfileSet.ensureLoaded();
 		}
 
 		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
@@ -158,8 +158,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 	}
 
 	private initAnalytics() {
+		/* tslint:disable */
 		if (this.configService.googleAnalyticsConfig.trackingId) {
-			(function (i, s, o, g, r, a?, m?) {
+			((i, s, o, g, r, a?, m?) => {
 				i[ 'GoogleAnalyticsObject' ] = r;
 				i[ r ] = i[ r ] || function () {
 					(i[ r ].q = i[ r ].q || []).push(arguments);
@@ -173,6 +174,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 			window[ "gtag" ]('config', this.configService.googleAnalyticsConfig.trackingId);
 		}
+		/* tslint:enable */
 	}
 
 	ngOnInit() {

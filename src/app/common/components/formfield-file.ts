@@ -48,12 +48,12 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class BgFormFieldFileComponent {
 
 	private get element(): HTMLElement {
-		return this.elemRef.nativeElement as any;
+		return this.elemRef.nativeElement;
 	}
 
 	static uniqueNameCounter = 0;
-	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
-	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
+	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg") as string);
+	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg") as string);
 
 	@Input() control: FormControl;
 	@Input() label: string;
@@ -76,7 +76,7 @@ export class BgFormFieldFileComponent {
 	fileName = "";
 
 	constructor(
-		private elemRef: ElementRef,
+		private elemRef: ElementRef<HTMLElement>,
 		private domSanitizer: DomSanitizer
 	) {}
 

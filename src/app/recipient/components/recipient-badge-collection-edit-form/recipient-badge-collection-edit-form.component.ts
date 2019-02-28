@@ -1,8 +1,9 @@
 import {Component, Input} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, Validators} from '@angular/forms';
 import {MessageService} from '../../../common/services/message.service';
 import {markControlsDirty} from '../../../common/util/form-util';
 import {RecipientBadgeCollection} from '../../models/recipient-badge-collection.model';
+import {typedGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'recipient-badge-collection-edit-form',
@@ -11,49 +12,38 @@ import {RecipientBadgeCollection} from '../../models/recipient-badge-collection.
 export class RecipientBadgeCollectionEditFormComponent {
 	@Input() badgeCollection: RecipientBadgeCollection;
 
-	badgeCollectionForm: FormGroup;
-	savePromise: Promise<any>;
+	badgeCollectionForm = typedGroup()
+		.addControl('collectionName', '', [Validators.required, Validators.maxLength(128)])
+		.addControl('collectionDescription', '', [Validators.required, Validators.maxLength(255)])
+	;
+
+	savePromise: Promise<unknown>;
 
 	isEditing = false;
 
 	constructor(
-		formBuilder: FormBuilder,
 		private messageService: MessageService
 	) {
-		this.badgeCollectionForm = formBuilder.group({
-			collectionName: [
-				'',
-				Validators.compose([
-					Validators.required,
-					Validators.maxLength(128)
-				])
-			],
-			collectionDescription: [
-				'',
-				Validators.compose([
-					Validators.required,
-					Validators.maxLength(255)
-				])
-			]
-		} as EditBadgeCollectionForm<any[]>);
 	}
 
 	startEditing() {
 		this.isEditing = true;
 
-		this.controls.collectionName.setValue(this.badgeCollection.name, { emitEvent: false });
-		this.controls.collectionDescription.setValue(this.badgeCollection.description, { emitEvent: false });
+		this.badgeCollectionForm.controls.collectionName.setValue(this.badgeCollection.name, {emitEvent: false});
+		this.badgeCollectionForm.controls.collectionDescription.setValue(this.badgeCollection.description, {emitEvent: false});
 	}
 
 	cancelEditing() {
 		this.isEditing = false;
 	}
 
-	protected get controls(): EditBadgeCollectionForm<FormControl> {
-		return this.badgeCollectionForm.controls as any;
-	}
+	protected submitForm() {
+		if (! this.badgeCollectionForm.markTreeDirtyAndValidate()) {
+			return;
+		}
 
-	protected submitForm(formState: EditBadgeCollectionForm<string>) {
+		const formState = this.badgeCollectionForm.value;
+
 		if (this.badgeCollectionForm.valid) {
 			this.badgeCollection.name = formState.collectionName;
 			this.badgeCollection.description = formState.collectionDescription;
@@ -70,16 +60,4 @@ export class RecipientBadgeCollectionEditFormComponent {
 				);
 		}
 	}
-
-	protected validateForm(ev) {
-		if (!this.badgeCollectionForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.badgeCollectionForm);
-		}
-	}
-}
-
-interface EditBadgeCollectionForm<T> {
-	collectionName: T;
-	collectionDescription: T;
 }

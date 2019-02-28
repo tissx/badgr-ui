@@ -8,7 +8,7 @@ import {AppIntegrationApiService} from './app-integration-api.service';
 @Injectable()
 export class AppIntegrationManager {
 	appIntegrations = new StandaloneEntitySet<
-		AppIntegration<any>,
+		AppIntegration<ApiAppIntegration>,
 		ApiAppIntegration
 	>(
 		apiEntity => AppIntegration.integrationFor(this.commonManager, apiEntity),

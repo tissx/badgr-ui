@@ -27,7 +27,7 @@ export class BadgeclassIssueBulkAwardConformation extends BaseAuthenticatedRouta
 	issuer: string;
 	notifyEarner = true;
 
-	issueBadgeFinished: Promise<any>;
+	issueBadgeFinished: Promise<unknown>;
 
 	constructor(
 		protected badgeInstanceManager: BadgeInstanceManager,

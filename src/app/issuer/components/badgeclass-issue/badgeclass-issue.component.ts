@@ -87,9 +87,9 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 
 	badgeClass: BadgeClass;
 
-	issueBadgeFinished: Promise<any>;
-	issuerLoaded: Promise<any>;
-	badgeClassLoaded: Promise<any>;
+	issueBadgeFinished: Promise<unknown>;
+	issuerLoaded: Promise<unknown>;
+	badgeClassLoaded: Promise<unknown>;
 
 	identifierOptionMap = {
 		email: 'Email Address',

@@ -25,14 +25,14 @@ import {QueryParametersService} from '../../../common/services/query-parameters.
 	templateUrl: './recipient-earned-badge-detail.component.html'
 })
 export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
-	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg');
-	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg');
+	readonly issuerImagePlacholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string);
+	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg') as string;
+	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg') as string;
 
 	@ViewChild("collectionSelectionDialog")
 	collectionSelectionDialog: RecipientBadgeCollectionSelectionDialog;
 
-	badgesLoaded: Promise<any>;
+	badgesLoaded: Promise<unknown>;
 	badges: RecipientBadgeInstance[] = [];
 	badge: RecipientBadgeInstance;
 	issuerBadgeCount: string;

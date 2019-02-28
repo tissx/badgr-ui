@@ -206,7 +206,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		}
 	}
 
-	ngOnChanges(changes: SimpleChanges): any {
+	ngOnChanges(changes: SimpleChanges) {
 		// Unlocked by default when there is no value
 		if (!this.control.value) {
 			this.unlocked = true;
@@ -293,7 +293,7 @@ export type CustomValidatorMessages = string | { [validatorKey: string]: string 
  * Default validation message generators for input fields.
  */
 export const defaultValidatorMessages: {
-	[validatorKey: string]: (label: string, result?: any) => string
+	[validatorKey: string]: (label: string, result?: unknown) => string
 } = {
 	'required': (label: string) => `${label} is required`,
 	'validUrl': () => `Please enter a valid URL`,

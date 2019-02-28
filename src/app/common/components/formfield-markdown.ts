@@ -173,7 +173,7 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 		}
 	}
 
-	ngOnChanges(changes: SimpleChanges): any {
+	ngOnChanges(changes: SimpleChanges) {
 		// Unlocked by default when there is no value
 		if (!this.control.value) {
 			this.unlocked = true;

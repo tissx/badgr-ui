@@ -4,7 +4,7 @@ import {
 	ApiAppIntegrationRef,
 	ApiAppIntegrationUid,
 	ApiBadgebookCanvasLti1AppIntegration,
-	AppIntegrationType
+	AppIntegrationType, isApiBadgebookCanvasLti1AppIntegration
 } from './app-integration-api.model';
 import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
 
@@ -22,8 +22,8 @@ export abstract class AppIntegration<T extends ApiAppIntegration> extends Manage
 	static integrationFor(
 		commonManager: CommonEntityManager,
 		apiModel: ApiAppIntegration
-	): AppIntegration<any> {
-		if (apiModel.integrationType === "canvas-lti1") {
+	): AppIntegration<ApiAppIntegration> {
+		if (isApiBadgebookCanvasLti1AppIntegration(apiModel)) {
 			return new BadebookLti1Integration(commonManager, apiModel);
 		} else {
 			return new UnknownLti1Integration(commonManager, apiModel);
@@ -57,7 +57,7 @@ export abstract class AppIntegration<T extends ApiAppIntegration> extends Manage
 		return this.apiModel.integrationUid;
 	}
 
-	get integrationData(): any {
+	get integrationData(): object {
 		return this.apiModel.integrationData;
 	}
 
@@ -72,14 +72,14 @@ export class UnknownLti1Integration extends AppIntegration<ApiAppIntegration> {
 	}
 	description = "Unknown integration";
 	active = true;
-	image = require("../../../breakdown/static/images/placeholderavatar-issuer.svg");
+	image = require("../../../breakdown/static/images/placeholderavatar-issuer.svg") as string;
 }
 
 export class BadebookLti1Integration extends AppIntegration<ApiBadgebookCanvasLti1AppIntegration> {
 	name = "Canvas LTI";
 	description = "Badgr connects with Canvas LTI to automatically award badges to students as they complete modules.";
 	active = true;
-	image = require("../../../breakdown/static/images/canvas-icon.svg");
+	image = require("../../../breakdown/static/images/canvas-icon.svg") as string;
 
 	get consumerKey() { return this.apiModel.integrationData.credential.client_id; }
 	get sharedSecret() { return this.apiModel.integrationData.credential.client_secret; }

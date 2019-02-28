@@ -22,7 +22,7 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 		.addControl("lastName", "", Validators.required)
 	;
 
-	profileLoaded: Promise<any>;
+	profileLoaded: Promise<unknown>;
 
 	constructor(
 		router: Router,

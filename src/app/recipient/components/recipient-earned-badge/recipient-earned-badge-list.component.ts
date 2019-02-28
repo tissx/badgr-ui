@@ -33,7 +33,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	addBadgeDialog: AddBadgeDialogComponent;
 
 	allBadges: RecipientBadgeInstance[] = [];
-	badgesLoaded: Promise<any>;
+	badgesLoaded: Promise<unknown>;
 	allIssuers: ApiRecipientBadgeIssuer[] = [];
 
 	badgeResults: BadgeResult[] = [];
@@ -103,7 +103,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 
 	restoreDisplayState() {
 		try {
-			const state: any = JSON.parse(window.localStorage["recipient-earned-badge-list-viewstate"]);
+			const state: object = JSON.parse(window.localStorage["recipient-earned-badge-list-viewstate"]);
 
 			this.groupByIssuer = state["groupByIssuer"];
 			this.searchQuery = state["searchQuery"];

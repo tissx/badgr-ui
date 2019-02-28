@@ -318,8 +318,8 @@ export class BilinkedTestEntity extends ManagedEntity<ApiBilinkedTestEntity, Tes
 
 
 export function verifyLinkedEntitySet<
-	SetType extends ListBackedLinkedEntitySet<any, EntityType, ApiRefType>,
-	EntityType extends ManagedEntity<any, ApiRefType>,
+	SetType extends ListBackedLinkedEntitySet<unknown, EntityType, ApiRefType>,
+	EntityType extends ManagedEntity<unknown, ApiRefType>,
 	ApiRefType extends ApiEntityRef
 >(
 	entitySet: SetType,

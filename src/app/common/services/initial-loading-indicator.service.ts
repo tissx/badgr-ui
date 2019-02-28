@@ -5,14 +5,14 @@ import {Injectable} from '@angular/core';
  */
 @Injectable()
 export class InitialLoadingIndicatorService {
-	private _initialLoadedPromise: Promise<any>;
+	private _initialLoadedPromise: Promise<unknown>;
 
 	get initialLoadedPromise() {
 		return this._initialLoadedPromise;
 	}
 
 	set initialLoadedPromise(
-		promise: Promise<any>
+		promise: Promise<unknown>
 	) {
 		const thisPromise = this._initialLoadedPromise = promise.then(() => {
 			// Only hide the indicator if this promise is the most recent one set

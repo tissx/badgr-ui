@@ -234,7 +234,7 @@ export class BadgeSelectionDialog extends BaseDialog {
 
 	hasMultipleIssuers = true;
 
-	badgesLoaded: Promise<any>;
+	badgesLoaded: Promise<unknown>;
 	settings: BadgeSelectionDialogSettings = Object.assign({}, BadgeSelectionDialog.defaultSettings);
 	private omittedBadges = [];
 

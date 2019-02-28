@@ -3,7 +3,7 @@ export interface ApiEntityRef {
 	slug: string;
 }
 
-export type AnyRefType = ApiEntityRef | EntityRef<any> | string;
+export type AnyRefType = ApiEntityRef | EntityRef<ApiEntityRef> | string;
 
 export class EntityRef<RefType extends ApiEntityRef> implements ApiEntityRef {
 
@@ -23,11 +23,11 @@ export class EntityRef<RefType extends ApiEntityRef> implements ApiEntityRef {
 	}
 
 	static isApiRef(id: AnyRefType): id is ApiEntityRef {
-		const result = (typeof(id) === "object") && "@id" in (id as any);
+		const result = (typeof(id) === "object") && "@id" in id;
 		return result;
 	}
 
-	static isRef(id: AnyRefType): id is EntityRef<any> {
+	static isRef(id: AnyRefType): id is EntityRef<ApiEntityRef> {
 		const result = id instanceof EntityRef;
 		return result;
 	}

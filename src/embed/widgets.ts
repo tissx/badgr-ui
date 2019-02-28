@@ -1,7 +1,7 @@
 import {PublicApiBadgeAssertionWithBadgeClass} from "../app/public/models/public-api.model";
 import {generateEmbedHtml} from "./generate-embed-html";
 
-const sha256 = require('tiny-sha256');
+const sha256 = require('tiny-sha256') as (message: string) => string;
 
 export function setupEmbeddedBadges() {
 	function messageToSha256HexString(message) {
@@ -35,11 +35,11 @@ export function setupEmbeddedBadges() {
 		const as = badge.getElementsByTagName("a");
 		if (as.length > 0) {
 			const a = as[0];
-			const badge_url = a.getAttribute("href");
-			const expand_badge_url = badge_url + (badge_url.indexOf('?') === -1 ? '?' : '&') + 'expand=badge';
+			const badgeUrl = a.getAttribute("href");
+			const expandBadgeUrl = badgeUrl + (badgeUrl.indexOf('?') === -1 ? '?' : '&') + 'expand=badge';
 
 			const xhr = new XMLHttpRequest();
-			xhr.open('GET', expand_badge_url, true);
+			xhr.open('GET', expandBadgeUrl, true);
 			xhr.setRequestHeader('accept', 'application/json');
 			xhr.onload = () => {
 				if (xhr.status === 200) {
@@ -54,21 +54,21 @@ export function setupEmbeddedBadges() {
 
 					let verified = false;
 					if (data.recipient.type === "url") {
-						const current_location = window.location.toString();
+						const currentLocation = window.location.toString();
 						if (data.recipient.hashed) {
 							const parts = data.recipient.identity.split("$", 2);
 							const expected = parts[1];
-							const hash = messageToSha256HexString(current_location + data.recipient.salt);
+							const hash = messageToSha256HexString(currentLocation + data.recipient.salt);
 							if (hash === expected) {
 								verified = true;
 							}
 						} else {
-							verified = (data.recipient.identity === current_location);
+							verified = (data.recipient.identity === currentLocation);
 						}
 					}
 
 					const blockquote = generateEmbedHtml({
-						shareUrl: badge_url,
+						shareUrl: badgeUrl,
 						imageUrl: data.image,
 						includeBadgeClassName: includeBadgeName,
 						includeRecipientName: includeRecipientName && recipientName,

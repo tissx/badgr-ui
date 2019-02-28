@@ -31,8 +31,8 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	profile: UserProfile;
 	emails: UserProfileEmail[];
 
-	profileLoaded: Promise<any>;
-	emailsLoaded: Promise<any>;
+	profileLoaded: Promise<unknown>;
+	emailsLoaded: Promise<unknown>;
 
 	newlyAddedSocialAccountId: string;
 

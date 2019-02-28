@@ -44,9 +44,9 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 	submitted = false;
 
 	badgeClass: BadgeClass;
-	editBadgeClassFinished: Promise<any>;
-	badgeClassLoaded: Promise<any>;
-	issuerLoaded: Promise<any>;
+	editBadgeClassFinished: Promise<unknown>;
+	badgeClassLoaded: Promise<unknown>;
+	issuerLoaded: Promise<unknown>;
 
 
 

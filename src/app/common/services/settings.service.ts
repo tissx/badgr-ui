@@ -18,7 +18,7 @@ export class SettingsService {
 		}
 	}
 
-	saveSettings(settingsId: string, settings: any) {
+	saveSettings(settingsId: string, settings: unknown) {
 		try {
 			window.localStorage[ "settings-" + settingsId ] = JSON.stringify(settings);
 		} catch (e) {

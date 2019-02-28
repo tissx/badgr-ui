@@ -18,7 +18,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	app: OAuth2AppAuthorization;
 	appTokens: OAuth2AppAuthorization[];
-	appPromise: Promise<any>;
+	appPromise: Promise<unknown>;
 
 
 	permisionScopeToIconName(scope: string): string{

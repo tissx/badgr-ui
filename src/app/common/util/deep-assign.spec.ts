@@ -2,18 +2,18 @@ import {deepAssign, jsonCopy, toJsonInclArrayProps} from './deep-assign';
 
 const assign = Object.assign;
 
-export function toObject(array: any[]): any {
+export function toObject(array: Array<unknown>): unknown {
 	return Object.assign({}, array);
 }
 
-export function toArray(obj: any): any[] {
+export function toArray(obj: unknown): Array<unknown> {
 	return Object.assign([], obj);
 }
 
 describe('deepAssign', () => {
 	function testPair(
-		dest: any,
-		source: any
+		dest: unknown,
+		source: unknown
 	) {
 		const origDestStr = toJsonInclArrayProps(dest);
 		const sourceStr = toJsonInclArrayProps(source);
@@ -106,15 +106,15 @@ describe('deepAssign', () => {
 	});
 
 	it("should error on new recursive trees", () => {
-		const source = { a : { b : 10 }} as any;
-		source.a.b = source;
+		const source = { a : { b : 10 }};
+		(source.a as unknown as {b: object}).b = source;
 
 		expect(() => testPair({ }, source)).toThrow();
 	});
 
 	it("should error on existing recursive trees", () => {
-		const source = { a : { b : 10 } } as any;
-		source.a.b = source;
+		const source = { a : { b : 10 }};
+		(source.a as unknown as {b: object}).b = source;
 
 		expect(() => testPair({ a : { b : 10 } }, source)).toThrow();
 	});

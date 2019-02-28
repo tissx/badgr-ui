@@ -113,7 +113,7 @@ describe('StandaloneEntitySet', () => {
 				() => Promise.resolve([ testApiEntity1 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l =>
 						list.applyApiData([ testApiEntity1, testApiEntity2 ])
@@ -140,7 +140,7 @@ describe('StandaloneEntitySet', () => {
 				() => Promise.resolve([ testApiEntity1, testApiEntity2 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l =>
 						list.applyApiData([ testApiEntity1 ])
@@ -168,7 +168,7 @@ describe('StandaloneEntitySet', () => {
 				() => Promise.resolve([ testApiEntity1, testApiEntity2 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l => {
 						const entityToRemove = l.entityForApiEntity(testApiEntity2);
@@ -198,7 +198,7 @@ describe('StandaloneEntitySet', () => {
 				() => Promise.resolve([ testApiEntity1, testApiEntity2, testApiEntity3 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l => {
 						const entitiesToRemove = [ l.entityForApiEntity(testApiEntity2), l.entityForApiEntity(testApiEntity3) ];
@@ -229,7 +229,7 @@ describe('StandaloneEntitySet', () => {
 				() => Promise.resolve([ testApiEntity1 ])
 			);
 
-			return Promise.all<any>([
+			return Promise.all<unknown>([
 				list.loadedPromise
 					.then(l =>
 						list.addOrUpdate(testApiEntity2)
@@ -327,7 +327,7 @@ export function verifyManagedEntitySet<
 	);
 
 	if (entitySet instanceof ListBackedEntitySet) {
-		const apiModelList: ApiEntityType[] = (entitySet as any).apiModelList;
+		const apiModelList: ApiEntityType[] = (entitySet as ListBackedEntitySet).apiModelList;
 
 		// TODO: Implement better comparison of underlying lists
 		expect(apiModelList.length).toEqual(apiData.length);

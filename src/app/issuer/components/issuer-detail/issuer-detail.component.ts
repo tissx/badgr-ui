@@ -22,9 +22,9 @@ import {AppConfigService} from '../../../common/app-config.service';
 })
 export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	readonly issuerImagePlaceHolderUrl = preloadImageURL(
-		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg')
+		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
 	);
-	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg');
+	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg') as string;
 
 	issuer: Issuer;
 	issuerSlug: string;
@@ -33,10 +33,10 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 
 	profileEmails: UserProfileEmail[] = [];
 
-	issuerLoaded: Promise<any>;
-	badgesLoaded: Promise<any>;
+	issuerLoaded: Promise<unknown>;
+	badgesLoaded: Promise<unknown>;
 
-	profileEmailsLoaded: Promise<any>;
+	profileEmailsLoaded: Promise<unknown>;
 
 	constructor(
 		loginService: SessionService,

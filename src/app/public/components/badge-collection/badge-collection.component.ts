@@ -14,10 +14,11 @@ import {AppConfigService} from '../../../common/app-config.service';
 	templateUrl: 'badge-collection.component.html'
 })
 export class PublicBadgeCollectionComponent {
-	readonly issuerImagePlacholderUrl = preloadImageURL(require(
-		'../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
-	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg');
-	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg');
+	readonly issuerImagePlacholderUrl = preloadImageURL(
+		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
+	);
+	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg') as string;
+	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg') as string;
 
 	routerLinkForUrl = routerLinkForUrl;
 

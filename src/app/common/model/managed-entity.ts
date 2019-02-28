@@ -3,7 +3,7 @@ import {ApiEntityRef, EntityRef} from './entity-ref';
 import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
 import {first} from 'rxjs/operators';
 
-export type AnyManagedEntity = ManagedEntity<any, any>;
+export type AnyManagedEntity = ManagedEntity<unknown, ApiEntityRef>;
 
 // TODO: Managed Entities - make saving / reverting generic so it applies consistently to all entities
 // TODO: Managed Entities - handle race conditions in updating. Only allow the latest response to take effect
@@ -44,7 +44,7 @@ export abstract class ManagedEntity<ApiModelType, ApiRefType extends ApiEntityRe
 	get loaded(): boolean { return !! this.apiModel; }
 
 	get hasChanges(): boolean {
-		return this._apiModelJson != JSON.stringify(this._apiModel);
+		return this._apiModelJson !== JSON.stringify(this._apiModel);
 	}
 
 	get apiModel() {

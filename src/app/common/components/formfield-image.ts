@@ -78,16 +78,16 @@ export class BgFormFieldImageComponent {
 
 	get imageSize() { return base64ByteSize(this.imageDataUrl); }
 
-	private get element(): HTMLElement {
-		return this.elemRef.nativeElement as any;
+	private get element() {
+		return this.elemRef.nativeElement;
 	}
 
 	static uniqueNameCounter = 0;
 	@Input() generateRandom = false;
 
-	@Output() generateRandomImage: EventEmitter<any> = new EventEmitter();
-	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
-	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
+	@Output() generateRandomImage: EventEmitter<unknown> = new EventEmitter();
+	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg") as string);
+	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg") as string);
 
 	@Input() control: FormControl;
 	@Input() label: string;
@@ -108,7 +108,7 @@ export class BgFormFieldImageComponent {
 	imageName: string;
 
 	constructor(
-		private elemRef: ElementRef,
+		private elemRef: ElementRef<HTMLElement>,
 		private domSanitizer: DomSanitizer
 	) {}
 
@@ -178,7 +178,7 @@ export class BgFormFieldImageComponent {
 				name,
 				lastModifiedDate: new Date()
 			}
-		) as any;
+		) as unknown as File;
 
 		this.updateFile(file);
 	}

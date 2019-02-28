@@ -35,7 +35,7 @@ xdescribe('AppIntegration', () => {
 });
 
 export function verifyAppIntegration(
-	integration: AppIntegration<any>,
+	integration: AppIntegration<unknown>,
 	apiIntegration: ApiAppIntegration
 ) {
 	expect(integration.url).toEqual(String(apiIntegration.integrationUid || apiIntegration.integrationType));

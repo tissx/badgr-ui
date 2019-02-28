@@ -4,6 +4,7 @@ import {FlashMessage, MessageService} from '../services/message.service';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {EventsService} from '../services/events.service';
+import Timeout = NodeJS.Timeout;
 
 
 interface Notification {
@@ -12,7 +13,7 @@ interface Notification {
 	title: "Attention" | "Success" | "Loading Error" | "Fatal Error";
 }
 
-const MessageStatusTypeToNotificationMap: { [key in string]: Notification } = {
+const messageStatusTypeToNotificationMap: { [key in string]: Notification } = {
 	"error" : {submodule: "notification-warning", title: "Attention", icon: "icon_priority_high"},
 	"load-error" : {submodule: "notification-warning", title: "Loading Error", icon: "icon_priority_high"},
 	"fatal-error" : {submodule: "notification-warning", title: "Fatal Error", icon: "icon_priority_high"},
@@ -47,7 +48,7 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 	status: string;
 	notification: Notification;
 	subscription: Subscription;
-	timeout: any;
+	timeout: Timeout;
 	private clickSubscription: Subscription;
 
 	constructor(
@@ -82,7 +83,7 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 	}
 
 	toNotification(status: string): Notification {
-		return MessageStatusTypeToNotificationMap[status];
+		return messageStatusTypeToNotificationMap[status];
 	}
 
 	setMessage(message: FlashMessage) {

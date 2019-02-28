@@ -76,7 +76,7 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 
 	hasMultipleIssuers = true;
 
-	badgesLoaded: Promise<any>;
+	badgesLoaded: Promise<unknown>;
 	settings: RecipientBadgeSelectionDialogSettings = Object.assign({}, RecipientBadgeSelectionDialog.defaultSettings);
 
 	private omittedCollection: RecipientBadgeInstance[];

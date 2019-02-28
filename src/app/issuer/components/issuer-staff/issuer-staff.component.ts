@@ -36,7 +36,8 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	}
 
 	readonly issuerImagePlaceHolderUrl = preloadImageURL(require(
-		'../../../../breakdown/static/images/placeholderavatar-issuer.svg'));
+		'../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
+	);
 
 	issuer: Issuer;
 	issuerSlug: string;

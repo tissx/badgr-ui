@@ -57,7 +57,7 @@ export class AbstractBadgeComponent implements OnChanges, BadgeLookupData {
 		protected messageService: MessageService
 	) {}
 
-	ngOnChanges(changes: {[key: string]: SimpleChange }): any {
+	ngOnChanges(changes: {[key: string]: SimpleChange }) {
 		if ("badge" in changes) {
 			this.inputBadge = this.badge;
 			this.badge = null;
@@ -103,7 +103,7 @@ export class AbstractBadgeComponent implements OnChanges, BadgeLookupData {
 
 	private fail(
 		message: string,
-		error: any
+		error: unknown
 	) {
 		this.messageService.reportHandledError(message, error);
 		this._loading = false;

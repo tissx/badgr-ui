@@ -31,7 +31,7 @@ export class ShareSocialDialog extends BaseDialog {
 	get hasEmbedSupport() {
 		return this.options.embedOptions && this.options.embedOptions.length;
 	}
-	options: ShareSocialDialogOptions = {} as any;
+	options: ShareSocialDialogOptions | null = null;
 	resolveFunc: () => void;
 	rejectFunc: () => void;
 

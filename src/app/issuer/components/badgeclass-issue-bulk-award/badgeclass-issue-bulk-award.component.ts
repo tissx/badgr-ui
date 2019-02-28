@@ -49,10 +49,10 @@ export class BadgeClassIssueBulkAwardComponent extends BaseAuthenticatedRoutable
 	transformedImportData: TransformedImportData;
 	viewState: ViewState;
 	badgeClass: BadgeClass;
-	badgeClassLoaded: Promise<any>;
+	badgeClassLoaded: Promise<unknown>;
 
 	issuer: Issuer;
-	issuerLoaded: Promise<any>;
+	issuerLoaded: Promise<unknown>;
 
 	breadcrumbLinkEntries: LinkEntry[] = [];
 

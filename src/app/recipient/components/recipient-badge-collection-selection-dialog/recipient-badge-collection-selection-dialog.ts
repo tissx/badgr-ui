@@ -28,7 +28,7 @@ export class RecipientBadgeCollectionSelectionDialog extends BaseDialog {
 	dialogId = "recipientBadgeCollectionSelection";
 	dialogTitle = "Select Badges";
 
-	collectionListLoaded: Promise<any>;
+	collectionListLoaded: Promise<unknown>;
 	badgeCollections: RecipientBadgeCollection[];
 	badgeCollectionsResults: RecipientBadgeCollection[] = [];
 

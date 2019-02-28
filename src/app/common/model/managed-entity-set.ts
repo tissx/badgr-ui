@@ -1,7 +1,7 @@
 import {Observable} from 'rxjs';
 import {UpdatableSubject} from '../util/updatable-subject';
 import {AnyManagedEntity, ManagedEntity} from './managed-entity';
-import {AnyRefType, EntityRef} from './entity-ref';
+import {AnyRefType, ApiEntityRef, EntityRef} from './entity-ref';
 import {EntitySet, EntitySetUpdate} from './entity-set';
 import {first, map} from 'rxjs/operators';
 
@@ -156,7 +156,7 @@ export class ManagedEntitySet<
 }
 
 export class ListBackedEntitySet<
-	EntityType extends ManagedEntity<ApiEntityType, any>,
+	EntityType extends ManagedEntity<ApiEntityType, ApiEntityRef>,
 	ApiEntityType
 > extends ManagedEntitySet<EntityType, ApiEntityType> {
 	constructor(
@@ -170,7 +170,7 @@ export class ListBackedEntitySet<
 	protected onEntityAdded(entity: EntityType) {
 		entity.changed$.subscribe(() => {
 			// Update the model list with the new model from the entity so our backing list is kept up-to-date
-			const modelIndex = this.apiModelList.findIndex(m => this.urlForApiModel(m) == entity.url);
+			const modelIndex = this.apiModelList.findIndex(m => this.urlForApiModel(m) === entity.url);
 
 			if (modelIndex < 0) {
 				// The entity is no longer part of our list. We can safely ignore changes.
@@ -182,7 +182,7 @@ export class ListBackedEntitySet<
 
 	addOrUpdate(newModel: ApiEntityType): EntityType {
 		const newUrl = this.urlForApiModel(newModel);
-		const modelIndex = this.apiModelList.findIndex(m => this.urlForApiModel(m) == newUrl);
+		const modelIndex = this.apiModelList.findIndex(m => this.urlForApiModel(m) === newUrl);
 
 		if (modelIndex < 0) {
 			this.apiModelList.push(newModel);
@@ -200,7 +200,7 @@ export class ListBackedEntitySet<
 			return false;
 		}
 
-		const index = this.apiModelList.findIndex(a => this.urlForApiModel(a) == entity.url);
+		const index = this.apiModelList.findIndex(a => this.urlForApiModel(a) === entity.url);
 
 		if (index >= 0) {
 			this.apiModelList.splice(index, 1);
@@ -214,7 +214,7 @@ export class ListBackedEntitySet<
 	removeAll(entities: EntityType[]): boolean {
 		let changed = false;
 		entities.forEach(entity => {
-			const index = this.apiModelList.findIndex(a => this.urlForApiModel(a) == entity.url);
+			const index = this.apiModelList.findIndex(a => this.urlForApiModel(a) === entity.url);
 
 			if (index >= 0) {
 				this.apiModelList.splice(index, 1);
@@ -243,7 +243,7 @@ export class ListBackedEntitySet<
  */
 export class EmbeddedEntitySet<
 	OwnerType extends AnyManagedEntity,
-	EntityType extends ManagedEntity<ApiEntityType, any>,
+	EntityType extends ManagedEntity<ApiEntityType, ApiEntityRef>,
 	ApiEntityType
 	> extends ListBackedEntitySet<EntityType, ApiEntityType> {
 	constructor(
@@ -265,7 +265,7 @@ export class EmbeddedEntitySet<
  */
 export class LazyEmbeddedEntitySet<
 	OwnerType extends AnyManagedEntity,
-	EntityType extends ManagedEntity<ApiEntityType, any>,
+	EntityType extends ManagedEntity<ApiEntityType, ApiEntityRef>,
 	ApiEntityType
 > extends ListBackedEntitySet<EntityType, ApiEntityType> {
 	constructor(
@@ -294,7 +294,7 @@ export class LazyEmbeddedEntitySet<
  * other places that have the ability to load new entities, but aren't themselves part of the entity graph.
  */
 export class StandaloneEntitySet<
-	EntityType extends ManagedEntity<ApiEntityType, any>,
+	EntityType extends ManagedEntity<ApiEntityType, ApiEntityRef>,
 	ApiEntityType
 > extends ListBackedEntitySet<EntityType, ApiEntityType> {
 	private _apiEntities: ApiEntityType[] = [];
@@ -389,7 +389,7 @@ export class StandaloneEntitySet<
 	/**
 	 * Ensures that the contents of this list are loaded. Will only fire one request for loading.
 	 */
-	private ensureLoaded() {
+	ensureLoaded() {
 		if (!this.entireListRequested) {
 			this.entireListRequested = true;
 

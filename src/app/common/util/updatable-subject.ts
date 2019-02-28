@@ -61,7 +61,7 @@ export class UpdatableSubject<T> extends Subject<T> {
 		super.next(this._value = value);
 	}
 
-	error(err: any): void {
+	error(err: unknown): void {
 		this.hasError = true;
 		super.error(this.thrownError = err);
 	}

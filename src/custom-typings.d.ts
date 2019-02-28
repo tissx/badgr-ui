@@ -18,7 +18,7 @@ declare module "my-module" {
  * notice how we have to create a namespace that is equal to the function we're assigning the export to
 
 declare module "jwt-decode" {
-  function jwtDecode(token: string): any;
+  function jwtDecode(token: string): unknown;
   namespace jwtDecode {}
   export = jwtDecode;
 }
@@ -27,9 +27,9 @@ declare module "jwt-decode" {
  * If you're prototying and you will fix the types later you can also declare it as type any
  *
 
-declare var assert: any;
-declare var _: any;
-declare var $: any;
+declare var assert: unknown;
+declare var _: unknown;
+declare var $: unknown;
 
  *
  * If you're importing a module that uses Node.js modules which are CommonJS you need to import as
@@ -56,11 +56,11 @@ interface GlobalEnvironment {
 }
 
 interface Es6PromiseLoader {
-  (id: string): (exportName?: string) => Promise<any>;
+  (id: string): (exportName?: string) => Promise<unknown>;
 }
 
 type FactoryEs6PromiseLoader = () => Es6PromiseLoader;
-type FactoryPromise = () => Promise<any>;
+type FactoryPromise = () => Promise<unknown>;
 
 type AsyncRoutes = {
   [component: string]: Es6PromiseLoader |
@@ -77,15 +77,15 @@ type IdleCallbacks = Es6PromiseLoader |
 
 interface WebpackModule {
   hot: {
-    data?: any,
-    idle: any,
-    accept(dependencies?: string | string[], callback?: (updatedDependencies?: any) => void): void;
+    data?: unknown,
+    idle: unknown,
+    accept(dependencies?: string | string[], callback?: (updatedDependencies?: unknown) => void): void;
     decline(dependencies?: string | string[]): void;
-    dispose(callback?: (data?: any) => void): void;
-    addDisposeHandler(callback?: (data?: any) => void): void;
-    removeDisposeHandler(callback?: (data?: any) => void): void;
-    check(autoApply?: any, callback?: (err?: Error, outdatedModules?: any[]) => void): void;
-    apply(options?: any, callback?: (err?: Error, outdatedModules?: any[]) => void): void;
+    dispose(callback?: (data?: unknown) => void): void;
+    addDisposeHandler(callback?: (data?: unknown) => void): void;
+    removeDisposeHandler(callback?: (data?: unknown) => void): void;
+    check(autoApply?: unknown, callback?: (err?: Error, outdatedModules?: unknown[]) => void): void;
+    apply(options?: unknown, callback?: (err?: Error, outdatedModules?: unknown[]) => void): void;
     status(callback?: (status?: string) => void): void | string;
     removeStatusHandler(callback?: (status?: string) => void): void;
   };
@@ -93,8 +93,8 @@ interface WebpackModule {
 
 
 interface WebpackRequire {
-    (id: string): any;
-    (paths: string[], callback: (...modules: any[]) => void): void;
+    (id: string): unknown;
+    (paths: string[], callback: (...modules: unknown[]) => void): void;
     ensure(ids: string[], callback: (req: WebpackRequire) => void, chunkName?: string): void;
     context(directory: string, useSubDirectories?: boolean, regExp?: RegExp): WebpackContext;
 }

@@ -16,9 +16,9 @@ export function expectRequestAndRespondWith(
 	mockBackend: MockBackend,
 	method: RequestMethod,
 	url: RegExp | string,
-	response: any,
+	response: unknown,
 	responseCode = 200
-): Promise<any> {
+): Promise<unknown> {
 	return expectRequest(mockBackend, method, url)
 		.then(c => c.respondWithJson(response, responseCode));
 }
@@ -137,7 +137,7 @@ export class MockConnectionHelper {
 		return JSON.parse(this.connection.request.text() as string) as T;
 	}
 
-	respondWithJson(json: any, statusCode = 200) {
+	respondWithJson(json: unknown, statusCode = 200) {
 		if (typeof(json) === "string") {
 			this.respondWithText(json, statusCode);
 		} else {

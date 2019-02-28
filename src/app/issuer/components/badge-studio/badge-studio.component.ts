@@ -34,7 +34,7 @@ export class BadgeStudioComponent implements OnInit {
 
 	// private ready: boolean;
 
-	private fontPromise: Promise<any>;
+	private fontPromise: Promise<unknown>;
 
 	constructor(
 		protected http: HttpClient
@@ -205,14 +205,14 @@ const shapeColors = [
 ];
 
 const shapeImages = [
-	require("../../../../breakdown/static/badgestudio/shapes/circle.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/diamond.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/hex.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/round-bottom.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/round-top.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/square.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/triangle-bottom.svg"),
-	require("../../../../breakdown/static/badgestudio/shapes/triangle-top.svg"),
+	require("../../../../breakdown/static/badgestudio/shapes/circle.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/diamond.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/hex.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/round-bottom.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/round-top.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/square.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/triangle-bottom.svg") as string,
+	require("../../../../breakdown/static/badgestudio/shapes/triangle-top.svg") as string,
 ];
 
 // Created from http://fontawesome.io/cheatsheet/

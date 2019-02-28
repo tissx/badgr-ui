@@ -19,7 +19,7 @@ export class RecipientBadgeCollectionCreateComponent extends BaseAuthenticatedRo
 		.addControl('collectionName', '', [Validators.required, Validators.maxLength(128)])
 		.addControl('collectionDescription', '', [Validators.required, Validators.maxLength(255)])
 	;
-	createCollectionPromise: Promise<any>;
+	createCollectionPromise: Promise<unknown>;
 
 	constructor(
 		router: Router,

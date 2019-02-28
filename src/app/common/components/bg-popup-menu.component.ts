@@ -20,7 +20,7 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 	get isOpen() {
 		return this.componentElem && this.componentElem.classList.contains("menu-is-open");
 	}
-	triggerData: any = null;
+	triggerData: unknown = null;
 
 	@Input()
 	closeOnOutsideClick = true;
@@ -55,8 +55,8 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 					{
 						placement: this.menuPlacement,
 						onCreate: () => {
-							const firstTabbable =  this.componentElem.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]');
-							if (firstTabbable) (firstTabbable as any).focus();
+							const firstTabbable =  this.componentElem.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]');
+							if (firstTabbable) firstTabbable.focus();
 						}
 					}
 				);
@@ -102,7 +102,10 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.componentElem && this.componentElem.remove();
+		if (this.componentElem) {
+			this.componentElem.remove();
+		}
+
 		if (this.popper) this.cleanUp();
 	}
 
@@ -149,7 +152,7 @@ export class BgPopupMenuTriggerDirective {
 	private menu: BgPopupMenu | null = null;
 
 	@Input("bgPopupMenuData")
-	private triggerData: any = null;
+	private triggerData: unknown = null;
 
 	constructor(
 		private componentElemRef: ElementRef

@@ -42,7 +42,7 @@ export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRo
 
 		this.csvForm = formBuilder.group({
 			file: []
-		} as ImportCsvForm<any[]>);
+		} as ImportCsvForm<Array<unknown>>);
 
 	}
 
