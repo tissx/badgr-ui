@@ -10,14 +10,14 @@ import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-aut
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 import {UserProfile} from '../../../common/model/user-profile.model';
 import {AppConfigService} from '../../../common/app-config.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	templateUrl: './profile-edit.component.html',
 })
 export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	profile: UserProfile;
-	profileEditForm = typedGroup()
+	profileEditForm = typedFormGroup()
 		.addControl("firstName", "", Validators.required)
 		.addControl("lastName", "", Validators.required)
 	;

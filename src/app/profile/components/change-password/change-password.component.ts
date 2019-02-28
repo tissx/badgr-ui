@@ -9,7 +9,7 @@ import { BaseRoutableComponent } from '../../../common/pages/base-routable.compo
 import { UserProfileManager } from '../../../common/services/user-profile-manager.service';
 import { UserProfile } from '../../../common/model/user-profile.model';
 import { AppConfigService } from '../../../common/app-config.service';
-import { typedGroup } from '../../../common/util/typed-forms';
+import { typedFormGroup } from '../../../common/util/typed-forms';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { typedGroup } from '../../../common/util/typed-forms';
 	templateUrl: './change-password.component.html'
 })
 export class ChangePasswordComponent extends BaseRoutableComponent {
-	changePasswordForm = typedGroup()
+	changePasswordForm = typedFormGroup()
 		.addControl("password", "", [ Validators.required, Validators.minLength(8) ])
 		.addControl("password2", "", [ Validators.required, this.passwordsMatch.bind(this) ])
 		.addControl("current_password", "", [ Validators.required ]);

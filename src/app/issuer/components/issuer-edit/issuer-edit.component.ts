@@ -18,7 +18,7 @@ import {UserProfileManager} from '../../../common/services/user-profile-manager.
 import {UserProfileEmail} from '../../../common/model/user-profile.model';
 import {AppConfigService} from '../../../common/app-config.service';
 import {LinkEntry} from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'issuer-edit',
@@ -30,7 +30,7 @@ export class IssuerEditComponent extends BaseAuthenticatedRoutableComponent impl
 	issuer: Issuer;
 	issuerSlug: string;
 
-	issuerForm = typedGroup()
+	issuerForm = typedFormGroup()
 		.addControl('issuer_name', '', [Validators.required, Validators.maxLength(1024)])
 		.addControl('issuer_description', '', [Validators.required, Validators.maxLength(1024)])
 		.addControl('issuer_email', '', [Validators.required])

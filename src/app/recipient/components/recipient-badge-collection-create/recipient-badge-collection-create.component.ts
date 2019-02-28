@@ -8,14 +8,14 @@ import {SessionService} from '../../../common/services/session.service';
 import {MessageService} from '../../../common/services/message.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {RecipientBadgeCollectionManager} from '../../services/recipient-badge-collection-manager.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'create-recipient-badge-collection',
 	templateUrl: './recipient-badge-collection-create.component.html'
 })
 export class RecipientBadgeCollectionCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	badgeCollectionForm = typedGroup()
+	badgeCollectionForm = typedFormGroup()
 		.addControl('collectionName', '', [Validators.required, Validators.maxLength(128)])
 		.addControl('collectionDescription', '', [Validators.required, Validators.maxLength(255)])
 	;

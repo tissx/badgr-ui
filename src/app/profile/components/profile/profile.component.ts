@@ -17,14 +17,14 @@ import {Subscription} from 'rxjs';
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import {OAuthApiService} from '../../../common/services/oauth-api.service';
 import {AppConfigService} from '../../../common/app-config.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'userProfile',
 	templateUrl: './profile.component.html'
 })
 export class ProfileComponent extends BaseAuthenticatedRoutableComponent implements OnInit, OnDestroy {
-	emailForm = typedGroup()
+	emailForm = typedFormGroup()
 		.addControl("email", "", [ Validators.required, EmailValidator.validEmail ])
 	;
 

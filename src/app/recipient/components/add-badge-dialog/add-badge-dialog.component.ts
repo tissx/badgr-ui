@@ -8,7 +8,7 @@ import {BadgrApiFailure} from '../../../common/services/api-failure';
 import {BaseDialog} from '../../../common/dialogs/base-dialog';
 import {preloadImageURL} from '../../../common/util/file-util';
 import {FormFieldText} from '../../../common/components/formfield-text';
-import {TypedFormControl, typedGroup} from '../../../common/util/typed-forms';
+import {TypedFormControl, typedFormGroup} from '../../../common/util/typed-forms';
 
 
 type AddBadgeDialogTabName = "upload" | "url" | "json";
@@ -23,7 +23,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 	readonly uploadBadgeImageUrl = require('../../../../breakdown/static/images/image-uplodBadge.svg') as string;
 	readonly pasteBadgeImageUrl = preloadImageURL(require('../../../../breakdown/static/images/image-uplodBadgeUrl.svg') as string);
 
-	addRecipientBadgeForm = typedGroup()
+	addRecipientBadgeForm = typedFormGroup()
 		.addControl("image", null)
 		.addControl("url", "", UrlValidator.validUrl)
 		.addControl("assertion", "", JsonValidator.validJson)

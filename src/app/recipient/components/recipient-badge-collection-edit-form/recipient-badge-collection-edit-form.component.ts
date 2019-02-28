@@ -3,7 +3,7 @@ import {FormControl, Validators} from '@angular/forms';
 import {MessageService} from '../../../common/services/message.service';
 import {markControlsDirty} from '../../../common/util/form-util';
 import {RecipientBadgeCollection} from '../../models/recipient-badge-collection.model';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'recipient-badge-collection-edit-form',
@@ -12,7 +12,7 @@ import {typedGroup} from '../../../common/util/typed-forms';
 export class RecipientBadgeCollectionEditFormComponent {
 	@Input() badgeCollection: RecipientBadgeCollection;
 
-	badgeCollectionForm = typedGroup()
+	badgeCollectionForm = typedFormGroup()
 		.addControl('collectionName', '', [Validators.required, Validators.maxLength(128)])
 		.addControl('collectionDescription', '', [Validators.required, Validators.maxLength(255)])
 	;

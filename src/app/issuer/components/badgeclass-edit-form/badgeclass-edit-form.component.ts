@@ -17,7 +17,7 @@ import {UrlValidator} from '../../../common/validators/url.validator';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 import {BadgeClass} from '../../models/badgeclass.model';
 import {AppConfigService} from '../../../common/app-config.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'badgeclass-edit-form',
@@ -44,7 +44,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	readonly badgeClassPlaceholderImageUrl = require('../../../../breakdown/static/images/placeholderavatar.svg');
 
 	savePromise: Promise<BadgeClass> | null = null;
-	badgeClassForm = typedGroup(this.criteriaRequired.bind(this))
+	badgeClassForm = typedFormGroup(this.criteriaRequired.bind(this))
 		.addControl('badge_name', '', [Validators.required, Validators.maxLength(255)])
 		.addControl('badge_image', '', Validators.required)
 		.addControl('badge_description', '', Validators.required)
@@ -52,7 +52,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		.addControl('badge_criteria_text', '')
 		.addArray(
 			'alignments',
-			typedGroup()
+			typedFormGroup()
 				.addControl('target_name', '', Validators.required)
 				.addControl('target_url', '', [Validators.required, UrlValidator.validUrl])
 				.addControl('target_description', '')
@@ -97,7 +97,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Expiration
 	expirationEnabled = false;
-	expirationForm = typedGroup()
+	expirationForm = typedFormGroup()
 		.addControl('expires_amount', '', [Validators.required, this.positiveInteger])
 		.addControl('expires_duration', '', Validators.required);
 

@@ -12,14 +12,14 @@ import {markControlsDirty} from '../../../common/util/form-util';
 import {AppConfigService} from '../../../common/app-config.service';
 import {OAuthManager} from '../../../common/services/oauth-manager.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'sign-up',
 	templateUrl: './signup.component.html',
 })
 export class SignupComponent extends BaseRoutableComponent implements OnInit {
-	signupForm = typedGroup()
+	signupForm = typedFormGroup()
 		.addControl('username', '', [
 			Validators.required,
 			EmailValidator.validEmail

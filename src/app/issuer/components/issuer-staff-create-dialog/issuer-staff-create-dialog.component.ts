@@ -10,7 +10,7 @@ import {Issuer, issuerStaffRoles} from '../../models/issuer.model';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 import {MemoizedProperty} from '../../../common/util/memoized-property-decorator';
 
 @Component({
@@ -19,7 +19,7 @@ import {MemoizedProperty} from '../../../common/util/memoized-property-decorator
 	styleUrls: ['./issuer-staff-create-dialog.component.css']
 })
 export class IssuerStaffCreateDialogComponent extends BaseDialog {
-	staffCreateForm = typedGroup()
+	staffCreateForm = typedFormGroup()
 		.addControl('staffRole', 'staff' as IssuerStaffRoleSlug, Validators.required)
 		.addControl('staffEmail', '', [Validators.required, EmailValidator.validEmail]);
 

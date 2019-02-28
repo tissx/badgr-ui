@@ -7,14 +7,14 @@ import {MessageService} from '../../../common/services/message.service';
 import {Title} from '@angular/platform-browser';
 import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
 import {AppConfigService} from '../../../common/app-config.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'change-password',
 	templateUrl: './reset-password.component.html'
 })
 export class ResetPasswordComponent extends BaseRoutableComponent {
-	changePasswordForm = typedGroup()
+	changePasswordForm = typedFormGroup()
 		.addControl("password1", "", Validators.required)
 		.addControl("password2", "", [ Validators.required, this.passwordsMatch.bind(this) ]);
 

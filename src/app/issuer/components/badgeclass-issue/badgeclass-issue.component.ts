@@ -18,7 +18,7 @@ import {BadgeClass} from '../../models/badgeclass.model';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 import {BadgrApiFailure} from '../../../common/services/api-failure';
 import {RecipientIdentifierType} from '../../models/badgeinstance-api.model';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 import {TelephoneValidator} from '../../../common/validators/telephone.validator';
 import {EventsService} from '../../../common/services/events.service';
 import {FormFieldTextInputType} from '../../../common/components/formfield-text';
@@ -68,7 +68,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	expirationDateEditable = false;
 
 	issuer: Issuer;
-	issueForm = typedGroup()
+	issueForm = typedFormGroup()
 		.addControl("expires", "", this['expirationValidator'])
 		.addControl("recipient_type", "email" as RecipientIdentifierType, [ Validators.required ], control => {
 			control.rawControl.valueChanges.subscribe(() => {
@@ -79,7 +79,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		.addControl("recipientprofile_name", "")
 		.addControl("narrative", "", MdImgValidator.imageTest)
 		.addControl("notify_earner", true)
-		.addArray("evidence_items", typedGroup()
+		.addArray("evidence_items", typedFormGroup()
 			.addControl("narrative", "")
 			.addControl("evidence_url", "")
 			.addControl("expiration", "")

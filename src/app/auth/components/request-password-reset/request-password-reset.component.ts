@@ -5,14 +5,14 @@ import {EmailValidator} from '../../../common/validators/email.validator';
 import {SessionService} from '../../../common/services/session.service';
 import {MessageService} from '../../../common/services/message.service';
 import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'password-reset-request',
 	templateUrl: 'request-password-reset.component.html'
 })
 export class RequestPasswordResetComponent extends BaseRoutableComponent {
-	readonly requestPasswordResetForm = typedGroup()
+	readonly requestPasswordResetForm = typedFormGroup()
 		.addControl('username', '', [Validators.required, EmailValidator.validEmail]);
 
 	get prefilledEmail() {

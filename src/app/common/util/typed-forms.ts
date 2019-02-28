@@ -20,14 +20,14 @@ function typedFormExample() {
 		.add("lastName", typedControl("", Validators.required))
 		.add(
 			"address",
-			typedGroup()
+			typedFormGroup()
 				.add("street", typedControl("2557 Kincaid"))
 				.add("city", typedControl("Eugene"))
 				.add("zip", typedControl("97405"))
 		)
 		.addArray(
 			"items",
-			typedGroup()
+			typedFormGroup()
 				.addControl("itemName", "")
 				.addControl("itemId", 0)
 		)
@@ -64,7 +64,7 @@ export function typedControl<ValueType>(
  *
  * @returns {TypedFormGroup<{}, {}>}
  */
-export function typedGroup(
+export function typedFormGroup(
 	validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
 	asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null
 ): TypedFormGroup<{}, {}> {
@@ -77,7 +77,7 @@ export function typedGroup(
  * @param {ItemType & TypedFormItem<ItemValueType>} templateItem
  * @returns {TypedFormArray<ItemValueType, ItemType extends TypedFormItem<ItemValueType>>}
  */
-export function typedArray<
+export function typedFormArray<
 	ItemValueType,
 	ItemType extends TypedFormItem<ItemValueType>
 >(
@@ -248,7 +248,7 @@ export class TypedFormGroup<
 		ValueType & Record<NameType, ItemValueType[]>,
 		ControlsType & Record<NameType, TypedFormArray<ItemValueType, ItemType>>
 	> {
-		return this.add(name, typedArray(templateItem));
+		return this.add(name, typedFormArray(templateItem));
 	}
 
 	add<

@@ -15,7 +15,7 @@ import {ExternalToolsManager} from '../../../externaltools/services/externaltool
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AppConfigService} from '../../../common/app-config.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 
 @Component({
@@ -25,7 +25,7 @@ import {typedGroup} from '../../../common/util/typed-forms';
 export class LoginComponent extends BaseRoutableComponent implements OnInit, AfterViewInit {
 
 	get theme() { return this.configService.theme; }
-	loginForm = typedGroup()
+	loginForm = typedFormGroup()
 		.addControl("username", "", [ Validators.required, EmailValidator.validEmail ])
 		.addControl("password", "", Validators.required)
 		.addControl("rememberMe", false)

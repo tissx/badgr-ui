@@ -13,7 +13,7 @@ import {UserProfileManager} from '../../../common/services/user-profile-manager.
 import {UserProfileEmail} from '../../../common/model/user-profile.model';
 import {FormFieldSelectOption} from '../../../common/components/formfield-select';
 import {AppConfigService} from '../../../common/app-config.service';
-import {typedGroup} from '../../../common/util/typed-forms';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	selector: 'issuer-create',
@@ -24,7 +24,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 		require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string
 	);
 
-	issuerForm = typedGroup()
+	issuerForm = typedFormGroup()
 		.addControl('issuer_name', '', [
 			Validators.required,
 			Validators.maxLength(1024)
