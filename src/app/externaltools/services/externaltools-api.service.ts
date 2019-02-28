@@ -1,14 +1,14 @@
-import {Injectable} from "@angular/core";
-import {BaseHttpApiService} from "../../common/services/base-http-api.service";
-import {SessionService} from "../../common/services/session.service";
-import {AppConfigService} from "../../common/app-config.service";
-import {MessageService} from "../../common/services/message.service";
+import { Injectable } from "@angular/core";
+import { BaseHttpApiService } from "../../common/services/base-http-api.service";
+import { SessionService } from "../../common/services/session.service";
+import { AppConfigService } from "../../common/app-config.service";
+import { MessageService } from "../../common/services/message.service";
 import {
 	ApiExternalTool,
 	ApiExternalToolLaunchInfo,
 	ApiExternalToolLaunchpoint
 } from "../models/externaltools-api.model";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()

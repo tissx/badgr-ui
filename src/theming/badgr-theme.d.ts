@@ -15,6 +15,7 @@ export interface BadgrTheme {
 	 */
 	serviceName: string;
 
+
 	/**
 	 * Shows the "Powered by Badgr" link
 	 */
@@ -43,6 +44,11 @@ export interface BadgrTheme {
 	 */
 	termsOfServiceLink?: string;
 	privacyPolicyLink?: string;
+	dataProcessorTermsLink?: string;
+
+	/**
+	 * Must agree to this when creating an Issuer
+	 */
 	dataProcessorTermsLink?: string;
 
 	/*
