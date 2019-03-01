@@ -17,7 +17,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 	templateUrl: './oauth2-authorize.component.html'
 })
 export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
-	readonly authLinkBadgrLogoSrc = require("../../../../breakdown/static/images/logo.svg");
+	readonly authLinkLogoSrc = this.theme.logoImg.small;
 
 	_loadingPromise: Promise<unknown> | null = null;
 	set loadingPromise(promise: Promise<unknown> | null) {
