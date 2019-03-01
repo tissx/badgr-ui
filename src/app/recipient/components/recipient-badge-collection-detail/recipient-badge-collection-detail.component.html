@@ -7,10 +7,21 @@
 				<div class="topbar-x-heading">{{ collection.name }}</div>
 				<div class="topbar-x-subheading">
 					<p class="u-text" [truncatedText]="collection.description" [maxLength]="100"></p>
-					<label class="checkbox u-margin-top2x">
-						<input type="checkbox" [(ngModel)]="collectionPublished">
-						<span class="checkbox-x-text">Public</span>
-					</label>
+					
+					<div class="switch u-margin-top2x">
+						<fieldset class="switch-x-container">
+							<div class="switch-x-inputcontainer">
+								<label class="switch-x-label">
+									<input 
+										class="switch-x-toggletrack" 
+										type="checkbox" 
+										[(ngModel)]="collectionPublished">
+									<span class="switch-x-labeltext">Public</span>
+									<div class="switch-x-toggle"></div>
+								</label>
+							</div>
+						</fieldset>
+					</div>
 				</div>
 				<div class="topbar-x-checkboxbuttonform">
 					<div class="l-primarymore">
