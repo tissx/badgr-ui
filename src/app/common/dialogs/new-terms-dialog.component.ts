@@ -13,13 +13,6 @@ import {UserProfile} from '../model/user-profile.model';
 				<h2 id="updatedTermsDialog" class="u-text-body-bold-caps text-dark1">
 					Updated Terms of Service
 				</h2>
-				<button
-					(click)="closeDialog()"
-					class="buttonicon buttonicon-link">
-					<svg icon="icon_close"></svg>
-					<span class="visuallyhidden">Close</span>
-				</button>
-
 			</div>
 			<div class="u-padding-all3x">
 
