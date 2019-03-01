@@ -14,11 +14,6 @@
 				<div class="navbar-x-navitems">
 					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
 					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/signup']">Create Account</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="menuitem-is-active"
-					 [bgPopupMenuTrigger]="appsMenu">
-						Apps
-						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
-					</a>
 				</div>
 			</nav>
 		</ng-template>
