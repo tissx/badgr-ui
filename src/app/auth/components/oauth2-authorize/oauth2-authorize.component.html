@@ -18,7 +18,7 @@
 				<ul class="authlist-x-items">
 					<li class="authlist-x-item">
 						<svg icon="icon_member"></svg>
-						Know who you are on Badgr
+						Know who you are on {{ theme.serviceName || "Badgr" }}
 					</li>
 					<li class="authlist-x-item" *ngFor="let scope of presentationScopes">
 						<svg [icon]="'icon_'+iconName(scope.cssName)"></svg>
@@ -27,7 +27,7 @@
 				</ul>
 			</div>
 			<p class="u-text-small text-dark4 u-margin-yaxis2x">
-				By clicking Authorize, you are allowing this application and Badgr to use your information in accordance with their
+				By clicking Authorize, you are allowing this application and {{ theme.serviceName || "Badgr" }} to use your information in accordance with their
 				respective terms of service and privacy policies. You can change this and other account permissions at any time
 				from
 				the Profile menu.

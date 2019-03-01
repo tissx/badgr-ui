@@ -28,6 +28,10 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 	get loadingPromise() {
 		return this._loadingPromise;
 	}
+	
+	get theme() {
+		return this.configService.theme;
+	}
 
 	iconName(scopeCssName: string): string {
 		if (scopeCssName === "permission-issuer") return "issuer2";
