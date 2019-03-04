@@ -3,7 +3,7 @@
 
 		<!-- Header -->
 		<div class="dialog-x-header u-background-light3">
-			<h1>{{ options.title }}</h1>
+			<h1>{{ options?.title }}</h1>
 			<button
 				(click)="closeDialog()"
 				class="buttonicon buttonicon-link">
@@ -44,7 +44,7 @@
 		<!-- Link Tab -->
 		<div class="u-responsivepadding-yaxis u-responsivepadding-xaxis" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
 
-			<ng-template [ngIf]="options.showRecipientOptions" >
+			<ng-template [ngIf]="options?.showRecipientOptions" >
 				<p class="u-text-bold u-margin-bottom3x">Badge Options:</p>
 				<label class="checkbox checkbox-light u-margin-bottom5x">
 					<input
@@ -60,7 +60,7 @@
 				</label>
 			</ng-template>
 
-			<div class="forminput forminput-hasiconleft forminput-withbutton u-margin-bottom3x">
+			<div class="forminput forminput-hasiconleft forminput-withbutton u-margin-bottom3x" *ngIf="options">
 				<label class="forminput-x-label" for="link-input">Copy this link to share</label>
 				<div class="forminput-x-inputs">
 					<svg class="forminput-x-icon" icon="icon_link"></svg>
@@ -88,6 +88,7 @@
 			</div>
 
 			<a
+				*ngIf="options"
 				[href]="currentShareUrl"
 				target="_blank"
 				class="u-text-link-small">Open in New Window</a>
@@ -213,7 +214,7 @@
 				</ng-template>
 			</div>
 
-			<ng-template [ngIf]="options.showRecipientOptions">
+			<ng-template [ngIf]="options?.showRecipientOptions">
 				<p class="u-text-bold u-margin-bottom2x">Included Badge Options</p>
 
 				<label class="checkbox checkbox-light u-margin-bottom2x">

@@ -56,13 +56,11 @@
 							<bg-popup-menu #moreMenu>
 								<a class="menuitem" target="_blank"
 								[href]="v2JsonUrl"
-								><svg icon="icon_external_link"></svg
-								>View JSON</a>
+								><svg icon="icon_external_link"></svg>View JSON</a>
 								<a class="menuitem" target="_blank"
 								   [href]="issuer.sourceUrl"
 								   *ngIf="issuer.sourceUrl"
-								><svg icon="icon_external_link"></svg
-								>View Original</a>
+								><svg icon="icon_external_link"></svg>View Original</a>
 							</bg-popup-menu>
 						</div>
 					</div>
@@ -89,7 +87,7 @@
 									     [src]="badgeClass.image"
 									     [alt]="badgeClass.name"
 									     width="40">
-									<a class="u-text"
+									<a class="u-text u-text-breakword"
 									   [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)"
 									>{{ badgeClass.name }}</a>
 								</div>
