@@ -17,6 +17,11 @@ export interface BadgrTheme {
 
 
 	/**
+	 * Does the theme support Issuers
+	 */
+	issuersDisabled: boolean;
+
+	/**
 	 * Shows the "Powered by Badgr" link
 	 */
 	showPoweredByBadgr: boolean;
@@ -50,7 +55,7 @@ export interface BadgrTheme {
 	 */
 	dataProcessorTermsLink?: string;
 
-	/*
+	/**
 	 * Help link shown in new terms of service modal dialog
 	 */
 	termsHelpLink?: string;
