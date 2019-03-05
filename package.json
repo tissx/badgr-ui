@@ -12,12 +12,10 @@
     "build": "npm run build:app && npm run build:widgets",
     "test": "ng test",
     "test-intellij": "ng test 2>&1 | perl -e '$|++; while (<>) { s/((ERROR|WARNING) in\\s*)(.*)/$1\\n$3/g; print $_; }'",
-    "lint": "ng lint",
+    "lint": "tslint src/**/*.ts",
     "e2e": "ng e2e",
     "version": "npm run build",
     "postversion": "git push && git push --tags",
-
-		"lint": "tslint src/**/*.ts",
     "gts-check": "gts check",
     "gts-clean": "gts clean",
     "gts-fix": "gts fix"

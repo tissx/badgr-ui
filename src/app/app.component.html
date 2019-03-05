@@ -12,8 +12,15 @@
 		<ng-template [ngIf]="!loggedIn">
 			<nav class="navbar-x-items">
 				<div class="navbar-x-navitems">
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/auth/login']">Sign In</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/signup']">Create Account</a>
+					<a
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem" routerLinkActive="navitem-is-active"
+						[routerLink]="['/auth/login']">Sign In</a>
+					<a
+						*ngIf="!theme.registrationDisabled"
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem" routerLinkActive="navitem-is-active"
+						[routerLink]="['/signup']">Create Account</a>
 				</div>
 			</nav>
 		</ng-template>
@@ -24,7 +31,12 @@
 				<div class="navbar-x-navitems">
 					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
 					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/issuer']">Issuers</a>
+					<a
+						*ngIf="!theme.issuersDisabled"
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem"
+						routerLinkActive="navitem-is-active"
+						[routerLink]="['/issuer']">Issuers</a>
 					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="navitem-is-active"
 					 [bgPopupMenuTrigger]="appsMenu">
 						Apps
