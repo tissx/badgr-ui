@@ -59,7 +59,7 @@
 						<div class="l-flex l-flex-2x" *ngFor="let badge of issuerBadges.badges.slice(0,3)">
 							<badge-image class="stack-x-image" [badge]="badge" [size]="40"></badge-image>
 							<div class="l-flex l-flex-column">
-								<a 
+								<a
 									[routerLink]="['/issuer/issuers/', badge?.issuerSlug || '', 'badges', badge?.slug || '']"
 									class="u-text-link u-break-word">
 									{{ badge.name }}

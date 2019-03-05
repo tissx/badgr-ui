@@ -24,13 +24,18 @@ import {timeoutPromise} from './common/util/promise-util';
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
 // because of https://github.com/angular/angular-cli/issues/4192
-export function authModule() { return AuthModule; }
-export function profileModule() { return ProfileModule; }
+export function authModule() {
+	return AuthModule;
+}
+
+export function profileModule() {
+	return ProfileModule;
+}
 
 const ROUTE_CONFIG: Routes = [
 	{
-		path: "",
-		redirectTo: "/initial-redirect",
+		path: '',
+		redirectTo: '/initial-redirect',
 		pathMatch: 'full',
 	},
 	{
@@ -38,7 +43,7 @@ const ROUTE_CONFIG: Routes = [
 		component: InitialRedirectComponent
 	},
 	{
-		path: "forward",
+		path: 'forward',
 		component: ForwardRouteComponent
 	},
 	{
@@ -70,29 +75,29 @@ const ROUTE_CONFIG: Routes = [
 	},
 	// Legacy Auth Redirects
 	{
-		path: "login",
-		redirectTo: "/auth/login",
+		path: 'login',
+		redirectTo: '/auth/login',
 		pathMatch: 'full',
 	},
 	{
-		path: "login/:name",
-		redirectTo: "/auth/login/:name",
+		path: 'login/:name',
+		redirectTo: '/auth/login/:name',
 		pathMatch: 'full',
 	},
 	{
-		path: "login/:name/:email",
-		redirectTo: "/auth/login/:name/:email",
+		path: 'login/:name/:email',
+		redirectTo: '/auth/login/:name/:email',
 		pathMatch: 'full',
 	},
 	{
-		path: "change-password/:token",
-		redirectTo: "/auth/change-password/:token",
+		path: 'change-password/:token',
+		redirectTo: '/auth/change-password/:token',
 		pathMatch: 'full',
 	},
 	// catchall
 	{
-		"path": "**",
-		redirectTo: "/initial-redirect",
+		'path': '**',
+		redirectTo: '/initial-redirect',
 	},
 ];
 
@@ -101,11 +106,11 @@ export const appInitializerFn = (configService: AppConfigService) => {
 		const configPromise = configService.initializeConfig();
 
 		// Expose the configuration to external scripts for debugging and testing.
-		window["badgrConfigPromise"] = configPromise;
+		window['badgrConfigPromise'] = configPromise;
 
 		const config = await configPromise;
 
-		window["badgrConfig"] = config;
+		window['badgrConfig'] = config;
 
 		await timeoutPromise(1000);
 
@@ -138,8 +143,9 @@ export const appInitializerFn = (configService: AppConfigService) => {
 			provide: APP_INITIALIZER,
 			useFactory: appInitializerFn,
 			multi: true,
-			deps: [ AppConfigService ]
+			deps: [AppConfigService]
 		}
 	]
 })
-export class AppModule { }
+export class AppModule {
+}

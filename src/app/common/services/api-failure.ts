@@ -1,11 +1,23 @@
-import {Response} from '@angular/http';
-import {BadgrApiError} from './base-http-api.service';
-import {HttpErrorResponse, HttpResponse, HttpResponseBase} from '@angular/common/http';
+import { Response } from "@angular/http";
+import { BadgrApiError } from "./base-http-api.service";
+import {
+	HttpErrorResponse,
+	HttpResponse,
+	HttpResponseBase
+} from "@angular/common/http";
 
 export class BadgrApiFailure {
 	private readonly payload: HttpResponseBase | Error | string;
 
-	static from(error: BadgrApiFailure | HttpResponseBase | Error | string | null | undefined): BadgrApiFailure {
+	static from(
+		error:
+			| BadgrApiFailure
+			| HttpResponseBase
+			| Error
+			| string
+			| null
+			| undefined
+	): BadgrApiFailure {
 		if (error instanceof BadgrApiFailure) {
 			return error;
 		} else {
@@ -13,9 +25,7 @@ export class BadgrApiFailure {
 		}
 	}
 
-	constructor(
-		payload: HttpResponseBase | Error | string | null | undefined
-	) {
+	constructor(payload: HttpResponseBase | Error | string | null | undefined) {
 		this.payload = payload;
 	}
 
@@ -32,7 +42,7 @@ export class BadgrApiFailure {
 		if (overallMessage) {
 			return overallMessage;
 		} else if (fieldMessages) {
-			return fieldMessages[ Object.keys(fieldMessages)[ 0 ] ];
+			return fieldMessages[Object.keys(fieldMessages)[0]];
 		} else {
 			return null;
 		}
@@ -49,7 +59,7 @@ export class BadgrApiFailure {
 			// Global errors return a single array with the error as the first element
 			if (Array.isArray(json) && typeof json[0] === "string") {
 				return json.join(" ");
-			} else if (typeof(json) === "string") {
+			} else if (typeof json === "string") {
 				return json;
 			}
 
@@ -73,7 +83,7 @@ export class BadgrApiFailure {
 			}
 		} else if (this.payload instanceof Error) {
 			return this.payload.message;
-		} else if (typeof(this.payload) === "string") {
+		} else if (typeof this.payload === "string") {
 			return this.payload;
 		} else {
 			return null;
@@ -88,24 +98,23 @@ export class BadgrApiFailure {
 	get fieldMessages(): { [name: string]: string } | null {
 		function errorFromJson(json) {
 			if (Array.isArray(json)) {
-				return json.map(a => errorFromJson(a) || {})
+				return json
+					.map(a => errorFromJson(a) || {})
 					.reduce((a, b) => Object.assign(a, b), {});
-			} else if (typeof(json) === "object") {
+			} else if (typeof json === "object") {
 				const result: { [name: string]: string } = {};
 
 				Object.keys(json).map(key => {
-					const value = json[ key ];
+					const value = json[key];
 
-					if (typeof(value) === "string") {
-						result[ key ] = value;
+					if (typeof value === "string") {
+						result[key] = value;
 					} else if (Array.isArray(value)) {
-						result[ key ] = value.map(a => JSON.stringify(a)).join(" ");
+						result[key] = value.map(a => JSON.stringify(a)).join(" ");
 					}
 				});
 
-				return Object.keys(result).length > 0
-					? result
-					: null;
+				return Object.keys(result).length > 0 ? result : null;
 			} else {
 				return null;
 			}
@@ -125,11 +134,10 @@ export class BadgrApiFailure {
 	}
 }
 
-
 function bodyFromResponse(res: HttpResponseBase): string | null {
 	if (res instanceof HttpResponse) {
-		return res.body ? (""+res.body) : null;
+		return res.body ? "" + res.body : null;
 	} else if (res instanceof HttpErrorResponse) {
-		return res.error ? (""+res.error) : null;
+		return res.error ? "" + res.error : null;
 	}
 }

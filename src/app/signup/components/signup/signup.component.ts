@@ -1,36 +1,44 @@
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SignupModel} from '../../models/signup-model.type';
-import {SignupService} from '../../services/signup.service';
-import {SessionService} from '../../../common/services/session.service';
-import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
-import {MessageService} from '../../../common/services/message.service';
-import {EmailValidator} from '../../../common/validators/email.validator';
-import {Title} from '@angular/platform-browser';
-import {markControlsDirty} from '../../../common/util/form-util';
-import {AppConfigService} from '../../../common/app-config.service';
-import {OAuthManager} from '../../../common/services/oauth-manager.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {typedFormGroup} from '../../../common/util/typed-forms';
+import {
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	ValidationErrors,
+	Validators
+} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SignupModel } from "../../models/signup-model.type";
+import { SignupService } from "../../services/signup.service";
+import { SessionService } from "../../../common/services/session.service";
+import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
+import { MessageService } from "../../../common/services/message.service";
+import { EmailValidator } from "../../../common/validators/email.validator";
+import { Title } from "@angular/platform-browser";
+import { markControlsDirty } from "../../../common/util/form-util";
+import { AppConfigService } from "../../../common/app-config.service";
+import { OAuthManager } from "../../../common/services/oauth-manager.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import { typedFormGroup } from "../../../common/util/typed-forms";
 
 @Component({
-	selector: 'sign-up',
-	templateUrl: './signup.component.html',
+	selector: "sign-up",
+	templateUrl: "./signup.component.html"
 })
 export class SignupComponent extends BaseRoutableComponent implements OnInit {
 	signupForm = typedFormGroup()
-		.addControl('username', '', [
+		.addControl("username", "", [
 			Validators.required,
 			EmailValidator.validEmail
 		])
-		.addControl('firstName', '', Validators.required)
-		.addControl('lastName', '', Validators.required)
-		.addControl('password', '', [ Validators.required, Validators.minLength(8) ])
-		.addControl('passwordConfirm', '', [ Validators.required, this.passwordsMatch.bind(this) ])
-		.addControl('agreedTermsService', false, Validators.requiredTrue)
-		.addControl('marketingOptIn', false)
-	;
+		.addControl("firstName", "", Validators.required)
+		.addControl("lastName", "", Validators.required)
+		.addControl("password", "", [Validators.required, Validators.minLength(8)])
+		.addControl("passwordConfirm", "", [
+			Validators.required,
+			this.passwordsMatch.bind(this)
+		])
+		.addControl("agreedTermsService", false, Validators.requiredTrue)
+		.addControl("marketingOptIn", false);
 
 	signupFinished: Promise<unknown>;
 
@@ -52,17 +60,19 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		route: ActivatedRoute
 	) {
 		super(router, route);
-		title.setTitle(`Signup - ${this.configService.theme['serviceName'] || 'Badgr'}`);
+		title.setTitle(
+			`Signup - ${this.configService.theme["serviceName"] || "Badgr"}`
+		);
 	}
 
 	ngOnInit() {
 		if (this.sessionService.isLoggedIn) {
-			this.router.navigate(['/userProfile']);
+			this.router.navigate(["/userProfile"]);
 		}
 	}
 
 	onSubmit() {
-		if (! this.signupForm.markTreeDirtyAndValidate()) {
+		if (!this.signupForm.markTreeDirtyAndValidate()) {
 			return;
 		}
 
@@ -78,40 +88,42 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		);
 
 		this.signupFinished = new Promise((resolve, reject) => {
-			this.signupService.submitSignup(signupUser)
-				.then(
-					() => {
-						this.sendSignupConfirmation(formState.username);
-						resolve();
-					},
-					(response: HttpErrorResponse) => {
-						const error = response.error;
+			this.signupService.submitSignup(signupUser).then(
+				() => {
+					this.sendSignupConfirmation(formState.username);
+					resolve();
+				},
+				(response: HttpErrorResponse) => {
+					const error = response.error;
 
-						if (error) {
-							if (error.password) {
-								this.messageService.setMessage('Your password must be uncommon and at least 8 characters. Please try again.', 'error');
-							} else {
-								this.messageService.setMessage('' + error, 'error');
-							}
+					if (error) {
+						if (error.password) {
+							this.messageService.setMessage(
+								"Your password must be uncommon and at least 8 characters. Please try again.",
+								"error"
+							);
 						} else {
-							this.messageService.setMessage('Unable to signup.', 'error');
+							this.messageService.setMessage("" + error, "error");
 						}
-						resolve();
+					} else {
+						this.messageService.setMessage("Unable to signup.", "error");
 					}
-				);
-		}).then(() => this.signupFinished = null);
+					resolve();
+				}
+			);
+		}).then(() => (this.signupFinished = null));
 	}
 
 	sendSignupConfirmation(email) {
-		this.router.navigate(['signup/success', {email}]);
+		this.router.navigate(["signup/success", { email }]);
 	}
 
 	get showMarketingOptIn() {
-		return !!!this.theme['hideMarketingOptIn'];
+		return !!!this.theme["hideMarketingOptIn"];
 	}
 
 	passwordsMatch(): ValidationErrors | null {
-		if (! this.signupForm) return null;
+		if (!this.signupForm) return null;
 
 		const p1 = this.signupForm.controls.password.value;
 		const p2 = this.signupForm.controls.passwordConfirm.value;

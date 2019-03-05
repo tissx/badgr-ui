@@ -7,14 +7,14 @@
 				<div class="topbar-x-heading">{{ collection.name }}</div>
 				<div class="topbar-x-subheading">
 					<p class="u-text" [truncatedText]="collection.description" [maxLength]="100"></p>
-					
+
 					<div class="switch u-margin-top2x">
 						<fieldset class="switch-x-container">
 							<div class="switch-x-inputcontainer">
 								<label class="switch-x-label">
-									<input 
-										class="switch-x-toggletrack" 
-										type="checkbox" 
+									<input
+										class="switch-x-toggletrack"
+										type="checkbox"
 										[(ngModel)]="collectionPublished">
 									<span class="switch-x-labeltext">Public</span>
 									<div class="switch-x-toggle"></div>
@@ -78,7 +78,7 @@
 			<h2 class="u-text-h3-semibold">{{badgesInCollectionCount}}</h2>
 			<button class="button button-secondary" type="button" (click)="manageBadges()">Add Badges</button>
 		</div>
-			
+
 		<table class="datatable datatable-roundheaders datatable-verticalalignmiddle datatable-onlyfirstcolumn">
 			<thead class="datatable-x-head">
 				<tr class="datatable-x-header">
