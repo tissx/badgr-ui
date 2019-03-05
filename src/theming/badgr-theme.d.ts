@@ -19,7 +19,12 @@ export interface BadgrTheme {
 	/**
 	 * Does the theme support Issuers
 	 */
-	issuersDisabled: boolean;
+	issuersDisabled?: boolean;
+
+	/**
+	 * Does the theme support user registration
+	 */
+	registrationDisabled?: boolean;
 
 	/**
 	 * Shows the "Powered by Badgr" link
