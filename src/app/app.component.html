@@ -32,7 +32,7 @@
 					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
 					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
 					<a
-						*ngIf="!theme.issuersDisabled"
+						*ngIf="!theme.issuersDisabled || issuers.length > 0"
 						[class.navitem-light]="!theme.useColorNavbar"
 						class="navitem"
 						routerLinkActive="navitem-is-active"
@@ -145,7 +145,6 @@
 <new-terms-dialog #newTermsDialog></new-terms-dialog>
 <share-social-dialog #shareSocialDialog></share-social-dialog>
 <markdown-hints-dialog #markdownHintsDialog></markdown-hints-dialog>
-
 
 
 <!-- Footer -->

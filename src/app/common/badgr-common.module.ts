@@ -63,6 +63,8 @@ import {SvgIconComponent} from './components/svg-icon.component';
 import {BgMarkdownComponent} from './directives/bg-markdown.component';
 import {BgBreadcrumbsComponent} from './components/bg-breadcrumbs/bg-breadcrumbs.component';
 import {MarkdownHintsDialog} from './dialogs/markdown-hints-dialog.component';
+import { IssuerManager } from "../issuer/services/issuer-manager.service";
+import { IssuerApiService } from "../issuer/services/issuer-api.service";
 
 const DIRECTIVES = [
 	BgAwaitPromises,
@@ -110,6 +112,8 @@ const COMPONENTS = [
 const SERVICES = [
 	CommonDialogsService,
 	CommonEntityManager,
+	IssuerManager,
+	IssuerApiService,
 	MessageService,
 	SettingsService,
 	SharingService,

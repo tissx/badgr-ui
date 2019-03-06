@@ -23,6 +23,8 @@ import {NewTermsDialog} from './common/dialogs/new-terms-dialog.component';
 import {QueryParametersService} from './common/services/query-parameters.service';
 import {Title} from '@angular/platform-browser';
 import {MarkdownHintsDialog} from './common/dialogs/markdown-hints-dialog.component';
+import { Issuer } from "./issuer/models/issuer.model";
+import { IssuerManager } from "./issuer/services/issuer-manager.service";
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -42,6 +44,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	mobileNavOpen = false;
 	isUnsupportedBrowser = false;
 	launchpoints?: ApiExternalToolLaunchpoint[];
+	issuers: Issuer[];
+	issuersLoaded: Promise<unknown>;
 
 	copyrightYear = new Date().getFullYear();
 
@@ -97,7 +101,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
 		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,   // required for angulartics to work
-		private titleService: Title
+		private titleService: Title,
+		protected issuerManager: IssuerManager,
 	) {
 		messageService.useRouter(router);
 
@@ -116,6 +121,20 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 			// Load the profile
 			this.profileManager.userProfileSet.ensureLoaded();
+
+			// for issuers tab
+			this.issuerManager.allIssuers$.subscribe(
+				(issuers) => {
+					this.issuers = issuers.slice().sort(
+						(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+					);
+				},
+				error => {
+					this.messageService.reportAndThrowError("Failed to load issuers", error);
+				}
+			);
+
+
 		}
 
 		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
