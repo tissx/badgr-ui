@@ -15,7 +15,6 @@ export interface BadgrTheme {
 	 */
 	serviceName: string;
 
-
 	/**
 	 * Does the theme support Issuers
 	 */
