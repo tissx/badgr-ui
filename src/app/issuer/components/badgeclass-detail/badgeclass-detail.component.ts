@@ -34,7 +34,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 
 	set searchQuery(query) {
 		this._searchQuery = query;
-		this.loadInstances(query);
+		this.loadInstances(encodeURIComponent(query));
 	}
 
 	get issuerSlug() {
