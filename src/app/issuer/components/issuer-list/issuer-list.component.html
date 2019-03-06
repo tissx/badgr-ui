@@ -9,6 +9,7 @@
 			</span>
 		</h2>
 		<button class="button topbar-x-button"
+				*ngIf="!theme.issuersDisabled"
 				[routerLink]="['/issuer/create']"
 				[disabled-when-requesting]="true"
 		>Create Issuer</button>
@@ -26,6 +27,7 @@
 			Issuers allow you to create badges and award them to people.</p>
 	  	<div class="emptysection-x-buttons">
 		    <button class="button button-secondary"
+						*ngIf="!theme.issuersDisabled"
 		    		[routerLink]="['/issuer/create']"
 		    		[disabled-when-requesting]="true"
     		>Create an Issuer</button>

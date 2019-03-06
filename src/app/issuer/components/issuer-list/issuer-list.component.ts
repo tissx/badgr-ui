@@ -27,6 +27,8 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 	issuersLoaded: Promise<unknown>;
 	badgesLoaded: Promise<unknown>;
 
+	get theme() { return this.configService.theme; }
+
 	constructor(
 		protected title: Title,
 		protected messageService: MessageService,
