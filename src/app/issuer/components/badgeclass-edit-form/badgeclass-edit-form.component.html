@@ -160,6 +160,7 @@
 				<div class="l-flex l-flex-1x l-flex-justifybetween u-margin-bottom2x">
 					<h3 class="u-text-body-bold u-text-dark1">{{ alignment.controls.target_name.value }}</h3>
 					<button
+						*ngIf="badgeClassForm.controls.alignments.controls.length > 1"
 						type="button"
 						(click)="removeAlignment(alignment)"
 						class="u-text-link"
