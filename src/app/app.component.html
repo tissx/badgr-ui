@@ -27,30 +27,58 @@
 
 		<!-- Authenticated -->
 		<ng-template [ngIf]="loggedIn && ! isOAuthAuthorizationInProcess">
-			<nav class="navbar-x-items">
+			<nav class="navbar-x-items" role="menubar">
 				<div class="navbar-x-navitems">
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badges']">Backpack</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/recipient/badge-collections']">Collections</a>
 					<a
+						role="menuitem"
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem"
+						routerLinkActive="navitem-is-active"
+						[routerLink]="['/recipient/badges']">Backpack</a>
+					<a
+						role="menuitem"
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem"
+						routerLinkActive="navitem-is-active"
+						[routerLink]="['/recipient/badge-collections']">Collections</a>
+					<a
+						role="menuitem"
 						*ngIf="!theme.issuersDisabled || issuers?.length > 0"
 						[class.navitem-light]="!theme.useColorNavbar"
 						class="navitem"
 						routerLinkActive="navitem-is-active"
 						[routerLink]="['/issuer']">Issuers</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="launchpoints?.length" routerLinkActive="navitem-is-active"
-					 [bgPopupMenuTrigger]="appsMenu">
+					<button
+						role="menuitem"
+						aria-haspopup="true"
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem u-cursor-pointer"
+						*ngIf="launchpoints?.length"
+						routerLinkActive="navitem-is-active"
+					 	[bgPopupMenuTrigger]="appsMenu">
 						Apps
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
-					</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" *ngIf="theme.customMenu" routerLinkActive="navitem-is-active"
-					 [bgPopupMenuTrigger]="customMenu">
+					</button>
+					<a
+						role="menuitem"
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem u-cursor-pointer"
+						*ngIf="theme.customMenu"
+						routerLinkActive="navitem-is-active"
+					 	[bgPopupMenuTrigger]="customMenu">
 						{{ theme.customMenu.label }}
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
 					</a>
-					<a [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer" routerLinkActive="navitem-is-active" [bgPopupMenuTrigger]="accountMenu">
+					<button
+						role="menuitem"
+						aria-haspopup="true"
+						[class.navitem-light]="!theme.useColorNavbar"
+						class="navitem u-cursor-pointer"
+						routerLinkActive="navitem-is-active"
+						[bgPopupMenuTrigger]="accountMenu">
 						Account
 						<svg class="navitem-x-icon" icon="icon_dropdown"></svg>
-					</a>
+					</button>
 				</div>
 			</nav>
 		</ng-template>
@@ -162,7 +190,7 @@
 				<li><a [href]="theme.termsOfServiceLink || 'https://badgr.org/missing-terms'" target="_blank">Terms of Service</a></li>
 				<li><a [href]="theme.privacyPolicyLink || 'https://badgr.org/missing-privacy-policy'" target="_blank">Privacy
 						Policy</a></li>
-				<li *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink"><a href="https://support.badgr.io/docs/" 
+				<li *ngIf="theme.showApiDocsLink === undefined || theme.showApiDocsLink"><a href="https://support.badgr.io/docs/"
 					 target="_blank">Documentation</a></li>
 			</ul>
 
