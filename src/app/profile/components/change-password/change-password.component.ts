@@ -24,8 +24,8 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 
 	profile: UserProfile;
 	errors = {
-		'current_password': false,
-		'password': false,
+		'current_password': '',
+		'password': '',
 	};
 
 	constructor(
@@ -77,7 +77,8 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 							if (errors.hasOwnProperty(key)) {
 								this.errors[key] = errors[key];
 								const c = this.changePasswordForm.controls[key].rawControl.valueChanges.subscribe(val => {
-									this.errors[key] = false;
+									if (this.changePasswordForm.value[key] === val) return;
+									this.errors[key] = '';
 									c.unsubscribe();
 								});
 							}

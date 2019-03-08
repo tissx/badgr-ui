@@ -123,7 +123,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	}
 
 	get controlErrorState() {
-		return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
+		return this.errorOverride || this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
 	}
 
 	get isErrorState() {
@@ -153,6 +153,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() includeLabelAsWrapper = false; // includes label for layout purposes even if label text wasn't passed in.
 	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
+	@Input() errorOverride?: false;
 	@Input() multiline = false;
 	@Input() monospaced = false;
 	@Input() sublabel: string;
