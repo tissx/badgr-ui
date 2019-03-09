@@ -58,7 +58,7 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 				<button class="buttonicon buttonicon-link" type="button" (click)="openMarkdownHintsDialog()">
 					<svg class="icon l-flex-shrink0" icon="icon_markdown"></svg>
 				</button>
-				<button (click)="openMarkdownHintsDialog()" type="button" class="u-text-link-small u-hidden-maxmobile">Markdown Supported</button>
+				<button (click)="openMarkdownHintsDialog()" type="button" class="u-text-link-small u-hidden-maxmobilelarge">Markdown Supported</button>
 			</div>
 		</div>
     </div>
