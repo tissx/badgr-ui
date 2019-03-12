@@ -18,23 +18,19 @@ An Angular 2 based front end for Badgr-server. Uses TypeScript with ES6 style mo
 
 ### Run project in your browser
 
-Start webpack in dev mode: `npm run server`
+Start angular in dev mode: `npm start`. Badgr should now be loaded in your browser. If your browser didn't start automatically, navigate to http://localhost:4200
 
-Badgr should now be loaded in your browser. If your browser didn't start automatically, navigate to http://localhost:4000
+Ensure it is communicating with the correct API (The port `badgr-server` is running on)
 
+```
+localStorage.setItem('config', JSON.stringify({api:{baseUrl:"http://localhost:8000"}}))
+```
 
 ### Run Tests
 
 Run the test suite with `npm run test:debug`
 
 Run the e2e tests with `npm run e2e`
-
-
-### Run Styleguide
-
-Build and serve the styleguide with `npm run styleguide:serve`
-
-Then view it at http://localhost:8080/styleguide/
 
 
 ## Build Instructions (for deployment)
@@ -46,8 +42,8 @@ Copy the example file, `environment.prod.ts.example` to `environment.prod.ts` an
 
 ### Building
 
-Build the packaged files for deployment with `npm run build:prod`
+Build the packaged files for deployment with `npm run build`
 
-Run the tests with `npm run test:ci`
+Run the tests with `npm run test`
 
 All files in `dist` constitute the build artifact.
