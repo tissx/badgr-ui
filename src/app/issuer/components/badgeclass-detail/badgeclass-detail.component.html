@@ -34,10 +34,11 @@
 			<div class="badgedetail-x-sidebar">
 				<div class="badgedetail-x-sidebarinternal">
 					<!-- Badge Assertion Image -->
-					<img alt="{{badgeClass.name}} image"
-						src="{{badgeClass.image}}"
-						class="badgeimage badgeimage-center badgeimage-large"
-						width="200" />
+					<img class="badgeimage badgeimage-center badgeimage-large"
+					     [loaded-src]="badgeClass.image"
+					     [loading-src]="badgeLoadingImageUrl"
+					     [error-src]="badgeFailedImageUrl"
+					     width="200" />
 					<!-- Issuer Information -->
 					<dl>
 				    	<div class="l-flex l-flex-2x u-padding-top2x border border-top border-light3">

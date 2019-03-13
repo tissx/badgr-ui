@@ -30,6 +30,8 @@ import {AppConfigService} from '../../../common/app-config.service';
 	templateUrl: './badgeclass-detail.component.html'
 })
 export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
+	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg');
+	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg');
 	get searchQuery() { return this._searchQuery; }
 
 	set searchQuery(query) {
