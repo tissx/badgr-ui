@@ -147,6 +147,8 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
 				return;
+			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
+				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
 			} else if (this.queryParams.queryStringValue("authError", true)) {
 				this.sessionService.logout();
 				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);

@@ -10,7 +10,7 @@ export interface FlashMessage {
 	detail?: string;
 }
 
-type MessageStatusType = "success" | "error" | "load-error" | "fatal-error";
+type MessageStatusType = "success" | "error"  | "info" | "load-error" | "fatal-error";
 
 /**
  * A service for displaying application-level messages to the user, such notable API results (failure to load or
@@ -209,6 +209,25 @@ export class MessageService {
 		this.setMessage(
 			message,
 			"success"
+		);
+
+		this.retainMessageOnNextRouteChange = retainAfterNextNav;
+	}
+
+	/**
+	 * Report something.
+	 *
+	 * @param message Message to display to the user
+	 * @param retainAfterNextNav If true, the message will persist past the next router navigation. Useful when a success
+	 *  immediately routes the user to a new page.
+	 */
+	reportInfoMessage(
+		message: string,
+		retainAfterNextNav = false
+	) {
+		this.setMessage(
+			message,
+			"info"
 		);
 
 		this.retainMessageOnNextRouteChange = retainAfterNextNav;
