@@ -32,7 +32,8 @@
 						 [disabled-when-requesting]="true"
 						><svg icon="icon_remove"></svg>Delete</button>
 					<ng-container *ngIf="launchpoints">
-						<a class="menuitem" *ngFor="let lp of launchpoints" href="{{lp.launch_url}}" (click)="clickLaunchpoint(lp)">
+						<a class="menuitem" *ngFor="let lp of launchpoints" (click)="clickLaunchpoint(lp)">
+							<svg icon="icon_external_link"></svg>
 							{{lp.label}}
 						</a>
 					</ng-container>

@@ -206,9 +206,11 @@
 						><svg icon="icon_remove"></svg>Revoke</button>
 						<ng-container *ngIf="launchpoints">
 							<button class="menuitem" type="button"
-											*ngFor="let lp of launchpoints"
-											(click)="clickLaunchpoint(lp, popInstance.slug)"
-							>{{ lp.label }}</button>
+									*ngFor="let lp of launchpoints"
+									(click)="clickLaunchpoint(lp, popInstance.slug)">
+							<svg icon="icon_external_link"></svg>
+							{{ lp.label }}
+						</button>
 						</ng-container>
 					</bg-popup-menu>
 
@@ -222,9 +224,11 @@
 						><svg icon="icon_remove"></svg>Revoke</button>
 						<ng-container *ngIf="launchpoints">
 							<button class="menuitem" type="button"
-											*ngFor="let lp of launchpoints"
-											(click)="clickLaunchpoint(lp, popInstance.slug)"
-							>{{ lp.label }}</button>
+									*ngFor="let lp of launchpoints"
+									(click)="clickLaunchpoint(lp, popInstance.slug)">
+							<svg icon="icon_external_link"></svg>
+							{{ lp.label }}
+						</button>
 						</ng-container>
 					</bg-popup-menu>
 
