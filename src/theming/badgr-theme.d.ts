@@ -106,9 +106,9 @@ export interface BadgrTheme {
 	 * properties
 	 */
 	cssCustomProps?: {
-		"--brand-hue"?: string;
-		"--brand-saturation"?: string;
-		"--brand-lightness"?: string;
+		"--color-interactive1"?: string;
+		"--color-interactive2"?: string;
+		"--color-interactive2alpha50"?: string;
 		"--color-theme"?: string;
 	};
 }
