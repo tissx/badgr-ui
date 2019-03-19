@@ -81,9 +81,12 @@ export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
 		if (clientIdParam) {
 			this.loadingPromise = Promise.resolve()
 				.then(() => {
-					if (this.queryParams.queryStringValue("response_type") !== "code") {
-						throw new Error("Only response_type='code' is supported");
-					}
+					// Disabled this check because pathways include this. The check was previously ineffective due to a bug, and as such, pathways
+					// never needed to send this. It should be re-enabled after all applications that authenticate using badgr-ui are validated as
+					// sending this.
+					// if (this.queryParams.queryStringValue("response_type") !== "code") {
+					// 	throw new Error("Only response_type='code' is supported");
+					// }
 
 					const request: OAuth2RequestParams = {
 						clientId: clientIdParam || throwExpr("client_id param missing"),
