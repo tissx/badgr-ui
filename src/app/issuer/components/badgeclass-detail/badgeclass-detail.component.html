@@ -49,15 +49,15 @@
 									 width="40" />
 							</div>
 							<div>
-								<dt class="u-text-small-bold">Issued by:</dt>
+								<dt class="u-text-small-bold u-text-dark2">Issued by:</dt>
 								<dd class="u-text">
 	                				<a class="u-break-word" [routerLink]="['/issuer/issuers/', issuerSlug]">{{ issuer.name }}</a>
 	            				</dd>
 							</div>
 						</div>
-						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Created on:</dt>
+						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Created on:</dt>
 						<dd class="u-text"><time [date]="badgeClass.createdAt" format="MM/dd/y"></time></dd>
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3"
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2"
 				    		*ngIf="badgeClass.expiresAmount"
 				    		>Expires after:</dt>
 				    	<dd class="u-text"
@@ -70,7 +70,7 @@
 				</div>
 			</div>
 			<div class="badgedetail-x-desc">
-				<h2 class="u-text-h3-semibold u-margin-bottom2x u-hidden-mintablet">Description</h2>
+				<h2 class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-hidden-mintablet">Description</h2>
 				<p class="u-text-body u-width-paragraph">{{ badgeClass.description }}</p>
 			</div>
 			<div class="badgedetail-x-body">
@@ -78,7 +78,7 @@
 				<!-- criteria -->
 				<section
 					*ngIf="badgeClass.criteria_url || badgeClass.criteria_text">
-					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+					<h3 class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-margin-top4x"
 					>Criteria</h3>
 					<show-more>
 						<markdown-display
@@ -98,7 +98,7 @@
 
 				<!-- alignment -->
 				<section>
-					<h3 class="u-text-h3-semibold u-margin-yaxis2x"
+					<h3 class="u-text-h3-semibold u-text-dark2 u-margin-yaxis2x"
 						*ngIf="badgeClass.alignments && badgeClass?.alignments.length>0"
 						>Alignment</h3>
 
@@ -127,7 +127,7 @@
 
 				<!-- tags -->
 				<section>
-					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+					<h3 class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-margin-top4x"
 						*ngIf="badgeClass.tags && badgeClass.tags.length">Tags</h3>
 					<div class="l-tags">
 						<div class="tag"
@@ -138,7 +138,7 @@
 
 				<!-- recipients -->
 				<div class="l-stack u-margin-bottom2x u-margin-top4x">
-					<h2 class="u-text-h3-semibold">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
+					<h2 class="u-text-h3-semibold u-text-dark2">{{ recipientCount }} Badge {{ recipientCount == 1 ? 'Recipient' : 'Recipients' }}</h2>
 					<div class="forminput forminput-hasicon">
 						<p class="forminput-x-sublabel"
 							>Search by full email address</p>

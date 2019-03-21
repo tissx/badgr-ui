@@ -75,7 +75,9 @@
 		<!-- Has Badge Classes -->
 		<section class="l-containerxaxis l-containeryaxis"
 				 *ngIf="badges?.length">
-			<h4 class="u-text-h3-bold u-margin-top1x">Badge Classes</h4>
+			<h4 class="u-text-h3-bold u-text-dark2 u-margin-top1x">
+					{{ badges.length }} Badge Class{{ badges.length==1? '':'es' }}
+			</h4>
 			<table class="datatable datatable-roundheaders datatable-onlyfirstcolumn datatable-verticalalignmiddle u-margin-top2x" *ngIf="badges?.length">
 				<thead class="datatable-x-head">
 					<tr class="datatable-x-header">

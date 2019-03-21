@@ -70,8 +70,10 @@
 		<div class="l-containerxaxis l-containeryaxis">
 			<div *ngIf="badgeClasses && badgeClasses.length > 0">
 				<header class=" u-margin-top1x">
-					<h3 class="u-text-h3-bold"
-					>{{ badgeClasses.length }} Badge Classes</h3></header>
+					<h3 class="u-text-h3-bold u-text-dark2"
+					>
+					{{ badgeClasses.length }} Badge Class{{ badgeClasses.length==1? '':'es' }}
+				</h3></header>
 				<table class="datatable datatable-roundheaders datatable-singlecolumn datatable-verticalalignmiddle u-margin-top2x">
 					<thead class="datatable-x-head">
 						<tr class="datatable-x-header">
