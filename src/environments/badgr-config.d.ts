@@ -67,6 +67,8 @@ export interface FeaturesConfig {
 	 */
 	socialAccountProviders?: string[];
 	externalAuthProviders?: ExternalAuthProvider[];
+	disableRegistration?: boolean;
+	disableIssuers?: boolean;
 }
 
 /**

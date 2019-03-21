@@ -16,16 +16,6 @@ export interface BadgrTheme {
 	serviceName: string;
 
 	/**
-	 * Does the theme support Issuers
-	 */
-	issuersDisabled?: boolean;
-
-	/**
-	 * Does the theme support user registration
-	 */
-	registrationDisabled?: boolean;
-
-	/**
 	 * Shows the "Powered by Badgr" link
 	 */
 	showPoweredByBadgr: boolean;

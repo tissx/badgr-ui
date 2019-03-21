@@ -70,6 +70,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	get theme() { return this.configService.theme; }
 
+	get features() { return this.configService.featuresConfig; }
+
 	get apiBaseUrl() {
 		return this.configService.apiConfig.baseUrl;
 	}
