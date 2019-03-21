@@ -162,9 +162,9 @@ export const defaultConfig: BadgrConfig = {
 		favicons: [],
 		useColorNavbar: false,
 		cssCustomProps: {
-			'--color-interactive1' : 'hsl(351, 49%, 35%)',
-			'--color-interactive2' : 'hsl(352, 66%, 42%)',
-			'--color-interactive2alpha50' : 'hsla(352, 66%, 42%, 50%)',
+			'--color-interactive1' : 'rgb(0,0,0)',
+			'--color-interactive2' : 'rgb(20,20,20)',
+			'--color-interactive2alpha50' : 'rgba(20,20,20,0.5)',
 		}
 	}
 };
