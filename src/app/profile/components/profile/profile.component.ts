@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {EmailValidator} from '../../../common/validators/email.validator';
 import {MessageService} from '../../../common/services/message.service';
 import {SessionService} from '../../../common/services/session.service';
-import {Title} from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
@@ -52,8 +52,9 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		protected dialogService: CommonDialogsService,
 		protected paramService: QueryParametersService,
 		protected configService: AppConfigService,
-		private oauthService: OAuthApiService
-) {
+		private oauthService: OAuthApiService,
+		private sanitizer: DomSanitizer,
+	) {
 		super(router, route, sessionService);
 		title.setTitle(`Profile - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
@@ -81,6 +82,10 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 
 		// Handle newly added social account
 		this.newlyAddedSocialAccountId = paramService.queryStringValue("addedSocialAccountId", true);
+	}
+
+	sanitize(url:string){
+		return this.sanitizer.bypassSecurityTrustUrl(url);
 	}
 
 	get socialAccounts() {
