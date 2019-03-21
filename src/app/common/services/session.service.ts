@@ -3,7 +3,11 @@ import {UserCredential} from '../model/user-credential.type';
 import {AppConfigService} from '../app-config.service';
 import {MessageService} from './message.service';
 import {BaseHttpApiService} from './base-http-api.service';
-import {SocialAccountProviderInfo, socialAccountProviderInfos} from '../model/user-profile-api.model';
+import {
+	ExternalAuthProvider,
+	SocialAccountProviderInfo,
+	socialAccountProviderInfos
+} from '../model/user-profile-api.model';
 import {throwExpr} from '../util/throw-expr';
 import {UpdatableSubject} from '../util/updatable-subject';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
@@ -34,7 +38,7 @@ export interface AuthorizationToken {
 export class SessionService {
 	baseUrl: string;
 
-	enabledExternalAuthProviders: SocialAccountProviderInfo[];
+	enabledExternalAuthProviders: ExternalAuthProvider[];
 
 	private loggedInSubect = new UpdatableSubject<boolean>();
 	get loggedin$() { return this.loggedInSubect.asObservable(); }
@@ -46,9 +50,7 @@ export class SessionService {
 		private navService: NavigationService,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
-		this.enabledExternalAuthProviders = socialAccountProviderInfos.filter(providerInfo =>
-			! this.configService.featuresConfig.socialAccountProviders || this.configService.featuresConfig.socialAccountProviders.includes(providerInfo.slug)
-		);
+		this.enabledExternalAuthProviders = configService.featuresConfig.externalAuthProviders;
 	}
 
 	login(credential: UserCredential, sessionOnlyStorage = false): Promise<AuthorizationToken> {

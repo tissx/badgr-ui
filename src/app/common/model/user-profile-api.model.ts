@@ -59,6 +59,7 @@ export interface ApiUserProfileSocialAccount {
 }
 export interface UserProfileSocialAccountRef extends ApiEntityRef {}
 
+// TODO: now oAuth providers have been redefined as ExternalAuthProviders, determine if this code is in use for social sharing and prune if appropriate.
 /**
  * Metadata about a social account provider
  */
@@ -94,4 +95,11 @@ export const socialAccountProviderInfos: SocialAccountProviderInfo[] = [
 
 export function socialAccountProviderInfoForSlug(slug: string) {
 	return socialAccountProviderInfos.find(i => i.slug === slug);
+}
+
+export interface ExternalAuthProvider {
+	slug: string;
+	label: string;
+	imgSrc: string;
+	color: string;
 }
