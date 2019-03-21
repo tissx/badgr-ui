@@ -7,7 +7,7 @@ import {UserCredential} from '../../../common/model/user-credential.type';
 import {SessionService} from '../../../common/services/session.service';
 import {MessageService} from '../../../common/services/message.service';
 import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
-import {Title} from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import {FormFieldText} from '../../../common/components/formfield-text';
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import {OAuthManager} from '../../../common/services/oauth-manager.service';
@@ -50,12 +50,17 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		public oAuthManager: OAuthManager,
 		private externalToolsManager: ExternalToolsManager,
 		private profileManager: UserProfileManager,
+		private sanitizer: DomSanitizer,
 		router: Router,
 		route: ActivatedRoute
 	) {
 		super(router, route);
 		title.setTitle(`Login - ${this.configService.theme['serviceName'] || "Badgr"}`);
 		this.handleQueryParamCases();
+	}
+
+	sanitize(url:string){
+		return this.sanitizer.bypassSecurityTrustUrl(url);
 	}
 
 	ngOnInit() {

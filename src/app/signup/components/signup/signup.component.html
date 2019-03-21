@@ -44,12 +44,12 @@
 			*ngIf="sessionService.enabledExternalAuthProviders.length > 0"
 		>
 			<button
-				type="button"
 				*ngFor="let provider of sessionService.enabledExternalAuthProviders"
-				class="socialbutton socialbutton-{{ provider.slug }}"
 				(click)="sessionService.initiateUnauthenticatedExternalAuth(provider)"
-			>
-				{{ provider.name }}
+				class="socialbutton"
+				[style.backgroundColor]="provider.color">
+				<div class="visuallyhidden">Access with {{provider.label}}</div>
+				<img [src]="sanitize(provider.imgSrc)" alt="">
 			</button>
 		</div>
 		<h3
