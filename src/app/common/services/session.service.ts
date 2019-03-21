@@ -12,6 +12,7 @@ import {throwExpr} from '../util/throw-expr';
 import {UpdatableSubject} from '../util/updatable-subject';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {NavigationService} from './navigation.service';
+import { DomSanitizer } from "@angular/platform-browser";
 
 /**
  * The key used to store the authentication token in session and local storage.
