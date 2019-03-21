@@ -51,7 +51,11 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 			])
 			.then(([list]) => this.collection = list.entityForSlug(this.collectionSlug))
 			.then(collection => collection.badgesPromise)
-			.catch(err => this.messageService.reportHandledError(`Failed to load collection ${this.collectionSlug}`));
+			.catch(err => {
+				router.navigate(["/"]);
+				return this.messageService.reportHandledError(`Failed to load collection ${this.collectionSlug}`);
+			}
+			);
 	}
 
 	get collectionSlug(): string { return this.route.snapshot.params['collectionSlug']; }

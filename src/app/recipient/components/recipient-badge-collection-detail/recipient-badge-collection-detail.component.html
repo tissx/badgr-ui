@@ -4,9 +4,9 @@
 	<div class="l-containerxaxis">
 		<div class="topbar-x-wrap" *bgAwaitPromises="[ collectionLoadedPromise ]">
 			<ng-container *ngIf="! editForm.isEditing">
-				<div class="topbar-x-heading">{{ collection.name }}</div>
+				<div class="topbar-x-heading">{{ collection?.name }}</div>
 				<div class="topbar-x-subheading">
-					<p class="u-text" [truncatedText]="collection.description" [maxLength]="100"></p>
+					<p class="u-text" [truncatedText]="collection?.description" [maxLength]="100"></p>
 					
 					<div class="switch u-margin-top2x">
 						<fieldset class="switch-x-container">
@@ -25,7 +25,7 @@
 				</div>
 				<div class="topbar-x-checkboxbuttonform">
 					<div class="l-primarymore">
-						<button class="button" [class.button-is-disabled]="! collection.published" [disabled]="! collection.published"
+						<button class="button" [class.button-is-disabled]="! collection?.published" [disabled]="! collection?.published"
 						 (click)="shareCollection()">Share Collection</button>
 						<button class="buttonicon buttonicon-secondary" [bgPopupMenuTrigger]="collectionActionMenu">
 							<svg icon="icon_more"></svg>
@@ -54,12 +54,12 @@
 <section class="l-containerxaxis l-containeryaxis" *bgAwaitPromises="[ collectionLoadedPromise ]">
 
 	<!-- Empty State for badges -->
-	<ng-container *ngIf="collection.badgeEntries.length === 0">
+	<ng-container *ngIf="collection?.badgeEntries.length === 0">
 		<div class="emptysection l-emptysection">
 			<h2 class="emptysection-x-headline">
 				Collection Empty</h2>
 			<p class="emptysection-x-copy">
-				Looks like you do not have any badges in this collection. Add some!</p>
+				Looks like you do not have any badges in this collection?. Add some!</p>
 			<div class="emptysection-x-buttons">
 			    <button class="button button-secondary" type="button"
 			    		(click)="manageBadges()"
@@ -73,7 +73,7 @@
 	</ng-container>
 
 	<!-- List of Badges in Collection -->
-	<ng-container *ngIf="collection.badgeEntries.length > 0">
+	<ng-container *ngIf="collection?.badgeEntries.length > 0">
 		<div class="l-stack u-margin-bottom2x">
 			<h2 class="u-text-h3-semibold">{{badgesInCollectionCount}}</h2>
 			<button class="button button-secondary" type="button" (click)="manageBadges()">Add Badges</button>
@@ -89,7 +89,7 @@
 				</tr>
 			</thead>
 			<tbody class="datatable-x-body">
-				<tr class="datatable-x-row" *ngFor="let entry of collection.badgeEntries">
+				<tr class="datatable-x-row" *ngFor="let entry of collection?.badgeEntries">
 					<th class="datatable-x-cell">
 						<a [routerLink]="['/recipient/earned-badge', entry.badge.slug]" class="l-flex l-flex-1x l-flex-aligncenter">
 							<img [loaded-src]="entry.badge.image" [loading-src]="badgeLoadingImageUrl" [error-src]="badgeFailedImageUrl"
