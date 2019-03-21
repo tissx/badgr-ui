@@ -7,7 +7,7 @@ import {SessionService} from '../../../common/services/session.service';
 import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
 import {MessageService} from '../../../common/services/message.service';
 import {EmailValidator} from '../../../common/validators/email.validator';
-import {Title} from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import {markControlsDirty} from '../../../common/util/form-util';
 import {AppConfigService} from '../../../common/app-config.service';
 import {OAuthManager} from '../../../common/services/oauth-manager.service';
@@ -48,11 +48,16 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		public sessionService: SessionService,
 		public signupService: SignupService,
 		public oAuthManager: OAuthManager,
+		private sanitizer: DomSanitizer,
 		router: Router,
 		route: ActivatedRoute
 	) {
 		super(router, route);
 		title.setTitle(`Signup - ${this.configService.theme['serviceName'] || 'Badgr'}`);
+	}
+
+	sanitize(url:string){
+		return this.sanitizer.bypassSecurityTrustUrl(url);
 	}
 
 	ngOnInit() {
