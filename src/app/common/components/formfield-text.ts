@@ -35,7 +35,8 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 			       [id]="inputId"
 			       [formControl]="control"
 			       [placeholder]="placeholder || ''"
-			       [maxlength] = "maxchar"
+						 [maxlength] = "maxchar"
+						 [max] = "max"
 			       (change)="postProcessInput()"
 			       (focus)="cacheControlState()"
 			       (keypress)="handleKeyPress($event)"
@@ -159,7 +160,8 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() sublabel: string;
 	@Input() placeholder: string;
 	@Input() fieldType: FormFieldTextInputType = 'text';
-	@Input() maxchar: number;
+	@Input() maxchar?: number;
+	@Input() max?: number;
 	@Input() optional = false;
 	@Input() inlineButtonText: string;
 

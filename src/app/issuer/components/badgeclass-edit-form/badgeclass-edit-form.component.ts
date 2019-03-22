@@ -98,7 +98,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	// Expiration
 	expirationEnabled = false;
 	expirationForm = typedFormGroup()
-		.addControl('expires_amount', '', [Validators.required, this.positiveInteger])
+		.addControl('expires_amount', '', [Validators.required, this.positiveInteger, Validators.max(1000)])
 		.addControl('expires_duration', '', Validators.required);
 
 	durationOptions: { [key in BadgeClassExpiresDuration]: string } = {

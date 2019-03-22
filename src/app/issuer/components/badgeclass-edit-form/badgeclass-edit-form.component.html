@@ -357,6 +357,8 @@
 				<bg-formfield-text
 					[control]="expirationForm.rawControlMap.expires_amount"
 					label="Number"
+					[fieldType]="'number'"
+					[max]="1000"
 					[maxchar]="4"
 				></bg-formfield-text>
 				<bg-formfield-select
