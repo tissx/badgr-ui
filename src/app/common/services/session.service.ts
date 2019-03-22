@@ -51,7 +51,7 @@ export class SessionService {
 		private navService: NavigationService,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
-		this.enabledExternalAuthProviders = configService.featuresConfig.externalAuthProviders;
+		this.enabledExternalAuthProviders = configService.featuresConfig.externalAuthProviders || [];
 	}
 
 	login(credential: UserCredential, sessionOnlyStorage = false): Promise<AuthorizationToken> {
