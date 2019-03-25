@@ -50,8 +50,8 @@ import {throwExpr} from '../util/throw-expr';
 
 			<ng-container *ngIf="!imageDataUrl">
 				<svg class="dropzone-x-icon" icon="icon_upload"></svg>
-				<p class="dropzone-x-info1">Drag &amp; Drop File</p>
-				<p class="dropzone-x-info2">or <span class="u-text-link">Select File to Upload</span></p>
+				<p class="dropzone-x-info1">Drag and drop</p>
+				<p class="dropzone-x-info2">or <span class="u-text-link">browse</span></p>
 			</ng-container>
 
 		</label>
