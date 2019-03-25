@@ -1,17 +1,19 @@
 <ng-template [bgAwaitPromises]="assertionIdParam">
 	<!-- Embedded View -->
-	<bg-badgecard
-		[badgeTitle]="badgeClass.name"
-		[badgeImage]="assertion.image"
-		[badgeDescription]="badgeClass.description"
-		[badgeIssueDate]="assertion.issuedOn"
-		[mostRelevantStatus]=""
-		[issuerTitle]="issuer.name"
-		[verifyUrl]="verifyUrl"
-		*ngIf="embedService.isEmbedded"
-	>
-	</bg-badgecard>
-
+	
+	<div>
+		<bg-badgecard
+			[badgeTitle]="badgeClass.name"
+			[badgeImage]="assertion.image"
+			[badgeDescription]="badgeClass.description"
+			[badgeIssueDate]="assertion.issuedOn"
+			[mostRelevantStatus]=""
+			[issuerTitle]="issuer.name"
+			[verifyUrl]="verifyUrl"
+			*ngIf="embedService.isEmbedded"
+		>
+		</bg-badgecard>
+	</div>
 	<!-- Regular View -->
 	<main class="o-container"
 		*ngIf="! embedService.isEmbedded">

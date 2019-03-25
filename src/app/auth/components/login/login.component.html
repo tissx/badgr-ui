@@ -5,13 +5,13 @@
 		></markdown-display>
 		<ng-template [ngIf]="! sessionService.enabledExternalAuthProviders.length">
 			<p class="u-text u-text-body u-margin-top2x">
-				Sign in with your email and password. Don't have an account yet? <a [routerLink]="['/signup']">Create an
-				account</a>!
+				Sign in to get started.
 			</p>
 		</ng-template>
 		<ng-template [ngIf]="sessionService.enabledExternalAuthProviders.length">
 			<p class="u-text-body u-margin-top2x">
-				Choose your sign in method to get started.</p>
+				Sign in to get started.
+			</p>
 			<h3 class="l-ruleheadline ruleheadline">
 				Sign in With</h3>
 			<div class="l-socialbuttons u-margin-top2x">
