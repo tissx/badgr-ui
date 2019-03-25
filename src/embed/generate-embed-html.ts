@@ -1,4 +1,4 @@
-const checkmarkSvg = require("../breakdown/static/images/checkmark-circle.svg");
+const checkmarkSvg = require("url-loader!../breakdown/static/images/checkmark-circle.png") as string;
 
 export function generateEmbedHtml(embedOptions) {
 	const options = embedOptions || {
@@ -116,8 +116,7 @@ export function generateEmbedHtml(embedOptions) {
 			verifyButtonStyle
 		);
 		if (options.verified) {
-			const svgUrl =
-				(options.staticPrefix || window.location.origin) + checkmarkSvg;
+			const svgUrl = checkmarkSvg;
 			const checkImg = document.createElement("img");
 			checkImg.src = svgUrl;
 			verifyTag.appendChild(checkImg);
