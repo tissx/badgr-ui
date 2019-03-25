@@ -1,37 +1,44 @@
-<div *ngIf="isEditing">
-	<form class="l-form l-form-image"
-    	[formGroup]="badgeCollectionForm"
-    	(ngSubmit)="submitForm(badgeCollectionForm.value)"
-    	novalidate>
-		<fieldset>
-			<bg-formfield-text
-				[autofocus]="true"
-				[control]="badgeCollectionForm.controls.collectionName"
-				[errorMessage]="{required: 'Please enter a collection name'}"
-			    [label]="'Name'"
-			    [maxchar]="128"
-			    [sublabel]="' remaining characters'"
-		    ></bg-formfield-text>
-			<bg-formfield-text class="u-margin-top3x"
-				[control]="badgeCollectionForm.controls.collectionDescription"
-				[errorMessage]="{required: 'Please enter a description'}"
-				[label]="'Description'"
-				[maxchar]="255"
-			    [multiline]="true"
-			    [sublabel]="' remaining characters'"
-			></bg-formfield-text>
-			<div class="l-flex l-flex-2x u-margin-top2x">
-				<a class="button button-secondary"
-				   [disabled-when-requesting]="true"
-				   (click)="cancelEditing()"
-				>Cancel</a>
-				<button class="button" type="submit"
-		        	[disabled]="!! savePromise"
-		        	(click)="validateForm($event)"
-		        	[loading-promises]="[ savePromise ]"
-		        	loading-message="Saving"
-				>Save</button>
-			</div>
-		</fieldset>
-	</form>
-</div>
+<main>
+	<form-message></form-message>
+	<header class="l-containerxaxis topbar">
+		<h3 class="topbar-x-heading">Add Badge Collection</h3>
+		<p class="topbar-x-subheading">Adding a collection allows your to organize your badges.</p>
+	</header>
+
+	<div *ngIf="isEditing">
+		<form [formGroup]="badgeCollectionForm.rawControl"
+					(ngSubmit)="onSubmit(badgeCollectionForm.value)"
+					novalidate
+		>
+			<fieldset>
+				<bg-formfield-text
+					[autofocus]="true"
+					[control]="badgeCollectionForm.rawControlMap.collectionName"
+					[errorMessage]="{required: 'Please enter a collection name'}"
+						[label]="'Name'"
+						[maxchar]="128"
+						[sublabel]="' remaining characters'"
+					></bg-formfield-text>
+				<bg-formfield-text class="u-margin-top3x"
+					[control]="badgeCollectionForm.rawControlMap.collectionDescription"
+					[errorMessage]="{required: 'Please enter a description'}"
+					[label]="'Description'"
+					[maxchar]="255"
+						[multiline]="true"
+						[sublabel]="' remaining characters'"
+				></bg-formfield-text>
+				<div class="l-flex l-flex-2x u-margin-top2x">
+					<a class="button button-secondary"
+						 [disabled-when-requesting]="true"
+						 (click)="cancelEditing()"
+					>Cancel</a>
+					<button class="button" type="submit"
+								[disabled]="!! savePromise"
+								[loading-promises]="[ savePromise ]"
+								loading-message="Saving"
+					>Save</button>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</main>

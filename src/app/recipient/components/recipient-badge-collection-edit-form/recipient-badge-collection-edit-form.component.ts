@@ -1,15 +1,20 @@
-import {Component, Input} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {SessionService} from '../../../common/services/session.service';
 import {MessageService} from '../../../common/services/message.service';
-import {markControlsDirty} from '../../../common/util/form-util';
-import {RecipientBadgeCollection} from '../../models/recipient-badge-collection.model';
+import {AppConfigService} from '../../../common/app-config.service';
+import {RecipientBadgeCollectionManager} from '../../services/recipient-badge-collection-manager.service';
 import {typedFormGroup} from '../../../common/util/typed-forms';
+import { RecipientBadgeCollection } from "../../models/recipient-badge-collection.model";
 
 @Component({
 	selector: 'recipient-badge-collection-edit-form',
 	templateUrl: './recipient-badge-collection-edit-form.component.html'
 })
-export class RecipientBadgeCollectionEditFormComponent {
+export class RecipientBadgeCollectionEditFormComponent extends BaseAuthenticatedRoutableComponent implements OnInit  {
 	@Input() badgeCollection: RecipientBadgeCollection;
 
 	badgeCollectionForm = typedFormGroup()
@@ -22,9 +27,22 @@ export class RecipientBadgeCollectionEditFormComponent {
 	isEditing = false;
 
 	constructor(
-		private messageService: MessageService
+		router: Router,
+		route: ActivatedRoute,
+		loginService: SessionService,
+		private formBuilder: FormBuilder,
+		private title: Title,
+		private messageService: MessageService,
+		private configService: AppConfigService,
+		private recipientBadgeCollectionManager: RecipientBadgeCollectionManager
 	) {
+		super(router, route, loginService);
 	}
+
+	ngOnInit() {
+		super.ngOnInit();
+	}
+
 
 	startEditing() {
 		this.isEditing = true;
@@ -37,7 +55,7 @@ export class RecipientBadgeCollectionEditFormComponent {
 		this.isEditing = false;
 	}
 
-	protected submitForm() {
+	onSubmit() {
 		if (! this.badgeCollectionForm.markTreeDirtyAndValidate()) {
 			return;
 		}
