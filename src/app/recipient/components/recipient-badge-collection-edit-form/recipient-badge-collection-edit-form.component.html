@@ -1,9 +1,5 @@
 <main>
 	<form-message></form-message>
-	<header class="l-containerxaxis topbar">
-		<h3 class="topbar-x-heading">Add Badge Collection</h3>
-		<p class="topbar-x-subheading">Adding a collection allows your to organize your badges.</p>
-	</header>
 
 	<div *ngIf="isEditing">
 		<form [formGroup]="badgeCollectionForm.rawControl"
