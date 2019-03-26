@@ -94,7 +94,7 @@
 						<td class="datatable-x-cell">
 							<div class="l-flex l-flex-aligncenter l-flex-1x">
 								<img class="l-flex-x-shrink0 badgeimage badgeimage-small" src="{{badge.image}}" alt="{{badge.description}}" width="40">
-								<a class="u-text" [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
+								<a class="u-text u-text-breakword" [routerLink]="['/issuer/issuers', issuer.slug, 'badges', badge.slug]">{{badge.name}}</a>
 								<div class="u-hidden-minmobilelarge l-flex-x-selfcenter u-margin-leftauto">
 									<a class="u-text-link-small" [routerLink]="['/issuer/issuers/', issuer.slug, 'badges', badge.slug, 'issue']">Award</a>
 								</div>

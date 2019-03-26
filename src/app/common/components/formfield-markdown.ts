@@ -8,9 +8,9 @@ import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 @Component({
 	selector: 'bg-formfield-markdown',
 	host: {
-		'class': "formfield",
-		'[class.formfield-is-error]': "isErrorState",
-		'[class.formfield-locked]': "isLockedState",
+		'class': "forminput",
+		'[class.forminput-is-error]': "isErrorState",
+		'[class.forminput-locked]': "isLockedState",
 	},
 	template: `
 	<div class="mdeditor">

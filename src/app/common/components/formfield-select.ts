@@ -10,8 +10,8 @@ import {CustomValidatorMessages, messagesForValidationError} from './formfield-t
 
 	host: {
 		'class': "forminput",
-		'[class.formfield-is-error]': "isErrorState",
-		'[class.formfield-locked]': "isLockedState",
+		'[class.forminput-is-error]': "isErrorState",
+		'[class.forminput-locked]': "isLockedState",
 	},
 	template: `
 		<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
