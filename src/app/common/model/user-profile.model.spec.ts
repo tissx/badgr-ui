@@ -163,6 +163,15 @@ export const apiSocialAccountKony: ApiUserProfileSocialAccount = {
 	lastName: "Auth",
 	primaryEmail: "kony@badgr.io"
 };
+export const apiSocialAccountAmazon: ApiUserProfileSocialAccount = {
+	id: "social-account:amazon",
+	provider: "amazon",
+	dateAdded: new Date().toISOString(),
+	uid: "amazon-uid",
+	firstName: "Amazon",
+	lastName: "Auth",
+	primaryEmail: "amazon@badgr.io"
+};
 export const apiSocialAccountLinkedIn: ApiUserProfileSocialAccount = {
 	id: "social-account:linkedin_oauth2",
 	provider: "linkedin_oauth2",
