@@ -7,9 +7,6 @@ import {BadgrTheme} from '../../theming/badgr-theme';
 import * as deepmerge from 'deepmerge';
 import {animationFramePromise} from './util/promise-util';
 import {initializeTheme} from '../../theming/theme-setup';
-import {PackageJson} from 'license-webpack-plugin/dist/PackageJson';
-
-const packageJsonVersion = (require("../../../package.json") as PackageJson).version;
 
 @Injectable()
 export class AppConfigService {
@@ -109,7 +106,7 @@ export class AppConfigService {
 		const oneHourMs = 60 * 60 * 1000;
 		const timeCode = Math.floor(Date.now() / oneHourMs);
 
-		const configUrl = `${baseUrl}/${version}/${domain}/config.json?v=${packageJsonVersion}&t=${timeCode}&cacheBust=${cacheBust}`;
+		const configUrl = `${baseUrl}/${version}/${domain}/config.json?t=${timeCode}&cacheBust=${cacheBust}`;
 
 		return this.http.get(configUrl)
 			.toPromise()
