@@ -95,7 +95,7 @@
 						<a [routerLink]="['/recipient/earned-badge', entry.badge.slug]" class="l-flex l-flex-1x l-flex-aligncenter">
 							<img [loaded-src]="entry.badge.image" [loading-src]="badgeLoadingImageUrl" [error-src]="badgeFailedImageUrl"
 								 [ngStyle]="entry.badge.isExpired && {'filter':'grayscale(1)'}" width="40" height="40" />
-							<p class="u-text-link">{{ entry.badge.badgeClass.name }}</p>
+							<p class="u-text-link u-text-breakword">{{ entry.badge.badgeClass.name }}</p>
 							<span *ngIf="entry.badge.mostRelevantStatus" class="u-margin-right1x badgestatus badgestatus-{{entry.badge.mostRelevantStatus}}">
 								{{entry.badge.mostRelevantStatus}}
 							</span>
