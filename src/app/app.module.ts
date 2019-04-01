@@ -107,8 +107,6 @@ export const appInitializerFn = (configService: AppConfigService) => {
 
 		window["badgrConfig"] = config;
 
-		await timeoutPromise(1000);
-
 		initializeTheme(configService);
 	};
 };
