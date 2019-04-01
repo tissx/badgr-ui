@@ -25,6 +25,7 @@ import {Title} from '@angular/platform-browser';
 import {MarkdownHintsDialog} from './common/dialogs/markdown-hints-dialog.component';
 import { Issuer } from "./issuer/models/issuer.model";
 import { IssuerManager } from "./issuer/services/issuer-manager.service";
+import { Angulartics2GoogleAnalytics } from "angulartics2/ga";
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -102,10 +103,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 		private queryParams: QueryParametersService,
 		private externalToolsManager: ExternalToolsManager,
 		private initialLoadingIndicatorService: InitialLoadingIndicatorService,
+		private angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
 		private angulartics2GoogleTagManager: Angulartics2GoogleTagManager,   // required for angulartics to work
 		private titleService: Title,
 		protected issuerManager: IssuerManager,
 	) {
+
+		angulartics2GoogleTagManager.startTracking();
+
 		messageService.useRouter(router);
 
 		titleService.setTitle(this.configService.theme['serviceName'] || "Badgr");

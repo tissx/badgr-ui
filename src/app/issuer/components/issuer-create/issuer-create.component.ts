@@ -42,9 +42,7 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 			Validators.required,
 			UrlValidator.validUrl
 		])
-		.addControl('issuer_image', '')
-		.addControl('agreedTerms', '', Validators.requiredTrue)
-	;
+		.addControl('issuer_image', '');
 
 	emails: UserProfileEmail[];
 	emailsOptions: FormFieldSelectOption[];
@@ -64,6 +62,10 @@ export class IssuerCreateComponent extends BaseAuthenticatedRoutableComponent im
 	) {
 		super(router, route, loginService);
 		title.setTitle(`Create Issuer - ${this.configService.theme['serviceName'] || 'Badgr'}`);
+
+		if(this.configService.theme.dataProcessorTermsLink) {
+			this.issuerForm.addControl('agreedTerms', '', Validators.requiredTrue);
+		}
 
 		this.emailsLoaded = this.profileManager.userProfilePromise
 			.then(profile => profile.emails.loadedPromise)
