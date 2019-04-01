@@ -56,6 +56,7 @@
 		></bg-formfield-text>
 
 		<label [class.checkbox-is-error]="issuerForm.rawControlMap.agreedTerms.dirty && !issuerForm.rawControlMap.agreedTerms.valid"
+					 *ngIf="configService.theme.dataProcessorTermsLink"
 		       class="checkbox  l-marginBottom-2x"
 		       for="terms"
 		>
