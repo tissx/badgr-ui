@@ -116,7 +116,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		titleService.setTitle(this.configService.theme['serviceName'] || "Badgr");
 
 		this.initScrollFix();
-		this.initAnalytics();
 
 		const authCode = this.queryParams.queryStringValue("authCode", true);
 		if (sessionService.isLoggedIn && !authCode) {
@@ -181,26 +180,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 				header.scrollIntoView();
 			}
 		});
-	}
-
-	private initAnalytics() {
-		/* tslint:disable */
-		if (this.configService.googleAnalyticsConfig.trackingId) {
-			((i, s, o, g, r, a?, m?) => {
-				i[ 'GoogleAnalyticsObject' ] = r;
-				i[ r ] = i[ r ] || function () {
-					(i[ r ].q = i[ r ].q || []).push(arguments);
-				}, i[ r ].l = 1 * (new Date() as any);
-				a = s.createElement(o),
-					m = s.getElementsByTagName(o)[ 0 ];
-				a.async = 1;
-				a.src = g;
-				m.parentNode.insertBefore(a, m);
-			})(window, document, 'script', '//www.googletagmanager.com/gtag/js', 'gtag');
-
-			window[ "gtag" ]('config', this.configService.googleAnalyticsConfig.trackingId);
-		}
-		/* tslint:enable */
 	}
 
 	ngOnInit() {
