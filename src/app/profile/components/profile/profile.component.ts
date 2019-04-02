@@ -109,7 +109,14 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Linked Accounts
 
-	async unlinkAccount(socialAccount: UserProfileSocialAccount) {
+	async unlinkAccount($event: Event, socialAccount: UserProfileSocialAccount, accountsNum: number) {
+		$event.preventDefault();
+		// safety first!
+		if(accountsNum <= 1 && !this.profile.hasPasswordSet){
+			this.messageService.reportHandledError('Please set a password using the "Set Password" button above before removing this integration.');
+			// alert('Please set a password using the "Set Password" button above before removing this integration.');
+			return false;
+		}
 		if (await this.dialogService.confirmDialog.openTrueFalseDialog({
 			dialogTitle: `Unlink ${socialAccount.providerInfo.name}?`,
 			dialogBody: `Are you sure you want to unlink the ${socialAccount.providerInfo.name} account ${socialAccount.fullLabel}) from your ${this.configService.theme['serviceName'] || "Badgr"} account? You may re-link in the future by clicking the ${socialAccount.providerInfo.name} button on this page.`,
@@ -129,7 +136,8 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		}
 	}
 
-	linkAccount(info: SocialAccountProviderInfo) {
+	linkAccount($event: Event, info: SocialAccountProviderInfo) {
+		$event.preventDefault();
 		this.oauthService.connectProvider(info).then(r => {
 			window.location.href = r.url;
 		});

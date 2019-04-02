@@ -8,7 +8,7 @@
 				<div class="l-primarymore">
 					<button [routerLink]="['../change-password']"
 					        class="button"
-					>Change Password
+					>{{(profile.hasPasswordSet)?'Change':'Set'}} Password
 					</button>
 					<button [bgPopupMenuTrigger]="editMenu"
 					        class="buttonicon buttonicon-secondary"
@@ -182,7 +182,7 @@
 					<div class="l-flex l-flex-justifyend">
 						<a href="#"
 						   class="u-text u-text-small u-text-bold"
-						   (click)="$event.preventDefault();unlinkAccount(account)"
+						   (click)="unlinkAccount($event, account, socialAccounts.length)"
 						>Unlink</a>
 					</div>
 				</td>
@@ -203,7 +203,7 @@
 
 			<button
 				*ngFor="let provider of sessionService.enabledExternalAuthProviders"
-				(click)="linkAccount(provider)"
+				(click)="linkAccount($event, provider)"
 				class="socialbutton"
 				[style.backgroundColor]="provider.color">
 				<div class="visuallyhidden">Access with {{provider.label}}</div>

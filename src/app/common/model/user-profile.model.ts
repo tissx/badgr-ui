@@ -32,6 +32,7 @@ export class UserProfile extends ManagedEntity<ApiUserProfile, UserProfileRef> {
 
 	get agreedTermsVersion() { return this.apiModel.agreed_terms_version; }
 	get latestTermsVersion() { return this.apiModel.latest_terms_version; }
+	get hasPasswordSet() { return this.apiModel.has_password_set; }
 
 	get latestTermsDescription() { return this.apiModel.latest_terms_description; }
 

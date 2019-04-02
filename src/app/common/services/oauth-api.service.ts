@@ -19,7 +19,7 @@ export class OAuthApiService extends BaseHttpApiService {
 	}
 
 	listAuthorizations(): Promise<ApiOAuth2AppAuthorization[]> {
-		const now = new Date;
+		const now = new Date();
 
 		return this.get(`/v2/auth/tokens`)
 			.then(r => r.body as ApiOAuth2AppAuthorization[]);

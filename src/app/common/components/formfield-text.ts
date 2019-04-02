@@ -46,9 +46,8 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 			<div class="forminput-x-button" *ngIf="inlineButtonText">
 				<button class="button button-secondary button-informinput"
 						(click)="buttonClicked.emit($event)"
+						[disabled-when-requesting]="true"
 						type="submit"
-				        [disabled-when-requesting]="true"
-				        type="submit"
 				>
 					{{inlineButtonText}}
 				</button>

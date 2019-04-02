@@ -8,6 +8,7 @@ export interface ApiUserProfile {
 	last_name: string;
 	agreed_terms_version: number;
 	latest_terms_version: number;
+	has_password_set: boolean;
 	latest_terms_description: string;
 	marketing_opt_in: boolean;
 }

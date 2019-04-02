@@ -7,7 +7,7 @@ export type ValidationResult = null | {
 
 export class EmailValidator {
 	static validEmail(control: FormControl): ValidationResult {
-		return typeof(control.value) !== "string" || control.value.trim().length == 0 || isEmail(control.value)
+		return typeof(control.value) !== "string" || control.value.trim().length === 0 || isEmail(control.value)
 			? null
 			: { 'invalidEmail': true };
 	}
