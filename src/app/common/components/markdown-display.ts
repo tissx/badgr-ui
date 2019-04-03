@@ -8,7 +8,6 @@ import {Component, Input} from '@angular/core';
 		<div class="markdown"
 			 [bgMarkdown]="value"
 			>
-			Markdown preview
 		</div>
 	`
 })

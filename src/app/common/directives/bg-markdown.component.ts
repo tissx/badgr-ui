@@ -11,6 +11,7 @@ export class BgMarkdownComponent implements AfterViewChecked {
 
 	@Input()
 	set bgMarkdown(markdown: string) {
+		markdown = markdown || "";
 		this.renderedHtml = marked(
 			markdown,
 			{
