@@ -156,6 +156,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 	dismissUnsupportedBrowserMessage() {
 		this.isUnsupportedBrowser = false;
 	}
+
+	showIssuersTab = () => !this.features.disableIssuers || this.issuers.length > 0;
+
 	toggleMobileNav() {
 		this.mobileNavOpen = !this.mobileNavOpen;
 	}

@@ -28,7 +28,7 @@
 					 [routerLink]="['/recipient/badges']">Backpack</a>
 					<a role="menuitem" [class.navitem-light]="!theme.useColorNavbar" class="navitem" routerLinkActive="navitem-is-active"
 					 [routerLink]="['/recipient/badge-collections']">Collections</a>
-					<a role="menuitem" *ngIf="!features.disableIssuers || issuers?.length > 0" [class.navitem-light]="!theme.useColorNavbar"
+					<a role="menuitem" *ngIf="showIssuersTab()" [class.navitem-light]="!theme.useColorNavbar"
 					 class="navitem" routerLinkActive="navitem-is-active" [routerLink]="['/issuer']">Issuers</a>
 					<button role="menuitem" aria-haspopup="true" [class.navitem-light]="!theme.useColorNavbar" class="navitem u-cursor-pointer"
 					 *ngIf="launchpoints?.length" routerLinkActive="navitem-is-active" [bgPopupMenuTrigger]="appsMenu">
@@ -99,7 +99,7 @@
 		<div class="mobilenav-x-navitems">
 			<a [routerLink]="['/recipient/badges']">Backpack</a>
 			<a [routerLink]="['/recipient/badge-collections']">Collections</a>
-			<a [routerLink]="['/issuer']">Issuers</a>
+			<a [routerLink]="['/issuer']" *ngIf="showIssuersTab()">Issuers</a>
 
 			<hr class="mobilenav-x-rule" *ngIf="launchpoints?.length">
 			<p class="mobilenav-x-label" *ngIf="launchpoints?.length">Apps</p>
