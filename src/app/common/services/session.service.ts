@@ -41,8 +41,8 @@ export class SessionService {
 
 	enabledExternalAuthProviders: ExternalAuthProvider[];
 
-	private loggedInSubect = new UpdatableSubject<boolean>();
-	get loggedin$() { return this.loggedInSubect.asObservable(); }
+	private loggedInSubject = new UpdatableSubject<boolean>();
+	get loggedin$() { return this.loggedInSubject.asObservable(); }
 
 	constructor(
 		private http: HttpClient,
@@ -101,7 +101,7 @@ export class SessionService {
 		localStorage.removeItem(TOKEN_STORAGE_KEY);
 		sessionStorage.removeItem(TOKEN_STORAGE_KEY);
 
-		this.loggedInSubect.next(false);
+		this.loggedInSubject.next(false);
 	}
 
 	storeToken(token: AuthorizationToken, sessionOnlyStorage = false): void {
@@ -115,7 +115,7 @@ export class SessionService {
 			localStorage.setItem(EXPIRATION_DATE_STORAGE_KEY, expirationDateStr);
 		}
 
-		this.loggedInSubect.next(true);
+		this.loggedInSubject.next(true);
 	}
 
 	get currentAuthToken(): AuthorizationToken | null {
