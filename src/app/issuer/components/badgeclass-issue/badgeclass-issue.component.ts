@@ -114,6 +114,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 	};
 	expirationValidator: (control: FormControl) => ValidationResult = (control) => {
+		console.log('expirationValidator', this.expirationEnabled)
 		if (this.expirationEnabled) {
 			return Validators.compose([Validators.required, DateValidator.validDate])(control);
 		} else {

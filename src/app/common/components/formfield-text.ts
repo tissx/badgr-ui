@@ -35,7 +35,7 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 			       [id]="inputId"
 			       [formControl]="control"
 			       [placeholder]="placeholder || ''"
-						 [maxlength] = "maxchar"
+						 [attr.maxlength] = "maxchar"
 						 [max] = "max"
 			       (change)="postProcessInput()"
 			       (focus)="cacheControlState()"
@@ -56,7 +56,7 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 			          [name]="inputName"
 			          [id]="inputId"
 			          [formControl]="control"
-			          [maxlength] = "maxchar"
+			          [attr.maxlength] = "maxchar"
 			          [placeholder]="placeholder || ''"
 			          (change)="postProcessInput()"
 			          (focus)="cacheControlState()"
@@ -272,7 +272,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	}
 
 	handleKeyUp(event: KeyboardEvent) {
-		this.remainingCharactersNum = this.maxchar - this.control.value.length;
+		this.remainingCharactersNum = this.maxchar - (this.control.value? this.control.value.length :0);
 	}
 
 	private postProcessInput() {
@@ -285,7 +285,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 /**
  * Allowable HTML input type for text based inputs.
  */
-export type FormFieldTextInputType = 'text' | 'email' | 'url' | 'tel' | 'password' | 'search';
+export type FormFieldTextInputType = 'text' | 'email' | 'url' | 'tel' | 'password' | 'search' | 'date';
 
 export type ValidatorKey = 'required' | 'maxlength' | 'validUrl';
 
