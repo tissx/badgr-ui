@@ -4,7 +4,6 @@ import {ValidationResult} from './email.validator';
 export class DateValidator {
 	static validDate(control: FormControl): ValidationResult {
 		const value = control.value;
-		console.log('!!!', typeof value, value);
 		if (typeof value === "string" && value.trim().length > 0 && isNaN(new Date(value).getTime())) {
 			return { 'invalidDate': true };
 		} else {
