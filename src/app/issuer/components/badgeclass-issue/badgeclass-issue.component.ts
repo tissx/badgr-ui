@@ -66,6 +66,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	}
 
 	expirationDateEditable = false;
+	dateError = false;
 
 	issuer: Issuer;
 	issueForm = typedFormGroup()
@@ -114,7 +115,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		}
 	};
 	expirationValidator: (control: FormControl) => ValidationResult = (control) => {
-		console.log('expirationValidator', this.expirationEnabled)
+		console.warn('expirationValidator', this.expirationEnabled);
 		if (this.expirationEnabled) {
 			return Validators.compose([Validators.required, DateValidator.validDate])(control);
 		} else {
@@ -184,6 +185,8 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 		this.issueForm.controls.evidence_items.addFromTemplate();
 	}
 
+	isDate = (date) => (new Date(date) !== "Invalid Date" && !isNaN(new Date(date)) ) ? true : false;
+
 	onSubmit() {
 		if (! this.issueForm.markTreeDirtyAndValidate()) {
 			return;
@@ -201,6 +204,13 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				"name": cleanedName
 			}
 		} : undefined;
+
+		if(this.expirationEnabled && !this.isDate(formState.expires)){
+			this.dateError = true;
+			return false;
+		} else {
+			this.dateError = false;
+		}
 
 		const expires = (this.expirationEnabled && formState.expires) ? new Date(formState.expires).toISOString() : undefined;
 

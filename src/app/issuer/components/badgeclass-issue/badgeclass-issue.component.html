@@ -249,6 +249,7 @@
 						                   ariaLabel="Expiration date"
 						                   [errorMessage]="'Please enter a date in the format YYYY/mm/dd'"
 						></bg-formfield-text>
+						<div class="u-text-error u-text-small" *ngIf="dateError">Please enter a date in the format YYYY/mm/dd.</div>
 					</div>
 					<div *ngIf="defaultExpiration && !expirationDateEditable"
 					     class="forminput"
