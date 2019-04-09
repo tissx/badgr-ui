@@ -10,7 +10,7 @@ import { DomSanitizer, Title } from '@angular/platform-browser';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
 import {BadgrApiFailure} from '../../../common/services/api-failure';
-import {SocialAccountProviderInfo} from '../../../common/model/user-profile-api.model';
+import { ExternalAuthProvider, SocialAccountProviderInfo } from '../../../common/model/user-profile-api.model';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 import {UserProfile, UserProfileEmail, UserProfileSocialAccount} from '../../../common/model/user-profile.model';
 import {Subscription} from 'rxjs';
@@ -136,7 +136,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		}
 	}
 
-	linkAccount($event: Event, info: SocialAccountProviderInfo) {
+	linkAccount($event: Event, info: ExternalAuthProvider) {
 		$event.preventDefault();
 		this.oauthService.connectProvider(info).then(r => {
 			window.location.href = r.url;

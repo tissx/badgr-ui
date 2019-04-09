@@ -4,7 +4,7 @@ import {AppConfigService} from '../app-config.service';
 import {MessageService} from './message.service';
 import {BaseHttpApiService} from './base-http-api.service';
 import {ApiOAuth2AppAuthorization, ApiOAuth2ClientAuthorized, ApiOAuthResponse, OAuth2RequestParams} from '../model/oauth-api.model';
-import {SocialAccountProviderInfo} from '../model/user-profile-api.model';
+import { ExternalAuthProvider, SocialAccountProviderInfo } from '../model/user-profile-api.model';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable()
@@ -64,7 +64,7 @@ export class OAuthApiService extends BaseHttpApiService {
 		).then(r => r.body);
 	}
 
-	connectProvider(provider: SocialAccountProviderInfo) {
+	connectProvider(provider: ExternalAuthProvider) {
 		return this
 			.get<{ url: string }>(`/v1/user/socialaccounts/connect?provider=${provider.slug}`)
 			.then(r => r.body);
