@@ -92,8 +92,11 @@ export class ShareSocialDialog extends BaseDialog {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Share Window API
-	openShareWindow(shareServiceType: ShareServiceType) {
+	openShareWindow(
+		$event: Event,
+		shareServiceType: ShareServiceType) {
 		this.sharingService.shareWithProvider(
+			$event,
 			shareServiceType,
 			this.options.shareObjectType,
 			this.options.shareIdUrl,

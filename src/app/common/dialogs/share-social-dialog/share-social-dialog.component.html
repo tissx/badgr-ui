@@ -170,22 +170,22 @@
 				<button
 					*ngIf="displayShareServiceType('Facebook')"
 					type="button"
-					(click)="openShareWindow('Facebook')"
+					(click)="openShareWindow($event, 'Facebook')"
 					class="socialbutton socialbutton-facebook">facebook</button>
 				<button
 					*ngIf="displayShareServiceType('LinkedIn')"
 					type="button"
-					(click)="openShareWindow('LinkedIn')"
+					(click)="openShareWindow($event, 'LinkedIn')"
 					class="socialbutton socialbutton-linkedin_oauth2">linked in</button>
 				<button
 					*ngIf="displayShareServiceType('Twitter')"
 					type="button"
-					(click)="openShareWindow('Twitter')"
+					(click)="openShareWindow($event, 'Twitter')"
 					class="socialbutton socialbutton-twitter">twitter</button>
 				<button
 					*ngIf="displayShareServiceType('Pinterest')"
 					type="button"
-					(click)="openShareWindow('Pinterest')"
+					(click)="openShareWindow($event, 'Pinterest')"
 					class="socialbutton socialbutton-pinterest">pinterest</button>
 			</div>
 			
