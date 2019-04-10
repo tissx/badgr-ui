@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 import {EventsService} from '../services/events.service';
 import Timeout = NodeJS.Timeout;
+import { animationFramePromise } from "../util/promise-util";
 
 
 interface Notification {
@@ -87,7 +88,10 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 		return messageStatusTypeToNotificationMap[status];
 	}
 
-	setMessage(message: FlashMessage) {
+	async setMessage(message: FlashMessage) {
+		// wait a beat so dom click doesn't clear message
+		// see: onDocumentClick above
+		await animationFramePromise();
 		this.messageDismissed = this.message && !message;
 
 		this.message = message;

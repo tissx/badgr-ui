@@ -18,6 +18,8 @@ import {QueryParametersService} from '../../../common/services/query-parameters.
 import {OAuthApiService} from '../../../common/services/oauth-api.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {typedFormGroup} from '../../../common/util/typed-forms';
+import { Message } from "@angular/compiler/src/i18n/i18n_ast";
+import { animationFramePromise } from "../../../common/util/promise-util";
 
 @Component({
 	selector: 'userProfile',
@@ -112,10 +114,10 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	async unlinkAccount($event: Event, socialAccount: UserProfileSocialAccount, accountsNum: number) {
 		$event.preventDefault();
 		// safety first!
-		if(accountsNum <= 1 && !this.profile.hasPasswordSet){
-			this.messageService.reportHandledError(
-				'Please set a password using the "Set Password" button above before removing this integration.',
-				null);
+		//if(accountsNum <= 1 && !this.profile.hasPasswordSet){
+		if(true){
+			await animationFramePromise()
+			this.messageService.reportHandledError('Please set a password using the "Set Password" button above before removing this integration.');
 			// alert('Please set a password using the "Set Password" button above before removing this integration.');
 			return false;
 		}
