@@ -66,6 +66,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 	}
 
 	expirationDateEditable = false;
+	idError: string | boolean = false;
 	dateError = false;
 
 	issuer: Issuer;
@@ -107,7 +108,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				case 'email': return EmailValidator.validEmail(control);
 				case 'openBadgeId': return null;
 				case 'telephone': return TelephoneValidator.validTelephone(control);
-				case 'url': return UrlValidator.validUrl(control);
+				//case 'url': return UrlValidator.validUrl(control);
 				default: return null;
 			}
 		} else {
@@ -207,6 +208,16 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 			return false;
 		} else {
 			this.dateError = false;
+		}
+
+		const isIDValid = this.idValidator(this.issueForm.controls.recipient_identifier.rawControl);
+		if(isIDValid){
+			Object.keys(isIDValid).forEach(key => {
+				this.idError = key;
+			});
+			return false;
+		} else {
+			this.idError = false;
 		}
 
 		const expires = (this.expirationEnabled && formState.expires) ? new Date(formState.expires).toISOString() : undefined;

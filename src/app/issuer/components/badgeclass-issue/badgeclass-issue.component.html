@@ -74,6 +74,9 @@
 							                   [autofocus]="true"
 							                   [fieldType]="recipientIdentifierFieldType"
 							></bg-formfield-text>
+							<div class="u-text-error u-text-small" *ngIf="idError==='invalidEmail'">Please enter a valid email.</div>
+							<div class="u-text-error u-text-small" *ngIf="idError==='invalidUrl'">Please enter a valid URL.</div>
+							<div class="u-text-error u-text-small" *ngIf="idError==='invalidTelephone'">Please enter a valid phone number.</div>
 						</div>
 					</div>
 					<div class="l-formsection-x-checkbox"
@@ -249,7 +252,7 @@
 						                   ariaLabel="Expiration date"
 						                   [errorMessage]="'Please enter a date in the format YYYY/mm/dd'"
 						></bg-formfield-text>
-						<div class="u-text-error u-text-small" *ngIf="dateError">Please enter a date in the format YYYY/mm/dd.</div>
+						<div class="u-text-error u-text-small" *ngIf="dateError">Please enter a date in the format YYYY-mm-dd.</div>
 					</div>
 					<div *ngIf="defaultExpiration && !expirationDateEditable"
 					     class="forminput"

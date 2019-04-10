@@ -36,7 +36,7 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 			       [formControl]="control"
 			       [placeholder]="placeholder || ''"
 						 [attr.maxlength] = "maxchar"
-						 [max] = "max"
+						 [attr.max] = "max"
 			       (change)="postProcessInput()"
 			       (focus)="cacheControlState()"
 			       (keypress)="handleKeyPress($event)"
