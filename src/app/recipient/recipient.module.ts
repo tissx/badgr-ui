@@ -15,7 +15,7 @@ import {RecipientBadgeCollectionManager} from './services/recipient-badge-collec
 import {RecipientBadgeCollectionCreateComponent} from './components/recipient-badge-collection-create/recipient-badge-collection-create.component';
 import {RecipientBadgeSelectionDialog} from './components/recipient-badge-selection-dialog/recipient-badge-selection-dialog.component';
 import {RecipientBadgeCollectionEditFormComponent} from './components/recipient-badge-collection-edit-form/recipient-badge-collection-edit-form.component';
-import {RecipientBadgeCollectionSelectionDialog} from './components/recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog';
+import {RecipientBadgeCollectionSelectionDialogComponent} from './components/recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog.component';
 import {CommonEntityManagerModule} from '../entity-manager/entity-manager.module';
 
 const routes = [
@@ -66,7 +66,7 @@ const routes = [
 		RecipientBadgeCollectionCreateComponent,
 		RecipientBadgeCollectionDetailComponent,
 		RecipientBadgeCollectionEditFormComponent,
-		RecipientBadgeCollectionSelectionDialog,
+		RecipientBadgeCollectionSelectionDialogComponent,
 		RecipientBadgeSelectionDialog,
 		AddBadgeDialogComponent
 	],
