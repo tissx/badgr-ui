@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class SettingsService {
 	constructor() {}
 
-	public loadSettings<T>(settingsId: string, defaults: T) {
+	loadSettings<T>(settingsId: string, defaults: T) {
 		try {
-			let settingsString = window.localStorage[ "settings-" + settingsId ] || "{}";
+			const settingsString = window.localStorage[ "settings-" + settingsId ] || "{}";
 			return Object.assign(
 				{},
 				defaults,
@@ -18,7 +18,7 @@ export class SettingsService {
 		}
 	}
 
-	public saveSettings(settingsId: string, settings: any) {
+	saveSettings(settingsId: string, settings: unknown) {
 		try {
 			window.localStorage[ "settings-" + settingsId ] = JSON.stringify(settings);
 		} catch (e) {

@@ -1,16 +1,17 @@
-import { Component, ElementRef, Renderer2, ViewChild } from "@angular/core";
-import { RecipientBadgeManager } from "../../services/recipient-badge-manager.service";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { UrlValidator } from "../../../common/validators/url.validator";
-import { JsonValidator } from "../../../common/validators/json.validator";
-import { MessageService } from "../../../common/services/message.service";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
-import { BaseDialog } from "../../../common/dialogs/base-dialog";
-import { preloadImageURL } from "../../../common/util/file-util";
-import { FormFieldText } from "../../../common/components/formfield-text";
+import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
+import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
+import {FormBuilder} from '@angular/forms';
+import {UrlValidator} from '../../../common/validators/url.validator';
+import {JsonValidator} from '../../../common/validators/json.validator';
+import {MessageService} from '../../../common/services/message.service';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
+import {BaseDialog} from '../../../common/dialogs/base-dialog';
+import {preloadImageURL} from '../../../common/util/file-util';
+import {FormFieldText} from '../../../common/components/formfield-text';
+import {TypedFormControl, typedFormGroup} from '../../../common/util/typed-forms';
 
 
-type dialogViewStates = "upload" | "url" | "json";
+type AddBadgeDialogTabName = "upload" | "url" | "json";
 
 
 @Component({
@@ -18,28 +19,26 @@ type dialogViewStates = "upload" | "url" | "json";
 	templateUrl: './add-badge-dialog.component.html',
 })
 export class AddBadgeDialogComponent extends BaseDialog {
-
-	protected get controls(): AddBadgeDialogForm<FormControl> {
-		return this.addRecipientBadgeForm.controls as any;
-	}
-
 	static defaultOptions = {} as AddBadgeDialogOptions;
-	readonly uploadBadgeImageUrl = require('../../../../breakdown/static/images/image-uplodBadge.svg');
-	readonly pasteBadgeImageUrl = preloadImageURL(require('../../../../breakdown/static/images/image-uplodBadgeUrl.svg'));
+	readonly uploadBadgeImageUrl = require('../../../../breakdown/static/images/image-uplodBadge.svg') as string;
+	readonly pasteBadgeImageUrl = preloadImageURL(require('../../../../breakdown/static/images/image-uplodBadgeUrl.svg') as string);
 
-	EMPTY_FORM_ERROR = "At least one input is required to add a badge.";
+	addRecipientBadgeForm = typedFormGroup()
+		.addControl("image", null)
+		.addControl("url", "", UrlValidator.validUrl)
+		.addControl("assertion", "", JsonValidator.validJson)
+	;
 
-	addRecipientBadgeForm: FormGroup;
-	showAdvance: boolean = false;
+	showAdvance = false;
 	formError: string;
 
-	currentDialogViewState: dialogViewStates = "upload";
+	currentTab: AddBadgeDialogTabName = "upload";
 
 	options: AddBadgeDialogOptions = AddBadgeDialogComponent.defaultOptions;
 	resolveFunc: () => void;
-	rejectFunc: (err?: any) => void;
+	rejectFunc: (err?: unknown) => void;
 
-	badgeUploadPromise: Promise<any>;
+	badgeUploadPromise: Promise<unknown>;
 
 	@ViewChild("jsonField")
 	private jsonField: FormFieldText;
@@ -55,15 +54,6 @@ export class AddBadgeDialogComponent extends BaseDialog {
 		protected messageService: MessageService
 	) {
 		super(componentElem, renderer);
-		this.initAddRecipientBadgeForm()
-	}
-
-	protected initAddRecipientBadgeForm() {
-		this.addRecipientBadgeForm = this.formBuilder.group({
-			image: [],
-			url: ['', UrlValidator.validUrl],
-			assertion: ['', JsonValidator.validJson]
-		} as AddBadgeDialogForm<any[]>)
 	}
 
 	/**
@@ -91,12 +81,20 @@ export class AddBadgeDialogComponent extends BaseDialog {
 		this.resolveFunc();
 	}
 
-	submitBadgeRecipientForm(formState: AddBadgeDialogForm<string | null>) {
-		if (this.formHasValue(formState) && this.addRecipientBadgeForm.valid) {
+	get formHasBadgeValue() {
+		const formState = this.addRecipientBadgeForm.value;
+
+		return !!(formState.assertion || formState.image || formState.url);
+	}
+
+	submitBadgeRecipientForm() {
+		const formState = this.addRecipientBadgeForm.value;
+
+		if (this.formHasBadgeValue && this.addRecipientBadgeForm.valid) {
 			this.badgeUploadPromise = this.recipientBadgeManager
 				.createRecipientBadge(formState)
 				.then(instance => {
-					this.messageService.reportMajorSuccess("Badge successfully imported.")
+					this.messageService.reportMajorSuccess("Badge successfully imported.");
 					this.closeDialog();
 				})
 				.catch(err => {
@@ -120,59 +118,26 @@ export class AddBadgeDialogComponent extends BaseDialog {
 				.catch(e => {
 					this.closeModal();
 					this.rejectFunc(e);
-				})
+				});
 		} else {
 			this.formError = "At least one badge input is required";
 		}
 	}
 
-	controlUpdated(formControlName: string) {
-		this.clearAllButMe(formControlName);
-	}
-
-	clearAllButMe(formControlName: string) {
-		const controls = this.addRecipientBadgeForm.controls;
-
-		Object.getOwnPropertyNames(controls)
-			.forEach(formItem => {
-				if (controls[formItem] !== controls[formControlName]) {
-					(controls[formItem] as FormControl).setValue("");
+	controlUpdated(updatedControl: TypedFormControl<unknown>) {
+		// Clear the value from other controls
+		this.addRecipientBadgeForm.controlsArray.forEach(
+			control => {
+				if (control !== updatedControl) {
+					control.reset();
 				}
-			})
-	}
-
-	openUrlTab() {
-		this.currentDialogViewState = 'url';
-		// Wait for angular to render the field
-		setTimeout(() => this.urlField.select());
-	}
-	openJsonTab() {
-		this.currentDialogViewState = 'json';
-		// Wait for angular to render the field
-		setTimeout(() => this.jsonField.select());
+			}
+		);
 	}
 
 	clearFormError() {
 		this.formError = undefined;
 	}
-
-	private formHasValue(formState): boolean {
-		let formHasValue = false;
-		Object.getOwnPropertyNames(formState)
-			.forEach(formItem => {
-				if (formState[formItem]) {
-					formHasValue = true;
-				}
-			}
-			);
-		return formHasValue;
-	}
 }
 
-export interface AddBadgeDialogOptions {};
-
-interface AddBadgeDialogForm<T> {
-	image: T;
-	url: T;
-	assertion: T;
-}
+export interface AddBadgeDialogOptions {}

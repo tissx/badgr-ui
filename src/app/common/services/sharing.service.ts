@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { Angulartics2 } from "angulartics2";
-import { RecipientBadgeApiService } from "../../recipient/services/recipient-badges-api.service";
+import {Injectable} from '@angular/core';
+import {Angulartics2} from 'angulartics2';
+import {RecipientBadgeApiService} from '../../recipient/services/recipient-badges-api.service';
 
 @Injectable()
 export class SharingService {
@@ -10,6 +10,7 @@ export class SharingService {
 	) {}
 
 	shareWithProvider(
+		$event: Event,
 		shareServiceType: ShareServiceType,
 		objectType: SharedObjectType,
 		objectIdUrl: string,
@@ -17,25 +18,26 @@ export class SharingService {
 	) {
 		this.reportShare(objectType, objectIdUrl, shareServiceType, shareUrl); // analytics report
 
-		const provider_features = {
+		const providerFeatures = {
 			"Facebook": "width=550,height=274",
 			"LinkedIn": "width=550,height=448",
 			"Twitter": "width=550,height=274",
 		};
 
 		let promise;
-		if (objectType == "BadgeInstance") {
+		if (objectType === "BadgeInstance") {
 			promise = this.recipientBadgeApiService.getBadgeShareUrlForProvider(objectIdUrl, shareServiceType);
-		} else if (objectType == "BadgeCollection") {
+		} else if (objectType === "BadgeCollection") {
 			promise = this.recipientBadgeApiService.getCollectionShareUrlForProvider(objectIdUrl, shareServiceType);
 		}
 
 		// open window with share url retrieved from server
+		const newTab = window.open('', '_blank', providerFeatures[shareServiceType]);
 		promise.then(
 			(url) => {
-				window.open(url, "_blank", provider_features[shareServiceType]);
+				newTab.location.href = url;
 			},
-		)
+		);
 	}
 
 	private reportShare(

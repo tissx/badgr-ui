@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import {AfterViewChecked, Component, ElementRef, Input, ViewChild} from '@angular/core';
 
 @Component({
 	selector: 'show-more',
@@ -23,7 +23,7 @@ import { AfterViewChecked, Component, ElementRef, Input, ViewChild } from "@angu
 })
 export class ShowMore implements AfterViewChecked {
 	@Input()
-	maxCollapsedHeight: number = 256;
+	maxCollapsedHeight = 256;
 
 	@ViewChild('content')
 	contentRef: ElementRef;
@@ -31,11 +31,11 @@ export class ShowMore implements AfterViewChecked {
 	@ViewChild('container')
 	containerRef: ElementRef;
 
-	isOpen: boolean = false;
+	isOpen = false;
 
-	get contentElem() { return this.contentRef.nativeElement as HTMLElement }
-	get containerElem() { return this.containerRef.nativeElement as HTMLElement }
-	get componentElem() { return this.componentRef.nativeElement as HTMLElement }
+	get contentElem() { return this.contentRef.nativeElement as HTMLElement; }
+	get containerElem() { return this.containerRef.nativeElement as HTMLElement; }
+	get componentElem() { return this.componentRef.nativeElement as HTMLElement; }
 
 	constructor(
 		private componentRef: ElementRef

@@ -1,16 +1,16 @@
-import { Component, EventEmitter, Output } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
+import {Component, EventEmitter, Output} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
 import {
 	BulkIssueImportPreviewData,
 	ColumnHeaders,
 	DestSelectOptions,
 	ViewState
-} from "../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component"
+} from '../badgeclass-issue-bulk-award/badgeclass-issue-bulk-award.component';
 
 @Component({
 	selector: 'Badgeclass-issue-bulk-award-import',
@@ -42,7 +42,7 @@ export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRo
 
 		this.csvForm = formBuilder.group({
 			file: []
-		} as ImportCsvForm<any[]>)
+		} as ImportCsvForm<Array<unknown>>);
 
 	}
 
@@ -52,12 +52,12 @@ export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRo
 	}
 
 	importPreviewDataEmit() {
-		this.importPreviewDataEmitter.emit(this.importPreviewData)
+		this.importPreviewDataEmitter.emit(this.importPreviewData);
 	}
 
 	updateViewState(state: ViewState) {
 		this.viewState = state;
-		this.updateStateEmitter.emit(state)
+		this.updateStateEmitter.emit(state);
 	}
 
 	onFileDataRecived(data) {
@@ -72,20 +72,20 @@ export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRo
 				rawRow.split(',')
 					.map(r => r.trim())
 
-			)
+			);
 		};
 
 		const padRowWithMissingCells =
 			(row: string[]) => row.concat(this.createRange(this.columnHeadersCount - row.length));
 
 		const generateColumnHeaders = (): ColumnHeaders[] => {
-			let theseColumnHeaders = [];
-			let inferredColumnHeaders = new Set<string>();
+			const theseColumnHeaders = [];
+			const inferredColumnHeaders = new Set<string>();
 
 			rows
 				.shift()
 				.forEach( (columnHeaderName: string) => {
-					let tempColumnHeaderName: string = columnHeaderName.toLowerCase();
+					const tempColumnHeaderName: string = columnHeaderName.toLowerCase();
 					let destinationColumn: DestSelectOptions;
 
 					if ( tempColumnHeaderName === "email") {
@@ -102,46 +102,46 @@ export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRo
 						.push(
 							{ destColumn: destinationColumn ? destinationColumn : "NA",
 							  sourceName: columnHeaderName
-							})
+							});
 				});
 
 			return theseColumnHeaders;
 		};
 
-		let rows = [];
-		let	validRows: string[][] = [];
-		let invalidRows: string[][] = [];
+		const rows = [];
+		const	validRows: string[][] = [];
+		const invalidRows: string[][] = [];
 
 		rawCSV.match(/[^\r\n]+/g)
 			.forEach(row => parseRow(row));
 
-		let columnHeaders: ColumnHeaders[] = generateColumnHeaders();
+		const columnHeaders: ColumnHeaders[] = generateColumnHeaders();
 		this.columnHeadersCount = columnHeaders.length;
 
 		rows.forEach( row => {
 			// Valid if all the cells in a row are not empty.
-			let rowIsValid: boolean = row.every(cell => cell.length > 0)
+			const rowIsValid: boolean = row.every(cell => cell.length > 0);
 
 			if (row.length < this.columnHeadersCount) {
 				invalidRows.push(padRowWithMissingCells(row));
 			} else {
 				rowIsValid
 				? validRows.push(row)
-				: invalidRows.push(row)
+				: invalidRows.push(row);
 			}
 		});
 
 		this.importPreviewData = {
-			columnHeaders: columnHeaders,
-			invalidRows: invalidRows,
+			columnHeaders,
+			invalidRows,
 			rowLongerThenHeader:  rows.some( row => row.length > this.columnHeadersCount ),
-			rows: rows,
-			validRows: validRows
-		} as BulkIssueImportPreviewData
+			rows,
+			validRows
+		} as BulkIssueImportPreviewData;
 	}
 
 	createRange(size: number) {
-		let items: string[] = [];
+		const items: string[] = [];
 		for (let i = 1; i <= size; i++) {
 			items.push("");
 		}

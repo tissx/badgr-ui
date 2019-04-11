@@ -1,35 +1,40 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { EmailValidator } from "../../../common/validators/email.validator";
-import { MessageService } from "../../../common/services/message.service";
-import { SessionService } from "../../../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../../../common/util/form-util";
+import {EmailValidator} from '../../../common/validators/email.validator';
+import {MessageService} from '../../../common/services/message.service';
+import {SessionService} from '../../../common/services/session.service';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
-import { SocialAccountProviderInfo } from "../../../common/model/user-profile-api.model";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { UserProfile, UserProfileEmail, UserProfileSocialAccount } from "../../../common/model/user-profile.model";
-import { Subscription } from "rxjs";
-import { QueryParametersService } from "../../../common/services/query-parameters.service";
-import { OAuthApiService } from "../../../common/services/oauth-api.service";
-import { AppConfigService } from "../../../common/app-config.service";
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
+import { ExternalAuthProvider, SocialAccountProviderInfo } from '../../../common/model/user-profile-api.model';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {UserProfile, UserProfileEmail, UserProfileSocialAccount} from '../../../common/model/user-profile.model';
+import {Subscription} from 'rxjs';
+import {QueryParametersService} from '../../../common/services/query-parameters.service';
+import {OAuthApiService} from '../../../common/services/oauth-api.service';
+import {AppConfigService} from '../../../common/app-config.service';
+import {typedFormGroup} from '../../../common/util/typed-forms';
+import { Message } from "@angular/compiler/src/i18n/i18n_ast";
+import { animationFramePromise } from "../../../common/util/promise-util";
 
 @Component({
 	selector: 'userProfile',
 	templateUrl: './profile.component.html'
 })
 export class ProfileComponent extends BaseAuthenticatedRoutableComponent implements OnInit, OnDestroy {
-	emailForm: FormGroup;
+	emailForm = typedFormGroup()
+		.addControl("email", "", [ Validators.required, EmailValidator.validEmail ])
+	;
+
 	profile: UserProfile;
 	emails: UserProfileEmail[];
 
-	profileLoaded: Promise<any>;
-	emailsLoaded: Promise<any>;
+	profileLoaded: Promise<unknown>;
+	emailsLoaded: Promise<unknown>;
 
 	newlyAddedSocialAccountId: string;
 
@@ -49,20 +54,11 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		protected dialogService: CommonDialogsService,
 		protected paramService: QueryParametersService,
 		protected configService: AppConfigService,
-		private oauthService: OAuthApiService
-) {
+		private oauthService: OAuthApiService,
+		private sanitizer: DomSanitizer,
+	) {
 		super(router, route, sessionService);
 		title.setTitle(`Profile - ${this.configService.theme['serviceName'] || "Badgr"}`);
-
-		this.emailForm = this.formBuilder.group({
-			'email': [
-				'',
-				Validators.compose([
-					Validators.required,
-					EmailValidator.validEmail
-				])
-			]
-		});
 
 		this.profileLoaded = this.profileManager.userProfilePromise.then(
 			profile => {
@@ -90,6 +86,10 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		this.newlyAddedSocialAccountId = paramService.queryStringValue("addedSocialAccountId", true);
 	}
 
+	sanitize(url:string){
+		return this.sanitizer.bypassSecurityTrustUrl(url);
+	}
+
 	get socialAccounts() {
 		return this.profile && this.profile.socialAccounts.entities;
 	}
@@ -111,7 +111,16 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Linked Accounts
 
-	async unlinkAccount(socialAccount: UserProfileSocialAccount) {
+	async unlinkAccount($event: Event, socialAccount: UserProfileSocialAccount, accountsNum: number) {
+		$event.preventDefault();
+		// safety first!
+		//if(accountsNum <= 1 && !this.profile.hasPasswordSet){
+		if(true){
+			await animationFramePromise()
+			this.messageService.reportHandledError('Please set a password using the "Set Password" button above before removing this integration.');
+			// alert('Please set a password using the "Set Password" button above before removing this integration.');
+			return false;
+		}
 		if (await this.dialogService.confirmDialog.openTrueFalseDialog({
 			dialogTitle: `Unlink ${socialAccount.providerInfo.name}?`,
 			dialogBody: `Are you sure you want to unlink the ${socialAccount.providerInfo.name} account ${socialAccount.fullLabel}) from your ${this.configService.theme['serviceName'] || "Badgr"} account? You may re-link in the future by clicking the ${socialAccount.providerInfo.name} button on this page.`,
@@ -131,21 +140,28 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		}
 	}
 
-	linkAccount(info: SocialAccountProviderInfo) {
+	linkAccount($event: Event, info: ExternalAuthProvider) {
+		$event.preventDefault();
 		this.oauthService.connectProvider(info).then(r => {
 			window.location.href = r.url;
-		})
+		});
 	}
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Emails
 
-	onSubmit(formState) {
+	submitEmailForm() {
+		if (! this.emailForm.markTreeDirtyAndValidate()) {
+			return;
+		}
+
+		const formState = this.emailForm.value;
+
 		this.profile.addEmail(formState.email).then(
 			email => {
 				this.messageService.setMessage("New email is currently pending.", "success");
-				const emailControl: FormControl = <FormControl>this.emailForm.controls[ 'email' ];
+				const emailControl = this.emailForm.rawControlMap.email;
 
 				emailControl.setValue('', { emitEvent: false });
 				emailControl.setErrors(null, { emitEvent: false });
@@ -158,13 +174,6 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 				}
 			}
 		);
-	}
-
-	clickAddEmail(ev: MouseEvent) {
-		if (!this.emailForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.emailForm);
-		}
 	}
 
 	// initialed displayed remove button.

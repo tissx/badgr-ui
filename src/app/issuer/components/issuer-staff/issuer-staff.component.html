@@ -26,18 +26,18 @@
 	</div>
 
 	<div class="l-containerxaxis l-containeryaxis">
-		<div class="l-stack l-stack-2x u-margin-bottom2x" *ngIf="isCurrentUserIssuerOwner">
+		<div class="l-stack u-margin-bottom2x" *ngIf="isCurrentUserIssuerOwner">
 			<p class="u-text-h3-bold">Staff Members</p>
-			<form [formGroup]="staffCreateForm" (ngSubmit)="submitStaffCreate(staffCreateForm.value)">
-				<bg-formfield-text [control]="staffCreateForm.controls.staffEmail" [errorMessage]="'Please enter valid email address'"
-				 placeholder="Staff Email" [inlineButtonText]="'Add Member'" class="forminput-withbutton forminput-light1 u-width-formsmall"></bg-formfield-text>
-			</form>
+			<issuer-staff-create-dialog #issuerStaffCreateDialog></issuer-staff-create-dialog>
+			<button
+				class="button button-secondary"
+				(click)="addStaff()">Add Staff</button>
 		</div>
 
 		<table class="datatable datatable-roundheaders datatable-onlyfirstcolumntablet datatable-verticalalignmiddle">
 			<thead class="datatable-x-head">
 				<tr class="datatable-x-header">
-					<th class="datatable-x-cell" style="width:60%;">Name</th>
+					<th class="datatable-x-cell">Name</th>
 					<th class="datatable-x-cell">Email</th>
 					<th class="datatable-x-cell">Role</th>
 				</tr>
@@ -86,7 +86,7 @@
 									</select>
 								</div>
 							</div>
-							<div *ngIf="isCurrentUserIssuerOwner">
+							<div *ngIf="isCurrentUserIssuerOwner" class="u-margin-leftauto">
 								<button class="u-text-link-small" type="button" [disabled-when-requesting]="true" (click)="removeMember(member)"
 								*ngIf="member != issuer.currentUserStaffMember">Remove
 								</button>

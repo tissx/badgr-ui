@@ -9,26 +9,34 @@
 						{{ badgeCollections.length }} {{ badgeCollections.length == 1 ? "Collection" : "Collections" }}
 					</span>
 				</h2>
-				<button class="button topbar-x-button" [routerLink]="['/recipient/badge-collections/create']"
-				 [disabled-when-requesting]="true">
-					Add Collection
-				</button>
+				<button class="button topbar-x-button"
+						[routerLink]="['/recipient/badge-collections/create']"
+						[disabled-when-requesting]="true"
+				>Create Collection</button>
 			</div>
 		</div>
 	
 		<ng-template [bgAwaitPromises]="[ collectionListLoaded ]">
+
+
+
 			<!--  Empty state - collection has not badges -->
-	
-	
-			<div class="l-containerxaxis l-containeryaxis" *ngIf="badgeCollections.length == 0">
-				<h2 class="u-text-h3-bold u-text-center u-margin-bottom1x">
-					You have no collections
-				</h2>
-				<p class="u-text-body u-text-center u-margin-bottom3x">
-					Collections are a way to organize badges you've earned to share them together.
+			<div class="emptysection l-emptysection"
+				 *ngIf="badgeCollections.length == 0">
+				<h2 class="emptysection-x-headline">
+					You have no collections</h2>
+				<p class="emptysection-x-copy">
+					Collections are a way to organize and share badges you've earned.
 				</p>
-				<div class="l-flex l-flex-justifycenter">
-					<img class="u-width-mediumimage u-display-block" [src]="noCollectionsImageUrl" alt="Illustration">
+				<div class="emptysection-x-buttons">
+				    <button class="button button-secondary"
+				    		[routerLink]="['/recipient/badge-collections/create']"
+							[disabled-when-requesting]="true"
+					>Create Collection</button>
+			  	</div>
+				<div class="emptysection-x-imagecontainer">
+					<img alt="Illustration" class="emptysection-x-image"
+						 [src]="noCollectionsImageUrl">
 				</div>
 			</div>
 	
@@ -57,7 +65,7 @@
 							<fieldset class="switch-x-container">
 								<div class="switch-x-inputcontainer">
 									<label class="switch-x-label">
-										<input class="switch-x-toggletrack" type="checkbox" type="checkbox" id="collection-{{ collection.slug }}-published-switch"
+										<input class="switch-x-toggletrack" type="checkbox" id="collection-{{ collection.slug }}-published-switch"
 										 name="collection-{{ collection.slug }}-published-switch" [checked]="collection.published" (change)="togglePublishCollection(collection)">
 										<span class="switch-x-labeltext">Public</span>
 										<div class="switch-x-toggle"></div>
@@ -78,4 +86,3 @@
 
 
 
-	

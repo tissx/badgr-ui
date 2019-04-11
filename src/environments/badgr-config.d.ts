@@ -2,6 +2,7 @@
  * The shape of a Badgr Config object. As there may be multiple config sources, each one may not specify all parts.
  */
 import { BadgrTheme } from '../theming/badgr-theme';
+import { ExternalAuthProvider } from "../app/common/model/user-profile-api.model";
 
 
 export interface BadgrConfig {
@@ -58,13 +59,16 @@ export interface FeaturesConfig {
 	/**
 	 * Enables the initial landing page redirect
 	 */
-	alternateLandingRedirect?: boolean
+	alternateLandingRedirect?: boolean;
 
 	/**
 	 * Allows configuration of a specific set of social providers smaller than the default. If omitted, all providers
 	 * will be enabled.
 	 */
-	socialAccountProviders?: Array<string>
+	socialAccountProviders?: string[];
+	externalAuthProviders?: ExternalAuthProvider[];
+	disableRegistration?: boolean;
+	disableIssuers?: boolean;
 }
 
 /**

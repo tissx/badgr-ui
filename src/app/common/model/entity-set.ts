@@ -1,13 +1,14 @@
-import { AnyManagedEntity, ManagedEntity } from "./managed-entity";
-import { Observable } from "rxjs";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { first } from "rxjs/operators";
-import { MemoizedProperty } from '../util/memoized-property-decorator';
+import {AnyManagedEntity, ManagedEntity} from './managed-entity';
+import {Observable} from 'rxjs';
+import {UpdatableSubject} from '../util/updatable-subject';
+import {first} from 'rxjs/operators';
+import {MemoizedProperty} from '../util/memoized-property-decorator';
+import {ApiEntityRef} from './entity-ref';
 
 /**
  * Interface for asynchronous sets of managed entities of various types.
  */
-export interface EntitySet<T extends ManagedEntity<any, any>> {
+export interface EntitySet<T extends ManagedEntity<unknown, ApiEntityRef>> {
 	/**
 	 * Length of the set
 	 */
@@ -43,14 +44,14 @@ export interface EntitySet<T extends ManagedEntity<any, any>> {
 	 * Iterates the set of entities in this set. If the set has not yet been loaded, iterating it will cause
 	 * an asynchronous loading of it if possible.
 	 */
-	[Symbol.iterator](): Iterator<T>
+	[Symbol.iterator](): Iterator<T>;
 }
 
 /**
  * Holds information about a change made to an `EntitySet`.
  */
 export class EntitySetUpdate<
-	EntityType extends ManagedEntity<any, any>,
+	EntityType extends ManagedEntity<unknown, any>,
 	SetType extends EntitySet<EntityType>
 > {
 	constructor(
@@ -115,7 +116,7 @@ export class ManagedEntityGrouping<EntityType extends AnyManagedEntity> {
 		this._loadedPromise = null;
 		this.grouped = {};
 		this.entityList.entities.forEach(entity => {
-			let key = this.groupIdForEntity(entity);
+			const key = this.groupIdForEntity(entity);
 
 			if (key in this.grouped) {
 				this.grouped[ key ].push(entity);
@@ -149,7 +150,7 @@ export class ManagedEntityMapping<EntityType extends AnyManagedEntity> {
 	) {
 		entityList.changed$.subscribe(
 			updates => this.updateMapping()
-		)
+		);
 	}
 
 	lookup(mapId: string) {

@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { MessageService } from "../services/message.service";
+import {Component, Input} from '@angular/core';
+import {MessageService} from '../services/message.service';
 
 @Component({
 	selector: 'button[loading-promises],.button[loading-promises],button[disabled-when-requesting],.button[disabled-when-requesting],button[loading-when-requesting],.button[loading-when-requesting]',
@@ -14,20 +14,20 @@ import { MessageService } from "../services/message.service";
 	`,
 })
 export class BadgrButtonComponent {
-	loadingPromise: Promise<any>;
-	promiseLoading: boolean = false;
+	loadingPromise: Promise<unknown>;
+	promiseLoading = false;
 
 	@Input('disabled-when-requesting')
-	disabledWhenRequesting: boolean = false;
+	disabledWhenRequesting = false;
 
 	@Input('loading-when-requesting')
-	loadingWhenRequesting: boolean = false;
+	loadingWhenRequesting = false;
 
 	@Input('loading-message')
-	loadingMessage: string = "Loading";
+	loadingMessage = "Loading";
 
 	@Input('loading-promises')
-	set inputPromises(promises: Promise<any> | Promise<any>[] | null) {
+	set inputPromises(promises: Promise<unknown> | Array<Promise<unknown>> | null) {
 		this.updatePromises(
 			promises
 				? Array.isArray(promises)
@@ -49,8 +49,8 @@ export class BadgrButtonComponent {
 		private messageService: MessageService
 	) {}
 
-	private updatePromises(promises: Promise<any>[]) {
-		if (promises.length == 0) {
+	private updatePromises(promises: Array<Promise<unknown>>) {
+		if (promises.length === 0) {
 			this.loadingPromise = null;
 			this.promiseLoading = false;
 		} else {
@@ -60,16 +60,16 @@ export class BadgrButtonComponent {
 
 			ourPromise.then(
 				() => {
-					if (ourPromise == this.loadingPromise) {
+					if (ourPromise === this.loadingPromise) {
 						this.promiseLoading = false;
 					}
 				},
 				() => {
-					if (ourPromise == this.loadingPromise) {
+					if (ourPromise === this.loadingPromise) {
 						this.promiseLoading = false;
 					}
 				}
-			)
+			);
 		}
 	}
 }

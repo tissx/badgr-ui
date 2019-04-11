@@ -1,15 +1,15 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../../../common/util/form-util";
-import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { UserProfile } from "../../../common/model/user-profile.model";
-import { AppConfigService } from "../../../common/app-config.service";
+import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SessionService } from '../../../common/services/session.service';
+import { MessageService } from '../../../common/services/message.service';
+import { Title } from '@angular/platform-browser';
+import { BaseRoutableComponent } from '../../../common/pages/base-routable.component';
+import { UserProfileManager } from '../../../common/services/user-profile-manager.service';
+import { UserProfile } from '../../../common/model/user-profile.model';
+import { AppConfigService } from '../../../common/app-config.service';
+import { typedFormGroup } from '../../../common/util/typed-forms';
 
 
 @Component({
@@ -17,8 +17,16 @@ import { AppConfigService } from "../../../common/app-config.service";
 	templateUrl: './change-password.component.html'
 })
 export class ChangePasswordComponent extends BaseRoutableComponent {
-	changePasswordForm: FormGroup;
+	changePasswordForm = typedFormGroup()
+		.addControl("password", "", [ Validators.required, Validators.minLength(8) ])
+		.addControl("password2", "", [ Validators.required, this.passwordsMatch.bind(this) ])
+		.addControl("current_password", "", [ Validators.required ]);
+
 	profile: UserProfile;
+	errors = {
+		'current_password': '',
+		'password': '',
+	};
 
 	constructor(
 		private fb: FormBuilder,
@@ -36,26 +44,49 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 
 		this.profileManager.userProfilePromise
 			.then(profile => this.profile = profile);
-
-		this.changePasswordForm = this.fb.group({
-				password1: [ '', Validators.required ],
-				password2: [ '', Validators.required ],
-				current_password: [ '', Validators.required ]
-			}, { validator: this.passwordsMatch }
-		);
 	}
 
-	submitChange() {
-		const NEW_PASSWORD: string = this.changePasswordForm.controls[ 'password1' ].value;
-		const CURRENT_PASSWORD: string = this.changePasswordForm.controls[ 'current_password' ].value;
+	isJson = (str) => {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
+		}
+		return true;
+	};
 
-		this.profile.updatePassword(NEW_PASSWORD, CURRENT_PASSWORD)
+
+	submitChange() {
+		if (! this.changePasswordForm.markTreeDirtyAndValidate()) {
+			return;
+		}
+
+		this.profile.updatePassword(
+			this.changePasswordForm.value.password,
+			this.changePasswordForm.value.current_password
+		)
 			.then(
 				() => {
 					this._messageService.reportMajorSuccess('Your password has been changed successfully.', true);
 					this.router.navigate([ "/profile/profile" ]);
 				},
-				err => this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err)
+				(err) => {
+					if (err.message && this.isJson(err.message)) {
+						const errors = JSON.parse(err.message);
+						for (const key in errors) {
+							if (errors.hasOwnProperty(key)) {
+								this.errors[key] = errors[key];
+								const c = this.changePasswordForm.controls[key].rawControl.valueChanges.subscribe(val => {
+									if (this.changePasswordForm.value[key] === val) return;
+									this.errors[key] = '';
+									c.unsubscribe();
+								});
+							}
+						}
+					} else {
+						this._messageService.reportAndThrowError('Your password must be uncommon and at least 8 characters. Please try again.', err);
+					}
+				}
 			);
 	}
 
@@ -64,16 +95,11 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 		this.router.navigate(['/auth/request-password-reset']);
 	}
 
-	clickSubmit(ev: Event) {
-		if (!this.changePasswordForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.changePasswordForm);
-		}
-	}
+	passwordsMatch(): ValidationErrors | null {
+		if (! this.changePasswordForm) return null;
 
-	passwordsMatch(group: FormGroup) {
-		const p1 = group.controls.password1.value;
-		const p2 = group.controls.password1.value;
+		const p1 = this.changePasswordForm.controls.password.value;
+		const p2 = this.changePasswordForm.controls.password2.value;
 
 		if (p1 && p2 && p1 !== p2) {
 			return { passwordsMatch: "Passwords do not match" };

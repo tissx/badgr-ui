@@ -1,7 +1,7 @@
-import { AfterViewChecked, Component, Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import {AfterViewChecked, Directive, ElementRef, Input, Renderer2} from '@angular/core';
 
-import * as marked from 'marked'
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import * as marked from 'marked';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Directive({
 	selector: '[bgMarkdown]'
@@ -11,6 +11,7 @@ export class BgMarkdownComponent implements AfterViewChecked {
 
 	@Input()
 	set bgMarkdown(markdown: string) {
+		markdown = markdown || "";
 		this.renderedHtml = marked(
 			markdown,
 			{

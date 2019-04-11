@@ -1,9 +1,9 @@
-import { FormControl } from '@angular/forms';
+import {AbstractControl} from '@angular/forms';
 import isURL from 'validator/lib/isURL';
-import { ValidationResult } from "./email.validator";
+import {ValidationResult} from './email.validator';
 
 export class UrlValidator {
-	static validUrl(control: FormControl): ValidationResult {
+	static validUrl(control: AbstractControl): ValidationResult {
 		return typeof(control.value) !== "string" || control.value.trim() == "" || isURL(
 			control.value,
 			{
@@ -20,10 +20,10 @@ export class UrlValidator {
 			: { 'validUrl': true };
 	}
 
-	static addMissingHttpToControl(control: FormControl): void {
+	static addMissingHttpToControl(control: AbstractControl): void {
 		const url = control.value;
 		if (url && url.search(/https?:/) === -1) {
-			control.setValue('http://' + url)
+			control.setValue('http://' + url);
 		}
 	}
 }

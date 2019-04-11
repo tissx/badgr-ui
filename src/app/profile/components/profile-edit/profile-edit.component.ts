@@ -1,24 +1,28 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../../../common/services/message.service";
-import { SessionService } from "../../../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { markControlsDirty } from "../../../common/util/form-util";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessageService} from '../../../common/services/message.service';
+import {SessionService} from '../../../common/services/session.service';
+import {Title} from '@angular/platform-browser';
 
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { UserProfileManager } from "../../../common/services/user-profile-manager.service";
-import { UserProfile } from "../../../common/model/user-profile.model";
-import { AppConfigService } from "../../../common/app-config.service";
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
+import {UserProfile} from '../../../common/model/user-profile.model';
+import {AppConfigService} from '../../../common/app-config.service';
+import {typedFormGroup} from '../../../common/util/typed-forms';
 
 @Component({
 	templateUrl: './profile-edit.component.html',
 })
 export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	profile: UserProfile;
-	profileEditForm: FormGroup;
-	profileLoaded: Promise<any>;
+	profileEditForm = typedFormGroup()
+		.addControl("firstName", "", Validators.required)
+		.addControl("lastName", "", Validators.required)
+	;
+
+	profileLoaded: Promise<unknown>;
 
 	constructor(
 		router: Router,
@@ -41,29 +45,28 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 			)
 		);
 
-		this.profileEditForm = this.formBuilder.group({
-			firstName: [ '', Validators.required ],
-			lastName: [ '', Validators.required ],
-		} as ProfileEditFormControls<any[]>);
-
 		this.profileLoaded.then(() => this.startEditing());
 	}
 
-	get editControls(): ProfileEditFormControls<FormControl> {
-		return this.profileEditForm.controls as any;
-	}
-
 	startEditing() {
-		this.editControls.firstName.setValue(this.profile.firstName, { emitEvent: false });
-		this.editControls.lastName.setValue(this.profile.lastName, { emitEvent: false });
+		this.profileEditForm.setValue(
+			this.profile,
+			{ emitEvent: false }
+		);
 	}
 
-	submitEdit(formState: ProfileEditFormControls<string>) {
-		this.profile.firstName = formState.firstName;
-		this.profile.lastName = formState.lastName;
+	submitEdit() {
+		if (! this.profileEditForm.markTreeDirtyAndValidate()) {
+			return;
+		}
+
+		const formValue = this.profileEditForm.value;
+
+		this.profile.firstName = formValue.firstName;
+		this.profile.lastName = formValue.lastName;
 
 		this.profile.save().then(
-			success => {
+			() => {
 				this.messageService.reportMinorSuccess(`Saved profile changes`);
 				this.router.navigate(['/profile/profile']);
 			},
@@ -72,17 +75,4 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 			}
 		);
 	}
-
-	validateEditForm(ev) {
-		if (! this.profileEditForm.valid) {
-			ev.preventDefault();
-			markControlsDirty(this.profileEditForm);
-		}
-	}
-}
-
-
-interface ProfileEditFormControls<T> {
-	firstName: T;
-	lastName: T;
 }

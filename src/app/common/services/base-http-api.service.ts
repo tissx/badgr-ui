@@ -1,16 +1,16 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 // import { LoginService } from "../../auth/auth.service";
-import { AuthorizationToken, SessionService } from "./session.service";
-import { AppConfigService } from "../app-config.service";
-import { MessageService } from "./message.service";
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from "@angular/common/http";
-import { timeoutPromise } from "../util/promise-util";
-import { Observable } from "rxjs";
+import { AuthorizationToken, SessionService } from './session.service';
+import { AppConfigService } from '../app-config.service';
+import { MessageService } from './message.service';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase} from '@angular/common/http';
+import { timeoutPromise } from '../util/promise-util';
+import { Observable } from 'rxjs';
 
 export class BadgrApiError extends Error {
 	constructor(
 		public message: string,
-		public response: HttpResponse<any>
+		public response: HttpResponseBase
 	) {
 		super(message);
 	}
@@ -25,10 +25,10 @@ export abstract class BaseHttpApiService {
 		value: T,
 		configService: AppConfigService
 	): Promise<T> {
-		let delayRange = configService.apiConfig.debugDelayRange;
+		const delayRange = configService.apiConfig.debugDelayRange;
 
 		if (delayRange) {
-			let delayMs = Math.floor(delayRange.minMs + (delayRange.maxMs - delayRange.minMs) * Math.random());
+			const delayMs = Math.floor(delayRange.minMs + (delayRange.maxMs - delayRange.minMs) * Math.random());
 
 			console.warn(`Delaying API response by ${delayMs}ms for debugging`, value);
 
@@ -50,17 +50,18 @@ export abstract class BaseHttpApiService {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 	}
 
-	get<T = Object>(
+	get<T = object>(
 		path: string,
 		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
-		requireAuth: boolean = true,
-		useAuth: boolean = true,
+		requireAuth = true,
+		useAuth = true,
 		headers: HttpHeaders = new HttpHeaders()
 	): Promise<HttpResponse<T>> {
 		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
 
-		if (useAuth && (requireAuth || this.sessionService.isLoggedIn))
+		if (useAuth && (requireAuth || this.sessionService.isLoggedIn)) {
 			headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+		}
 
 		headers = this.addJsonResponseHeader(headers);
 		this.messageService.incrementPendingRequestCount();
@@ -68,16 +69,16 @@ export abstract class BaseHttpApiService {
 		return this.augmentRequest<T>(
 			this.http.get<T>(endpointUrl, {
 				observe: 'response',
-				headers: headers,
+				headers,
 				params: queryParams,
 				responseType: 'json'
 			})
 		);
 	}
 
-	post<T = Object>(
+	post<T = object>(
 		path: string,
-		payload: any,
+		payload: unknown,
 		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
 		headers: HttpHeaders = new HttpHeaders()
 	): Promise<HttpResponse<T>> {
@@ -94,7 +95,7 @@ export abstract class BaseHttpApiService {
 				JSON.stringify(payload),
 				{
 					observe: 'response',
-					headers: headers,
+					headers,
 					params: queryParams,
 					responseType: 'json'
 				}
@@ -102,9 +103,9 @@ export abstract class BaseHttpApiService {
 		);
 	}
 
-	put<T = Object>(
+	put<T = object>(
 		path: string,
-		payload: any,
+		payload: unknown,
 		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
 		headers: HttpHeaders = new HttpHeaders()
 	): Promise<HttpResponse<T>> {
@@ -121,7 +122,7 @@ export abstract class BaseHttpApiService {
 				JSON.stringify(payload),
 				{
 					observe: 'response',
-					headers: headers,
+					headers,
 					params: queryParams,
 					responseType: 'json'
 				}
@@ -129,9 +130,9 @@ export abstract class BaseHttpApiService {
 		);
 	}
 
-	delete<T = Object>(
+	delete<T = object>(
 		path: string,
-		payload: any = null,
+		payload: unknown = null,
 		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
 		headers: HttpHeaders = new HttpHeaders()
 	): Promise<HttpResponse<T>> {
@@ -146,7 +147,7 @@ export abstract class BaseHttpApiService {
 				endpointUrl,
 				{
 					observe: 'response',
-					headers: headers,
+					headers,
 					params: queryParams,
 					responseType: 'json',
 					...payload ? {body: JSON.stringify(payload)} : {}
@@ -155,51 +156,73 @@ export abstract class BaseHttpApiService {
 		);
 	}
 
-	handleHttpErrors<T>(
-		response: any,
-		isError: boolean
-	): T | never {
-		if (response && response.status < 200 || response.status >= 300) {
-			if (response.status === 401 || response.status === 403) {
-				this.sessionService.handleAuthenticationError();
-			} else if (response.status === 0) {
-				this.messageService.reportFatalError(`Server Unavailable`);
-			} else {
-				// TODO: Give nicer error messages!
-				throw new BadgrApiError(
-					`Expected 2xx response; got ${response.status}`,
-					response
-				);
-			}
+	isJson = (str) => {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
 		}
-
-		if (isError) {
-			throw response;
-		} else {
-			return response;
-		}
-	}
+		return true;
+	};
 
 	private augmentRequest<T>(o: Observable<HttpResponse<T>>): Promise<HttpResponse<T>> {
+		const detectAndHandleResponseErrors = <T extends HttpResponseBase>(
+			response: T
+		): T | never => {
+			if (response && response.status < 200 || response.status >= 300) {
+				if (response.status === 401 || response.status === 403) {
+					this.sessionService.handleAuthenticationError();
+				} else if (response.status === 0) {
+					this.messageService.reportFatalError(`Server Unavailable`);
+					// TODO: Is this going to cause trouble?
+				} else if (response instanceof HttpErrorResponse && response.error && (typeof response.error === "string") && (!this.isJson(response.error))) {
+					throw new BadgrApiError(
+						response.error,
+						response
+					);
+				// sometimes objects!
+				} else if (response instanceof HttpErrorResponse && response.error && typeof response.error === "object") {
+					throw new BadgrApiError(
+						JSON.stringify(response.error),
+						response
+					);
+				// and sometimes we give up and just dump the status!
+				} else {
+					throw new BadgrApiError(
+						`Expected 2xx response; got ${response.status}`,
+						response
+					);
+				}
+			}
+
+			return response;
+		};
+
 		return o
 			.toPromise()
 			.then(r => this.addTestingDelay(r))
 			.finally(() => this.messageService.decrementPendingRequestCount())
-			.then<HttpResponse<T>>(r => this.handleHttpErrors(r, false), r => this.handleHttpErrors(r, true));
+			.then<HttpResponse<T>>(
+				r => detectAndHandleResponseErrors(r),
+					r => { throw detectAndHandleResponseErrors(r); }
+			);
 	}
 
 	private addJsonRequestHeader(headers: HttpHeaders) {
 		return headers.append('Content-Type', "application/json");
 	}
+
 	private addJsonResponseHeader(headers: HttpHeaders) {
 		return headers.append('Accept', 'application/json');
 	}
+
 	private addAuthTokenHeader(
 		headers: HttpHeaders,
 		token: AuthorizationToken
 	) {
 		return headers.append('Authorization', 'Bearer ' + token.access_token);
 	}
+
 	private async addTestingDelay<T>(value: T): Promise<T> {
 		return BaseHttpApiService.addTestingDelay(
 			value,

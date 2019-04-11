@@ -22,17 +22,6 @@
 	<main class="o-container"
 		*ngIf="! embedService.isEmbedded">
 		<form-message></form-message>
-
-
-
-		<!--
-		<pre style="background:deepskyblue; color:white; font-weight:bold; padding:1rem;">
-			{{ badgeClass | json }}
-		</pre>
-		-->
-
-
-
 		<div class="badgedetail">
 			<div class="badgedetail-x-header">
 
@@ -84,7 +73,7 @@
 							</div><div>
 								<dt class="u-text-small-bold">Issued by:</dt>
 								<dd class="u-text">
-	                				<a class="u-break-word" target="_blank"
+	                				<a class="u-break-word"
 	                					[routerLink]="routerLinkForUrl(issuer.hostedUrl || issuer.id)"
 	                				>{{ issuer.name }}</a>
 	            				</dd>
@@ -101,23 +90,23 @@
 
 				<!-- criteria -->
 				<section *ngIf="badgeClass.criteria">
-					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
-						*ngIf="badgeClass.criteria.id || badgeClass.criteria.narrative">
-						Criteria
-					</h3>
-					<show-more *ngIf="badgeClass.criteria.narrative">
-						<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
+					<h3 class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-margin-top4x"
+						*ngIf="badgeClass.criteria.id || badgeClass.criteria.narrative"
+						>Criteria</h3>
+					<show-more>
+						<markdown-display
+							 *ngIf="badgeClass.criteria.narrative"
+							 [value]="badgeClass.criteria.narrative">
+					 	</markdown-display>
+						<div class="u-margin-bottom2x"
+							*ngIf="badgeClass.criteria.id">
+							<a class="u-text-outlink" target="_blank"
+								[href]="badgeClass.criteria.id"
+							>View external Criteria URL
+								<svg icon="icon_external_link"></svg>
+							</a>
+						</div>
 					</show-more>
-					<div class="u-margin-bottom2x u-margin-top6x">
-						<a
-							*ngIf="badgeClass.criteria.id"
-							class="u-text-outlink"
-							[href]="badgeClass.criteria.id"
-							target="_blank"
-						>View external Criteria URL
-							<svg icon="icon_external_link"></svg>
-						</a>
-					</div>
 				</section>
 
 				<!-- alignment -->

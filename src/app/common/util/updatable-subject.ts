@@ -1,4 +1,4 @@
-import { Subject, Subscriber } from "rxjs";
+import {Subject, Subscriber} from 'rxjs';
 
 /**
  * A Subject for objects that will be loaded at some point and may be subsequently updated. Acts like a promise with updates:
@@ -9,7 +9,7 @@ import { Subject, Subscriber } from "rxjs";
  */
 export class UpdatableSubject<T> extends Subject<T> {
 	private _value: T | null = null;
-	private _valueSet: boolean = false;
+	private _valueSet = false;
 
 	private hasFirstSubscriber = false;
 
@@ -56,12 +56,12 @@ export class UpdatableSubject<T> extends Subject<T> {
 		return subscription;
 	}
 
-	public next(value: T): void {
+	next(value: T): void {
 		this._valueSet = true;
 		super.next(this._value = value);
 	}
 
-	public error(err: any): void {
+	error(err: unknown): void {
 		this.hasError = true;
 		super.error(this.thrownError = err);
 	}
@@ -87,9 +87,9 @@ export class LoadableValueSubject<T> extends UpdatableSubject<T> {
 		super(() => this.update);
 	}
 
-	public update(): Promise<T> {
+	update(): Promise<T> {
 		return this.fetchData().then(
 			data => (this.safeNext(data), data)
-		)
+		);
 	}
 }

@@ -1,7 +1,7 @@
-import {inject, TestBed} from "@angular/core/testing";
-import {BadgeClass} from "./badgeclass.model";
-import {CommonEntityManager} from "../../entity-manager/services/common-entity-manager.service";
-import {ApiBadgeClass} from "./badgeclass-api.model";
+import {inject, TestBed} from '@angular/core/testing';
+import {BadgeClass} from './badgeclass.model';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {ApiBadgeClass} from './badgeclass-api.model';
 
 describe('BadgeClass', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -12,14 +12,14 @@ describe('BadgeClass', () => {
 	it(
 		'should be constructable',
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
-			new BadgeClass(commonManager)
+			new BadgeClass(commonManager);
 		})
 	);
 
 	it(
 		'should correctly alias fields',
 		inject([ CommonEntityManager ], (commonManager: CommonEntityManager) => {
-			let badge = new BadgeClass(commonManager, apiBadgeClass1);
+			const badge = new BadgeClass(commonManager, apiBadgeClass1);
 
 			verifyBadgeClass(badge, apiBadgeClass1);
 		})

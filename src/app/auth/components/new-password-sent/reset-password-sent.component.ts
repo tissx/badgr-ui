@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { AppConfigService } from "../../../common/app-config.service";
-import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {AppConfigService} from '../../../common/app-config.service';
+import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
 
 @Component({
 	selector: 'password-reset-sent',

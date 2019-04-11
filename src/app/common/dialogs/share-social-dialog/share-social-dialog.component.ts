@@ -1,12 +1,12 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import {Component, ElementRef, Renderer2} from '@angular/core';
 
-import { SharedObjectType, ShareEndPoint, ShareServiceType, SharingService } from '../../services/sharing.service';
-import { BaseDialog } from '../base-dialog';
-import { DomSanitizer } from '@angular/platform-browser';
-import { addQueryParamsToUrl } from '../../util/url-util';
-import { TimeComponent } from '../../components/time.component';
-import { generateEmbedHtml } from '../../../../embed/generate-embed-html';
-import { animationFramePromise } from '../../util/promise-util';
+import {SharedObjectType, ShareEndPoint, ShareServiceType, SharingService} from '../../services/sharing.service';
+import {BaseDialog} from '../base-dialog';
+import {DomSanitizer} from '@angular/platform-browser';
+import {addQueryParamsToUrl} from '../../util/url-util';
+import {TimeComponent} from '../../components/time.component';
+import {generateEmbedHtml} from '../../../../embed/generate-embed-html';
+import {animationFramePromise} from '../../util/promise-util';
 
 
 @Component({
@@ -19,19 +19,21 @@ export class ShareSocialDialog extends BaseDialog {
 	// Internal API
 
 	get currentShareUrl() {
-		let versionedUrl = this.selectedVersion
+		const versionedUrl = this.selectedVersion
 			? this.selectedVersion.shareUrl
 			: this.options.shareUrl;
 
-		let params = {};
+		const params = {};
 		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
 		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versionedUrl, params) : versionedUrl;
 	}
 
 	get hasEmbedSupport() {
-		return this.options.embedOptions && this.options.embedOptions.length;
+		return this.options && this.options.embedOptions && this.options.embedOptions.length;
 	}
-	options: ShareSocialDialogOptions = {} as any;
+
+	options: ShareSocialDialogOptions | null = null;
+
 	resolveFunc: () => void;
 	rejectFunc: () => void;
 
@@ -40,11 +42,11 @@ export class ShareSocialDialog extends BaseDialog {
 
 	selectedEmbedOption: ShareSocialDialogEmbedOption | null = null;
 
-	includeRecipientIdentifier: boolean = false;
-	includeBadgeClassName: boolean = true;
-	includeRecipientName: boolean = true;
-	includeAwardDate: boolean = true;
-	includeVerifyButton: boolean = true;
+	includeRecipientIdentifier = false;
+	includeBadgeClassName = true;
+	includeRecipientName = true;
+	includeAwardDate = true;
+	includeVerifyButton = true;
 
 	currentEmbedHtml: string | null = null;
 
@@ -90,8 +92,11 @@ export class ShareSocialDialog extends BaseDialog {
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Share Window API
-	openShareWindow(shareServiceType: ShareServiceType) {
+	openShareWindow(
+		$event: Event,
+		shareServiceType: ShareServiceType) {
 		this.sharingService.shareWithProvider(
+			$event,
 			shareServiceType,
 			this.options.shareObjectType,
 			this.options.shareIdUrl,
@@ -164,13 +169,13 @@ export class ShareSocialDialog extends BaseDialog {
 			}
 		);
 		if (this.includeRecipientIdentifier && this.options.recipientIdentifier) {
-			let params = {};
+			const params = {};
 			params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
 			embedUrlWithParams = addQueryParamsToUrl(embedUrlWithParams, params);
 		}
 
 		const outerContainer = document.createElement("div");
-		let containerElem: HTMLElement = outerContainer;
+		const containerElem: HTMLElement = outerContainer;
 
 		// Create the embedded HTML fragment by generating an element and grabbing innerHTML. This avoids us having to
 		// deal with any HTML-escape issues, which are hard to get right, and for which there aren't any built-in functions.
@@ -314,7 +319,7 @@ export interface ShareSocialDialogEmbedOption {
 	/**
 	 * Size of the embedded content. Measured in logical pixels.
 	 */
-	embedSize: { width: number; height: number }
+	embedSize: { width: number; height: number };
 
 	embedBadgeName?: string;
 	embedAwardDate?: Date;

@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { MessageService } from "../../../common/services/message.service";
-import { SessionService } from "../../../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
-import { OAuthManager } from "../../../common/services/oauth-manager.service";
-import { OAuth2AppAuthorization } from "../../../common/model/oauth.model";
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { flatten } from "../../../common/util/array-reducers";
-import { AppConfigService } from "../../../common/app-config.service";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MessageService} from '../../../common/services/message.service';
+import {SessionService} from '../../../common/services/session.service';
+import {Title} from '@angular/platform-browser';
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
+import {OAuthManager} from '../../../common/services/oauth-manager.service';
+import {OAuth2AppAuthorization} from '../../../common/model/oauth.model';
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {flatten} from '../../../common/util/array-reducers';
+import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
@@ -18,19 +18,19 @@ import { AppConfigService } from "../../../common/app-config.service";
 export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	app: OAuth2AppAuthorization;
 	appTokens: OAuth2AppAuthorization[];
-	appPromise: Promise<any>;
+	appPromise: Promise<unknown>;
 
 
 	permisionScopeToIconName(scope: string): string{
 		switch (scope) {
 			case "permission-issuer":
-				return "icon_issuer2"
+				return "icon_issuer2";
 			case "permission-assertion":
-				return "icon_badgeaward"
+				return "icon_badgeaward";
 			case "permission-profile":
-				return "icon_email"
+				return "icon_email";
 			default:
-				return ""
+				return "";
 		}
 	}
 	constructor(
@@ -61,7 +61,7 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 	}
 
 	get presentationScopes() {
-		let allScopes = new Set(this.appTokens.map(t => t.scopes).reduce(flatten(), []));
+		const allScopes = new Set(this.appTokens.map(t => t.scopes).reduce(flatten(), []));
 		return this.app && this.oAuthManager.presentationScopesForScopes(Array.from(allScopes.values()));
 	}
 
@@ -85,7 +85,7 @@ export class OAuthAppDetailComponent extends BaseAuthenticatedRoutableComponent 
 					)
 				).then(
 					() => this.router.navigate(['/profile/app-integrations'])
-				)
+				);
 		}
 	}
 }

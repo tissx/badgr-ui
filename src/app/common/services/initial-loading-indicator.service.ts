@@ -1,18 +1,18 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from '@angular/core';
 
 /**
  * Service to manage the initial loading indicator, allowing customizations to when it is hidden.
  */
 @Injectable()
 export class InitialLoadingIndicatorService {
-	private _initialLoadedPromise: Promise<any>;
+	private _initialLoadedPromise: Promise<unknown>;
 
 	get initialLoadedPromise() {
-		return this._initialLoadedPromise
+		return this._initialLoadedPromise;
 	}
 
 	set initialLoadedPromise(
-		promise: Promise<any>
+		promise: Promise<unknown>
 	) {
 		const thisPromise = this._initialLoadedPromise = promise.then(() => {
 			// Only hide the indicator if this promise is the most recent one set
@@ -33,7 +33,7 @@ export class InitialLoadingIndicatorService {
 	private hideIndicator() {
 		const indicatorElem = document.getElementById("initial-loading-indicator");
 		if (indicatorElem) {
-			indicatorElem.style.display = "none"
+			indicatorElem.style.display = "none";
 		}
 	}
 }

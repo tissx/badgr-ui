@@ -1,72 +1,120 @@
-<dialog aria-labelledby="addBadgeDialog" aria-describedby="dialog1Desc" class="dialog dialog-is-active l-dialog dialog-clean" role="dialog">
+<dialog aria-labelledby="addBadgeDialog"
+        aria-describedby="dialog1Desc"
+        class="dialog dialog-is-active l-dialog dialog-clean"
+        role="dialog"
+>
 	<div class="dialog-x-box o-container">
 		<div class="dialog-x-header u-background-light3">
-			<h2 id="addBadgeDialog" class="u-text-body-bold-caps text-dark1">
+			<h2 id="addBadgeDialog"
+			    class="u-text-body-bold-caps text-dark1"
+			>
 				Add Badge
 			</h2>
-			<button class="buttonicon buttonicon-clean" (click)="closeDialog()">
+			<button class="buttonicon buttonicon-link"
+			        (click)="closeDialog()"
+			>
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
 			</button>
 		</div>
 
-		
-		<form [formGroup]="addRecipientBadgeForm" (ngSubmit)="submitBadgeRecipientForm(addRecipientBadgeForm.value)" >
-			<p class="u-padding-all2x border-light3 u-text-body u-background-light3">Add a badge you’ve already received by utilizing one of the options below.</p>
 
+		<form [formGroup]="addRecipientBadgeForm.rawControl"
+		      (ngSubmit)="submitBadgeRecipientForm()"
+		>
+			<p class="u-padding-yaxis2x u-responsivepadding-xaxis border-light3 u-text-body u-background-light3">
+				Add a badge you’ve already received using one of the options below.
+			</p>
 
 			<div class="tabbar">
-				<div class="tab" [class.tab-is-active]="currentDialogViewState === 'upload'" (click)="currentDialogViewState = 'upload'"
-				 type="button">
-					<span class="l-hidden l-hidden-laptop">Upload Badge</span> Image
+				<div class="tab"
+				     [class.tab-is-active]="currentTab === 'upload'"
+				     (click)="currentTab = 'upload'"
+				     type="button"
+				>
+					Image
 				</div>
 
-				<div class="tab" [class.tab-is-active]="currentDialogViewState === 'url'" (click)="openUrlTab()" type="button">
-					<span class="l-hidden l-hidden-laptop">Paste Badge</span> URL
+				<div class="tab"
+				     [class.tab-is-active]="currentTab === 'url'"
+				     (click)="currentTab = 'url'"
+				     type="button"
+				>
+					URL
 				</div>
 
-				<div class="tab" [class.tab-is-active]="currentDialogViewState === 'json'" (click)="openJsonTab()" type="button">
-					<span class="l-hidden l-hidden-laptop">Paste Badge</span> JSON
+				<div class="tab"
+				     [class.tab-is-active]="currentTab === 'json'"
+				     (click)="currentTab = 'json'"
+				     type="button"
+				>
+					JSON
 				</div>
 			</div>
 
 			<!-- Drag or upload Badge -->
 
-			<div *ngIf="currentDialogViewState === 'upload'" class="u-padding-all3x">
-				<bg-formfield-image imageLoaderName="basic" [placeholderImage]="uploadBadgeImageUrl" [control]="addRecipientBadgeForm.controls.image"
-				 (mouseup)="controlUpdated('image')" (drop)="controlUpdated('image' )" class="formimage-badgeUpload">
-
-				</bg-formfield-image>
+			<div *ngIf="currentTab === 'upload'"
+			     class="u-padding-all3x"
+			>
+				<bg-formfield-image imageLoaderName="basic"
+				                    [placeholderImage]="uploadBadgeImageUrl"
+				                    [control]="addRecipientBadgeForm.rawControlMap.image"
+				                    (change)="controlUpdated(addRecipientBadgeForm.controls.image)"
+				                    class="formimage-badgeUpload"
+				></bg-formfield-image>
 			</div>
 
 			<!-- ------- Paste badge URL  -->
 
-			<div *ngIf="currentDialogViewState === 'url'" class="u-padding-all3x">
+			<div *ngIf="currentTab === 'url'"
+			     class="u-padding-all3x"
+			>
 				<div class="forminput">
-					<bg-formfield-text urlField="true" [control]="addRecipientBadgeForm.controls.url" errorMessage="Please enter valid URL"
-					 (keyup)="controlUpdated('url')" includeLabelAsWrapper="true" placeholder="Enter URL" #urlField>
-					</bg-formfield-text>
+					<bg-formfield-text urlField="true"
+					                   [control]="addRecipientBadgeForm.rawControlMap.url"
+					                   errorMessage="Please enter valid URL"
+					                   (change)="controlUpdated(addRecipientBadgeForm.controls.url)"
+					                   includeLabelAsWrapper="true"
+					                   placeholder="Enter URL"
+					                   [autofocus]="true"
+					                   #urlField
+					></bg-formfield-text>
 				</div>
 			</div>
 
 			<!-- ------- Paste badge JSON  -->
 
-			<div *ngIf="currentDialogViewState === 'json'" class="u-padding-all3x">
+			<div *ngIf="currentTab === 'json'"
+			     class="u-padding-all3x"
+			>
 				<div class="forminput">
-					<bg-formfield-text [control]="addRecipientBadgeForm.controls.assertion" errorMessage="Please enter valid JSON"
-					 placeholder="Enter JSON" (keyup)="controlUpdated('assertion')" [multiline]="true" [monospaced]="true" class="formfield-x-badgePasteJson-text-height"
-					 #jsonField>
-					</bg-formfield-text>
+					<bg-formfield-text [control]="addRecipientBadgeForm.rawControlMap.assertion"
+					                   errorMessage="Please enter valid JSON"
+					                   placeholder="Enter JSON"
+					                   (change)="controlUpdated(addRecipientBadgeForm.controls.assertion)"
+					                   [multiline]="true"
+					                   [monospaced]="true"
+					                   [autofocus]="true"
+					                   class="formfield-x-badgePasteJson-text-height"
+					                   #jsonField
+					></bg-formfield-text>
 				</div>
 			</div>
 
 
-			<div class="u-padding-all3x l-stack l-stack-right">
-				<button class="button" type="submit" [loading-promises]="[ badgeUploadPromise ]" loading-message="Adding">
+			<div class="u-responsivepadding-xaxis u-responsivepadding-yaxis l-stack l-stack-right">
+				<button class="button"
+				        type="submit"
+				        [loading-promises]="[ badgeUploadPromise ]"
+				        loading-message="Adding"
+				>
 					Add Badge
 				</button>
 			</div>
-			<div *ngIf="formError" class="u-padding-all3x">
+			<div *ngIf="formError"
+			     class="u-padding-all3x"
+			>
 				<div class="notification notification-warning notification-is-active">
 					<div class="notification-x-icon">
 						<svg icon="icon_priority_high"></svg>
@@ -75,7 +123,9 @@
 						<h2>Uh Oh...</h2>
 						<p>{{formError}}</p>
 					</div>
-					<button class="notification-x-close buttonicon buttonicon-clear" (click)="clearFormError()">
+					<button class="notification-x-close buttonicon buttonicon-clear"
+					        (click)="clearFormError()"
+					>
 						<svg icon="icon_close"></svg>
 						<span class="visuallyhidden">Close Notification</span>
 					</button>
@@ -85,121 +135,3 @@
 
 	</div>
 </dialog>
-
-
-<!-- 
-
-	<dialog class="dialog dialog-large">
-
-			<form class="table-x-tr table-x-active"
-			      [formGroup]="addRecipientBadgeForm"
-			      (ngSubmit)="submitBadgeRecipientForm(addRecipientBadgeForm.value)">
-
-				<div class="dialog-x-content">
-
-					<h1 class="title">Add Badge</h1>
-
-					<p class="text">Add a badge you’ve already received by utilizing one of the options below.</p>
-
-					------- Drag or upload Badge --
-
-					<div *ngIf="currentDialogViewState === 'upload'">
-							<bg-formfield-image
-									imageLoaderName="basic"
-									[placeholderImage]="uploadBadgeImageUrl"
-									[control]="addRecipientBadgeForm.controls.image"
-									(mouseup)="controlUpdated('image')"
-									(drop)="controlUpdated('image' )"
-									class="formimage-badgeUpload">
-	
-							</bg-formfield-image>
-						</div>
-	
-						------- Paste badge URL 
-	
-						<div *ngIf="currentDialogViewState === 'url'">
-							<div class="formfield formfield-image">
-								<bg-formfield-text
-										urlField="true"
-										[control]="addRecipientBadgeForm.controls.url"
-										errorMessage="Please enter valid URL"
-										(keyup)="controlUpdated('url')"
-										includeLabelAsWrapper="true"
-										placeholder="Enter URL"
-										#urlField
-								>
-	
-									<img label-additions [loaded-src]="pasteBadgeImageUrl" />
-								</bg-formfield-text>
-							</div>
-						</div>
-	
-						------- Paste badge JSON 
-	
-						<div *ngIf="currentDialogViewState === 'json'">
-							<div class="formfield">
-								<bg-formfield-text
-										[control]="addRecipientBadgeForm.controls.assertion"
-										errorMessage="Please enter valid JSON"
-										placeholder="Enter JSON"
-										(keyup)="controlUpdated('assertion')"
-										[multiline]="true"
-										[monospaced]="true"
-										class="formfield-x-badgePasteJson-text-height"
-										#jsonField
-								>
-								</bg-formfield-text>
-							</div>
-						</div>
-	
-						------- State controls 
-	
-						<div class="l-uploadBadgeButtons">
-							<button class="badgeButton badgeButton-icon-badgeUpload"
-									[class.badgeButton-is-selected]="currentDialogViewState === 'upload'"
-									(click)="currentDialogViewState = 'upload'"
-									type="button">
-								Upload Badge Image
-							</button>
-	
-							<button class="badgeButton badgeButton-icon-pasteUrl"
-									[class.badgeButton-is-selected]="currentDialogViewState === 'url'"
-									(click)="openUrlTab()"
-									type="button">
-								Paste Badge URL
-							</button>
-	
-							<button class="badgeButton badgeButton-icon-pasteJson"
-									[class.badgeButton-is-selected]="currentDialogViewState === 'json'"
-									(click)="openJsonTab()"
-									type="button">
-								Paste Badge JSON
-							</button>
-	
-						</div>
-	
-						------- Dialog controls
-	
-						<div class="l-childrenhorizontal l-childrenhorizontal-small l-childrenhorizontal-right">
-							<button class="button button-primaryghost"
-									type="button"
-									(click)="closeDialog()"
-									[disabled-when-requesting]="true">Cancel
-							</button>
-							<button class="button" type="submit" [loading-promises]="[ badgeUploadPromise ]" loading-message="Adding">
-								Add Badge
-							</button>
-						</div>
-	
-						<div *ngIf="formError" class="formmessage formmessage-is-active formmessage-is-error">
-							<p>{{formError}}</p>
-							<button class="icon icon-close-light icon-right" type="button" (click)="clearFormError()">Dismiss</button>
-						</div>
-	
-					</div>
-	
-				</form>
-	
-			</dialog>
-
- -->

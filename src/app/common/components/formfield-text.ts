@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild} from '@angular/core';
 
-import { FormControl, FormGroup } from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
-import { UrlValidator } from '../validators/url.validator';
-import { CommonDialogsService } from '../services/common-dialogs.service';
+import {UrlValidator} from '../validators/url.validator';
+import {CommonDialogsService} from '../services/common-dialogs.service';
 
 @Component({
 	selector: 'bg-formfield-text',
@@ -25,7 +25,7 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			</label>
 			<ng-content class="forminput-x-helplink" select="[label-additions]"></ng-content>
 		</div>
-		<p class="forminput-x-sublabel" *ngIf="sublabel"><span *ngIf="remainingCharactersNum > 0">{{ remainingCharactersNum }}</span>{{ sublabel }}</p>
+		<p class="forminput-x-sublabel" *ngIf="sublabel"><span *ngIf="remainingCharactersNum >= 0">{{ remainingCharactersNum }}</span>{{ sublabel }}</p>
 
 		<label class="visuallyhidden" [attr.for]="inputName" *ngIf="ariaLabel">{{ ariaLabel }}</label>
 		<div class="forminput-x-inputs">
@@ -35,7 +35,8 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			       [id]="inputId"
 			       [formControl]="control"
 			       [placeholder]="placeholder || ''"
-			       [maxlength] = "maxchar"
+						 [attr.maxlength] = "maxchar"
+						 [attr.max] = "max"
 			       (change)="postProcessInput()"
 			       (focus)="cacheControlState()"
 			       (keypress)="handleKeyPress($event)"
@@ -45,9 +46,8 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			<div class="forminput-x-button" *ngIf="inlineButtonText">
 				<button class="button button-secondary button-informinput"
 						(click)="buttonClicked.emit($event)"
+						[disabled-when-requesting]="true"
 						type="submit"
-				        [disabled-when-requesting]="true"
-				        type="submit"
 				>
 					{{inlineButtonText}}
 				</button>
@@ -56,7 +56,7 @@ import { CommonDialogsService } from '../services/common-dialogs.service';
 			          [name]="inputName"
 			          [id]="inputId"
 			          [formControl]="control"
-			          [maxlength] = "maxchar"
+			          [attr.maxlength] = "maxchar"
 			          [placeholder]="placeholder || ''"
 			          (change)="postProcessInput()"
 			          (focus)="cacheControlState()"
@@ -123,7 +123,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	}
 
 	get controlErrorState() {
-		return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
+		return this.errorOverride || this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid));
 	}
 
 	get isErrorState() {
@@ -150,16 +150,18 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() id: string;
 	@Input() label: string;
 	@Input() ariaLabel: string;
-	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() includeLabelAsWrapper = false; // includes label for layout purposes even if label text wasn't passed in.
 	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
-	@Input() multiline: boolean = false;
-	@Input() monospaced: boolean = false;
+	@Input() errorOverride?: false;
+	@Input() multiline = false;
+	@Input() monospaced = false;
 	@Input() sublabel: string;
 	@Input() placeholder: string;
 	@Input() fieldType: FormFieldTextInputType = 'text';
-	@Input() maxchar: number;
-	@Input() optional: boolean = false;
+	@Input() maxchar?: number;
+	@Input() max?: number;
+	@Input() optional = false;
 	@Input() inlineButtonText: string;
 
 
@@ -168,10 +170,10 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	@Input() errorGroup: FormGroup;
 	@Input() errorGroupMessage: CustomValidatorMessages;
 
-	@Input() unlockConfirmText: string = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
-	@Input() urlField: boolean = false;
+	@Input() unlockConfirmText = 'Unlocking this field may have unintended consequences. Are you sure you want to continue?';
+	@Input() urlField = false;
 
-	@Input() autofocus: boolean = false;
+	@Input() autofocus = false;
 
 	@ViewChild('textInput') textInput: ElementRef;
 	@ViewChild('textareaInput') textareaInput: ElementRef;
@@ -206,7 +208,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 		}
 	}
 
-	ngOnChanges(changes: SimpleChanges): any {
+	ngOnChanges(changes: SimpleChanges) {
 		// Unlocked by default when there is no value
 		if (!this.control.value) {
 			this.unlocked = true;
@@ -270,7 +272,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 	}
 
 	handleKeyUp(event: KeyboardEvent) {
-		this.remainingCharactersNum = this.maxchar - this.control.value.length;
+		this.remainingCharactersNum = this.maxchar - (this.control.value? this.control.value.length :0);
 	}
 
 	private postProcessInput() {
@@ -283,7 +285,7 @@ export class FormFieldText implements OnChanges, AfterViewInit {
 /**
  * Allowable HTML input type for text based inputs.
  */
-export type FormFieldTextInputType = 'text' | 'email' | 'url' | 'tel' | 'password' | 'search';
+export type FormFieldTextInputType = 'text' | 'email' | 'url' | 'tel' | 'password' | 'search' | 'date';
 
 export type ValidatorKey = 'required' | 'maxlength' | 'validUrl';
 
@@ -293,7 +295,7 @@ export type CustomValidatorMessages = string | { [validatorKey: string]: string 
  * Default validation message generators for input fields.
  */
 export const defaultValidatorMessages: {
-	[validatorKey: string]: (label: string, result?: any) => string
+	[validatorKey: string]: (label: string, result?: unknown) => string
 } = {
 	'required': (label: string) => `${label} is required`,
 	'validUrl': () => `Please enter a valid URL`,

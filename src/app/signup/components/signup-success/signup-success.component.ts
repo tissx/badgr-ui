@@ -1,8 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SessionService } from "../../../common/services/session.service";
-import { Title } from "@angular/platform-browser";
-import { AppConfigService } from "../../../common/app-config.service";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SessionService} from '../../../common/services/session.service';
+import {Title} from '@angular/platform-browser';
+import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
@@ -33,6 +33,6 @@ export class SignupSuccessComponent implements OnInit {
 		return `mailto:${this.configService.helpConfig ? this.configService.helpConfig.email || 'help@badgr.io' : 'help@badgr.io'}`;
 	}
 	get service() {
-		return this.configService.theme['serviceName'] || "Badgr"
+		return this.configService.theme['serviceName'] || "Badgr";
 	}
 }

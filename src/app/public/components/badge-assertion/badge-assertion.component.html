@@ -1,16 +1,19 @@
 <ng-template [bgAwaitPromises]="assertionIdParam">
 	<!-- Embedded View -->
-	<bg-badgecard 
-		[badgeTitle]="badgeClass.name"
-		[badgeImage]="assertion.image"
-		[badgeDescription]="badgeClass.description"
-		[badgeIssueDate]="assertion.issuedOn"
-		[mostRelevantStatus]=""
-		[issuerTitle]="issuer.name"
-		[verifyUrl]="verifyUrl"
-	>
-	</bg-badgecard>
-
+	
+	<div>
+		<bg-badgecard
+			[badgeTitle]="badgeClass.name"
+			[badgeImage]="assertion.image"
+			[badgeDescription]="badgeClass.description"
+			[badgeIssueDate]="assertion.issuedOn"
+			[mostRelevantStatus]=""
+			[issuerTitle]="issuer.name"
+			[verifyUrl]="verifyUrl"
+			*ngIf="embedService.isEmbedded"
+		>
+		</bg-badgecard>
+	</div>
 	<!-- Regular View -->
 	<main class="o-container"
 		*ngIf="! embedService.isEmbedded">
@@ -20,7 +23,6 @@
 			<div class="badgedetail-x-header">
 				<!-- Badge Name -->
 				<h1>
-					<!--<a [routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">{{ badgeClass.name }}</a>-->
 					{{ badgeClass.name }}
 				</h1>
 
@@ -43,16 +45,19 @@
 					<bg-popup-menu #moreMenu>
 						<a class="menuitem"
 							[href]="v2JsonUrl"
-						>Download Badge JSON v2.0</a>
+						><svg icon="icon_external_link"></svg>Download JSON</a>
 						<a class="menuitem"
 							[href]="v2BakedUrl"
 							download=true
 							target="_blank"
-						>Download Badge Baked Image v2.0</a>
+						><svg icon="icon_external_link"></svg>Download Baked Image</a>
 						<a class="menuitem"
 							*ngIf="assertion.sourceUrl"
 							[href]="assertion.sourceUrl"
-						>View Original</a>
+						><svg icon="icon_external_link"></svg>View Original</a>
+						<a class="menuitem"
+							[routerLink]="routerLinkForUrl(badgeClass.hostedUrl || badgeClass.id)">
+							<svg icon="icon_badge"></svg>View Badge Class</a>
 					</bg-popup-menu>
 				</div>
 			</div>
@@ -65,7 +70,7 @@
 						 [ngStyle]="(assertion.expires && isExpired) && {'filter':'grayscale(1)'}"
 						 class="badgeimage badgeimage-center badgeimage-large"
 						 width="200" />
-					<div class="status status-expired u-margin-auto"
+					<div class="badgestatus badgestatus-expired u-margin-auto"
 						 *ngIf="assertion.expires && isExpired"
 						 >Expired</div>
 
@@ -79,18 +84,23 @@
 									 width="40" />
 							</div>
 							<div>
-								<dt class="u-text-small-bold">Issued by:</dt>
+								<dt class="u-text-small-bold u-text-dark2">Issued by:</dt>
 								<dd class="u-text">
-	                				<a class="u-break-word" [href]="issuer.id" target="_blank">{{ issuer.name }}</a>
+	                				<a class="u-break-word" [href]="issuer.id">{{ issuer.name }}</a>
 	            				</dd>
 							</div>
 						</div>
-						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Created on:</dt>
+						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Created on:</dt>
 						<dd class="u-text"><time [date]="assertion.issuedOn" format="mediumDate"></time></dd>
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3">Awarded to:</dt>
-				    	<dd class="u-text u-break-all">{{ recipientId }}</dd>
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3"><span *ngIf="assertion.expires && isExpired">EXPIRED</span><span *ngIf="assertion.expires && !isExpired">Expires on:</span></dt>
-				    	<dd *ngIf="assertion.expires && !isExpired" class="u-text"><time [date]="assertion.expires" format="mediumDate"></time></dd>
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="awardedToDisplayName">Awarded to:</dt>
+				    	<dd class="u-text u-break-all">{{ awardedToDisplayName }}</dd>
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2"
+				    		*ngIf="assertion.expires">
+				    		<span *ngIf="assertion.expires && !isExpired">Expires on:</span>
+				    	</dt>
+				    	<dd *ngIf="assertion.expires && !isExpired" class="u-text">
+				    		<time [date]="assertion.expires" format="mediumDate"></time>
+				    	</dd>
 					</dl>
 				</div>
 			</div>
@@ -104,17 +114,12 @@
 				<section>
 					<h3
 						*ngIf="badgeClass.criteria.id || badgeClass.criteria.narrative || badgeClass.criteria"
-						class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+						class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-margin-top4x"
 					>Criteria</h3>
-					<show-more *ngIf="badgeClass.criteria.narrative">
-						<markdown-display [value]="badgeClass.criteria.narrative"></markdown-display>
-					</show-more>
-					<div class="u-margin-bottom2x u-margin-top6x">
-						<a
-							*ngIf="badgeClass.criteria.id"
-							class="u-text-outlink"
+					<div class="u-margin-bottom2x"
+						*ngIf="badgeClass.criteria.id">
+						<a class="u-text-outlink" target="_blank"
 							[href]="badgeClass.criteria.id"
-							target="_blank"
 						>View external Criteria URL
 							<svg icon="icon_external_link"></svg>
 						</a>
@@ -123,7 +128,7 @@
 
 				<!-- alignment -->
 				<section>
-					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
+					<h3 class="u-text-h3-semibold u-margin-yaxis2x"
 						*ngIf="badgeClass.alignment && badgeClass?.alignment.length>0"
 						>Alignment</h3>
 
@@ -162,11 +167,12 @@
 				</section>
 
 				<!-- evidence -->
-				<section>
-					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x"
-						*ngIf="assertion.evidence?.length>0 || assertion.narrative"
-					>Narrative</h3>
-					<markdown-display [value]="assertion.narrative"></markdown-display>
+				<section
+					*ngIf="assertion.evidence?.length>0 || assertion.narrative">
+					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Narrative</h3>
+					<show-more>
+						<markdown-display [value]="assertion.narrative"></markdown-display>
+					</show-more>
 					<div *ngFor="let evidence of assertion.evidence; let i=index">
 						<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Evidence</h3>
 						<markdown-display [value]="evidence.narrative"></markdown-display>

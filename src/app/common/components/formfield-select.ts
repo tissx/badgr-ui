@@ -1,17 +1,17 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 
-import { FormControl, FormGroup } from "@angular/forms";
+import {FormControl, FormGroup} from '@angular/forms';
 
-import { CommonDialogsService } from "../services/common-dialogs.service";
-import { CustomValidatorMessages, messagesForValidationError } from "./formfield-text";
+import {CommonDialogsService} from '../services/common-dialogs.service';
+import {CustomValidatorMessages, messagesForValidationError} from './formfield-text';
 
 @Component({
 	selector: 'bg-formfield-select',
 
 	host: {
 		'class': "forminput",
-		'[class.formfield-is-error]': "isErrorState",
-		'[class.formfield-locked]': "isLockedState",
+		'[class.forminput-is-error]': "isErrorState",
+		'[class.forminput-locked]': "isLockedState",
 	},
 	template: `
 		<label class="forminput-x-label" [attr.for]="inputName" *ngIf="label || includeLabelAsWrapper">
@@ -46,10 +46,10 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 	@Input() initialValue: string;
 	@Input() label: string;
 	@Input() ariaLabel: string | null = null;
-	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() includeLabelAsWrapper = false; // includes label for layout purposes even if label text wasn't passed in.
 	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
-	@Input() multiline: boolean = false;
+	@Input() multiline = false;
 	@Input() description: string;
 	@Input() placeholder: string;
 
@@ -64,10 +64,10 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 	@Input() errorGroup: FormGroup;
 	@Input() errorGroupMessage: CustomValidatorMessages;
 
-	@Input() unlockConfirmText: string = "Unlocking this field may have unintended consequences. Are you sure you want to continue?";
-	@Input() urlField: boolean = false;
+	@Input() unlockConfirmText = "Unlocking this field may have unintended consequences. Are you sure you want to continue?";
+	@Input() urlField = false;
 
-	@Input() autofocus: boolean = false;
+	@Input() autofocus = false;
 
 	@ViewChild("selectInput") selectInput: ElementRef;
 
@@ -78,7 +78,7 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 		this.updateDisabled();
 	}
 
-	get unlocked() { return this._unlocked }
+	get unlocked() { return this._unlocked; }
 
 	private _locked = false;
 	@Input()
@@ -87,7 +87,7 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 		this.updateDisabled();
 	}
 
-	get locked() { return this._locked }
+	get locked() { return this._locked; }
 
 	get inputElement(): HTMLInputElement | HTMLTextAreaElement {
 		if (this.selectInput && this.selectInput.nativeElement) {
@@ -124,7 +124,7 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 	private cachedErrorState = null;
 	private cachedDirtyState = null;
 
-	get controlErrorState() { return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid)) }
+	get controlErrorState() { return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid)); }
 
 	get isErrorState() {
 		if (this.hasFocus && this.cachedErrorState !== null) {
@@ -134,11 +134,11 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 		}
 	}
 
-	get isLockedState() { return this.locked && !this.unlocked }
+	get isLockedState() { return this.locked && !this.unlocked; }
 
 	private randomName = "field" + Math.random();
 
-	get inputName() { return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase() }
+	get inputName() { return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase(); }
 
 	constructor(
 		private dialogService: CommonDialogsService,
@@ -151,7 +151,7 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 		}
 	}
 
-	ngOnChanges(changes: SimpleChanges): any {
+	ngOnChanges(changes: SimpleChanges) {
 		// Unlocked by default when there is no value
 		if (!this.control.value) {
 			this.unlocked = true;
@@ -210,7 +210,7 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 	handleKeyPress(event: KeyboardEvent) {
 		// This handles revalidating when hitting enter from within an input element. Ideally, we'd catch _all_ form submission
 		// events, but since the form supresses those if things aren't valid, that doesn't really work. So we do this hack.
-		if (event.keyCode == 13) {
+		if (event.keyCode === 13) {
 			this.control.markAsDirty();
 			this.cacheControlState();
 		}
@@ -218,6 +218,7 @@ export class FormFieldSelect implements OnChanges, AfterViewInit {
 }
 
 export interface FormFieldSelectOption {
-	label: string
-	value: string
+	label: string;
+	value: string;
+	description?: string;
 }

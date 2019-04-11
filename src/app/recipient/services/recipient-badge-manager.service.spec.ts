@@ -1,22 +1,22 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { AppConfigService } from "../../common/app-config.service";
-import { MockBackend } from "@angular/http/testing";
-import { BaseRequestOptions, Http, RequestMethod } from "@angular/http";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { expectRequestAndRespondWith } from "../../common/util/mock-response-util.spec";
-import { verifyEntitySetWhenLoaded, verifyManagedEntitySet } from "../../common/model/managed-entity-set.spec";
-import { RecipientBadgeApiService } from "./recipient-badges-api.service";
-import { RecipientBadgeManager } from "./recipient-badge-manager.service";
-import { ApiRecipientBadgeInstance } from "../models/recipient-badge-api.model";
-import { buildTestRecipientBadges } from "../models/recipient-badge.model.spec";
-import { RecipientBadgeCollectionManager } from "./recipient-badge-collection-manager.service";
-import { buildTestRecipientBadgeCollections } from "../models/recipient-badge-collection.model.spec";
-import { expectAllCollectionsRequest, expectCollectionPut } from "./recipient-badge-collection-manager.service.spec";
-import { RecipientBadgeCollectionApiService } from "./recipient-badge-collection-api.service";
-import { MessageService } from "../../common/services/message.service";
-import { EventsService } from "../../common/services/events.service";
-import { SessionService } from "../../common/services/session.service";
-import { first, skip } from "rxjs/operators";
+import {inject, TestBed} from '@angular/core/testing';
+import {AppConfigService} from '../../common/app-config.service';
+import {MockBackend} from '@angular/http/testing';
+import {BaseRequestOptions, Http, RequestMethod} from '@angular/http';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {expectRequestAndRespondWith} from '../../common/util/mock-response-util.spec';
+import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from '../../common/model/managed-entity-set.spec';
+import {RecipientBadgeApiService} from './recipient-badges-api.service';
+import {RecipientBadgeManager} from './recipient-badge-manager.service';
+import {ApiRecipientBadgeInstance} from '../models/recipient-badge-api.model';
+import {buildTestRecipientBadges} from '../models/recipient-badge.model.spec';
+import {RecipientBadgeCollectionManager} from './recipient-badge-collection-manager.service';
+import {buildTestRecipientBadgeCollections} from '../models/recipient-badge-collection.model.spec';
+import {expectAllCollectionsRequest, expectCollectionPut} from './recipient-badge-collection-manager.service.spec';
+import {RecipientBadgeCollectionApiService} from './recipient-badge-collection-api.service';
+import {MessageService} from '../../common/services/message.service';
+import {EventsService} from '../../common/services/events.service';
+import {SessionService} from '../../common/services/session.service';
+import {first, skip} from 'rxjs/operators';
 
 xdescribe('RecipientBadgeManger', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -57,7 +57,7 @@ xdescribe('RecipientBadgeManger', () => {
 				return Promise.all([
 					expectAllBadgesRequest(mockBackend, testData.apiBadges),
 					verifyEntitySetWhenLoaded(recipientBadgeManager.recipientBadgeList, testData.apiBadges)
-				])
+				]);
 			}
 		)
 	);
@@ -71,9 +71,9 @@ xdescribe('RecipientBadgeManger', () => {
 				return Promise.all([
 					expectAllBadgesRequest(mockBackend, testData.apiBadges),
 					recipientBadgeManager.recipientBadgeList.loadedPromise.then(() => {
-						verifyManagedEntitySet(recipientBadgeManager.recipientBadgeList, testData.apiBadges)
+						verifyManagedEntitySet(recipientBadgeManager.recipientBadgeList, testData.apiBadges);
 					})
-				])
+				]);
 			}
 		)
 	);
@@ -84,8 +84,8 @@ xdescribe('RecipientBadgeManger', () => {
 			(recipientBadgeManager: RecipientBadgeManager, mockBackend: MockBackend) => {
 				const testData = buildTestRecipientBadges();
 
-				let existingRecipientBadge = testData.apiBadge1;
-				let newRecipientBadge = testData.apiBadge2;
+				const existingRecipientBadge = testData.apiBadge1;
+				const newRecipientBadge = testData.apiBadge2;
 
 				return Promise.all([
 					expectAllBadgesRequest(mockBackend, [ existingRecipientBadge ]),
@@ -101,7 +101,7 @@ xdescribe('RecipientBadgeManger', () => {
 							assertion: JSON.stringify(newRecipientBadge)
 						}))
 						.then(() => verifyManagedEntitySet(recipientBadgeManager.recipientBadgeList, [ newRecipientBadge, existingRecipientBadge ]))
-				])
+				]);
 			}
 		)
 	);
@@ -113,9 +113,9 @@ xdescribe('RecipientBadgeManger', () => {
 				const testBadges = buildTestRecipientBadges();
 				const testCollections = buildTestRecipientBadgeCollections();
 
-				let apiBadge = testBadges.apiBadge1;
-				let extraCollection = testCollections.apiCollection1;
-				let containingCollection = testCollections.apiCollection2;
+				const apiBadge = testBadges.apiBadge1;
+				const extraCollection = testCollections.apiCollection1;
+				const containingCollection = testCollections.apiCollection2;
 
 				extraCollection.badges = [];
 				containingCollection.badges = [{
@@ -132,9 +132,9 @@ xdescribe('RecipientBadgeManger', () => {
 							return badge.collections.loadedPromise.then(
 								collections => expect(collections.entities)
 									.toEqual(collectionManager.recipientBadgeCollectionList.entitiesForApiEntities([ containingCollection ]))
-							)
+							);
 						})
-				])
+				]);
 			}
 		)
 	);
@@ -148,9 +148,9 @@ xdescribe('RecipientBadgeManger', () => {
 				const testBadges = buildTestRecipientBadges();
 				const testCollections = buildTestRecipientBadgeCollections();
 
-				let apiBadge = testBadges.apiBadge1;
-				let extraCollection = testCollections.apiCollection1;
-				let containingCollection = testCollections.apiCollection2;
+				const apiBadge = testBadges.apiBadge1;
+				const extraCollection = testCollections.apiCollection1;
+				const containingCollection = testCollections.apiCollection2;
 
 				extraCollection.badges = [];
 				containingCollection.badges = [];
@@ -176,14 +176,14 @@ xdescribe('RecipientBadgeManger', () => {
 															.entitiesForApiEntities([ containingCollection ])
 															.map(e => e.url)
 													)
-											)
+											);
 									} finally {
 										collectionList.entityForApiEntity(containingCollection).addBadge(badge);
 									}
 								}
-							)
+							);
 						})
-				])
+				]);
 			}
 		)
 	);
@@ -237,9 +237,9 @@ xdescribe('RecipientBadgeManger', () => {
 										badge.save()
 									]);
 								}
-							)
+							);
 						})
-				])
+				]);
 			}
 		)
 	);

@@ -1,30 +1,31 @@
-import { APP_INITIALIZER, NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
+import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { Angulartics2, Angulartics2Module } from "angulartics2";
-import { Angulartics2GoogleTagManager } from "angulartics2/gtm";
+import {Angulartics2, Angulartics2Module} from 'angulartics2';
+import {Angulartics2GoogleTagManager} from 'angulartics2/gtm';
 
 
-import { AppComponent } from "./app.component";
-import { BadgrCommonModule, COMMON_IMPORTS } from "./common/badgr-common.module";
-import { InitialRedirectComponent } from "./initial-redirect.component";
+import {AppComponent} from './app.component';
+import {BadgrCommonModule, COMMON_IMPORTS} from './common/badgr-common.module';
+import {InitialRedirectComponent} from './initial-redirect.component';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouteReuseStrategy, RouterModule, Routes } from "@angular/router";
-import { ForwardRouteComponent } from "./common/pages/forward-route.component";
-import { BadgrRouteReuseStrategy } from "./common/util/route-reuse-strategy";
-import { ProfileModule } from "./profile/profile.module";
-import { AuthModule } from "./auth/auth.module";
-import { AuthGuard } from "./common/guards/auth.guard";
-import { RecipientBadgeApiService } from "./recipient/services/recipient-badges-api.service";
-import { AppConfigService } from "./common/app-config.service";
-import { initializeTheme } from '../theming/theme-setup';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouteReuseStrategy, RouterModule, Routes} from '@angular/router';
+import {ForwardRouteComponent} from './common/pages/forward-route.component';
+import {BadgrRouteReuseStrategy} from './common/util/route-reuse-strategy';
+import {ProfileModule} from './profile/profile.module';
+import {AuthModule} from './auth/auth.module';
+import {AuthGuard} from './common/guards/auth.guard';
+import {RecipientBadgeApiService} from './recipient/services/recipient-badges-api.service';
+import {AppConfigService} from './common/app-config.service';
+import {initializeTheme} from '../theming/theme-setup';
+import {timeoutPromise} from './common/util/promise-util';
 
 // Force AuthModule and ProfileModule to get included in the main module. We don't want them lazy loaded because
 // they basically always need to be present. We have have functions that return them, but use strings in the Routes
 // because of https://github.com/angular/angular-cli/issues/4192
-export function authModule() { return AuthModule }
-export function profileModule() { return ProfileModule }
+export function authModule() { return AuthModule; }
+export function profileModule() { return ProfileModule; }
 
 const ROUTE_CONFIG: Routes = [
 	{
@@ -107,7 +108,19 @@ export const appInitializerFn = (configService: AppConfigService) => {
 		window["badgrConfig"] = config;
 
 		initializeTheme(configService);
-	}
+
+		// Google Tag Manager
+		const aKey = config.googleAnalytics.trackingId; // 'GTM-5DLJTBB';
+		const aScript = document.createElement('script');
+		aScript.text = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','${aKey}');`;
+
+		document.getElementsByTagName('head')[0].appendChild(aScript);
+
+	};
 };
 
 @NgModule({

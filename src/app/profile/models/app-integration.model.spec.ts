@@ -1,7 +1,7 @@
-import { inject, TestBed } from "@angular/core/testing";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { AppIntegration, BadebookLti1Integration } from "./app-integration.model";
-import { ApiAppIntegration } from "./app-integration-api.model";
+import {inject, TestBed} from '@angular/core/testing';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {AppIntegration, BadebookLti1Integration} from './app-integration.model';
+import {ApiAppIntegration} from './app-integration-api.model';
 
 xdescribe('AppIntegration', () => {
 	beforeEach(() => TestBed.configureTestingModule({
@@ -27,15 +27,15 @@ xdescribe('AppIntegration', () => {
 			(commonManager: CommonEntityManager) => {
 				const { canvasLti1 } = buildTestAppIntegrations();
 
-				let integration = AppIntegration.integrationFor(commonManager, canvasLti1);
-				verifyAppIntegration(integration, canvasLti1)
+				const integration = AppIntegration.integrationFor(commonManager, canvasLti1);
+				verifyAppIntegration(integration, canvasLti1);
 			}
 		)
 	);
 });
 
 export function verifyAppIntegration(
-	integration: AppIntegration<any>,
+	integration: AppIntegration<unknown>,
 	apiIntegration: ApiAppIntegration
 ) {
 	expect(integration.url).toEqual(String(apiIntegration.integrationUid || apiIntegration.integrationType));

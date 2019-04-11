@@ -1,43 +1,41 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 declare function require(path: string): string;
-// TODO: Break this template out
+
 @Component({
 	selector: 'bg-badgecard',
+	host: {'class': 'badgecard'},
 	template: `
-		<div class="badgecard">
-			<div class="badgecard-x-status badgestatus badgestatus-{{mostRelevantStatus}}" *ngIf="mostRelevantStatus">
-				{{mostRelevantStatus}}
+		<div class="badgecard-x-status badgestatus badgestatus-{{mostRelevantStatus}}" *ngIf="mostRelevantStatus">
+			{{mostRelevantStatus}}
+		</div>
+
+		<div class="badgecard-x-body">
+			<div class="badgecard-x-image">
+				<img class="badgeimage badgeimage-{{mostRelevantStatus}}"
+					[loaded-src]="badgeImage"
+					[loading-src]="badgeLoadingImageUrl"
+					[error-src]="badgeFailedImageUrl"
+					width="80" />
+			</div>
+			<a *ngIf="badgeSlug" class="badgecard-x-title u-text-breakword" [routerLink]="['../earned-badge', badgeSlug]">{{ badgeTitle }}</a>
+			<a *ngIf="publicUrl" class="badgecard-x-title" [href]="publicUrl">{{ badgeTitle }}</a>
+			<div class="badgecard-x-issuer">{{ issuerTitle }}</div>
+			<p class="badgecard-x-desc" [truncatedText]="badgeDescription" [maxLength]="100"></p>
+		</div>
+		<div class="badgecard-x-footer">
+			<div class="badgecard-x-date">
+				<time [date]="badgeIssueDate" format="mediumDate"></time>
 			</div>
 
-			<div class="badgecard-x-body">
-				<div class="badgecard-x-image">
-					<img class="badgeimage badgeimage-{{mostRelevantStatus}}"
-					     [loaded-src]="badgeImage"
-					     [loading-src]="badgeLoadingImageUrl"
-					     [error-src]="badgeFailedImageUrl"
-					     width="80" />
-				</div>
-				<a *ngIf="badgeSlug" class="badgecard-x-title" [routerLink]="['../earned-badge', badgeSlug]">{{ badgeTitle }}</a>
-				<a *ngIf="publicUrl" class="badgecard-x-title" [href]="publicUrl">{{ badgeTitle }}</a>
-				<div class="badgecard-x-issuer">{{ issuerTitle }}</div>
-				<p class="badgecard-x-desc" [truncatedText]="badgeDescription" [maxLength]="100"></p>
-			</div>
-			<div class="badgecard-x-footer">
-				<div class="badgecard-x-date">
-					<time [date]="badgeIssueDate" format="mediumDate"></time>
-				</div>
-				
-				<!-- Show Verify or Share Button -->
-				<button class="badgecard-x-sharelink" *ngIf="!verifyUrl"
-				        (click)="shareClicked.emit($event)">
-					Share
-				</button>
-				<a class="badgecard-x-sharelink" *ngIf="verifyUrl" [href]="verifyUrl">
-					Verify
-				</a>
-
-			</div>
+			<!-- Show Verify or Share Button -->
+			<button class="badgecard-x-sharelink" *ngIf="!verifyUrl"
+					(click)="shareClicked.emit($event)">
+				Share
+			</button>
+			<a class="badgecard-x-sharelink" *ngIf="verifyUrl" [href]="verifyUrl">
+				Verify
+			</a>
 		</div>
 	`
 })

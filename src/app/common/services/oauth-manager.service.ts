@@ -1,23 +1,18 @@
-import { Injectable } from "@angular/core";
-import { OAuthApiService } from "./oauth-api.service";
-import { SessionService } from "./session.service";
-import {
-	ApiOAuth2AppAuthorization,
-	ApiOAuth2AppInfo,
-	ApiOAuth2ClientAuthorized,
-	OAuth2RequestParams
-} from "../model/oauth-api.model";
-import { flatten } from "../util/array-reducers";
-import { StandaloneEntitySet } from "../model/managed-entity-set";
-import { OAuth2AppAuthorization } from "../model/oauth.model";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { CommonDialogsService } from "./common-dialogs.service";
+import {Injectable} from '@angular/core';
+import {OAuthApiService} from './oauth-api.service';
+import {SessionService} from './session.service';
+import {ApiOAuth2AppAuthorization, ApiOAuth2AppInfo, ApiOAuth2ClientAuthorized, OAuth2RequestParams} from '../model/oauth-api.model';
+import {flatten} from '../util/array-reducers';
+import {StandaloneEntitySet} from '../model/managed-entity-set';
+import {OAuth2AppAuthorization} from '../model/oauth.model';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {CommonDialogsService} from './common-dialogs.service';
 
 const OAUTH_STATE_STORAGE_NAME = "oauthState";
 
 @Injectable()
 export class OAuthManager {
-	public readonly authorizedApps = new StandaloneEntitySet<OAuth2AppAuthorization, ApiOAuth2AppAuthorization>(
+	readonly authorizedApps = new StandaloneEntitySet<OAuth2AppAuthorization, ApiOAuth2AppAuthorization>(
 		() => new OAuth2AppAuthorization(this.commonEntityManager),
 		apiModel => apiModel.entityId,
 		() => this.oauthApi.listAuthorizations()
@@ -44,7 +39,7 @@ export class OAuthManager {
 	];
 
 	private _oAuthState: OAuthState | null = null;
-	private get oAuthState() { return this._oAuthState }
+	private get oAuthState() { return this._oAuthState; }
 	private set oAuthState(state: OAuthState) {
 		this._oAuthState = state;
 		try {
@@ -90,13 +85,13 @@ export class OAuthManager {
 		];
 	}
 
-	public cancelCurrentAuthorization() {
+	cancelCurrentAuthorization() {
 		let redirectUrl = this.oAuthState.redirectUrl;
 		redirectUrl += (redirectUrl.indexOf('?') < 0) ? '?' : '&';
 		redirectUrl += "error=access_denied&error_code=200&error_description=Permissions+error&error_reason=user_denied";
 		redirectUrl += "&state=" + encodeURIComponent(this.oAuthState.stateString);
 
-		window.location.href = redirectUrl;
+		window.location.replace(redirectUrl);
 		this.oAuthState = null;
 	}
 
@@ -119,7 +114,7 @@ export class OAuthManager {
 						return AuthAttemptResult.LOGIN_REQUIRED;
 					}
 				}
-			})
+			});
 	}
 
 	authorizeCurrentApp(): Promise<ApiOAuth2ClientAuthorized> {
@@ -140,7 +135,7 @@ export class OAuthManager {
 		if (this.commonDialogsService.newTermsDialog.isOpen) {
 			this.commonDialogsService.newTermsDialog.agreedPromise.then(() => {
 				do_redirect();
-			})
+			});
 		} else {
 			do_redirect();
 		}
@@ -154,7 +149,7 @@ export class OAuthManager {
 }
 
 interface OAuthState extends OAuth2RequestParams {
-	readonly clientInfo?: ApiOAuth2AppInfo
+	readonly clientInfo?: ApiOAuth2AppInfo;
 }
 
 export enum AuthAttemptResult {
@@ -164,7 +159,7 @@ export enum AuthAttemptResult {
 }
 
 export interface ScopeGroupRule {
-	scopeId: string
-	cssName: string
-	label: string
+	scopeId: string;
+	cssName: string;
+	label: string;
 }

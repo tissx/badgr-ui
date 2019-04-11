@@ -1,16 +1,11 @@
-import { Injectable } from "@angular/core";
-import { SessionService } from "./session.service";
-import { AppConfigService } from "../app-config.service";
-import { MessageService } from "./message.service";
-import { BaseHttpApiService } from "./base-http-api.service";
-import {
-	ApiOAuth2AppAuthorization,
-	ApiOAuth2ClientAuthorized,
-	ApiOAuthResponse,
-	OAuth2RequestParams
-} from "../model/oauth-api.model";
-import { SocialAccountProviderInfo } from "../model/user-profile-api.model";
-import { HttpClient } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {SessionService} from './session.service';
+import {AppConfigService} from '../app-config.service';
+import {MessageService} from './message.service';
+import {BaseHttpApiService} from './base-http-api.service';
+import {ApiOAuth2AppAuthorization, ApiOAuth2ClientAuthorized, ApiOAuthResponse, OAuth2RequestParams} from '../model/oauth-api.model';
+import { ExternalAuthProvider, SocialAccountProviderInfo } from '../model/user-profile-api.model';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class OAuthApiService extends BaseHttpApiService {
@@ -24,7 +19,7 @@ export class OAuthApiService extends BaseHttpApiService {
 	}
 
 	listAuthorizations(): Promise<ApiOAuth2AppAuthorization[]> {
-		const now = new Date;
+		const now = new Date();
 
 		return this.get(`/v2/auth/tokens`)
 			.then(r => r.body as ApiOAuth2AppAuthorization[]);
@@ -69,9 +64,9 @@ export class OAuthApiService extends BaseHttpApiService {
 		).then(r => r.body);
 	}
 
-	connectProvider(provider: SocialAccountProviderInfo) {
+	connectProvider(provider: ExternalAuthProvider) {
 		return this
 			.get<{ url: string }>(`/v1/user/socialaccounts/connect?provider=${provider.slug}`)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 }

@@ -16,11 +16,13 @@
 						"main": "src/main.ts",
 						"tsConfig": "src/tsconfig.app.json",
 						"polyfills": "src/polyfills.ts",
+						"showCircularDependencies": false,
 						"assets": [
 							"src/assets"
 						],
 						"styles": [
-							"node_modules/@concentricsky/badgr-style/dist/css/iobadgr.min.css"
+							"node_modules/@concentricsky/badgr-style/dist/css/iobadgr.min.css",
+							"node_modules/dialog-polyfill/dialog-polyfill.css"
 						],
 						"scripts": []
 					},
@@ -47,7 +49,8 @@
 				"serve": {
 					"builder": "@angular-builders/dev-server:generic",
 					"options": {
-						"browserTarget": "badgr-ui-cli:build"
+						"browserTarget": "badgr-ui-cli:build",
+						"aot": true
 					},
 					"configurations": {
 						"production": {
@@ -69,8 +72,8 @@
 						"tsConfig": "src/tsconfig.spec.json",
 						"karmaConfig": "src/karma.conf.js",
 						"styles": [
-							"src/breakdown/static/css/reset.css",
-							"src/breakdown/static/scss/theme-default.scss"
+							"node_modules/@concentricsky/badgr-style/dist/css/iobadgr.min.css",
+							"node_modules/dialog-polyfill/dialog-polyfill.css"
 						],
 						"scripts": [],
 						"assets": [

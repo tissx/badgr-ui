@@ -5,11 +5,11 @@ export function readFile<T>(
 	const reader = new FileReader();
 
 	let resolve: (value?: T | PromiseLike<T>) => void;
-	let reject: (reason?: any) => void;
+	let reject: (reason?: unknown) => void;
 	const promise = new Promise<T>((res, rej) => { resolve = res; reject = rej; });
 
 	reader.onload = e => {
-		const fr: FileReader = <FileReader>e.target;
+		const fr: FileReader = e.target as FileReader;
 		resolve(fr.result as unknown as T);
 	};
 	reader.onerror = e => {
@@ -46,7 +46,7 @@ export function readFileAsDataURL(file: File): Promise<string> {
 const imagePromises: {[src: string]: Promise<HTMLImageElement>} = {};
 export function loadImageURL(imageUrl: string): Promise<HTMLImageElement> {
 	let resolve: (value?: HTMLImageElement | PromiseLike<HTMLImageElement>) => void;
-	let reject: (reason?: any) => void;
+	let reject: (reason?: unknown) => void;
 	const promise = new Promise<HTMLImageElement>((res, rej) => { resolve = res; reject = rej; });
 
 	const image = new Image();
@@ -63,8 +63,9 @@ export function loadImageURL(imageUrl: string): Promise<HTMLImageElement> {
 }
 
 export function preloadImageURL(imageURL: string): string {
-	if (! imagePromises[imageURL])
+	if (! imagePromises[imageURL]) {
 		imagePromises[imageURL] = loadImageURL(imageURL);
+	}
 
 	return imageURL;
 }

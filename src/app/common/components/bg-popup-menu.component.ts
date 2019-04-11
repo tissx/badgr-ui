@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, Directive, ElementRef, Input, NgZone, Renderer2 } from "@angular/core";
-import { OnDestroy } from "@angular/core/src/metadata/lifecycle_hooks";
-import Popper, { Placement } from "popper.js";
+import {AfterViewInit, Component, Directive, ElementRef, Input, NgZone, Renderer2} from '@angular/core';
+import {OnDestroy} from '@angular/core/src/metadata/lifecycle_hooks';
+import Popper, {Placement} from 'popper.js';
 
 /**
  * Directive that implements popper.js-based popup menus
@@ -10,29 +10,30 @@ import Popper, { Placement } from "popper.js";
 	template: '<ng-content></ng-content>',
 	host: {
 		"class": "menu",
-		"(window:click)": "handleClick($event)",
 		"[attr.inert]": "(! isOpen) || undefined"
 	}
 })
 export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 
-	get componentElem(): HTMLElement { return this.componentElemRef.nativeElement ! as HTMLElement }
+	get componentElem(): HTMLElement { return this.componentElemRef.nativeElement ! as HTMLElement; }
 
 	get isOpen() {
 		return this.componentElem && this.componentElem.classList.contains("menu-is-open");
 	}
-	public triggerData: any = null;
+	triggerData: unknown = null;
 
 	@Input()
-	closeOnOutsideClick: boolean = true;
+	closeOnOutsideClick = true;
 
 	@Input()
-	closeOnInsideClick: boolean = true;
+	closeOnInsideClick = true;
 
 	@Input()
 	menuPlacement: Placement = "bottom-end";
 	private popper: Popper | null = null;
 	private lastTriggerElem: HTMLElement | null = null;
+
+	private removeWindowClickListener?: (() => void) | null = null;
 
 	constructor(
 		private componentElemRef: ElementRef,
@@ -54,12 +55,20 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 					{
 						placement: this.menuPlacement,
 						onCreate: () => {
-							const firstTabbable =  this.componentElem.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]');
-							if (firstTabbable) (firstTabbable as any).focus();
+							const firstTabbable =  this.componentElem.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]');
+							if (firstTabbable) firstTabbable.focus();
 						}
 					}
 				);
 			});
+
+			// Bind the window click handler only on open because there is a performance overhead for each window-level event handler created.
+			// This handler should be removed when the popup menu is closed.
+			this.removeWindowClickListener = this.renderer.listen(
+				"window",
+				"click",
+				(event) => this.handleClick(event)
+			);
 		}
 
 		this.componentElem.style.display = "";
@@ -70,15 +79,14 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 		this.componentElem.classList.toggle("menu-is-open", false);
 
 		if (this.popper) {
-			this.popper.destroy();
+			this.cleanUp();
 			this.popper = null;
-
 			this.hideElem();
 		}
 	}
 
 	toggle(triggerElem: HTMLElement) {
-		if (!this.isOpen || this.lastTriggerElem != triggerElem) {
+		if (!this.isOpen || this.lastTriggerElem !== triggerElem) {
 			if (this.isOpen) this.close();
 
 			this.open(triggerElem);
@@ -94,12 +102,20 @@ export class BgPopupMenu implements OnDestroy, AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.componentElem && this.componentElem.remove();
-
-		if (this.popper) {
-			this.popper.destroy();
+		if (this.componentElem) {
+			this.componentElem.remove();
 		}
+
+		if (this.popper) this.cleanUp();
 	}
+
+	cleanUp = () => {
+		this.popper.destroy();
+		if (this.removeWindowClickListener) {
+			this.removeWindowClickListener();
+			this.removeWindowClickListener = null;
+		}
+	};
 
 	handleClick(event: Event) {
 		if (this.componentElem) {
@@ -136,7 +152,7 @@ export class BgPopupMenuTriggerDirective {
 	private menu: BgPopupMenu | null = null;
 
 	@Input("bgPopupMenuData")
-	private triggerData: any = null;
+	private triggerData: unknown = null;
 
 	constructor(
 		private componentElemRef: ElementRef

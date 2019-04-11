@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import { ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo } from "../models/recipient-badge-api.model";
-import { MessageService } from "../../common/services/message.service";
-import { HttpClient } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {SessionService} from '../../common/services/session.service';
+import {AppConfigService} from '../../common/app-config.service';
+import {BaseHttpApiService} from '../../common/services/base-http-api.service';
+import {ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo} from '../models/recipient-badge-api.model';
+import {MessageService} from '../../common/services/message.service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class RecipientBadgeApiService extends BaseHttpApiService {
@@ -35,7 +35,7 @@ export class RecipientBadgeApiService extends BaseHttpApiService {
 	) {
 		return this
 			.post<ApiRecipientBadgeInstance>('/v1/earner/badges?json_format=plain', badgeInfo)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 
 	saveInstance(apiModel: ApiRecipientBadgeInstance) {
@@ -45,17 +45,17 @@ export class RecipientBadgeApiService extends BaseHttpApiService {
 	}
 
 	getBadgeShareUrlForProvider(objectIdUrl, shareServiceType): Promise<string> {
-		let idUrl = objectIdUrl.replace(/.*\//, '');
+		const idUrl = objectIdUrl.replace(/.*\//, '');
 		return this
-			.get<any>(`/v1/earner/share/badge/${idUrl}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
-			.then(r => r.body.url)
+			.get<{url: string}>(`/v1/earner/share/badge/${idUrl}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
+			.then(r => r.body.url);
 	}
 
 	getCollectionShareUrlForProvider(objectIdUrl, shareServiceType): Promise<string> {
-		let idUrl = objectIdUrl.replace(/.*\//, '')
+		const idUrl = objectIdUrl.replace(/.*\//, '');
 		return this
-			.get<any>(`/v1/earner/share/collection/${idUrl}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
-			.then(r => r.body.url)
+			.get<{url: string}>(`/v1/earner/share/collection/${idUrl}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
+			.then(r => r.body.url);
 	}
 }
 

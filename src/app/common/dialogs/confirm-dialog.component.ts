@@ -1,5 +1,5 @@
-import { Component, ElementRef, Renderer2 } from "@angular/core";
-import { BaseDialog } from "./base-dialog";
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {BaseDialog} from './base-dialog';
 
 export interface ConfirmDialogOptions {
 	dialogTitle?: string;
@@ -20,14 +20,21 @@ export interface ConfirmDialogOptions {
 					<h2 class="u-text-body-bold-caps text-dark1">
 						{{ options.dialogTitle }}
 					</h2>
+					<button
+						(click)="rejectDialog()"
+						class="buttonicon buttonicon-link">
+						<svg icon="icon_close"></svg>
+						<span class="visuallyhidden">Close</span>
+					</button>
+
 				</div>
 				<p class="u-text-body" [innerHTML]="options.dialogBody"></p>
 
-				<div class="l-flex l-flex-1x u-margin-top3x">
+				<div class="l-stack l-stack-buttons u-margin-top3x">
+					<button class="button" (click)="resolveDialog()">{{ options.resolveButtonLabel }}</button>
 					<button *ngIf="options.showRejectButton"
 							class="button button-secondary"
-							(click)="closeDialog(false)">{{ options.rejectButtonLabel }}</button>
-					<button class="button" (click)="closeDialog(true)">{{ options.resolveButtonLabel }}</button>
+							(click)="rejectDialog()">{{ options.rejectButtonLabel }}</button>
 				</div>
 			</div>
 		</div>
@@ -67,8 +74,9 @@ export class ConfirmDialog extends BaseDialog {
 	openResolveRejectDialog(
 		options: ConfirmDialogOptions
 	): Promise<void> {
-		if (this.isOpen)
+		if (this.isOpen) {
 			return Promise.reject(new Error("Cannot open dialog, because it is already open. Old options" + JSON.stringify(this.options) + "; new options: " + JSON.stringify(options)));
+		}
 
 		this.options = Object.assign({}, ConfirmDialog.defaultOptions, options);
 		this.showModal();
@@ -93,13 +101,12 @@ export class ConfirmDialog extends BaseDialog {
 			.then(() => true, () => false);
 	}
 
-	closeDialog(result: boolean) {
+	rejectDialog() {
 		this.closeModal();
-
-		if (result) {
-			this.resolveFunc();
-		} else {
-			this.rejectFunc();
-		}
+		this.rejectFunc();
+	}
+	resolveDialog() {
+		this.closeModal();
+		this.resolveFunc();
 	}
 }

@@ -1,5 +1,5 @@
-import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { BaseDialog } from './base-dialog';
+import {Component, ElementRef, Renderer2} from '@angular/core';
+import {BaseDialog} from './base-dialog';
 
 
 @Component ({
@@ -12,7 +12,7 @@ import { BaseDialog } from './base-dialog';
 			<h2 id="markdownHintsDialog" class="u-text-body-bold-caps text-dark1">
 				Supported Markdown
 			</h2>
-			<button class="buttonicon buttonicon-clean" (click)="closeDialog()">
+			<button class="buttonicon buttonicon-link" (click)="closeDialog()">
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
 			</button>
@@ -47,11 +47,7 @@ export class MarkdownHintsDialog extends BaseDialog {
 	) {
 		super(componentElem, renderer);
 	}
-	openDialog() {
-		console.log('yo!')
-		this.showModal();
-	}
-	closeDialog() {
-		this.closeModal();
-	}
+	openDialog = () => this.showModal();
+
+	closeDialog = () => this.closeModal();
 }

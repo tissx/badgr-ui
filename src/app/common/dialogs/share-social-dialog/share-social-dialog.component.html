@@ -1,12 +1,12 @@
 <dialog class="dialog dialog-is-active dialog-clean l-dialog">
-	<div class="dialog-x-box">
+	<div class="dialog-x-box o-container">
 
 		<!-- Header -->
 		<div class="dialog-x-header u-background-light3">
-			<h1>{{ options.title }}</h1>
+			<h1>{{ options?.title }}</h1>
 			<button
 				(click)="closeDialog()"
-				class="buttonicon buttonicon-clean">
+				class="buttonicon buttonicon-link">
 				<svg icon="icon_close"></svg>
 				<span class="visuallyhidden">Close</span>
 			</button>
@@ -14,7 +14,6 @@
 
 		<!-- Tab Navigation Bar -->
 		<nav aria-labelledby="heading-share-options" class="tabbar">
-			<h3 class="visuallyhidden" id="heading-share-options">Share Options</h3>
 			<button
 				[class.tab-is-active]="currentTabId === 'link'"
 				(click)="openTab('link')"
@@ -43,9 +42,9 @@
 		</nav>
 
 		<!-- Link Tab -->
-		<div class="u-padding-all2x" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
+		<div class="u-responsivepadding-yaxis u-responsivepadding-xaxis" tabindex="-1" id="sharelink" *ngIf="currentTabId == 'link'">
 
-			<ng-template [ngIf]="options.showRecipientOptions" >
+			<ng-template [ngIf]="options?.showRecipientOptions" >
 				<p class="u-text-bold u-margin-bottom3x">Badge Options:</p>
 				<label class="checkbox checkbox-light u-margin-bottom5x">
 					<input
@@ -61,7 +60,7 @@
 				</label>
 			</ng-template>
 
-			<div class="forminput forminput-hasiconleft forminput-withbutton u-margin-bottom3x">
+			<div class="forminput forminput-hasiconleft forminput-withbutton u-margin-bottom3x" *ngIf="options">
 				<label class="forminput-x-label" for="link-input">Copy this link to share</label>
 				<div class="forminput-x-inputs">
 					<svg class="forminput-x-icon" icon="icon_link"></svg>
@@ -89,6 +88,7 @@
 			</div>
 
 			<a
+				*ngIf="options"
 				[href]="currentShareUrl"
 				target="_blank"
 				class="u-text-link-small">Open in New Window</a>
@@ -144,7 +144,7 @@
 		</div>
 
 		<!-- Social Tab -->
-		<div class="u-padding-all2x"
+		<div class="u-padding-yaxis2x u-responsivepadding-xaxis"
 				tabindex="-1"
 				id="sharelinksocial"
 				*ngIf="currentTabId === 'social'"
@@ -170,29 +170,29 @@
 				<button
 					*ngIf="displayShareServiceType('Facebook')"
 					type="button"
-					(click)="openShareWindow('Facebook')"
+					(click)="openShareWindow($event, 'Facebook')"
 					class="socialbutton socialbutton-facebook">facebook</button>
 				<button
 					*ngIf="displayShareServiceType('LinkedIn')"
 					type="button"
-					(click)="openShareWindow('LinkedIn')"
+					(click)="openShareWindow($event, 'LinkedIn')"
 					class="socialbutton socialbutton-linkedin_oauth2">linked in</button>
 				<button
 					*ngIf="displayShareServiceType('Twitter')"
 					type="button"
-					(click)="openShareWindow('Twitter')"
+					(click)="openShareWindow($event, 'Twitter')"
 					class="socialbutton socialbutton-twitter">twitter</button>
 				<button
 					*ngIf="displayShareServiceType('Pinterest')"
 					type="button"
-					(click)="openShareWindow('Pinterest')"
+					(click)="openShareWindow($event, 'Pinterest')"
 					class="socialbutton socialbutton-pinterest">pinterest</button>
 			</div>
 			
 		</div>
 
 		<!-- Embed Tab -->
-		<div class="u-padding-all2x"
+		<div class="u-padding-yaxis2x u-responsivepadding-xaxis"
 				tabindex="-1"
 				id="sharelinkembed"
 				*ngIf="currentTabId === 'embed'"
@@ -201,11 +201,11 @@
 					*ngIf="options.embedOptions.length > 1"
 			>
 				<ng-template ngFor let-embedOption [ngForOf]="options.embedOptions" let-i="index">
-					<label class="radio" for="embed-type-{{i}}">
+					<label class="radio" [attr.for]="'embed-type-' + i">
 						<input
 							type="radio"
-							name="embed-type-{{i}}"
-							id="embed-type-{{i}}"
+							[name]="'embed-type-' + i"
+							[id]="'embed-type-' + i"
 							[value]="embedOption"
 							[(ngModel)]="selectedEmbedOption"
 							(ngModelChange)="updateEmbedHtml()"/>
@@ -214,7 +214,7 @@
 				</ng-template>
 			</div>
 
-			<ng-template [ngIf]="options.showRecipientOptions">
+			<ng-template [ngIf]="options?.showRecipientOptions">
 				<p class="u-text-bold u-margin-bottom2x">Included Badge Options</p>
 
 				<label class="checkbox checkbox-light u-margin-bottom2x">
@@ -274,7 +274,7 @@
 
 			</ng-template>
 
-			<p class="u-text-small-bold u-margin-bottom0p5x u-margin-top5x">Preview</p>
+			<p class="u-text-small-bold u-margin-bottom0p5x u-margin-top2x">Preview</p>
 
 			<iframe src="about:blank"
 							class="previewIframe"

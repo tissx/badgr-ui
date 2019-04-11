@@ -4,7 +4,7 @@
 let nameUniquenessSeed = 0;
 
 export function randomNames(count: number, randomName: () => string, maxAttemptsPerName = 10) {
-	let names = new Set<string>();
+	const names = new Set<string>();
 
 	for (let i=0; i < count * maxAttemptsPerName && names.size < count; i++) {
 		names.add(randomName());
@@ -26,7 +26,7 @@ export function testSlugForName(name: string) {
 }
 
 export function descriptionFromName(name: string) {
-	return `A lengthy and accurate description of ${name} for the purposes of testing things related to ${name}. Also satisfies the requirement of having a fairly long length and looks like normal english.`
+	return `A lengthy and accurate description of ${name} for the purposes of testing things related to ${name}. Also satisfies the requirement of having a fairly long length and looks like normal english.`;
 }
 
 function randomNameFromData(nameData: string[][]) {
@@ -47,8 +47,8 @@ export function randomBadgeName(): string {
 
 export function randomUuid(): string {
 	let d = new Date().getTime();
-	let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-		let r = (d + Math.random() * 16) % 16 | 0;
+	const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		const r = (d + Math.random() * 16) % 16 | 0;
 		d = Math.floor(d / 16);
 		return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
 	});
@@ -61,23 +61,6 @@ export function randomIssuerName(): string {
 		["of", "for"],
 		["Efficient", "Creative", "New", "Subtle", "Intense"],
 		["Learning", "Building", "Climbing", "Teaching", "Exercising"],
-	]);
-}
-
-export function randomPathwayName(): string {
-	return randomNameFromData([
-		["Continuing", "Learning"],
-		["Tree Pruning", "Water Skiing", "Rock Climbing", "Kart Racing", "Mathematics"],
-		["Course", "Education", "Program"]
-	]);
-}
-
-export function randomRecipientGroupName(): string {
-	return randomNameFromData([
-		["Freshman", "Sophomore", "Junior", "Senior", "Continuing Ed"],
-		["Class", "Cohort", "Students"],
-		["of"],
-		["1024", "2048", "4096"]
 	]);
 }
 
@@ -95,5 +78,5 @@ export function randomPersonName() {
 }
 
 export function randomEmail() {
-	return `${randomPersonName().replace(" ", ".")}@email.test`
+	return `${randomPersonName().replace(" ", ".")}@email.test`;
 }

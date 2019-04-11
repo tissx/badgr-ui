@@ -1,10 +1,10 @@
-import { forwardRef, Inject, Injectable } from "@angular/core";
-import { RecipientBadgeApiService } from "./recipient-badges-api.service";
-import { RecipientBadgeInstance } from "../models/recipient-badge.model";
-import { ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo } from "../models/recipient-badge-api.model";
-import { StandaloneEntitySet } from "../../common/model/managed-entity-set";
-import { CommonEntityManager } from "../../entity-manager/services/common-entity-manager.service";
-import { EventsService } from "../../common/services/events.service";
+import {forwardRef, Inject, Injectable} from '@angular/core';
+import {RecipientBadgeApiService} from './recipient-badges-api.service';
+import {RecipientBadgeInstance} from '../models/recipient-badge.model';
+import {ApiRecipientBadgeInstance, RecipientBadgeInstanceCreationInfo} from '../models/recipient-badge-api.model';
+import {StandaloneEntitySet} from '../../common/model/managed-entity-set';
+import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
+import {EventsService} from '../../common/services/events.service';
 
 const test = [CommonEntityManager];
 
@@ -35,7 +35,7 @@ export class RecipientBadgeManager {
 	): Promise<RecipientBadgeInstance> {
 		// Ensure there aren't any null or undefined values in the request, despite not being needed, they cause validation
 		// errors in the API.
-		let payload: RecipientBadgeInstanceCreationInfo = Object.assign({}, badgeInfo);
+		const payload: RecipientBadgeInstanceCreationInfo = Object.assign({}, badgeInfo);
 		Object.keys(payload).forEach(key => {
 			if (payload[key] === null || payload[key] === undefined || payload[key] === "") {
 				delete payload[key];

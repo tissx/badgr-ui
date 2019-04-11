@@ -17,17 +17,17 @@ class LoginPage {
     }
 
     checkSubmitDisabled() {
-        expect(this.submitButton.getAttribute('class')).toMatch('button-is-disabled')
+        expect(this.submitButton.getAttribute('class')).toMatch('button-is-disabled');
     }
     checkSubmitEnabled() {
-        expect(this.submitButton.getAttribute('class')).not.toMatch('button-is-disabled')
+        expect(this.submitButton.getAttribute('class')).not.toMatch('button-is-disabled');
     }
 
 }
 
 
 describe('Login Page', () => {
-    var loginPage = new LoginPage();
+    const loginPage = new LoginPage();
 
     it('should display an error for invalid credentials', () => {
         loginPage.open();
@@ -39,7 +39,7 @@ describe('Login Page', () => {
         // wait up to 15 seconds for .formmessage to appear
         browser.driver.wait(protractor.until.elementLocated(by.css('.formmessage-is-error')), 15000);
 
-        var message = $('.formmessage-is-error p');
+        const message = $('.formmessage-is-error p');
         expect<any>(message.getText()).toEqual('Invalid Email or Password');
 
     });

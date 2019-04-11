@@ -1,14 +1,14 @@
-import {NgModule} from "@angular/core";
-import {RouterModule} from "@angular/router";
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import {LogoutComponent} from "./components/logout/logout.component";
-import {ResetPasswordSent} from "./components/new-password-sent/reset-password-sent.component";
-import {RequestPasswordResetComponent} from "./components/request-password-reset/request-password-reset.component";
-import {LoginComponent} from "./components/login/login.component";
-import {BadgrCommonModule, COMMON_IMPORTS} from "../common/badgr-common.module";
-import {CommonEntityManagerModule} from "../entity-manager/entity-manager.module";
-import {ResetPasswordComponent} from "./components/reset-password/reset-password.component";
-import {OAuth2AuthorizeComponent} from "./components/oauth2-authorize/oauth2-authorize.component";
+import {LogoutComponent} from './components/logout/logout.component';
+import {ResetPasswordSent} from './components/new-password-sent/reset-password-sent.component';
+import {RequestPasswordResetComponent} from './components/request-password-reset/request-password-reset.component';
+import {LoginComponent} from './components/login/login.component';
+import {BadgrCommonModule, COMMON_IMPORTS} from '../common/badgr-common.module';
+import {CommonEntityManagerModule} from '../entity-manager/entity-manager.module';
+import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
+import {OAuth2AuthorizeComponent} from './components/oauth2-authorize/oauth2-authorize.component';
 
 const routes = [
 	{

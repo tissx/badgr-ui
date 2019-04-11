@@ -31,7 +31,7 @@ export interface BadgrTheme {
 	providedBy?: {
 		name: string;
 		url: string
-	}
+	};
 
 	/**
 	 * Shows the "API Documentation" link
@@ -43,8 +43,13 @@ export interface BadgrTheme {
 	 */
 	termsOfServiceLink?: string;
 	privacyPolicyLink?: string;
+	
+	/**
+	 * Must agree to this when creating an Issuer
+	 */
+	dataProcessorTermsLink?: string;
 
-	/*
+	/**
 	 * Help link shown in new terms of service modal dialog
 	 */
 	termsHelpLink?: string;
@@ -55,7 +60,7 @@ export interface BadgrTheme {
 	logoImg: {
 		small: string;
 		desktop: string;
-	}
+	};
 
 	/**
 	 * A data URL containing the loading image -- may be a data url so it loads immediately
@@ -71,29 +76,29 @@ export interface BadgrTheme {
 	 */
 	customMenu?: {
 		label: string;
-		items: {
+		items: Array<{
 			label: string;
 			url: string;
-		}[];
-	},
+		}>;
+	};
 
 	/**
 	 * Custom Favicons
 	 */
-	favicons?: {
+	favicons?: Array<{
 		rel: string;
 		href: string;
 		sizes?: string;
-	}[],
+	}>;
 
 	useColorNavbar: boolean;
 	/**
 	 * properties
 	 */
 	cssCustomProps?: {
-		"--brand-hue"?: string;
-		"--brand-saturation"?: string;
-		"--brand-lightness"?: string;
+		"--color-interactive1"?: string;
+		"--color-interactive2"?: string;
+		"--color-interactive2alpha50"?: string;
 		"--color-theme"?: string;
-	},
+	};
 }

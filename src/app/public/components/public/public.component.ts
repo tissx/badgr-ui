@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 
-import { ActivatedRoute, Router } from "@angular/router";
-import { BaseRoutableComponent } from "../../../common/pages/base-routable.component";
-import { Title } from "@angular/platform-browser";
+import {ActivatedRoute, Router} from '@angular/router';
+import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
+import {Title} from '@angular/platform-browser';
 
-import { AppConfigService } from "../../../common/app-config.service";
+import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
@@ -47,5 +47,5 @@ export class PublicComponent extends BaseRoutableComponent implements OnInit {
  * @param {string} url
  */
 export function routerLinkForUrl(url: string) {
-	return [ url.replace(/^.*\/\/.*?(?=\/)/, "") ]
+	return [ url.replace(/^.*\/\/.*?(?=\/)/, "") ];
 }

@@ -1,7 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { preloadImageURL, readFileAsText } from "../util/file-util";
-import { DomSanitizer } from "@angular/platform-browser";
+import {Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {preloadImageURL, readFileAsText} from '../util/file-util';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
 	selector: 'bg-formfield-file',
@@ -29,7 +29,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 			   (change)="fileInputChanged($event)"
 			   class="visuallyhidden"
 		/>
-		<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()">
+		<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" class="l-flex l-flex-column l-flex-aligncenter">
 		<svg class="dropzone-x-icon" icon="icon_upload"></svg>
 			<div class="dropzone-x-text" *ngIf="! fileErrorMessage">
 				<div *ngIf="! fileProvided && ! fileLoading" class="u-text-link">Drop file or browse.</div>
@@ -48,35 +48,35 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class BgFormFieldFileComponent {
 
 	private get element(): HTMLElement {
-		return this.elemRef.nativeElement as any;
+		return this.elemRef.nativeElement;
 	}
 
 	static uniqueNameCounter = 0;
-	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg"));
-	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg"));
+	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg") as string);
+	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg") as string);
 
 	@Input() control: FormControl;
 	@Input() label: string;
-	@Input() errorMessage: string = "Please provide a valid file";
+	@Input() errorMessage = "Please provide a valid file";
 	@Input() placeholderImage: string;
 	@Input() fileLoader: (file: File) => Promise<string> = basicFileLoader;
-	@Input() validFileTypes: string = "";
+	@Input() validFileTypes = "";
 
 	@Output() fileData: EventEmitter<string> = new EventEmitter<string>();
 
 	uniqueIdSuffix = BgFormFieldFileComponent.uniqueNameCounter++;
 
-	isDragging: boolean = false;
+	isDragging = false;
 
-	fileLoading: boolean = false;
-	fileProvided: boolean = false;
+	fileLoading = false;
+	fileProvided = false;
 	fileErrorMessage: string = null;
 
 	// new
-	fileName: string = "";
+	fileName = "";
 
 	constructor(
-		private elemRef: ElementRef,
+		private elemRef: ElementRef<HTMLElement>,
 		private domSanitizer: DomSanitizer
 	) {}
 
@@ -109,7 +109,7 @@ export class BgFormFieldFileComponent {
 
 	drop(ev: DragEvent) {
 		this.dragStop(ev);
-		if (ev.dataTransfer && ev.dataTransfer.files) {
+		if (ev.dataTransfer && ev.dataTransfer.files && ev.dataTransfer.files.length) {
 			this.updateFiles(ev.dataTransfer.files);
 		}
 	}
@@ -140,7 +140,7 @@ export class BgFormFieldFileComponent {
 					this.fileProvided = false;
 					this.fileLoading = false;
 				}
-			)
+			);
 	}
 
 	private emitFileData(fileData: string) {
@@ -151,5 +151,5 @@ export class BgFormFieldFileComponent {
 export function basicFileLoader(file: File): Promise<string> {
 	return readFileAsText(file)
 		.then(text => text) // Placeholder for more file manipulation - just returning text passed in for now.
-		.catch(e => {throw new Error(e) })
+		.catch(e => {throw new Error(e); });
 }

@@ -1,13 +1,10 @@
-import { Injectable } from "@angular/core";
-import { SessionService } from "../../common/services/session.service";
-import { AppConfigService } from "../../common/app-config.service";
-import { BaseHttpApiService } from "../../common/services/base-http-api.service";
-import {
-	ApiRecipientBadgeCollection,
-	ApiRecipientBadgeCollectionForCreation
-} from "../models/recipient-badge-collection-api.model";
-import { MessageService } from "../../common/services/message.service";
-import { HttpClient } from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {SessionService} from '../../common/services/session.service';
+import {AppConfigService} from '../../common/app-config.service';
+import {BaseHttpApiService} from '../../common/services/base-http-api.service';
+import {ApiRecipientBadgeCollection, ApiRecipientBadgeCollectionForCreation} from '../models/recipient-badge-collection-api.model';
+import {MessageService} from '../../common/services/message.service';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class RecipientBadgeCollectionApiService extends BaseHttpApiService {
@@ -37,7 +34,7 @@ export class RecipientBadgeCollectionApiService extends BaseHttpApiService {
 	) {
 		return this
 			.post<ApiRecipientBadgeCollection>('/v1/earner/collections?json_format=plain', badgeInfo)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 
 	saveRecipientBadgeCollection(
@@ -45,7 +42,7 @@ export class RecipientBadgeCollectionApiService extends BaseHttpApiService {
 	) {
 		return this
 			.put<ApiRecipientBadgeCollection>(`/v1/earner/collections/${apiModel.slug}?json_format=plain`, apiModel)
-			.then(r => r.body)
+			.then(r => r.body);
 	}
 }
 

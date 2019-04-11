@@ -1,17 +1,16 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
 
-import { CommonDialogsService } from "../services/common-dialogs.service";
-import { CustomValidatorMessages, messagesForValidationError } from "./formfield-text";
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import * as marked from 'marked';
+import {CommonDialogsService} from '../services/common-dialogs.service';
+import {CustomValidatorMessages, messagesForValidationError} from './formfield-text';
+import {DomSanitizer, SafeHtml} from '@angular/platform-browser';
 
 @Component({
 	selector: 'bg-formfield-markdown',
 	host: {
-		'class': "formfield",
-		'[class.formfield-is-error]': "isErrorState",
-		'[class.formfield-locked]': "isLockedState",
+		'class': "forminput",
+		'[class.forminput-is-error]': "isErrorState",
+		'[class.forminput-locked]': "isLockedState",
 	},
 	template: `
 	<div class="mdeditor">
@@ -56,10 +55,10 @@ import * as marked from 'marked';
 		</div>
 		<div class="mdeditor-x-help">
 			<div class="l-flex l-flex-1x l-flex-aligncenter">
-				<button class="buttonicon buttonicon-clean" type="button" (click)="openMarkdownHintsDialog()">
+				<button class="buttonicon buttonicon-link" type="button" (click)="openMarkdownHintsDialog()">
 					<svg class="icon l-flex-shrink0" icon="icon_markdown"></svg>
 				</button>
-				<button (click)="openMarkdownHintsDialog()" type="button" class="u-text-link-small u-hidden-maxmobile">Markdown Supported</button>
+				<button (click)="openMarkdownHintsDialog()" type="button" class="u-text-link-small u-hidden-maxmobilelarge">Markdown Supported</button>
 			</div>
 		</div>
     </div>
@@ -74,14 +73,14 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 		this.updateDisabled();
 	}
 
-	get unlocked() { return this._unlocked }
+	get unlocked() { return this._unlocked; }
 	@Input()
 	set locked(locked: boolean) {
 		this._locked = locked;
 		this.updateDisabled();
 	}
 
-	get locked() { return this._locked }
+	get locked() { return this._locked; }
 
 	get inputElement(): HTMLTextAreaElement {
 		if (this.textareaInput && this.textareaInput.nativeElement) {
@@ -114,7 +113,7 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 		return this.control.value;
 	}
 
-	get controlErrorState() { return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid)) }
+	get controlErrorState() { return this.control.dirty && (!this.control.valid || (this.errorGroup && !this.errorGroup.valid)); }
 
 	get isErrorState() {
 		if (this.hasFocus && this.cachedErrorState !== null) {
@@ -124,25 +123,25 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 		}
 	}
 
-	get isLockedState() { return this.locked && !this.unlocked }
+	get isLockedState() { return this.locked && !this.unlocked; }
 
-	get inputName() { return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase() }
+	get inputName() { return (this.label || this.placeholder || this.randomName).replace(/[^\w]+/g, "_").toLowerCase(); }
 	@Input() control: FormControl;
 	@Input() initialValue: string;
 	@Input() label: string;
-	@Input() includeLabelAsWrapper: boolean = false; // includes label for layout purposes even if label text wasn't passed in.
+	@Input() includeLabelAsWrapper = false; // includes label for layout purposes even if label text wasn't passed in.
 	@Input() formFieldAside: string; // Displays additional text above the field. I.E (optional)
 	@Input() errorMessage: CustomValidatorMessages;
 	@Input() description: string;
 	@Input() placeholder: string;
-	@Input() optional: boolean = false;
+	@Input() optional = false;
 
 	@Input() errorGroup: FormGroup;
 	@Input() errorGroupMessage: CustomValidatorMessages;
 
-	@Input() unlockConfirmText: string = "Unlocking this field may have unintended consequences. Are you sure you want to continue?";
+	@Input() unlockConfirmText = "Unlocking this field may have unintended consequences. Are you sure you want to continue?";
 
-	@Input() autofocus: boolean = false;
+	@Input() autofocus = false;
 
 	@ViewChild("textareaInput") textareaInput: ElementRef;
 	@ViewChild("markdownPreviewPane") markdownPreviewPane: ElementRef;
@@ -174,7 +173,7 @@ export class FormFieldMarkdown implements OnChanges, AfterViewInit {
 		}
 	}
 
-	ngOnChanges(changes: SimpleChanges): any {
+	ngOnChanges(changes: SimpleChanges) {
 		// Unlocked by default when there is no value
 		if (!this.control.value) {
 			this.unlocked = true;

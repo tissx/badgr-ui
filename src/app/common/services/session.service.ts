@@ -1,13 +1,18 @@
-import { Injectable } from "@angular/core";
-import { UserCredential } from "../model/user-credential.type";
-import { AppConfigService } from "../app-config.service";
-import { MessageService } from "./message.service";
-import { BaseHttpApiService } from "./base-http-api.service";
-import { SocialAccountProviderInfo, socialAccountProviderInfos } from "../model/user-profile-api.model";
-import { throwExpr } from "../util/throw-expr";
-import { UpdatableSubject } from "../util/updatable-subject";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { NavigationService } from './navigation.service';
+import {Injectable} from '@angular/core';
+import {UserCredential} from '../model/user-credential.type';
+import {AppConfigService} from '../app-config.service';
+import {MessageService} from './message.service';
+import {BaseHttpApiService} from './base-http-api.service';
+import {
+	ExternalAuthProvider,
+	SocialAccountProviderInfo,
+	socialAccountProviderInfos
+} from '../model/user-profile-api.model';
+import {throwExpr} from '../util/throw-expr';
+import {UpdatableSubject} from '../util/updatable-subject';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {NavigationService} from './navigation.service';
+import { DomSanitizer } from "@angular/platform-browser";
 
 /**
  * The key used to store the authentication token in session and local storage.
@@ -24,7 +29,7 @@ const DEFAULT_EXPIRATION_SECONDS = 24 * 60 * 60;
 
 export interface AuthorizationToken {
 	access_token: string;
-	expires_in?: number
+	expires_in?: number;
 	refresh_token?: string;
 	scope?: string;
 	token_typ?: string;
@@ -34,10 +39,10 @@ export interface AuthorizationToken {
 export class SessionService {
 	baseUrl: string;
 
-	enabledExternalAuthProviders: SocialAccountProviderInfo[];
+	enabledExternalAuthProviders: ExternalAuthProvider[];
 
-	private loggedInSubect = new UpdatableSubject<boolean>();
-	get loggedin$() { return this.loggedInSubect.asObservable() }
+	private loggedInSubject = new UpdatableSubject<boolean>();
+	get loggedin$() { return this.loggedInSubject.asObservable(); }
 
 	constructor(
 		private http: HttpClient,
@@ -46,12 +51,10 @@ export class SessionService {
 		private navService: NavigationService,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
-		this.enabledExternalAuthProviders = socialAccountProviderInfos.filter(providerInfo =>
-			! this.configService.featuresConfig.socialAccountProviders || this.configService.featuresConfig.socialAccountProviders.includes(providerInfo.slug)
-		);
+		this.enabledExternalAuthProviders = configService.featuresConfig.externalAuthProviders || [];
 	}
 
-	login(credential: UserCredential, sessionOnlyStorage: boolean = false): Promise<AuthorizationToken> {
+	login(credential: UserCredential, sessionOnlyStorage = false): Promise<AuthorizationToken> {
 		const endpoint = this.baseUrl + '/o/token';
 		const scope = "rw:profile rw:issuer rw:backpack";
 		const client_id = "public";
@@ -71,7 +74,7 @@ export class SessionService {
 				{
 					observe: "response",
 					responseType: "json",
-					headers: headers
+					headers
 				}
 			)
 			.toPromise()
@@ -98,7 +101,7 @@ export class SessionService {
 		localStorage.removeItem(TOKEN_STORAGE_KEY);
 		sessionStorage.removeItem(TOKEN_STORAGE_KEY);
 
-		this.loggedInSubect.next(false);
+		this.loggedInSubject.next(false);
 	}
 
 	storeToken(token: AuthorizationToken, sessionOnlyStorage = false): void {
@@ -112,7 +115,7 @@ export class SessionService {
 			localStorage.setItem(EXPIRATION_DATE_STORAGE_KEY, expirationDateStr);
 		}
 
-		this.loggedInSubect.next(true);
+		this.loggedInSubject.next(true);
 	}
 
 	get currentAuthToken(): AuthorizationToken | null {
@@ -124,7 +127,7 @@ export class SessionService {
 	}
 
 	get requiredAuthToken(): AuthorizationToken {
-		return this.currentAuthToken || throwExpr("An authentication token is required, but the user is not logged in.")
+		return this.currentAuthToken || throwExpr("An authentication token is required, but the user is not logged in.");
 	}
 
 	get isLoggedIn(): boolean {
@@ -159,7 +162,7 @@ export class SessionService {
 
 	submitResetPasswordRequest(email: string) {
 		// TODO: Define the type of this response
-		return this.http.post<any>(
+		return this.http.post<unknown>(
 			this.baseUrl + '/v1/user/forgot-password',
 			'email=' + encodeURIComponent(email),
 			{
@@ -173,9 +176,9 @@ export class SessionService {
 
 	submitForgotPasswordChange(newPassword: string, token: string) {
 		// TODO: Define the type of this response
-		return this.http.put<any>(
+		return this.http.put<unknown>(
 			this.baseUrl + '/v1/user/forgot-password',
-			{ password: newPassword, token: token },
+			{ password: newPassword, token },
 			{
 				observe: "response",
 				responseType: "json"
@@ -191,11 +194,11 @@ export class SessionService {
 
 		if (this.navService.currentRouteData.publiclyAccessible !== true) {
 			// If we're not on a public page, send the user to the login page with an error
-			window.location.assign(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
+			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
 		} else {
 			// If we _are_ on a public page, reload the page after clearing the session token, because that will clear any messy error states from
 			// api errors.
-			window.location.assign(window.location.toString());
+			window.location.replace(window.location.toString());
 		}
 	}
 }

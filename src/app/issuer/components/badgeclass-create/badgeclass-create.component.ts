@@ -1,19 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { FormBuilder } from "@angular/forms";
-import { Title } from "@angular/platform-browser";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder} from '@angular/forms';
+import {Title} from '@angular/platform-browser';
 
-import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
+import {BaseAuthenticatedRoutableComponent} from '../../../common/pages/base-authenticated-routable.component';
 
-import { SessionService } from "../../../common/services/session.service";
-import { MessageService } from "../../../common/services/message.service";
-import { Issuer } from "../../models/issuer.model";
-import { IssuerManager } from "../../services/issuer-manager.service";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
-import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
-import { BadgeClass } from "../../models/badgeclass.model";
-import { AppConfigService } from "../../../common/app-config.service";
-import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
+import {SessionService} from '../../../common/services/session.service';
+import {MessageService} from '../../../common/services/message.service';
+import {Issuer} from '../../models/issuer.model';
+import {IssuerManager} from '../../services/issuer-manager.service';
+import {BadgrApiFailure} from '../../../common/services/api-failure';
+import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
+import {BadgeClass} from '../../models/badgeclass.model';
+import {AppConfigService} from '../../../common/app-config.service';
+import {LinkEntry} from '../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component';
 
 
 @Component({
@@ -22,7 +22,7 @@ import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcru
 export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 	issuerSlug: string;
 	issuer: Issuer;
-	issuerLoaded: Promise<any>;
+	issuerLoaded: Promise<unknown>;
 	breadcrumbLinkEntries: LinkEntry [] = [];
 
 	constructor(
@@ -67,6 +67,6 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 		);
 	}
 	creationCanceled() {
-		this.router.navigate(['issuer/issuers', this.issuerSlug ])
+		this.router.navigate(['issuer/issuers', this.issuerSlug ]);
 	}
 }

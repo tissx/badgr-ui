@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import {Component, Input} from '@angular/core';
 
 @Component({
 	selector: 'markdown-display',
@@ -8,7 +8,6 @@ import { Component, Input } from "@angular/core";
 		<div class="markdown"
 			 [bgMarkdown]="value"
 			>
-			Markdown preview
 		</div>
 	`
 })

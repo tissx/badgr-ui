@@ -6,5 +6,5 @@ export interface BadgrEnvironment {
 	remoteConfig?: {
 		baseUrl: string;
 		version: string;
-	}
+	};
 }
