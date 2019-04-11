@@ -48,15 +48,12 @@
 				</div>
 			</nav>
 		</ng-template>
-
-		<div class="navbar-x-menutoggle" (click)="toggleMobileNav()">
-			<button class="menutoggle" [class.menutoggle-is-active]="mobileNavOpen" [class.menutoggle-light]="!theme.useColorNavbar">
-				<span></span>
-				<span></span>
-				<span></span>
-				<i class="visuallyhidden">Open Menu</i>
-			</button>
-		</div>
+		<button class="menutoggle" (click)="toggleMobileNav()" [class.menutoggle-is-active]="mobileNavOpen" [class.menutoggle-light]="!theme.useColorNavbar">
+			<span></span>
+			<span></span>
+			<span></span>
+			<i class="visuallyhidden">Open Menu</i>
+		</button>
 	</nav>
 
 	<!-- Nav dropdown menus -->
