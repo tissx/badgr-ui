@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
 import {LogoutComponent} from './components/logout/logout.component';
-import {ResetPasswordSent} from './components/new-password-sent/reset-password-sent.component';
+import {ResetPasswordSent} from './components/reset-password-sent/reset-password-sent.component';
 import {RequestPasswordResetComponent} from './components/request-password-reset/request-password-reset.component';
 import {LoginComponent} from './components/login/login.component';
 import {BadgrCommonModule, COMMON_IMPORTS} from '../common/badgr-common.module';

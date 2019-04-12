@@ -1,5 +1,9 @@
-<dialog class="l-dialog dialog dialog-is-active dialog-clean">
-	<div class="dialog-x-box">
+<dialog aria-labelledby="RecipientBadgeCollectionSelectionDialog"
+					aria-describedby="dialog1Desc"
+					class="dialog dialog-is-active l-dialog dialog-clean"
+					role="dialog"
+	>
+	<div class="dialog-x-box o-container">
 
 
 		<!-- Header and Search Area -->
@@ -34,7 +38,11 @@
 					<tr class="datatable-x-row" *ngFor="let collection of badgeCollectionsResults">
 						<td class="datatable-x-cell">
 							<label htmlFor="collection-{{ collection.slug }}" class="checkbox">
-								<input type="checkbox" #collectionsCheckbox id="collection-{{ collection.slug }}" name="collection-{{ collection.slug }}"
+								<input
+										type="checkbox"
+										#collectionsCheckbox
+										[id]="'collection-' + collection.slug"
+									 	[name]="'collection-' + collection.slug"
 								 (change)="updateCollection(collection, collectionsCheckbox.checked)">
 								<span class="checkbox-x-text">{{collection.name}}</span>
 							</label>

@@ -7,7 +7,11 @@ import {UserProfile} from '../model/user-profile.model';
 @Component({
 	selector: 'new-terms-dialog',
 	template: `
-	<dialog aria-labelledby="updatedTermsDialog" aria-describedby="dialog1Desc" class="dialog dialog-is-active dialog l-dialog" role="dialog">
+	<dialog 
+		aria-labelledby="updatedTermsDialog" 
+		aria-describedby="dialog1Desc" 
+		class="dialog dialog-is-active l-dialog" 
+		role="dialog">
 		<div class="dialog-x-box o-container">
 			<div class="l-flex l-flex-justifybetween u-padding-top2x u-padding-xaxis3x">
 				<h2 id="updatedTermsDialog" class="u-text-body-bold-caps text-dark1">
