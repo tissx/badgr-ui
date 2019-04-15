@@ -6,7 +6,7 @@ import {BadgrCommonModule, COMMON_IMPORTS} from '../common/badgr-common.module';
 import {RecipientBadgeCollectionDetailComponent} from './components/recipient-badge-collection-detail/recipient-badge-collection-detail.component';
 import {RecipientBadgeCollectionListComponent} from './components/recipient-badge-collection-list/recipient-badge-collection-list.component';
 import {RecipientEarnedBadgeDetailComponent} from './components/recipient-earned-badge-detail/recipient-earned-badge-detail.component';
-import {RecipientEarnedBadgeListComponent} from './components/recipient-earned-badge/recipient-earned-badge-list.component';
+import {RecipientEarnedBadgeListComponent} from './components/recipient-earned-badge-list/recipient-earned-badge-list.component';
 import {AddBadgeDialogComponent} from './components/add-badge-dialog/add-badge-dialog.component';
 import {RecipientBadgeApiService} from './services/recipient-badges-api.service';
 import {RecipientBadgeManager} from './services/recipient-badge-manager.service';
