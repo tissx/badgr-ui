@@ -10,7 +10,7 @@ import {CommonDialogsService} from '../../../common/services/common-dialogs.serv
 import {RecipientBadgeInstance} from '../../models/recipient-badge.model';
 import {RecipientBadgeCollection} from '../../models/recipient-badge-collection.model';
 import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
-import {RecipientBadgeCollectionSelectionDialog} from '../recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog';
+import {RecipientBadgeCollectionSelectionDialogComponent} from '../recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog.component';
 import {preloadImageURL} from '../../../common/util/file-util';
 import {ShareSocialDialogOptions} from '../../../common/dialogs/share-social-dialog/share-social-dialog.component';
 import {addQueryParamsToUrl} from '../../../common/util/url-util';
@@ -30,7 +30,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg') as string;
 
 	@ViewChild("collectionSelectionDialog")
-	collectionSelectionDialog: RecipientBadgeCollectionSelectionDialog;
+	collectionSelectionDialog: RecipientBadgeCollectionSelectionDialogComponent;
 
 	badgesLoaded: Promise<unknown>;
 	badges: RecipientBadgeInstance[] = [];
