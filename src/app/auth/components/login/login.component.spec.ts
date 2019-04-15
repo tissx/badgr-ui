@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
 // import 'rxjs/add/observable/throw';
-
+import 'jest'
 import {Component, Directive} from '@angular/core';
 import {LoginComponent} from './login.component';
 import {FormBuilder} from '@angular/forms';
@@ -41,7 +41,7 @@ class MockExternalToolsManager { }
 @Injectable()
 class MockUserProfileManager { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 describe('LoginComponent', () => {
