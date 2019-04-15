@@ -25,7 +25,7 @@ type BadgeDispay = "grid" | "list" ;
 })
 
 export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
-	readonly noBadgesImageUrl = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-backpack.svg');
+	readonly noBadgesImageUrl = require('@concentricsky/badgr-style/dist/images/image-empty-backpack.svg');
 	readonly badgeLoadingImageUrl = require('../../../../breakdown/static/images/badge-loading.svg');
 	readonly badgeFailedImageUrl = require('../../../../breakdown/static/images/badge-failed.svg');
 
