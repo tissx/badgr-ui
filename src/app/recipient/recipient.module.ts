@@ -13,10 +13,10 @@ import {RecipientBadgeManager} from './services/recipient-badge-manager.service'
 import {RecipientBadgeCollectionApiService} from './services/recipient-badge-collection-api.service';
 import {RecipientBadgeCollectionManager} from './services/recipient-badge-collection-manager.service';
 import {RecipientBadgeCollectionCreateComponent} from './components/recipient-badge-collection-create/recipient-badge-collection-create.component';
-import {RecipientBadgeSelectionDialog} from './components/recipient-badge-selection-dialog/recipient-badge-selection-dialog.component';
 import {RecipientBadgeCollectionEditFormComponent} from './components/recipient-badge-collection-edit-form/recipient-badge-collection-edit-form.component';
-import {RecipientBadgeCollectionSelectionDialog} from './components/recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog';
 import {CommonEntityManagerModule} from '../entity-manager/entity-manager.module';
+import { RecipientBadgeCollectionSelectionDialogComponent } from "./components/recipient-badge-collection-selection-dialog/recipient-badge-collection-selection-dialog.component";
+import { RecipientBadgeSelectionDialog } from "./components/recipient-badge-selection-dialog/recipient-badge-selection-dialog.component";
 
 const routes = [
 	/* Recipient Badges */
@@ -66,7 +66,7 @@ const routes = [
 		RecipientBadgeCollectionCreateComponent,
 		RecipientBadgeCollectionDetailComponent,
 		RecipientBadgeCollectionEditFormComponent,
-		RecipientBadgeCollectionSelectionDialog,
+		RecipientBadgeCollectionSelectionDialogComponent,
 		RecipientBadgeSelectionDialog,
 		AddBadgeDialogComponent
 	],
