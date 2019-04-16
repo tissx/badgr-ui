@@ -24,12 +24,16 @@
 					<img [src]="sanitize(provider.imgSrc)" alt="">
 				</button>
 			</div>
-			<h3 class="l-ruleheadline ruleheadline">
-				Or</h3>
 		</ng-template>
+
+		<h3
+			*ngIf="! sessionService.enabledExternalAuthProviders.length && !configService.featuresConfig.disableRegistration"
+			class="l-ruleheadline ruleheadline">
+			Or</h3>
 
 		<form class="u-margin-top2x"
 		      (ngSubmit)="submitAuth()"
+					*ngIf="!configService.featuresConfig.disableRegistration"
 		      novalidate
 		>
 			<!-- Email Field -->
