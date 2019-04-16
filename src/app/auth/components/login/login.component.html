@@ -4,14 +4,8 @@
 			[value]="theme.welcomeMessage || 'Welcome to Badgr'"
 		></markdown-display>
 		<ng-template [ngIf]="! sessionService.enabledExternalAuthProviders.length">
-			<p class="u-text u-text-body u-margin-top2x">
-				Sign in to get started.
-			</p>
 		</ng-template>
 		<ng-template [ngIf]="sessionService.enabledExternalAuthProviders.length">
-			<p class="u-text-body u-margin-top2x">
-				Sign in to get started.
-			</p>
 			<h3 class="l-ruleheadline ruleheadline">
 				Sign in With</h3>
 			<div class="l-socialbuttons u-margin-top2x">
