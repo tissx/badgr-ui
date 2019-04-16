@@ -21,13 +21,13 @@
 		</ng-template>
 
 		<h3
-			*ngIf="! sessionService.enabledExternalAuthProviders.length && !configService.featuresConfig.disableRegistration"
+			*ngIf="! sessionService.enabledExternalAuthProviders.length && !features.disableRegistration"
 			class="l-ruleheadline ruleheadline">
 			Or</h3>
 
 		<form class="u-margin-top2x"
 		      (ngSubmit)="submitAuth()"
-					*ngIf="!configService.featuresConfig.disableRegistration"
+					*ngIf="!features.disableRegistration"
 		      novalidate
 		>
 			<!-- Email Field -->
