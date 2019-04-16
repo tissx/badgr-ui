@@ -25,6 +25,7 @@ import {typedFormGroup} from '../../../common/util/typed-forms';
 export class LoginComponent extends BaseRoutableComponent implements OnInit, AfterViewInit {
 
 	get theme() { return this.configService.theme; }
+	get features() { return this.configService.featuresConfig; }
 	loginForm = typedFormGroup()
 		.addControl("username", "", [ Validators.required, EmailValidator.validEmail ])
 		.addControl("password", "", Validators.required)
