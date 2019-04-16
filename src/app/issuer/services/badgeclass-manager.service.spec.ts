@@ -1,146 +1,71 @@
-import {inject, TestBed} from '@angular/core/testing';
-import {SessionService} from '../../common/services/session.service';
-import {AppConfigService} from '../../common/app-config.service';
+import { async } from '@angular/core/testing';
 import {BadgeClassManager} from './badgeclass-manager.service';
-import {MockBackend} from '@angular/http/testing';
-import {BaseRequestOptions, Http, RequestMethod} from '@angular/http';
-import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
-import {BadgeClassApiService} from './badgeclass-api.service';
-import {expectRequestAndRespondWith} from '../../common/util/mock-response-util.spec';
-import {verifyEntitySetWhenLoaded, verifyManagedEntitySet} from '../../common/model/managed-entity-set.spec';
-import {apiBadgeClass1, apiBadgeClass2, apiBadgeClass3} from '../models/badgeclass.model.spec';
-import {BadgeClass} from '../models/badgeclass.model';
-import {ApiBadgeClass} from '../models/badgeclass-api.model';
-import {testIssuerRefForSlug} from './issuer-manager.service.spec';
-import {MessageService} from '../../common/services/message.service';
-import {first} from 'rxjs/operators';
 
-xdescribe('badgeManager', () => {
-	beforeEach(() => TestBed.configureTestingModule({
-		declarations: [  ],
-		providers: [
-			AppConfigService,
-			MockBackend,
-			BaseRequestOptions,
-			MessageService,
-			{ provide: 'config', useValue: { api: { baseUrl: '' }, features: {} } },
-			{
-				provide: Http,
-				useFactory: (backend, options) => new Http(backend, options),
-				deps: [ MockBackend, BaseRequestOptions ]
-			},
+describe('BadgeClassManager', () => {
+  let service;
 
-			SessionService,
-			CommonEntityManager,
-			BadgeClassApiService,
-			BadgeClassManager,
-		],
-		imports: [ ]
-	}));
+  const loginService: any = {
+    // mock properties here 
+  }
 
-	beforeEach(inject([ SessionService ], (loginService: SessionService) => {
-		loginService.storeToken({ access_token: "MOCKTOKEN" });
-	}));
+  const http: any = {
+    // mock properties here 
+  }
 
-	it('should retrieve all badge classes',
-		inject([ BadgeClassManager, SessionService, MockBackend ],
-			(badgeManager: BadgeClassManager, loginService: SessionService, mockBackend: MockBackend) => {
-				return Promise.all([
-					expectAllBadgesRequest(mockBackend),
-					verifyEntitySetWhenLoaded(badgeManager.badgesList, allApiBadgesClasses)
-				]);
-			}
-		));
+  const configService: any = {
+    // mock properties here 
+  }
 
-	it('should retrieve badges on subscription of allBadges$',
-		inject([ BadgeClassManager, SessionService, MockBackend ],
-			(badgeManager: BadgeClassManager, loginService: SessionService, mockBackend: MockBackend) => {
-				return Promise.all([
-					expectAllBadgesRequest(mockBackend),
-					badgeManager.allBadges$.pipe(first()).toPromise().then(
-						() => verifyManagedEntitySet(badgeManager.badgesList, allApiBadgesClasses)
-					)
-				]);
-			})
-	);
+  const commonEntityManager: any = {
+    // mock properties here 
+  }
 
-	it('should retrieve badges on subscription of badgesByIssuerUrl$',
-		inject([ BadgeClassManager, SessionService, MockBackend ],
-			(badgeManager: BadgeClassManager, loginService: SessionService, mockBackend: MockBackend) => {
-				return Promise.all([
-					expectAllBadgesRequest(mockBackend),
-					badgeManager.badgesByIssuerUrl$.pipe(first()).toPromise().then(
-						() => verifyManagedEntitySet(badgeManager.badgesList, allApiBadgesClasses)
-					)
-				]);
-			})
-	);
+  const badgeClassApi: any = {
+    // mock properties here 
+  }
 
-	it('should remove a badge class',
-		inject([ BadgeClassManager, SessionService, MockBackend ],
-			(badgeManager: BadgeClassManager, loginService: SessionService, mockBackend: MockBackend) => {
-				const badgeToKeep = apiBadgeClass1;
-				const badgeToRemove = apiBadgeClass2;
+  const messageService: any = {
+    // mock properties here 
+  }
 
-				return Promise.all([
-					expectAllBadgesRequest(mockBackend, [ badgeToRemove, badgeToKeep ]),
-					expectRequestAndRespondWith(
-						mockBackend,
-						RequestMethod.Delete,
-						`/v1/issuer/issuers/${BadgeClass.issuerSlugForApiBadge(badgeToRemove)}/badges/${badgeToRemove.slug}`,
-						`Badge ${badgeToRemove.slug} has been deleted.`
-					),
-					verifyEntitySetWhenLoaded(badgeManager.badgesList, [ badgeToRemove, badgeToKeep ])
-						.then(badgeList => badgeManager.removeBadgeClass(badgeList.entityForApiEntity(badgeToRemove)))
-						.then(() => verifyManagedEntitySet(badgeManager.badgesList, [ badgeToKeep ]))
-				]);
-			})
-	);
+  beforeEach(() => {
+    service = new BadgeClassManager(loginService,http,configService,commonEntityManager,badgeClassApi,messageService);
+  });
 
-	it('should add a new badge class',
-		inject([ BadgeClassManager, SessionService, MockBackend ],
-			(badgeManager: BadgeClassManager, loginService: SessionService, mockBackend: MockBackend) => {
-				const existingBadge = apiBadgeClass1;
-				const newBadge = apiBadgeClass2;
+  it('should run #removeBadgeClass()', async () => {
+    // const result = removeBadgeClass(badge);
+  });
 
-				return Promise.all([
-					expectAllBadgesRequest(mockBackend, [ existingBadge ]),
-					expectRequestAndRespondWith(
-						mockBackend,
-						RequestMethod.Post,
-						`/v1/issuer/issuers/${BadgeClass.issuerSlugForApiBadge(newBadge)}/badges`,
-						newBadge,
-						201
-					),
-					verifyEntitySetWhenLoaded(badgeManager.badgesList, [ existingBadge ])
-						.then(badgeList => badgeManager.createBadgeClass(
-							BadgeClass.issuerSlugForApiBadge(newBadge),
-							newBadge
-						))
-						.then(() => verifyManagedEntitySet(badgeManager.badgesList, [ newBadge, existingBadge ]))
-				]);
-			})
-	);
+  it('should run #createBadgeClass()', async () => {
+    // const result = createBadgeClass(issuerSlug, newBadge);
+  });
+
+  it('should run #badgeByIssuerUrlAndSlug()', async () => {
+    // const result = badgeByIssuerUrlAndSlug(issuerId, badgeSlug);
+  });
+
+  it('should run #badgeByIssuerSlugAndSlug()', async () => {
+    // const result = badgeByIssuerSlugAndSlug(issuerSlug, badgeSlug);
+  });
+
+  it('should run #loadedBadgeByRef()', async () => {
+    // const result = loadedBadgeByRef(badgeRef);
+  });
+
+  it('should run #loadedBadgeByIssuerIdAndSlug()', async () => {
+    // const result = loadedBadgeByIssuerIdAndSlug(issuerId, badgeSlug);
+  });
+
+  it('should run #badgeByRef()', async () => {
+    // const result = badgeByRef(badgeRef);
+  });
+
+  it('should run #badgesByUrls()', async () => {
+    // const result = badgesByUrls(badgeUrls);
+  });
+
+  it('should run #throwError()', async () => {
+    // const result = throwError(message);
+  });
+
 });
-
-const allApiBadgesClasses = [ apiBadgeClass1, apiBadgeClass2, apiBadgeClass3 ];
-
-function expectAllBadgesRequest(
-	mockBackend: MockBackend,
-	badgeClasses: ApiBadgeClass[] = allApiBadgesClasses
-) {
-	return expectRequestAndRespondWith(
-		mockBackend,
-		RequestMethod.Get,
-		'/v1/issuer/all-badges',
-		badgeClasses
-	);
-}
-
-export function testBadgeClassRefForSlugs(issuerSlug: string, badgeClassSlug: string) {
-	return {
-		"@id": `http://localhost:8000/public/badges/${badgeClassSlug}`,
-		"slug": badgeClassSlug,
-		"issuer": testIssuerRefForSlug(issuerSlug)
-	};
-}

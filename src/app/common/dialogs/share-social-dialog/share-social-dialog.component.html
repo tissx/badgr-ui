@@ -1,5 +1,9 @@
-<dialog class="dialog dialog-is-active dialog-clean l-dialog">
-	<div class="dialog-x-box o-container">
+<dialog aria-labelledby="shareBadgeDialog"
+				aria-describedby="dialog1Desc"
+				class="dialog dialog-is-active l-dialog"
+				role="dialog"
+>
+<div class="dialog-x-box o-container">
 
 		<!-- Header -->
 		<div class="dialog-x-header u-background-light3">
@@ -50,12 +54,11 @@
 					<input
 						[(ngModel)]="includeRecipientIdentifier"
 						(ngModelChange)="updateEmbedHtml()"
-						name="gadzooks"
 						type="checkbox"
 						checked>
 					<span class="checkbox-x-text">
               <strong>Include Recipient Identifier:</strong> <br>
-              name@{{ options.recipientIdentifier }}
+              {{ options.recipientIdentifier }}
             </span>
 				</label>
 			</ng-template>
@@ -65,7 +68,6 @@
 				<div class="forminput-x-inputs">
 					<svg class="forminput-x-icon" icon="icon_link"></svg>
 
-					<!--<input type="text" name="forminput" id="forminput" value="https://api.badgr.io/public/assertions/4lF9gJh-SCmls">-->
 					<input
 						id="link-input"
 						name="link-input"
@@ -93,54 +95,6 @@
 				target="_blank"
 				class="u-text-link-small">Open in New Window</a>
 
-			<!--------------->
-			<!--<div class="formfield formfield-link">
-				<label class=" " for="link-input">Copy this private URL to share:</label>
-				<input id="link-input"
-							name="link-input"
-							type="text"
-							[value]="currentShareUrl"
-							(click)="$event.target.select()"
-							readonly
-							#urlInput
-				>
-			</div>-->
-
-			<!--<div class="l-childrenhorizontal l-childrenhorizontal-spacebetween">-->
-
-				<!-- version (deprecated) -->
-				<!--&lt;!&ndash;<div class="l-childrenhorizontal l-childrenhorizontal-small" *ngIf="options.versionOptions">-->
-					<!--<div class="formradiobutton" *ngFor="let version of options.versionOptions; let i = index">-->
-						<!--<input type="radio"-->
-									<!--[value]="version"-->
-									<!--[(ngModel)]="selectedVersion"-->
-									<!--name="version-{{ i }}"-->
-									<!--id="version-{{ i }}"-->
-									<!--#urlInput-->
-						<!--/>-->
-						<!--<label for="version-{{ i }}">-->
-							<!--<span><span></span></span>-->
-							<!--<span class="formradiobutton-x-text">{{ version.label }}</span>-->
-						<!--</label>-->
-					<!--</div>-->
-				<!--</div>&ndash;&gt;-->
-
-				<!--<button type="button"-->
-								<!--class="button"-->
-								<!--(click)="copyToClipboard(urlInput)"-->
-								<!--[hidden]="! copySupported"-->
-				<!--&gt;Copy-->
-				<!--</button>-->
-			<!--</div>-->
-			<!--<div class="l-sharepane-x-preview wrap wrap-light4 wrap-rounded" *ngIf="options.versionInfoTitle">
-				<p class="text text-small"><strong>{{ options.versionInfoTitle }}</strong></p>
-				<p class="text text-small">{{ options.versionInfoBody }}</p>
-			</div>-->
-<!--
-			<div class="l-childrenhorizontal l-childrenhorizontal-right">
-				<a class="standaloneanchor" [href]="currentShareUrl" target="_blank">Open in New Window</a>
-			</div>
--->
 		</div>
 
 		<!-- Social Tab -->
@@ -153,7 +107,6 @@
 				<p class="u-text-bold u-margin-bottom3x">Badge Options:</p>
 				<label class="checkbox checkbox-light u-margin-bottom5x">
 					<input
-						name="form-checkbox"
 						id="form-checkbox"
 						type="checkbox"
 						[(ngModel)]="includeRecipientIdentifier"
@@ -221,7 +174,6 @@
 					<input
 						[(ngModel)]="includeRecipientIdentifier"
 						(ngModelChange)="updateEmbedHtml()"
-						name="rec"
 						type="checkbox"
 						checked>
 					<span class="checkbox-x-text">
@@ -236,7 +188,6 @@
 					<input
 						[(ngModel)]="includeBadgeClassName"
 						(ngModelChange)="updateEmbedHtml()"
-						name="nameinc"
 						type="checkbox"
 						checked>
 					<span class="checkbox-x-text">
@@ -250,7 +201,6 @@
 					<input
 						[(ngModel)]="includeAwardDate"
 						(change)="updateEmbedHtml()"
-						name="dateaw"
 						type="checkbox"
 						checked>
 					<span class="checkbox-x-text">
@@ -264,7 +214,6 @@
 					<input
 						[(ngModel)]="includeVerifyButton"
 						(change)="updateEmbedHtml()"
-						name="verifi"
 						type="checkbox"
 						checked>
 					<span class="checkbox-x-text">
@@ -303,3 +252,6 @@
 
 	</div>
 </dialog>
+<!--
+<iframe src="https://api.staging.badgr.ws/public/assertions/WvNnhkxhSI-B9smEoWMZUg?embedVersion=1&amp;embedWidth=330&amp;embedHeight=186&amp;identity__email=berserk.robot%40gmail.com" title="Badge: q" style="width: 330px; height: 186px; border: 0px;"></iframe>
+-->
