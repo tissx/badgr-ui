@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MozzListenerDirective } from './mozz-listener.directive';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule
-  ]
+  ],
+	declarations: [
+		MozzListenerDirective
+	],
+	exports: [
+		MozzListenerDirective
+	],
+
 })
 export class MozzTransitionModule { }
