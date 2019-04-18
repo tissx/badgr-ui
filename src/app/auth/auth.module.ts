@@ -10,7 +10,6 @@ import {CommonEntityManagerModule} from '../entity-manager/entity-manager.module
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
 import {OAuth2AuthorizeComponent} from './components/oauth2-authorize/oauth2-authorize.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MozzTransitionModule } from "../mozz-transition/mozz-transition.module";
 
 const routes = [
 	{
@@ -73,7 +72,6 @@ const routes = [
 		...COMMON_IMPORTS,
 		BadgrCommonModule,
 		CommonEntityManagerModule,
-		MozzTransitionModule,
 		RouterModule.forChild(routes),
 	],
 	declarations: [

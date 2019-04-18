@@ -13,7 +13,8 @@ export class MozzListenerDirective {
 	ngOnInit() {
 		this.isMozz = this.route.snapshot.queryParamMap.get('mozz');
 		if (this.isMozz) {
-			console.log('!!!');
+			console.log('mozz', this.isMozz);
+			localStorage.setItem('mozz', this.isMozz);
 		}
 	}
 
