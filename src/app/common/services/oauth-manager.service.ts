@@ -80,7 +80,9 @@ export class OAuthManager {
 			... unmatchedScopeIds.map(scopeId => ({
 				scopeId,
 				cssName: "permission-unknown",
-				label: this.currentAuthorization.scopes_descriptions ? (this.currentAuthorization.scopes_descriptions[scopeId] || scopeId) : scopeId
+				label: (this.currentAuthorization && this.currentAuthorization.scopes_descriptions)
+					? ((this.currentAuthorization && this.currentAuthorization.scopes_descriptions[scopeId]) || scopeId)
+					: scopeId
 			}))
 		];
 	}
