@@ -227,21 +227,6 @@ export function badgeShareDialogOptions(options: BadgeShareOptions): ShareSocial
 		recipientIdentifier: options.recipientIdentifier,
 		recipientType: options.recipientType,
 
-		versionOptions: [
-			{
-				label: "v1.1",
-				shareUrl: addQueryParamsToUrl(options.shareUrl, { v: "1_1" })
-			},
-			{
-				label: "v2.0",
-				shareUrl: addQueryParamsToUrl(options.shareUrl, { v: "2_0" })
-			}
-		],
-
-		versionInfoTitle: "We Support Open Badges v2.0!",
-		versionInfoBody: "We are testing the new version of Open Badges, v2.0. Badges accessed or downloaded in v2.0 format may not yet be accepted everywhere Open Badges are used.",
-
-
 		embedOptions: [
 			{
 				label: "Card",

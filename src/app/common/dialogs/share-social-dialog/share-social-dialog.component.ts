@@ -72,7 +72,6 @@ export class ShareSocialDialog extends BaseDialog {
 
 		this.currentTabId = "link";
 		this.selectedEmbedOption = this.options.embedOptions && this.options.embedOptions[0] || null;
-		this.selectedVersion = this.options.versionOptions && this.options.versionOptions[0] || null;
 		this.currentEmbedHtml = null;
 
 		this.updateEmbedHtml();
@@ -258,10 +257,6 @@ export interface ShareSocialDialogOptions {
 	shareSummary: string;
 	shareEndpoint: ShareEndPoint;
 
-	versionOptions?: ShareSocialDialogVersionOption[];
-	versionInfoTitle?: string;
-	versionInfoBody?: string;
-
 	excludeServiceTypes?: ShareServiceType[];
 
 	embedOptions: ShareSocialDialogEmbedOption[];
@@ -269,14 +264,6 @@ export interface ShareSocialDialogOptions {
 	recipientIdentifier?: string;
 	recipientType?: string;
 	showRecipientOptions?: boolean;
-}
-
-/**
- * Defines a "version" for a sharable link which will be displayed on the link page.
- */
-export interface ShareSocialDialogVersionOption {
-	label: string;
-	shareUrl: string;
 }
 
 /**
