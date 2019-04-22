@@ -114,11 +114,9 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 	async unlinkAccount($event: Event, socialAccount: UserProfileSocialAccount, accountsNum: number) {
 		$event.preventDefault();
 		// safety first!
-		//if(accountsNum <= 1 && !this.profile.hasPasswordSet){
-		if(true){
+		if(accountsNum <= 1 && !this.profile.hasPasswordSet){
 			await animationFramePromise()
 			this.messageService.reportHandledError('Please set a password using the "Set Password" button above before removing this integration.');
-			// alert('Please set a password using the "Set Password" button above before removing this integration.');
 			return false;
 		}
 		if (await this.dialogService.confirmDialog.openTrueFalseDialog({
