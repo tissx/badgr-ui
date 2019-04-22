@@ -81,7 +81,7 @@ export class OAuthManager {
 				scopeId,
 				cssName: "permission-unknown",
 				label: (this.currentAuthorization && this.currentAuthorization.scopes_descriptions)
-					? ((this.currentAuthorization && this.currentAuthorization.scopes_descriptions[scopeId]) || scopeId)
+					? (this.currentAuthorization.scopes_descriptions[scopeId] || scopeId)
 					: scopeId
 			}))
 		];
