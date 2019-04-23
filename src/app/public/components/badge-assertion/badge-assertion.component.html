@@ -90,7 +90,7 @@
 	            				</dd>
 							</div>
 						</div>
-						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Created on:</dt>
+						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Issued on:</dt>
 						<dd class="u-text"><time [date]="assertion.issuedOn" format="mediumDate"></time></dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="awardedToDisplayName">Awarded to:</dt>
 				    	<dd class="u-text u-break-all">{{ awardedToDisplayName }}</dd>
@@ -116,6 +116,11 @@
 						*ngIf="badgeClass.criteria.id || badgeClass.criteria.narrative || badgeClass.criteria"
 						class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-margin-top4x"
 					>Criteria</h3>
+					<show-more class="u-margin-bottom8x"
+										 *ngIf="badgeClass.criteria.narrative">
+						<markdown-display
+							[value]="badgeClass.criteria.narrative"></markdown-display>
+					</show-more>
 					<div class="u-margin-bottom2x"
 						*ngIf="badgeClass.criteria.id">
 						<a class="u-text-outlink" target="_blank"
@@ -169,9 +174,14 @@
 				<!-- evidence -->
 				<section
 					*ngIf="assertion.evidence?.length>0 || assertion.narrative">
-					<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Narrative</h3>
-					<show-more>
+					<h3
+						*ngIf="assertion.narrative || assertion.evidence.narrative"
+						class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Narrative</h3>
+					<show-more *ngIf="assertion.narrative">
 						<markdown-display [value]="assertion.narrative"></markdown-display>
+					</show-more>
+					<show-more *ngIf="assertion.evidence.narrative">
+						<markdown-display [value]="assertion.evidence.narrative"></markdown-display>
 					</show-more>
 					<div *ngFor="let evidence of assertion.evidence; let i=index">
 						<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Evidence</h3>
