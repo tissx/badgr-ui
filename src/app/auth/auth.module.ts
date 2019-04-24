@@ -11,6 +11,7 @@ import {ResetPasswordComponent} from './components/reset-password/reset-password
 import {OAuth2AuthorizeComponent} from './components/oauth2-authorize/oauth2-authorize.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MozzTransitionModule } from "../mozz-transition/mozz-transition.module";
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 const routes = [
 	{
@@ -63,6 +64,10 @@ const routes = [
 		component: ResetPasswordComponent
 	},
 	{
+		path: "welcome",
+		component: WelcomeComponent
+	},
+	{
 		path: "**",
 		redirectTo: "login",
 	},
@@ -82,7 +87,8 @@ const routes = [
 		ResetPasswordSent,
 		ResetPasswordComponent,
 		LogoutComponent,
-		OAuth2AuthorizeComponent
+		OAuth2AuthorizeComponent,
+		WelcomeComponent
 	],
 	exports: [],
 	providers: []

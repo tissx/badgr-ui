@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Directive, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { ComponentFactoryResolver, Directive, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { ImportModalComponent } from "../components/import-modal/import-modal.component";
 
@@ -8,7 +8,6 @@ import { ImportModalComponent } from "../components/import-modal/import-modal.co
 export class MozzListenerDirective {
 
 	signupSource: string = null;
-	//@ViewChild(AdDirective) adHost: AdDirective;
 
 	constructor(
 		public viewContainerRef: ViewContainerRef,
@@ -23,7 +22,7 @@ export class MozzListenerDirective {
 			const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ImportModalComponent);
 			const viewContainerRef = this.viewContainerRef;
 			viewContainerRef.clear();
-			const componentRef = viewContainerRef.createComponent(componentFactory);
+			viewContainerRef.createComponent(componentFactory);
 		}
 	}
 

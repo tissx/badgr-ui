@@ -99,7 +99,9 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 									this.router.navigate([ '/auth/oauth2/authorize' ]);
 								} else {
 									this.externalToolsManager.externaltoolsList.updateIfLoaded();
-									this.router.navigate([ 'recipient' ]);
+									// TODO: first time only logic!
+									this.router.navigate([ 'auth/welcome' ]);
+									// this.router.navigate([ 'recipient' ]);
 								}
 							} else {
 								this.router.navigate([ 'signup/success', { email: profile.emails.entities[0].email } ]);
