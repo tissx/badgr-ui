@@ -26,6 +26,7 @@ import {MarkdownHintsDialog} from './common/dialogs/markdown-hints-dialog.compon
 import { Issuer } from "./issuer/models/issuer.model";
 import { IssuerManager } from "./issuer/services/issuer-manager.service";
 import { Angulartics2GoogleAnalytics } from "angulartics2/ga";
+import { ImportModalComponent } from "./mozz-transition/components/import-modal/import-modal.component";
 
 // Shim in support for the :scope attribute
 // See https://github.com/lazd/scopedQuerySelectorShim and
@@ -64,6 +65,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("issuerLink")
 	private issuerLink: unknown;
+
+	@ViewChild("importModalDialog")
+	importModalDialog: ImportModalComponent;
 
 	get showAppChrome() {
 		return ! this.embedService.isEmbedded;
