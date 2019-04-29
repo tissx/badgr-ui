@@ -6,7 +6,7 @@
 	<div class="badgedetail">
 		<div class="badgedetail-x-header">
 			<h1>{{ badge.badgeClass.name }}</h1>
-			
+
 			<div class="l-primarymore">
 				<button class="button" type="button"
 					(click)="shareBadge()"
@@ -69,7 +69,7 @@
 			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Awarded to:</dt>
 			    	<dd class="u-text u-break-all">{{ badge.recipientEmail }}</dd>
 			    	<div
-			    		*ngIf="badge.expiresDate && isExpired">
+			    		*ngIf="badge && badge.expiresDate">
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Expires on:</dt>
 				    	<dd class="u-text"><time [date]="badge?.expiresDate" format="mediumDate"></time></dd>
 				    </div>
