@@ -19,9 +19,7 @@ export class ShareSocialDialog extends BaseDialog {
 	// Internal API
 
 	get currentShareUrl() {
-		const versionedUrl = this.selectedVersion
-			? this.selectedVersion.shareUrl
-			: this.options.shareUrl;
+		const versionedUrl = this.options.shareUrl;
 
 		const params = {};
 		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
@@ -37,7 +35,6 @@ export class ShareSocialDialog extends BaseDialog {
 	resolveFunc: () => void;
 	rejectFunc: () => void;
 
-	selectedVersion: ShareSocialDialogVersionOption | null = null;
 	currentTabId: ShareSocialDialogTabId = "link";
 
 	selectedEmbedOption: ShareSocialDialogEmbedOption | null = null;
