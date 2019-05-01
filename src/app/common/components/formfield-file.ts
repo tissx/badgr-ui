@@ -24,12 +24,12 @@ import {DomSanitizer} from '@angular/platform-browser';
 		</p>
 		<input type="file"
 		       accept="{{validFileTypes}}"
-		       name="image_field{{ uniqueIdSuffix }}"
-		       id="image_field{{ uniqueIdSuffix }}"
+		       name="{{ name }}"
+		       id="{{ name }}"
 			   (change)="fileInputChanged($event)"
 			   class="visuallyhidden"
 		/>
-		<label [attr.for]="'image_field' + uniqueIdSuffix" (click)="clearFileInput()" class="l-flex l-flex-column l-flex-aligncenter">
+		<label [attr.for]="name" (click)="clearFileInput()" class="l-flex l-flex-column l-flex-aligncenter">
 		<svg class="dropzone-x-icon" icon="icon_upload"></svg>
 			<div class="dropzone-x-text" *ngIf="! fileErrorMessage">
 				<div *ngIf="! fileProvided && ! fileLoading" class="u-text-link">Drop file or browse.</div>
@@ -55,16 +55,17 @@ export class BgFormFieldFileComponent {
 	readonly imageLoadingSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-loading.svg") as string);
 	readonly imageFailedSrc = preloadImageURL(require("../../../breakdown/static/images/placeholderavatar-failed.svg") as string);
 
+	uniqueIdSuffix = BgFormFieldFileComponent.uniqueNameCounter++;
+
 	@Input() control: FormControl;
 	@Input() label: string;
+	@Input() name?: string = 'image_field' + this.uniqueIdSuffix;
 	@Input() errorMessage = "Please provide a valid file";
 	@Input() placeholderImage: string;
 	@Input() fileLoader: (file: File) => Promise<string> = basicFileLoader;
 	@Input() validFileTypes = "";
 
 	@Output() fileData: EventEmitter<string> = new EventEmitter<string>();
-
-	uniqueIdSuffix = BgFormFieldFileComponent.uniqueNameCounter++;
 
 	isDragging = false;
 
