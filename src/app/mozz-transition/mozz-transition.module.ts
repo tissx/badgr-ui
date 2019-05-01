@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MozzListenerDirective } from './directives/mozz-listener.directive';
 import { ImportModalComponent } from './components/import-modal/import-modal.component';
+import { SourceListenerDirective } from "./directives/source-listener/source-listener.directive";
 
 @NgModule({
   imports: [
@@ -9,10 +10,12 @@ import { ImportModalComponent } from './components/import-modal/import-modal.com
   ],
 	declarations: [
 		MozzListenerDirective,
+		SourceListenerDirective,
 		ImportModalComponent
 	],
 	exports: [
 		MozzListenerDirective,
+		SourceListenerDirective,
 		ImportModalComponent
 	],
 	entryComponents: [

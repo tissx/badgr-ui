@@ -31,7 +31,7 @@
                     #fileField
                     label="File"
                     validFileTypes="text/plain,.csv"
-                    [control]="csvForm.controls['file']"
+                    [control]="csvForm.controls['zipFile']"
                     [placeholderImage]="csvUploadIconUrl"
                     (fileData)=onFileDataRecived($event)
                 >
