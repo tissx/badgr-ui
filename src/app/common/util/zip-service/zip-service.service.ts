@@ -11,7 +11,7 @@ export class ZipService {
 
 	constructor() {
 
-		zip.workerScriptsPath = 'scripts/';
+		zip.workerScriptsPath = 'assets/zipjs/';
 	}
 
 	getEntries(file): Observable<Array<ZipEntry>> {

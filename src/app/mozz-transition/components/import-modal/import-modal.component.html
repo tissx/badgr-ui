@@ -93,7 +93,7 @@
 								[validFileTypes]="'application/octet-stream, .zip'"
 								[control]="csvForm.controls['zipFile']"
 								[placeholderImage]="csvUploadIconUrl"
-								(fileData)="onFileDataRecived($event)"
+								(change)="fileChanged($event)"
 							>
 							</bg-formfield-file>
 						</fieldset>

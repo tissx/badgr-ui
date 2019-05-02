@@ -65,6 +65,7 @@ import {BgBreadcrumbsComponent} from './components/bg-breadcrumbs/bg-breadcrumbs
 import {MarkdownHintsDialog} from './dialogs/markdown-hints-dialog.component';
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
 import { IssuerApiService } from "../issuer/services/issuer-api.service";
+import { ZipService } from "./util/zip-service/zip-service.service";
 
 const DIRECTIVES = [
 	BgAwaitPromises,
@@ -130,6 +131,7 @@ const SERVICES = [
 	ExternalToolsManager,
 	AppConfigService,
 	NavigationService,
+	ZipService,
 ];
 
 const GUARDS = [
