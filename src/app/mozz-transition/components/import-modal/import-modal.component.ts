@@ -25,6 +25,8 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	reader = new FileReader();
 	reader2 = new FileReader();
 	badgeUploadPromise: Promise<unknown>;
+	noManifestError = false;
+	serverError: string;
 
 	constructor(
 		protected formBuilder: FormBuilder,
@@ -67,6 +69,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 			this.badgeUploadPromise = this.recipientBadgeManager
 				.createRecipientBadge(filename)
 				.then(instance => {
+					this.serverError = null;
 					this.messageService.reportMajorSuccess("Badge successfully imported.");
 					this.closeDialog();
 				})
@@ -82,22 +85,30 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 						}
 					}
 
-					this.messageService.reportAndThrowError(
+					this.serverError = message;
+
+					/*this.messageService.reportAndThrowError(
 						message
 							? `Failed to upload badge: ${message}`
 							: `Badge upload failed due to an unknown error`,
 						err
-					);
+					);*/
 				});
 	}
 
 	fileChanged(event) {
 		this.file = event.target.files[0];
+		if(!this.file) return false;
 		this.zipService.getEntries(this.file).subscribe(files => {
 			this.files = files;
 			const manifest = files.filter(m => m.filename === "manifest.txt")[0];
-			if(!manifest) return false;
-			this.zipService.getData(manifest).data.subscribe(f => this.reader.readAsText(f));
+			if(manifest) {
+				this.noManifestError = false;
+				this.zipService.getData(manifest).data.subscribe(f => this.reader.readAsText(f));
+			} else {
+				this.noManifestError = true;
+				return false;
+			}
 		});
 
 	}
