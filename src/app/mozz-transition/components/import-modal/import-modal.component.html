@@ -99,7 +99,7 @@
 
 					<form
 						[formGroup]="csvForm"
-						class
+						*ngIf="!inProgress"
 					>
 						<fieldset>
 							<bg-formfield-file
@@ -114,6 +114,16 @@
 							</bg-formfield-file>
 						</fieldset>
 					</form>
+
+					<label class="dropzone" *ngIf="inProgress">
+					<div class="l-flex l-flex2x l-flex-column l-flex-aligncenter u-width-xsmall u-padding-xaxis3x">
+						<div class="loaderspin loaderspin-medium u-margin-bottom3x"></div>
+						<p class="u-text-small u-text-center">
+							We’re uploading your badge(s).
+							<br>This might take a minute.
+						</p>
+					</div>
+					</label>
 
 				</div>
 			</div>

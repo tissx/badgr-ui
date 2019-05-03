@@ -26,6 +26,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	reader2 = new FileReader();
 	badgeUploadPromise: Promise<unknown>;
 	noManifestError = false;
+	inProgress = 0;
 	serverError: string;
 
 	constructor(
@@ -45,7 +46,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
   ngOnInit() {
 		this.openDialog();
 		this.reader.onload = (e) => this.parseManifest(this.reader.result);
-		this.reader2.onload = (e) => this.submitBadgeRecipientForm({image:this.reader2.result});
+		this.reader2.onload = (e) => this.submitBadgeRecipientForm({image:this.reader2.result}).then(() => this.inProgress--);
 	}
 
 	openDialog = () => this.showModal();
@@ -56,17 +57,19 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		const manifesst = JSON.parse(m);
 		Object.keys(manifesst).forEach((key) => {
 			manifesst[key].forEach((f) => {
+				this.inProgress++;
 				const image = this.files.filter(m => m.filename === f)[0];
 				this.zipService.getData(image).data.subscribe(fileData => {
 					this.reader2.readAsDataURL(fileData);
 				});
 			});
 		});
+
 	};
 
 	submitBadgeRecipientForm(filename) {
 
-			this.badgeUploadPromise = this.recipientBadgeManager
+			return this.badgeUploadPromise = this.recipientBadgeManager
 				.createRecipientBadge(filename)
 				.then(instance => {
 					this.serverError = null;
