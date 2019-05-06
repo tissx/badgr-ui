@@ -1,6 +1,6 @@
 <ng-template [bgAwaitPromises]="assertionIdParam">
 	<!-- Embedded View -->
-	
+
 	<div>
 		<bg-badgecard
 			[badgeTitle]="badgeClass.name"
@@ -121,11 +121,11 @@
 						<markdown-display
 							[value]="badgeClass.criteria.narrative"></markdown-display>
 					</show-more>
-					<div class="u-margin-bottom2x"
+					<div class="u-margin-yaxis2x"
 						*ngIf="badgeClass.criteria.id">
 						<a class="u-text-outlink" target="_blank"
 							[href]="badgeClass.criteria.id"
-						>View external Criteria URL
+						>View External Criteria URL
 							<svg icon="icon_external_link"></svg>
 						</a>
 					</div>

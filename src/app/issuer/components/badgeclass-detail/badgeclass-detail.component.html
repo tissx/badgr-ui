@@ -85,15 +85,15 @@
 							*ngIf="badgeClass.criteria_text"
 							[value]="badgeClass.criteria_text">
 						</markdown-display>
-						<div class="u-margin-bottom2x"
-							*ngIf="badgeClass.criteria_url">
-							<a class="u-text-outlink" target="_blank"
-								[href]="badgeClass.criteria_url"
-							>View external Criteria URL
-								<svg icon="icon_external_link"></svg>
-							</a>
-						</div>
 					</show-more>
+					<div class="u-margin-yaxis2x"
+							*ngIf="badgeClass.criteria_url">
+						<a class="u-text-outlink" target="_blank"
+							[href]="badgeClass.criteria_url"
+						>View External Criteria URL
+							<svg icon="icon_external_link"></svg>
+						</a>
+					</div>
 				</section>
 
 				<!-- alignment -->
