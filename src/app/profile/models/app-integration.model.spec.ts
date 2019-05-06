@@ -35,7 +35,7 @@ xdescribe('AppIntegration', () => {
 });
 
 export function verifyAppIntegration(
-	integration: AppIntegration<unknown>,
+	integration: AppIntegration<ApiAppIntegration>,
 	apiIntegration: ApiAppIntegration
 ) {
 	expect(integration.url).toEqual(String(apiIntegration.integrationUid || apiIntegration.integrationType));
@@ -46,9 +46,9 @@ export function verifyAppIntegration(
 	switch (apiIntegration.integrationType) {
 		case "canvas-lti1":
 			const canvasIntegration = integration as BadebookLti1Integration;
-			expect(canvasIntegration.consumerKey).toEqual(apiIntegration.integrationData.credential.client_id);
-			expect(canvasIntegration.sharedSecret).toEqual(apiIntegration.integrationData.credential.client_secret);
-			expect(canvasIntegration.configUrl).toEqual(apiIntegration.integrationData.credential.config_url);
+			expect(canvasIntegration.consumerKey).toEqual(apiIntegration.integrationData['credential'].client_id);
+			expect(canvasIntegration.sharedSecret).toEqual(apiIntegration.integrationData['credential'].client_secret);
+			expect(canvasIntegration.configUrl).toEqual(apiIntegration.integrationData['credential'].config_url);
 			break;
 		default:
 			break;
