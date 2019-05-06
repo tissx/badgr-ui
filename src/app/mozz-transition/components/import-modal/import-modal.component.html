@@ -89,12 +89,12 @@
 						<p class="u-text-small u-text-error u-margin-yaxis1x">That’s not the file from Mozilla. Please try again.</p>
 					</ng-template>
 
-					<ng-template [ngIf]="serverError">
+					<ng-template ngFor let-error [ngForOf]="serverError" let-i="index" >
 						<div class="l-flex l-flex-1x">
 							<svg class="icon icon-error"><use xlink:href="/images/icons.svg#icon_error"></use></svg>
 							<p class="u-text-body-bold u-text-dark1">Oops!</p>
 						</div>
-						<p class="u-text-small u-text-error u-margin-yaxis1x">{{serverError}}</p>
+						<p class="u-text-small u-text-error u-margin-yaxis1x">{{error.error}}</p>
 					</ng-template>
 
 					<form

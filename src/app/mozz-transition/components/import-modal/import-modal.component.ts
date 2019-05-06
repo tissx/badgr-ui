@@ -19,15 +19,12 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	importModalDialog: ImportModalComponent;
 	csvForm: FormGroup;
 	readonly csvUploadIconUrl = require('../../../../breakdown/static/images/csvuploadicon.svg');
-	rawCsv: string = null;
 	files: ZipEntry[];
 	file: ZipEntry;
-	reader = new FileReader();
-	reader2 = new FileReader();
 	badgeUploadPromise: Promise<unknown>;
 	noManifestError = false;
 	inProgress = 0;
-	serverError: string;
+	serverError: ServerError[] = [];
 
 	constructor(
 		protected formBuilder: FormBuilder,
@@ -45,8 +42,6 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 
   ngOnInit() {
 		this.openDialog();
-		this.reader.onload = (e) => this.parseManifest(this.reader.result);
-		this.reader2.onload = (e) => this.submitBadgeRecipientForm({image:this.reader2.result}).then(() => this.inProgress--);
 	}
 
 	openDialog = () => this.showModal();
@@ -56,23 +51,25 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	parseManifest = (m) => {
 		const manifesst = JSON.parse(m);
 		Object.keys(manifesst).forEach((key) => {
+			const reader = new FileReader();
+			reader.onload = (e) => this.uploadImage({image:reader.result}).then(() => this.inProgress--);
 			manifesst[key].forEach((f) => {
 				this.inProgress++;
 				const image = this.files.filter(m => m.filename === f)[0];
 				this.zipService.getData(image).data.subscribe(fileData => {
-					this.reader2.readAsDataURL(fileData);
+					reader.readAsDataURL(fileData);
 				});
 			});
 		});
 
 	};
 
-	submitBadgeRecipientForm(filename) {
+	uploadImage(filename) {
 
 			return this.badgeUploadPromise = this.recipientBadgeManager
 				.createRecipientBadge(filename)
 				.then(instance => {
-					this.serverError = null;
+					//this.serverError.splice(this.serverError.indexOf(filename),1);
 					this.messageService.reportMajorSuccess("Badge successfully imported.");
 					this.closeDialog();
 				})
@@ -88,7 +85,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 						}
 					}
 
-					this.serverError = message;
+					this.serverError.push({'filename':filename,'error':message});
 
 					/*this.messageService.reportAndThrowError(
 						message
@@ -103,11 +100,14 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		this.file = event.target.files[0];
 		if(!this.file) return false;
 		this.zipService.getEntries(this.file).subscribe(files => {
+			this.serverError = [];
 			this.files = files;
 			const manifest = files.filter(m => m.filename === "manifest.txt")[0];
 			if(manifest) {
 				this.noManifestError = false;
-				this.zipService.getData(manifest).data.subscribe(f => this.reader.readAsText(f));
+				const reader = new FileReader();
+				reader.onload = (e) => this.parseManifest(reader.result);
+				this.zipService.getData(manifest).data.subscribe(f => reader.readAsText(f));
 			} else {
 				this.noManifestError = true;
 				return false;
@@ -116,6 +116,11 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 
 	}
 
+}
+
+interface ServerError {
+	filename: string;
+	error: string;
 }
 
 interface ImportCsvForm<T> {
