@@ -33,7 +33,7 @@ class MockSignupService { }
 @Injectable()
 class MockOAuthManager { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 describe('SignupComponent', () => {

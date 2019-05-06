@@ -12,7 +12,7 @@ import {LogoutComponent} from './logout.component';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SessionService} from '../../../common/services/session.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

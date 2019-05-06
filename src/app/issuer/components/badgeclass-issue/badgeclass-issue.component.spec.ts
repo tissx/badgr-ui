@@ -15,7 +15,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 @Injectable()
 class MockAppConfigService { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 describe('BadgeClassIssueComponent', () => {

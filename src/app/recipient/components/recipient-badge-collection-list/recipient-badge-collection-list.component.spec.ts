@@ -19,7 +19,7 @@ import {RecipientBadgeManager} from '../../services/recipient-badge-manager.serv
 import {AppConfigService} from '../../../common/app-config.service';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

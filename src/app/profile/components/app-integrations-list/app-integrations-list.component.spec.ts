@@ -21,7 +21,7 @@ import {CommonDialogsService} from '../../../common/services/common-dialogs.serv
 @Injectable()
 class MockSessionService { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

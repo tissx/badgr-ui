@@ -20,7 +20,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {ExternalToolsManager} from '../../../externaltools/services/externaltools-manager.service';
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

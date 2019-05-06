@@ -18,7 +18,7 @@ import {RecipientBadgeManager} from '../../services/recipient-badge-manager.serv
 import {AppConfigService} from '../../../common/app-config.service';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

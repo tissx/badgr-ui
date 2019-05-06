@@ -18,7 +18,7 @@ import {QueryParametersService} from '../../../common/services/query-parameters.
 import {AppConfigService} from '../../../common/app-config.service';
 import {InitialLoadingIndicatorService} from '../../../common/services/initial-loading-indicator.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

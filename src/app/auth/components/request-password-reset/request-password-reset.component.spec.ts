@@ -20,7 +20,7 @@ class MockSessionService { }
 @Injectable()
 class MockMessageService { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 describe('RequestPasswordResetComponent', () => {

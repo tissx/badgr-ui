@@ -11,7 +11,7 @@ import {Component, Directive} from '@angular/core';
 import {ForwardRouteComponent} from './forward-route.component';
 import {Router, ActivatedRoute} from '@angular/router';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 describe('ForwardRouteComponent', () => {

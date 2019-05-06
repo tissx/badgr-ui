@@ -13,7 +13,7 @@ import {Title} from '@angular/platform-browser';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AppConfigService} from '../../../common/app-config.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

@@ -22,7 +22,7 @@ class MockBadgeInstanceManager { }
 @Injectable()
 class MockSessionService { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

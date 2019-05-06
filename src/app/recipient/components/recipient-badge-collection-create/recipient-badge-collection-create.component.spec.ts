@@ -17,7 +17,7 @@ import {MessageService} from '../../../common/services/message.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {RecipientBadgeCollectionManager} from '../../services/recipient-badge-collection-manager.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

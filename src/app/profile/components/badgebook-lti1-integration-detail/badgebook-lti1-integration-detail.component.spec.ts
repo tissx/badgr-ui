@@ -19,7 +19,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 @Injectable()
 class MockSessionService { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

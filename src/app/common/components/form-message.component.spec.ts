@@ -16,7 +16,7 @@ import {EventsService} from '../services/events.service';
 @Injectable()
 class MockMessageService { }
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()

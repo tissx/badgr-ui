@@ -20,7 +20,7 @@ import {QueryParametersService} from '../../../common/services/query-parameters.
 import {AppConfigService} from '../../../common/app-config.service';
 import {OAuthApiService} from '../../../common/services/oauth-api.service';
 
-@Injectable();
+@Injectable()
 class MockRouter { navigate = jest.fn(); }
 
 @Injectable()
