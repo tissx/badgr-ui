@@ -16,6 +16,7 @@ import {RecipientBadgeInstance} from '../../models/recipient-badge.model';
 import {badgeShareDialogOptionsFor} from '../recipient-earned-badge-detail/recipient-earned-badge-detail.component';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
+import { ImportLauncherDirective } from "../../../mozz-transition/directives/import-launcher/import-launcher.directive";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -31,6 +32,8 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 
 	@ViewChild("addBadgeDialog")
 	addBadgeDialog: AddBadgeDialogComponent;
+
+	@ViewChild(ImportLauncherDirective) importLauncherDirective:ImportLauncherDirective;
 
 	allBadges: RecipientBadgeInstance[] = [];
 	badgesLoaded: Promise<unknown>;
@@ -100,6 +103,9 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 
 		this.restoreDisplayState();
 	}
+
+	// NOTE: Mozz import functionality
+	launchImport = () => this.importLauncherDirective.launch();
 
 	restoreDisplayState() {
 		try {

@@ -17,10 +17,29 @@
 	</div>
 
 	<ng-template [bgAwaitPromises]="[ badgesLoaded ]">
+		<div (click)="launchImport()" class="notification notification-is-active notification-info u-margin-all3x">
+			<div class="notification-x-icon">
+				<svg icon="icon_info"></svg>
+			</div>
+			<div class="notification-x-text">
+				<h2>Coming from Mozilla?</h2>
+				<p>Let's finish adding your badges.</p>
+			</div>
+			<button class="notification-x-close buttonicon buttonicon-clear">
+				<svg icon="icon_close">
+				</svg>
+				<span class="visuallyhidden">Close Notification</span>
+			</button>
+		</div>
 
 		<!-- No badges, empty state! -->
 		<section class="emptysection l-emptysection"
-				 *ngIf="allBadges.length == 0">
+				 *ngIf="allBadges.length == 0 || true">
+
+
+
+
+
 			<h2 class="emptysection-x-headline">
 				You have no badges</h2>
 			<p class="emptysection-x-copy">

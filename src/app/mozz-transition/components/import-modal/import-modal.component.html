@@ -4,31 +4,25 @@
 				role="dialog"
 >
 
-	<div class="l-dialog o-container" open>
+	<div class="l-dialog o-container">
 		<div class="dialog dialog-small dialog-clean dialog-is-active">
 			<div class="dialog-x-box">
 				<div class="backgroundgraphic backgroundgraphic-large">
 					<div class="l-flex l-flex-justifyend u-responsivepadding-xaxis u-responsivepadding-yaxis">
-						<button class="buttonicon buttonicon-linklight">
-							<svg>
-								<use xlink:href="/images/icons.svg#icon_close"></use>
-							</svg>
+						<button (click)="closeDialog()" class="buttonicon buttonicon-linklight">
+							<svg icon="icon_close"></svg>
 							<span class="visuallyhidden">Close</span>
 						</button>
 					</div>
 					<div class="u-padding-bottom6x">
 						<div class="progresstracker ">
 							<div class="progresstrackeritem progresstrackeritem-basic progresstrackeritem-is-complete">
-
-                            <span class="progresstrackeritem-x-status">
-    <span>
-      Complete
-      <svg>
-        <use xlink:href="/images/icons.svg#icon_complete"></use>
-      </svg>
-    </span>
-                            </span>
-
+								<span class="progresstrackeritem-x-status">
+									<span>
+										Complete
+										<svg icon="icon_complete"></svg>
+									</span>
+								</span>
 								<div class="progresstrackeritem-x-text">
 									<h3 class="progresstrackeritem-x-texttitle">
 										Step 1
@@ -37,16 +31,12 @@
 								</div>
 							</div>
 							<div class="progresstrackeritem progresstrackeritem-basic progresstrackeritem-is-complete">
-
-                            <span class="progresstrackeritem-x-status">
-    <span>
-      In progress
-      <svg>
-        <use xlink:href="/images/icons.svg#icon_complete"></use>
-      </svg>
-    </span>
-                            </span>
-
+								<span class="progresstrackeritem-x-status">
+									<span>
+										In progress
+										<svg icon="icon_complete"></svg>
+									</span>
+								</span>
 								<div class="progresstrackeritem-x-text">
 									<h3 class="progresstrackeritem-x-texttitle">
 										Step 2
@@ -55,16 +45,12 @@
 								</div>
 							</div>
 							<div class="progresstrackeritem progresstrackeritem-basic progresstrackeritem-is-inprogress">
-
-                            <span class="progresstrackeritem-x-status">
-    <span>
-      Not started
-      <svg>
-        <use xlink:href="/images/icons.svg#icon_more"></use>
-      </svg>
-    </span>
-                            </span>
-
+								<span class="progresstrackeritem-x-status">
+									<span>
+										Not started
+										<svg icon="icon_more"></svg>
+									</span>
+								</span>
 								<div class="progresstrackeritem-x-text">
 									<h3 class="progresstrackeritem-x-texttitle">
 										Step 3
@@ -89,12 +75,14 @@
 						<p class="u-text-small u-text-error u-margin-yaxis1x">That’s not the file from Mozilla. Please try again.</p>
 					</ng-template>
 
-					<ng-template ngFor let-error [ngForOf]="serverError" let-i="index" >
+					<ng-template ngFor let-error [ngForOf]="serverErrors" let-i="index" >
 						<div class="l-flex l-flex-1x">
 							<svg class="icon icon-error"><use xlink:href="/images/icons.svg#icon_error"></use></svg>
 							<p class="u-text-body-bold u-text-dark1">Oops!</p>
 						</div>
-						<p class="u-text-small u-text-error u-margin-yaxis1x">{{error.error}}</p>
+						<p class="u-text-small u-text-error u-margin-yaxis1x">
+							{{error.error}}
+						</p>
 					</ng-template>
 
 					<form
@@ -115,6 +103,7 @@
 						</fieldset>
 					</form>
 
+					<!-- loading -->
 					<label class="dropzone" *ngIf="inProgress">
 					<div class="l-flex l-flex2x l-flex-column l-flex-aligncenter u-width-xsmall u-padding-xaxis3x">
 						<div class="loaderspin loaderspin-medium u-margin-bottom3x"></div>
@@ -124,6 +113,63 @@
 						</p>
 					</div>
 					</label>
+
+					<!-- success list -->
+					<ng-template [ngIf]="false">
+						<div class="l-flex l-flex-1x">
+							<svg class="icon icon-success" icon="icon_complete"></svg>
+							<p class="u-text-body-bold u-text-dark1">Congrats! 3 badges will be added to your Backpack</p>
+						</div>
+					</ng-template>
+
+					<!-- verify emails list -->
+					<ng-template [ngIf]="unverifiedEmails.length">
+						<form (submit)="verifyEmails()">
+						<p class="u-text u-margin-top1x">
+							We also found badges awarded to the following email addresses. You'll need to verify these email addresses before you can import the badges.
+						</p>
+						<div
+							*ngFor="let email of unverifiedEmails; let i = index"
+							class="l-flex l-flex-column u-background-light3 border borderradius u-padding-all2x u-margin-top2x">
+							<div class="l-flex l-flex-justifybetween u-margin-bottom2x">
+								<label class="checkbox">
+									<input
+										[name]="'email-'+i"
+										[value]="email.email"
+										type="checkbox"
+										[(ngModel)]="email.verify">
+									<span class="checkbox-x-text">
+										{{unverifiedEmails[i].email}}
+									</span>
+								</label>
+								<div class="u-text-small u-margin-leftauto">{{email.count}} Badges</div>
+							</div>
+						</div>
+
+						<button type="submit" class="button button-full u-margin-top3x">Send Verification Emails</button>
+						</form>
+					</ng-template>
+					<!-- no badges + earn a badge -->
+					<ng-template [ngIf]="false">
+						<div class="l-flex l-flex-1x">
+							<svg class="icon icon-error" icon="icon_error"></svg>
+							<p class="u-text-body-bold u-text-dark1">No Badges will be added.</p>
+						</div>
+
+						<p class="u-text u-margin-top1x">
+							Only valid badges can be added to your backpack. The good news is that your badges are saved on your device and available for you at any time.
+						</p>
+						<div class="u-margin-top1x u-margin-bottom2x">
+							<a href="#" class="u-text-link">What happened?</a>
+						</div>
+
+						<div class="l-flex l-flex-column l-flex-aligncenter u-background-light3 border borderradius u-padding-all2x">
+							<h3 class="u-text-small-bold u-text-center">But Wait!</h3>
+							<p class="u-text-small u-text-center u-margin-bottom2x">You can earn a badge in less than 5 min. Promise.</p>
+
+							<button class="button button-small">Earn a Badge</button>
+						</div>
+					</ng-template>
 
 				</div>
 			</div>

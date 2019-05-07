@@ -3,10 +3,9 @@ import { BaseDialog } from "../../../common/dialogs/base-dialog";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ZipService } from "../../../common/util/zip-service/zip-service.service";
 import { ZipEntry } from "../../../common/util/zip-service/interfaces/zip-entry.interface";
-import { BadgrApiFailure } from "../../../common/services/api-failure";
 import { RecipientBadgeManager } from "../../../recipient/services/recipient-badge-manager.service";
 import { MessageService } from "../../../common/services/message.service";
-import { RecipientBadgeInstanceCreationInfo } from "../../../recipient/models/recipient-badge-api.model";
+import { UserProfileApiService } from "../../../common/services/user-profile-api.service";
 
 @Component({
   selector: 'import-modal',
@@ -24,7 +23,8 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	badgeUploadPromise: Promise<unknown>;
 	noManifestError = false;
 	inProgress = 0;
-	serverError: ServerError[] = [];
+	serverErrors: ServerError[] = [];
+	unverifiedEmails: UnverifiedEmail[] = [];
 
 	constructor(
 		protected formBuilder: FormBuilder,
@@ -32,7 +32,8 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		renderer: Renderer2,
 		private zipService: ZipService,
 		protected recipientBadgeManager: RecipientBadgeManager,
-		protected messageService: MessageService
+		protected messageService: MessageService,
+		private userProfileApiService: UserProfileApiService,
 	) {
 		super(componentElem, renderer);
 		this.csvForm = formBuilder.group({
@@ -41,7 +42,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	}
 
   ngOnInit() {
-		this.openDialog();
+		// this.openDialog();
 	}
 
 	openDialog = () => this.showModal();
@@ -49,11 +50,13 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	closeDialog = () => this.closeModal();
 
 	parseManifest = (m) => {
-		const manifesst = JSON.parse(m);
-		Object.keys(manifesst).forEach((key) => {
+		const manifest = JSON.parse(m);
+		Object.keys(manifest).forEach((email) => {
 			const reader = new FileReader();
-			reader.onload = (e) => this.uploadImage({image:reader.result}).then(() => this.inProgress--);
-			manifesst[key].forEach((f) => {
+			reader.onload = (e) => this.uploadImage(email,reader.result).then(() => {
+				this.inProgress--;
+			});
+			manifest[email].forEach((f) => {
 				this.inProgress++;
 				const image = this.files.filter(m => m.filename === f)[0];
 				this.zipService.getData(image).data.subscribe(fileData => {
@@ -61,13 +64,12 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 				});
 			});
 		});
-
 	};
 
-	uploadImage(filename) {
+	uploadImage(email, base64Image) {
 
 			return this.badgeUploadPromise = this.recipientBadgeManager
-				.createRecipientBadge(filename)
+				.createRecipientBadge({image:base64Image})
 				.then(instance => {
 					//this.serverError.splice(this.serverError.indexOf(filename),1);
 					this.messageService.reportMajorSuccess("Badge successfully imported.");
@@ -85,7 +87,28 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 						}
 					}
 
-					this.serverError.push({'filename':filename,'error':message});
+					if(message === 'The recipient does not match any of your verified emails'){
+						const counter = this.unverifiedEmails.findIndex(ue => ue.email === email);
+						if (counter > 0) {
+							this.unverifiedEmails.splice(counter,1,{
+								'email': email,
+								'count': this.unverifiedEmails[counter].count++,
+								verify: true
+							});
+						} else {
+							this.unverifiedEmails.push({
+								'email': email,
+								'count': 1,
+								verify: true
+							});
+						}
+					} else {
+						this.serverErrors.push({
+							'email': email,
+							'base64Image': base64Image,
+							'error': message
+						});
+					}
 
 					/*this.messageService.reportAndThrowError(
 						message
@@ -100,7 +123,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		this.file = event.target.files[0];
 		if(!this.file) return false;
 		this.zipService.getEntries(this.file).subscribe(files => {
-			this.serverError = [];
+			this.serverErrors = [];
 			this.files = files;
 			const manifest = files.filter(m => m.filename === "manifest.txt")[0];
 			if(manifest) {
@@ -116,11 +139,24 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 
 	}
 
+	verifyEmails(){
+		this.unverifiedEmails
+			.filter(email => email.verify)
+			.forEach(email => this.userProfileApiService.addEmail(email.email));
+	}
+
 }
 
 interface ServerError {
-	filename: string;
+	email: string;
+	base64Image: string;
 	error: string;
+}
+
+interface UnverifiedEmail {
+	email: string;
+	count: number;
+	verify: boolean;
 }
 
 interface ImportCsvForm<T> {
