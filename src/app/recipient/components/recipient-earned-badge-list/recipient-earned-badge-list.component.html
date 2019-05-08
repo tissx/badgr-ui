@@ -1,4 +1,4 @@
-<main>
+<main importLauncher>
 	<form-message></form-message>
 
 	<div class="topbar">
@@ -17,6 +17,26 @@
 	</div>
 
 	<ng-template [bgAwaitPromises]="[ badgesLoaded ]">
+
+		<!--	TODO: jacked open!	-->
+		<div
+			*ngIf="allBadges.length == 0 || true"
+			#mozzBanner
+			class="notification notification-is-active notification-info u-margin-all3x">
+			<div class="notification-x-icon">
+				<svg icon="icon_info"></svg>
+			</div>
+			<div class="notification-x-text">
+				<h2>Coming from Mozilla?</h2>
+				<p>Let's finish <a (click)="launchImport($event)" href="#">adding</a> your badges.</p>
+			</div>
+			<!--<button
+				(click)="mozzBanner.style.display = 'none'; $event.stopPropagation()" class="notification-x-close buttonicon buttonicon-clear">
+				<svg icon="icon_close">
+				</svg>
+				<span class="visuallyhidden">Close Notification</span>
+			</button>-->
+		</div>
 
 		<!-- No badges, empty state! -->
 		<section class="emptysection l-emptysection"

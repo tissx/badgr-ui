@@ -130,7 +130,7 @@ export const appInitializerFn = (configService: AppConfigService) => {
 		RouterModule.forRoot(ROUTE_CONFIG),
 		Angulartics2Module.forRoot(),
 		BadgrCommonModule.forRoot(),
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
 	],
 	declarations: [
 		AppComponent,

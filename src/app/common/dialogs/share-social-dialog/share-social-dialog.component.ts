@@ -19,11 +19,10 @@ export class ShareSocialDialog extends BaseDialog {
 	// Internal API
 
 	get currentShareUrl() {
-		const versionedUrl = this.options.shareUrl;
 
 		const params = {};
 		params[`identity__${this.options.recipientType || "email"}`] = this.options.recipientIdentifier;
-		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(versionedUrl, params) : versionedUrl;
+		return (this.includeRecipientIdentifier) ? addQueryParamsToUrl(this.options.shareUrl, params) : this.options.shareUrl;
 	}
 
 	get hasEmbedSupport() {

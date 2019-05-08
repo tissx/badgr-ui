@@ -58,8 +58,8 @@ describe('AddBadgeDialogComponent', () => {
     // const result = component.closeDialog();
   });
 
-  it('should run #submitBadgeRecipientForm()', async () => {
-    // const result = component.submitBadgeRecipientForm();
+  it('should run #uploadImage()', async () => {
+    // const result = component.uploadImage();
   });
 
   it('should run #controlUpdated()', async () => {

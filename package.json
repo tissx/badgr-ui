@@ -32,7 +32,7 @@
 		"@angular/platform-browser-dynamic": "^7.2.0",
 		"@angular/router": "^7.2.0",
 		"@angularclass/request-idle-callback": "1.0.7",
-		"@concentricsky/badgr-style": "^15.0.2",
+		"@concentricsky/badgr-style": "^15.0.5",
 		"@types/fontfaceobserver": "0.0.6",
 		"@types/jest": "^24.0.11",
 		"@types/karma-jasmine": "0.0.31",

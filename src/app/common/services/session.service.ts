@@ -93,7 +93,7 @@ export class SessionService {
 			});
 	}
 
-	initiateUnauthenticatedExternalAuth(provider: SocialAccountProviderInfo) {
+	initiateUnauthenticatedExternalAuth(provider: ExternalAuthProvider) {
 		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}`;
 	}
 

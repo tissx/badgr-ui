@@ -6,6 +6,7 @@ import {SignupSuccessComponent} from './components/signup-success/signup-success
 import {SignupComponent} from './components/signup/signup.component';
 import {BadgrCommonModule, COMMON_IMPORTS} from '../common/badgr-common.module';
 import {SignupService} from './services/signup.service';
+import { MozzTransitionModule } from "../mozz-transition/mozz-transition.module";
 
 const routes = [
 	/* Signup */
@@ -33,7 +34,7 @@ const routes = [
 		RouterModule,
 		FormsModule,
 		ReactiveFormsModule,
-
+		MozzTransitionModule,
 		BadgrCommonModule,
 	  RouterModule.forChild(routes)
 	],
