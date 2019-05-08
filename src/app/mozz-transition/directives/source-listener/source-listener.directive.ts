@@ -6,15 +6,23 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class SourceListenerDirective {
 
-	signupSource: string = null;
+	getVars = [
+		'signup_source',
+		'signup',
+		'source',
+	];
 
 	constructor(
 		private route: ActivatedRoute,
 	) {}
 
 	ngOnInit() {
-		const signupSource = this.route.snapshot.queryParamMap.get('signup_source');
-		if (signupSource) localStorage.setItem('signupSource', signupSource);
+		this.getVars.forEach((gv) => this.varSet(gv));
+	}
+
+	varSet = (gv) => {
+		const thisVar = this.route.snapshot.queryParamMap.get(gv);
+		if (thisVar) localStorage.setItem(gv, thisVar);
 	}
 
 }

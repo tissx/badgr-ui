@@ -69,19 +69,19 @@
 
 					<ng-template [ngIf]="noManifestError">
 						<div class="l-flex l-flex-1x">
-							<svg class="icon icon-error"><use xlink:href="/images/icons.svg#icon_error"></use></svg>
+							<svg class="icon icon-error" icon="icon_error"></svg>
 							<p class="u-text-body-bold u-text-dark1">Oops!</p>
 						</div>
 						<p class="u-text-small u-text-error u-margin-yaxis1x">That’s not the file from Mozilla. Please try again.</p>
 					</ng-template>
 
-					<ng-template ngFor let-error [ngForOf]="serverErrors" let-i="index" >
+					<ng-template [ngIf]="serverErrors.length" >
 						<div class="l-flex l-flex-1x">
-							<svg class="icon icon-error"><use xlink:href="/images/icons.svg#icon_error"></use></svg>
+							<svg class="icon icon-error" icon="icon_error"></svg>
 							<p class="u-text-body-bold u-text-dark1">Oops!</p>
 						</div>
-						<p class="u-text-small u-text-error u-margin-yaxis1x">
-							{{error.error}}
+						<p *ngFor="let serverError of serverErrors" class="u-text-small u-text-error u-margin-yaxis1x">
+							{{serverError.error}}
 						</p>
 					</ng-template>
 
@@ -115,10 +115,10 @@
 					</label>
 
 					<!-- success list -->
-					<ng-template [ngIf]="false">
+					<ng-template [ngIf]="successes">
 						<div class="l-flex l-flex-1x">
 							<svg class="icon icon-success" icon="icon_complete"></svg>
-							<p class="u-text-body-bold u-text-dark1">Congrats! 3 badges will be added to your Backpack</p>
+							<p class="u-text-body-bold u-text-dark1">Congrats! {{successes}} badges will be added to your Backpack</p>
 						</div>
 					</ng-template>
 
@@ -149,8 +149,9 @@
 						<button type="submit" class="button button-full u-margin-top3x">Send Verification Emails</button>
 						</form>
 					</ng-template>
+
 					<!-- no badges + earn a badge -->
-					<ng-template [ngIf]="false">
+					<ng-template [ngIf]="!successes && !unverifiedEmails.length && serverErrors.length">
 						<div class="l-flex l-flex-1x">
 							<svg class="icon icon-error" icon="icon_error"></svg>
 							<p class="u-text-body-bold u-text-dark1">No Badges will be added.</p>
@@ -160,7 +161,7 @@
 							Only valid badges can be added to your backpack. The good news is that your badges are saved on your device and available for you at any time.
 						</p>
 						<div class="u-margin-top1x u-margin-bottom2x">
-							<a href="#" class="u-text-link">What happened?</a>
+							<a href="//support.badgr.com/portal/kb/articles/mozilla-backpack-transition-to-badgr-faqs" class="u-text-link">What happened?</a>
 						</div>
 
 						<div class="l-flex l-flex-column l-flex-aligncenter u-background-light3 border borderradius u-padding-all2x">

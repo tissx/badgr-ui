@@ -24,11 +24,13 @@ export class ImportLauncherDirective implements OnInit{
 	@Input()
 
 	ngOnInit() {
-		if (localStorage.getItem('signupSource') === 'mozilla') this.insert();
+		if (localStorage.getItem('signup_source') === 'mozilla' || localStorage.getItem('source') === 'mozilla') this.insert();
 	}
 
 	insert = () => {
-		// localStorage.removeItem('signupSource');
+		// TODO: Cleanup
+		// localStorage.removeItem('signup_source');
+		// localStorage.removeItem('source');
 		const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ImportModalComponent);
 		const viewContainerRef = this.viewContainerRef;
 		viewContainerRef.clear();

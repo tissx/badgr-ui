@@ -17,7 +17,14 @@
 	</div>
 
 	<ng-template [bgAwaitPromises]="[ badgesLoaded ]">
-		<div (click)="launchImport()" class="notification notification-is-active notification-info u-margin-all3x">
+
+		<!--	TODO: jacked open!	-->
+		<div
+			*ngIf="allBadges.length == 0 || true"
+			#mozzBanner
+			(click)="launchImport()"
+			class="notification notification-is-active notification-info u-margin-all3x"
+			style="cursor: pointer;">
 			<div class="notification-x-icon">
 				<svg icon="icon_info"></svg>
 			</div>
@@ -25,7 +32,8 @@
 				<h2>Coming from Mozilla?</h2>
 				<p>Let's finish adding your badges.</p>
 			</div>
-			<button class="notification-x-close buttonicon buttonicon-clear">
+			<button
+				(click)="mozzBanner.style.display = 'none'; $event.stopPropagation()" class="notification-x-close buttonicon buttonicon-clear">
 				<svg icon="icon_close">
 				</svg>
 				<span class="visuallyhidden">Close Notification</span>
@@ -34,12 +42,7 @@
 
 		<!-- No badges, empty state! -->
 		<section class="emptysection l-emptysection"
-				 *ngIf="allBadges.length == 0 || true">
-
-
-
-
-
+				 *ngIf="allBadges.length == 0">
 			<h2 class="emptysection-x-headline">
 				You have no badges</h2>
 			<p class="emptysection-x-copy">

@@ -25,6 +25,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	inProgress = 0;
 	serverErrors: ServerError[] = [];
 	unverifiedEmails: UnverifiedEmail[] = [];
+	successes = 0;
 
 	constructor(
 		protected formBuilder: FormBuilder,
@@ -55,10 +56,17 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 			const reader = new FileReader();
 			reader.onload = (e) => this.uploadImage(email,reader.result).then(() => {
 				this.inProgress--;
+				// Are we done with only successes?
+				if(!this.inProgress && this.successes && !this.serverErrors && !this.unverifiedEmails) this.displaySucess();
 			});
 			manifest[email].forEach((f) => {
 				this.inProgress++;
 				const image = this.files.filter(m => m.filename === f)[0];
+				// bad file?
+				if (!image) {
+					this.inProgress--;
+					return false;
+				}
 				this.zipService.getData(image).data.subscribe(fileData => {
 					reader.readAsDataURL(fileData);
 				});
@@ -67,26 +75,14 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	};
 
 	uploadImage(email, base64Image) {
-
 			return this.badgeUploadPromise = this.recipientBadgeManager
 				.createRecipientBadge({image:base64Image})
 				.then(instance => {
 					//this.serverError.splice(this.serverError.indexOf(filename),1);
-					this.messageService.reportMajorSuccess("Badge successfully imported.");
-					this.closeDialog();
+					this.successes++;
 				})
 				.catch(err => {
-					// let message = BadgrApiFailure.from(err).firstMessage;
-					let message = err.response.error[0].description;
-
-					// display human readable description of first error if provided by server
-					if (err.response && err.response._body) {
-						const body = JSON.parse(err.response._body);
-						if (body && body.length > 0 && body[0].description) {
-							message = body[0].description;
-						}
-					}
-
+					const message = err.response.error[0].description || err.response.error[0].result;
 					if(message === 'The recipient does not match any of your verified emails'){
 						const counter = this.unverifiedEmails.findIndex(ue => ue.email === email);
 						if (counter > 0) {
@@ -140,9 +136,19 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	}
 
 	verifyEmails(){
-		this.unverifiedEmails
-			.filter(email => email.verify)
-			.forEach(email => this.userProfileApiService.addEmail(email.email));
+		const verify = this.unverifiedEmails.filter(email => email.verify);
+		Promise.all([verify
+			.forEach(email => {
+				this.userProfileApiService.addEmail(email.email);
+			})]).then(() => {
+				this.messageService.reportMajorSuccess( `${verify.length} email ${(verify.length>1)?'addresses':'address'} to be verified.`);
+				this.closeDialog();
+			});
+	}
+
+	displaySucess = () => {
+		this.messageService.reportMajorSuccess(this.successes + " Badges successfully imported.");
+		this.closeDialog();
 	}
 
 }
