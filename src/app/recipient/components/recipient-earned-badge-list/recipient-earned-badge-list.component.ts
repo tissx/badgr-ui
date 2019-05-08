@@ -105,7 +105,10 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	}
 
 	// NOTE: Mozz import functionality
-	launchImport = () => this.importLauncherDirective.insert();
+	launchImport = ($event: Event) => {
+		$event.preventDefault();
+		this.importLauncherDirective.insert();
+	};
 
 	restoreDisplayState() {
 		try {
