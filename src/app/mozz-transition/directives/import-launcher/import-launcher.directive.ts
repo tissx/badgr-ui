@@ -28,9 +28,8 @@ export class ImportLauncherDirective implements OnInit{
 	}
 
 	insert = () => {
-		// TODO: Cleanup
-		// localStorage.removeItem('signup_source');
-		// localStorage.removeItem('source');
+		localStorage.removeItem('signup_source');
+		localStorage.removeItem('source');
 		const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ImportModalComponent);
 		const viewContainerRef = this.viewContainerRef;
 		viewContainerRef.clear();
