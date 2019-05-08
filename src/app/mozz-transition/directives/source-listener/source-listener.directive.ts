@@ -22,7 +22,7 @@ export class SourceListenerDirective {
 
 	varSet = (gv) => {
 		const thisVar = this.route.snapshot.queryParamMap.get(gv);
-		if (thisVar) localStorage.setItem(gv, thisVar);
+		if (thisVar) localStorage[gv] = thisVar;
 	}
 
 }
