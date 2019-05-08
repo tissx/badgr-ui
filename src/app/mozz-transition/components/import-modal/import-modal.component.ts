@@ -88,13 +88,16 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 						if (counter > 0) {
 							this.unverifiedEmails.splice(counter,1,{
 								'email': email,
-								'count': this.unverifiedEmails[counter].count++,
+								count: this.unverifiedEmails[counter].count++,
+								base64Files: this.unverifiedEmails[counter].base64Files,
 								verify: true
 							});
+							this.unverifiedEmails[counter].base64Files.push(base64Image);
 						} else {
 							this.unverifiedEmails.push({
 								'email': email,
-								'count': 1,
+								count: 1,
+								base64Files: [base64Image],
 								verify: true
 							});
 						}
@@ -140,6 +143,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		Promise.all([verify
 			.forEach(email => {
 				this.userProfileApiService.addEmail(email.email);
+				email.base64Files.forEach((base64File) => this.uploadImage(email.email, base64File));
 			})]).then(() => {
 				this.messageService.reportMajorSuccess( `${verify.length} email ${(verify.length>1)?'addresses':'address'} to be verified.`);
 				this.closeDialog();
@@ -163,6 +167,7 @@ interface UnverifiedEmail {
 	email: string;
 	count: number;
 	verify: boolean;
+	base64Files: string[];
 }
 
 interface ImportCsvForm<T> {
