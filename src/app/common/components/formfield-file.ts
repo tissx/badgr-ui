@@ -35,7 +35,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 				<div *ngIf="! fileProvided && ! fileLoading" class="u-text-link">Drop file or browse.</div>
 				<div *ngIf="fileLoading" class="dropzone-x-info1">Loading File...</div>
 				<div *ngIf="fileName" class="dropzone-x-info1">{{ fileName }}</div>
-				<div *ngIf="fileName" class="u-link-small">Change</div>
+				<div *ngIf="fileName" class="u-text-link">Change</div>
 			</div>
 
 			<div *ngIf="fileErrorMessage" class="dropzone-x-error">{{ fileErrorMessage }}</div>

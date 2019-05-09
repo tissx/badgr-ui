@@ -22,13 +22,15 @@
 		<div
 			*ngIf="allBadges.length == 0 || true"
 			#mozzBanner
-			class="notification notification-is-active notification-info u-margin-all3x">
-			<div class="notification-x-icon">
-				<svg icon="icon_info"></svg>
-			</div>
-			<div class="notification-x-text">
-				<h2>Coming from Mozilla?</h2>
-				<p>Let's finish <a (click)="launchImport($event)" href="#">adding</a> your badges.</p>
+			class="l-containerxaxis l-containeryaxis">
+			<div class="notification notification-is-active notification-info">
+				<div class="notification-x-icon">
+					<svg icon="icon_info"></svg>
+				</div>
+				<div class="notification-x-text">
+					<h2>Coming from Mozilla?</h2>
+					<p>Let's finish <button (click)="launchImport($event)" class="u-display-inline u-text-link">adding</button> your badges.</p>
+				</div>
 			</div>
 			<!--<button
 				(click)="mozzBanner.style.display = 'none'; $event.stopPropagation()" class="notification-x-close buttonicon buttonicon-clear">
@@ -150,7 +152,7 @@
 									<td class="datatable-x-cell">
 										<div class="l-flex l-flex-2x l-flex-aligncenter">
 											<img class="badgeimage badgeimage-{{badge.mostRelevantStatus}} badgeimage-small u-margin-right2x l-flex-x-shrink0" width="40"
-												[loading-src]="badgeLoadingImageUrl" 
+												[loading-src]="badgeLoadingImageUrl"
 												[error-src]="badgeFailedImageUrl"
 												[loaded-src]="badge.image" />
 											<a class="u-text u-text-link u-text-breakword"
