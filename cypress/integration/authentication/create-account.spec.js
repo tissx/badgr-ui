@@ -13,7 +13,7 @@ context('Window', () => {
 			.title().should('include', 'Badgr')
 	})
 
-	it("let me create and account and show errors", () => {
+	it("let me create account and show errors", () => {
 		cy.get('nav.navbar > nav > div > a:nth-child(2)').click()
 			.get('#email').type('root@example.com')
 			.get('#first_name').type('Bob')
