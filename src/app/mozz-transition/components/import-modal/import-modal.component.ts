@@ -26,6 +26,13 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	serverErrors: ServerError[] = [];
 	unverifiedEmails: UnverifiedEmail[] = [];
 	successes = 0;
+	plural = {
+		'badge': {
+			'=0' : 'No Badges',
+			'=1' : '1 Badge',
+			'other' : '# Badges'
+		}
+	};
 
 	constructor(
 		protected formBuilder: FormBuilder,
