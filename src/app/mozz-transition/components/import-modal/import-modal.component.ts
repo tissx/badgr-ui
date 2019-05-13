@@ -60,13 +60,13 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	parseManifest = (m) => {
 		const manifest = JSON.parse(m);
 		Object.keys(manifest).forEach((email) => {
-			const reader = new FileReader();
-			reader.onload = (e) => this.uploadImage(email,reader.result).then(() => {
-				this.inProgress--;
-				// Are we done with only successes?
-				if(!this.inProgress && this.successes && !this.serverErrors && !this.unverifiedEmails) this.displaySucess();
-			});
 			manifest[email].forEach((f) => {
+				const reader = new FileReader();
+				reader.onload = (e) => this.uploadImage(email,reader.result).then(() => {
+					this.inProgress--;
+					// Are we done with only successes?
+					if(!this.inProgress && this.successes && !this.serverErrors && !this.unverifiedEmails) this.displaySucess();
+				});
 				this.inProgress++;
 				const image = this.files.filter(m => m.filename === f)[0];
 				// bad file?
