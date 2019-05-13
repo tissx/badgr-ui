@@ -22,7 +22,7 @@ import {IssuerManager} from '../../services/issuer-manager.service';
 class MockSessionService { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockUserProfileManager { }

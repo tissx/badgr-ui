@@ -21,7 +21,7 @@ class MockSessionService { }
 class MockAppConfigService { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 describe('SignupSuccessComponent', () => {
   let fixture;

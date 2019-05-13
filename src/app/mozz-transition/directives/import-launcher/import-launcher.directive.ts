@@ -2,7 +2,6 @@ import {
 	ComponentFactoryResolver,
 	ComponentRef,
 	Directive,
-	Input,
 	OnInit,
 	ViewContainerRef
 } from '@angular/core';
@@ -21,7 +20,6 @@ export class ImportLauncherDirective implements OnInit{
 	) {}
 
 	modalComponent: ComponentRef<ImportModalComponent>;
-	@Input()
 
 	ngOnInit() {
 		if (localStorage.getItem('signup_source') === 'mozilla' || localStorage.getItem('source') === 'mozilla') this.insert();

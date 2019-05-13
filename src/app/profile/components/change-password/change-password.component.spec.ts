@@ -24,7 +24,7 @@ class MockSessionService { }
 class MockUserProfileManager { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockAppConfigService { }

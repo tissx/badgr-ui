@@ -15,7 +15,7 @@ import {FormBuilder} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {MessageService} from '../../../common/services/message.service';
 import {EventsService} from '../../../common/services/events.service';
-import {BadgeClassManager, BadgeClassManager} from '../../services/badgeclass-manager.service';
+import {BadgeClassManager} from '../../services/badgeclass-manager.service';
 import {IssuerManager} from '../../services/issuer-manager.service';
 import {BadgeInstanceManager} from '../../services/badgeinstance-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
@@ -24,7 +24,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 class MockSessionService { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockMessageService { }

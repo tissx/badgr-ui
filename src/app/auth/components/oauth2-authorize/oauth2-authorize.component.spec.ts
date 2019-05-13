@@ -19,7 +19,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {InitialLoadingIndicatorService} from '../../../common/services/initial-loading-indicator.service';
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockMessageService { }

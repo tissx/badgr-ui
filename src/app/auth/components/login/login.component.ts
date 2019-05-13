@@ -9,6 +9,7 @@ import {MessageService} from '../../../common/services/message.service';
 import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
 import { DomSanitizer, Title } from '@angular/platform-browser';
 import {FormFieldText} from '../../../common/components/formfield-text';
+
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import {OAuthManager} from '../../../common/services/oauth-manager.service';
 import {ExternalToolsManager} from '../../../externaltools/services/externaltools-manager.service';

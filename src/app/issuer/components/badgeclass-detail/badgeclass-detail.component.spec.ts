@@ -37,7 +37,7 @@ class MockBadgeInstanceManager { }
 class MockSessionService { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockCommonDialogsService { }

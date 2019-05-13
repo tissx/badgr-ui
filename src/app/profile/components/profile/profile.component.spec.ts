@@ -21,7 +21,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {OAuthApiService} from '../../../common/services/oauth-api.service';
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockSessionService { }

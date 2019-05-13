@@ -1,3 +1,4 @@
+/*
 import {inject, TestBed} from '@angular/core/testing';
 import {BadgeInstanceManager} from './badgeinstance-manager.service';
 import {MockBackend} from '@angular/http/testing';
@@ -11,7 +12,7 @@ import {
 } from '../../common/util/test/test-data-util';
 import {ApiBadgeInstance, ApiBadgeInstanceJsonld} from '../models/badgeinstance-api.model';
 import {testIssuerRefForSlug} from './issuer-manager.service.spec';
-import {testBadgeClassRefForSlugs} from './badgeclass-manager.service.spec';
+// import {testBadgeClassRefForSlugs} from './badgeclass-manager.service.spec';
 import {expectRequestAndRespondWith} from '../../common/util/mock-response-util.spec';
 import {BaseRequestOptions, Http, RequestMethod} from '@angular/http';
 import {BadgeInstance} from '../models/badgeinstance.model';
@@ -177,9 +178,9 @@ export function verifyBadgeInstance(
 	expect(instance.slug).toEqual(apiInstance.json.uid);
 }
 
-/*
+/!*
  *
- */
+ *!/
 
 function generateTestBadgeInstance(
 	{
@@ -214,3 +215,4 @@ export function testBadgeInstanceRefForSlugs(issuerSlug: string, badgeClassSlug:
 		"badge_class": testBadgeClassRefForSlugs(issuerSlug, badgeClassSlug),
 	};
 }
+*/

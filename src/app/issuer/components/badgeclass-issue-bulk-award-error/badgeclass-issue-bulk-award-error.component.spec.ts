@@ -22,7 +22,7 @@ class MockSessionService { }
 class MockMessageService { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 describe('BadgeclassIssueBulkAwardError', () => {
   let fixture;

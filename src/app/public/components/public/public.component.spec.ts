@@ -14,7 +14,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {AppConfigService} from '../../../common/app-config.service';
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockAppConfigService { }

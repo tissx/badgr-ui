@@ -13,7 +13,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {SessionService} from '../../../common/services/session.service';
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockSessionService { }

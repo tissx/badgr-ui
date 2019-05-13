@@ -19,7 +19,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockSessionService { }

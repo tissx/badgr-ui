@@ -12,7 +12,7 @@ import {ForwardRouteComponent} from './forward-route.component';
 import {Router, ActivatedRoute} from '@angular/router';
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 describe('ForwardRouteComponent', () => {
   let fixture;

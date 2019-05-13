@@ -21,7 +21,7 @@ import {ExternalToolsManager} from '../../../externaltools/services/externaltool
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockSessionService { }

@@ -20,7 +20,7 @@ import {MessageService} from '../../../common/services/message.service';
 class MockSessionService { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockAppConfigService { }

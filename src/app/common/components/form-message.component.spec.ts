@@ -10,14 +10,25 @@ import { By } from '@angular/platform-browser';
 import {Component, Directive, ElementRef} from '@angular/core';
 import {FormMessageComponent} from './form-message.component';
 import {MessageService} from '../services/message.service';
-import {Router} from '@angular/router';
+import { Data, Router } from '@angular/router';
 import {EventsService} from '../services/events.service';
+import { Subject } from "rxjs";
+import { ApiExternalToolLaunchInfo } from "../../externaltools/models/externaltools-api.model";
 
 @Injectable()
-class MockMessageService { }
+class MockMessageService {
+	subscribe = (fn: (value: Data) => void) => fn({});
+	unsubscribe = (fn: (value: Data) => void) => fn({});
+	dismissMessage = () => {};
+	getMessage = () => {};
+	message$ = {
+		subscribe : (fn: (value: Data) => void) => fn({}),
+		unsubscribe : (fn: (value: Data) => void) => fn({}),
+	};
+}
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 @Injectable()
 class MockElementRef {
@@ -25,11 +36,22 @@ class MockElementRef {
   nativeElement = {}
 }
 @Injectable()
-class MockEventsService { }
+class MockEventsService {
+	subscribe = (fn: (value: Event) => void) => fn(new  Event('click'));
+	unsubscribe = (fn: (value: Data) => void) => fn({});
+	profileEmailsChanged = {subscribe : (fn: (value: Data) => void) => fn({})};
+	recipientBadgesStale = {subscribe : (fn: (value: Data) => void) => fn({})};
+	documentClicked = new Subject<MouseEvent>();
+	/*documentClicked = {
+		subscribe : (fn: (value: MouseEvent) => void) => fn(new MouseEvent('click')),
+		unsubscribe : (fn: (value: Data) => void) => fn({}),
+	};*/
+	externalToolLaunch = {subscribe : (fn: (value: Data) => void) => fn({})};
+}
 
-(<any>window).Notification = jest.fn();
+// (<any>window).Notification = jest.fn();
 
-describe('FormMessageComponent', () => {
+fdescribe('FormMessageComponent', () => {
   let fixture;
   let component;
 
@@ -55,27 +77,27 @@ describe('FormMessageComponent', () => {
   });
 
   it('should run #ngOnDestroy()', async () => {
-    // const result = component.ngOnDestroy();
+    const result = component.ngOnDestroy();
   });
 
   it('should run #ngOnInit()', async () => {
-    // const result = component.ngOnInit();
+    const result = component.ngOnInit();
   });
 
   it('should run #onDocumentClick()', async () => {
-    // const result = component.onDocumentClick(ev);
+    const result = component.onDocumentClick(new MouseEvent('click'));
   });
 
   it('should run #toNotification()', async () => {
-    // const result = component.toNotification(status);
+    const result = component.toNotification('status');
   });
 
   it('should run #setMessage()', async () => {
-    // const result = component.setMessage(message);
+    const result = component.setMessage('message');
   });
 
   it('should run #dismissMessage()', async () => {
-    // const result = component.dismissMessage();
+    const result = component.dismissMessage();
   });
 
 });

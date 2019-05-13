@@ -2,21 +2,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { By } from '@angular/platform-browser';
+import { By, Title } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
 // import 'rxjs/add/observable/throw';
 
 import {Component, Directive} from '@angular/core';
 import {BadgeClassIssueComponent} from './badgeclass-issue.component';
-import {Title, MessageService, EventsService, IssuerManager, BadgeClassManager, BadgeInstanceManager, CommonDialogsService, SessionService, Router, ActivatedRoute} from 'striptags';
+// import {Title, MessageService, EventsService, IssuerManager, BadgeClassManager, BadgeInstanceManager, CommonDialogsService, SessionService, Router, ActivatedRoute} from 'striptags';
 import {AppConfigService} from '../../../common/app-config.service';
+import { MessageService } from "../../../common/services/message.service";
+import { EventsService } from "../../../common/services/events.service";
+import { IssuerManager } from "../../services/issuer-manager.service";
+import { BadgeClassManager } from "../../services/badgeclass-manager.service";
+import { BadgeInstanceManager } from "../../services/badgeinstance-manager.service";
+import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
+import { SessionService } from "../../../common/services/session.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Injectable()
 class MockAppConfigService { }
 
 @Injectable()
-class MockRouter { navigate = jest.fn(); }
+class MockRouter { /*navigate = jest.fn();*/ }
 
 describe('BadgeClassIssueComponent', () => {
   let fixture;
