@@ -151,7 +151,7 @@
 					</ng-template>
 
 					<!-- no badges + earn a badge -->
-					<ng-template [ngIf]="!successes && !unverifiedEmails.length && serverErrors.length">
+					<ng-template [ngIf]="!successes && !unverifiedEmails.length && serverErrors.length && !inProgress" >
 						<div class="l-flex l-flex-1x">
 							<svg class="icon icon-error" icon="icon_error"></svg>
 							<p class="u-text-body-bold u-text-dark1">No Badges will be added.</p>
@@ -168,7 +168,7 @@
 							<h3 class="u-text-small-bold u-text-center">But Wait!</h3>
 							<p class="u-text-small u-text-center u-margin-bottom2x">You can earn a badge in less than 5 min. Promise.</p>
 
-							<button class="button button-small">Earn a Badge</button>
+							<a href="//explore.badgr.io/" class="button button-small">Earn a Badge</a>
 						</div>
 					</ng-template>
 

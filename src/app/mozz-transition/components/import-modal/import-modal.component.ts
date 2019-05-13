@@ -147,12 +147,23 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 
 	verifyEmails(){
 		const verify = this.unverifiedEmails.filter(email => email.verify);
+		let successes = 0;
+		let errors = 0;
 		Promise.all([verify
 			.forEach(email => {
-				this.userProfileApiService.addEmail(email.email);
+				this.userProfileApiService.addEmail(email.email)
+					.then((data) => {
+						successes++;
+						console.log(data);
+					})
+					.catch((data) => {
+						errors++;
+						console.error(data);
+					});
 				email.base64Files.forEach((base64File) => this.uploadImage(email.email, base64File));
 			})]).then(() => {
-				this.messageService.reportMajorSuccess( `${verify.length} email ${(verify.length>1)?'addresses':'address'} to be verified.`);
+				if(successes) this.messageService.reportMajorSuccess( `${successes} email ${(verify.length>1)?'addresses':'address'} will be verified.`);
+				if(errors) this.messageService.reportAndThrowError( `${errors} email ${(verify.length>1)?'addresses':'address'} can not be verified.`);
 				this.closeDialog();
 			});
 	}
