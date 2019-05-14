@@ -149,22 +149,26 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		const verify = this.unverifiedEmails.filter(email => email.verify);
 		let successes = 0;
 		let errors = 0;
-		Promise.all([verify
-			.forEach(email => {
-				this.userProfileApiService.addEmail(email.email)
+		const reupBadges = [];
+		Promise.all(verify
+			.map(email => {
+				return this.userProfileApiService.addEmail(email.email)
 					.then((data) => {
 						successes++;
-						console.log(data);
+						reupBadges.push(email);
+						email.base64Files.forEach((base64File) => this.uploadImage(email.email, base64File));
 					})
-					.catch((data) => {
+					.catch((error) => {
 						errors++;
-						console.error(data);
+						return;
 					});
-				email.base64Files.forEach((base64File) => this.uploadImage(email.email, base64File));
-			})]).then(() => {
-				if(successes) this.messageService.reportMajorSuccess( `${successes} email ${(verify.length>1)?'addresses':'address'} will be verified.`);
-				if(errors) this.messageService.reportAndThrowError( `${errors} email ${(verify.length>1)?'addresses':'address'} can not be verified.`);
+			})
+		).finally(() => {
+				console.log('finally!!!');
 				this.closeDialog();
+				if(successes) this.messageService.reportMajorSuccess( `${successes} email ${(successes>1)?'addresses':'address'} will be verified.`);
+				if(errors) this.messageService.reportAndThrowError( `${errors} email ${(errors>1)?'addresses':'address'} can not be verified.`);
+				reupBadges.forEach((email) => email.base64File.forEach((base64File) => this.uploadImage(email.email, base64File)));
 			});
 	}
 
