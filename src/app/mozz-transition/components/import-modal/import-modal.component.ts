@@ -164,7 +164,6 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 					});
 			})
 		).finally(() => {
-				console.log('finally!!!');
 				this.closeDialog();
 				if(successes) this.messageService.reportMajorSuccess( `${successes} email ${(successes>1)?'addresses':'address'} will be verified.`);
 				if(errors) this.messageService.reportAndThrowError( `${errors} email ${(errors>1)?'addresses':'address'} can not be verified.`);
