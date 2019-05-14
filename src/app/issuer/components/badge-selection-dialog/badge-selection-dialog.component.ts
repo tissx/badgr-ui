@@ -338,7 +338,7 @@ export class BadgeSelectionDialog extends BaseDialog {
 			.then(
 				([badgesByIssuer, allBadges, issuers]) => this.updateBadges(badgesByIssuer, allBadges, issuers),
 				failure => this.messageService.reportAndThrowError(
-					"Failed to load issuer and badge class list.", failure
+					"Failed to load issuer and badge list.", failure
 				)
 			);
 	}
