@@ -111,7 +111,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Alignments
 	alignmentsEnabled = false;
-	savedAlignments: SavedAlignment[] | null = null;
 	showAdvanced: boolean[] = [false];
 
 	constructor(
@@ -215,11 +214,6 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 
 	enableAlignments() {
 		this.alignmentsEnabled = true;
-
-		if (this.savedAlignments) {
-			this.badgeClassForm.controls.alignments.setValue(this.savedAlignments);
-		}
-
 		if (this.badgeClassForm.controls.alignments.length === 0) {
 			this.addAlignment();
 		}
@@ -229,12 +223,17 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		this.badgeClassForm.controls.alignments.addFromTemplate();
 	}
 
-	disableAlignments() {
+	async disableAlignments() {
+		const isPlural = this.badgeClassForm.value.alignments.length > 1;
+		if (!await this.dialogService.confirmDialog.openTrueFalseDialog({
+			dialogTitle: `Remove Alignment${isPlural ? 's' : ''}?`,
+			dialogBody: `Are you sure you want to remove ${isPlural ? "these alignments?" : "this alignment?"} This action cannot be undone.`,
+			resolveButtonLabel: 'Remove',
+			rejectButtonLabel: 'Cancel'
+		})) return;
 		this.alignmentsEnabled = false;
-
-		// Save the alignments so that they aren't validated after being removed, but can be restored if the user chooses to enable alignments again
-		this.savedAlignments = this.badgeClassForm.controls.alignments.value;
-		this.badgeClassForm.controls.alignments.reset();
+		this.badgeClassForm.setValue(
+				{...this.badgeClassForm.value, alignments: []});
 	}
 
 	async removeAlignment(alignment: this['badgeClassForm']['controls']['alignments']['controls'][0]) {
@@ -351,10 +350,3 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 	}
 }
 
-interface SavedAlignment {
-	target_name: string;
-	target_url: string;
-	target_description: string;
-	target_framework: string;
-	target_code: string;
-}
