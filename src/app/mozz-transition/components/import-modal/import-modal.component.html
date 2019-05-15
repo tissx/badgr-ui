@@ -128,10 +128,8 @@
 						<p class="u-text u-margin-top1x">
 							We also found badges awarded to the following email addresses. You'll need to verify these email addresses before you can import the badges.
 						</p>
-						<div
-							*ngFor="let email of unverifiedEmails; let i = index"
-							class="l-flex l-flex-column u-background-light3 border borderradius u-padding-all2x u-margin-top2x">
-							<div class="l-flex l-flex-justifybetween u-margin-bottom2x">
+						<div class="u-background-light3 border borderradius u-padding-xaxis2x u-padding-top2x u-padding-bottom1x u-margin-top2x">
+							<div class="l-flex l-flex-justifybetween u-margin-bottom1x" *ngFor="let email of unverifiedEmails; let i = index" >
 								<label class="checkbox">
 									<input
 										[name]="'email-'+i"
