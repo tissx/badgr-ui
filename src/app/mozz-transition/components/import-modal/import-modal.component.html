@@ -86,15 +86,15 @@
 					</ng-template>
 
 					<form
-						[formGroup]="csvForm"
+						[attr.formGroup]="csvForm"
 						*ngIf="!inProgress"
 					>
 						<fieldset>
 							<bg-formfield-file
 								#zipFileField
-								[name]="'ZipFile'"
+								[attr.name]="'ZipFile'"
 								label="ZipFile"
-								[validFileTypes]="'application/octet-stream, .zip'"
+								[attr.validFileTypes]="'application/octet-stream, .zip'"
 								[control]="csvForm.controls['zipFile']"
 								[placeholderImage]="csvUploadIconUrl"
 								(change)="fileChanged($event)"

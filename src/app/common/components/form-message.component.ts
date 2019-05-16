@@ -62,7 +62,9 @@ export class FormMessageComponent implements OnInit, OnDestroy {
 		this.subscription = this.messageService.message$.subscribe((message) => {
 			this.setMessage(message);
 		});
-		this.clickSubscription = this.eventService.documentClicked.subscribe(e => this.onDocumentClick(e));
+		this.clickSubscription = this.eventService.documentClicked.subscribe(e => {
+			this.onDocumentClick(e);
+		});
 	}
 
 	ngOnDestroy() {

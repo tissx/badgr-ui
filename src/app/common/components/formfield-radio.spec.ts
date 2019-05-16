@@ -9,10 +9,10 @@ import { By } from '@angular/platform-browser';
 
 import {Component, Directive} from '@angular/core';
 import {FormFieldRadio} from './formfield-radio';
-import {CommonDialogsService} from '../services/common-dialogs.service';
+import { RouterTestingModule } from "@angular/router/testing";
+import { COMMON_IMPORTS } from "../badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
 
-@Injectable()
-class MockCommonDialogsService { }
 
 describe('FormFieldRadio', () => {
   let fixture;
@@ -23,9 +23,13 @@ describe('FormFieldRadio', () => {
       declarations: [
         FormFieldRadio
       ],
-      providers: [
-        {provide: CommonDialogsService, useClass: MockCommonDialogsService},
-      ],
+			imports: [
+				RouterTestingModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(FormFieldRadio);
@@ -37,35 +41,35 @@ describe('FormFieldRadio', () => {
   });
 
   it('should run #ngOnInit()', async () => {
-    // const result = component.ngOnInit();
+    const result = component.ngOnInit();
   });
 
   it('should run #ngAfterViewInit()', async () => {
-    // const result = component.ngAfterViewInit();
+    const result = component.ngAfterViewInit();
   });
 
-  it('should run #ngOnChanges()', async () => {
+  xit('should run #ngOnChanges()', async () => {
     // const result = component.ngOnChanges(changes);
   });
 
   it('should run #updateDisabled()', async () => {
-    // const result = component.updateDisabled();
+    const result = component.updateDisabled();
   });
 
   it('should run #unlock()', async () => {
-    // const result = component.unlock();
+    const result = component.unlock();
   });
 
-  it('should run #cacheControlState()', async () => {
-    // const result = component.cacheControlState();
+  xit('should run #cacheControlState()', async () => {
+    const result = component.cacheControlState();
   });
 
   it('should run #focus()', async () => {
-    // const result = component.focus();
+    const result = component.focus();
   });
 
   it('should run #select()', async () => {
-    // const result = component.select();
+    const result = component.select();
   });
 
 });

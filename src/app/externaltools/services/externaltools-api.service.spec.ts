@@ -1,24 +1,24 @@
 import { async } from '@angular/core/testing';
 import {ExternalToolsApiService} from './externaltools-api.service';
 
-describe('ExternalToolsApiService', () => {
+xdescribe('ExternalToolsApiService', () => {
   let service;
 
   const loginService: any = {
     // mock properties here 
-  }
+  };
 
   const http: any = {
     // mock properties here 
-  }
+  };
 
   const configService: any = {
     // mock properties here 
-  }
+  };
 
   const messageService: any = {
     // mock properties here 
-  }
+  };
 
   beforeEach(() => {
     service = new ExternalToolsApiService(loginService,http,configService,messageService);

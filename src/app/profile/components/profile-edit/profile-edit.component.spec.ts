@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -17,24 +17,9 @@ import {MessageService} from '../../../common/services/message.service';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockUserProfileManager { }
-
-@Injectable()
-class MockAppConfigService { }
-
-@Injectable()
-class MockCommonDialogsService { }
+import { RouterTestingModule } from "@angular/router/testing";
+import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
 
 describe('ProfileEditComponent', () => {
   let fixture;
@@ -45,17 +30,14 @@ describe('ProfileEditComponent', () => {
       declarations: [
         ProfileEditComponent
       ],
-      providers: [
-        {provide: Router, useClass: MockRouter},
-        ActivatedRoute,
-        {provide: SessionService, useClass: MockSessionService},
-        FormBuilder,
-        Title,
-        {provide: MessageService, useClass: MockMessageService},
-        {provide: UserProfileManager, useClass: MockUserProfileManager},
-        {provide: AppConfigService, useClass: MockAppConfigService},
-        {provide: CommonDialogsService, useClass: MockCommonDialogsService},
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(ProfileEditComponent);
@@ -67,11 +49,11 @@ describe('ProfileEditComponent', () => {
   });
 
   it('should run #startEditing()', async () => {
-    // const result = component.startEditing();
+    const result = component.startEditing();
   });
 
   it('should run #submitEdit()', async () => {
-    // const result = component.submitEdit();
+    const result = component.submitEdit();
   });
 
 });

@@ -7,21 +7,11 @@ import { By } from '@angular/platform-browser';
 // import 'rxjs/add/observable/of';
 // import 'rxjs/add/observable/throw';
 
-import {Component, Directive} from '@angular/core';
 import {RequestPasswordResetComponent} from './request-password-reset.component';
 import {FormBuilder} from '@angular/forms';
-import {SessionService} from '../../../common/services/session.service';
-import {MessageService} from '../../../common/services/message.service';
-import {ActivatedRoute, Router} from '@angular/router';
-
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 
 describe('RequestPasswordResetComponent', () => {
   let fixture;
@@ -29,15 +19,17 @@ describe('RequestPasswordResetComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+			imports: [
+				RouterTestingModule,
+				BadgrCommonModule,
+				...COMMON_IMPORTS,
+			],
+			declarations: [
         RequestPasswordResetComponent
       ],
       providers: [
         FormBuilder,
-        {provide: SessionService, useClass: MockSessionService},
-        {provide: MessageService, useClass: MockMessageService},
-        ActivatedRoute,
-        {provide: Router, useClass: MockRouter},
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
@@ -50,11 +42,11 @@ describe('RequestPasswordResetComponent', () => {
   });
 
   it('should run #ngOnInit()', async () => {
-    // const result = component.ngOnInit();
+    const result = component.ngOnInit();
   });
 
   it('should run #submitResetRequest()', async () => {
-    // const result = component.submitResetRequest();
+    const result = component.submitResetRequest();
   });
 
 });

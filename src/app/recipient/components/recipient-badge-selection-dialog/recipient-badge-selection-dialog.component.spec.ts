@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -12,20 +12,10 @@ import {RecipientBadgeSelectionDialog} from './recipient-badge-selection-dialog.
 import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
 import {MessageService} from '../../../common/services/message.service';
 import {SettingsService} from '../../../common/services/settings.service';
-
-@Injectable()
-class MockElementRef {
-  // constructor() { super(undefined); }
-  nativeElement = {}
-}
-@Injectable()
-class MockRecipientBadgeManager { }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockSettingsService { }
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { FormsModule } from "@angular/forms";
 
 describe('RecipientBadgeSelectionDialog', () => {
   let fixture;
@@ -36,13 +26,16 @@ describe('RecipientBadgeSelectionDialog', () => {
       declarations: [
         RecipientBadgeSelectionDialog
       ],
-      providers: [
-        {provide: ElementRef, useClass: MockElementRef},
-        Renderer2,
-        {provide: RecipientBadgeManager, useClass: MockRecipientBadgeManager},
-        {provide: MessageService, useClass: MockMessageService},
-        {provide: SettingsService, useClass: MockSettingsService},
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				FormsModule,
+				BadgrCommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(RecipientBadgeSelectionDialog);
@@ -53,44 +46,44 @@ describe('RecipientBadgeSelectionDialog', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should run #openDialog()', async () => {
+  xit('should run #openDialog()', async () => {
     // const result = component.openDialog({ dialogId, dialogTitle, multiSelectMode, restrictToIssuerId, omittedCollection });
   });
 
   it('should run #cancelDialog()', async () => {
-    // const result = component.cancelDialog();
+    const result = component.cancelDialog();
   });
 
   it('should run #saveDialog()', async () => {
-    // const result = component.saveDialog();
+    const result = component.saveDialog();
   });
 
-  it('should run #updateBadgeSelection()', async () => {
+  xit('should run #updateBadgeSelection()', async () => {
     // const result = component.updateBadgeSelection(badgeClass, select);
   });
 
   it('should run #applySorting()', async () => {
-    // const result = component.applySorting();
+    const result = component.applySorting();
   });
 
   it('should run #loadSettings()', async () => {
-    // const result = component.loadSettings();
+    const result = component.loadSettings();
   });
 
   it('should run #saveSettings()', async () => {
-    // const result = component.saveSettings();
+    const result = component.saveSettings();
   });
 
   it('should run #updateData()', async () => {
-    // const result = component.updateData();
+    const result = component.updateData();
   });
 
-  it('should run #updateBadges()', async () => {
+  xit('should run #updateBadges()', async () => {
     // const result = component.updateBadges(allBadges);
   });
 
   it('should run #updateResults()', async () => {
-    // const result = component.updateResults();
+    const result = component.updateResults();
   });
 
 });

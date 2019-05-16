@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -19,30 +19,9 @@ import {CommonDialogsService} from '../../../common/services/common-dialogs.serv
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {OAuthApiService} from '../../../common/services/oauth-api.service';
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockUserProfileManager { }
-
-@Injectable()
-class MockCommonDialogsService { }
-
-@Injectable()
-class MockQueryParametersService { }
-
-@Injectable()
-class MockAppConfigService { }
-
-@Injectable()
-class MockOAuthApiService { }
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe('ProfileComponent', () => {
   let fixture;
@@ -53,20 +32,14 @@ describe('ProfileComponent', () => {
       declarations: [
         ProfileComponent
       ],
-      providers: [
-        {provide: Router, useClass: MockRouter},
-        ActivatedRoute,
-        {provide: SessionService, useClass: MockSessionService},
-        FormBuilder,
-        Title,
-        {provide: MessageService, useClass: MockMessageService},
-        {provide: UserProfileManager, useClass: MockUserProfileManager},
-        {provide: CommonDialogsService, useClass: MockCommonDialogsService},
-        {provide: QueryParametersService, useClass: MockQueryParametersService},
-        {provide: AppConfigService, useClass: MockAppConfigService},
-        {provide: OAuthApiService, useClass: MockOAuthApiService},
-        DomSanitizer,
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(ProfileComponent);
@@ -78,34 +51,34 @@ describe('ProfileComponent', () => {
   });
 
   it('should run #sanitize()', async () => {
-    // const result = component.sanitize(url);
+    const result = component.sanitize('url');
   });
 
   it('should run #ngOnInit()', async () => {
-    // const result = component.ngOnInit();
+    const result = component.ngOnInit();
   });
 
   it('should run #ngOnDestroy()', async () => {
-    // component.ngOnDestroy();
+    component.ngOnDestroy();
   });
 
-  it('should run #unlinkAccount()', async () => {
+  xit('should run #unlinkAccount()', async () => {
     // const result = component.unlinkAccount($event, socialAccount, accountsNum);
   });
 
-  it('should run #linkAccount()', async () => {
+  xit('should run #linkAccount()', async () => {
     // const result = component.linkAccount($event, info);
   });
 
-  it('should run #submitEmailForm()', async () => {
-    // const result = component.submitEmailForm();
+  xit('should run #submitEmailForm()', async () => {
+    const result = component.submitEmailForm();
   });
 
-  it('should run #clickConfirmRemove()', async () => {
+  xit('should run #clickConfirmRemove()', async () => {
     // const result = component.clickConfirmRemove(ev, email);
   });
 
-  it('should run #clickRemove()', async () => {
+  xit('should run #clickRemove()', async () => {
     // const result = component.clickRemove(ev, email);
   });
 
@@ -113,7 +86,7 @@ describe('ProfileComponent', () => {
     // const result = component.clickMakePrimary(ev, email);
   });
 
-  it('should run #clickResendVerification()', async () => {
+  xit('should run #clickResendVerification()', async () => {
     // const result = component.clickResendVerification(ev, email);
   });
 

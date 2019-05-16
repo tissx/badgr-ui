@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -17,27 +17,9 @@ import {AppIntegrationManager} from '../../services/app-integration-manager.serv
 import {OAuthManager} from '../../../common/services/oauth-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
-
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockAppIntegrationManager { }
-
-@Injectable()
-class MockOAuthManager { }
-
-@Injectable()
-class MockAppConfigService { }
-
-@Injectable()
-class MockCommonDialogsService { }
+import { RouterTestingModule } from "@angular/router/testing";
+import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
 
 describe('AppIntegrationListComponent', () => {
   let fixture;
@@ -48,17 +30,14 @@ describe('AppIntegrationListComponent', () => {
       declarations: [
         AppIntegrationListComponent
       ],
-      providers: [
-        {provide: SessionService, useClass: MockSessionService},
-        {provide: Router, useClass: MockRouter},
-        ActivatedRoute,
-        Title,
-        {provide: MessageService, useClass: MockMessageService},
-        {provide: AppIntegrationManager, useClass: MockAppIntegrationManager},
-        {provide: OAuthManager, useClass: MockOAuthManager},
-        {provide: AppConfigService, useClass: MockAppConfigService},
-        {provide: CommonDialogsService, useClass: MockCommonDialogsService},
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(AppIntegrationListComponent);
@@ -70,10 +49,10 @@ describe('AppIntegrationListComponent', () => {
   });
 
   it('should run #ngOnInit()', async () => {
-    // const result = component.ngOnInit();
+    const result = component.ngOnInit();
   });
 
-  it('should run #revokeApp()', async () => {
+  xit('should run #revokeApp()', async () => {
     // const result = component.revokeApp(app);
   });
 

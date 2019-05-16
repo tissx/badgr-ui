@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -11,12 +11,9 @@ import {Component, Directive} from '@angular/core';
 import {BadgeImageComponent} from './badge-image.component';
 import {BadgeClassManager} from '../../issuer/services/badgeclass-manager.service';
 import {MessageService} from '../services/message.service';
-
-@Injectable()
-class MockBadgeClassManager { }
-
-@Injectable()
-class MockMessageService { }
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../badgr-common.module";
 
 describe('BadgeImageComponent', () => {
   let fixture;
@@ -27,9 +24,13 @@ describe('BadgeImageComponent', () => {
       declarations: [
         BadgeImageComponent
       ],
-      providers: [
-        {provide: BadgeClassManager, useClass: MockBadgeClassManager},
-        {provide: MessageService, useClass: MockMessageService},
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();

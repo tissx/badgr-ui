@@ -79,7 +79,7 @@ const DIRECTIVES = [
 	BgPopupMenuTriggerDirective,
 ];
 
-const COMPONENTS = [
+export const COMMON_MODULE_COMPONENTS = [
 	BadgeImageComponent,
 	BadgrButtonComponent,
 	BgFormFieldFileComponent,
@@ -157,19 +157,19 @@ export const COMMON_IMPORTS = [
 	],
 	declarations: [
 		...DIRECTIVES,
-		...COMPONENTS,
+		...COMMON_MODULE_COMPONENTS,
 		...PIPES,
 		ForwardRouteComponent
 	],
 	exports: [
 		...DIRECTIVES,
-		...COMPONENTS,
+		...COMMON_MODULE_COMPONENTS,
 		...PIPES,
 	],
 	entryComponents: [
 		// Allows the dynamic creation of our components using the ComponentFactoryProvider. This is used in structural
 		// directives like BgAwaitPromises. See https://github.com/angular/angular/issues/10735 for details.
-		...COMPONENTS
+		...COMMON_MODULE_COMPONENTS
 	],
 	/*providers: [
 		...SERVICES,

@@ -7,16 +7,10 @@ import { By } from '@angular/platform-browser';
 // import 'rxjs/add/observable/of';
 // import 'rxjs/add/observable/throw';
 
-import {Component, Directive} from '@angular/core';
 import {LogoutComponent} from './logout.component';
-import {Router, ActivatedRoute} from '@angular/router';
-import {SessionService} from '../../../common/services/session.service';
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockSessionService { }
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 
 describe('LogoutComponent', () => {
   let fixture;
@@ -27,11 +21,14 @@ describe('LogoutComponent', () => {
       declarations: [
         LogoutComponent
       ],
-      providers: [
-        {provide: Router, useClass: MockRouter},
-        ActivatedRoute,
-        {provide: SessionService, useClass: MockSessionService},
-      ],
+			imports: [
+				RouterTestingModule,
+				BadgrCommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(LogoutComponent);
@@ -42,8 +39,8 @@ describe('LogoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should run #ngOnInit()', async () => {
-    // const result = component.ngOnInit();
+  xit('should run #ngOnInit()', async () => {
+    const result = component.ngOnInit();
   });
 
 });

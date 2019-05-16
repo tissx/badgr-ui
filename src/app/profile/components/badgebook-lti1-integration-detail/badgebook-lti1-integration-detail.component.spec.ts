@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -15,21 +15,9 @@ import {Title} from '@angular/platform-browser';
 import {MessageService} from '../../../common/services/message.service';
 import {AppIntegrationManager} from '../../services/app-integration-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
-
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockAppIntegrationManager { }
-
-@Injectable()
-class MockAppConfigService { }
+import { RouterTestingModule } from "@angular/router/testing";
+import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
 
 describe('BadgebookLti1DetailComponent', () => {
   let fixture;
@@ -40,15 +28,14 @@ describe('BadgebookLti1DetailComponent', () => {
       declarations: [
         BadgebookLti1DetailComponent
       ],
-      providers: [
-        {provide: SessionService, useClass: MockSessionService},
-        ActivatedRoute,
-        {provide: Router, useClass: MockRouter},
-        Title,
-        {provide: MessageService, useClass: MockMessageService},
-        {provide: AppIntegrationManager, useClass: MockAppIntegrationManager},
-        {provide: AppConfigService, useClass: MockAppConfigService},
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(BadgebookLti1DetailComponent);

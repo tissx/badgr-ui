@@ -10,15 +10,10 @@ import { By } from '@angular/platform-browser';
 import {Component, Directive, ElementRef} from '@angular/core';
 import {FormFieldSelect} from './formfield-select';
 import {CommonDialogsService} from '../services/common-dialogs.service';
+import { RouterTestingModule } from "@angular/router/testing";
+import { COMMON_IMPORTS } from "../badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
 
-@Injectable()
-class MockCommonDialogsService { }
-
-@Injectable()
-class MockElementRef {
-  // constructor() { super(undefined); }
-  nativeElement = {}
-}
 describe('FormFieldSelect', () => {
   let fixture;
   let component;
@@ -28,10 +23,13 @@ describe('FormFieldSelect', () => {
       declarations: [
         FormFieldSelect
       ],
-      providers: [
-        {provide: CommonDialogsService, useClass: MockCommonDialogsService},
-        {provide: ElementRef, useClass: MockElementRef},
-      ],
+			imports: [
+				RouterTestingModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(FormFieldSelect);
@@ -43,35 +41,35 @@ describe('FormFieldSelect', () => {
   });
 
   it('should run #ngAfterViewInit()', async () => {
-    // const result = component.ngAfterViewInit();
+    const result = component.ngAfterViewInit();
   });
 
-  it('should run #ngOnChanges()', async () => {
+  xit('should run #ngOnChanges()', async () => {
     // const result = component.ngOnChanges(changes);
   });
 
   it('should run #updateDisabled()', async () => {
-    // const result = component.updateDisabled();
+    const result = component.updateDisabled();
   });
 
   it('should run #unlock()', async () => {
-    // const result = component.unlock();
+    const result = component.unlock();
   });
 
-  it('should run #cacheControlState()', async () => {
-    // const result = component.cacheControlState();
+  xit('should run #cacheControlState()', async () => {
+    const result = component.cacheControlState();
   });
 
   it('should run #focus()', async () => {
-    // const result = component.focus();
+    const result = component.focus();
   });
 
-  it('should run #select()', async () => {
-    // const result = component.select();
+  xit('should run #select()', async () => {
+    const result = component.select();
   });
 
   it('should run #handleKeyPress()', async () => {
-    // const result = component.handleKeyPress(event);
+    const result = component.handleKeyPress(event);
   });
 
 });

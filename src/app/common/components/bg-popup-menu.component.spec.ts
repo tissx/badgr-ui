@@ -9,13 +9,16 @@ import { By } from '@angular/platform-browser';
 
 import {Component, Directive, ElementRef, Renderer2, NgZone} from '@angular/core';
 import {BgPopupMenu} from './bg-popup-menu.component';
+import { RouterTestingModule } from "@angular/router/testing";
+import { COMMON_IMPORTS } from "../badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
 
 @Injectable()
 class MockElementRef {
   // constructor() { super(undefined); }
   nativeElement = {}
 }
-describe('BgPopupMenu', () => {
+xdescribe('BgPopupMenu', () => {
   let fixture;
   let component;
 
@@ -24,10 +27,15 @@ describe('BgPopupMenu', () => {
       declarations: [
         BgPopupMenu
       ],
-      providers: [
-        {provide: ElementRef, useClass: MockElementRef},
+			imports: [
+				RouterTestingModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+        //{provide: ElementRef, useClass: MockElementRef},
         Renderer2,
-        NgZone,
+        // NgZone,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
@@ -39,32 +47,32 @@ describe('BgPopupMenu', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should run #open()', async () => {
+  xit('should run #open()', async () => {
     // const result = component.open(triggerElem);
   });
 
   it('should run #close()', async () => {
-    // const result = component.close();
+    const result = component.close();
   });
 
-  it('should run #toggle()', async () => {
+  xit('should run #toggle()', async () => {
     // const result = component.toggle(triggerElem);
   });
 
   it('should run #ngAfterViewInit()', async () => {
-    // component.ngAfterViewInit();
+    component.ngAfterViewInit();
   });
 
   it('should run #ngOnDestroy()', async () => {
-    // component.ngOnDestroy();
+    component.ngOnDestroy();
   });
 
   it('should run #handleClick()', async () => {
-    // const result = component.handleClick(event);
+    const result = component.handleClick(event);
   });
 
   it('should run #hideElem()', async () => {
-    // const result = component.hideElem();
+    const result = component.hideElem();
   });
 
 });

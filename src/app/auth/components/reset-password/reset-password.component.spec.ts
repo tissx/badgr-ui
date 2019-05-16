@@ -15,18 +15,9 @@ import {SessionService} from '../../../common/services/session.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppConfigService} from '../../../common/app-config.service';
 import {MessageService} from '../../../common/services/message.service';
-
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockAppConfigService { }
-
-@Injectable()
-class MockMessageService { }
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
 
 describe('ResetPasswordComponent', () => {
   let fixture;
@@ -37,15 +28,16 @@ describe('ResetPasswordComponent', () => {
       declarations: [
         ResetPasswordComponent
       ],
-      providers: [
-        FormBuilder,
-        Title,
-        {provide: SessionService, useClass: MockSessionService},
-        ActivatedRoute,
-        {provide: Router, useClass: MockRouter},
-        {provide: AppConfigService, useClass: MockAppConfigService},
-        {provide: MessageService, useClass: MockMessageService},
-      ],
+			imports: [
+				RouterTestingModule,
+				BadgrCommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				FormBuilder,
+				Title,
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(ResetPasswordComponent);
@@ -57,14 +49,14 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should run #ngOnInit()', async () => {
-    // const result = component.ngOnInit();
+    const result = component.ngOnInit();
   });
 
   it('should run #submitChange()', async () => {
-    // const result = component.submitChange();
+    const result = component.submitChange();
   });
 
-  it('should run #passwordsMatch()', async () => {
+  xit('should run #passwordsMatch()', async () => {
     // const result = component.passwordsMatch(group);
   });
 
