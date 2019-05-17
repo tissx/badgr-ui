@@ -22,10 +22,10 @@ import { Observable } from "rxjs";
 import { SettingsService } from "../common/services/settings.service";
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
 import { HttpClient, HttpHandler } from "@angular/common/http";
-
+// import * from "" as jasmine;
 
 @Injectable()
-export class MockRouter { navigate = () => {jasmine.createSpy('navigate'); };}
+export class MockRouter { navigate = () => {/*jasmine.createSpy('navigate');*/ };}
 
 @Injectable()
 export class MockRoute {
