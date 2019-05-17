@@ -92,9 +92,9 @@
 						<fieldset>
 							<bg-formfield-file
 								#zipFileField
-								[attr.name]="'ZipFile'"
+								[name]="'ZipFile'"
 								label="ZipFile"
-								[attr.validFileTypes]="'application/octet-stream, .zip'"
+								[validFileTypes]="'application/octet-stream, .zip'"
 								[control]="csvForm.controls['zipFile']"
 								[placeholderImage]="csvUploadIconUrl"
 								(change)="fileChanged($event)"
