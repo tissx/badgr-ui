@@ -20,7 +20,7 @@ export class RecipientBadgeApiService extends BaseHttpApiService {
 
 	listRecipientBadges() {
 		return this
-			.get<ApiRecipientBadgeInstance[]>(`/v1/earner/badges?json_format=plain`)
+			.get<ApiRecipientBadgeInstance[]>(`/v1/earner/badges?json_format=plain&include_pending=true`)
 			.then(r => r.body);
 	}
 

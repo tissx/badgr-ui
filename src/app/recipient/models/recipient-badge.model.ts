@@ -6,7 +6,7 @@ import {LinkedEntitySet} from '../../common/model/linked-entity-set';
 import {RecipientBadgeCollection} from './recipient-badge-collection.model';
 import {RecipientBadgeCollectionRef} from './recipient-badge-collection-api.model';
 
-type BadgeMostRelevantStatusType = "new" | "expired";
+type BadgeMostRelevantStatusType = "new" | "expired" | "pending";
 
 export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInstance, RecipientBadgeInstanceRef> {
 
@@ -30,6 +30,8 @@ export class RecipientBadgeInstance extends ManagedEntity<ApiRecipientBadgeInsta
 	get mostRelevantStatus(): BadgeMostRelevantStatusType | null {
 		if (this.expiresDate && this.expiresDate < new Date()) {
 			return "expired";
+		} else if(this.apiModel.pending) {
+			return "pending";
 		} else if (this.apiModel.acceptance === "Unaccepted") {
 			return "new";
 		}

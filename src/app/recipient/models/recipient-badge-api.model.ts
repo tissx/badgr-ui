@@ -44,6 +44,7 @@ export interface ApiRecipientBadgeInstance {
 	};
 	shareUrl?: string;
 	extensions?: object;
+	pending?: boolean;
 }
 
 export interface ApiRecipientBadgeRecipient {
