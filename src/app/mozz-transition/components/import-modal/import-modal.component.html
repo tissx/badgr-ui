@@ -98,6 +98,7 @@
 								[control]="csvForm.controls['zipFile']"
 								[placeholderImage]="csvUploadIconUrl"
 								(change)="fileChanged($event)"
+								(drop)="fileChanged($event)"
 							>
 							</bg-formfield-file>
 						</fieldset>

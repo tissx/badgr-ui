@@ -126,7 +126,9 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	}
 
 	fileChanged(event) {
-		this.file = event.target.files[0];
+		this.file = (event.target.files &&event.target.files.length)
+			?event.target.files[0]
+			:event.dataTransfer.files[0];
 		if(!this.file) return false;
 		this.zipService.getEntries(this.file).subscribe(files => {
 			this.serverErrors = [];
