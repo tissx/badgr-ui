@@ -15,22 +15,23 @@ import {EventsService} from './events.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {MockBackend} from '@angular/http/testing';
 import {RequestMethod} from '@angular/http';
+import { RouterTestingModule } from "@angular/router/testing";
+import { CommonModule } from "@angular/common";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 
 describe('UserProfileManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
-		providers: [
-			AppConfigService,
-			MessageService,
-			EventsService,
-			{ provide: 'config', useValue: { api: { baseUrl: '' }, features: {} } },
-			SessionService,
-			CommonEntityManager,
-			UserProfileApiService,
-			UserProfileManager,
-		  MessageService
+		imports: [
+			RouterTestingModule,
+			CommonModule,
+			BadgrCommonModule,
+			...COMMON_IMPORTS,
 		],
-		imports: [ HttpClientTestingModule ]
+		providers: [
+			...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+		],
 	}));
 
 	setupMockResponseReporting();
