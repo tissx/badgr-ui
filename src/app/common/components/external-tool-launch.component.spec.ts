@@ -12,10 +12,10 @@ import {ExternalToolLaunchComponent} from './external-tool-launch.component';
 import {EventsService} from '../services/events.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 
 
-xdescribe('ExternalToolLaunchComponent', () => {
+describe('ExternalToolLaunchComponent', () => {
   let fixture;
   let component;
 

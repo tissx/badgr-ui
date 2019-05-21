@@ -17,8 +17,8 @@ import {MessageService} from '../../../common/services/message.service';
 import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe('RecipientEarnedBadgeListComponent', () => {
@@ -33,6 +33,7 @@ describe('RecipientEarnedBadgeListComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [

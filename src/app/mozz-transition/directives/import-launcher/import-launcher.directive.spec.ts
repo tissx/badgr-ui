@@ -1,7 +1,7 @@
 import { ImportLauncherDirective } from './import-launcher.directive';
 import { ViewContainerRef } from "@angular/core";
 
-xdescribe('ImportLauncherDirective', () => {
+describe('ImportLauncherDirective', () => {
   /*it('should create an instance', () => {
     const directive = new ImportLauncherDirective(
     	new ViewContainerRef(),

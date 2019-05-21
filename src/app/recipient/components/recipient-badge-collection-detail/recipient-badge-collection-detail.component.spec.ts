@@ -18,8 +18,8 @@ import {RecipientBadgeCollectionManager} from '../../services/recipient-badge-co
 import {AppConfigService} from '../../../common/app-config.service';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 import { RouterTestingModule } from "@angular/router/testing";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 describe('RecipientBadgeCollectionDetailComponent', () => {
   let fixture;
@@ -33,6 +33,7 @@ describe('RecipientBadgeCollectionDetailComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [

@@ -11,7 +11,7 @@ import {Component, Directive, ElementRef} from '@angular/core';
 import {ShowMore} from './show-more.component';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 
 describe('ShowMore', () => {
   let fixture;

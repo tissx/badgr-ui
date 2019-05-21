@@ -13,7 +13,7 @@ import {BadgeClassManager} from '../../services/badgeclass-manager.service';
 import {IssuerManager} from '../../services/issuer-manager.service';
 import {MessageService} from '../../../common/services/message.service';
 import {SettingsService} from '../../../common/services/settings.service';
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";

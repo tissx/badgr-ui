@@ -1,7 +1,7 @@
 import { async } from '@angular/core/testing';
 import {ExternalToolsApiService} from './externaltools-api.service';
 
-xdescribe('ExternalToolsApiService', () => {
+describe('ExternalToolsApiService', () => {
   let service;
 
   const loginService: any = {

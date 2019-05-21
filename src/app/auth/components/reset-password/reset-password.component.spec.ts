@@ -17,7 +17,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {MessageService} from '../../../common/services/message.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 describe('ResetPasswordComponent', () => {
   let fixture;

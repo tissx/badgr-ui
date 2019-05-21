@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -17,24 +17,10 @@ import {MessageService} from '../../../common/services/message.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AppConfigService} from '../../../common/app-config.service';
 import {Title} from '@angular/platform-browser';
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { RouterTestingModule } from "@angular/router/testing";
 
-@Injectable()
-class MockBadgeClassManager { }
-
-@Injectable()
-class MockIssuerManager { }
-
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockAppConfigService { }
 
 describe('BadgeClassIssueBulkAwardComponent', () => {
   let fixture;
@@ -45,17 +31,15 @@ describe('BadgeClassIssueBulkAwardComponent', () => {
       declarations: [
         BadgeClassIssueBulkAwardComponent
       ],
-      providers: [
-        {provide: BadgeClassManager, useClass: MockBadgeClassManager},
-        FormBuilder,
-        {provide: IssuerManager, useClass: MockIssuerManager},
-        {provide: SessionService, useClass: MockSessionService},
-        {provide: MessageService, useClass: MockMessageService},
-        {provide: Router, useClass: MockRouter},
-        ActivatedRoute,
-        {provide: AppConfigService, useClass: MockAppConfigService},
-        Title,
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				BadgrCommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(BadgeClassIssueBulkAwardComponent);

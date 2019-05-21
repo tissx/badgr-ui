@@ -11,7 +11,7 @@ import {Component, Directive, ElementRef} from '@angular/core';
 import {BgIssuerLinkComponent} from './issuer-link.component';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 import { FormFieldText } from "./formfield-text";
 import { BadgrButtonComponent } from "./badgr-button.component";
 import { BgImageStatusPlaceholderDirective } from "../directives/bg-image-status-placeholder.directive";

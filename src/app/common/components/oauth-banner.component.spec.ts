@@ -13,7 +13,7 @@ import {MessageService} from '../services/message.service';
 import {OAuthManager} from '../services/oauth-manager.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 
 describe('OAuthBannerComponent', () => {
   let fixture;

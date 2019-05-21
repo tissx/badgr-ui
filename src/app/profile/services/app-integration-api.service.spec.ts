@@ -6,19 +6,19 @@ describe('AppIntegrationApiService', () => {
 
   const loginService: any = {
     // mock properties here 
-  }
+  };
 
   const http: any = {
     // mock properties here 
-  }
+  };
 
   const configService: any = {
     // mock properties here 
-  }
+  };
 
   const messageService: any = {
     // mock properties here 
-  }
+  };
 
   beforeEach(() => {
     service = new AppIntegrationApiService(loginService,http,configService,messageService);

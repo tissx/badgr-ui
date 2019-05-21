@@ -15,7 +15,7 @@ import {MessageService} from '../../common/services/message.service';
 import {SessionService} from '../../common/services/session.service';
 import {first} from 'rxjs/operators';
 
-xdescribe('IssuerManager', () => {
+describe('IssuerManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [

@@ -1,6 +1,6 @@
 import { ElementRef, Injectable, NgModule, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Data, Params } from "@angular/router";
+import { Data, Params, Router } from "@angular/router";
 import { RecipientBadgeManager } from "../recipient/services/recipient-badge-manager.service";
 import { BadgrTheme } from "../../theming/badgr-theme";
 import { SessionService } from "../common/services/session.service";
@@ -22,10 +22,23 @@ import { Observable } from "rxjs";
 import { SettingsService } from "../common/services/settings.service";
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
 import { HttpClient, HttpHandler } from "@angular/common/http";
-// import * from "" as jasmine;
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgeInstanceManager } from "../issuer/services/badgeinstance-manager.service";
+import { BadgeClass } from "../issuer/models/badgeclass.model";
+import { AppIntegrationManager } from "../profile/services/app-integration-manager.service";
+import { OAuthApiService } from "../common/services/oauth-api.service";
+import { StandaloneEntitySet } from "../common/model/managed-entity-set";
+import { OAuth2AppAuthorization } from "../common/model/oauth.model";
+import { ApiOAuth2AppAuthorization } from "../common/model/oauth-api.model";
+import { CommonEntityManager } from "../entity-manager/services/common-entity-manager.service";
+import { EmbedService } from "../common/services/embed.service";
+import { RecipientBadgeCollectionManager } from "../recipient/services/recipient-badge-collection-manager.service";
+import { PublicApiService } from "../public/services/public-api.service";
+import { BaseHttpApiService } from "../common/services/base-http-api.service";
+import { NavigationService } from "../common/services/navigation.service";
 
-@Injectable()
-export class MockRouter { navigate = () => {/*jasmine.createSpy('navigate');*/ };}
+/*@Injectable()
+export class MockRouter { navigate = () => {jasmine.createSpy('navigate'); };}*/
 
 @Injectable()
 export class MockRoute {
@@ -40,6 +53,7 @@ export class MockRoute {
 
 		},
 		params: {
+			issuerSlug: 'qwerty',
 			data: {
 
 			},
@@ -90,6 +104,7 @@ export class MockSignupService {
 export class MockSessionService {
 	subscribe = (fn: (value: Data) => void) => fn({});
 	logout = () => null;
+	isLoggedIn = () => true;
 }
 
 @Injectable()
@@ -130,6 +145,12 @@ export class MockSettingsService {
 }
 
 @Injectable()
+export class MockPublicApiService {
+	loadSettings = () => null;
+	saveSettings = () => null;
+}
+
+@Injectable()
 export class MockQueryParametersService {
 	clearInitialQueryParams = () => null;
 	queryStringValue = () => null;
@@ -139,6 +160,14 @@ export class MockInitialLoadingIndicatorService {
 	// clearInitialQueryParams = () => null;
 	// queryStringValue = () => null;
 }
+
+@Injectable()
+export class MockOAuthApiService {
+	// clearInitialQueryParams = () => null;
+	listAuthorizations = () => null;
+}
+
+
 @Injectable()
 export class MockCommonDialogsService {
 	// openDialog = () => null;
@@ -156,25 +185,76 @@ export class MockCommonDialogsService {
 
 // managers
 @Injectable()
-export class MockOAuthManager { }
-
-@Injectable()
-export class MockRecipientBadgeManager {
-	recipientBadgeList = () => new Promise(() => {});
+export class MockOAuthManager {
+	// authorizedApps = () => new Promise(() => {});
+	oauthApi: MockOAuthApiService;
+	private commonEntityManager: CommonEntityManager;
+	readonly authorizedApps = new StandaloneEntitySet<OAuth2AppAuthorization, ApiOAuth2AppAuthorization>(
+		() => new OAuth2AppAuthorization(this.commonEntityManager),
+		apiModel => apiModel.entityId,
+		() => this.oauthApi.listAuthorizations()
+	);
 }
 
 @Injectable()
-export class MockExternalToolsManager { }
+export class MockRecipientBadgeManager {
+	// this is crashing the test runner???
+	// recipientBadgeList = () => new Promise(() => {});
+	// recipientBadgeList = () => {};
+}
 
 @Injectable()
-export class MockUserProfileManager { }
+export class MockExternalToolsManager {
+	externaltoolsList = {
+		updateIfLoaded : () => {}
+	};
+	getToolLaunchpoints = () => new Promise(() => {});
+}
 
 @Injectable()
-export class MockBadgeClassManager { }
+export class MockUserProfileManager {
+	userProfilePromise = new Promise(() => ({}));
+}
+
+@Injectable()
+export class MockBadgeClassManager {
+	badgeByIssuerSlugAndSlug = () => new Promise(() => ({name: 'badgename'}));
+	removeBadgeClass = () => {};
+	createBadgeClass = () => {};
+}
+
+@Injectable()
+export class MockRecipientBadgeCollectionManager {
+}
+
+@Injectable()
+export class MockBadgeCollectionManager {
+}
+
+@Injectable()
+export class MockBadgeInstanceManager {
+	// badgeByIssuerSlugAndSlug = () => null;
+}
 
 @Injectable()
 export class MockIssuerManager {
-	issuerBySlug: () => {};
+	issuerBySlug = () => new Promise((q) => {console.log(q);});
+}
+
+@Injectable()
+export class MockAppIntegrationManager {
+	//issuerBySlug = () => new Promise((q) => {console.log(q);});
+}
+
+@Injectable()
+export class MockBaseHttpApiService {
+	//issuerBySlug = () => new Promise((q) => {console.log(q);});
+	baseUrl = '';
+}
+
+@Injectable()
+export class MockNavigationService {
+	findAndApplyRouteNavConfig = (route: string) => new Promise((q) => {console.log(q);});
 }
 
 @Injectable()
@@ -187,6 +267,9 @@ export class MockEventsService {
 	};
 	externalToolLaunch = {subscribe : (fn: (value: Data) => void) => fn({})};
 
+}
+@Injectable()
+export class MockEmbedService {
 }
 @Injectable()
 export class MockElementRef {
@@ -208,24 +291,34 @@ export let COMMON_MOCKS_PROVIDERS_WITH_SUBS = [];
 	DomSanitizer,
 	HttpHandler,
 	HttpClient,
+	// Router,
 	// NgZone,
 	// UserProfileApiService,
+	BaseHttpApiService,
+	PublicApiService,
 	ZipService,
 	SessionService,
 	MessageService,
 	AppConfigService,
 	SettingsService,
+	NavigationService,
 	QueryParametersService,
 	SignupService,
+	UserProfileApiService,
 	InitialLoadingIndicatorService,
 	CommonDialogsService,
+	OAuthApiService,
 	OAuthManager,
+	AppIntegrationManager,
 	ExternalToolsManager,
 	UserProfileManager,
 	BadgeClassManager,
+	BadgeInstanceManager,
 	IssuerManager,
 	EventsService,
+	EmbedService,
 	ElementRef,
+	RecipientBadgeCollectionManager,
 	RecipientBadgeManager,
 ].forEach((m,i,a) => {
 	const thisMock = eval('Mock' + m.name);
@@ -237,10 +330,10 @@ export let COMMON_MOCKS_PROVIDERS_WITH_SUBS = [];
 @NgModule({
 	exports: [],
 	imports: [
-		CommonModule
+		CommonModule,
 	],
 	providers: [
 		...COMMON_MOCKS_PROVIDERS
 	]
 })
-export class MocksModule { }
+export class MocksModuleSpec { }

@@ -15,7 +15,7 @@ import {MessageService} from '../../common/services/message.service';
 import {EventsService} from '../../common/services/events.service';
 import {SessionService} from '../../common/services/session.service';
 
-xdescribe('RecipientBadgeCollectionManger', () => {
+describe('RecipientBadgeCollectionManger', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [

@@ -17,8 +17,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AppConfigService} from '../../../common/app-config.service';
 import {MessageService} from '../../../common/services/message.service';
 import { RouterTestingModule } from "@angular/router/testing";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 describe('ChangePasswordComponent', () => {
   let fixture;
@@ -32,6 +32,7 @@ describe('ChangePasswordComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [

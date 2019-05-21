@@ -17,8 +17,8 @@ import {MessageService} from '../../../common/services/message.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {RecipientBadgeCollectionManager} from '../../services/recipient-badge-collection-manager.service';
 import { RouterTestingModule } from "@angular/router/testing";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 
 describe('RecipientBadgeCollectionEditFormComponent', () => {
@@ -33,6 +33,7 @@ describe('RecipientBadgeCollectionEditFormComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [

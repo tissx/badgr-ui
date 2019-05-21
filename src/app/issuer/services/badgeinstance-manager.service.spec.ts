@@ -23,7 +23,7 @@ import {CommonEntityManager} from '../../entity-manager/services/common-entity-m
 import {BadgeInstanceApiService} from './badgeinstance-api.service';
 import {MessageService} from '../../common/services/message.service';
 
-xdescribe('BadgeInstanceManager', () => {
+describe('BadgeInstanceManager', () => {
 	const defaultIssuerSlug = testSlugForName(randomIssuerName());
 
 	beforeEach(() => TestBed.configureTestingModule({

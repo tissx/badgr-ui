@@ -13,7 +13,7 @@ import {BadgeClassManager} from '../../issuer/services/badgeclass-manager.servic
 import {MessageService} from '../services/message.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 import { TruncatedTextComponent } from "./truncated-text.component";
 import { CommonDialogsService } from "../services/common-dialogs.service";
 

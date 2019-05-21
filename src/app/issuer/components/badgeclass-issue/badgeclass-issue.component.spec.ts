@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By, Title } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -19,12 +19,10 @@ import { BadgeInstanceManager } from "../../services/badgeinstance-manager.servi
 import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
 import { SessionService } from "../../../common/services/session.service";
 import { ActivatedRoute, Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
-@Injectable()
-class MockAppConfigService { }
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
 
 describe('BadgeClassIssueComponent', () => {
   let fixture;
@@ -35,19 +33,15 @@ describe('BadgeClassIssueComponent', () => {
       declarations: [
         BadgeClassIssueComponent
       ],
-      providers: [
-        Title,
-        MessageService,
-        EventsService,
-        IssuerManager,
-        BadgeClassManager,
-        BadgeInstanceManager,
-        CommonDialogsService,
-        {provide: AppConfigService, useClass: MockAppConfigService},
-        SessionService,
-        {provide: Router, useClass: MockRouter},
-        ActivatedRoute,
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				BadgrCommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(BadgeClassIssueComponent);

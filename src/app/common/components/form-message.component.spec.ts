@@ -9,7 +9,7 @@ import { Data, Router } from '@angular/router';
 import {EventsService} from '../services/events.service';
 import {
 	COMMON_MOCKS_PROVIDERS_WITH_SUBS,
-} from "../../mocks/mocks.module";
+} from "../../mocks/mocks.module.spec";
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
 

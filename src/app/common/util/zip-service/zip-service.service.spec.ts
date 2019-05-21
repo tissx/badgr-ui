@@ -4,7 +4,7 @@ import { ZipService } from './zip-service.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { CommonModule } from "@angular/common";
 import { COMMON_IMPORTS } from "../../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 describe('ZipService', () => {
   beforeEach(() => TestBed.configureTestingModule({

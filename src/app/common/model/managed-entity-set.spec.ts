@@ -5,7 +5,7 @@ import {ApiTestEntity, buildTestEntities, TestEntity} from './managed-entity.spe
 import {inject, TestBed} from '@angular/core/testing';
 import {filter, first} from 'rxjs/operators';
 
-xdescribe('StandaloneEntitySet', () => {
+describe('StandaloneEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		providers: [ CommonEntityManager ]
 	}));

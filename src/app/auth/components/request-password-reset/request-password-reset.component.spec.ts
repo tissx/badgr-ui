@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 
 import {RequestPasswordResetComponent} from './request-password-reset.component';
 import {FormBuilder} from '@angular/forms';
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 

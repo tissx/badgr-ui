@@ -19,7 +19,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {CommonDialogsService} from '../../../common/services/common-dialogs.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 
 describe('BadgeClassCreateComponent', () => {
@@ -43,12 +43,13 @@ describe('BadgeClassCreateComponent', () => {
 			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
+
     fixture = TestBed.createComponent(BadgeClassCreateComponent);
     component = fixture.debugElement.componentInstance;
   });
 
   it('should create a component', async () => {
-    expect(component).toBeTruthy();
+		expect(component).toBeTruthy();
   });
 
   it('should run #ngOnInit()', async () => {
@@ -59,7 +60,7 @@ describe('BadgeClassCreateComponent', () => {
     const result = component.badgeClassCreated(new Promise(() => {}));
   });
 
-  it('should run #creationCanceled()', async () => {
+  xit('should run #creationCanceled()', async () => {
     const result = component.creationCanceled();
   });
 

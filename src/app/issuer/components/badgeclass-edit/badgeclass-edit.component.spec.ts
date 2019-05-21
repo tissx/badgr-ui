@@ -1,7 +1,7 @@
 // tslint:disable
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { By } from '@angular/platform-browser';
 // import { Observable } from 'rxjs/Observable';
 // import 'rxjs/add/observable/of';
@@ -19,30 +19,10 @@ import {BadgeClassManager} from '../../services/badgeclass-manager.service';
 import {IssuerManager} from '../../services/issuer-manager.service';
 import {BadgeInstanceManager} from '../../services/badgeinstance-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
+import { RouterTestingModule } from "@angular/router/testing";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
-@Injectable()
-class MockSessionService { }
-
-@Injectable()
-class MockRouter { /*navigate = jest.fn();*/ }
-
-@Injectable()
-class MockMessageService { }
-
-@Injectable()
-class MockEventsService { }
-
-@Injectable()
-class MockBadgeClassManager { }
-
-@Injectable()
-class MockIssuerManager { }
-
-@Injectable()
-class MockBadgeInstanceManager { }
-
-@Injectable()
-class MockAppConfigService { }
 
 describe('BadgeClassEditComponent', () => {
   let fixture;
@@ -53,19 +33,15 @@ describe('BadgeClassEditComponent', () => {
       declarations: [
         BadgeClassEditComponent
       ],
-      providers: [
-        {provide: SessionService, useClass: MockSessionService},
-        {provide: Router, useClass: MockRouter},
-        ActivatedRoute,
-        FormBuilder,
-        Title,
-        {provide: MessageService, useClass: MockMessageService},
-        {provide: EventsService, useClass: MockEventsService},
-        {provide: BadgeClassManager, useClass: MockBadgeClassManager},
-        {provide: IssuerManager, useClass: MockIssuerManager},
-        {provide: BadgeInstanceManager, useClass: MockBadgeInstanceManager},
-        {provide: AppConfigService, useClass: MockAppConfigService},
-      ],
+			imports: [
+				RouterTestingModule,
+				CommonModule,
+				BadgrCommonModule,
+				...COMMON_IMPORTS,
+			],
+			providers: [
+				...COMMON_MOCKS_PROVIDERS_WITH_SUBS,
+			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
     fixture = TestBed.createComponent(BadgeClassEditComponent);

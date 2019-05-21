@@ -14,8 +14,8 @@ import {MessageService} from '../../../common/services/message.service';
 import {SettingsService} from '../../../common/services/settings.service';
 import { RecipientBadgeCollectionSelectionDialogComponent } from "./recipient-badge-collection-selection-dialog.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 import { FormsModule } from "@angular/forms";
 
 describe('RecipientBadgeCollectionSelectionDialogComponent', () => {
@@ -30,6 +30,7 @@ describe('RecipientBadgeCollectionSelectionDialogComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				FormsModule,
 				...COMMON_IMPORTS,
 			],

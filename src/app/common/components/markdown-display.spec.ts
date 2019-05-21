@@ -11,7 +11,7 @@ import {Component, Directive} from '@angular/core';
 import {MarkdownDisplay} from './markdown-display';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 import { BgMarkdownComponent } from "../directives/bg-markdown.component";
 
 describe('MarkdownDisplay', () => {

@@ -7,7 +7,7 @@ import {AnyRefType, ApiEntityRef, EntityRef} from './entity-ref';
 import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
 import {first} from 'rxjs/operators';
 
-xdescribe('ListBackedLinkedEntitySet', () => {
+describe('ListBackedLinkedEntitySet', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		providers: [ CommonEntityManager ]
 	}));

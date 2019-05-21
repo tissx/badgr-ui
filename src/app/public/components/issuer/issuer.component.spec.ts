@@ -13,8 +13,8 @@ import {EmbedService} from '../../../common/services/embed.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {Title} from '@angular/platform-browser';
 import { RouterTestingModule } from "@angular/router/testing";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 
 describe('PublicIssuerComponent', () => {
@@ -29,6 +29,7 @@ describe('PublicIssuerComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [

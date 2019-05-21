@@ -13,7 +13,7 @@ import {CommonDialogsService} from '../services/common-dialogs.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 import { BgMarkdownComponent } from "../directives/bg-markdown.component";
 import { MarkdownHintsDialog } from "../dialogs/markdown-hints-dialog.component";
 import { TruncatedTextComponent } from "./truncated-text.component";

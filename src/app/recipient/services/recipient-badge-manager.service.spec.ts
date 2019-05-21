@@ -18,7 +18,7 @@ import {EventsService} from '../../common/services/events.service';
 import {SessionService} from '../../common/services/session.service';
 import {first, skip} from 'rxjs/operators';
 
-xdescribe('RecipientBadgeManger', () => {
+describe('RecipientBadgeManger', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		providers: [

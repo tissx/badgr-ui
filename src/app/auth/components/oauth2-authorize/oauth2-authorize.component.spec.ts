@@ -17,7 +17,7 @@ import {OAuthManager} from '../../../common/services/oauth-manager.service';
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {InitialLoadingIndicatorService} from '../../../common/services/initial-loading-indicator.service';
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 

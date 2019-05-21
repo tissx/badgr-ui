@@ -14,7 +14,7 @@ import {MessageService} from '../../../common/services/message.service';
 import {SettingsService} from '../../../common/services/settings.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 import { FormsModule } from "@angular/forms";
 
 describe('RecipientBadgeSelectionDialog', () => {

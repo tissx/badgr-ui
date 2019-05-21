@@ -10,7 +10,7 @@ import { By } from '@angular/platform-browser';
 import {ForwardRouteComponent} from './forward-route.component';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 
 describe('ForwardRouteComponent', () => {
   let fixture;

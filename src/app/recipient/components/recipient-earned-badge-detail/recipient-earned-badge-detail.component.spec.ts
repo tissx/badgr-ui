@@ -20,8 +20,8 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {ExternalToolsManager} from '../../../externaltools/services/externaltools-manager.service';
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import { RouterTestingModule } from "@angular/router/testing";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 describe('RecipientEarnedBadgeDetailComponent', () => {
   let fixture;
@@ -35,6 +35,7 @@ describe('RecipientEarnedBadgeDetailComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [

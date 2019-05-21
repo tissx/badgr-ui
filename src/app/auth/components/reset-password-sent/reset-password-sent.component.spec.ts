@@ -15,7 +15,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { FormBuilder } from "@angular/forms";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 
 describe('ResetPasswordSent', () => {

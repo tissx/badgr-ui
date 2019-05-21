@@ -11,12 +11,7 @@ import {OAuthManager} from '../../../common/services/oauth-manager.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {
 	COMMON_MOCKS_PROVIDERS_WITH_SUBS,
-	MockAppConfigService, MockEventsService,
-	MockMessageService,
-	MockOAuthManager,
-	MockRoute, MockRouter,
-	MockSessionService, MockSignupService
-} from "../../../mocks/mocks.module";
+} from "../../../mocks/mocks.module.spec";
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { EventsService } from "../../../common/services/events.service";

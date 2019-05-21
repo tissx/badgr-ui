@@ -11,14 +11,14 @@ import {Component, Directive, ElementRef, Renderer2, NgZone} from '@angular/core
 import {BgPopupMenu} from './bg-popup-menu.component';
 import { RouterTestingModule } from "@angular/router/testing";
 import { COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 
 @Injectable()
 class MockElementRef {
   // constructor() { super(undefined); }
   nativeElement = {}
 }
-xdescribe('BgPopupMenu', () => {
+describe('BgPopupMenu', () => {
   let fixture;
   let component;
 
@@ -68,7 +68,7 @@ xdescribe('BgPopupMenu', () => {
   });
 
   it('should run #handleClick()', async () => {
-    const result = component.handleClick(event);
+    const result = component.handleClick(new Event('click'));
   });
 
   it('should run #hideElem()', async () => {

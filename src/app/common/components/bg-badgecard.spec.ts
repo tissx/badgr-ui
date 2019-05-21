@@ -11,7 +11,7 @@ import {Component, Directive} from '@angular/core';
 import {BgBadgecard} from './bg-badgecard';
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 import { BgImageStatusPlaceholderDirective } from "../directives/bg-image-status-placeholder.directive";
 import { TimeComponent } from "./time.component";
 import { TruncatedTextComponent } from "./truncated-text.component";

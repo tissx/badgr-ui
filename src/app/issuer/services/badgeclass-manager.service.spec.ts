@@ -1,7 +1,7 @@
 import { async } from '@angular/core/testing';
 import {BadgeClassManager} from './badgeclass-manager.service';
 
-xdescribe('BadgeClassManager', () => {
+describe('BadgeClassManager', () => {
   let service;
 
   const loginService: any = {

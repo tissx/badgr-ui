@@ -4,7 +4,7 @@ import {ApiIssuer} from './issuer-api.model';
 import {CommonEntityManager} from '../../entity-manager/services/common-entity-manager.service';
 
 
-xdescribe('Issuer', () => {
+describe('Issuer', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		providers: [ CommonEntityManager ],
 	}));

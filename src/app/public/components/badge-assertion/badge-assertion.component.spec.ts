@@ -15,8 +15,8 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import {Title} from '@angular/platform-browser';
 import { RouterTestingModule } from "@angular/router/testing";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 describe('PublicBadgeAssertionComponent', () => {
   let fixture;
@@ -30,6 +30,7 @@ describe('PublicBadgeAssertionComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [

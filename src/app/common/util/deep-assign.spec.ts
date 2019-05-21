@@ -10,7 +10,7 @@ export function toArray(obj: unknown): Array<unknown> {
 	return Object.assign([], obj);
 }
 
-xdescribe('deepAssign', () => {
+describe('deepAssign', () => {
 	function testPair(
 		dest: unknown,
 		source: unknown

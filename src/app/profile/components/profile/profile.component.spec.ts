@@ -19,8 +19,8 @@ import {CommonDialogsService} from '../../../common/services/common-dialogs.serv
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {OAuthApiService} from '../../../common/services/oauth-api.service';
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module";
-import { COMMON_IMPORTS } from "../../../common/badgr-common.module";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
+import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
 describe('ProfileComponent', () => {
@@ -35,6 +35,7 @@ describe('ProfileComponent', () => {
 			imports: [
 				RouterTestingModule,
 				CommonModule,
+				BadgrCommonModule,
 				...COMMON_IMPORTS,
 			],
 			providers: [
@@ -58,7 +59,7 @@ describe('ProfileComponent', () => {
     const result = component.ngOnInit();
   });
 
-  it('should run #ngOnDestroy()', async () => {
+  xit('should run #ngOnDestroy()', async () => {
     component.ngOnDestroy();
   });
 
