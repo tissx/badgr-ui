@@ -127,7 +127,7 @@ export class BadgeClassEditFormComponent extends BaseAuthenticatedRoutableCompon
 		protected componentElem: ElementRef<HTMLElement>
 	) {
 		super(router, route, sessionService);
-		title.setTitle(`Create Badge Class - ${this.configService.theme['serviceName'] || 'Badgr'}`);
+		title.setTitle(`Create Badge - ${this.configService.theme['serviceName'] || 'Badgr'}`);
 	}
 
 	initFormFromExisting() {

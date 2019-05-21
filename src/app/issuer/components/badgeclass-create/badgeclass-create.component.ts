@@ -38,7 +38,7 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 		protected dialogService: CommonDialogsService
 	) {
 		super(router, route, sessionService);
-		title.setTitle(`Create Badge Class - ${this.configService.theme['serviceName'] || "Badgr"}`);
+		title.setTitle(`Create Badge - ${this.configService.theme['serviceName'] || "Badgr"}`);
 		this.issuerSlug = this.route.snapshot.params[ 'issuerSlug' ];
 
 		this.issuerLoaded = this.issuerManager.issuerBySlug(this.issuerSlug).then((issuer) => {
@@ -46,7 +46,7 @@ export class BadgeClassCreateComponent extends BaseAuthenticatedRoutableComponen
 			this.breadcrumbLinkEntries = [
 				{title: 'Issuers', routerLink: ['/issuer']},
 				{title: issuer.name, routerLink: ['/issuer/issuers', this.issuerSlug] },
-				{title: 'Add Badge Class'}
+				{title: 'Create Badge'}
 			];
 		});
 	}
