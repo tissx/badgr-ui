@@ -49,11 +49,4 @@ export class PublicIssuerComponent {
 		return stripQueryParamsFromUrl(this.issuer.id) + ".json";
 	}
 
-	get v1JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "1_1"});
-	}
-
-	get v2JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
-	}
 }

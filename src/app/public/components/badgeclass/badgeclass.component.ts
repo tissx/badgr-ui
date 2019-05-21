@@ -50,11 +50,4 @@ export class PublicBadgeClassComponent {
 		return stripQueryParamsFromUrl(this.badgeClass.id) + ".json";
 	}
 
-	get v1JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "1_1"});
-	}
-
-	get v2JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
-	}
 }

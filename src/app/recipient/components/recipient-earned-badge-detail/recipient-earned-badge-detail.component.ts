@@ -100,30 +100,12 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.badgeSlug}.json`;
 	}
 
-	get v1JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "1_1"});
-	}
-
-	get v2JsonUrl() {
-		return addQueryParamsToUrl(this.rawJsonUrl, {v: "2_0"});
-	}
-
 	get rawBakedUrl() {
 		return `${this.configService.apiConfig.baseUrl}/public/assertions/${this.badgeSlug}/baked`;
 	}
 
-	get v1BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "1_1"});
-	}
-
-	get v2BakedUrl() {
-		return addQueryParamsToUrl(this.rawBakedUrl, {v: "2_0"});
-	}
-
 	get verifyUrl() {
-		const v = this.queryParametersService.queryStringValue("v") || "2_0";
-		const ASSERTION_URL = v === "2_0" ? this.v2JsonUrl : this.v1JsonUrl;
-		let url = `${this.configService.assertionVerifyUrl}?url=${ASSERTION_URL}`;
+		let url = `${this.configService.assertionVerifyUrl}?url=${this.rawJsonUrl}`;
 
 		for (const IDENTITY_TYPE of ['identity__email', 'identity__url', 'identity__telephone']) {
 			const identity = this.queryParametersService.queryStringValue(IDENTITY_TYPE);
