@@ -15,7 +15,7 @@ export class SignupService {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 	}
 
-	submitSignup(signupModel: SignupModel) {
+	submitSignup(signupModel: SignupModel, source: string) {
 		const endpoint = this.baseUrl + '/v1/user/profile';
 		const payload = {
 			email: signupModel.username,
@@ -25,6 +25,8 @@ export class SignupService {
 			agreed_terms_service: signupModel.agreedTermsService,
 			marketing_opt_in: signupModel.marketingOptIn,
 		};
+
+		if(source) payload['source'] = source;
 
 		const headers = new HttpHeaders()
 			.append('Content-Type', 'application/json')
