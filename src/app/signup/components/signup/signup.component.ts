@@ -85,7 +85,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		);
 
 		this.signupFinished = new Promise((resolve, reject) => {
-			const source = this.route.snapshot.params['source'] || null;
+			const source = this.route.snapshot.params['source'] || localStorage.getItem('source') || null;
 			this.signupService.submitSignup(signupUser, source)
 				.then(
 					() => {
