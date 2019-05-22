@@ -136,6 +136,7 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 
 	ngOnInit() {
 		super.ngOnInit();
+		if(this.route.snapshot.routeConfig.path === "badges/import") this.launchImport(new Event('click'));
 	}
 
 	addBadge() {

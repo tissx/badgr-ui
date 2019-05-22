@@ -30,6 +30,11 @@ const routes = [
 		component: RecipientEarnedBadgeListComponent
 	},
 	{
+		path: "badges/import",
+		component: RecipientEarnedBadgeListComponent
+
+	},
+	{
 		path: "earned-badge/:badgeSlug",
 		component: RecipientEarnedBadgeDetailComponent
 	},
