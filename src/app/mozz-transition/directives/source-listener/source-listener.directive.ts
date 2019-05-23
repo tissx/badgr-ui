@@ -11,6 +11,9 @@ export class SourceListenerDirective {
 		'signup',
 		'source',
 	];
+	getVarSets = [
+		'assertion',
+	];
 
 	constructor(
 		private route: ActivatedRoute,
@@ -18,11 +21,21 @@ export class SourceListenerDirective {
 
 	ngOnInit() {
 		this.getVars.forEach((gv) => this.varSet(gv));
+		this.getVarSets.forEach((gv) => this.varPush(gv));
 	}
 
 	varSet = (gv) => {
 		const thisVar = this.route.snapshot.queryParamMap.get(gv);
 		if (thisVar) localStorage[gv] = thisVar;
-	}
+	};
+
+	varPush = (key) => {
+		const varArr = JSON.parse(localStorage[key] || '[]');
+		const theseVars = this.route.snapshot.queryParamMap.getAll(key);
+		if (theseVars) {
+			theseVars.forEach((val) => varArr.push(val));
+			localStorage[key] = JSON.stringify(varArr);
+		}
+	};
 
 }
