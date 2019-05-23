@@ -56,6 +56,15 @@ export class AddBadgeDialogComponent extends BaseDialog {
 		super(componentElem, renderer);
 	}
 
+	isJson = (str) => {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
+		}
+		return true;
+	};
+
 	/**
 	 * Opens the confirm dialog with the given options. If the user clicks the "true" button, the promise will be
 	 * resolved, otherwise, it will be rejected.
@@ -98,14 +107,20 @@ export class AddBadgeDialogComponent extends BaseDialog {
 					this.closeDialog();
 				})
 				.catch(err => {
+
 					let message = BadgrApiFailure.from(err).firstMessage;
 
 					// display human readable description of first error if provided by server
-					if (err.response && err.response._body) {
+					if (this.isJson(message)) {
+						const jsonErr = JSON.parse(message);
+						if (err.response && err.response._body) {
 							const body = JSON.parse(err.response._body);
 							if (body && body.length > 0 && body[0].description) {
 								message = body[0].description;
 							}
+						} else if(jsonErr.length) {
+							message = jsonErr[0].result || jsonErr[0].description;
+						}
 					}
 
 					this.messageService.reportAndThrowError(
