@@ -43,6 +43,8 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	issuerResults: MatchingIssuerBadges[] = [];
 	badgeClassesByIssuerId: { [issuerUrl: string]: RecipientBadgeInstance[] };
 
+	mozillaTransitionOver = true;
+
 	maxDisplayedResults = 100;
 
 	private _badgesDisplay: BadgeDispay = "grid";
@@ -101,6 +103,8 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 			});
 		}
 
+		this.mozillaTransitionOver = !!localStorage.getItem('mozillaTransitionOver') || false;
+
 		this.restoreDisplayState();
 	}
 
@@ -108,6 +112,11 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	launchImport = ($event: Event) => {
 		$event.preventDefault();
 		this.importLauncherDirective.insert();
+	};
+	hideMozz = ($event: Event) => {
+		$event.preventDefault();
+		this.mozillaTransitionOver = true;
+		localStorage.setItem('mozillaTransitionOver', 'true');
 	};
 
 	restoreDisplayState() {
