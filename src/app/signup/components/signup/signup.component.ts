@@ -64,7 +64,7 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 		if (this.sessionService.isLoggedIn) {
 			this.router.navigate(['/userProfile']);
 		}
-		const defaultEmail = this.route.snapshot.params['email'];
+		const defaultEmail = this.route.snapshot.queryParams['email'];
 		if(defaultEmail) this.signupForm.controls.username.setValue(defaultEmail);
 	}
 
