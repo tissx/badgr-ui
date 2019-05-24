@@ -23,6 +23,13 @@ export class PublicIssuerComponent {
 
 	issuerIdParam: LoadedRouteParam<{ issuer: PublicApiIssuer, badges: PublicApiBadgeClass[] }>;
 	routerLinkForUrl = routerLinkForUrl;
+	plural = {
+		'badge': {
+			'=0' : 'No Badges',
+			'=1' : '1 Badge',
+			'other' : '# Badges'
+		}
+	};
 
 	constructor(
 		private injector: Injector,

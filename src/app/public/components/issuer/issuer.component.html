@@ -69,7 +69,7 @@
 				<header class=" u-margin-top1x">
 					<h3 class="u-text-h3-bold u-text-dark2"
 					>
-					{{ badgeClasses.length }} Badge Class{{ badgeClasses.length==1? '':'es' }}
+					{{ badgeClasses.length | i18nPlural: plural['badge'] }}
 				</h3></header>
 				<table class="datatable datatable-roundheaders datatable-singlecolumn datatable-verticalalignmiddle u-margin-top2x">
 					<thead class="datatable-x-head">

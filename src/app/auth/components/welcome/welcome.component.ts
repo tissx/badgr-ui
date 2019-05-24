@@ -11,6 +11,7 @@ export class WelcomeComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+		localStorage.removeItem('signup');
   }
 
 	readonly imageBadge = preloadImageURL(require("../../../../../node_modules/@concentricsky/badgr-style/dist/images/graphic-badge.svg") as string);
