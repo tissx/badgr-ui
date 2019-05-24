@@ -167,20 +167,15 @@ export class MockOAuthApiService {
 	listAuthorizations = () => null;
 }
 
-
+const commonDialog = {
+	openDialog: () => null,
+	closeDialog: () => null,
+};
 @Injectable()
 export class MockCommonDialogsService {
-	// openDialog = () => null;
-	// closeDialog = () => null;
-	markdownHintsDialog = {
-		openDialog: () => null,
-		closeDialog: () => null,
-	};
-	confirmDialog = {
-		openDialog: () => null,
-		closeDialog: () => null,
-		openResolveRejectDialog: () => new Promise(() => {}),
-	};
+	markdownHintsDialog = commonDialog;
+	confirmDialog = commonDialog;
+	shareSocialDialog = commonDialog;
 }
 
 // managers
@@ -198,9 +193,7 @@ export class MockOAuthManager {
 
 @Injectable()
 export class MockRecipientBadgeManager {
-	// this is crashing the test runner???
-	// recipientBadgeList = () => new Promise(() => {});
-	// recipientBadgeList = () => {};
+	recipientBadgeList = () => new Promise(() => {});
 }
 
 @Injectable()
@@ -225,6 +218,7 @@ export class MockBadgeClassManager {
 
 @Injectable()
 export class MockRecipientBadgeCollectionManager {
+	recipientBadgeCollectionList = () => new Promise((q) => {console.log(q);});
 }
 
 @Injectable()

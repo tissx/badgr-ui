@@ -20,7 +20,7 @@ import { CommonModule } from "@angular/common";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../badgr-common.module";
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../mocks/mocks.module.spec";
 
-describe('UserProfileManager', () => {
+xdescribe('UserProfileManager', () => {
 	beforeEach(() => TestBed.configureTestingModule({
 		declarations: [  ],
 		imports: [

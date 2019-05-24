@@ -21,7 +21,7 @@ import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 
-describe('RecipientBadgeCollectionEditFormComponent', () => {
+fdescribe('RecipientBadgeCollectionEditFormComponent', () => {
   let fixture;
   let component;
 

@@ -18,7 +18,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
-describe('PublicBadgeAssertionComponent', () => {
+fdescribe('PublicBadgeAssertionComponent', () => {
   let fixture;
   let component;
 
