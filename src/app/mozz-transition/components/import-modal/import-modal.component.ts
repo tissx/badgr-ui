@@ -53,11 +53,25 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		// this.openDialog();
 	}
 
+	isJson = (str) => {
+		try {
+			JSON.parse(str);
+		} catch (e) {
+			return false;
+		}
+		return true;
+	};
+
 	openDialog = () => this.showModal();
 
 	closeDialog = () => this.closeModal();
 
 	parseManifest = (m) => {
+		if(!this.isJson(m)) {
+			this.noManifestError = true;
+			return false;
+		}
+		this.noManifestError = false;
 		const manifest = JSON.parse(m);
 		Object.keys(manifest).forEach((email) => {
 			manifest[email].forEach((f) => {
