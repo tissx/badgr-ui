@@ -137,7 +137,7 @@ export class SessionService {
 			if (expirationString) {
 				const expirationDate = new Date(expirationString);
 
-				return (expirationDate > new Date);
+				return (expirationDate > new Date());
 			} else {
 				return true;
 			}
