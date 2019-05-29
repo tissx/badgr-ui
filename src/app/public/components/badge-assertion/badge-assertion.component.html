@@ -180,15 +180,15 @@
 						*ngIf="assertion.narrative"
 						class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Narrative</h3>
 
-					<show-more *ngIf="assertion.narrative">
+					<show-more *ngIf="assertion?.narrative">
 						<markdown-display [value]="assertion.narrative"></markdown-display>
 					</show-more>
 
-					<!--<show-more *ngIf="assertion.evidence.narrative">
+					<show-more *ngIf="assertion?.evidence?.narrative">
 						<markdown-display [value]="assertion.evidence.narrative"></markdown-display>
-					</show-more>-->
+					</show-more>
 
-					<div *ngFor="let evidence of assertion.evidence; let i=index">
+					<div *ngFor="let evidence of assertion?.evidence; let i=index">
 						<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Evidence</h3>
 						<markdown-display [value]="evidence.narrative"></markdown-display>
 						<div class="u-margin-yaxis2x">

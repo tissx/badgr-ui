@@ -14,11 +14,14 @@ export interface PublicApiBadgeAssertion {
 	verification: {
 		type: "HostedBadge"
 	};
-	evidence: Array<{
-		type: "Evidence";
-		id?: string;
-		narrative?: string;
-	}>;
+	evidence:
+		Array<{
+			type: "Evidence";
+			id?: string;
+			narrative?: string;
+		}> | {
+			narrative?: string;
+		} | string;
 	narrative: string;
 	issuedOn: string;
 	expires?: string;
