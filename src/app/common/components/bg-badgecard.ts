@@ -29,7 +29,7 @@ declare function require(path: string): string;
 			</div>
 
 			<!-- Show Verify or Share Button -->
-			<button class="badgecard-x-sharelink" *ngIf="!verifyUrl"
+			<button class="badgecard-x-sharelink" *ngIf="!verifyUrl && (mostRelevantStatus !== 'pending')"
 					(click)="shareClicked.emit($event)">
 				Share
 			</button>
@@ -49,7 +49,7 @@ export class BgBadgecard {
 	@Input() badgeDescription: string;
 	@Input() badgeIssueDate: string;
 	@Input() issuerTitle: string;
-	@Input() mostRelevantStatus: "expired" | "new" | undefined;
+	@Input() mostRelevantStatus: "expired" | "new" | "pending" | undefined;
 	@Input() verifyUrl: string;
 	@Output() shareClicked = new EventEmitter<MouseEvent>();
 }

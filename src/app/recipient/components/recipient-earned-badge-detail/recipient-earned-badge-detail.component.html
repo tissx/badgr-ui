@@ -8,7 +8,10 @@
 			<h1>{{ badge.badgeClass.name }}</h1>
 
 			<div class="l-primarymore">
-				<button class="button" type="button"
+				<button
+					[disabled]="badge.mostRelevantStatus === 'pending'"
+					class="button"
+					type="button"
 					(click)="shareBadge()"
 				>Share Badge</button>
 				<button class="buttonicon buttonicon-secondary" id="actionstrigger"
