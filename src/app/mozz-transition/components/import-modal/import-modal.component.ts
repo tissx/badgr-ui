@@ -157,6 +157,9 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 				this.noManifestError = true;
 				return false;
 			}
+		}, (error) => {
+			this.noManifestError = true;
+			return false;
 		});
 
 	}
