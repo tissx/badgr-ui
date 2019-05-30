@@ -9,7 +9,7 @@
 
 			<div class="l-primarymore">
 				<button
-					[disabled]="badge.mostRelevantStatus === 'pending'"
+					*ngIf="badge.mostRelevantStatus !== 'pending'"
 					class="button"
 					type="button"
 					(click)="shareBadge()"
@@ -45,14 +45,21 @@
 		</div>
 		<div class="badgedetail-x-sidebar">
 			<div class="badgedetail-x-sidebarinternal">
-				<img [loaded-src]="badge.image"
-				     [loading-src]="badgeLoadingImageUrl"
+				<img
+					 [loaded-src]="badge.image"
+					 [loading-src]="badgeLoadingImageUrl"
 					 [error-src]="badgeFailedImageUrl"
 					 [ngStyle]="badge.isExpired && {'filter':'grayscale(1)'}"
 					 class="badgeimage badgeimage-center badgeimage-large"
 					 width="200"
 			    />
-			    <dl>
+				<div class="badgecard-x-status badgestatus badgestatus-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus === 'pending'">
+					{{badge.mostRelevantStatus}}
+				</div>
+				<div class="badgecard-x-status badgestatus badgestatus-{{badge.isExpired}}" *ngIf="badge.isExpired">
+					expired
+				</div>
+				<dl>
 			    	<div class="l-flex l-flex-2x u-padding-top2x border border-top border-light3">
 						<div>
 							<img [loaded-src]="badge.badgeClass?.issuer?.image"
