@@ -17,6 +17,7 @@ import {UserProfileManager} from '../common/services/user-profile-manager.servic
 import {UserProfileApiService} from '../common/services/user-profile-api.service';
 import {ChangePasswordComponent} from './components/change-password/change-password.component';
 import {OAuthAppDetailComponent} from './components/oauth-app-detail/oauth-app-detail.component';
+import { MozzTransitionModule } from "../mozz-transition/mozz-transition.module";
 
 const routes = [
 	/* Profile */
@@ -60,7 +61,8 @@ const routes = [
 		...COMMON_IMPORTS,
 		BadgrCommonModule,
 		CommonEntityManagerModule,
-		RouterModule.forChild(routes)
+		RouterModule.forChild(routes),
+		MozzTransitionModule,
 	],
 	declarations: [
 		BadgebookLti1DetailComponent,
