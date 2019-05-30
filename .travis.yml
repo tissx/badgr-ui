@@ -1,10 +1,10 @@
 language: node_js
 
 before_script:
- - npm install -g @angular/cli
+ - yes | npm install -g @angular/cli
 script:
  - ng lint
- - ng test
+ - npm run test-headless
  - ng build
 notifications:
  slack:
