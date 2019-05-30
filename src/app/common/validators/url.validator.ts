@@ -4,7 +4,7 @@ import {ValidationResult} from './email.validator';
 
 export class UrlValidator {
 	static validUrl(control: AbstractControl): ValidationResult {
-		return typeof(control.value) !== "string" || control.value.trim() == "" || isURL(
+		return typeof(control.value) !== "string" || control.value.trim() === "" || isURL(
 			control.value,
 			{
 				require_tld: false,

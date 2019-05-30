@@ -28,7 +28,7 @@ export function groupIntoArray<ValueType, KeyType>(keyFor: (ValueType) => KeyTyp
 		grouped = Array.isArray(grouped) ? grouped : [];
 		const key = keyFor(value);
 
-		let group: GroupedPair<KeyType, ValueType> = grouped.find(g => g.key == key);
+		let group: GroupedPair<KeyType, ValueType> = grouped.find(g => g.key === key);
 		if (!group) {
 			group = { key, values: [] } as GroupedPair<KeyType, ValueType>;
 			grouped.push(group);

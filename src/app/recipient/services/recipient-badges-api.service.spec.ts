@@ -6,19 +6,19 @@ describe('RecipientBadgeApiService', () => {
 
   const loginService: any = {
     // mock properties here 
-  }
+  };
 
   const http: any = {
     // mock properties here 
-  }
+  };
 
   const configService: any = {
     // mock properties here 
-  }
+  };
 
   const messageService: any = {
     // mock properties here 
-  }
+  };
 
   beforeEach(() => {
     service = new RecipientBadgeApiService(loginService,http,configService,messageService);

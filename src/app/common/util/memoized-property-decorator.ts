@@ -1,9 +1,9 @@
 export function MemoizedProperty() {
-	return function (
-		target: Object,
+	return (
+		target: {},
 		propertyKey: string,
 		descriptor: PropertyDescriptor
-	) {
+	) => {
 		if (descriptor.get) {
 			const oldGet = descriptor.get;
 

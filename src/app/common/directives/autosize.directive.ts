@@ -74,7 +74,7 @@ export class AutosizeDirective implements AfterViewChecked {
 		this.adjust();
 	}
 
-	constructor(@Inject(PLATFORM_ID) private platformId: Object, private renderer: Renderer2, public element: ElementRef) {
+	constructor(@Inject(PLATFORM_ID) private platformId: {}, private renderer: Renderer2, public element: ElementRef) {
 		this.el = element.nativeElement;
 		this._clientWidth = this.el.clientWidth;
 	}
@@ -95,7 +95,7 @@ export class AutosizeDirective implements AfterViewChecked {
 
 	adjust(): void {
 		// perform height adjustments after input changes, if height is different
-		if (this.el.style.height == this.element.nativeElement.scrollHeight + "px") {
+		if (this.el.style.height === this.element.nativeElement.scrollHeight + "px") {
 			return;
 		}
 		this.renderer.setStyle(this.el, 'overflow', 'hidden');

@@ -2,7 +2,7 @@ import { async } from '@angular/core/testing';
 import {BadgrRouteReuseStrategy} from './route-reuse-strategy';
 import {Directive} from '@angular/core';
 
-describe('My Test', () => {
+xdescribe('My Test', () => {
   let service;
 
   beforeEach(() => {

@@ -6,11 +6,11 @@ describe('ExternalToolsManager', () => {
 
   const externalToolsApiService: any = {
     // mock properties here 
-  }
+  };
 
   const commonEntityManager: any = {
     // mock properties here 
-  }
+  };
 
   beforeEach(() => {
     service = new ExternalToolsManager(externalToolsApiService,commonEntityManager);

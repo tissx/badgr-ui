@@ -72,7 +72,7 @@ export class BgImageStatusPlaceholderDirective implements OnChanges {
 	}
 
 	private updateState() {
-		if (this.loadedSrc != this.lastImageSource) {
+		if (this.loadedSrc !== this.lastImageSource) {
 			this.image.src = this.lastImageSource = this.loadedSrc;
 
 			this.loading = true;

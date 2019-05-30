@@ -6,19 +6,19 @@ fdescribe('RecipientBadgeCollectionApiService', () => {
 
   const loginService: any = {
     // mock properties here 
-  }
+  };
 
   const http: any = {
     // mock properties here 
-  }
+  };
 
   const configService: any = {
     // mock properties here 
-  }
+  };
 
   const messageService: any = {
     // mock properties here 
-  }
+  };
 
   beforeEach(() => {
     service = new RecipientBadgeCollectionApiService(loginService,http,configService,messageService);
