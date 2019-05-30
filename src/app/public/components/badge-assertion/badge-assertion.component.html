@@ -173,24 +173,24 @@
 
 				<!-- evidence -->
 				<section
-					*ngIf="assertion?.evidence?.length>0 || assertion?.narrative">
+					*ngIf="assertion?.evidence?.length>0 || assertion?.narrative || assertion?.evidence">
 
 					<!-- || assertion.evidence.narrative -->
 					<h3
-						*ngIf="assertion.narrative"
+						*ngIf="assertion?.narrative"
 						class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Narrative</h3>
 
 					<show-more *ngIf="assertion?.narrative">
-						<markdown-display [value]="assertion.narrative"></markdown-display>
+						<markdown-display [value]="assertion?.narrative"></markdown-display>
 					</show-more>
 
 					<show-more *ngIf="assertion?.evidence?.narrative">
-						<markdown-display [value]="assertion.evidence.narrative"></markdown-display>
+						<markdown-display [value]="assertion?.evidence?.narrative"></markdown-display>
 					</show-more>
 
 					<div *ngFor="let evidence of assertion?.evidence; let i=index">
 						<h3 class="u-text-h3-semibold u-margin-bottom2x u-margin-top4x">Evidence</h3>
-						<markdown-display [value]="evidence.narrative"></markdown-display>
+						<markdown-display [value]="evidence?.narrative"></markdown-display>
 						<div class="u-margin-yaxis2x">
 							<a
 								*ngIf="evidence.id"
