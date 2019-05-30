@@ -17,7 +17,7 @@ import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 
-fdescribe('AddBadgeDialogComponent', () => {
+describe('AddBadgeDialogComponent', () => {
   let fixture;
   let component;
 
@@ -53,8 +53,8 @@ fdescribe('AddBadgeDialogComponent', () => {
     const result = component.closeDialog();
   });
 
-  it('should run #uploadImage()', async () => {
-    const result = component.uploadImage();
+  xit('should run #uploadImage()', async () => {
+    const result = component.uploadImage('email','image');
   });
 
   xit('should run #controlUpdated()', async () => {

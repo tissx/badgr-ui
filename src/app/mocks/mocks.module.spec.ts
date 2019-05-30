@@ -148,6 +148,11 @@ export class MockSettingsService {
 export class MockPublicApiService {
 	loadSettings = () => null;
 	saveSettings = () => null;
+	getBadgeAssertion = () => new Promise(() => {});
+	getBadgeCollection = () => new Promise(() => {});
+	getBadgeClass = () => new Promise(() => {});
+	getIssuerWithBadges = () => new Promise(() => {});
+
 }
 
 @Injectable()
@@ -168,12 +173,14 @@ export class MockOAuthApiService {
 }
 
 const commonDialog = {
-	openDialog: () => null,
-	closeDialog: () => null,
+	openDialog: () => new Promise(() => {}),
+	closeDialog: () => new Promise(() => {}),
+	openResolveRejectDialog: () => new Promise(() => {}),
 };
 @Injectable()
 export class MockCommonDialogsService {
 	markdownHintsDialog = commonDialog;
+	recipientBadgeDialog = commonDialog;
 	confirmDialog = commonDialog;
 	shareSocialDialog = commonDialog;
 }
@@ -191,9 +198,15 @@ export class MockOAuthManager {
 	);
 }
 
+// this.recipientBadgeManager.recipientBadgeList.loadedPromise
 @Injectable()
 export class MockRecipientBadgeManager {
-	recipientBadgeList = () => new Promise(() => {});
+	recipientBadgeList = {
+		loadedPromise: () => new Promise(() => {}),
+	};
+	recipientBadgeApiService = {
+		saveInstance: () => new Promise((q) => {console.log(q);}),
+	};
 }
 
 @Injectable()

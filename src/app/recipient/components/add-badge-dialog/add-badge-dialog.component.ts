@@ -35,7 +35,7 @@ export class AddBadgeDialogComponent extends BaseDialog {
 	currentTab: AddBadgeDialogTabName = "upload";
 
 	options: AddBadgeDialogOptions = AddBadgeDialogComponent.defaultOptions;
-	resolveFunc: () => void;
+	resolveFunc: () => void = () => {};
 	rejectFunc: (err?: unknown) => void;
 
 	badgeUploadPromise: Promise<unknown>;

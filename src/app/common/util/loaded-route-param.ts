@@ -14,7 +14,7 @@ export class LoadedRouteParam<Type> {
 		paramName: string,
 		loader: (entityId: string) => Promise<Type>
 	) {
-		const paramValue = route.snapshot.params[paramName].replace(/\?.*$/, "");
+		const paramValue = (route.snapshot.params.hasOwnProperty(paramName)) ?route.snapshot.params[paramName].replace(/\?.*$/, "") :'';
 
 		this.loadedPromise = loader(paramValue).then(
 			value => {

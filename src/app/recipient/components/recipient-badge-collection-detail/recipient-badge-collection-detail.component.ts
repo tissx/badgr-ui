@@ -28,7 +28,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 	recipientBadgeDialog: RecipientBadgeSelectionDialog;
 
 	collectionLoadedPromise: Promise<unknown>;
-	collection: RecipientBadgeCollection;
+	collection: RecipientBadgeCollection = new RecipientBadgeCollection(null);
 
 	constructor(
 		router: Router,

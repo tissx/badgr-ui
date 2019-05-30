@@ -17,8 +17,9 @@ import {Title} from '@angular/platform-browser';
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
+import { LoadedRouteParam } from "../../../common/util/loaded-route-param";
 
-fdescribe('PublicBadgeAssertionComponent', () => {
+describe('PublicBadgeAssertionComponent', () => {
   let fixture;
   let component;
 
@@ -38,6 +39,7 @@ fdescribe('PublicBadgeAssertionComponent', () => {
 			],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
+    // jasmine.createSpy('LoadedRouteParam');
     fixture = TestBed.createComponent(PublicBadgeAssertionComponent);
     component = fixture.debugElement.componentInstance;
   });

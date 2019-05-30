@@ -21,7 +21,7 @@ import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.sp
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
-describe('RecipientEarnedBadgeListComponent', () => {
+fdescribe('RecipientEarnedBadgeListComponent', () => {
   let fixture;
   let component;
 

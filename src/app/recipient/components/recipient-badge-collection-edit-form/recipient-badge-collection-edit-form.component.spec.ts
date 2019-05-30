@@ -21,7 +21,7 @@ import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
 
-fdescribe('RecipientBadgeCollectionEditFormComponent', () => {
+describe('RecipientBadgeCollectionEditFormComponent', () => {
   let fixture;
   let component;
 
@@ -53,7 +53,7 @@ fdescribe('RecipientBadgeCollectionEditFormComponent', () => {
     const result = component.ngOnInit();
   });
 
-  it('should run #startEditing()', async () => {
+  xit('should run #startEditing()', async () => {
     const result = component.startEditing();
   });
 

@@ -23,7 +23,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 
-describe('RecipientEarnedBadgeDetailComponent', () => {
+fdescribe('RecipientEarnedBadgeDetailComponent', () => {
   let fixture;
   let component;
 
@@ -45,6 +45,7 @@ describe('RecipientEarnedBadgeDetailComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(RecipientEarnedBadgeDetailComponent);
     component = fixture.debugElement.componentInstance;
+    //component.recipientBadgeManager.recipientBadgeList.loadedPromise.then = ()=>{}
   });
 
   it('should create a component', async () => {
