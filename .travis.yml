@@ -1,17 +1,17 @@
 language: node_js
 
 before_script:
-	- npm install -g @angular/cli
+ - npm install -g @angular/cli
 script:
-	- ng lint
-	- ng test
-	- ng build
+ - ng lint
+ - ng test
+ - ng build
 notifications:
-	slack:
-		on_success: always
-		on_failure: always
-	email:
-		recipients:
-			- esletteland@concentricsky.com
-		on_success: always
-		on_failure: always
+ slack:
+  on_success: always
+  on_failure: always
+ email:
+  recipients:
+   - esletteland@concentricsky.com
+  on_success: always
+  on_failure: always
