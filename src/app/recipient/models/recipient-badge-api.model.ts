@@ -52,9 +52,17 @@ export interface ApiRecipientBadgeRecipient {
 	recipient: ApiRecipientBadgeRecipientEmail;
 }
 
+export interface AlignmentData {
+	targetName: string;
+	targetCode: string;
+	targetDescription: string;
+	frameworkName: string;
+	targetUrl?: string;
+}
+
 export interface ApiRecipientBadgeClass {
 	id: ApiBadgeRecipientClassBadgeUrl;
-	alignment: string;
+	alignment: AlignmentData[];
 	type: string;
 	name: string;
 	description: string;
