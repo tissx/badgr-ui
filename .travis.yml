@@ -1,5 +1,17 @@
 language: node_js
 
+before_script:
+	- npm install -g @angular/cli
 script:
-    - cp src/environments/environment.prod.ts{.example,} npm run build
-    - npm run test
+	- ng lint
+	- ng test
+	- ng build
+notifications:
+	slack:
+		on_success: always
+		on_failure: always
+	email:
+		recipients:
+			- esletteland@concentricsky.com
+		on_success: always
+		on_failure: always
