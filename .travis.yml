@@ -3,7 +3,7 @@ language: node_js
 before_script:
  - yes | npm install -g @angular/cli
 script:
- - ng lint
+ # - ng lint
  - npm run test-headless
  - ng build
 notifications:
