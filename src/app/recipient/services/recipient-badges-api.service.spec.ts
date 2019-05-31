@@ -1,7 +1,7 @@
 import { async } from '@angular/core/testing';
 import {RecipientBadgeApiService} from './recipient-badges-api.service';
 
-describe('RecipientBadgeApiService', () => {
+xdescribe('RecipientBadgeApiService', () => {
   let service;
 
   const loginService: any = {

@@ -36,6 +36,7 @@ import { RecipientBadgeCollectionManager } from "../recipient/services/recipient
 import { PublicApiService } from "../public/services/public-api.service";
 import { BaseHttpApiService } from "../common/services/base-http-api.service";
 import { NavigationService } from "../common/services/navigation.service";
+import { RecipientBadgeCollectionApiService } from "../recipient/services/recipient-badge-collection-api.service";
 
 /*@Injectable()
 export class MockRouter { navigate = () => {jasmine.createSpy('navigate'); };}*/
@@ -49,6 +50,9 @@ export class MockRoute {
 		subscribe: (fn: (value: Params) => void) => fn({tab: 0,}),
 	};
 	snapshot = {
+		routeConfig: {
+			path: '/badges/',
+		},
 		data: {
 
 		},
@@ -167,12 +171,18 @@ export class MockInitialLoadingIndicatorService {
 }
 
 @Injectable()
+export class MockRecipientBadgeCollectionApiService {
+	BaseHttpApiService = () => null;
+	// queryStringValue = () => null;
+}
+
+@Injectable()
 export class MockOAuthApiService {
 	// clearInitialQueryParams = () => null;
 	listAuthorizations = () => null;
 }
 
-const commonDialog = {
+export const commonDialog = {
 	openDialog: () => new Promise(() => {}),
 	closeDialog: () => new Promise(() => {}),
 	openResolveRejectDialog: () => new Promise(() => {}),
@@ -183,6 +193,8 @@ export class MockCommonDialogsService {
 	recipientBadgeDialog = commonDialog;
 	confirmDialog = commonDialog;
 	shareSocialDialog = commonDialog;
+	addBadgeDialog = commonDialog;
+	collectionSelectionDialog = commonDialog;
 }
 
 // managers
@@ -198,14 +210,15 @@ export class MockOAuthManager {
 	);
 }
 
-// this.recipientBadgeManager.recipientBadgeList.loadedPromise
+// const loadedPromise = {then: () => ({catch:() => {}})};
 @Injectable()
 export class MockRecipientBadgeManager {
 	recipientBadgeList = {
-		loadedPromise: () => new Promise(() => {}),
+		changed$: { subscribe: () => {}},
+		loadedPromise: new Promise(()=>{}),
 	};
 	recipientBadgeApiService = {
-		saveInstance: () => new Promise((q) => {console.log(q);}),
+		saveInstance: new Promise(()=>{}),
 	};
 }
 
@@ -220,6 +233,7 @@ export class MockExternalToolsManager {
 @Injectable()
 export class MockUserProfileManager {
 	userProfilePromise = new Promise(() => ({}));
+	userProfileSet = {updateList: () => new Promise(() => ({}))};
 }
 
 @Injectable()
@@ -315,6 +329,7 @@ export let COMMON_MOCKS_PROVIDERS_WITH_SUBS = [];
 	InitialLoadingIndicatorService,
 	CommonDialogsService,
 	OAuthApiService,
+	RecipientBadgeCollectionApiService,
 	OAuthManager,
 	AppIntegrationManager,
 	ExternalToolsManager,

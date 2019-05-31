@@ -16,6 +16,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 import { FormsModule } from "@angular/forms";
+import { RecipientBadgeCollection } from "../../models/recipient-badge-collection.model";
 
 describe('RecipientBadgeSelectionDialog', () => {
   let fixture;
@@ -40,6 +41,9 @@ describe('RecipientBadgeSelectionDialog', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(RecipientBadgeSelectionDialog);
     component = fixture.debugElement.componentInstance;
+    component.resolveFunc = () => {};
+    component.allBadges = [];
+		component.allIssuers = [];
   });
 
   it('should create a component', async () => {

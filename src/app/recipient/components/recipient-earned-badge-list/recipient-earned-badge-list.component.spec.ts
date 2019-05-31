@@ -17,11 +17,11 @@ import {MessageService} from '../../../common/services/message.service';
 import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
-import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
+import { COMMON_MOCKS_PROVIDERS_WITH_SUBS, commonDialog } from "../../../mocks/mocks.module.spec";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
 import { RouterTestingModule } from "@angular/router/testing";
 
-fdescribe('RecipientEarnedBadgeListComponent', () => {
+describe('RecipientEarnedBadgeListComponent', () => {
   let fixture;
   let component;
 
@@ -43,6 +43,8 @@ fdescribe('RecipientEarnedBadgeListComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(RecipientEarnedBadgeListComponent);
     component = fixture.debugElement.componentInstance;
+		component.route.snapshot.routeConfig = {path: '/'};
+		component.addBadgeDialog = commonDialog;
   });
 
   it('should create a component', async () => {

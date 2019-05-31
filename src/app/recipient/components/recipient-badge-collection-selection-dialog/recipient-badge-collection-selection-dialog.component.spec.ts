@@ -18,7 +18,7 @@ import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.
 import { COMMON_MOCKS_PROVIDERS_WITH_SUBS } from "../../../mocks/mocks.module.spec";
 import { FormsModule } from "@angular/forms";
 
-fdescribe('RecipientBadgeCollectionSelectionDialogComponent', () => {
+describe('RecipientBadgeCollectionSelectionDialogComponent', () => {
   let fixture;
   let component;
 
