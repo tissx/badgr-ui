@@ -13,7 +13,6 @@
 		"test": "ng test",
 		"test-intellij": "ng test 2>&1 | perl -e '$|++; while (<>) { s/((ERROR|WARNING) in\\s*)(.*)/$1\\n$3/g; print $_; }'",
 		"test-headless": "ng test --watch=false --browsers=ChromeHeadless",
-
 		"lint": "tslint src/**/*.ts",
 		"e2e": "ng e2e",
 		"postversion": "git push && git push --tags",
@@ -34,7 +33,7 @@
 		"@angular/platform-browser-dynamic": "^7.2.15",
 		"@angular/router": "^7.2.15",
 		"@angularclass/request-idle-callback": "1.0.7",
-		"@concentricsky/badgr-style": "^15.1.2",
+		"@concentricsky/badgr-style": "^15.1.4",
 		"@types/fontfaceobserver": "0.0.6",
 		"@types/marked": "^0.6.5",
 		"@types/validator": "^10.11.0",
