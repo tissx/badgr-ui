@@ -7,7 +7,7 @@ script:
  - npm run test-headless
  - ng build
 notifications:
-  slack: concentricsky:UugB2sbXyfupEV695xsGm0PH
+ slack: concentricsky:UugB2sbXyfupEV695xsGm0PH
  email:
   recipients:
    - esletteland@concentricsky.com
