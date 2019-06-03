@@ -172,7 +172,7 @@ export class MockInitialLoadingIndicatorService {
 
 @Injectable()
 export class MockRecipientBadgeCollectionApiService {
-	BaseHttpApiService = () => null;
+	// BaseHttpApiService = () => null;
 	// queryStringValue = () => null;
 }
 
