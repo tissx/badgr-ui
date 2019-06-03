@@ -49,7 +49,7 @@
 						{{ member.nameLabel }}
 						<div class="l-flex l-flex-column l-flex-2x u-hidden-mintablet u-margin-top2x">
 							<p class="u-text-small u-text-breakword">
-								{{ member.email }}
+								{{ member.email || member.url || member.telephone }}
 							</p>
 							<div class="forminput forminput-full" *ngIf="isCurrentUserIssuerOwner">
 								<div class="forminput-x-label">Role</div>
