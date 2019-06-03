@@ -104,6 +104,7 @@ export class IssuerStaffMember extends ManagedEntity<ApiIssuerStaff, IssuerStaff
 	get roleSlug() { return this.apiModel.role; }
 	get roleInfo() { return issuerRoleInfoFor(this.roleSlug); }
 	get email() { return this.apiModel.user.email; }
+	get telephone() { return this.apiModel.user.telephone; }
 	get firstName() { return this.apiModel.user.first_name; }
 	get lastName() { return this.apiModel.user.last_name; }
 
