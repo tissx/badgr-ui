@@ -190,6 +190,7 @@ export const commonDialog = {
 @Injectable()
 export class MockCommonDialogsService {
 	markdownHintsDialog = commonDialog;
+	badgeSelectionDialog = commonDialog;
 	recipientBadgeDialog = commonDialog;
 	confirmDialog = commonDialog;
 	shareSocialDialog = commonDialog;
@@ -201,6 +202,7 @@ export class MockCommonDialogsService {
 @Injectable()
 export class MockOAuthManager {
 	// authorizedApps = () => new Promise(() => {});
+	listAuthorizations = () => new Promise(() => {});
 	oauthApi: MockOAuthApiService;
 	private commonEntityManager: CommonEntityManager;
 	readonly authorizedApps = new StandaloneEntitySet<OAuth2AppAuthorization, ApiOAuth2AppAuthorization>(

@@ -44,6 +44,7 @@ describe('RecipientBadgeSelectionDialog', () => {
     component.resolveFunc = () => {};
     component.allBadges = [];
 		component.allIssuers = [];
+		component.open = false;
   });
 
   it('should create a component', async () => {
