@@ -115,7 +115,7 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 		$event.preventDefault();
 		// safety first!
 		if(accountsNum <= 1 && !this.profile.hasPasswordSet){
-			await animationFramePromise()
+			await animationFramePromise();
 			this.messageService.reportHandledError('Please set a password using the "Set Password" button above before removing this integration.');
 			return false;
 		}

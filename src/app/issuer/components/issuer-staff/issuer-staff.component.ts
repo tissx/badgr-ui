@@ -102,7 +102,6 @@ export class IssuerStaffComponent extends BaseAuthenticatedRoutableComponent imp
 	}
 
 	memberId(member){
-		console.log('member', member)
 		return member.email || member.url || member.telephone;
 	}
 
