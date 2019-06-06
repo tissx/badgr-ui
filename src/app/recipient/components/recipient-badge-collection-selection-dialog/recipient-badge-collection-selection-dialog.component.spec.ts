@@ -43,6 +43,7 @@ describe('RecipientBadgeCollectionSelectionDialogComponent', () => {
     component = fixture.debugElement.componentInstance;
 		component.resolveFunc = () => {}
 		//component.recipientBadgeCollectionManager.recipientBadgeApiService = () => new Promise(() => {})
+		component.open = false;
   });
 
   it('should create a component', async () => {

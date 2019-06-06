@@ -42,6 +42,7 @@ describe('BadgeSelectionDialog', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(BadgeSelectionDialog);
     component = fixture.debugElement.componentInstance;
+    component.open = false;
   });
 
   it('should create a component', async () => {
