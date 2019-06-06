@@ -183,6 +183,7 @@ export class MockOAuthApiService {
 }
 
 export const commonDialog = {
+	open: false,
 	openDialog: () => new Promise(() => {}),
 	closeDialog: () => new Promise(() => {}),
 	openResolveRejectDialog: () => new Promise(() => {}),
