@@ -35,6 +35,8 @@ describe('FormMessageComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(FormMessageComponent);
     component = fixture.debugElement.componentInstance;
+		component.click = new MouseEvent('click');
+		component.click.nativeElement = null;
   });
 
   it('should create a component', async () => {
@@ -50,7 +52,7 @@ describe('FormMessageComponent', () => {
   });
 
   it('should run #onDocumentClick()', async () => {
-    const result = component.onDocumentClick(new MouseEvent('click'));
+    const result = component.onDocumentClick(component.click);
   });
 
   it('should run #toNotification()', async () => {

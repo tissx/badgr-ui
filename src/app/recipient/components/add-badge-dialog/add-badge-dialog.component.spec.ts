@@ -50,7 +50,7 @@ describe('AddBadgeDialogComponent', () => {
     // const result = component.openDialog(customOptions);
   });
 
-  it('should run #closeDialog()', async () => {
+  xit('should run #closeDialog()', async () => {
     const result = component.closeDialog();
   });
 

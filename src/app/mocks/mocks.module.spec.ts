@@ -179,7 +179,7 @@ export class MockRecipientBadgeCollectionApiService {
 @Injectable()
 export class MockOAuthApiService {
 	// clearInitialQueryParams = () => null;
-	listAuthorizations = () => null;
+	listAuthorizations = () => new Promise(() => {});
 }
 
 export const commonDialog = {
@@ -209,7 +209,7 @@ export class MockOAuthManager {
 	readonly authorizedApps = new StandaloneEntitySet<OAuth2AppAuthorization, ApiOAuth2AppAuthorization>(
 		() => new OAuth2AppAuthorization(this.commonEntityManager),
 		apiModel => apiModel.entityId,
-		() => this.oauthApi.listAuthorizations()
+		() => null //this.oauthApi.listAuthorizations()
 	);
 }
 
