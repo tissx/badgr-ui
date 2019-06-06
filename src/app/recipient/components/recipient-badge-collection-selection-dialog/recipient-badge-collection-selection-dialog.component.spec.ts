@@ -44,6 +44,7 @@ describe('RecipientBadgeCollectionSelectionDialogComponent', () => {
 		component.resolveFunc = () => {}
 		//component.recipientBadgeCollectionManager.recipientBadgeApiService = () => new Promise(() => {})
 		component.open = false;
+		component.close = false;
   });
 
   it('should create a component', async () => {
