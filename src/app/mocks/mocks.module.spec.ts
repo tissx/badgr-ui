@@ -166,19 +166,14 @@ export class MockQueryParametersService {
 }
 @Injectable()
 export class MockInitialLoadingIndicatorService {
-	// clearInitialQueryParams = () => null;
-	// queryStringValue = () => null;
 }
 
 @Injectable()
 export class MockRecipientBadgeCollectionApiService {
-	// BaseHttpApiService = () => null;
-	// queryStringValue = () => null;
 }
 
 @Injectable()
 export class MockOAuthApiService {
-	// clearInitialQueryParams = () => null;
 	listAuthorizations = () => new Promise(() => {});
 }
 
@@ -202,7 +197,6 @@ export class MockCommonDialogsService {
 // managers
 @Injectable()
 export class MockOAuthManager {
-	// authorizedApps = () => new Promise(() => {});
 	listAuthorizations = () => new Promise(() => {});
 	oauthApi: MockOAuthApiService;
 	private commonEntityManager: CommonEntityManager;
@@ -213,11 +207,10 @@ export class MockOAuthManager {
 	);
 }
 
-// const loadedPromise = {then: () => ({catch:() => {}})};
 @Injectable()
 export class MockRecipientBadgeManager {
 	recipientBadgeList = {
-		changed$: { subscribe: () => {}},
+		changed$: { subscribe: () => new Promise(()=>{})},
 		loadedPromise: new Promise(()=>{}),
 	};
 	recipientBadgeApiService = {
@@ -257,7 +250,6 @@ export class MockBadgeCollectionManager {
 
 @Injectable()
 export class MockBadgeInstanceManager {
-	// badgeByIssuerSlugAndSlug = () => null;
 }
 
 @Injectable()
@@ -267,12 +259,10 @@ export class MockIssuerManager {
 
 @Injectable()
 export class MockAppIntegrationManager {
-	//issuerBySlug = () => new Promise((q) => {console.log(q);});
 }
 
 @Injectable()
 export class MockBaseHttpApiService {
-	//issuerBySlug = () => new Promise((q) => {console.log(q);});
 	baseUrl = '';
 }
 
@@ -283,21 +273,16 @@ export class MockNavigationService {
 
 @Injectable()
 export class MockEventsService {
-	// subscribe = (fn: (value: Data) => void) => fn({});
-	profileEmailsChanged = {subscribe : (fn: (value: Data) => void) => fn({})};
-	recipientBadgesStale = {subscribe : (fn: (value: Data) => void) => fn({})};
-	documentClicked = {
-		subscribe : (fn: (value: Data) => void) => fn({}),
-	};
-	externalToolLaunch = {subscribe : (fn: (value: Data) => void) => fn({})};
-
+	profileEmailsChanged = () => new Promise(() => null);
+	recipientBadgesStale = () => new Promise(() => null);
+	documentClicked =  new Observable(() => {});
+	externalToolLaunch = new Observable(() => {});
 }
 @Injectable()
 export class MockEmbedService {
 }
 @Injectable()
 export class MockElementRef {
-	// constructor() { super(undefined); }
 	nativeElement = {};
 }
 
@@ -315,9 +300,6 @@ export let COMMON_MOCKS_PROVIDERS_WITH_SUBS = [];
 	DomSanitizer,
 	HttpHandler,
 	HttpClient,
-	// Router,
-	// NgZone,
-	// UserProfileApiService,
 	BaseHttpApiService,
 	PublicApiService,
 	ZipService,
