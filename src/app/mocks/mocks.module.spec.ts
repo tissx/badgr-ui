@@ -210,7 +210,7 @@ export class MockOAuthManager {
 @Injectable()
 export class MockRecipientBadgeManager {
 	recipientBadgeList = {
-		changed$: { subscribe: () => new Promise(()=>{})},
+		changed$: new Observable(),
 		loadedPromise: new Promise(()=>{}),
 	};
 	recipientBadgeApiService = {
