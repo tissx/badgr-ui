@@ -58,7 +58,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	) {
 		super(router, route);
 		title.setTitle(`Login - ${this.configService.theme['serviceName'] || "Badgr"}`);
-		this.handleQueryParamCases();
+		// this.handleQueryParamCases();
 	}
 
 	sanitize(url:string){
@@ -136,6 +136,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			.then(() => this.loginFinished = null);
 	}
 
+/*
 	private handleQueryParamCases() {
 		try {
 			// Handle authcode exchange
@@ -171,6 +172,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			this.queryParams.clearInitialQueryParams();
 		}
 	}
+*/
 
 	private initVerifiedData() {
 		this.verifiedName = this.queryParams.queryStringValue('name');
