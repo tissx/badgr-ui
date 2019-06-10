@@ -1,17 +1,6 @@
-// tslint:disable
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Injectable, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { By } from '@angular/platform-browser';
-// import { Observable } from 'rxjs/Observable';
-// import 'rxjs/add/observable/of';
-// import 'rxjs/add/observable/throw';
-
-import {Component, Directive, ElementRef, Renderer2} from '@angular/core';
-import {RecipientBadgeManager} from '../../services/recipient-badge-manager.service';
-import {RecipientBadgeCollectionManager} from '../../services/recipient-badge-collection-manager.service';
-import {MessageService} from '../../../common/services/message.service';
-import {SettingsService} from '../../../common/services/settings.service';
+import { TestBed } from '@angular/core/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RecipientBadgeCollectionSelectionDialogComponent } from "./recipient-badge-collection-selection-dialog.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { BadgrCommonModule, COMMON_IMPORTS } from "../../../common/badgr-common.module";
@@ -41,10 +30,9 @@ describe('RecipientBadgeCollectionSelectionDialogComponent', () => {
     }).compileComponents();
     fixture = TestBed.createComponent(RecipientBadgeCollectionSelectionDialogComponent);
     component = fixture.debugElement.componentInstance;
-		component.resolveFunc = () => {}
-		//component.recipientBadgeCollectionManager.recipientBadgeApiService = () => new Promise(() => {})
+		component.resolveFunc = () => {};
 		component.open = false;
-		component.close = false;
+		component.close = () => {};
   });
 
   it('should create a component', async () => {
