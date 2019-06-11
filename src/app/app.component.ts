@@ -167,12 +167,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 	private handleQueryParamCases() {
 		try {
 			// Handle authcode exchange
+			const redirect = 'auth/welcome'; // 'recipient'
 			const authCode = this.queryParams.queryStringValue("authCode", true);
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
 					this.externalToolsManager.externaltoolsList.updateIfLoaded();
-					this.initFinished = this.router.navigate([ 'recipient' ]);
+					this.initFinished = this.router.navigate([ redirect ]);
 				});
 				return;
 			} else if (this.queryParams.queryStringValue("authToken", true)) {
@@ -181,7 +182,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 				});
 
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ 'recipient' ]);
+				this.initFinished = this.router.navigate([ redirect ]);
 				return;
 			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
@@ -190,7 +191,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);
 			} else if (this.sessionService.isLoggedIn) {
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ 'recipient' ]);
+				this.initFinished = this.router.navigate([ redirect ]);
 				return;
 			}
 
