@@ -1,17 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { preloadImageURL } from "../../../common/util/file-util";
+import { BaseAuthenticatedRoutableComponent } from "../../../common/pages/base-authenticated-routable.component";
+import { ActivatedRoute, Router } from "@angular/router";
+import { SessionService } from "../../../common/services/session.service";
+import { AppConfigService } from "../../../common/app-config.service";
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css']
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent extends BaseAuthenticatedRoutableComponent implements OnInit {
 
-  constructor() { }
+	constructor(
+		router: Router,
+		route: ActivatedRoute,
+		sessionService: SessionService,
+
+		public configService: AppConfigService,
+	) {
+		super(router, route, sessionService);
+	}
 
   ngOnInit() {
 		localStorage.removeItem('signup');
+		super.ngOnInit();
   }
 
 	readonly imageBadge = preloadImageURL(require("../../../../../node_modules/@concentricsky/badgr-style/dist/images/graphic-badge.svg") as string);

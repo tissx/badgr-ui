@@ -17,7 +17,8 @@ export class AuthGuard implements CanActivate {
 		state: RouterStateSnapshot
 	) {
 		// Ignore the auth module
-		if (state.url.startsWith("/auth")) return true;
+		console.log('!!!',state.url,state.url.includes("welcome"))
+		if (state.url.startsWith("/auth") && !state.url.includes("welcome")) return true;
 
 		// Ignore the public module
 		if (state.url.startsWith("/public")) return true;
