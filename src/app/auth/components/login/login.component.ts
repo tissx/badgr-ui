@@ -139,7 +139,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	private handleQueryParamCases() {
 		try {
 			// Handle authcode exchange
-			/*const authCode = this.queryParams.queryStringValue("authCode", true);
+			const authCode = this.queryParams.queryStringValue("authCode", true);
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
@@ -147,15 +147,14 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					this.initFinished = this.router.navigate([ 'recipient' ]);
 				});
 				return;
-			} else*/
-			if (this.queryParams.queryStringValue("authToken", true)) {
+			/*} else if (this.queryParams.queryStringValue("authToken", true)) {
 				this.sessionService.storeToken({
 					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
 
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ 'recipient' ]);
-				return;
+				return;*/
 			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
 			} else if (this.queryParams.queryStringValue("authError", true)) {
