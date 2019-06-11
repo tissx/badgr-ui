@@ -64,7 +64,7 @@ export class ImportLauncherDirective implements OnInit{
 		if (assertions.length) {
 			Promise.all(assertions.map((assertion) => {
 				return this.recipientBadgeManager
-					.createRecipientBadge(assertion).then(
+					.createRecipientBadge({url: assertion}).then(
 					() => importGood++,
 					() => importBad++,
 					);
@@ -72,7 +72,7 @@ export class ImportLauncherDirective implements OnInit{
 				// Toast!
 				if(importGood) this.messageService.reportMajorSuccess(`${importGood} Badges successfully imported.`);
 				if(importBad) this.messageService.reportHandledError(`${importBad} Badges could not be imported.`);
-				localStorage.removeItem('assertion');
+				//localStorage.removeItem('assertion');
 			});
 		}
 
