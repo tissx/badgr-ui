@@ -13,7 +13,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 
 
 @Component({
-	selector: 'logout',
+	// selector: 'logout',
 	templateUrl: './oauth2-authorize.component.html'
 })
 export class OAuth2AuthorizeComponent extends BaseRoutableComponent {
