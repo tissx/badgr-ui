@@ -176,7 +176,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 					this.initFinished = this.router.navigate([ redirect ]);
 				});
 				return;
-			} else if (this.queryParams.queryStringValue("authToken", true)) {
+			} /*else if (this.queryParams.queryStringValue("authToken", true)) {
 				this.sessionService.storeToken({
 					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
@@ -195,7 +195,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 				return;
 			}
 
-			this.initFinished = Promise.resolve(true);
+			this.initFinished = Promise.resolve(true);*/
 		} finally {
 			this.queryParams.clearInitialQueryParams();
 		}

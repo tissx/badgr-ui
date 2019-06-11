@@ -58,7 +58,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 	) {
 		super(router, route);
 		title.setTitle(`Login - ${this.configService.theme['serviceName'] || "Badgr"}`);
-		// this.handleQueryParamCases();
+		this.handleQueryParamCases();
 	}
 
 	sanitize(url:string){
@@ -136,11 +136,10 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			.then(() => this.loginFinished = null);
 	}
 
-/*
 	private handleQueryParamCases() {
 		try {
 			// Handle authcode exchange
-			const authCode = this.queryParams.queryStringValue("authCode", true);
+			/*const authCode = this.queryParams.queryStringValue("authCode", true);
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
@@ -148,7 +147,8 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					this.initFinished = this.router.navigate([ 'recipient' ]);
 				});
 				return;
-			} else if (this.queryParams.queryStringValue("authToken", true)) {
+			} else*/
+			if (this.queryParams.queryStringValue("authToken", true)) {
 				this.sessionService.storeToken({
 					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
@@ -172,7 +172,6 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			this.queryParams.clearInitialQueryParams();
 		}
 	}
-*/
 
 	private initVerifiedData() {
 		this.verifiedName = this.queryParams.queryStringValue('name');
