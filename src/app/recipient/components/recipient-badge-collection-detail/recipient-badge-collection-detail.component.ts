@@ -165,7 +165,7 @@ export function shareCollectionDialogOptionsFor(collection: RecipientBadgeCollec
 		embedOptions: [
 			{
 				label: "Card",
-				embedTitle: "Badge Collection: " + collection.name,
+				embedTitle: /*"Badge Collection: " +*/ collection.name,
 				embedType: "iframe",
 				embedSize: { width: 330, height: 186 },
 				embedVersion: 1,
