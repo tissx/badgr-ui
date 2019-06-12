@@ -1,5 +1,6 @@
 import { Directive } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+import { QueryParametersService } from "../../../common/services/query-parameters.service";
 
 @Directive({
   selector: '[sourceListener]'
@@ -7,7 +8,6 @@ import { ActivatedRoute } from "@angular/router";
 export class SourceListenerDirective {
 
 	getVars = [
-		'signup_source',
 		'signup',
 		'source',
 	];
@@ -17,6 +17,7 @@ export class SourceListenerDirective {
 
 	constructor(
 		private route: ActivatedRoute,
+		private queryParams: QueryParametersService,
 	) {}
 
 	ngOnInit() {
@@ -25,7 +26,8 @@ export class SourceListenerDirective {
 	}
 
 	varSet = (gv) => {
-		const thisVar = this.route.snapshot.queryParamMap.get(gv);
+		// const thisVar = this.route.snapshot.queryParamMap.get(gv);
+		const thisVar = this.queryParams.queryStringValue(gv, true);
 		if (thisVar) localStorage[gv] = thisVar;
 	};
 
