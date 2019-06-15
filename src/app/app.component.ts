@@ -197,7 +197,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 			this.initFinished = Promise.resolve(true);
 		} finally {
-			this.queryParams.clearInitialQueryParams();
+			//this.queryParams.clearInitialQueryParams();
+			/*if(this.queryParams.queryStringValue("authToken", true)){
+				this.router.navigate([], {
+					queryParams: {
+						authToken: null,
+					},
+					queryParamsHandling: 'merge'
+				});
+			}*/
 		}
 	}
 

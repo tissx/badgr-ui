@@ -140,11 +140,14 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		try {
 			// Handle authcode exchange
 			const authCode = this.queryParams.queryStringValue("authCode", true);
+			const redirect = 'recipient';
+			// console.info(authCode)
+			// console.log(this.queryParams)
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
 					this.externalToolsManager.externaltoolsList.updateIfLoaded();
-					this.initFinished = this.router.navigate([ 'recipient' ]);
+					this.initFinished = this.router.navigate([ redirect ]);
 				});
 				return;
 			/*} else if (this.queryParams.queryStringValue("authToken", true)) {
@@ -153,7 +156,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				});
 
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ 'recipient' ]);
+				this.initFinished = this.router.navigate([ redirect ]);
 				return;*/
 			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
@@ -162,13 +165,23 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);
 			} else if (this.sessionService.isLoggedIn) {
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ 'recipient' ]);
+				this.initFinished = this.router.navigate([ redirect ]);
 				return;
 			}
 
 			this.initFinished = Promise.resolve(true);
 		} finally {
 			this.queryParams.clearInitialQueryParams();
+			/*if(this.queryParams.queryStringValue("authCode", true) || this.queryParams.queryStringValue("infoMessage", true) || this.queryParams.queryStringValue("authError", true)){
+					this.router.navigate([], {
+					queryParams: {
+						authCode: null,
+						infoMessage: null,
+						authError: null,
+					},
+					queryParamsHandling: 'merge'
+				});
+			}*/
 		}
 	}
 
