@@ -31,7 +31,7 @@ export class WelcomeComponent /*extends BaseAuthenticatedRoutableComponent*/ imp
   ngOnInit() {
 		localStorage.removeItem('signup');
 		//super.ngOnInit();
-		this.handleQueryParamCases();
+		//this.handleQueryParamCases();
   }
 
 	initFinished: Promise<unknown> = new Promise(() => {});
@@ -51,7 +51,7 @@ export class WelcomeComponent /*extends BaseAuthenticatedRoutableComponent*/ imp
 					this.sessionService.storeToken(token);
 					this.externalToolsManager.externaltoolsList.updateIfLoaded();
 					// we're already here!
-					//this.initFinished = this.router.navigate([ redirect ]);
+					this.initFinished = this.router.navigate([ 'auth/welcome' ]);
 				}).catch((error) => {
 					this.sessionService.logout();
 					this.messageService.reportHandledError(error.error.error, null, true);
