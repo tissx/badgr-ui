@@ -69,6 +69,7 @@ export interface FeaturesConfig {
 	externalAuthProviders?: ExternalAuthProvider[];
 	disableRegistration?: boolean;
 	disableIssuers?: boolean;
+	enableComingFromMozilla?: boolean;
 }
 
 /**

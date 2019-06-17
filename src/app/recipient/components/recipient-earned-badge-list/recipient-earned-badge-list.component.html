@@ -17,26 +17,27 @@
 	</div>
 
 	<ng-template [bgAwaitPromises]="[ badgesLoaded ]">
-
-		<div
-			*ngIf="!mozillaTransitionOver"
-			#mozzBanner
-			class="l-containerxaxis l-containeryaxis">
-			<div class="notification notification-is-active notification-info">
-				<div class="notification-x-icon">
-					<svg icon="icon_info"></svg>
+		<ng-container *ngIf="mozillaFeatureEnabled">
+			<div
+				*ngIf="!mozillaTransitionOver"
+				#mozzBanner
+				class="l-containerxaxis l-containeryaxis">
+				<div class="notification notification-is-active notification-info">
+					<div class="notification-x-icon">
+						<svg icon="icon_info"></svg>
+					</div>
+					<div class="notification-x-text">
+						<h2>Coming from Mozilla?</h2>
+						<p>Let's finish <button (click)="launchImport($event)" class="u-display-inline u-text-link">adding</button> your badges.</p>
+					</div>
+					<button
+						(click)="hideMozz($event)" class="notification-x-close buttonicon buttonicon-clear">
+						<svg icon="icon_close">
+						</svg>
+						<span class="visuallyhidden">Close Notification</span>
+					</button>
 				</div>
-				<div class="notification-x-text">
-					<h2>Coming from Mozilla?</h2>
-					<p>Let's finish <button (click)="launchImport($event)" class="u-display-inline u-text-link">adding</button> your badges.</p>
-				</div>
-				<button
-					(click)="hideMozz($event)" class="notification-x-close buttonicon buttonicon-clear">
-					<svg icon="icon_close">
-					</svg>
-					<span class="visuallyhidden">Close Notification</span>
-				</button>
-			</div>
+			</ng-container>
 		</div>
 
 		<!-- No badges, empty state! -->

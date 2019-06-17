@@ -44,7 +44,9 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 	badgeClassesByIssuerId: { [issuerUrl: string]: RecipientBadgeInstance[] };
 
 	mozillaTransitionOver = true;
-
+	mozillaFeatureEnabled = this.configService.featuresConfig[
+		"enableComingFromMozilla"
+	];
 	maxDisplayedResults = 100;
 
 	private _badgesDisplay: BadgeDispay = "grid";
