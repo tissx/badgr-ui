@@ -141,8 +141,6 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			// Handle authcode exchange
 			const authCode = this.queryParams.queryStringValue("authCode", true);
 			const redirect = 'recipient';
-			// console.info(authCode)
-			// console.log(this.queryParams)
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
@@ -150,14 +148,14 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					this.initFinished = this.router.navigate([ redirect ]);
 				});
 				return;
-			/*} else if (this.queryParams.queryStringValue("authToken", true)) {
+			} else if (this.queryParams.queryStringValue("authToken", true)) {
 				this.sessionService.storeToken({
 					access_token: this.queryParams.queryStringValue("authToken", true)
 				});
 
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
 				this.initFinished = this.router.navigate([ redirect ]);
-				return;*/
+				return;
 			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
 			} else if (this.queryParams.queryStringValue("authError", true)) {
@@ -172,16 +170,6 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			this.initFinished = Promise.resolve(true);
 		} finally {
 			this.queryParams.clearInitialQueryParams();
-			/*if(this.queryParams.queryStringValue("authCode", true) || this.queryParams.queryStringValue("infoMessage", true) || this.queryParams.queryStringValue("authError", true)){
-					this.router.navigate([], {
-					queryParams: {
-						authCode: null,
-						infoMessage: null,
-						authError: null,
-					},
-					queryParamsHandling: 'merge'
-				});
-			}*/
 		}
 	}
 

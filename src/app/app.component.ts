@@ -124,7 +124,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.initScrollFix();
 
 		const authCode = this.queryParams.queryStringValue("authCode", true);
-		this.handleQueryParamCases();
 		if (sessionService.isLoggedIn && !authCode) {
 			profileManager.userProfileSet.changed$.subscribe(set => {
 				if (set.entities.length && set.entities[0].agreedTermsVersion !== set.entities[0].latestTermsVersion) {
@@ -162,51 +161,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 	dismissUnsupportedBrowserMessage() {
 		this.isUnsupportedBrowser = false;
-	}
-
-	private handleQueryParamCases() {
-		try {
-			// Handle authcode exchange
-			const redirect = 'auth/welcome'; // 'recipient'
-			//const authCode = this.queryParams.queryStringValue("authCode", true);
-			/*if (authCode) {
-				this.sessionService.exchangeCodeForToken(authCode).then(token => {
-					this.sessionService.storeToken(token);
-					this.externalToolsManager.externaltoolsList.updateIfLoaded();
-					this.initFinished = this.router.navigate([ redirect ]);
-				});
-				return;
-			} else*/ if (this.queryParams.queryStringValue("authToken", true)) {
-				this.sessionService.storeToken({
-					access_token: this.queryParams.queryStringValue("authToken", true)
-				});
-
-				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ redirect ]);
-				return;
-			} /*else if (this.queryParams.queryStringValue("infoMessage", true)) {
-				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
-			} else if (this.queryParams.queryStringValue("authError", true)) {
-				this.sessionService.logout();
-				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);
-			} else if (this.sessionService.isLoggedIn) {
-				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				this.initFinished = this.router.navigate([ redirect ]);
-				return;
-			}*/
-
-			this.initFinished = Promise.resolve(true);
-		} finally {
-			//this.queryParams.clearInitialQueryParams();
-			/*if(this.queryParams.queryStringValue("authToken", true)){
-				this.router.navigate([], {
-					queryParams: {
-						authToken: null,
-					},
-					queryParamsHandling: 'merge'
-				});
-			}*/
-		}
 	}
 
 	showIssuersTab = () => !this.features.disableIssuers || (this.issuers && this.issuers.length > 0);
