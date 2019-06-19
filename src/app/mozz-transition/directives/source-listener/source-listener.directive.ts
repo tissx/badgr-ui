@@ -34,7 +34,7 @@ export class SourceListenerDirective {
 
 		const params = location.search.split('?');
 		const theseVars = [];
-		if(params.length){
+		if(params.length > 1){
 			params[1].split('&').forEach((v) => {
 				const thisVar = v.split('=');
 				if(thisVar && thisVar[0] === key) theseVars.push(thisVar[1]);

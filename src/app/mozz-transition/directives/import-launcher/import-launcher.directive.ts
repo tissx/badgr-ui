@@ -64,7 +64,7 @@ export class ImportLauncherDirective implements OnInit{
 		if (assertions.length) {
 			Promise.all(assertions.map((assertion) => {
 				return this.recipientBadgeManager
-					.createRecipientBadge({url: assertion}).then(
+					.createRecipientBadge({url: decodeURIComponent(assertion)}).then(
 					() => importGood++,
 					() => importBad++,
 					);
