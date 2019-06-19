@@ -26,18 +26,22 @@ export class SourceListenerDirective {
 	}
 
 	varSet = (gv) => {
-		// const thisVar = this.route.snapshot.queryParamMap.get(gv);
 		const thisVar = this.queryParams.queryStringValue(gv, true);
 		if (thisVar) localStorage[gv] = thisVar;
 	};
 
 	varPush = (key) => {
-		const varArr = JSON.parse(localStorage[key] || '[]');
-		const theseVars = this.route.snapshot.queryParamMap.getAll(key);
-		if (theseVars) {
-			theseVars.forEach((val) => varArr.push(val));
-			localStorage[key] = JSON.stringify(varArr);
+
+		const params = location.search.split('?');
+		const theseVars = [];
+		if(params.length){
+			params[1].split('&').forEach((v) => {
+				const thisVar = v.split('=');
+				if(thisVar && thisVar[0] === key) theseVars.push(thisVar[1]);
+			});
 		}
+
+		if (theseVars) localStorage[key] = JSON.stringify(theseVars);
 	};
 
 }
