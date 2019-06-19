@@ -79,7 +79,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 				reader.onload = (e) => this.uploadImage(email,reader.result).then(() => {
 					this.inProgress--;
 					// Are we done with only successes?
-					if(!this.inProgress && this.successes && !this.serverErrors && !this.unverifiedEmails) this.displaySucess();
+					if(!this.inProgress && this.successes && !this.serverErrors && !this.unverifiedEmails) this.displaySuccess();
 				});
 				this.inProgress++;
 				const image = this.files.filter(m => m.filename === f)[0];
@@ -172,7 +172,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		Promise.all(verify
 			.map(email => {
 				return this.userProfileApiService.addEmail(email.email)
-					.then((data) => {
+					.then(() => {
 						successes++;
 						reupBadges.push(email);
 						email.base64Files.forEach((base64File) => this.uploadImage(email.email, base64File));
@@ -190,7 +190,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 			});
 	}
 
-	displaySucess = () => {
+	displaySuccess = () => {
 		this.messageService.reportMajorSuccess(this.successes + " Badges successfully imported.");
 		this.closeDialog();
 	}
