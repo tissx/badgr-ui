@@ -44,22 +44,7 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 		title.setTitle(`Issuers - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
 		// subscribe to issuer and badge class changes
-		this.issuersLoaded = new Promise((resolve, reject) => {
-
-			this.issuerManager.allIssuers$.subscribe(
-				(issuers) => {
-					this.issuers = issuers.slice().sort(
-						(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-					);
-					resolve();
-				},
-				error => {
-					this.messageService.reportAndThrowError("Failed to load issuers", error);
-					resolve();
-				}
-			);
-
-		});
+		this.issuersLoaded = this.loadIssuers();
 
 		this.badgesLoaded = new Promise((resolve, reject) => {
 
@@ -80,6 +65,27 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 
 		});
 	}
+
+	loadIssuers = () => {
+		// refresh issuers, needed if we just deleted one
+		this.issuerManager.issuersList.invalidateList();
+		return new Promise((resolve, reject) => {
+
+			this.issuerManager.allIssuers$.subscribe(
+				(issuers) => {
+					this.issuers = issuers.slice().sort(
+						(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+					);
+					resolve();
+				},
+				error => {
+					this.messageService.reportAndThrowError("Failed to load issuers", error);
+					resolve();
+				}
+			);
+
+		});
+	};
 
 	ngOnInit() {
 		super.ngOnInit();

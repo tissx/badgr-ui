@@ -40,6 +40,14 @@ export class IssuerManager {
 			.then(newIssuer => this.issuersList.addOrUpdate(newIssuer));
 	}
 
+	deleteIssuer(
+		issuerSlug: IssuerSlug,
+		issuerToDelete: Issuer
+	): Promise<boolean> {
+		return this.issuerApiService.deleteIssuer(issuerSlug)
+			.then(response => this.issuersList.remove(issuerToDelete));
+	}
+
 	issuerBySlug(issuerSlug: IssuerSlug): Promise<Issuer> {
 		return this.allIssuers$
 			.pipe(first())

@@ -15,6 +15,7 @@ import {UserProfileEmail} from '../../../common/model/user-profile.model';
 import {ApiExternalToolLaunchpoint} from 'app/externaltools/models/externaltools-api.model';
 import {ExternalToolsManager} from 'app/externaltools/services/externaltools-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
+import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
 
 @Component({
 	selector: 'issuer-detail',
@@ -48,7 +49,8 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 		protected badgeClassService: BadgeClassManager,
 		protected profileManager: UserProfileManager,
 		private configService: AppConfigService,
-		private externalToolsManager: ExternalToolsManager
+		private externalToolsManager: ExternalToolsManager,
+		private dialogService: CommonDialogsService,
 	) {
 		super(router, route, loginService);
 
@@ -94,6 +96,30 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 			.then((profile) => profile.emails.loadedPromise)
 			.then((emails) => (this.profileEmails = emails.entities));
 	}
+
+	delete = () => {
+		this.dialogService.confirmDialog.openResolveRejectDialog({
+			dialogTitle: "Delete Issuer",
+			dialogBody: (this.badges.length)
+				?'This issuer has active badges! Please delete them before trying to delete the issuer.'
+				:`Are you sure you want to delete issuer ${this.issuer.name}?`,
+			resolveButtonLabel: "Delete Issuer",
+			rejectButtonLabel: "Cancel",
+			disableConfirm: !!this.badges.length
+		}).then(
+			() => {
+				this.issuer.delete().then(
+					() => {
+						this.messageService.reportMinorSuccess(`Deleted issuer '${this.issuer.name}'`);
+						this.router.navigate(['/issuer/issuers']);
+					},
+					error => this.messageService.reportHandledError(`Failed to delete issuer`, error)
+				);
+			},
+			() => {}
+		);
+
+	};
 
 	ngOnInit() {
 		super.ngOnInit();

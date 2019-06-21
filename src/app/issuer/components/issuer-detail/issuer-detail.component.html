@@ -37,6 +37,10 @@
 							<svg icon="icon_edit"></svg>
 							Edit
 						</a>
+						<a class="menuitem" (click)="delete()">
+							<svg icon="icon_remove"></svg>
+							Delete
+						</a>
 						<a class="menuitem" [routerLink]="['./staff']">
 							<svg icon="icon_group"></svg>
 							{{ issuer?.currentUserStaffMember?.isOwner ? "Manage": "View" }} Staff

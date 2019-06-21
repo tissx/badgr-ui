@@ -64,6 +64,10 @@ export class Issuer extends ManagedEntity<ApiIssuer, IssuerRef> {
 		return this;
 	}
 
+	async delete(): Promise<ApiIssuer> {
+		return this.issuerApiService.deleteIssuer(this.slug);
+	}
+
 	private get issuerApiService() {
 		return this.commonManager.issuerManager.issuerApiService;
 	}

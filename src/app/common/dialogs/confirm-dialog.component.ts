@@ -8,6 +8,7 @@ export interface ConfirmDialogOptions {
 	rejectButtonLabel?: string;
 	showCloseBox?: boolean;
 	showRejectButton?: boolean;
+	disableConfirm?: boolean;
 }
 
 @Component({
@@ -31,10 +32,13 @@ export interface ConfirmDialogOptions {
 				<p class="u-text-body" [innerHTML]="options.dialogBody"></p>
 
 				<div class="l-stack l-stack-buttons u-margin-top3x">
-					<button class="button" (click)="resolveDialog()">{{ options.resolveButtonLabel }}</button>
+					<button 
+						[disabled]="options.disableConfirm"
+						class="button" 
+						(click)="resolveDialog()">{{ options.resolveButtonLabel }}</button>
 					<button *ngIf="options.showRejectButton"
-							class="button button-secondary"
-							(click)="rejectDialog()">{{ options.rejectButtonLabel }}</button>
+						class="button button-secondary"
+						(click)="rejectDialog()">{{ options.rejectButtonLabel }}</button>
 				</div>
 			</div>
 		</div>
@@ -49,7 +53,8 @@ export class ConfirmDialog extends BaseDialog {
 		rejectButtonLabel: "Cancel",
 		resolveButtonLabel: "OK",
 		showCloseBox: true,
-		showRejectButton: true
+		showRejectButton: true,
+		disableConfirm: false,
 	} as ConfirmDialogOptions;
 
 	options: ConfirmDialogOptions = ConfirmDialog.defaultOptions;

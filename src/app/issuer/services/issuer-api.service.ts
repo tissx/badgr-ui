@@ -32,6 +32,13 @@ export class IssuerApiService extends BaseHttpApiService {
 			.then(r => r.body);
 	}
 
+	deleteIssuer(
+		issuerSlug: IssuerSlug,
+	) {
+		return this.delete<null>(`/v1/issuer/issuers/${issuerSlug}`)
+			.then(r => r.body);
+	}
+
 	listIssuers() {
 		return this
 			.get<ApiIssuer[]>(`/v1/issuer/issuers`)
