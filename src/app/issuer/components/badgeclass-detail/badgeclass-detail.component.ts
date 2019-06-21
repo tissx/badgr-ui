@@ -55,6 +55,11 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		return this.badgeClass ? this.badgeClass.recipientCount : null;
 	}
 
+	get activeRecipientCount() {
+		const badges = this.allBadgeInstances.entities.filter((thisEntity) => !thisEntity.isExpired && !thisEntity.isRevoked);
+		return badges && badges.length;
+	}
+
 	get issuerBadgeCount() {
 		// Load the list if it's not present
 		// this.badgeManager.badgesByIssuerUrl.loadedPromise;
@@ -167,7 +172,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	}
 
 	deleteBadge() {
-		if (this.recipientCount === 0) {
+		if (this.activeRecipientCount === 0) {
 
 			this.confirmDialog.openResolveRejectDialog({
 				dialogTitle: "Warning",
