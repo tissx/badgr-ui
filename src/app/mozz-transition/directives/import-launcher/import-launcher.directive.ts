@@ -57,6 +57,7 @@ export class ImportLauncherDirective implements OnInit{
 		let importGood = 0;
 		let importBad = 0;
 		if(!this.isJson(localStorage.getItem('assertion'))) {
+			console.error('Cannot parse assertion JSON: ' + localStorage.getItem('assertion'));
 			localStorage.removeItem('assertion');
 			return false;
 		}
@@ -66,7 +67,10 @@ export class ImportLauncherDirective implements OnInit{
 				return this.recipientBadgeManager
 					.createRecipientBadge({url: decodeURIComponent(assertion)}).then(
 					() => importGood++,
-					() => importBad++,
+					() => {
+							importBad++;
+							console.error('Could not add badge from URI: ' + decodeURIComponent(assertion));
+						},
 					);
 			})).finally(() => {
 				// Toast!
