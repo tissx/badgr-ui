@@ -21,10 +21,10 @@
 		<div class="u-padding-all2x">
 			<div class="forminput u-margin-bottom2x">
 				<div class="forminput-x-label">
-					Filter your badges
+					Filter your collections
 				</div>
 				<div class="forminput-x-inputs">
-					<input type="text" placeholder="Filter your badges" [(ngModel)]="searchQuery" />
+					<input type="text" placeholder="Filter your collections" [(ngModel)]="searchQuery" />
 				</div>
 			</div>
 
@@ -43,7 +43,7 @@
 										#collectionsCheckbox
 										[id]="'collection-' + collection.slug"
 									 	[name]="'collection-' + collection.slug"
-								 (change)="updateCollection(collection, collectionsCheckbox.checked)">
+								 		(change)="updateCollection(collection, collectionsCheckbox.checked)">
 								<span class="checkbox-x-text">{{collection.name}}</span>
 							</label>
 						</td>
