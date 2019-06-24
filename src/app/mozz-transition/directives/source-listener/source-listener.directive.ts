@@ -41,7 +41,7 @@ export class SourceListenerDirective {
 			});
 		}
 
-		if (theseVars) localStorage[key] = JSON.stringify(theseVars);
+		if (theseVars.length) localStorage[key] = JSON.stringify(theseVars);
 	};
 
 }
