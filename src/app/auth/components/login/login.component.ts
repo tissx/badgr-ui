@@ -73,6 +73,9 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		if (this.verifiedEmail) {
 			this.loginForm.controls.username.setValue(this.verifiedEmail);
 		}
+
+		// autologin
+		if((this.sessionService.enabledExternalAuthProviders.length === 1) && (this.features.disableRegistration)) this.sessionService.initiateUnauthenticatedExternalAuth(this.sessionService.enabledExternalAuthProviders[0]);
 	}
 
 	ngAfterViewInit(): void {
