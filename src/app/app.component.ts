@@ -140,6 +140,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 					this.issuers = issuers.slice().sort(
 						(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
 					);
+					this.shouldShowIssuersTab();
 				},
 				error => {
 					this.messageService.reportAndThrowError("Failed to load issuers", error);
@@ -163,7 +164,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.isUnsupportedBrowser = false;
 	}
 
-	showIssuersTab = () => !this.features.disableIssuers || (this.issuers && this.issuers.length > 0);
+	showIssuersTab = false;
+	shouldShowIssuersTab = () => this.showIssuersTab = !this.features.disableIssuers || (this.issuers && this.issuers.length > 0);
 
 	toggleMobileNav() {
 		this.mobileNavOpen = !this.mobileNavOpen;
@@ -197,6 +199,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.sessionService.loggedin$.subscribe(
 			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
 		);
+		this.shouldShowIssuersTab();
 	}
 
 	ngAfterViewInit() {
