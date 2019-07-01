@@ -97,7 +97,8 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 			.then((emails) => (this.profileEmails = emails.entities));
 	}
 
-	delete = () => {
+	delete = ($event: Event) => {
+		$event.preventDefault();
 		this.dialogService.confirmDialog.openResolveRejectDialog({
 			dialogTitle: "Delete Issuer",
 			dialogBody: (this.badges.length)
