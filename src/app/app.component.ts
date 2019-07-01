@@ -124,31 +124,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.initScrollFix();
 
 		const authCode = this.queryParams.queryStringValue("authCode", true);
-		if (sessionService.isLoggedIn && !authCode) {
-			profileManager.userProfileSet.changed$.subscribe(set => {
-				if (set.entities.length && set.entities[0].agreedTermsVersion !== set.entities[0].latestTermsVersion) {
-					this.commonDialogsService.newTermsDialog.openDialog();
-				}
-			});
-
-			// Load the profile
-			this.profileManager.userProfileSet.ensureLoaded();
-
-			// for issuers tab
-			this.issuerManager.allIssuers$.subscribe(
-				(issuers) => {
-					this.issuers = issuers.slice().sort(
-						(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-					);
-					this.shouldShowIssuersTab();
-				},
-				error => {
-					this.messageService.reportAndThrowError("Failed to load issuers", error);
-				}
-			);
-
-
-		}
+		if (sessionService.isLoggedIn && !authCode) this.refreshProfile();
 
 		this.externalToolsManager.getToolLaunchpoints("navigation_external_launch").then(launchpoints => {
 			this.launchpoints = launchpoints.filter(lp => Boolean(lp) );
@@ -158,6 +134,31 @@ export class AppComponent implements OnInit, AfterViewInit {
 			// Enable the embedded indicator class on the body
 			renderer.addClass(document.body, "embeddedcontainer");
 		}
+	}
+
+	refreshProfile = () => {
+		this.profileManager.userProfileSet.changed$.subscribe(set => {
+			if (set.entities.length && set.entities[0].agreedTermsVersion !== set.entities[0].latestTermsVersion) {
+				this.commonDialogsService.newTermsDialog.openDialog();
+			}
+		});
+
+		// Load the profile
+		this.profileManager.userProfileSet.ensureLoaded();
+
+		// for issuers tab
+		this.issuerManager.allIssuers$.subscribe(
+			(issuers) => {
+				this.issuers = issuers.slice().sort(
+					(a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+				);
+				this.shouldShowIssuersTab();
+			},
+			error => {
+				this.messageService.reportAndThrowError("Failed to load issuers", error);
+			}
+		);
+
 	}
 
 	dismissUnsupportedBrowserMessage() {
@@ -197,7 +198,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 		this.loggedIn = this.sessionService.isLoggedIn;
 
 		this.sessionService.loggedin$.subscribe(
-			loggedIn => setTimeout(() => this.loggedIn = loggedIn)
+			loggedIn => setTimeout(() => {this.loggedIn = loggedIn; this.refreshProfile();})
 		);
 		this.shouldShowIssuersTab();
 	}
