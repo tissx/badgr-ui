@@ -147,7 +147,7 @@ export class OAuthManager {
 		}
 	}
 
-	private clearPersistentAuthorization() {
+	clearPersistentAuthorization = () => {
 		try {
 			window.localStorage.removeItem(OAUTH_STATE_STORAGE_NAME);
 		} catch (e) {}

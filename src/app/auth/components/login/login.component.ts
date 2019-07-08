@@ -99,6 +99,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 						// fetch user profile and emails to check if they are verified
 						profile.emails.updateList().then(() => {
 							if (profile.isVerified) {
+								console.log('loginFinished', this.oAuthManager.isAuthorizationInProgress)
 								if (this.oAuthManager.isAuthorizationInProgress) {
 									this.router.navigate([ '/auth/oauth2/authorize' ]);
 								} else {
@@ -162,8 +163,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
 			} else if (this.queryParams.queryStringValue("authError", true)) {
-				this.sessionService.logout();
-				this.oAuthManager.clearCurrentAuthorizationAttempt();
+				this.sessionService.logout(false);
 				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);
 			} else if (this.sessionService.isLoggedIn) {
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();

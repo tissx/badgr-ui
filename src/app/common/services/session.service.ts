@@ -99,10 +99,10 @@ export class SessionService {
 		window.location.href = `${this.baseUrl}/account/sociallogin?provider=${encodeURIComponent(provider.slug)}`;
 	}
 
-	logout(): void {
+	logout(nextObservable = true): void {
 		localStorage.removeItem(TOKEN_STORAGE_KEY);
 		sessionStorage.removeItem(TOKEN_STORAGE_KEY);
-		this.loggedInSubject.next(false);
+		if (nextObservable) this.loggedInSubject.next(false);
 	}
 
 	storeToken(token: AuthorizationToken, sessionOnlyStorage = false): void {
