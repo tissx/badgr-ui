@@ -13,6 +13,7 @@ import {UpdatableSubject} from '../util/updatable-subject';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {NavigationService} from './navigation.service';
 import { DomSanitizer } from "@angular/platform-browser";
+import { OAuthManager } from "./oauth-manager.service";
 
 /**
  * The key used to store the authentication token in session and local storage.
@@ -49,6 +50,7 @@ export class SessionService {
 		private configService: AppConfigService,
 		private messageService: MessageService,
 		private navService: NavigationService,
+		public oAuthManager: OAuthManager,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 		this.enabledExternalAuthProviders = configService.featuresConfig.externalAuthProviders || [];
@@ -100,7 +102,7 @@ export class SessionService {
 	logout(): void {
 		localStorage.removeItem(TOKEN_STORAGE_KEY);
 		sessionStorage.removeItem(TOKEN_STORAGE_KEY);
-
+		this.oAuthManager.clearCurrentAuthorizationAttempt();
 		this.loggedInSubject.next(false);
 	}
 

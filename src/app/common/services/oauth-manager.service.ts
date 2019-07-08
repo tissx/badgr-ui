@@ -94,6 +94,10 @@ export class OAuthManager {
 		redirectUrl += "&state=" + encodeURIComponent(this.oAuthState.stateString);
 
 		window.location.replace(redirectUrl);
+		this.clearCurrentAuthorizationAttempt();
+	}
+
+	clearCurrentAuthorizationAttempt() {
 		this.oAuthState = null;
 	}
 
@@ -148,6 +152,8 @@ export class OAuthManager {
 			window.localStorage.removeItem(OAUTH_STATE_STORAGE_NAME);
 		} catch (e) {}
 	}
+
+
 }
 
 interface OAuthState extends OAuth2RequestParams {
