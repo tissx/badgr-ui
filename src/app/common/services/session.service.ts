@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {UserCredential} from '../model/user-credential.type';
 import {AppConfigService} from '../app-config.service';
 import {MessageService} from './message.service';
@@ -50,10 +50,15 @@ export class SessionService {
 		private configService: AppConfigService,
 		private messageService: MessageService,
 		private navService: NavigationService,
-		public oAuthManager: OAuthManager,
+		//public oAuthManager: OAuthManager,
+		private injector: Injector,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 		this.enabledExternalAuthProviders = configService.featuresConfig.externalAuthProviders || [];
+	}
+
+	get oAuthManager(): OAuthManager { //this creates router property on your service.
+		return this.injector.get(OAuthManager);
 	}
 
 	login(credential: UserCredential, sessionOnlyStorage = false): Promise<AuthorizationToken> {
