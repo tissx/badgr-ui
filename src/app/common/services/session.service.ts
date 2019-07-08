@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UserCredential} from '../model/user-credential.type';
 import {AppConfigService} from '../app-config.service';
 import {MessageService} from './message.service';
@@ -51,14 +51,9 @@ export class SessionService {
 		private messageService: MessageService,
 		private navService: NavigationService,
 		//public oAuthManager: OAuthManager,
-		private injector: Injector,
 	) {
 		this.baseUrl = this.configService.apiConfig.baseUrl;
 		this.enabledExternalAuthProviders = configService.featuresConfig.externalAuthProviders || [];
-	}
-
-	get oAuthManager(): OAuthManager { //this creates router property on your service.
-		return this.injector.get(OAuthManager);
 	}
 
 	login(credential: UserCredential, sessionOnlyStorage = false): Promise<AuthorizationToken> {
@@ -107,7 +102,6 @@ export class SessionService {
 	logout(): void {
 		localStorage.removeItem(TOKEN_STORAGE_KEY);
 		sessionStorage.removeItem(TOKEN_STORAGE_KEY);
-		this.oAuthManager.clearCurrentAuthorizationAttempt();
 		this.loggedInSubject.next(false);
 	}
 

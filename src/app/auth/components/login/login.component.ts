@@ -163,6 +163,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
 			} else if (this.queryParams.queryStringValue("authError", true)) {
 				this.sessionService.logout();
+				this.oAuthManager.clearCurrentAuthorizationAttempt();
 				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);
 			} else if (this.sessionService.isLoggedIn) {
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
