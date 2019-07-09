@@ -99,7 +99,6 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 						// fetch user profile and emails to check if they are verified
 						profile.emails.updateList().then(() => {
 							if (profile.isVerified) {
-								console.log('loginFinished', this.oAuthManager.isAuthorizationInProgress)
 								if (this.oAuthManager.isAuthorizationInProgress) {
 									this.router.navigate([ '/auth/oauth2/authorize' ]);
 								} else {
