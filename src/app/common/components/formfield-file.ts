@@ -8,7 +8,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 	host: {
 		"class": "dropzone",
 		"[class.dropzone-is-dragging]": "isDragging",
-		"[class.dropzone-is-error]": "fileErrorMessage || (control.dirty && !control.valid)",
+		"[class.dropzone-is-error]": "fileErrorMessage || (control?.dirty && !control?.valid)",
 		"(drag)": "stopEvent($event)",
 		"(dragstart)": "stopEvent($event)",
 		"(dragover)": "dragStart($event)",
@@ -41,7 +41,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 			<div *ngIf="fileErrorMessage" class="dropzone-x-error">{{ fileErrorMessage }}</div>
 			<!--</span>-->
 		</label>
-		<p class="dropzone-x-error" *ngIf="control.dirty && !control.valid">{{ errorMessage }}</p>
+		<p class="dropzone-x-error" *ngIf="control?.dirty && !control?.valid">{{ errorMessage }}</p>
 	`,
 
 })

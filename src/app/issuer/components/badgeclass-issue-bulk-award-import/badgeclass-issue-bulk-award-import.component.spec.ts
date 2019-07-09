@@ -58,8 +58,8 @@ describe('BadgeClassIssueBulkAwardImportComponent', () => {
     // const result = component.updateViewState(state);
   });
 
-  it('should run #onFileDataRecived()', async () => {
-    // const result = component.onFileDataRecived(data);
+  it('should run #onFileDataReceived()', async () => {
+    // const result = component.onFileDataReceived(data);
   });
 
   it('should run #parseCsv()', async () => {

@@ -60,7 +60,7 @@ export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRo
 		this.updateStateEmitter.emit(state);
 	}
 
-	onFileDataRecived(data) {
+	onFileDataReceived(data) {
 		this.rawCsv = data;
 	}
 
@@ -140,7 +140,7 @@ export class BadgeClassIssueBulkAwardImportComponent extends BaseAuthenticatedRo
 		} as BulkIssueImportPreviewData;
 	}
 
-	createRange(size: number) {
+	createRange = (size: number) => {
 		const items: string[] = [];
 		for (let i = 1; i <= size; i++) {
 			items.push("");
