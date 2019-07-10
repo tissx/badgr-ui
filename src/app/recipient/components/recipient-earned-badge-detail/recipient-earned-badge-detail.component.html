@@ -53,11 +53,8 @@
 					 class="badgeimage badgeimage-center badgeimage-large"
 					 width="200"
 			    />
-				<div class="badgecard-x-status badgestatus badgestatus-{{badge.mostRelevantStatus}}" *ngIf="badge.mostRelevantStatus === 'pending'">
+				<div class="badgestatus badgestatus-{{badge.mostRelevantStatus}} u-margin-top2x" *ngIf="badge.mostRelevantStatus">
 					{{badge.mostRelevantStatus}}
-				</div>
-				<div class="badgecard-x-status badgestatus badgestatus-{{badge.isExpired}}" *ngIf="badge.isExpired">
-					expired
 				</div>
 				<dl>
 			    	<div class="l-flex l-flex-2x u-padding-top2x border border-top border-light3">
