@@ -67,14 +67,15 @@
 						<div>
 							<dt class="u-text-small-bold u-text-dark2">Issued by:</dt>
 							<dd class="u-text">
-                				<a class="u-break-word" [href]="badge.badgeClass.issuer.id">{{ badge.badgeClass.issuer.name }}</a>
-            				</dd>
+									<a class="u-break-word" [href]="badge.badgeClass.issuer.id">{{ badge.badgeClass.issuer.name }}</a>
+							</dd>
 						</div>
 			    	</div>
 			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Issued on:</dt>
 					<dd class="u-text"><time [date]="badge?.issueDate" format="mediumDate"></time></dd>
 			    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Awarded to:</dt>
-			    	<dd class="u-text u-break-all">{{ badge.recipientEmail }}</dd>
+					<dd class="u-text u-break-all" *ngIf="badge.hasExtension('extensions:recipientProfile')">{{ badge.getExtension('extensions:recipientProfile', null).name }}</dd>
+					<dd class="u-text u-break-all">{{ badge.recipientEmail }}</dd>
 			    	<div
 			    		*ngIf="badge && badge.expiresDate">
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Expires on:</dt>
