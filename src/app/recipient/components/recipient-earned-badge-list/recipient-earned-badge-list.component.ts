@@ -17,6 +17,7 @@ import {badgeShareDialogOptionsFor} from '../recipient-earned-badge-detail/recip
 import {UserProfileManager} from '../../../common/services/user-profile-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import { ImportLauncherDirective } from "../../../mozz-transition/directives/import-launcher/import-launcher.directive";
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 type BadgeDispay = "grid" | "list" ;
 
@@ -48,6 +49,8 @@ export class RecipientEarnedBadgeListComponent extends BaseAuthenticatedRoutable
 		"enableComingFromMozilla"
 	];
 	maxDisplayedResults = 100;
+
+	crumbs: LinkEntry[] = [{title: 'Backpack', routerLink: ['/recipient/badges']},];
 
 	private _badgesDisplay: BadgeDispay = "grid";
 	get badgesDisplay() {return this._badgesDisplay;}

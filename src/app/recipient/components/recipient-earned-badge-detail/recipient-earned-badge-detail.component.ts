@@ -19,6 +19,7 @@ import {AppConfigService} from '../../../common/app-config.service';
 import {ApiExternalToolLaunchpoint} from '../../../externaltools/models/externaltools-api.model';
 import {ExternalToolsManager} from '../../../externaltools/services/externaltools-manager.service';
 import {QueryParametersService} from '../../../common/services/query-parameters.service';
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 @Component({
 	selector: 'recipient-earned-badge-detail',
@@ -38,6 +39,7 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 	issuerBadgeCount: string;
 	launchpoints: ApiExternalToolLaunchpoint[];
 
+	crumbs: LinkEntry[];
 
 	get badgeSlug(): string { return this.route.snapshot.params['badgeSlug']; }
 	get recipientBadgeInstances() { return this.recipientBadgeManager.recipientBadgeList; }
@@ -60,6 +62,10 @@ export class RecipientEarnedBadgeDetailComponent extends BaseAuthenticatedRoutab
 		this.badgesLoaded = this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			.then( r => {
 				this.updateBadge(r);
+				this.crumbs = [
+					{title: 'Backpack', routerLink: ['/recipient/badges']},
+					{title: this.badge.badgeClass.name, routerLink: ['/earned-badge/' + this.badge.slug]},
+				];
 			})
 			.catch(e => this.messageService.reportAndThrowError("Failed to load your badges", e));
 
