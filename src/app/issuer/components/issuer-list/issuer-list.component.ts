@@ -20,8 +20,10 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 	readonly issuerPlaceholderSrc = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string);
 	readonly noIssuersPlaceholderSrc = require('../../../../../node_modules/@concentricsky/badgr-style/dist/images/image-empty-issuer.svg') as string;
 
-	issuers: Issuer[];
-	badges: BadgeClass[];
+	Array = Array;
+
+	issuers: Issuer[] = null;
+	badges: BadgeClass[] = null;
 	issuerToBadgeInfo: {[issuerId: string]: IssuerBadgesInfo} = {};
 
 	issuersLoaded: Promise<unknown>;
@@ -29,6 +31,14 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 
 	get theme() { return this.configService.theme; }
 	get features() { return this.configService.featuresConfig; }
+
+	plural = {
+		'issuer': {
+			'=0' : 'No Issuers',
+			'=1' : '1 Issuer',
+			'other' : '# Issuers'
+		}
+	};
 
 	constructor(
 		protected title: Title,

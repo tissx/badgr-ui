@@ -13,6 +13,9 @@ import {LoadingErrorComponent} from '../components/loading-error.component';
  *     <!-- otherwise LoadingDotComponent appears -->
  * </div>
  *
+ * - or -
+ *
+ * <ng-template [bgAwaitPromises]="[promise1, promise2]" [showLoader]="false">
  */
 
 
@@ -30,6 +33,8 @@ export class BgAwaitPromises {
 	) {
 	}
 
+	@Input() showLoader = true;
+
 	@Input() set bgAwaitPromises(newValue: Array<Promise<unknown> | {loadedPromise: Promise<unknown>}> | Promise<unknown> | {loadedPromise: Promise<unknown>}) {
 		let newPromises: Array<Promise<unknown>> = [];
 
@@ -44,10 +49,9 @@ export class BgAwaitPromises {
 			newPromises = [newValue as Promise<unknown>];
 		}
 
-
 		if (newPromises.length > 0) {
 			// promises to wait for, display loading dots
-			this.showLoadingAnimation();
+			if (this.showLoader) this.showLoadingAnimation();
 			this.currentPromise = Promise.all(newPromises).then(
 				() => this.showTemplate(),
 				error => this.showError(error)
@@ -58,9 +62,9 @@ export class BgAwaitPromises {
 		}
 	}
 
-	@Input() set bgAwaitClass(newClassName: string) {
+	/*@Input() set bgAwaitClass(newClassName: string) {
 		this.indicatorClassName = newClassName;
-	}
+	}*/
 
 	private showTemplate(): void {
 		this.viewContainer.clear();

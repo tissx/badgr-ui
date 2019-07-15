@@ -4,9 +4,11 @@
 	<div class="l-containerxaxis topbar-x-wrap">
 		<h2 class="topbar-x-heading">
 			Issuers
-			<span class="topbar-x-internalheading" *ngIf="!! issuers">
-				{{ issuers.length }} {{ issuers.length == 1 ? "Issuer" : "Issuers" }}
+			<ng-template [bgAwaitPromises]="[issuersLoaded]" [showLoader]="false">
+			<span class="topbar-x-internalheading">
+				{{ issuers.length | i18nPlural: plural['issuer']}}
 			</span>
+			</ng-template>
 		</h2>
 		<button class="button topbar-x-button"
 				*ngIf="!features.disableIssuers"
@@ -16,30 +18,33 @@
 	</div>
 </header>
 
-<div *bgAwaitPromises="[issuersLoaded, badgesLoaded]">
+<div>
+	<ng-template [bgAwaitPromises]="[issuersLoaded]" [showLoader]="true">
 
-	<!-- Empty state: no issuers -->
-	<section class="emptysection l-emptysection"
-		 *ngIf="! issuers.length">
-		<h2 class="emptysection-x-headline">
-			You have no issuers</h2>
-		<p class="emptysection-x-copy">
-			Issuers allow you to create badges and award them to people.</p>
-	  	<div class="emptysection-x-buttons">
-		    <button class="button button-secondary"
-						*ngIf="!features.disableIssuers"
-		    		[routerLink]="['/issuer/create']"
-		    		[disabled-when-requesting]="true"
-    		>Create an Issuer</button>
-		</div>
-		<div class="emptysection-x-imagecontainer">
-			<img alt="Illustration" class="emptysection-x-image"
-				 [src]="noIssuersPlaceholderSrc">
-		</div>
-	</section>
+		<!-- Empty state: no issuers -->
+		<section
+			class="emptysection l-emptysection"
+			*ngIf="Array.isArray(issuers) && issuers?.length === 0">
+			<h2 class="emptysection-x-headline">
+				You have no issuers</h2>
+			<p class="emptysection-x-copy">
+				Issuers allow you to create badges and award them to people.</p>
+				<div class="emptysection-x-buttons">
+					<button class="button button-secondary"
+							*ngIf="!features.disableIssuers"
+							[routerLink]="['/issuer/create']"
+							[disabled-when-requesting]="true"
+					>Create an Issuer</button>
+			</div>
+			<div class="emptysection-x-imagecontainer">
+				<img alt="Illustration" class="emptysection-x-image"
+					 [src]="noIssuersPlaceholderSrc">
+			</div>
+		</section>
 
 	<!-- List of Issuers -->
-	<section class="l-containerxaxis l-containeryaxis l-responsivelist">
+	<section
+		class="l-containerxaxis l-containeryaxis l-responsivelist">
 		<div class="issuercard" *ngFor="let issuer of issuers">
 
 			<div class="issuercard-x-image">
@@ -57,20 +62,22 @@
 				</h3>
 				<div class="l-flex l-flex-2x l-flex-column">
 
-					<ng-container *ngIf="issuerBadges">
-						<div class="l-flex l-flex-2x" *ngFor="let badge of issuerBadges.badges.slice(0,3)">
-							<badge-image class="stack-x-image" [badge]="badge" [size]="40"></badge-image>
-							<div class="l-flex l-flex-column">
-								<a 
-									[routerLink]="['/issuer/issuers/', badge?.issuerSlug || '', 'badges', badge?.slug || '']"
-									class="u-text-link u-break-word">
-									{{ badge.name }}
-								</a>
-								<p *ngIf="badge.recipientCount === 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipient</p>
-								<p *ngIf="badge.recipientCount > 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipients</p>
+					<ng-template [bgAwaitPromises]="[badgesLoaded]">
+						<ng-container *ngIf="issuerBadges">
+							<div class="l-flex l-flex-2x" *ngFor="let badge of issuerBadges.badges.slice(0,3)">
+								<badge-image class="stack-x-image" [badge]="badge" [size]="40"></badge-image>
+								<div class="l-flex l-flex-column">
+									<a
+										[routerLink]="['/issuer/issuers/', badge?.issuerSlug || '', 'badges', badge?.slug || '']"
+										class="u-text-link u-break-word">
+										{{ badge.name }}
+									</a>
+									<p *ngIf="badge.recipientCount === 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipient</p>
+									<p *ngIf="badge.recipientCount > 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipients</p>
+								</div>
 							</div>
-						</div>
-					</ng-container>
+						</ng-container>
+					</ng-template>
 
 				</div>
 			</div>
@@ -85,4 +92,6 @@
 			</div>
 		</div>
 	</section>
+
+	</ng-template>
 </div>
