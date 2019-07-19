@@ -85,8 +85,8 @@
 			<div class="issuercard-x-footer">
 				<div class="l-flex l-flex-aligncenter l-flex-1x">
 					<svg class="icon icon-light4 u-hidden-maxmobilelarge" width="24px" icon="icon_badge"></svg>
-					<p class="u-text-small u-text-nowrap"><strong class="u-text-bold">{{ issuer.badgeClassCount }}</strong> {{ issuer.badgeClassCount ==
-						1 ? 'Badge' : 'Badges' }}</p>
+					<p class="u-text-small u-text-nowrap"
+					[innerHTML]="issuer.badgeClassCount | i18nPlural: plural['badges']"></p>
 				</div>
 				<a class="u-text u-text-small" [routerLink]="['/issuer/issuers/', issuer.slug]">View</a>
 			</div>
