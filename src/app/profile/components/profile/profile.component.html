@@ -156,61 +156,64 @@
 
 			</tbody>
 		</table>
-		<h2 class="u-text-h3-bold u-margin-yaxis3x u-text-dark2">Linked Accounts</h2>
 
-		<table class="datatable datatable-roundheaders">
-			<thead class="datatable-x-head"
-			       *ngIf="socialAccounts.length > 0"
-			>
-			<tr class="datatable-x-header">
-				<th class="datatable-x-cell">Service</th>
-				<th class="datatable-x-cell">Account</th>
-				<th class="datatable-x-cell"><span class="visuallyhidden">Actions</span></th>
-			</tr>
-			</thead>
-			<tbody class="datatable-x-body">
-			<tr *ngFor="let account of socialAccounts"
-			    class="datatable-x-row"
-			>
-				<td class="datatable-x-cell u-text-small">
-					{{ account.providerInfo?.name }}
-				</td>
-				<td class="datatable-x-cell u-text-small u-break-all">
-					{{ account.fullLabel }}
-				</td>
-				<td class="datatable-x-cell">
-					<div class="l-flex l-flex-justifyend">
-						<a href="#"
-						   class="u-text u-text-small u-text-bold"
-						   (click)="unlinkAccount($event, account, socialAccounts.length)"
-						>Unlink</a>
-					</div>
-				</td>
-			</tr>
-			</tbody>
-		</table>
+		<ng-template [ngIf]="(socialAccounts.length > 0) || (configService.featuresConfig?.socialAccountProviders?.length > 0)">
+			<h2 class="u-text-h3-bold u-margin-yaxis3x u-text-dark2">Linked Accounts</h2>
 
-		<p class="u-text-body u-margin-yaxis3x u-width-paragraph">
-			Click one of the provider buttons below to allow you to log in
-			to {{configService.theme['serviceName'] || "Badgr"}}
-			in the future using that service rather than your email and password.
-		</p>
-		<p class="u-text-small u-text-bold u-text-dark2 u-margin-bottom1x">Link Account:</p>
+			<table class="datatable datatable-roundheaders">
+				<thead class="datatable-x-head"
+							 *ngIf="socialAccounts.length > 0"
+				>
+				<tr class="datatable-x-header">
+					<th class="datatable-x-cell">Service</th>
+					<th class="datatable-x-cell">Account</th>
+					<th class="datatable-x-cell"><span class="visuallyhidden">Actions</span></th>
+				</tr>
+				</thead>
+				<tbody class="datatable-x-body">
+				<tr *ngFor="let account of socialAccounts"
+						class="datatable-x-row"
+				>
+					<td class="datatable-x-cell u-text-small">
+						{{ account.providerInfo?.name }}
+					</td>
+					<td class="datatable-x-cell u-text-small u-break-all">
+						{{ account.fullLabel }}
+					</td>
+					<td class="datatable-x-cell">
+						<div class="l-flex l-flex-justifyend">
+							<a href="#"
+								 class="u-text u-text-small u-text-bold"
+								 (click)="unlinkAccount($event, account, socialAccounts.length)"
+							>Unlink</a>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</table>
 
-		<div class="rule u-margin-bottom2x"></div>
+			<p class="u-text-body u-margin-yaxis3x u-width-paragraph">
+				Click one of the provider buttons below to allow you to log in
+				to {{configService.theme['serviceName'] || "Badgr"}}
+				in the future using that service rather than your email and password.
+			</p>
+			<p class="u-text-small u-text-bold u-text-dark2 u-margin-bottom1x">Link Account:</p>
 
-		<div class="l-grid l-grid-medium">
+			<div class="rule u-margin-bottom2x"></div>
 
-			<button
-				*ngFor="let provider of sessionService.enabledExternalAuthProviders"
-				(click)="linkAccount($event, provider)"
-				class="socialbutton"
-				[style.backgroundColor]="provider.color">
-				<div class="visuallyhidden">Access with {{provider.label}}</div>
-				<img [src]="sanitize(provider.imgSrc)" alt="">
-			</button>
+			<div class="l-grid l-grid-medium">
 
-		</div>
+				<button
+					*ngFor="let provider of sessionService.enabledExternalAuthProviders"
+					(click)="linkAccount($event, provider)"
+					class="socialbutton"
+					[style.backgroundColor]="provider.color">
+					<div class="visuallyhidden">Access with {{provider.label}}</div>
+					<img [src]="sanitize(provider.imgSrc)" alt="">
+				</button>
+
+			</div>
+		</ng-template>
 
 	</div>
 </main>
