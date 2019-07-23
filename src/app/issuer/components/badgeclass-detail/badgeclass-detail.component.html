@@ -4,9 +4,17 @@
 	<external-tool-launch></external-tool-launch>
 
 	<ng-template [ngIf]="badgeClass && issuer">
+		<header class="topbar">
+		<div class="l-containerxaxis">
+			<div class="topbar-x-breadcrumbs">
+				<bg-breadcrumbs [linkentries]="crumbs">
+				</bg-breadcrumbs>
+			</div>
+		</div>
+		</header>
 		<div class="badgedetail">
 			<div class="badgedetail-x-header">
-				<h1>{{ badgeClass.name }}</h1>
+				<h1>{{ badgeClass?.name }}</h1>
 				<div class="l-primarymore">
 					<a class="button"
 						[routerLink]="['/issuer/issuers', issuerSlug, 'badges', badgeClass.slug, 'issue']"

@@ -151,6 +151,7 @@ export class BadgeClassIssueComponent extends BaseAuthenticatedRoutableComponent
 				this.breadcrumbLinkEntries = [
 					{title: 'Issuers', routerLink: ['/issuer']},
 					{title: issuer.name, routerLink: ['/issuer/issuers', this.issuerSlug] },
+					{title: 'badges', routerLink: ['/issuer/issuers/' + this.issuerSlug + '/badges/']},
 					{title: badgeClass.name, routerLink: ['/issuer/issuers', this.issuerSlug, 'badges', badgeClass.slug]},
 					{title: 'Award Badge'}
 				];

@@ -16,6 +16,7 @@ import {ApiExternalToolLaunchpoint} from 'app/externaltools/models/externaltools
 import {ExternalToolsManager} from 'app/externaltools/services/externaltools-manager.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import { CommonDialogsService } from "../../../common/services/common-dialogs.service";
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 @Component({
 	selector: 'issuer-detail',
@@ -38,6 +39,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 	badgesLoaded: Promise<unknown>;
 
 	profileEmailsLoaded: Promise<unknown>;
+	crumbs: LinkEntry[];
 
 	constructor(
 		loginService: SessionService,
@@ -68,6 +70,10 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 				this.title.setTitle(
 					`Issuer - ${this.issuer.name} - ${this.configService.theme['serviceName'] || 'Badgr'}`
 				);
+				this.crumbs = [
+					{title: 'Issuers', routerLink: ['/issuer/issuers']},
+					{title: this.issuer.name, routerLink: ['/issuer/issuers/' + this.issuer.slug]},
+				];
 
 				this.badgesLoaded = new Promise((resolve, reject) => {
 					this.badgeClassService.badgesByIssuerUrl$.subscribe(

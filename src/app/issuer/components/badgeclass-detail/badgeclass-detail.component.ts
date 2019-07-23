@@ -24,6 +24,7 @@ import {BadgeInstanceSlug} from '../../models/badgeinstance-api.model';
 import {badgeShareDialogOptions} from '../../../recipient/components/recipient-earned-badge-detail/recipient-earned-badge-detail.component';
 import {ShareSocialDialogOptions} from '../../../common/dialogs/share-social-dialog/share-social-dialog.component';
 import {AppConfigService} from '../../../common/app-config.service';
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 @Component({
 	selector: 'badgeclass-detail',
@@ -83,6 +84,7 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 	popInstance: BadgeInstance | null = null;
 	resultsPerPage = 100;
 	issuer: Issuer;
+	crumbs: LinkEntry[];
 
 	private _searchQuery = "";
 
@@ -131,6 +133,12 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 		this.badgeInstancesLoaded = instances.loadedPromise
 			.then(
 				retInstances => {
+					this.crumbs = [
+						{title: 'Issuers', routerLink: ['/issuer/issuers']},
+						{title: this.issuer.name, routerLink: ['/issuer/issuers/' + this.issuerSlug]},
+						{title: 'badges', routerLink: ['/issuer/issuers/' + this.issuerSlug + '/badges/']},
+						{title: this.badgeClass.name, routerLink: ['/issuer/issuers/' + this.issuerSlug + '/badges/' + this.badgeSlug]},
+					];
 					this.allBadgeInstances = retInstances;
 					this.updateResults();
 				},

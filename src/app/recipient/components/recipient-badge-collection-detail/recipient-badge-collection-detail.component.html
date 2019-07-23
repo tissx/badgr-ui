@@ -2,6 +2,12 @@
 
 <header class="topbar">
 	<div class="l-containerxaxis">
+		<div class="topbar-x-breadcrumbs">
+			<bg-breadcrumbs [linkentries]="crumbs">
+			</bg-breadcrumbs>
+		</div>
+	</div>
+	<div class="l-containerxaxis">
 		<div class="topbar-x-wrap" *bgAwaitPromises="[ collectionLoadedPromise ]">
 			<ng-container *ngIf="! editForm.isEditing">
 				<div class="topbar-x-heading">{{ collection?.name }}</div>

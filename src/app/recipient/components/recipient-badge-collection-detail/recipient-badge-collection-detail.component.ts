@@ -12,6 +12,7 @@ import {SessionService} from '../../../common/services/session.service';
 import {ShareSocialDialogOptions} from '../../../common/dialogs/share-social-dialog/share-social-dialog.component';
 import {addQueryParamsToUrl} from '../../../common/util/url-util';
 import {AppConfigService} from '../../../common/app-config.service';
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 
 	collectionLoadedPromise: Promise<unknown>;
 	collection: RecipientBadgeCollection = new RecipientBadgeCollection(null);
+	crumbs: LinkEntry[];
 
 	constructor(
 		router: Router,
@@ -49,7 +51,14 @@ export class RecipientBadgeCollectionDetailComponent extends BaseAuthenticatedRo
 				this.recipientBadgeCollectionManager.recipientBadgeCollectionList.loadedPromise,
 				this.recipientBadgeManager.recipientBadgeList.loadedPromise
 			])
-			.then(([list]) => this.collection = list.entityForSlug(this.collectionSlug))
+			.then(([list]) => {
+				this.collection = list.entityForSlug(this.collectionSlug);
+				this.crumbs = [
+					{title: 'Collections', routerLink: ['/recipient/badge-collections']},
+					{title: this.collection.name, routerLink: ['/collection/' + this.collection.slug]},
+				];
+				return this.collection;
+			})
 			.then(collection => collection.badgesPromise)
 			.catch(err => {
 				router.navigate(["/"]);

@@ -97,9 +97,13 @@ export class BadgeClassEditComponent extends BaseAuthenticatedRoutableComponent 
 		this.issuerLoaded = issuerManager.issuerBySlug(this.issuerSlug).then(
 			issuer => {
 				this.issuer = issuer;
-				this.editBadgeCrumbs = [{title: "Issuers", routerLink: ['/issuer']},
-										{title: issuer.name, routerLink: ['/issuer/issuers/', this.issuerSlug]},
-										{title: 'Edit Badge Class'}];
+				this.editBadgeCrumbs = [
+					{title: "Issuers", routerLink: ['/issuer']},
+					{title: issuer.name, routerLink: ['/issuer/issuers/', this.issuerSlug]},
+					{title: 'badges', routerLink: ['/issuer/issuers/' + this.issuerSlug + '/badges/']},
+					{title: this.badgeClass.name, routerLink: ['/issuer/issuers/' + this.issuerSlug + '/badges/' + this.badgeSlug]},
+					{title: 'Edit Badge Class'},
+				];
 				return issuer;
 			},
 			error => this.messageService.reportLoadingError(`Cannot find issuer ${this.issuerSlug}`, error)

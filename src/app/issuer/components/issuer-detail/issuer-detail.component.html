@@ -4,6 +4,12 @@
 
 	<header class="topbar topbar-withimage">
 		<div class="l-containerxaxis">
+			<div class="topbar-x-breadcrumbs">
+				<bg-breadcrumbs [linkentries]="crumbs">
+				</bg-breadcrumbs>
+			</div>
+		</div>
+		<div class="l-containerxaxis">
 			<div class="topbar-x-wrap">
 				<img class="topbar-x-image" *ngIf="issuer.image" [src]="issuer.image" alt="{{issuer.name}} logo " />
 				<img class="topbar-x-image" *ngIf="!issuer.image" [src]="issuerImagePlaceHolderUrl" alt="Default issuer image">
