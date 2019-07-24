@@ -216,6 +216,7 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 			if (this.restrictToIssuerId && badge.issuerId !== this.restrictToIssuerId) {
 				return false;
 			}
+
 			// excluded omitted badges
 			if (this.omittedCollection.indexOf(badge) === -1) {
 
@@ -228,7 +229,9 @@ export class RecipientBadgeSelectionDialog extends BaseDialog {
 					this.issuerResults.push(issuerResults);
 				}
 
-				issuerResults.addBadge(badge);
+				// TODO: do this server side maybe?
+				// exclude pending badges
+				if(badge.mostRelevantStatus !== 'pending') issuerResults.addBadge(badge);
 
 
 				if (!this.badgeResults.find(r => r.badge === badge)) {
