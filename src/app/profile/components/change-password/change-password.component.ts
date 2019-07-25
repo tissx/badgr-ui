@@ -10,6 +10,7 @@ import { UserProfileManager } from '../../../common/services/user-profile-manage
 import { UserProfile } from '../../../common/model/user-profile.model';
 import { AppConfigService } from '../../../common/app-config.service';
 import { typedFormGroup } from '../../../common/util/typed-forms';
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 
 @Component({
@@ -27,6 +28,10 @@ export class ChangePasswordComponent extends BaseRoutableComponent {
 		'current_password': '',
 		'password': '',
 	};
+	crumbs: LinkEntry[] = [
+		{title: 'Profile', routerLink: ['/profile']},
+		{title: 'Change Password', routerLink: ['/profile/change-password']},
+	];
 
 	constructor(
 		private fb: FormBuilder,

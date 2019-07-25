@@ -11,6 +11,7 @@ import {UserProfileManager} from '../../../common/services/user-profile-manager.
 import {UserProfile} from '../../../common/model/user-profile.model';
 import {AppConfigService} from '../../../common/app-config.service';
 import {typedFormGroup} from '../../../common/util/typed-forms';
+import { LinkEntry } from "../../../common/components/bg-breadcrumbs/bg-breadcrumbs.component";
 
 @Component({
 	templateUrl: './profile-edit.component.html',
@@ -23,6 +24,10 @@ export class ProfileEditComponent extends BaseAuthenticatedRoutableComponent imp
 	;
 
 	profileLoaded: Promise<unknown>;
+	crumbs: LinkEntry[] = [
+		{title: 'Profile', routerLink: ['/profile']},
+		{title: 'Edit Profile', routerLink: ['/profile/edit']},
+	];
 
 	constructor(
 		router: Router,
