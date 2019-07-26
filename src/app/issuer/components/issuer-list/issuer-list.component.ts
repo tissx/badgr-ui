@@ -42,6 +42,11 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 			'=0' : 'No Badges',
 			'=1' : '<strong class="u-text-bold">1</strong> Badge',
 			'other' : '<strong class="u-text-bold">#</strong> Badges'
+		},
+		'recipient': {
+			'=0' : 'No Recipients',
+			'=1' : '1 Recipient',
+			'other' : '# Recipients'
 		}
 	};
 

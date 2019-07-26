@@ -72,8 +72,7 @@
 											class="u-text-link u-break-word">
 											{{ badge.name }}
 										</a>
-										<p *ngIf="badge.recipientCount === 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipient</p>
-										<p *ngIf="badge.recipientCount > 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipients</p>
+										<p class="u-text-small u-text-dark4">{{ issuer.badgeClassCount | i18nPlural: plural['recipient'] }}</p>
 									</div>
 								</div>
 							</ng-container>
