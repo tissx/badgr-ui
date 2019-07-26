@@ -42,56 +42,56 @@
 			</div>
 		</section>
 
-	<!-- List of Issuers -->
-	<section
-		class="l-containerxaxis l-containeryaxis l-responsivelist">
-		<div class="issuercard" *ngFor="let issuer of issuers">
+		<!-- List of Issuers -->
+		<section
+			class="l-containerxaxis l-containeryaxis l-responsivelist">
+			<div class="issuercard" *ngFor="let issuer of issuers">
 
-			<div class="issuercard-x-image">
-				<img [loaded-src]="issuer?.image" [loading-src]="issuerPlaceholderSrc" [error-src]="issuerPlaceholderSrc" alt="{{ issuer.name }} avatar">
-			</div>
-			<div class="issuercard-x-title">
-				<a [routerLink]="['/issuer/issuers/', issuer.slug]">{{issuer.name}}</a>
-				<p><strong>Your Role: </strong>{{ issuer.currentUserStaffMember?.roleInfo.label }}</p>
-			</div>
-			<div class="issuercard-x-desc" [truncatedText]="issuer.description" [maxLength]="250"></div>
+				<div class="issuercard-x-image">
+					<img [loaded-src]="issuer?.image" [loading-src]="issuerPlaceholderSrc" [error-src]="issuerPlaceholderSrc" alt="{{ issuer.name }} avatar">
+				</div>
+				<div class="issuercard-x-title">
+					<a [routerLink]="['/issuer/issuers/', issuer.slug]">{{issuer.name}}</a>
+					<p><strong>Your Role: </strong>{{ issuer.currentUserStaffMember?.roleInfo.label }}</p>
+				</div>
+				<div class="issuercard-x-desc" [truncatedText]="issuer.description" [maxLength]="250"></div>
 
-			<div class="issuercard-x-topbadges" *ngFor="let issuerBadges of [issuerToBadgeInfo[issuer.issuerUrl]]">
-				<h3 class="u-text-body-bold u-text-dark1 u-margin-bottom2x" *ngIf="issuerBadges">
-					Top Badges:
-				</h3>
-				<div class="l-flex l-flex-2x l-flex-column">
+				<div class="issuercard-x-topbadges" *ngFor="let issuerBadges of [issuerToBadgeInfo[issuer.issuerUrl]]">
+					<h3 class="u-text-body-bold u-text-dark1 u-margin-bottom2x" *ngIf="issuerBadges">
+						Top Badges:
+					</h3>
+					<div class="l-flex l-flex-2x l-flex-column">
 
-					<ng-template [bgAwaitPromises]="[badgesLoaded]">
-						<ng-container *ngIf="issuerBadges">
-							<div class="l-flex l-flex-2x" *ngFor="let badge of issuerBadges.badges.slice(0,3)">
-								<badge-image class="stack-x-image" [badge]="badge" [size]="40"></badge-image>
-								<div class="l-flex l-flex-column">
-									<a
-										[routerLink]="['/issuer/issuers/', badge?.issuerSlug || '', 'badges', badge?.slug || '']"
-										class="u-text-link u-break-word">
-										{{ badge.name }}
-									</a>
-									<p *ngIf="badge.recipientCount === 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipient</p>
-									<p *ngIf="badge.recipientCount > 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipients</p>
+						<ng-template [bgAwaitPromises]="[badgesLoaded]">
+							<ng-container *ngIf="issuerBadges">
+								<div class="l-flex l-flex-2x" *ngFor="let badge of issuerBadges.badges.slice(0,3)">
+									<badge-image class="stack-x-image" [badge]="badge" [size]="40"></badge-image>
+									<div class="l-flex l-flex-column">
+										<a
+											[routerLink]="['/issuer/issuers/', badge?.issuerSlug || '', 'badges', badge?.slug || '']"
+											class="u-text-link u-break-word">
+											{{ badge.name }}
+										</a>
+										<p *ngIf="badge.recipientCount === 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipient</p>
+										<p *ngIf="badge.recipientCount > 1" class="u-text-small u-text-dark4">{{ badge.recipientCount }} Recipients</p>
+									</div>
 								</div>
-							</div>
-						</ng-container>
-					</ng-template>
+							</ng-container>
+						</ng-template>
 
+					</div>
+				</div>
+
+				<div class="issuercard-x-footer">
+					<div class="l-flex l-flex-aligncenter l-flex-1x">
+						<svg class="icon icon-light4 u-hidden-maxmobilelarge" width="24px" icon="icon_badge"></svg>
+						<p class="u-text-small u-text-nowrap"
+						[innerHTML]="issuer.badgeClassCount | i18nPlural: plural['badges']"></p>
+					</div>
+					<a class="u-text u-text-small" [routerLink]="['/issuer/issuers/', issuer.slug]">View</a>
 				</div>
 			</div>
-
-			<div class="issuercard-x-footer">
-				<div class="l-flex l-flex-aligncenter l-flex-1x">
-					<svg class="icon icon-light4 u-hidden-maxmobilelarge" width="24px" icon="icon_badge"></svg>
-					<p class="u-text-small u-text-nowrap"
-					[innerHTML]="issuer.badgeClassCount | i18nPlural: plural['badges']"></p>
-				</div>
-				<a class="u-text u-text-small" [routerLink]="['/issuer/issuers/', issuer.slug]">View</a>
-			</div>
-		</div>
-	</section>
+		</section>
 
 	</ng-template>
 </div>

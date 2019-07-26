@@ -82,8 +82,6 @@ export class IssuerListComponent extends BaseAuthenticatedRoutableComponent impl
 	}
 
 	loadIssuers = () => {
-		// refresh issuers, needed if we just deleted one
-		this.issuerManager.issuersList.invalidateList();
 		return new Promise((resolve, reject) => {
 
 			this.issuerManager.allIssuers$.subscribe(

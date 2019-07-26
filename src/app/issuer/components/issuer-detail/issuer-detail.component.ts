@@ -117,6 +117,7 @@ export class IssuerDetailComponent extends BaseAuthenticatedRoutableComponent im
 			() => {
 				this.issuer.delete().then(
 					() => {
+						this.issuerManager.issuersList.invalidateList();
 						this.messageService.reportMinorSuccess(`Deleted issuer '${this.issuer.name}'`);
 						this.router.navigate(['/issuer/issuers']);
 					},
