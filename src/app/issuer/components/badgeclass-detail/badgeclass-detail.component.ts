@@ -136,7 +136,6 @@ export class BadgeClassDetailComponent extends BaseAuthenticatedRoutableComponen
 					this.crumbs = [
 						{title: 'Issuers', routerLink: ['/issuer/issuers']},
 						{title: this.issuer.name, routerLink: ['/issuer/issuers/' + this.issuerSlug]},
-						{title: 'badges', routerLink: ['/issuer/issuers/' + this.issuerSlug + '/badges/']},
 						{title: this.badgeClass.name, routerLink: ['/issuer/issuers/' + this.issuerSlug + '/badges/' + this.badgeSlug]},
 					];
 					this.allBadgeInstances = retInstances;
