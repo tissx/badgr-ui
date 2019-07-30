@@ -94,13 +94,10 @@
 						<dd class="u-text"><time [date]="assertion.issuedOn" format="mediumDate"></time></dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="awardedToDisplayName">Awarded to:</dt>
 				    	<dd class="u-text u-break-all">{{ awardedToDisplayName }}</dd>
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2"
-				    		*ngIf="assertion.expires">
-				    		<span *ngIf="assertion.expires && !isExpired">Expires on:</span>
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="assertion.expires">
+				    		<span>{{ +isExpired | i18nPlural: tense['expires'] }} on:</span>
 				    	</dt>
-				    	<dd *ngIf="assertion.expires && !isExpired" class="u-text">
-				    		<time [date]="assertion.expires" format="mediumDate"></time>
-				    	</dd>
+							<dd class="u-text" *ngIf="assertion.expires"><time [date]="assertion?.expires" format="mediumDate"></time></dd>
 					</dl>
 				</div>
 			</div>

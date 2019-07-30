@@ -13,6 +13,7 @@ import {MessageService} from '../../../common/services/message.service';
 import {AppConfigService} from '../../../common/app-config.service';
 import {saveAs} from 'file-saver';
 import {Title} from '@angular/platform-browser';
+import { compareDate } from "../../../common/util/date-compare";
 
 
 @Component({
@@ -29,6 +30,14 @@ export class PublicBadgeAssertionComponent {
 	assertionId: string;
 	awardedToDisplayName: string;
 	routerLinkForUrl = routerLinkForUrl;
+	now = new Date();
+	compareDate = compareDate;
+	tense = {
+		'expires': {
+			'=1' : 'Expired',
+			'=0' : 'Expires',
+		},
+	};
 
 	constructor(
 		private injector: Injector,
