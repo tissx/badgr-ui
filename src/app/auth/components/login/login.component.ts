@@ -74,8 +74,6 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			this.loginForm.controls.username.setValue(this.verifiedEmail);
 		}
 
-		// autologin
-		if((this.sessionService.enabledExternalAuthProviders.length === 1) && (this.features.disableRegistration)) this.sessionService.initiateUnauthenticatedExternalAuth(this.sessionService.enabledExternalAuthProviders[0]);
 	}
 
 	ngAfterViewInit(): void {
@@ -171,6 +169,12 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			}
 
 			this.initFinished = Promise.resolve(true);
+
+			// autologin, wait till get vars are processed and kick it to the end of the stack
+			if((this.sessionService.enabledExternalAuthProviders.length === 1) && (this.features.disableRegistration)) {
+				window.setTimeout(() => this.sessionService.initiateUnauthenticatedExternalAuth(this.sessionService.enabledExternalAuthProviders[0]), 0);
+			}
+
 		} finally {
 			this.queryParams.clearInitialQueryParams();
 		}
