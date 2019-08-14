@@ -25,7 +25,13 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 	inProgress = 0;
 	serverErrors: ServerError[] = [];
 	unverifiedEmails: UnverifiedEmail[] = [];
+	attempts = 0;
 	successes = 0;
+	duplicateError = {
+		'email': null,
+		'base64Image': null,
+		'error': 'You attempted to upload duplicate badges.'
+	};
 	plural = {
 		'badge': {
 			'=0' : 'No Badges',
@@ -73,6 +79,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		}
 		this.noManifestError = false;
 		const manifest = JSON.parse(m);
+		this.attempts = 0;
 		Object.keys(manifest).forEach((email) => {
 			manifest[email].forEach((f) => {
 				const reader = new FileReader();
@@ -81,6 +88,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 					// Are we done with only successes?
 					if(!this.inProgress && this.successes && !this.serverErrors && !this.unverifiedEmails) this.displaySuccess();
 				});
+				this.attempts++;
 				this.inProgress++;
 				const image = this.files.filter(m => m.filename === f)[0];
 				// bad file?
@@ -104,38 +112,50 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 				})
 				.catch(err => {
 					const message = err.response.error[0].description || err.response.error[0].result;
-					if(message === 'The recipient does not match any of your verified emails'){
-						const counter = this.unverifiedEmails.findIndex(ue => ue.email === email);
-						if (counter > 0) {
-							this.unverifiedEmails.splice(counter,1,{
-								'email': email,
-								count: this.unverifiedEmails[counter].count++,
-								base64Files: this.unverifiedEmails[counter].base64Files,
-								verify: true
-							});
-							this.unverifiedEmails[counter].base64Files.push(base64Image);
-						} else {
-							this.unverifiedEmails.push({
-								'email': email,
-								count: 1,
-								base64Files: [base64Image],
-								verify: true
-							});
-						}
-					} else {
+
+					// catch illegal errors
+					if(!message.match(/^[A-Za-z]/)){
 						this.serverErrors.push({
 							'email': email,
 							'base64Image': base64Image,
-							'error': message
+							'error': 'Unknown system error! Please try later.'
 						});
+						return false;
 					}
 
-					/*this.messageService.reportAndThrowError(
-						message
-							? `Failed to upload badge: ${message}`
-							: `Badge upload failed due to an unknown error`,
-						err
-					);*/
+					// match known errors
+					switch (message) {
+						case 'The recipient does not match any of your verified emails':
+							const counter = this.unverifiedEmails.findIndex(ue => ue.email === email);
+							if (counter > 0) {
+								this.unverifiedEmails.splice(counter,1,{
+									'email': email,
+									count: this.unverifiedEmails[counter].count++,
+									base64Files: this.unverifiedEmails[counter].base64Files,
+									verify: true
+								});
+								this.unverifiedEmails[counter].base64Files.push(base64Image);
+							} else {
+								this.unverifiedEmails.push({
+									'email': email,
+									count: 1,
+									base64Files: [base64Image],
+									verify: true
+								});
+							}
+							break;
+						case 'You already have this badge in your backpack':
+							if(!this.serverErrors.includes(this.duplicateError)) this.serverErrors.push(this.duplicateError);
+							break;
+						// IT BETTER BE HUMAN READABLE
+						default:
+							this.serverErrors.push({
+								'email': email,
+								'base64Image': base64Image,
+								'error': message
+							});
+							break;
+					}
 				});
 	}
 
