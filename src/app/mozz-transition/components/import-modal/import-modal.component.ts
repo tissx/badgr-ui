@@ -32,6 +32,11 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 		'base64Image': null,
 		'error': 'You attempted to upload duplicate badges.'
 	};
+	unknownServerError = {
+		'email': null,
+		'base64Image': null,
+		'error': 'Unknown system error! Please try later.'
+	};
 	plural = {
 		'badge': {
 			'=0' : 'No Badges',
@@ -111,15 +116,11 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 					this.successes++;
 				})
 				.catch(err => {
-					const message = err.response.error[0].description || err.response.error[0].result;
+					const message = err.response.error[0].description || err.response.error[0].result || '<UNKNOWN ERROR>';
 
 					// catch illegal errors
 					if(!message.match(/^[A-Za-z]/)){
-						this.serverErrors.push({
-							'email': email,
-							'base64Image': base64Image,
-							'error': 'Unknown system error! Please try later.'
-						});
+						if(!this.serverErrors.includes(this.unknownServerError)) this.serverErrors.push(this.unknownServerError);
 						return false;
 					}
 
@@ -127,7 +128,7 @@ export class ImportModalComponent extends BaseDialog implements OnInit {
 					switch (message) {
 						case 'The recipient does not match any of your verified emails':
 							const counter = this.unverifiedEmails.findIndex(ue => ue.email === email);
-							if (counter > 0) {
+							if (counter > -1) {
 								this.unverifiedEmails.splice(counter,1,{
 									'email': email,
 									count: this.unverifiedEmails[counter].count++,
