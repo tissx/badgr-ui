@@ -200,7 +200,7 @@ export class SessionService {
 			console.log('redirect_uri', redirectUri);
 			localStorage.setItem('redirect_uri', redirectUri);
 			// If we're not on a public page, send the user to the login page with an error
-			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
+			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}` + (redirectUri)?'&redirectUri='+redirectUri:'');
 		} else {
 			// If we _are_ on a public page, reload the page after clearing the session token, because that will clear any messy error states from
 			// api errors.
