@@ -7,7 +7,7 @@
 				class="l-flex l-flex-1x l-flex-aligncenter l-flex-justifycenter u-margin-bottom3x"
 			>
 				<img
-					[src]="oAuthManager.currentAuthorization.application.image"
+					[src]="oAuthManager?.currentAuthorization?.application.image"
 					alt="{{ authorizingApp.application.name }} Logo"
 					height="72"
 				/>
@@ -20,7 +20,7 @@
 			</div>
 			<div class="authlist">
 				<div class="authlist-x-title">
-					{{ authorizingApp.application.name }} would like to
+					{{ authorizingApp?.application?.name }} would like to
 				</div>
 				<ul class="authlist-x-items">
 					<li class="authlist-x-item">
