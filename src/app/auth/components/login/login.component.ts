@@ -141,8 +141,9 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		try {
 			// Handle authcode exchange
 			const authCode = this.queryParams.queryStringValue("authCode", true);
+			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
 			const redirect = 'recipient';
-			console.log('localStorage.redirectUri', localStorage.redirectUri)
+			console.log('redirectUri from url', redirectUri)
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
