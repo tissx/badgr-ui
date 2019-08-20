@@ -145,10 +145,18 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			const authCode = this.queryParams.queryStringValue("authCode", true);
 
 			// catch data if we're being used as an oAuth client
+			localStorage.removeItem('redirectUri')
+			localStorage.removeItem('clientId')
+			localStorage.removeItem('redirectState')
+			localStorage.removeItem('redirectScope')
 			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
 			const clientId = this.queryParams.queryStringValue("client_id", true);
 			const redirectState = this.queryParams.queryStringValue("state", true);
 			const redirectScope = this.queryParams.queryStringValue("scope", true);
+			console.log(redirectUri,
+				clientId,
+				redirectState,
+				redirectScope)
 			if(redirectUri) localStorage.redirectUri = redirectUri;
 			if(clientId) localStorage.clientId = clientId;
 			if(redirectState) localStorage.redirectState = redirectState;
@@ -159,7 +167,8 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
 					this.externalToolsManager.externaltoolsList.updateIfLoaded();
-					(redirectUri) ? window.location.replace(redirectUri) : this.initFinished = this.router.navigate([ redirect ]);
+					//(redirectUri) ? window.location.replace(redirectUri) : this.initFinished = this.router.navigate([ redirect ]);
+					this.initFinished = this.router.navigate([ redirect ]);
 				});
 				return;
 			} else if (this.queryParams.queryStringValue("authToken", true)) {
@@ -168,7 +177,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				});
 
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				(redirectUri) ? window.location.replace(redirectUri) : this.initFinished = this.router.navigate([ redirect ]);
+				this.initFinished = this.router.navigate([ redirect ]);
 				return;
 			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
