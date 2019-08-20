@@ -150,9 +150,8 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			const authCode = this.queryParams.queryStringValue("authCode", true);
 
 			// data
-			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
-			console.log(2,redirectUri)
-			if(redirectUri) localStorage.redirectUri = redirectUri;
+			const redirectUri = localStorage.redirectUri;
+			console.log(2,redirectUri);
 
 			const redirect = 'recipient';
 			if (authCode) {
