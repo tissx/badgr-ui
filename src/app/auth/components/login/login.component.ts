@@ -144,12 +144,11 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
 			const redirect = 'recipient';
 			console.log('redirectUri from url', redirectUri)
-			const redirectFunc = () => (redirectUri) ? window.location.replace(redirectUri) : this.initFinished = this.router.navigate([ redirect ]);
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
 					this.externalToolsManager.externaltoolsList.updateIfLoaded();
-					redirectFunc();
+					(redirectUri) ? window.location.replace(redirectUri) : this.initFinished = this.router.navigate([ redirect ]);
 				});
 				return;
 			} else if (this.queryParams.queryStringValue("authToken", true)) {
@@ -158,7 +157,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				});
 
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				redirectFunc();
+				(redirectUri) ? window.location.replace(redirectUri) : this.initFinished = this.router.navigate([ redirect ]);
 				return;
 			} else if (this.queryParams.queryStringValue("infoMessage", true)) {
 				this.messageService.reportInfoMessage(this.queryParams.queryStringValue("infoMessage", true), true);
@@ -167,7 +166,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 				this.messageService.reportHandledError(this.queryParams.queryStringValue("authError", true), null, true);
 			} else if (this.sessionService.isLoggedIn) {
 				this.externalToolsManager.externaltoolsList.updateIfLoaded();
-				redirectFunc();
+				this.initFinished = this.router.navigate([ redirect ]);
 				return;
 			}
 
