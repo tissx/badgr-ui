@@ -102,7 +102,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 								} else {
 									this.externalToolsManager.externaltoolsList.updateIfLoaded();
 									// catch localStorage.redirectUri
-									if (localStorage.redirectUri) window.location.replace(localStorage.redirectUri);
+									if (localStorage.redirectUri) window.location.replace(localStorage.redirectUri + '?state=' + localStorage.redirectState);
 									// first time only do welcome
 									this.router.navigate([ (localStorage.signup) ?'auth/welcome' :'recipient' ]);
 								}
@@ -143,9 +143,14 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 		try {
 			// Handle authcode exchange
 			const authCode = this.queryParams.queryStringValue("authCode", true);
+
+			// catch data if we're being used as an oAuth client
 			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
-			const redirect = 'recipient';
+			const redirectState = this.queryParams.queryStringValue("state", true);
 			if(redirectUri) localStorage.redirectUri = redirectUri;
+			if(redirectState) localStorage.redirectState = redirectState;
+
+			const redirect = 'recipient';
 			if (authCode) {
 				this.sessionService.exchangeCodeForToken(authCode).then(token => {
 					this.sessionService.storeToken(token);
