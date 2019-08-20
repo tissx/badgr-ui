@@ -103,11 +103,12 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 									this.externalToolsManager.externaltoolsList.updateIfLoaded();
 									// catch localStorage.redirectUri
 									if (localStorage.redirectUri) {
-										window.location.replace(localStorage.redirectUri
+										/*window.location.replace(localStorage.redirectUri
 											+ '?client_id=' + encodeURIComponent(localStorage.clientId)
-											+ '&state=' + encodeURIComponent(localStorage.redirectState )
+											+ '&state=' + encodeURIComponent(localStorage.redirectState)
 											+ '&scope=' + encodeURIComponent(localStorage.redirectScope)
-										);
+										);*/
+										window.location.replace(localStorage.redirectUri.split('/')[0]);
 									}
 									// first time only do welcome
 									this.router.navigate([ (localStorage.signup) ?'auth/welcome' :'recipient' ]);
