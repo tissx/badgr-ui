@@ -193,22 +193,13 @@ export class SessionService {
 	handleAuthenticationError() {
 		this.logout();
 
+		const params = new URLSearchParams(document.location.search.substring(1));
+		// catch redirect_uri if we're being used as an oAuth client
+		localStorage.removeItem('redirectUri');
+		const redirectUri = params.get("redirect_uri");
+		if(redirectUri) localStorage.redirectUri = redirectUri;
+
 		if (this.navService.currentRouteData.publiclyAccessible !== true) {
-			const params = new URLSearchParams(document.location.search.substring(1));
-			// catch redirect_uri
-			// catch data if we're being used as an oAuth client
-			localStorage.removeItem('redirectUri');
-			// localStorage.removeItem('clientId');
-			// localStorage.removeItem('redirectState');
-			// localStorage.removeItem('redirectScope');
-			const redirectUri = params.get("redirect_uri");
-			// const clientId = params.get("client_id");
-			// const redirectState = params.get("state");
-			// const redirectScope = params.get("scope");
-			if(redirectUri) localStorage.redirectUri = redirectUri;
-			// if(clientId) localStorage.clientId = clientId;
-			// if(redirectState) localStorage.redirectState = redirectState;
-			// if(redirectScope) localStorage.redirectScope = redirectScope;
 			// If we're not on a public page, send the user to the login page with an error
 			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
 		} else {
