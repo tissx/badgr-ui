@@ -145,22 +145,18 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 			const authCode = this.queryParams.queryStringValue("authCode", true);
 
 			// catch data if we're being used as an oAuth client
-			localStorage.removeItem('redirectUri')
-			localStorage.removeItem('clientId')
-			localStorage.removeItem('redirectState')
-			localStorage.removeItem('redirectScope')
-			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
-			const clientId = this.queryParams.queryStringValue("client_id", true);
-			const redirectState = this.queryParams.queryStringValue("state", true);
-			const redirectScope = this.queryParams.queryStringValue("scope", true);
-			console.log(redirectUri,
-				clientId,
-				redirectState,
-				redirectScope)
-			if(redirectUri) localStorage.redirectUri = redirectUri;
-			if(clientId) localStorage.clientId = clientId;
-			if(redirectState) localStorage.redirectState = redirectState;
-			if(redirectScope) localStorage.redirectScope = redirectScope;
+			// localStorage.removeItem('redirectUri')
+			// localStorage.removeItem('clientId')
+			// localStorage.removeItem('redirectState')
+			// localStorage.removeItem('redirectScope')
+			// const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
+			// const clientId = this.queryParams.queryStringValue("client_id", true);
+			// const redirectState = this.queryParams.queryStringValue("state", true);
+			// const redirectScope = this.queryParams.queryStringValue("scope", true);
+			// if(redirectUri) localStorage.redirectUri = redirectUri;
+			// if(clientId) localStorage.clientId = clientId;
+			// if(redirectState) localStorage.redirectState = redirectState;
+			// if(redirectScope) localStorage.redirectScope = redirectScope;
 
 			const redirect = 'recipient';
 			if (authCode) {
