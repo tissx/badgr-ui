@@ -102,7 +102,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 								} else {
 									this.externalToolsManager.externaltoolsList.updateIfLoaded();
 									// catch localStorage.redirectUri
-									if (localStorage.redirectUri) window.location.replace(localStorage.redirectUri + '?state=' + localStorage.redirectState);
+									if (localStorage.redirectUri) window.location.replace(localStorage.redirectUri + '?client_id=' + localStorage.clientId + '?state=' + localStorage.redirectState + '?scope=' + localStorage.redirectScope);
 									// first time only do welcome
 									this.router.navigate([ (localStorage.signup) ?'auth/welcome' :'recipient' ]);
 								}
@@ -146,9 +146,13 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 
 			// catch data if we're being used as an oAuth client
 			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
+			const clientId = this.queryParams.queryStringValue("client_id", true);
 			const redirectState = this.queryParams.queryStringValue("state", true);
+			const redirectScope = this.queryParams.queryStringValue("scope", true);
 			if(redirectUri) localStorage.redirectUri = redirectUri;
+			if(clientId) localStorage.clientId = clientId;
 			if(redirectState) localStorage.redirectState = redirectState;
+			if(redirectScope) localStorage.redirectScope = redirectScope;
 
 			const redirect = 'recipient';
 			if (authCode) {
