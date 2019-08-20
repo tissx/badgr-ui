@@ -197,6 +197,8 @@ export class SessionService {
 			const params = new URLSearchParams(document.location.search.substring(1));
 			// catch redirect_uri
 			const redirectUri = params.get("redirect_uri");
+			console.log(1,redirectUri);
+			if(redirectUri) localStorage.redirectUri = redirectUri;
 			// If we're not on a public page, send the user to the login page with an error
 			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}` + (redirectUri)?'&redirect_uri='+redirectUri:'');
 		} else {

@@ -104,7 +104,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 									// catch localStorage.redirectUri
 									if (localStorage.redirectUri) {
 										const redirectUri = localStorage.redirectUri;
-										localStorage.remove('redirectUri');
+										localStorage.removeItem('redirectUri');
 										window.location.replace(redirectUri.split('/')[0]);
 										return false;
 									}
@@ -151,6 +151,7 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 
 			// data
 			const redirectUri = this.queryParams.queryStringValue("redirect_uri", true);
+			console.log(2,redirectUri)
 			if(redirectUri) localStorage.redirectUri = redirectUri;
 
 			const redirect = 'recipient';
