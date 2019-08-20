@@ -102,7 +102,13 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 								} else {
 									this.externalToolsManager.externaltoolsList.updateIfLoaded();
 									// catch localStorage.redirectUri
-									if (localStorage.redirectUri) window.location.replace(localStorage.redirectUri + '?client_id=' + localStorage.clientId + '?state=' + localStorage.redirectState + '?scope=' + localStorage.redirectScope);
+									if (localStorage.redirectUri) {
+										window.location.replace(localStorage.redirectUri
+											+ '?client_id=' + encodeURIComponent(localStorage.clientId)
+											+ '&state=' + encodeURIComponent(localStorage.redirectState )
+											+ '&scope=' + encodeURIComponent(localStorage.redirectScope)
+										);
+									}
 									// first time only do welcome
 									this.router.navigate([ (localStorage.signup) ?'auth/welcome' :'recipient' ]);
 								}
