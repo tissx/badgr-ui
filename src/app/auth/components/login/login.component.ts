@@ -103,9 +103,9 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 									this.externalToolsManager.externaltoolsList.updateIfLoaded();
 									// catch localStorage.redirectUri
 									if (localStorage.redirectUri) {
-										const redirectUri = localStorage.redirectUri;
+										const redirectUri = new URL(localStorage.redirectUri);
 										localStorage.removeItem('redirectUri');
-										window.location.replace( window.location.protocol + '//' + redirectUri.split('/')[0]);
+										window.location.replace(redirectUri.origin);
 										return false;
 									} else {
 										// first time only do welcome
