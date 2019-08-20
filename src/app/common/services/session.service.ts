@@ -193,15 +193,12 @@ export class SessionService {
 	handleAuthenticationError() {
 		this.logout();
 
-		const params = new URLSearchParams(document.location.search.substring(1));
-		// catch redirect_uri if we're being used as an oAuth client
-		localStorage.removeItem('redirectUri');
-		const redirectUri = params.get("redirect_uri");
-		if(redirectUri) localStorage.redirectUri = redirectUri;
-
 		if (this.navService.currentRouteData.publiclyAccessible !== true) {
+			const params = new URLSearchParams(document.location.search.substring(1));
+			// catch redirect_uri
+			const redirectUri = params.get("redirect_uri");
 			// If we're not on a public page, send the user to the login page with an error
-			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}`);
+			window.location.replace(`/auth/login?authError=${encodeURIComponent("Your session has expired. Please log in to continue.")}` + (redirectUri)?'&redirect_uri='+redirectUri:'');
 		} else {
 			// If we _are_ on a public page, reload the page after clearing the session token, because that will clear any messy error states from
 			// api errors.
