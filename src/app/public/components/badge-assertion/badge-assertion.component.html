@@ -1,7 +1,7 @@
 <ng-template [bgAwaitPromises]="assertionIdParam">
-	<!-- Embedded View -->
 
-	<div>
+	<!-- 1.0 Embedded View -->
+	<div *ngIf="embedService.isEmbedded && embedService.isEmbedVersion(1)">
 		<bg-badgecard
 			[badgeTitle]="badgeClass.name"
 			[badgeImage]="assertion.image"
@@ -10,10 +10,73 @@
 			[mostRelevantStatus]=""
 			[issuerTitle]="issuer.name"
 			[verifyUrl]="verifyUrl"
-			*ngIf="embedService.isEmbedded"
 		>
 		</bg-badgecard>
 	</div>
+
+	<!-- 2.0 Embedded View -->
+	<div class="oembedbadge"
+	     *ngIf="embedService.isEmbedded && embedService.isEmbedVersion(2)"
+	     [ngClass]="{'oembedbadge-is-active':showV2EmbedDescription}"
+	>
+
+		<!-- Main iframe content -->
+		<div class="oembedbadge-x-inner">
+			<div class="oembedbadge-x-badge">
+				<img [src]="assertion.image"
+				     width="200"/>
+			</div>
+			<div class="oembedbadge-x-summary">
+				<h1>{{badgeClass.name}}</h1>
+				<div class="oembedbadge-x-issuer">
+					<img [src]="assertion.image"
+					     width=48
+					     alt=""
+					     srcset=""
+					/>
+					<dl>
+						<dt>{{issuer.name}}</dt>
+						<dd>{{badgeClass.description}}</dd>
+					</dl>
+				</div>
+				<dl class="oembedbadge-x-info">
+					<dt>Issued On</dt>
+					<dd>
+						<time [date]="assertion.issuedOn" format="mediumDate"></time>
+					</dd>
+				</dl>
+				<dl class="oembedbadge-x-info">
+					<dt>Expires On</dt>
+					<dd>
+						<time [date]="assertion.expires" format="mediumDate"></time>
+					</dd>
+				</dl>
+				<button class="button button-tertiary">View Details</button>
+			</div>
+		</div>
+
+		<!-- Absolutely positioned slide over -->
+		<div class="oembedbadge-x-slide"
+		     [@openClose]="showV2EmbedDescription ? 'open' : 'closed'"
+		>
+			<button class="oembedbadge-x-toggle"
+			        (click)="toggleShowV2EmbedDescription()"
+			>
+				{{showV2EmbedDescription ? 'Show Description' : 'Hide Description'}}
+			</button>
+			<div class="oembedbadge-x-slideinner">
+				<div>
+					<h2>Description</h2>
+					<p class="u-text">Open Badges are verifiable, portable digital badges with embedded metadata about skills and achievements. They comply with the Open Badges Specification and are shareable across the web.
+						<button class="button button-tertiary u-margin-top3x">View Details</button>
+					</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
 	<!-- Regular View -->
 	<main class="o-container"
 		*ngIf="! embedService.isEmbedded">

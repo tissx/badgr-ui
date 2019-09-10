@@ -1,23 +1,37 @@
-import {Component, Injector} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Component, Injector } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import {preloadImageURL} from '../../../common/util/file-util';
-import {PublicApiService} from '../../services/public-api.service';
-import {LoadedRouteParam} from '../../../common/util/loaded-route-param';
-import {PublicApiBadgeAssertionWithBadgeClass, PublicApiBadgeClass, PublicApiIssuer} from '../../models/public-api.model';
-import {EmbedService} from '../../../common/services/embed.service';
-import {addQueryParamsToUrl} from '../../../common/util/url-util';
-import {routerLinkForUrl} from '../public/public.component';
-import {QueryParametersService} from '../../../common/services/query-parameters.service';
-import {MessageService} from '../../../common/services/message.service';
-import {AppConfigService} from '../../../common/app-config.service';
-import {saveAs} from 'file-saver';
-import {Title} from '@angular/platform-browser';
+import { preloadImageURL } from '../../../common/util/file-util';
+import { PublicApiService } from '../../services/public-api.service';
+import { LoadedRouteParam } from '../../../common/util/loaded-route-param';
+import {
+	PublicApiBadgeAssertionWithBadgeClass,
+	PublicApiBadgeClass,
+	PublicApiIssuer
+} from '../../models/public-api.model';
+import { EmbedService } from '../../../common/services/embed.service';
+import { routerLinkForUrl } from '../public/public.component';
+import { QueryParametersService } from '../../../common/services/query-parameters.service';
+import { MessageService } from '../../../common/services/message.service';
+import { AppConfigService } from '../../../common/app-config.service';
+import { saveAs } from 'file-saver';
+import { Title } from '@angular/platform-browser';
 import { compareDate } from "../../../common/util/date-compare";
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
 
 
 @Component({
-	templateUrl: './badge-assertion.component.html'
+	templateUrl: './badge-assertion.component.html',
+	animations: [
+		trigger('openClose', [
+			state('open', style({ top: '8px'})),
+			state('closed', style({ top: 'calc(100% - 40px)'})),
+			transition('open <=> closed', [
+				animate('300ms cubic-bezier(0.075, 0.82, 0.165, 1)')
+			])
+		]),
+	]
 })
 export class PublicBadgeAssertionComponent {
 	readonly issuerImagePlacholderUrl = preloadImageURL(
@@ -38,6 +52,8 @@ export class PublicBadgeAssertionComponent {
 			'=0' : 'Expires',
 		},
 	};
+
+	showV2EmbedDescription = false;
 
 	constructor(
 		private injector: Injector,
@@ -123,6 +139,10 @@ export class PublicBadgeAssertionComponent {
 
 	generateFileName(assertion, fileExtension): string {
 		return `${assertion.badge.name} - ${assertion.recipient.identity}${fileExtension}`;
+	}
+
+	toggleShowV2EmbedDescription() {
+		this.showV2EmbedDescription = !this.showV2EmbedDescription;
 	}
 
 	openSaveDialog(assertion): void {
