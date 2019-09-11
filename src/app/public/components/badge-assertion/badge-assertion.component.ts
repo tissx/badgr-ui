@@ -25,8 +25,12 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 	templateUrl: './badge-assertion.component.html',
 	animations: [
 		trigger('openClose', [
-			state('open', style({ top: '8px'})),
-			state('closed', style({ top: 'calc(100% - 40px)'})),
+			state('open',
+				style({ top: '8px'})
+			),
+			state('closed',
+				style({ top: 'calc(100% - 40px)'})
+			),
 			transition('open <=> closed', [
 				animate('300ms cubic-bezier(0.075, 0.82, 0.165, 1)')
 			])

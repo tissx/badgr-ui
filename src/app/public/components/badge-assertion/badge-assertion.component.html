@@ -23,8 +23,12 @@
 		<!-- Main iframe content -->
 		<div class="oembedbadge-x-inner">
 			<div class="oembedbadge-x-badge">
-				<img [src]="assertion.image"
-				     width="200"/>
+				<a [href]="assertion.id"
+				   target="_blank"
+				   rel="noopener"
+				>
+					<img [src]="assertion.image" width="200"/>
+				</a>
 			</div>
 			<div class="oembedbadge-x-summary">
 				<h1>{{badgeClass.name}}</h1>
@@ -51,7 +55,10 @@
 						<time [date]="assertion.expires" format="mediumDate"></time>
 					</dd>
 				</dl>
-				<button class="button button-tertiary">View Details</button>
+				<a class="button button-tertiary"
+				   [href]="assertion.id"
+				   target="_blank"
+				>View Credential</a>
 			</div>
 		</div>
 
@@ -62,13 +69,18 @@
 			<button class="oembedbadge-x-toggle"
 			        (click)="toggleShowV2EmbedDescription()"
 			>
-				{{showV2EmbedDescription ? 'Show Description' : 'Hide Description'}}
+				{{showV2EmbedDescription ? 'Hide Description' : 'Show Description'}}
 			</button>
 			<div class="oembedbadge-x-slideinner">
 				<div>
 					<h2>Description</h2>
 					<p class="u-text">Open Badges are verifiable, portable digital badges with embedded metadata about skills and achievements. They comply with the Open Badges Specification and are shareable across the web.
-						<button class="button button-tertiary u-margin-top3x">View Details</button>
+						<br/>
+						<a class="button button-tertiary u-margin-top3x u-display-inlineblock"
+						   [href]="assertion.id"
+						   target="_blank"
+						   rel="noopener"
+						>View Credential</a>
 					</p>
 				</div>
 			</div>
