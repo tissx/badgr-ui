@@ -33,14 +33,14 @@
 			<div class="oembedbadge-x-summary">
 				<h1>{{badgeClass.name}}</h1>
 				<div class="oembedbadge-x-issuer">
-					<img [src]="assertion.image"
+					<img [loaded-src]="issuer.image"
+					     [loading-src]="issuerImagePlacholderUrl"
+					     [error-src]="issuerImagePlacholderUrl"
 					     width=48
-					     alt=""
-					     srcset=""
 					/>
 					<dl>
-						<dt>{{issuer.name}}</dt>
-						<dd>{{badgeClass.description}}</dd>
+						<dt>Issued By</dt>
+						<dd>{{issuer.name}}</dd>
 					</dl>
 				</div>
 				<dl class="oembedbadge-x-info">
@@ -49,10 +49,12 @@
 						<time [date]="assertion.issuedOn" format="mediumDate"></time>
 					</dd>
 				</dl>
-				<dl class="oembedbadge-x-info">
+				<dl class="oembedbadge-x-info"
+				    *ngIf="assertion.expires"
+				>
 					<dt>Expires On</dt>
 					<dd>
-						<time [date]="assertion.expires" format="mediumDate"></time>
+						<time [date]="assertion?.expires" format="mediumDate"></time>
 					</dd>
 				</dl>
 				<a class="button button-tertiary"
@@ -63,9 +65,7 @@
 		</div>
 
 		<!-- Absolutely positioned slide over -->
-		<div class="oembedbadge-x-slide"
-		     [@openClose]="showV2EmbedDescription ? 'open' : 'closed'"
-		>
+		<div class="oembedbadge-x-slide">
 			<button class="oembedbadge-x-toggle"
 			        (click)="toggleShowV2EmbedDescription()"
 			>
@@ -74,18 +74,16 @@
 			<div class="oembedbadge-x-slideinner">
 				<div>
 					<h2>Description</h2>
-					<p class="u-text">Open Badges are verifiable, portable digital badges with embedded metadata about skills and achievements. They comply with the Open Badges Specification and are shareable across the web.
+					<p class="u-text" [truncatedText]="badgeClass.description" [maxLength]="186"></p>
 						<br/>
 						<a class="button button-tertiary u-margin-top3x u-display-inlineblock"
 						   [href]="assertion.id"
 						   target="_blank"
 						   rel="noopener"
 						>View Credential</a>
-					</p>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 
