@@ -21,7 +21,7 @@
 							"src/assets"
 						],
 						"styles": [
-							"node_modules/@concentricsky/badgr-style/dist/css/iobadgr.min.css",
+							"node_modules/@concentricsky/badgr-style/dist/css/screen.css",
 							"node_modules/dialog-polyfill/dialog-polyfill.css"
 						],
 						"scripts": []

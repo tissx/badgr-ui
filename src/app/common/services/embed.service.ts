@@ -28,4 +28,10 @@ export class EmbedService {
 	get isEmbedded() {
 		return !! this.embedVersion;
 	}
+
+	isEmbedVersion( ver: number){
+		return this.embedVersion === ver;
+	}
+
+
 }
