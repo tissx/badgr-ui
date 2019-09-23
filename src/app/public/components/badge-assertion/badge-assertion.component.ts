@@ -17,6 +17,7 @@ import { AppConfigService } from '../../../common/app-config.service';
 import { saveAs } from 'file-saver';
 import { Title } from '@angular/platform-browser';
 import { compareDate } from "../../../common/util/date-compare";
+import { CommonDialogsService } from '../../../common/services/common-dialogs.service';
 
 
 @Component({
@@ -51,6 +52,7 @@ export class PublicBadgeAssertionComponent {
 		public configService: AppConfigService,
 		public queryParametersService: QueryParametersService,
 		private title: Title,
+		private dialogService: CommonDialogsService,
 	) {
 		title.setTitle(`Assertion - ${this.configService.theme['serviceName'] || "Badgr"}`);
 
@@ -111,6 +113,10 @@ export class PublicBadgeAssertionComponent {
 			}
 		}
 		return url;
+	}
+
+	verifyBadge() {
+		this.dialogService.verifyBadgeDialog.openDialog(this.assertion);
 	}
 
 	get recipientId() {

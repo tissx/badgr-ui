@@ -100,9 +100,9 @@
 				</h1>
 
 				<div class="l-primarymore">
-					<a class="button" type="button"
-						*ngIf="!showDownload"
-						[href]="verifyUrl"
+					<a class="button"
+					   *ngIf="!showDownload"
+						 (click)="verifyBadge()"
 					>Verify Badge</a>
 
 					<a class="button"
