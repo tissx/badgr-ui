@@ -113,7 +113,7 @@ export class PublicBadgeAssertionComponent {
 		return url;
 	}
 
-	verifyBabge() {
+	verifyBadge() {
 		this.dialogService.verifyBadgeDialog.openDialog(this.assertion);
 	}
 

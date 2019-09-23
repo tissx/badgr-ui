@@ -69,7 +69,7 @@
 							<dl class="u-text u-margin-top2x">
 
 								<div class="l-flex l-flex-1x">
-									<svg class="u-animate-step1 icon"
+									<svg class="u-animate-step1 icon l-flex-x-shrink0"
 									     [ngClass]="awardedState === AWARDED_STATES.MATCH ? 'icon-success' : 'icon-notice' "
 									     [icon]="   awardedState === AWARDED_STATES.MATCH ? 'icon_checkmark_circle' : 'icon_error' "
 									></svg>
@@ -78,40 +78,41 @@
 										<dd class="u-margin-bottom2x"
 										    [ngSwitch]="awardedState"
 										>
-											<ng-container *ngSwitchCase="AWARDED_STATES.MATCH       "> {{identityEmail}}</ng-container>
-											<ng-container *ngSwitchCase="AWARDED_STATES.NO_MATCH    "> This badge was not awarded to {{identityEmail}} </ng-container>
+											<ng-container *ngSwitchCase="AWARDED_STATES.MATCH"> {{identityEmail}}</ng-container>
+											<ng-container *ngSwitchCase="AWARDED_STATES.NO_MATCH"> This badge was not awarded to {{identityEmail}} </ng-container>
 											<ng-container *ngSwitchCase="AWARDED_STATES.NOT_VERIFIED"> Recipient not verified </ng-container>
 										</dd>
 									</div>
 								</div>
 
 								<div class="l-flex l-flex-1x">
-									<svg class="u-animate-step2 icon"
-									     [ngClass]="expiryState !== EXPIRY_STATES.EXPIRED ? 'icon-success' : 'icon-notice' "
-									     [icon]="expiryState !== EXPIRY_STATES.EXPIRED ? 'icon_checkmark_circle' : 'icon_error' "
-									></svg>
-									<div>
-										<dt class="u-text-small-bold u-text-dark2">Expires On</dt>
-										<dd class="u-margin-bottom2x"
-										    [ngSwitch]="expiryState"
-										>
-											<ng-container *ngSwitchCase="EXPIRY_STATES.EXPIRED      "> Expired</ng-container>
-											<ng-container *ngSwitchCase="EXPIRY_STATES.NEVER_EXPIRES"> Does not expire</ng-container>
-											<ng-container *ngSwitchCase="EXPIRY_STATES.NOT_EXPIRED  ">
-												<time [date]="badgeAssertion?.expires"
-												      format="medium Date"
-												></time>
-											</ng-container>
-										</dd>
-									</div>
-								</div>
-								<div class="l-flex l-flex-1x">
-									<svg class="u-animate-step3 icon icon-success"
+									<svg class="u-animate-step2 icon icon-success l-flex-x-shrink0"
 									     icon="icon_checkmark_circle"
 									></svg>
 									<div>
 										<dt class="u-text-small-bold u-text-dark2">Issued On</dt>
-										<dd class="u-margin-bottom2x">Jan. 1, 2019</dd>
+										<dd class="u-margin-bottom2x"><time [date]="badgeAssertion?.issuedOn" format="mediumDate"></time></dd>
+									</div>
+								</div>
+
+								<div class="l-flex l-flex-1x">
+									<svg class="u-animate-step3 icon l-flex-x-shrink0"
+											 [ngClass]="expiryState !== EXPIRY_STATES.EXPIRED ? 'icon-success' : 'icon-notice' "
+											 [icon]="expiryState !== EXPIRY_STATES.EXPIRED ? 'icon_checkmark_circle' : 'icon_error' "
+									></svg>
+									<div>
+										<dt class="u-text-small-bold u-text-dark2">Expires On</dt>
+										<dd class="u-margin-bottom2x"
+												[ngSwitch]="expiryState"
+										>
+											<ng-container *ngSwitchCase="EXPIRY_STATES.EXPIRED"> Expired</ng-container>
+											<ng-container *ngSwitchCase="EXPIRY_STATES.NEVER_EXPIRES"> Does not expire</ng-container>
+											<ng-container *ngSwitchCase="EXPIRY_STATES.NOT_EXPIRED">
+												<time [date]="badgeAssertion?.expires"
+															format="medium Date"
+												></time>
+											</ng-container>
+										</dd>
 									</div>
 								</div>
 							</dl>
@@ -125,9 +126,9 @@
 				   [href]="verifyUrl"
 				>
 					Independently Verify Badge
-					<svg><use xlink:href="/images/icons.svg#icon_external_link"></use></svg>
+					<svg icon="icon_external_link"></svg>
 				</a>
-				<button class="button">Done</button>
+				<button class="button" (click)="closeDialog()">Done</button>
 			</div>
 
 		</div>

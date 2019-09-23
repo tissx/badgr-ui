@@ -38,7 +38,7 @@ export class VerifyBadgeDialog extends BaseDialog {
 	}
 
 	get isBadgeVerified() {
-		return this.awardedState === AwardedState.MATCH && this.expiryState !== ExpiryState.EXPIRED;
+		return this.awardedState !== AwardedState.NO_MATCH && this.expiryState !== ExpiryState.EXPIRED;
 	}
 
 	get verifyUrl() {
