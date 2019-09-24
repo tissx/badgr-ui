@@ -183,6 +183,11 @@ export class UserProfileSocialAccount extends ManagedEntity<
 	get primaryEmail() { return this.apiModel.primaryEmail; }
 
 	/**
+	 * URL associated with account (if applicable)
+	 */
+	get url() { return this.apiModel.url; }
+
+	/**
 	 * Returns a label to use for this account based on the name if it's available (e.g. "Luke Skywalker"), or the email
 	 * if it isn't (e.g. "lskywalker@rebel.alliance")
 	 *
@@ -205,7 +210,9 @@ export class UserProfileSocialAccount extends ManagedEntity<
 	get fullLabel(): string {
 		const names = [this.firstName, this.lastName].filter(n => n && n.length > 0);
 		if (names.length > 0) {
-			return `${names.join(" ")} (${this.primaryEmail})`;
+			return `${names.join(" ")} (${this.primaryEmail}) (${this.url})`;
+		} else if (this.url) {
+			return `${this.url}`;
 		} else {
 			return this.primaryEmail;
 		}
@@ -221,7 +228,7 @@ export class UserProfileSocialAccount extends ManagedEntity<
 			.then(() => {
 				this.profile.socialAccounts.remove(this);
 				return this.profile;
-			}); 
+			});
 	}
 
 	protected buildApiRef(): UserProfileSocialAccountRef {
