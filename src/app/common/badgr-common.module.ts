@@ -66,7 +66,6 @@ import {MarkdownHintsDialog} from './dialogs/markdown-hints-dialog.component';
 import { IssuerManager } from "../issuer/services/issuer-manager.service";
 import { IssuerApiService } from "../issuer/services/issuer-api.service";
 import { ZipService } from "./util/zip-service/zip-service.service";
-import { VerifyBadgeDialog } from './dialogs/verify-badge-dialog/verify-badge-dialog.component';
 
 
 const DIRECTIVES = [
@@ -110,7 +109,6 @@ export const COMMON_MODULE_COMPONENTS = [
 	TimeComponent,
 	TooltipComponent,
 	TruncatedTextComponent,
-	VerifyBadgeDialog,
 ];
 
 const SERVICES = [

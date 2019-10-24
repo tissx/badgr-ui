@@ -10,6 +10,7 @@ import {PublicBadgeClassComponent} from './components/badgeclass/badgeclass.comp
 import {PublicIssuerComponent} from './components/issuer/issuer.component';
 import {PublicBadgeCollectionComponent} from './components/badge-collection/badge-collection.component';
 import {BadgrRouteData} from '../common/services/navigation.service';
+import { VerifyBadgeDialog } from './components/verify-badge-dialog/verify-badge-dialog.component';
 
 export const routes: Routes = [
 	{
@@ -73,7 +74,8 @@ export const routes: Routes = [
 		PublicBadgeAssertionComponent,
 		PublicBadgeClassComponent,
 		PublicIssuerComponent,
-		PublicBadgeCollectionComponent
+		PublicBadgeCollectionComponent,
+		VerifyBadgeDialog
 	],
 	exports: [],
 	providers: [

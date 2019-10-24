@@ -1,17 +1,18 @@
-import {Injectable} from '@angular/core';
-import {BaseHttpApiService} from '../../common/services/base-http-api.service';
-import {SessionService} from '../../common/services/session.service';
-import {AppConfigService} from '../../common/app-config.service';
-import {MessageService} from '../../common/services/message.service';
+import { Injectable } from '@angular/core';
+import { BaseHttpApiService } from '../../common/services/base-http-api.service';
+import { SessionService } from '../../common/services/session.service';
+import { AppConfigService } from '../../common/app-config.service';
+import { MessageService } from '../../common/services/message.service';
 import {
 	PublicApiBadgeAssertionWithBadgeClass,
 	PublicApiBadgeClass,
 	PublicApiBadgeClassWithIssuer,
 	PublicApiBadgeCollectionWithBadgeClassAndIssuer,
-	PublicApiIssuer
+	PublicApiIssuer,
+	PublicApiVerifyBadgeWithPublicApiBadgeAssertion
 } from '../models/public-api.model';
-import {stripQueryParamsFromUrl} from '../../common/util/url-util';
-import {HttpClient} from '@angular/common/http';
+import { stripQueryParamsFromUrl } from '../../common/util/url-util';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -39,6 +40,15 @@ export class PublicApiService extends BaseHttpApiService {
 					? this.getBadgeClass(assertion.badge).then(badge => ({... assertion, badge }))
 					: assertion
 			);
+	}
+
+	verifyBadgeAssertion (
+		entityId: string
+	):Promise<PublicApiVerifyBadgeWithPublicApiBadgeAssertion> {
+		const payload = { entity_id: entityId};
+		return this
+			.post<PublicApiVerifyBadgeWithPublicApiBadgeAssertion>('/public/verify?json_format=plain', payload)
+			.then(r => r.body);
 	}
 
 	getBadgeClass(
