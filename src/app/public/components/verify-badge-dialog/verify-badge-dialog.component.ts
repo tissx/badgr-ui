@@ -57,6 +57,10 @@ export class VerifyBadgeDialog extends BaseDialog {
 		       : `https://badgecheck.io/?url=${this.badgeAssertion.id}`;
 	}
 
+	private get isRevoked() {
+		return this.verifiedPublicApiBadgeAssertion && this.verifiedPublicApiBadgeAssertion.isRevoked;
+	}
+
 	badgeAssertion: PublicApiBadgeAssertion = null;
 
 	readonly issuerImagePlaceholderUrl = preloadImageURL(require('../../../../breakdown/static/images/placeholderavatar-issuer.svg') as string);
@@ -110,7 +114,8 @@ export class VerifyBadgeDialog extends BaseDialog {
 	}
 
 	private verifyBadgeAssertion(){
-		if (this.verifiedPublicApiBadgeAssertion.isRevoked){
+
+		if (this.isRevoked){
 			this.messageService.reportFatalError("Assertion has been revoked:", this.verifiedPublicApiBadgeAssertion.revocationReason);
 			return;
 		}
@@ -149,7 +154,12 @@ export class VerifyBadgeDialog extends BaseDialog {
 	}
 
 	private broadcastVerifiedBadgeAssertion() {
-		this.verifiedBadgeAssertion.emit(this.verifiedPublicApiBadgeAssertion.badgeAssertion);
+		if (
+			this.verifiedPublicApiBadgeAssertion &&
+			this.verifiedPublicApiBadgeAssertion.badgeAssertion
+		){
+			this.verifiedBadgeAssertion.emit(this.verifiedPublicApiBadgeAssertion.badgeAssertion);
+		}
 	}
 
 	private closeDialog() {
