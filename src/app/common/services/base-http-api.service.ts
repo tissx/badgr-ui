@@ -80,11 +80,15 @@ export abstract class BaseHttpApiService {
 		path: string,
 		payload: unknown,
 		queryParams: HttpParams | { [param: string]: string | string[]; } | null = null,
-		headers: HttpHeaders = new HttpHeaders()
+		headers: HttpHeaders = new HttpHeaders(),
+		requireAuth = true,
+		useAuth = true
 	): Promise<HttpResponse<T>> {
 		const endpointUrl = path.startsWith("http") ? path : this.baseUrl + path;
 
-		headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+		if (useAuth && (requireAuth || this.sessionService.isLoggedIn)) {
+			headers = this.addAuthTokenHeader(headers, this.sessionService.requiredAuthToken);
+		}
 		headers = this.addJsonRequestHeader(headers);
 		headers = this.addJsonResponseHeader(headers);
 		this.messageService.incrementPendingRequestCount();
