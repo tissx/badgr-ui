@@ -12,7 +12,7 @@ import {
 	PublicApiVerifyBadgeWithPublicApiBadgeAssertion
 } from '../models/public-api.model';
 import { stripQueryParamsFromUrl } from '../../common/util/url-util';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
 @Injectable()
@@ -47,7 +47,7 @@ export class PublicApiService extends BaseHttpApiService {
 	):Promise<PublicApiVerifyBadgeWithPublicApiBadgeAssertion> {
 		const payload = { entity_id: entityId};
 		return this
-			.post<PublicApiVerifyBadgeWithPublicApiBadgeAssertion>('/public/verify?json_format=plain', payload, null, null, false, false)
+			.post<PublicApiVerifyBadgeWithPublicApiBadgeAssertion>('/public/verify?json_format=plain', payload, null,  new HttpHeaders(), false, false)
 			.then(r => r.body);
 	}
 
