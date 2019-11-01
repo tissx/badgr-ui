@@ -4,15 +4,16 @@ import { SessionService } from '../../common/services/session.service';
 import { AppConfigService } from '../../common/app-config.service';
 import { MessageService } from '../../common/services/message.service';
 import {
+	PublicApiBadgeAssertion,
 	PublicApiBadgeAssertionWithBadgeClass,
 	PublicApiBadgeClass,
 	PublicApiBadgeClassWithIssuer,
 	PublicApiBadgeCollectionWithBadgeClassAndIssuer,
-	PublicApiIssuer,
-	PublicApiVerifyBadgeWithPublicApiBadgeAssertion
+	PublicApiIssuer
 } from '../models/public-api.model';
 import { stripQueryParamsFromUrl } from '../../common/util/url-util';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ApiV2Wrapper} from "../../common/model/api-v2-wrapper";
 
 
 @Injectable()
@@ -44,10 +45,10 @@ export class PublicApiService extends BaseHttpApiService {
 
 	verifyBadgeAssertion (
 		entityId: string
-	):Promise<PublicApiVerifyBadgeWithPublicApiBadgeAssertion> {
+	):Promise<ApiV2Wrapper<PublicApiBadgeAssertion>> {
 		const payload = { entity_id: entityId};
 		return this
-			.post<PublicApiVerifyBadgeWithPublicApiBadgeAssertion>('/public/verify?json_format=plain', payload, null,  new HttpHeaders(), false, false)
+			.post<ApiV2Wrapper<PublicApiBadgeAssertion>>('/public/verify?json_format=plain', payload, null,  new HttpHeaders(), false, false)
 			.then(r => r.body);
 	}
 

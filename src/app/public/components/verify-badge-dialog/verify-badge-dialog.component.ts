@@ -2,13 +2,13 @@ import { BaseDialog } from '../../../common/dialogs/base-dialog';
 import { Component, ElementRef, EventEmitter, Output, Renderer2 } from '@angular/core';
 import {
 	PublicApiBadgeAssertion,
-	PublicApiBadgeAssertionWithBadgeClass,
-	PublicApiVerifyBadgeWithPublicApiBadgeAssertion
+	PublicApiBadgeAssertionWithBadgeClass
 } from '../../models/public-api.model';
 import { QueryParametersService } from '../../../common/services/query-parameters.service';
 import { preloadImageURL } from '../../../common/util/file-util';
 import { PublicApiService } from '../../services/public-api.service';
 import { MessageService } from '../../../common/services/message.service';
+import {ApiV2Wrapper} from "../../../common/model/api-v2-wrapper";
 // import { RecipientBadgeManager } from '../../../recipient/services/recipient-badge-manager.service';
 
 const sha256 = require('tiny-sha256') as (email: string) => string;
@@ -58,7 +58,7 @@ export class VerifyBadgeDialog extends BaseDialog {
 	}
 
 	private get isRevoked() {
-		return this.verifiedPublicApiBadgeAssertion && this.verifiedPublicApiBadgeAssertion.isRevoked;
+		return this.badgeAssertion && this.badgeAssertion.revoked;
 	}
 
 	badgeAssertion: PublicApiBadgeAssertion = null;
@@ -78,8 +78,6 @@ export class VerifyBadgeDialog extends BaseDialog {
 
 	expiryState: ExpiryState;
 
-	private verifiedPublicApiBadgeAssertion: PublicApiVerifyBadgeWithPublicApiBadgeAssertion;
-
 	async openDialog( badgeAssertion: PublicApiBadgeAssertionWithBadgeClass ) {
 		this.showModal();
 
@@ -87,12 +85,11 @@ export class VerifyBadgeDialog extends BaseDialog {
 		if (badgeAssertion.sourceUrl){
 			try {
 				const entityId = badgeAssertion['hostedUrl'].split('/').pop();
-				const instance: PublicApiVerifyBadgeWithPublicApiBadgeAssertion =
+				const instance: ApiV2Wrapper<PublicApiBadgeAssertion> =
 					await this.publicApiService.verifyBadgeAssertion(entityId);
 
-				if (instance && instance.badgeAssertion){
-					this.verifiedPublicApiBadgeAssertion = instance;
-					this.badgeAssertion = instance.badgeAssertion;
+				if (instance){
+					this.badgeAssertion = instance.result instanceof Array ? instance.result[0] : instance.result;
 				}
 				else {
 					this.messageService.reportAndThrowError("Failed to verify your badge");
@@ -116,7 +113,7 @@ export class VerifyBadgeDialog extends BaseDialog {
 	private verifyBadgeAssertion(){
 
 		if (this.isRevoked){
-			this.messageService.reportFatalError("Assertion has been revoked:", this.verifiedPublicApiBadgeAssertion.revocationReason);
+			this.messageService.reportFatalError("Assertion has been revoked:", this.badgeAssertion.revocationReason);
 			return;
 		}
 		this.verifyEmail();
@@ -154,11 +151,8 @@ export class VerifyBadgeDialog extends BaseDialog {
 	}
 
 	private broadcastVerifiedBadgeAssertion() {
-		if (
-			this.verifiedPublicApiBadgeAssertion &&
-			this.verifiedPublicApiBadgeAssertion.badgeAssertion
-		){
-			this.verifiedBadgeAssertion.emit(this.verifiedPublicApiBadgeAssertion.badgeAssertion);
+		if (this.badgeAssertion){
+			this.verifiedBadgeAssertion.emit(this.badgeAssertion);
 		}
 	}
 

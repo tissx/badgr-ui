@@ -41,13 +41,6 @@ export interface PublicApiBadgeAssertionWithBadgeClass extends PublicApiBadgeAss
 	badge: PublicApiBadgeClassWithIssuer;
 }
 
-export interface PublicApiVerifyBadgeWithPublicApiBadgeAssertion {
-	"@context": "https://w3id.org/openbadges/v2";
-	isRevoked?: boolean;
-	revocationReason?: string;
-	badgeAssertion: PublicApiBadgeAssertion;
-}
-
 export interface PublicApiBadgeClass {
 	"@context": "https://w3id.org/openbadges/v2";
 	description: string;
