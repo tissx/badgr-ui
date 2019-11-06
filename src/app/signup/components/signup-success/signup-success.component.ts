@@ -10,9 +10,8 @@ import {AppConfigService} from '../../../common/app-config.service';
 	templateUrl: './signup-success.component.html',
 })
 export class SignupSuccessComponent implements OnInit {
-	email: string;
 
-	constructor(
+constructor(
 		private routeParams: ActivatedRoute,
 		private title: Title,
 		private sessionService: SessionService,
@@ -22,11 +21,11 @@ export class SignupSuccessComponent implements OnInit {
 		title.setTitle(`Verification - ${this.configService.theme['serviceName'] || "Badgr"}`);
 	}
 
-	ngOnInit() {
-		// Ensure the user is not logged in here. Per BGR-354, a signup request should supersede any existing badgr session
-		this.sessionService.logout();
+	email: string;
 
-		this.email = this.routeParams.snapshot.params[ 'email' ];
+	ngOnInit() {
+		this.sessionService.logout();
+		this.email = decodeURIComponent(atob(this.routeParams.snapshot.params[ 'email' ]));
 	}
 
 	get helpEmailUrl() {
