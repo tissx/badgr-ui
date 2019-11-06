@@ -32,8 +32,12 @@
 				   target="_blank"
 				   rel="noopener"
 				>
-					<img [src]="assertion.image" width="200"/>
+					<img [src]="assertion.image" width="200" alt="Badge image"/>
 				</a>
+                <a class="oembedbadge-x-btn button button-tertiary"
+                    [href]="assertion.id"
+                    target="_blank"
+                >View Credential</a>
 			</div>
 			<div class="oembedbadge-x-summary">
 				<h1>{{badgeClass.name}}</h1>
@@ -41,6 +45,7 @@
 					<img [loaded-src]="issuer.image"
 					     [loading-src]="issuerImagePlacholderUrl"
 					     [error-src]="issuerImagePlacholderUrl"
+                         alt="Issuer logo"
 					     width=48
 					/>
 					<dl>
@@ -62,31 +67,6 @@
 						<time [date]="assertion?.expires" format="mediumDate"></time>
 					</dd>
 				</dl>
-				<a class="button button-tertiary"
-				   [href]="assertion.id"
-				   target="_blank"
-				>View Credential</a>
-			</div>
-		</div>
-
-		<!-- Absolutely positioned slide over -->
-		<div class="oembedbadge-x-slide">
-			<button class="oembedbadge-x-toggle"
-			        (click)="toggleShowV2EmbedDescription()"
-			>
-				{{showV2EmbedDescription ? 'Hide Description' : 'Show Description'}}
-			</button>
-			<div class="oembedbadge-x-slideinner">
-				<div>
-					<h2>Description</h2>
-					<p class="u-text" [truncatedText]="badgeClass.description" [maxLength]="186"></p>
-						<br/>
-						<a class="button button-tertiary u-margin-top3x u-display-inlineblock"
-						   [href]="assertion.id"
-						   target="_blank"
-						   rel="noopener"
-						>View Credential</a>
-				</div>
 			</div>
 		</div>
 	</div>
