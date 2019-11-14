@@ -61,8 +61,6 @@ export class PublicBadgeAssertionComponent {
 		},
 	};
 
-	showV2EmbedDescription = false;
-
 	get showDownload() {
 		return this.queryParametersService.queryStringValue("action") === "download";
 	}
@@ -117,10 +115,6 @@ export class PublicBadgeAssertionComponent {
 
 	generateFileName(assertion, fileExtension): string {
 		return `${assertion.badge.name} - ${assertion.recipient.identity}${fileExtension}`;
-	}
-
-	toggleShowV2EmbedDescription() {
-		this.showV2EmbedDescription = !this.showV2EmbedDescription;
 	}
 
 	openSaveDialog(assertion): void {
