@@ -98,7 +98,14 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 						if (error) {
 							if (error.password) {
 								this.messageService.setMessage('Your password must be uncommon and at least 8 characters. Please try again.', 'error');
-							} else {
+							}
+							else if (error.expires) {
+								const msg = (error.expires > 60)
+								          ? `Too many login attempts. Try again in ${Math.ceil(error.expires / 60)} minutes.`
+								          : `Too many login attempts. Try again in ${error.expires} seconds.`;
+								this.messageService.reportHandledError(msg, response);
+							}
+							else {
 								this.messageService.setMessage('' + error, 'error');
 							}
 						} else {
