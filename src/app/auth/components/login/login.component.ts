@@ -17,6 +17,7 @@ import {UserProfileManager} from '../../../common/services/user-profile-manager.
 import {HttpErrorResponse} from '@angular/common/http';
 import {AppConfigService} from '../../../common/app-config.service';
 import {typedFormGroup} from '../../../common/util/typed-forms';
+import { BadgrApiFailure } from '../../../common/services/api-failure';
 
 
 @Component({
@@ -120,27 +121,12 @@ export class LoginComponent extends BaseRoutableComponent implements OnInit, Aft
 					});
 
 				},
-				(response: HttpErrorResponse) => {
-					const body = response.error as {
-						error?: string;
-						expires?: number;
-					};
-
-					let msg = "Login failed. Please check your email and password and try again.";
-					if (body.error === 'login attempts throttled') {
-						if (body.expires) {
-							if (body.expires > 60) {
-								msg = `Too many login attempts. Try again in ${Math.ceil(body.expires / 60)} minutes.`;
-							} else {
-								msg = `Too many login attempts. Try again in ${body.expires} seconds.`;
-							}
-						} else {
-							msg = "Too many login attempts. Please wait and try again.";
-						}
-					}
-
-					this.messageService.reportHandledError(msg, response);
-				}
+				(response: HttpErrorResponse) =>
+					this.messageService.reportHandledError(
+						BadgrApiFailure.messageIfThrottableError(response) ||
+						"Login failed. Please check your email and password and try again."
+						, response
+					)
 			)
 			.then(() => this.loginFinished = null);
 	}

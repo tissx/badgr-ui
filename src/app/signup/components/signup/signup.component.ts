@@ -1,18 +1,18 @@
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SignupModel} from '../../models/signup-model.type';
-import {SignupService} from '../../services/signup.service';
-import {SessionService} from '../../../common/services/session.service';
-import {BaseRoutableComponent} from '../../../common/pages/base-routable.component';
-import {MessageService} from '../../../common/services/message.service';
-import {EmailValidator} from '../../../common/validators/email.validator';
+import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SignupModel } from '../../models/signup-model.type';
+import { SignupService } from '../../services/signup.service';
+import { SessionService } from '../../../common/services/session.service';
+import { BaseRoutableComponent } from '../../../common/pages/base-routable.component';
+import { MessageService } from '../../../common/services/message.service';
+import { EmailValidator } from '../../../common/validators/email.validator';
 import { DomSanitizer, Title } from '@angular/platform-browser';
-import {markControlsDirty} from '../../../common/util/form-util';
-import {AppConfigService} from '../../../common/app-config.service';
-import {OAuthManager} from '../../../common/services/oauth-manager.service';
-import {HttpErrorResponse} from '@angular/common/http';
-import {typedFormGroup} from '../../../common/util/typed-forms';
+import { AppConfigService } from '../../../common/app-config.service';
+import { OAuthManager } from '../../../common/services/oauth-manager.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { typedFormGroup } from '../../../common/util/typed-forms';
+import { BadgrApiFailure } from '../../../common/services/api-failure';
 
 @Component({
 	selector: 'sign-up',
@@ -94,21 +94,20 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 					},
 					(response: HttpErrorResponse) => {
 						const error = response.error;
+						const throttleMsg = BadgrApiFailure.messageIfThrottableError(response);
 
-						if (error) {
+						if(throttleMsg){
+							this.messageService.reportHandledError(throttleMsg, response);
+						}
+						else if (error) {
 							if (error.password) {
 								this.messageService.setMessage('Your password must be uncommon and at least 8 characters. Please try again.', 'error');
-							}
-							else if (error.expires) {
-								const msg = (error.expires > 60)
-								            ? `Too many login attempts. Try again in ${Math.ceil(error.expires / 60)} minutes.`
-								            : `Too many login attempts. Try again in ${error.expires} seconds.`;
-								this.messageService.reportHandledError(msg, response);
 							}
 							else {
 								this.messageService.setMessage('' + error, 'error');
 							}
-						} else {
+						}
+						else {
 							this.messageService.setMessage('Unable to signup.', 'error');
 						}
 						resolve();
