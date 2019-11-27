@@ -165,7 +165,13 @@ export class ProfileComponent extends BaseAuthenticatedRoutableComponent impleme
 				emailControl.setErrors(null, { emitEvent: false });
 			},
 			error => {
-				if (error.response.status === 400) {
+				const badgeApiErr = BadgrApiFailure.from(error);
+				const throttleMsg = BadgrApiFailure.messageIfThrottableError(JSON.parse(badgeApiErr.overallMessage));
+
+				if(throttleMsg){
+					this.messageService.reportHandledError(throttleMsg, error);
+				}
+				else if (error.response.status === 400) {
 					this.messageService.reportHandledError(`Unable to add email: Email already exists`);
 				} else {
 					this.messageService.reportHandledError(`Unable to add email: ${BadgrApiFailure.from(error).firstMessage}`);

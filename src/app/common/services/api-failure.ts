@@ -13,6 +13,17 @@ export class BadgrApiFailure {
 		}
 	}
 
+	static messageIfThrottableError(res): string | null {
+		if ( !!res && res.error && res.expires ) {
+			return res.expires > 60
+			       ? `Too many login attempts. Try again in ${Math.ceil(res.expires / 60)} minutes.`
+			       : `Too many login attempts. Try again in ${res.expires} seconds.`;
+		}
+		else {
+			return null;
+		}
+	}
+
 	constructor(
 		payload: HttpResponseBase | Error | string | null | undefined
 	) {

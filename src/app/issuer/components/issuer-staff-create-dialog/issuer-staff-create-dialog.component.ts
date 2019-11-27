@@ -75,7 +75,12 @@ export class IssuerStaffCreateDialogComponent extends BaseDialog {
 				this.messageService.reportMinorSuccess(`Added ${formData.staffEmail} as ${formData.staffRole}`);
 				this.closeModal();
 			},
-			error => this.error = `Failed to add member: ${BadgrApiFailure.from(error).firstMessage}`
+			error => {
+				const err = BadgrApiFailure.from(error)
+				this.error =
+					BadgrApiFailure.messageIfThrottableError(JSON.parse(err.overallMessage)) ||
+					`Failed to add member: ${err.firstMessage}`;
+			}
 		);
 	}
 }
