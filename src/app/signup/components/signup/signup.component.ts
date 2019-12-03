@@ -94,10 +94,10 @@ export class SignupComponent extends BaseRoutableComponent implements OnInit {
 					},
 					(response: HttpErrorResponse) => {
 						const error = response.error;
-						const throttleMsg = BadgrApiFailure.messageIfThrottableError(response);
+						const throttleMsg = BadgrApiFailure.messageIfThrottableError(error);
 
 						if(throttleMsg){
-							this.messageService.reportHandledError(throttleMsg, response);
+							this.messageService.reportHandledError(throttleMsg, error);
 						}
 						else if (error) {
 							if (error.password) {
