@@ -14,10 +14,11 @@ export class BadgrApiFailure {
 	}
 
 	static messageIfThrottableError(res): string | null {
-		if ( !!res && res.error && res.expires ) {
-			return res.expires > 60
-			       ? `Too many login attempts. Try again in ${Math.ceil(res.expires / 60)} minutes.`
-			       : `Too many login attempts. Try again in ${res.expires} seconds.`;
+		if ( !!res && res.error && res.error.expires ) {
+			const expires = Number(res.error.expires);
+			return expires > 60
+			       ? `Too many login attempts. Try again in ${Math.ceil(expires / 60)} minutes.`
+			       : `Too many login attempts. Try again in ${expires} seconds.`;
 		}
 		else {
 			return null;
