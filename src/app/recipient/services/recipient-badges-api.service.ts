@@ -44,10 +44,11 @@ export class RecipientBadgeApiService extends BaseHttpApiService {
 			.then(r => r.body);
 	}
 
-	getBadgeShareUrlForProvider(objectIdUrl, shareServiceType): Promise<string> {
+	getBadgeShareUrlForProvider(objectIdUrl, shareServiceType, includeIdentifier): Promise<string> {
 		const idUrl = objectIdUrl.replace(/.*\//, '');
+		const include_identifier = includeIdentifier ? '&include_identifier=1' : '';
 		return this
-			.get<{url: string}>(`/v1/earner/share/badge/${idUrl}?provider=${shareServiceType}&source=badgr-ui&redirect=0`)
+			.get<{url: string}>(`/v1/earner/share/badge/${idUrl}?provider=${shareServiceType}&source=badgr-ui&redirect=0${include_identifier}`)
 			.then(r => r.body.url);
 	}
 
