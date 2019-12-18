@@ -13,20 +13,19 @@ export class SharingService {
 		$event: Event,
 		shareServiceType: ShareServiceType,
 		objectType: SharedObjectType,
+		includeIdentifier: boolean,
 		objectIdUrl: string,
 		shareUrl: string,
 	) {
 		this.reportShare(objectType, objectIdUrl, shareServiceType, shareUrl); // analytics report
-
 		const providerFeatures = {
 			"Facebook": "width=550,height=274",
 			"LinkedIn": "width=550,height=448",
 			"Twitter": "width=550,height=274",
 		};
-
 		let promise;
 		if (objectType === "BadgeInstance") {
-			promise = this.recipientBadgeApiService.getBadgeShareUrlForProvider(objectIdUrl, shareServiceType);
+			promise = this.recipientBadgeApiService.getBadgeShareUrlForProvider(objectIdUrl, shareServiceType, includeIdentifier);
 		} else if (objectType === "BadgeCollection") {
 			promise = this.recipientBadgeApiService.getCollectionShareUrlForProvider(objectIdUrl, shareServiceType);
 		}
