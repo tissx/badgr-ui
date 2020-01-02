@@ -94,6 +94,7 @@ export class ShareSocialDialog extends BaseDialog {
 			$event,
 			shareServiceType,
 			this.options.shareObjectType,
+			this.includeRecipientIdentifier,
 			this.options.shareIdUrl,
 			this.currentShareUrl
 		);
