@@ -48,7 +48,7 @@ export class SessionService {
 	login(credential: UserCredential, sessionOnlyStorage: boolean = false): Promise<AuthorizationToken> {
 		const endpoint = this.baseUrl + '/o/token';
 		const scope = "rw:profile rw:issuer rw:backpack";
-		const client_id = "public";
+		const client_id = "SOrfOPHNLouGBNrhY6pPvzxBEL8Ad39qI1KnGOVH";
 
 		const payload = `grant_type=password&client_id=${client_id}&scope=${encodeURIComponent(scope)}&username=${encodeURIComponent(credential.username)}&password=${encodeURIComponent(credential.password)}`;
 
