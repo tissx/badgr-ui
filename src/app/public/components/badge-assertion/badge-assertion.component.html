@@ -169,8 +169,7 @@
 				<section>
 					<h3
 						*ngIf="badgeClass.criteria.id || badgeClass.criteria.narrative || badgeClass.criteria"
-						class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-margin-top4x"
-					>Criteria</h3>
+						class="u-text-h3-semibold u-text-dark2 u-margin-bottom2x u-margin-top4x">About the Course</h3>
 					<show-more class="u-margin-bottom8x"
 										 *ngIf="badgeClass.criteria.narrative">
 						<markdown-display
@@ -179,11 +178,10 @@
 					<div class="u-margin-yaxis2x"
 						*ngIf="badgeClass.criteria.id">
 						<a class="u-text-outlink" target="_blank"
-							[href]="badgeClass.criteria.id"
-						>View External Criteria URL
+							[href]="badgeClass.criteria.id">View About the Course
 							<svg icon="icon_external_link"></svg>
 						</a>
-					</div>
+																</div>
 				</section>
 
 				<!-- alignment -->
