@@ -98,21 +98,13 @@
 		<div class="badgedetail-x-body">
 
 			<!-- criteria -->
-			<section
-				*ngIf="badge.badgeClass.criteria_url || badge.badgeClass.criteria_text || badge.badgeClass.criteria">
-				<h3
-					class="u-text-h3-semibold u-margin-bottom2x u-text-dark2 u-margin-top4x"
-				>Criteria</h3>
-				<show-more class="u-margin-bottom8x"
-					*ngIf="badge.badgeClass.criteria_text">
-					<markdown-display
-						[value]="badge.badgeClass.criteria_text"></markdown-display>
+			<section *ngIf="badge.badgeClass.criteria_url || badge.badgeClass.criteria_text || badge.badgeClass.criteria">
+				<h3 class="u-text-h3-semibold u-margin-bottom2x u-text-dark2 u-margin-top4x">About the Course</h3>
+				<show-more class="u-margin-bottom8x" *ngIf="badge.badgeClass.criteria_text">
+					<markdown-display [value]="badge.badgeClass.criteria_text"></markdown-display>
 				</show-more>
-				<div class="u-margin-yaxis2x"
-					*ngIf="badge.badgeClass.criteria_url">
-					<a class="u-text-outlink" target="_blank"
-						[href]="badge.badgeClass.criteria_url"
-					>View external Criteria URL
+				<div class="u-margin-yaxis2x" *ngIf="badge.badgeClass.criteria_url">
+					<a class="u-text-outlink" target="_blank" [href]="badge.badgeClass.criteria_url">View About the Course
 						<svg icon="icon_external_link"></svg>
 					</a>
 				</div>
