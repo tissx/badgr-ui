@@ -152,10 +152,8 @@
 						<dd class="u-text"><time [date]="assertion.issuedOn" format="mediumDate"></time></dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="awardedToDisplayName">Awarded to:</dt>
 						<dd class="u-text u-break-all">{{ awardedToDisplayName }}</dd>
-						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="letter_grade">Grade:</dt>
-						<dd class="u-text u-break-all">{{ letter_grade }}</dd>
-						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="achievementMessage">Message:</dt>
-						<dd class="u-text u-break-all">{{ achievementMessage }}</dd>
+						<dt class="u-text-small-bold u-padding-top2x u-margin-tostyle="white-space: pre-line;"p2x border border-top border-light3 u-text-dark2" *ngIf="awardedToDisplayName">Message</dt>
+				    	<dd class="u-text u-break-all">{{ achievementMessage }}</dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="assertion.expires">
 				    		<span>{{ +isExpired | i18nPlural: tense['expires'] }} on:</span>
 				    	</dt>
@@ -165,7 +163,7 @@
 			</div>
 			<div class="badgedetail-x-desc">
 				<h2 class="u-text-h3-semibold u-margin-bottom2x u-hidden-mintablet">Description</h2>
-				<p class="u-text-body u-width-paragraph">{{ assertion.badge.description }}</p>
+				<p class="u-text-body u-width-paragraph" style="white-space: pre-line;">{{ assertion.badge.description }}</p>
 			</div>
 			<div class="badgedetail-x-body">
 

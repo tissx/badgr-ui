@@ -51,8 +51,6 @@ export class PublicBadgeAssertionComponent {
 	assertionId: string;
 
 	awardedToDisplayName: string;
-	
-	letter_grade : string;
 	achievementMessage : string;
 
 	routerLinkForUrl = routerLinkForUrl;
@@ -164,13 +162,9 @@ export class PublicBadgeAssertionComponent {
 					if ( assertion["recipient_identifier"]) {
 						this.awardedToDisplayName = assertion["recipient_identifier"]
 					}
-					if ( assertion["letter_grade"] ) {
-						this.letter_grade = assertion["letter_grade"]
-					}
 					if ( assertion["achievementMessage"] ) {
 						this.achievementMessage = assertion["achievementMessage"]
 					}
-					
 					return assertion;
 				});
 			}
