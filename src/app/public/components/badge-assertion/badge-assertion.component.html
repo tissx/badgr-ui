@@ -150,8 +150,9 @@
 						</div>
 						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2">Issued on:</dt>
 						<dd class="u-text"><time [date]="assertion.issuedOn" format="mediumDate"></time></dd>
-				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="awardedToDisplayName">Awarded to:</dt>
-						<dd class="u-text u-break-all">{{ awardedToDisplayName }}</dd>
+				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="awardedToEmail">Awarded to:</dt>
+						<dd class="u-text u-break-all" style="text-transform: capitalize;" *ngIf="awardedToDisplayName">{{ awardedToDisplayName }}</dd>
+						<dd class="u-text u-break-all">({{ awardedToEmail }})</dd>
 						<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="achievementMessage">Message:</dt>
 						<dd class="u-text u-break-all">{{ achievementMessage }}</dd>
 				    	<dt class="u-text-small-bold u-padding-top2x u-margin-top2x border border-top border-light3 u-text-dark2" *ngIf="assertion.expires">

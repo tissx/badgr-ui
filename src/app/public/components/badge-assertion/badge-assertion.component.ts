@@ -52,7 +52,7 @@ export class PublicBadgeAssertionComponent {
 
 	awardedToDisplayName: string;
 	achievementMessage : string;
-
+	awardedToEmail: string;
 	routerLinkForUrl = routerLinkForUrl;
 
 	tense = {
@@ -160,10 +160,13 @@ export class PublicBadgeAssertionComponent {
 					}
 					// Changes By Manprax
 					if ( assertion["recipient_identifier"]) {
-						this.awardedToDisplayName = assertion["recipient_identifier"]
+						this.awardedToEmail = assertion["recipient_identifier"]
 					}
 					if ( assertion["achievementMessage"] ) {
 						this.achievementMessage = assertion["achievementMessage"]
+					}
+					if ( assertion["full_name"] ) {
+						this.awardedToDisplayName = assertion["full_name"]
 					}
 					return assertion;
 				});
